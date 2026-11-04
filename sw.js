@@ -1,8 +1,8 @@
-const CACHE_NAME = "study4-ielts-cache-v5";
+﻿const CACHE_NAME = "study4-ielts-cache-v6";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./auth.js?v=5",
+  "./auth.js?v=6",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
