@@ -25,6 +25,9 @@
   }
 
   let config = Object.assign({}, DEFAULT_CONFIG, loadObj(AUTH_KEYS.config, {}));
+  if (!config.cloudDbUrl) {
+    config.cloudDbUrl = DEFAULT_CONFIG.cloudDbUrl;
+  }
   let users = loadObj(AUTH_KEYS.users, {});
   let session = loadObj(AUTH_KEYS.session, null);
 
@@ -193,8 +196,8 @@
         if (remoteCfg && typeof remoteCfg.authEnforced === "boolean" && remoteCfg.authEnforced !== config.authEnforced) {
           config.authEnforced = remoteCfg.authEnforced;
           saveConfig();
-          location.reload();
-          return;
+          renderTopBar();
+          if (config.authEnforced && !getCurrentUser()) openLoginModal(true);
         }
       }
       if (!u) return;
@@ -209,22 +212,27 @@
         if (remote && remote.status === "blocked") {
           u.status = "blocked";
           saveUsers();
+          session = null;
           saveSession();
-          location.reload();
+          renderTopBar();
+          if (config.authEnforced) openLoginModal(true);
           return;
         }
-        if (remote && remote.role && u.role !== "admin") {
+        if (remote && remote.role && u.role !== "admin" && u.role !== remote.role) {
           u.role = remote.role;
           saveUsers();
+          renderTopBar();
         }
-        // Nếu máy hiện tại chưa có tiến độ mà trên Cloud của tài khoản này đã có tiến độ -> tự tải về!
-        if (remote && remote.progressSnapshot && vocabCount === 0 && grammarCount === 0) {
+        // Chỉ tự khôi phục từ Cloud nếu trên Cloud thực sự có tiến độ học (> 0) còn máy hiện tại đang trống (= 0)
+        const remoteHasProgress = (Number(remote?.vocabLearned) > 0 || Number(remote?.grammarDone) > 0);
+        if (remote && remote.progressSnapshot && remoteHasProgress && vocabCount === 0 && grammarCount === 0 && !sessionStorage.getItem("s4_cloud_restored_" + u.username)) {
           const snap = remote.progressSnapshot;
           let restored = false;
           PROGRESS_KEYS.forEach(k => {
             if (snap[k]) { localStorage.setItem(k, snap[k]); restored = true; }
           });
           if (restored) {
+            sessionStorage.setItem("s4_cloud_restored_" + u.username, "1");
             saveUserProfileProgress(u.username);
             location.reload();
             return;
@@ -266,7 +274,7 @@
     const st = document.createElement("style");
     st.id = "s4AuthStyles";
     st.textContent = `
-      .s4-user-bar { background: linear-gradient(90deg, #0f172a, #1e293b); color: #f8fafc; padding: 6px 14px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; z-index: 900; border-bottom: 1px solid #334155; }
+      .s4-user-bar { background: linear-gradient(90deg, #0f172a, #1e293b); color: #f8fafc; padding: 6px 14px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; z-index: 900; border-bottom: 1px solid #334155; width: 100%; flex-shrink: 0; box-sizing: border-box; }
       .s4-user-left, .s4-user-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
       .s4-role-badge { padding: 2px 9px; border-radius: 999px; font-weight: 700; font-size: 11.5px; }
       .s4-role-admin { background: #dc2626; color: #fff; }
@@ -307,7 +315,8 @@
       bar = document.createElement("div");
       bar.id = "s4UserTopBar";
       bar.className = "s4-user-bar";
-      document.body.insertBefore(bar, document.body.firstChild);
+      const host = document.querySelector(".main-wrap") || document.body;
+      host.insertBefore(bar, host.firstChild);
     }
 
     const logoImg = `<img src="${getLogoPath()}" alt="Logo" style="width:22px;height:22px;border-radius:5px;vertical-align:middle;">`;
