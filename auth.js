@@ -240,19 +240,22 @@
         }
       }
 
+      const payload = {
+        username: u.username,
+        displayName: u.displayName || u.username,
+        role: u.role,
+        status: u.status || "active",
+        vocabLearned: vocabCount,
+        grammarDone: grammarCount,
+        lastActive: new Date().toISOString()
+      };
+      if (vocabCount > 0 || grammarCount > 0) {
+        payload.progressSnapshot = snapshotCurrentProgress();
+      }
       await fetch(`${base}/study4_users/${u.username}.json`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: u.username,
-          displayName: u.displayName || u.username,
-          role: u.role,
-          status: u.status || "active",
-          vocabLearned: vocabCount,
-          grammarDone: grammarCount,
-          progressSnapshot: snapshotCurrentProgress(),
-          lastActive: new Date().toISOString()
-        })
+        body: JSON.stringify(payload)
       });
     } catch (e) {}
   }
@@ -310,12 +313,14 @@
 
   function renderTopBar() {
     injectStyles();
+    const host = document.querySelector(".main-wrap") || document.body;
     let bar = document.getElementById("s4UserTopBar");
     if (!bar) {
       bar = document.createElement("div");
       bar.id = "s4UserTopBar";
       bar.className = "s4-user-bar";
-      const host = document.querySelector(".main-wrap") || document.body;
+      host.insertBefore(bar, host.firstChild);
+    } else if (bar.parentElement !== host) {
       host.insertBefore(bar, host.firstChild);
     }
 
@@ -811,8 +816,13 @@
       openLoginModal(true);
     }
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      if (window.caches) {
+        caches.keys().then(keys => {
+          keys.filter(k => k !== "study4-ielts-cache-v4").forEach(k => caches.delete(k));
+        }).catch(() => {});
+      }
       const swPath = location.pathname.includes("/vocab/") || location.pathname.includes("/grammar/") ? "../sw.js" : "./sw.js";
-      navigator.serviceWorker.register(swPath).catch(() => {});
+      navigator.serviceWorker.register(swPath).then(reg => reg.update()).catch(() => {});
     }
   });
   window.addEventListener("beforeunload", () => {
