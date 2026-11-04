@@ -16,10 +16,10 @@
       --primary: #3b82f6; --primary-soft: #1e3a8a; --success-soft: #064e3b; --warn-soft: #78350f; --danger-soft: #7f1d1d;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
     button { font-family: inherit; }
 
-    .sidebar { width: 320px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; z-index: 200; transition: transform 0.25s ease; }
+    .sidebar { width: 320px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; height: 100dvh; z-index: 200; transition: transform 0.25s ease; }
     .sidebar-header { padding: 14px 16px; background: linear-gradient(135deg, #1d4ed8, #2563eb); color: #fff; display: flex; justify-content: space-between; align-items: center; }
     .sidebar-header h2 { margin: 0; font-size: 16.5px; }
     .close-sidebar { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
@@ -35,7 +35,7 @@
     .progress-mini-bar { height: 100%; background: var(--success); }
     .sidebar-foot { padding: 10px; border-top: 1px solid var(--border); display: flex; gap: 6px; }
 
-    .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; min-width: 0; }
+    .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; }
     .topbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 9px 14px; display: flex; align-items: center; gap: 8px; }
     .home-btn { background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; padding: 7px 11px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap; }
     body.dark .home-btn { background: #334155; color: #f8fafc; border-color: #475569; }
@@ -133,12 +133,32 @@
       .sidebar.open { transform: translateX(0); }
       .close-sidebar { display: block; }
       .menu-btn { display: inline-flex; }
-      .main { padding: 10px; }
-      .stats-grid { grid-template-columns: repeat(5, 1fr); }
-      .stat-num { font-size: 17px; }
-      .stat-label { font-size: 10.5px; }
-      .srs-buttons { grid-template-columns: repeat(2, 1fr); }
-      .flashcard-wrap { padding: 16px; }
+      .topbar { padding: 7px 10px; gap: 6px; }
+      .main { padding: 8px 10px calc(20px + env(safe-area-inset-bottom, 12px)) 10px; }
+      .stats-card { padding: 8px 10px; margin-bottom: 8px; border-radius: 12px; }
+      .stats-top { margin-bottom: 6px; gap: 6px; }
+      .quota-pill { padding: 4px 9px; font-size: 12px; }
+      .stats-grid { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+      .stat-num { font-size: 15px; }
+      .stat-label { font-size: 10px; }
+      .sess-row { font-size: 11.5px; margin-bottom: 3px; }
+      .sess-bar { margin-bottom: 8px; height: 4px; }
+      .flashcard-wrap { padding: 12px 14px; min-height: auto; border-radius: 14px; }
+      .fc-top-bar { margin-bottom: 8px; font-size: 11.5px; }
+      .fc-front-img { max-height: 130px; margin-bottom: 8px; }
+      .fc-word { font-size: 24px; }
+      .fc-pos { font-size: 15px; }
+      .fc-ipa { font-size: 15px; margin: 3px 0 8px 0; }
+      .audio-row { margin-bottom: 6px; }
+      .audio-pill { padding: 5px 12px; font-size: 12.5px; }
+      .fc-back { margin-top: 10px; padding-top: 10px; }
+      .def-box { font-size: 14.5px; line-height: 1.45; margin-bottom: 8px; }
+      .ex-box { padding: 9px 11px; font-size: 13.5px; line-height: 1.45; }
+      .btn-flip { position: sticky; bottom: 4px; z-index: 20; padding: 12px; font-size: 15px; margin-top: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+      .srs-buttons { position: sticky; bottom: 4px; z-index: 20; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; background: var(--card); padding-top: 4px; }
+      .srs-btn { padding: 10px 4px; font-size: 12.5px; }
+      .quiz-box { padding: 14px; }
+      .opt-btn { padding: 11px 12px; font-size: 14px; }
     }
   </style>
 </head>
@@ -182,7 +202,7 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../auth.js?v=4"></script>
+  <script src="../auth.js?v=5"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -263,7 +283,12 @@
     }
     function getTodayStr() { return localDateStr(new Date()); }
     function shortTopic(t) { return t.split(" (")[0]; }
-    function bumpCard() { cardSerial++; cardCache = {}; }
+    function bumpCard() {
+      cardSerial++;
+      cardCache = {};
+      const m = document.querySelector(".main");
+      if (m) m.scrollTop = 0;
+    }
     function cacheGet(key, factory) { if (!(key in cardCache)) cardCache[key] = factory(); return cardCache[key]; }
     function saveState() {
       localStorage.setItem(KEYS.srs, JSON.stringify(srsData));

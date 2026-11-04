@@ -313,14 +313,17 @@
 
   function renderTopBar() {
     injectStyles();
-    const host = document.querySelector(".main-wrap") || document.body;
+    if (location.pathname.includes("/vocab/") || location.pathname.includes("/grammar/")) {
+      const oldBar = document.getElementById("s4UserTopBar");
+      if (oldBar) oldBar.remove();
+      return;
+    }
+    const host = document.body;
     let bar = document.getElementById("s4UserTopBar");
     if (!bar) {
       bar = document.createElement("div");
       bar.id = "s4UserTopBar";
       bar.className = "s4-user-bar";
-      host.insertBefore(bar, host.firstChild);
-    } else if (bar.parentElement !== host) {
       host.insertBefore(bar, host.firstChild);
     }
 
@@ -818,7 +821,7 @@
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       if (window.caches) {
         caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v4").forEach(k => caches.delete(k));
+          keys.filter(k => k !== "study4-ielts-cache-v5").forEach(k => caches.delete(k));
         }).catch(() => {});
       }
       const swPath = location.pathname.includes("/vocab/") || location.pathname.includes("/grammar/") ? "../sw.js" : "./sw.js";
