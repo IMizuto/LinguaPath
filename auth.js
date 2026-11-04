@@ -10,7 +10,7 @@
     authEnforced: true, // true = Bật Quản lý (Cần Đăng nhập & Mã kích hoạt VIP); false = Tắt Quản lý (Mở tự do 100%)
     secretSalt: "STUDY4_MASTER_2026_KEY",
     contactNote: "Liên hệ chủ sở hữu ứng dụng để nhận Mã Kích Hoạt mở khóa toàn bộ nội dung.",
-    cloudDbUrl: "",
+    cloudDbUrl: "https://study4-app-default-rtdb.firebaseio.com",
     freeVocabTopicsCount: 2,
     freeGrammarSectionsCount: 2
   };
