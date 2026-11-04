@@ -1,0 +1,1719 @@
+<!DOCTYPE HTML><html lang="no">
+    <head>
+        
+        <title>Scientists finally know how we make saliva</title>
+        <meta name="title" content="Scientists finally know how we make saliva" />
+        <meta name="description" content="Researchers have discovered how saliva, which is very important for our digestion and health, is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor." />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="canonical" href="https://partner.sciencenorway.no/health-nmbu/scientists-finally-know-how-we-make-saliva/1784611">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Scientists finally know how we make saliva" />
+        <meta property="og:description" content="Researchers have discovered how saliva, which is very important for our digestion and health, is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor." />
+        <meta property="article:published_time" content="2020-12-13T08:00:00.000Z"/>
+        <meta property="article:modified_time" content=""/>
+        <meta property="article:author" content="NMBU, Norwegian University of Life Sciences " />
+        <meta property="article:author" content="Morten Nordahl Ellingsen" />
+        <meta property="article:tag" content="nmbu" />
+        <meta property="article:tag" content="partner" />
+        <meta property="article:tag" content="health" />
+        <meta property="og:image" content="https://image.forskning.no/1784633.jpg?imageId=1784633&panow=100&panoh=60.169491525424&panox=0&panoy=0&heightw=34.351145038168&heighth=100&heightx=12.213740458015&heighty=0&width=1200&height=630" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image">
+        
+        <meta name="twitter:title" content="Scientists finally know how we make saliva">
+        <meta name="twitter:description" content="Researchers have discovered how saliva, which is very important for our digestion and health, is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor.">
+        <meta name="twitter:image" content="https://image.forskning.no/1784633.jpg?imageId=1784633&panow=100&panoh=60.169491525424&panox=0&panoy=0&heightw=34.351145038168&heighth=100&heightx=12.213740458015&heighty=0&width=1200&height=630">
+
+        
+        
+        
+        <meta property="og:url" content="https://partner.sciencenorway.no/health-nmbu/scientists-finally-know-how-we-make-saliva/1784611" />
+        <meta property="lp:url" content="https://partner.sciencenorway.no/a/1784611" />
+        <meta property="lp:channel" content="desktop"/>
+        <link rel="shortcut icon" type="image/png" sizes="256x256" href="/view-resources/dachser2/public/forskning/sciencenorway_icon.png" />
+        <link rel="icon" type="image/png" sizes="256x256" href="/view-resources/dachser2/public/forskning/sciencenorway_icon.png" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700,900" rel="stylesheet" />
+        <link rel="stylesheet" href="/view-resources/view/css/grid.css?v=1652437662" />
+        <link rel="stylesheet" href="/view-resources/view/css/main.css?v=1652437662" />
+        <link rel="stylesheet" href="/view-resources/view/css/colors.css?v=1652437662" />
+        <link rel="stylesheet" href="/view-resources/view/css/foundation-icons/foundation-icons.css?v=1652437662" />
+        <link rel="stylesheet" href="/view-resources/view/css/site/forskning.css?v=1652437662" />
+        <link rel="stylesheet" href="/view-resources/view/css/site/sn_partner.css?v=1652437662" />
+        <style type="text/css" data-key="background_colors">
+            .bg-forskning-primary {background-color: rgb(42, 188, 215);}.bg-forskning-primary-dark {background-color: rgba(24,128,147,1);color: #fff;}.bg-forskning-secondary {background-color: rgb(135, 165, 168);}.bg-forskning-secondary-dark {background-color: rgb(41, 61, 64);color: #fff;}.bg-forskning-secondary-light {background-color: rgb(224, 231, 232);}.bg-ung-primary {background-color: rgb(255, 115, 35);}.bg-ung-primary-dark {background-color: rgb(166, 75, 23);color: #fff;}.bg-ung-secondary {background-color: rgb(148, 122, 107);color: #fff;}.bg-ung-secondary-dark {background-color: rgb(57, 43, 35);color: #fff;}.bg-ung-secondary-light {background-color: rgb(240, 230, 225);}.bg-sciencenorway-primary {background-color: rgb(227, 64, 79);color: #fff;}.bg-sciencenorway-primary-dark {background-color: rgb(145, 62, 56);color: #fff;}.bg-sciencenorway-secondary {background-color: rgb(185, 154, 152);}.bg-sciencenorway-secondary-dark {background-color: rgb(61, 39, 37);color: #fff;}.bg-sciencenorway-secondary-light {background-color: rgb(232, 223, 223);}.bg-forskersonen-primary {background-color: rgb(196, 141, 158);}.bg-forskersonen-primary-dark {background-color: rgb(115, 81, 92);color: #fff;}.bg-forskersonen-secondary {background-color: rgb(153, 137, 142);}.bg-forskersonen-secondary-dark {background-color: rgb(59, 40, 46);color: #fff;}.bg-forskersonen-secondary-light {background-color: rgb(232, 226, 228);}.bg-stilling-primary {background-color: rgb(165, 188, 39);}.bg-stilling-primary-dark {background-color: rgb(114, 131, 17);color: #fff;}.bg-stilling-secondary {background-color: rgb(110, 123, 111);color: #fff;}.bg-stilling-secondary-dark {background-color: rgb(56, 58, 43);color: #fff;}.bg-stilling-secondary-light {background-color: rgb(229, 231, 218);}.bg-native-primary {background-color: rgb(209, 184, 3);}.bg-native-primary-dark {background-color: rgb(136, 119, 2);color: #fff;}.bg-native-secondary-dark {background-color: rgb(56, 56, 56);color: #fff;}.bg-native-secondary-light {background-color: rgb(222, 222, 212);}.bg-native-secondary-light2 {background-color: rgb(234, 235, 230);}.bg-black {background-color: rgb(0, 0, 0);color: #fff;}.bg-gray {background-color: rgb(56, 56, 56);color: #fff;}.bg-white {background-color: rgb(255, 255, 255);}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary {background-color: rgb(42, 188, 215);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary-dark {background-color: rgba(24,128,147,1);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary {background-color: rgb(135, 165, 168);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-dark {background-color: rgb(41, 61, 64);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-light {background-color: rgb(224, 231, 232);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary {background-color: rgb(255, 115, 35);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary-dark {background-color: rgb(166, 75, 23);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary {background-color: rgb(148, 122, 107);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-dark {background-color: rgb(57, 43, 35);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-light {background-color: rgb(240, 230, 225);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary {background-color: rgb(227, 64, 79);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary-dark {background-color: rgb(145, 62, 56);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary {background-color: rgb(185, 154, 152);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-dark {background-color: rgb(61, 39, 37);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-light {background-color: rgb(232, 223, 223);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary {background-color: rgb(196, 141, 158);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary-dark {background-color: rgb(115, 81, 92);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary {background-color: rgb(153, 137, 142);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-dark {background-color: rgb(59, 40, 46);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-light {background-color: rgb(232, 226, 228);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary {background-color: rgb(165, 188, 39);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary-dark {background-color: rgb(114, 131, 17);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary {background-color: rgb(110, 123, 111);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-dark {background-color: rgb(56, 58, 43);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-light {background-color: rgb(229, 231, 218);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary {background-color: rgb(209, 184, 3);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary-dark {background-color: rgb(136, 119, 2);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-dark {background-color: rgb(56, 56, 56);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light {background-color: rgb(222, 222, 212);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light2 {background-color: rgb(234, 235, 230);}}@media (max-width: 1023px) { .color_mobile_bg-black {background-color: rgb(0, 0, 0);}}@media (max-width: 1023px) { .color_mobile_bg-gray {background-color: rgb(56, 56, 56);}}@media (max-width: 1023px) { .color_mobile_bg-white {background-color: rgb(255, 255, 255);}}
+        </style>
+        <style type="text/css" data-key="background_colors_opacity">
+            .bg-forskning-primary.op-bg_20 {background-color: rgba(42, 188, 215, 0.2);}.bg-forskning-primary.op-bg_40 {background-color: rgba(42, 188, 215, 0.4);}.bg-forskning-primary.op-bg_60 {background-color: rgba(42, 188, 215, 0.6);}.bg-forskning-primary.op-bg_80 {background-color: rgba(42, 188, 215, 0.8);}.bg-forskning-primary-dark.op-bg_20 {background-color: rgba(24, 128, 147, 0.2);color: #fff;}.bg-forskning-primary-dark.op-bg_40 {background-color: rgba(24, 128, 147, 0.4);color: #fff;}.bg-forskning-primary-dark.op-bg_60 {background-color: rgba(24, 128, 147, 0.6);color: #fff;}.bg-forskning-primary-dark.op-bg_80 {background-color: rgba(24, 128, 147, 0.8);color: #fff;}.bg-forskning-secondary.op-bg_20 {background-color: rgba(135, 165, 168, 0.2);}.bg-forskning-secondary.op-bg_40 {background-color: rgba(135, 165, 168, 0.4);}.bg-forskning-secondary.op-bg_60 {background-color: rgba(135, 165, 168, 0.6);}.bg-forskning-secondary.op-bg_80 {background-color: rgba(135, 165, 168, 0.8);}.bg-forskning-secondary-dark.op-bg_20 {background-color: rgba(41, 61, 64, 0.2);color: #fff;}.bg-forskning-secondary-dark.op-bg_40 {background-color: rgba(41, 61, 64, 0.4);color: #fff;}.bg-forskning-secondary-dark.op-bg_60 {background-color: rgba(41, 61, 64, 0.6);color: #fff;}.bg-forskning-secondary-dark.op-bg_80 {background-color: rgba(41, 61, 64, 0.8);color: #fff;}.bg-forskning-secondary-light.op-bg_20 {background-color: rgba(224, 231, 232, 0.2);}.bg-forskning-secondary-light.op-bg_40 {background-color: rgba(224, 231, 232, 0.4);}.bg-forskning-secondary-light.op-bg_60 {background-color: rgba(224, 231, 232, 0.6);}.bg-forskning-secondary-light.op-bg_80 {background-color: rgba(224, 231, 232, 0.8);}.bg-ung-primary.op-bg_20 {background-color: rgba(255, 115, 35, 0.2);}.bg-ung-primary.op-bg_40 {background-color: rgba(255, 115, 35, 0.4);}.bg-ung-primary.op-bg_60 {background-color: rgba(255, 115, 35, 0.6);}.bg-ung-primary.op-bg_80 {background-color: rgba(255, 115, 35, 0.8);}.bg-ung-primary-dark.op-bg_20 {background-color: rgba(166, 75, 23, 0.2);color: #fff;}.bg-ung-primary-dark.op-bg_40 {background-color: rgba(166, 75, 23, 0.4);color: #fff;}.bg-ung-primary-dark.op-bg_60 {background-color: rgba(166, 75, 23, 0.6);color: #fff;}.bg-ung-primary-dark.op-bg_80 {background-color: rgba(166, 75, 23, 0.8);color: #fff;}.bg-ung-secondary.op-bg_20 {background-color: rgba(148, 122, 107, 0.2);color: #fff;}.bg-ung-secondary.op-bg_40 {background-color: rgba(148, 122, 107, 0.4);color: #fff;}.bg-ung-secondary.op-bg_60 {background-color: rgba(148, 122, 107, 0.6);color: #fff;}.bg-ung-secondary.op-bg_80 {background-color: rgba(148, 122, 107, 0.8);color: #fff;}.bg-ung-secondary-dark.op-bg_20 {background-color: rgba(57, 43, 35, 0.2);color: #fff;}.bg-ung-secondary-dark.op-bg_40 {background-color: rgba(57, 43, 35, 0.4);color: #fff;}.bg-ung-secondary-dark.op-bg_60 {background-color: rgba(57, 43, 35, 0.6);color: #fff;}.bg-ung-secondary-dark.op-bg_80 {background-color: rgba(57, 43, 35, 0.8);color: #fff;}.bg-ung-secondary-light.op-bg_20 {background-color: rgba(240, 230, 225, 0.2);}.bg-ung-secondary-light.op-bg_40 {background-color: rgba(240, 230, 225, 0.4);}.bg-ung-secondary-light.op-bg_60 {background-color: rgba(240, 230, 225, 0.6);}.bg-ung-secondary-light.op-bg_80 {background-color: rgba(240, 230, 225, 0.8);}.bg-sciencenorway-primary.op-bg_20 {background-color: rgba(227, 64, 79, 0.2);color: #fff;}.bg-sciencenorway-primary.op-bg_40 {background-color: rgba(227, 64, 79, 0.4);color: #fff;}.bg-sciencenorway-primary.op-bg_60 {background-color: rgba(227, 64, 79, 0.6);color: #fff;}.bg-sciencenorway-primary.op-bg_80 {background-color: rgba(227, 64, 79, 0.8);color: #fff;}.bg-sciencenorway-primary-dark.op-bg_20 {background-color: rgba(145, 62, 56, 0.2);color: #fff;}.bg-sciencenorway-primary-dark.op-bg_40 {background-color: rgba(145, 62, 56, 0.4);color: #fff;}.bg-sciencenorway-primary-dark.op-bg_60 {background-color: rgba(145, 62, 56, 0.6);color: #fff;}.bg-sciencenorway-primary-dark.op-bg_80 {background-color: rgba(145, 62, 56, 0.8);color: #fff;}.bg-sciencenorway-secondary.op-bg_20 {background-color: rgba(185, 154, 152, 0.2);}.bg-sciencenorway-secondary.op-bg_40 {background-color: rgba(185, 154, 152, 0.4);}.bg-sciencenorway-secondary.op-bg_60 {background-color: rgba(185, 154, 152, 0.6);}.bg-sciencenorway-secondary.op-bg_80 {background-color: rgba(185, 154, 152, 0.8);}.bg-sciencenorway-secondary-dark.op-bg_20 {background-color: rgba(61, 39, 37, 0.2);color: #fff;}.bg-sciencenorway-secondary-dark.op-bg_40 {background-color: rgba(61, 39, 37, 0.4);color: #fff;}.bg-sciencenorway-secondary-dark.op-bg_60 {background-color: rgba(61, 39, 37, 0.6);color: #fff;}.bg-sciencenorway-secondary-dark.op-bg_80 {background-color: rgba(61, 39, 37, 0.8);color: #fff;}.bg-sciencenorway-secondary-light.op-bg_20 {background-color: rgba(232, 223, 223, 0.2);}.bg-sciencenorway-secondary-light.op-bg_40 {background-color: rgba(232, 223, 223, 0.4);}.bg-sciencenorway-secondary-light.op-bg_60 {background-color: rgba(232, 223, 223, 0.6);}.bg-sciencenorway-secondary-light.op-bg_80 {background-color: rgba(232, 223, 223, 0.8);}.bg-forskersonen-primary.op-bg_20 {background-color: rgba(196, 141, 158, 0.2);}.bg-forskersonen-primary.op-bg_40 {background-color: rgba(196, 141, 158, 0.4);}.bg-forskersonen-primary.op-bg_60 {background-color: rgba(196, 141, 158, 0.6);}.bg-forskersonen-primary.op-bg_80 {background-color: rgba(196, 141, 158, 0.8);}.bg-forskersonen-primary-dark.op-bg_20 {background-color: rgba(115, 81, 92, 0.2);color: #fff;}.bg-forskersonen-primary-dark.op-bg_40 {background-color: rgba(115, 81, 92, 0.4);color: #fff;}.bg-forskersonen-primary-dark.op-bg_60 {background-color: rgba(115, 81, 92, 0.6);color: #fff;}.bg-forskersonen-primary-dark.op-bg_80 {background-color: rgba(115, 81, 92, 0.8);color: #fff;}.bg-forskersonen-secondary.op-bg_20 {background-color: rgba(153, 137, 142, 0.2);}.bg-forskersonen-secondary.op-bg_40 {background-color: rgba(153, 137, 142, 0.4);}.bg-forskersonen-secondary.op-bg_60 {background-color: rgba(153, 137, 142, 0.6);}.bg-forskersonen-secondary.op-bg_80 {background-color: rgba(153, 137, 142, 0.8);}.bg-forskersonen-secondary-dark.op-bg_20 {background-color: rgba(59, 40, 46, 0.2);color: #fff;}.bg-forskersonen-secondary-dark.op-bg_40 {background-color: rgba(59, 40, 46, 0.4);color: #fff;}.bg-forskersonen-secondary-dark.op-bg_60 {background-color: rgba(59, 40, 46, 0.6);color: #fff;}.bg-forskersonen-secondary-dark.op-bg_80 {background-color: rgba(59, 40, 46, 0.8);color: #fff;}.bg-forskersonen-secondary-light.op-bg_20 {background-color: rgba(232, 226, 228, 0.2);}.bg-forskersonen-secondary-light.op-bg_40 {background-color: rgba(232, 226, 228, 0.4);}.bg-forskersonen-secondary-light.op-bg_60 {background-color: rgba(232, 226, 228, 0.6);}.bg-forskersonen-secondary-light.op-bg_80 {background-color: rgba(232, 226, 228, 0.8);}.bg-stilling-primary.op-bg_20 {background-color: rgba(165, 188, 39, 0.2);}.bg-stilling-primary.op-bg_40 {background-color: rgba(165, 188, 39, 0.4);}.bg-stilling-primary.op-bg_60 {background-color: rgba(165, 188, 39, 0.6);}.bg-stilling-primary.op-bg_80 {background-color: rgba(165, 188, 39, 0.8);}.bg-stilling-primary-dark.op-bg_20 {background-color: rgba(114, 131, 17, 0.2);color: #fff;}.bg-stilling-primary-dark.op-bg_40 {background-color: rgba(114, 131, 17, 0.4);color: #fff;}.bg-stilling-primary-dark.op-bg_60 {background-color: rgba(114, 131, 17, 0.6);color: #fff;}.bg-stilling-primary-dark.op-bg_80 {background-color: rgba(114, 131, 17, 0.8);color: #fff;}.bg-stilling-secondary.op-bg_20 {background-color: rgba(110, 123, 111, 0.2);color: #fff;}.bg-stilling-secondary.op-bg_40 {background-color: rgba(110, 123, 111, 0.4);color: #fff;}.bg-stilling-secondary.op-bg_60 {background-color: rgba(110, 123, 111, 0.6);color: #fff;}.bg-stilling-secondary.op-bg_80 {background-color: rgba(110, 123, 111, 0.8);color: #fff;}.bg-stilling-secondary-dark.op-bg_20 {background-color: rgba(56, 58, 43, 0.2);color: #fff;}.bg-stilling-secondary-dark.op-bg_40 {background-color: rgba(56, 58, 43, 0.4);color: #fff;}.bg-stilling-secondary-dark.op-bg_60 {background-color: rgba(56, 58, 43, 0.6);color: #fff;}.bg-stilling-secondary-dark.op-bg_80 {background-color: rgba(56, 58, 43, 0.8);color: #fff;}.bg-stilling-secondary-light.op-bg_20 {background-color: rgba(229, 231, 218, 0.2);}.bg-stilling-secondary-light.op-bg_40 {background-color: rgba(229, 231, 218, 0.4);}.bg-stilling-secondary-light.op-bg_60 {background-color: rgba(229, 231, 218, 0.6);}.bg-stilling-secondary-light.op-bg_80 {background-color: rgba(229, 231, 218, 0.8);}.bg-native-primary.op-bg_20 {background-color: rgba(209, 184, 3, 0.2);}.bg-native-primary.op-bg_40 {background-color: rgba(209, 184, 3, 0.4);}.bg-native-primary.op-bg_60 {background-color: rgba(209, 184, 3, 0.6);}.bg-native-primary.op-bg_80 {background-color: rgba(209, 184, 3, 0.8);}.bg-native-primary-dark.op-bg_20 {background-color: rgba(136, 119, 2, 0.2);color: #fff;}.bg-native-primary-dark.op-bg_40 {background-color: rgba(136, 119, 2, 0.4);color: #fff;}.bg-native-primary-dark.op-bg_60 {background-color: rgba(136, 119, 2, 0.6);color: #fff;}.bg-native-primary-dark.op-bg_80 {background-color: rgba(136, 119, 2, 0.8);color: #fff;}.bg-native-secondary-dark.op-bg_20 {background-color: rgba(56, 56, 56, 0.2);color: #fff;}.bg-native-secondary-dark.op-bg_40 {background-color: rgba(56, 56, 56, 0.4);color: #fff;}.bg-native-secondary-dark.op-bg_60 {background-color: rgba(56, 56, 56, 0.6);color: #fff;}.bg-native-secondary-dark.op-bg_80 {background-color: rgba(56, 56, 56, 0.8);color: #fff;}.bg-native-secondary-light.op-bg_20 {background-color: rgba(222, 222, 212, 0.2);}.bg-native-secondary-light.op-bg_40 {background-color: rgba(222, 222, 212, 0.4);}.bg-native-secondary-light.op-bg_60 {background-color: rgba(222, 222, 212, 0.6);}.bg-native-secondary-light.op-bg_80 {background-color: rgba(222, 222, 212, 0.8);}.bg-native-secondary-light2.op-bg_20 {background-color: rgba(234, 235, 230, 0.2);}.bg-native-secondary-light2.op-bg_40 {background-color: rgba(234, 235, 230, 0.4);}.bg-native-secondary-light2.op-bg_60 {background-color: rgba(234, 235, 230, 0.6);}.bg-native-secondary-light2.op-bg_80 {background-color: rgba(234, 235, 230, 0.8);}.bg-black.op-bg_20 {background-color: rgba(0, 0, 0, 0.2);color: #fff;}.bg-black.op-bg_40 {background-color: rgba(0, 0, 0, 0.4);color: #fff;}.bg-black.op-bg_60 {background-color: rgba(0, 0, 0, 0.6);color: #fff;}.bg-black.op-bg_80 {background-color: rgba(0, 0, 0, 0.8);color: #fff;}.bg-gray.op-bg_20 {background-color: rgba(56, 56, 56, 0.2);color: #fff;}.bg-gray.op-bg_40 {background-color: rgba(56, 56, 56, 0.4);color: #fff;}.bg-gray.op-bg_60 {background-color: rgba(56, 56, 56, 0.6);color: #fff;}.bg-gray.op-bg_80 {background-color: rgba(56, 56, 56, 0.8);color: #fff;}.bg-white.op-bg_20 {background-color: rgba(255, 255, 255, 0.2);}.bg-white.op-bg_40 {background-color: rgba(255, 255, 255, 0.4);}.bg-white.op-bg_60 {background-color: rgba(255, 255, 255, 0.6);}.bg-white.op-bg_80 {background-color: rgba(255, 255, 255, 0.8);}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary.op-bg_20 {background-color: rgba(42, 188, 215, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary.op-bg_40 {background-color: rgba(42, 188, 215, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary.op-bg_60 {background-color: rgba(42, 188, 215, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary.op-bg_80 {background-color: rgba(42, 188, 215, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary-dark.op-bg_20 {background-color: rgba(24, 128, 147, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary-dark.op-bg_40 {background-color: rgba(24, 128, 147, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary-dark.op-bg_60 {background-color: rgba(24, 128, 147, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-primary-dark.op-bg_80 {background-color: rgba(24, 128, 147, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary.op-bg_20 {background-color: rgba(135, 165, 168, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary.op-bg_40 {background-color: rgba(135, 165, 168, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary.op-bg_60 {background-color: rgba(135, 165, 168, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary.op-bg_80 {background-color: rgba(135, 165, 168, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-dark.op-bg_20 {background-color: rgba(41, 61, 64, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-dark.op-bg_40 {background-color: rgba(41, 61, 64, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-dark.op-bg_60 {background-color: rgba(41, 61, 64, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-dark.op-bg_80 {background-color: rgba(41, 61, 64, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-light.op-bg_20 {background-color: rgba(224, 231, 232, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-light.op-bg_40 {background-color: rgba(224, 231, 232, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-light.op-bg_60 {background-color: rgba(224, 231, 232, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskning-secondary-light.op-bg_80 {background-color: rgba(224, 231, 232, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary.op-bg_20 {background-color: rgba(255, 115, 35, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary.op-bg_40 {background-color: rgba(255, 115, 35, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary.op-bg_60 {background-color: rgba(255, 115, 35, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary.op-bg_80 {background-color: rgba(255, 115, 35, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary-dark.op-bg_20 {background-color: rgba(166, 75, 23, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary-dark.op-bg_40 {background-color: rgba(166, 75, 23, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary-dark.op-bg_60 {background-color: rgba(166, 75, 23, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-ung-primary-dark.op-bg_80 {background-color: rgba(166, 75, 23, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary.op-bg_20 {background-color: rgba(148, 122, 107, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary.op-bg_40 {background-color: rgba(148, 122, 107, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary.op-bg_60 {background-color: rgba(148, 122, 107, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary.op-bg_80 {background-color: rgba(148, 122, 107, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-dark.op-bg_20 {background-color: rgba(57, 43, 35, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-dark.op-bg_40 {background-color: rgba(57, 43, 35, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-dark.op-bg_60 {background-color: rgba(57, 43, 35, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-dark.op-bg_80 {background-color: rgba(57, 43, 35, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-light.op-bg_20 {background-color: rgba(240, 230, 225, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-light.op-bg_40 {background-color: rgba(240, 230, 225, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-light.op-bg_60 {background-color: rgba(240, 230, 225, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-ung-secondary-light.op-bg_80 {background-color: rgba(240, 230, 225, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary.op-bg_20 {background-color: rgba(227, 64, 79, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary.op-bg_40 {background-color: rgba(227, 64, 79, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary.op-bg_60 {background-color: rgba(227, 64, 79, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary.op-bg_80 {background-color: rgba(227, 64, 79, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary-dark.op-bg_20 {background-color: rgba(145, 62, 56, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary-dark.op-bg_40 {background-color: rgba(145, 62, 56, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary-dark.op-bg_60 {background-color: rgba(145, 62, 56, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-primary-dark.op-bg_80 {background-color: rgba(145, 62, 56, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary.op-bg_20 {background-color: rgba(185, 154, 152, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary.op-bg_40 {background-color: rgba(185, 154, 152, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary.op-bg_60 {background-color: rgba(185, 154, 152, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary.op-bg_80 {background-color: rgba(185, 154, 152, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-dark.op-bg_20 {background-color: rgba(61, 39, 37, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-dark.op-bg_40 {background-color: rgba(61, 39, 37, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-dark.op-bg_60 {background-color: rgba(61, 39, 37, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-dark.op-bg_80 {background-color: rgba(61, 39, 37, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-light.op-bg_20 {background-color: rgba(232, 223, 223, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-light.op-bg_40 {background-color: rgba(232, 223, 223, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-light.op-bg_60 {background-color: rgba(232, 223, 223, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-sciencenorway-secondary-light.op-bg_80 {background-color: rgba(232, 223, 223, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary.op-bg_20 {background-color: rgba(196, 141, 158, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary.op-bg_40 {background-color: rgba(196, 141, 158, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary.op-bg_60 {background-color: rgba(196, 141, 158, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary.op-bg_80 {background-color: rgba(196, 141, 158, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary-dark.op-bg_20 {background-color: rgba(115, 81, 92, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary-dark.op-bg_40 {background-color: rgba(115, 81, 92, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary-dark.op-bg_60 {background-color: rgba(115, 81, 92, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-primary-dark.op-bg_80 {background-color: rgba(115, 81, 92, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary.op-bg_20 {background-color: rgba(153, 137, 142, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary.op-bg_40 {background-color: rgba(153, 137, 142, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary.op-bg_60 {background-color: rgba(153, 137, 142, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary.op-bg_80 {background-color: rgba(153, 137, 142, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-dark.op-bg_20 {background-color: rgba(59, 40, 46, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-dark.op-bg_40 {background-color: rgba(59, 40, 46, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-dark.op-bg_60 {background-color: rgba(59, 40, 46, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-dark.op-bg_80 {background-color: rgba(59, 40, 46, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-light.op-bg_20 {background-color: rgba(232, 226, 228, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-light.op-bg_40 {background-color: rgba(232, 226, 228, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-light.op-bg_60 {background-color: rgba(232, 226, 228, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-forskersonen-secondary-light.op-bg_80 {background-color: rgba(232, 226, 228, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary.op-bg_20 {background-color: rgba(165, 188, 39, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary.op-bg_40 {background-color: rgba(165, 188, 39, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary.op-bg_60 {background-color: rgba(165, 188, 39, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary.op-bg_80 {background-color: rgba(165, 188, 39, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary-dark.op-bg_20 {background-color: rgba(114, 131, 17, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary-dark.op-bg_40 {background-color: rgba(114, 131, 17, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary-dark.op-bg_60 {background-color: rgba(114, 131, 17, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-primary-dark.op-bg_80 {background-color: rgba(114, 131, 17, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary.op-bg_20 {background-color: rgba(110, 123, 111, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary.op-bg_40 {background-color: rgba(110, 123, 111, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary.op-bg_60 {background-color: rgba(110, 123, 111, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary.op-bg_80 {background-color: rgba(110, 123, 111, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-dark.op-bg_20 {background-color: rgba(56, 58, 43, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-dark.op-bg_40 {background-color: rgba(56, 58, 43, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-dark.op-bg_60 {background-color: rgba(56, 58, 43, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-dark.op-bg_80 {background-color: rgba(56, 58, 43, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-light.op-bg_20 {background-color: rgba(229, 231, 218, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-light.op-bg_40 {background-color: rgba(229, 231, 218, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-light.op-bg_60 {background-color: rgba(229, 231, 218, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-stilling-secondary-light.op-bg_80 {background-color: rgba(229, 231, 218, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary.op-bg_20 {background-color: rgba(209, 184, 3, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary.op-bg_40 {background-color: rgba(209, 184, 3, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary.op-bg_60 {background-color: rgba(209, 184, 3, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary.op-bg_80 {background-color: rgba(209, 184, 3, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary-dark.op-bg_20 {background-color: rgba(136, 119, 2, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary-dark.op-bg_40 {background-color: rgba(136, 119, 2, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary-dark.op-bg_60 {background-color: rgba(136, 119, 2, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-native-primary-dark.op-bg_80 {background-color: rgba(136, 119, 2, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-dark.op-bg_20 {background-color: rgba(56, 56, 56, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-dark.op-bg_40 {background-color: rgba(56, 56, 56, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-dark.op-bg_60 {background-color: rgba(56, 56, 56, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-dark.op-bg_80 {background-color: rgba(56, 56, 56, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light.op-bg_20 {background-color: rgba(222, 222, 212, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light.op-bg_40 {background-color: rgba(222, 222, 212, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light.op-bg_60 {background-color: rgba(222, 222, 212, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light.op-bg_80 {background-color: rgba(222, 222, 212, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light2.op-bg_20 {background-color: rgba(234, 235, 230, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light2.op-bg_40 {background-color: rgba(234, 235, 230, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light2.op-bg_60 {background-color: rgba(234, 235, 230, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-native-secondary-light2.op-bg_80 {background-color: rgba(234, 235, 230, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-black.op-bg_20 {background-color: rgba(0, 0, 0, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-black.op-bg_40 {background-color: rgba(0, 0, 0, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-black.op-bg_60 {background-color: rgba(0, 0, 0, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-black.op-bg_80 {background-color: rgba(0, 0, 0, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-gray.op-bg_20 {background-color: rgba(56, 56, 56, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-gray.op-bg_40 {background-color: rgba(56, 56, 56, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-gray.op-bg_60 {background-color: rgba(56, 56, 56, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-gray.op-bg_80 {background-color: rgba(56, 56, 56, 0.8);}}@media (max-width: 1023px) { .color_mobile_bg-white.op-bg_20 {background-color: rgba(255, 255, 255, 0.2);}}@media (max-width: 1023px) { .color_mobile_bg-white.op-bg_40 {background-color: rgba(255, 255, 255, 0.4);}}@media (max-width: 1023px) { .color_mobile_bg-white.op-bg_60 {background-color: rgba(255, 255, 255, 0.6);}}@media (max-width: 1023px) { .color_mobile_bg-white.op-bg_80 {background-color: rgba(255, 255, 255, 0.8);}}
+        </style>
+        <style type="text/css" data-key="border_colors">
+            .border-bg-forskning-primary {border-color: rgb(42, 188, 215) !important;}.border-bg-forskning-primary-dark {border-color: rgba(24,128,147,1) !important;}.border-bg-forskning-secondary {border-color: rgb(135, 165, 168) !important;}.border-bg-forskning-secondary-dark {border-color: rgb(41, 61, 64) !important;}.border-bg-forskning-secondary-light {border-color: rgb(224, 231, 232) !important;}.border-bg-ung-primary {border-color: rgb(255, 115, 35) !important;}.border-bg-ung-primary-dark {border-color: rgb(166, 75, 23) !important;}.border-bg-ung-secondary {border-color: rgb(148, 122, 107) !important;}.border-bg-ung-secondary-dark {border-color: rgb(57, 43, 35) !important;}.border-bg-ung-secondary-light {border-color: rgb(240, 230, 225) !important;}.border-bg-sciencenorway-primary {border-color: rgb(227, 64, 79) !important;}.border-bg-sciencenorway-primary-dark {border-color: rgb(145, 62, 56) !important;}.border-bg-sciencenorway-secondary {border-color: rgb(185, 154, 152) !important;}.border-bg-sciencenorway-secondary-dark {border-color: rgb(61, 39, 37) !important;}.border-bg-sciencenorway-secondary-light {border-color: rgb(232, 223, 223) !important;}.border-bg-forskersonen-primary {border-color: rgb(196, 141, 158) !important;}.border-bg-forskersonen-primary-dark {border-color: rgb(115, 81, 92) !important;}.border-bg-forskersonen-secondary {border-color: rgb(153, 137, 142) !important;}.border-bg-forskersonen-secondary-dark {border-color: rgb(59, 40, 46) !important;}.border-bg-forskersonen-secondary-light {border-color: rgb(232, 226, 228) !important;}.border-bg-stilling-primary {border-color: rgb(165, 188, 39) !important;}.border-bg-stilling-primary-dark {border-color: rgb(114, 131, 17) !important;}.border-bg-stilling-secondary {border-color: rgb(110, 123, 111) !important;}.border-bg-stilling-secondary-dark {border-color: rgb(56, 58, 43) !important;}.border-bg-stilling-secondary-light {border-color: rgb(229, 231, 218) !important;}.border-bg-native-primary {border-color: rgb(209, 184, 3) !important;}.border-bg-native-primary-dark {border-color: rgb(136, 119, 2) !important;}.border-bg-native-secondary-dark {border-color: rgb(56, 56, 56) !important;}.border-bg-native-secondary-light {border-color: rgb(222, 222, 212) !important;}.border-bg-native-secondary-light2 {border-color: rgb(234, 235, 230) !important;}.border-bg-black {border-color: rgb(0, 0, 0) !important;}.border-bg-gray {border-color: rgb(56, 56, 56) !important;}.border-bg-white {border-color: rgb(255, 255, 255) !important;}@media (max-width: 1023px) { .mobile_border-bg-forskning-primary {border-color: rgb(42, 188, 215) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskning-primary-dark {border-color: rgba(24,128,147,1) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskning-secondary {border-color: rgb(135, 165, 168) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskning-secondary-dark {border-color: rgb(41, 61, 64) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskning-secondary-light {border-color: rgb(224, 231, 232) !important;}}@media (max-width: 1023px) { .mobile_border-bg-ung-primary {border-color: rgb(255, 115, 35) !important;}}@media (max-width: 1023px) { .mobile_border-bg-ung-primary-dark {border-color: rgb(166, 75, 23) !important;}}@media (max-width: 1023px) { .mobile_border-bg-ung-secondary {border-color: rgb(148, 122, 107) !important;}}@media (max-width: 1023px) { .mobile_border-bg-ung-secondary-dark {border-color: rgb(57, 43, 35) !important;}}@media (max-width: 1023px) { .mobile_border-bg-ung-secondary-light {border-color: rgb(240, 230, 225) !important;}}@media (max-width: 1023px) { .mobile_border-bg-sciencenorway-primary {border-color: rgb(227, 64, 79) !important;}}@media (max-width: 1023px) { .mobile_border-bg-sciencenorway-primary-dark {border-color: rgb(145, 62, 56) !important;}}@media (max-width: 1023px) { .mobile_border-bg-sciencenorway-secondary {border-color: rgb(185, 154, 152) !important;}}@media (max-width: 1023px) { .mobile_border-bg-sciencenorway-secondary-dark {border-color: rgb(61, 39, 37) !important;}}@media (max-width: 1023px) { .mobile_border-bg-sciencenorway-secondary-light {border-color: rgb(232, 223, 223) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskersonen-primary {border-color: rgb(196, 141, 158) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskersonen-primary-dark {border-color: rgb(115, 81, 92) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskersonen-secondary {border-color: rgb(153, 137, 142) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskersonen-secondary-dark {border-color: rgb(59, 40, 46) !important;}}@media (max-width: 1023px) { .mobile_border-bg-forskersonen-secondary-light {border-color: rgb(232, 226, 228) !important;}}@media (max-width: 1023px) { .mobile_border-bg-stilling-primary {border-color: rgb(165, 188, 39) !important;}}@media (max-width: 1023px) { .mobile_border-bg-stilling-primary-dark {border-color: rgb(114, 131, 17) !important;}}@media (max-width: 1023px) { .mobile_border-bg-stilling-secondary {border-color: rgb(110, 123, 111) !important;}}@media (max-width: 1023px) { .mobile_border-bg-stilling-secondary-dark {border-color: rgb(56, 58, 43) !important;}}@media (max-width: 1023px) { .mobile_border-bg-stilling-secondary-light {border-color: rgb(229, 231, 218) !important;}}@media (max-width: 1023px) { .mobile_border-bg-native-primary {border-color: rgb(209, 184, 3) !important;}}@media (max-width: 1023px) { .mobile_border-bg-native-primary-dark {border-color: rgb(136, 119, 2) !important;}}@media (max-width: 1023px) { .mobile_border-bg-native-secondary-dark {border-color: rgb(56, 56, 56) !important;}}@media (max-width: 1023px) { .mobile_border-bg-native-secondary-light {border-color: rgb(222, 222, 212) !important;}}@media (max-width: 1023px) { .mobile_border-bg-native-secondary-light2 {border-color: rgb(234, 235, 230) !important;}}@media (max-width: 1023px) { .mobile_border-bg-black {border-color: rgb(0, 0, 0) !important;}}@media (max-width: 1023px) { .mobile_border-bg-gray {border-color: rgb(56, 56, 56) !important;}}@media (max-width: 1023px) { .mobile_border-bg-white {border-color: rgb(255, 255, 255) !important;}}
+        </style>
+        <style type="text/css" data-key="font_colors">
+            .forskning-primary {color: rgb(42, 188, 215) !important;}.forskning-primary-dark {color: rgb(24, 128, 147) !important;}.forskning-secondary {color: rgb(135, 165, 168) !important;}.forskning-secondary-dark {color: rgb(41, 61, 64) !important;}.forskning-secondary-light {color: rgb(224, 231, 232) !important;}.ung-primary {color: rgb(255, 115, 35) !important;}.ung-primary-dark {color: rgb(166, 75, 23) !important;}.ung-secondary {color: rgb(148, 122, 107) !important;}.ung-secondary-dark {color: rgb(57, 43, 35) !important;}.ung-secondary-light {color: rgb(240, 230, 225) !important;}.sciencenorway-primary {color: rgb(227, 64, 79) !important;}.sciencenorway-primary-dark {color: rgb(145, 62, 56) !important;}.sciencenorway-secondary {color: rgb(185, 154, 152) !important;}.sciencenorway-secondary-dark {color: rgb(61, 39, 37) !important;}.sciencenorway-secondary-light {color: rgb(232, 223, 223) !important;}.forskersonen-primary {color: rgb(196, 141, 158) !important;}.forskersonen-primary-dark {color: rgb(115, 81, 92) !important;}.forskersonen-secondary {color: rgb(153, 137, 142) !important;}.forskersonen-secondary-dark {color: rgb(59, 40, 46) !important;}.forskersonen-secondary-light {color: rgb(232, 226, 228) !important;}.stilling-primary {color: rgb(165, 188, 39) !important;}.stilling-primary-dark {color: rgb(114, 131, 17) !important;}.stilling-secondary {color: rgb(110, 123, 111) !important;}.stilling-secondary-dark {color: rgb(56, 58, 43) !important;}.stilling-secondary-light {color: rgb(229, 231, 218) !important;}.native-primary {color: rgb(209, 184, 3) !important;}.native-primary-dark {color: rgb(136, 119, 2) !important;}.native-secondary-dark {color: rgb(56, 56, 56) !important;}.native-secondary-light {color: rgb(222, 222, 212) !important;}.native-secondary-light2 {color: rgb(234, 235, 230) !important;}.black {color: rgb(0, 0, 0) !important;}.gray {color: rgb(0, 0, 0) !important;}.white {color: rgb(255, 255, 255) !important;}@media (max-width: 1023px) { .color_mobile_forskning-primary {color: rgb(42, 188, 215) !important;}}@media (max-width: 1023px) { .color_mobile_forskning-primary-dark {color: rgb(24, 128, 147) !important;}}@media (max-width: 1023px) { .color_mobile_forskning-secondary {color: rgb(135, 165, 168) !important;}}@media (max-width: 1023px) { .color_mobile_forskning-secondary-dark {color: rgb(41, 61, 64) !important;}}@media (max-width: 1023px) { .color_mobile_forskning-secondary-light {color: rgb(224, 231, 232) !important;}}@media (max-width: 1023px) { .color_mobile_ung-primary {color: rgb(255, 115, 35) !important;}}@media (max-width: 1023px) { .color_mobile_ung-primary-dark {color: rgb(166, 75, 23) !important;}}@media (max-width: 1023px) { .color_mobile_ung-secondary {color: rgb(148, 122, 107) !important;}}@media (max-width: 1023px) { .color_mobile_ung-secondary-dark {color: rgb(57, 43, 35) !important;}}@media (max-width: 1023px) { .color_mobile_ung-secondary-light {color: rgb(240, 230, 225) !important;}}@media (max-width: 1023px) { .color_mobile_sciencenorway-primary {color: rgb(227, 64, 79) !important;}}@media (max-width: 1023px) { .color_mobile_sciencenorway-primary-dark {color: rgb(145, 62, 56) !important;}}@media (max-width: 1023px) { .color_mobile_sciencenorway-secondary {color: rgb(185, 154, 152) !important;}}@media (max-width: 1023px) { .color_mobile_sciencenorway-secondary-dark {color: rgb(61, 39, 37) !important;}}@media (max-width: 1023px) { .color_mobile_sciencenorway-secondary-light {color: rgb(232, 223, 223) !important;}}@media (max-width: 1023px) { .color_mobile_forskersonen-primary {color: rgb(196, 141, 158) !important;}}@media (max-width: 1023px) { .color_mobile_forskersonen-primary-dark {color: rgb(115, 81, 92) !important;}}@media (max-width: 1023px) { .color_mobile_forskersonen-secondary {color: rgb(153, 137, 142) !important;}}@media (max-width: 1023px) { .color_mobile_forskersonen-secondary-dark {color: rgb(59, 40, 46) !important;}}@media (max-width: 1023px) { .color_mobile_forskersonen-secondary-light {color: rgb(232, 226, 228) !important;}}@media (max-width: 1023px) { .color_mobile_stilling-primary {color: rgb(165, 188, 39) !important;}}@media (max-width: 1023px) { .color_mobile_stilling-primary-dark {color: rgb(114, 131, 17) !important;}}@media (max-width: 1023px) { .color_mobile_stilling-secondary {color: rgb(110, 123, 111) !important;}}@media (max-width: 1023px) { .color_mobile_stilling-secondary-dark {color: rgb(56, 58, 43) !important;}}@media (max-width: 1023px) { .color_mobile_stilling-secondary-light {color: rgb(229, 231, 218) !important;}}@media (max-width: 1023px) { .color_mobile_native-primary {color: rgb(209, 184, 3) !important;}}@media (max-width: 1023px) { .color_mobile_native-primary-dark {color: rgb(136, 119, 2) !important;}}@media (max-width: 1023px) { .color_mobile_native-secondary-dark {color: rgb(56, 56, 56) !important;}}@media (max-width: 1023px) { .color_mobile_native-secondary-light {color: rgb(222, 222, 212) !important;}}@media (max-width: 1023px) { .color_mobile_native-secondary-light2 {color: rgb(234, 235, 230) !important;}}@media (max-width: 1023px) { .color_mobile_black {color: rgb(0, 0, 0) !important;}}@media (max-width: 1023px) { .color_mobile_gray {color: rgb(0, 0, 0) !important;}}@media (max-width: 1023px) { .color_mobile_white {color: rgb(255, 255, 255) !important;}}
+        </style>
+        <style type="text/css" data-key="image_gradient">
+            .image-gradient-bg-forskning-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(42, 188, 215));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskning-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgba(24,128,147,1));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskning-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(135, 165, 168));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskning-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(41, 61, 64));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskning-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(224, 231, 232));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-ung-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(255, 115, 35));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-ung-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(166, 75, 23));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-ung-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(148, 122, 107));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-ung-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(57, 43, 35));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-ung-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(240, 230, 225));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-sciencenorway-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(227, 64, 79));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-sciencenorway-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(145, 62, 56));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-sciencenorway-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(185, 154, 152));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-sciencenorway-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(61, 39, 37));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-sciencenorway-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(232, 223, 223));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskersonen-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(196, 141, 158));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskersonen-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(115, 81, 92));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskersonen-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(153, 137, 142));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskersonen-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(59, 40, 46));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-forskersonen-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(232, 226, 228));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-stilling-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(165, 188, 39));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-stilling-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(114, 131, 17));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-stilling-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(110, 123, 111));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-stilling-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(56, 58, 43));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-stilling-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(229, 231, 218));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-native-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(209, 184, 3));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-native-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(136, 119, 2));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-native-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(56, 56, 56));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-native-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(222, 222, 212));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-native-secondary-light2 .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(234, 235, 230));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-black .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(0, 0, 0));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-gray .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(56, 56, 56));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}.image-gradient-bg-white .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(255, 255, 255));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(42, 188, 215));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgba(24,128,147,1));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(135, 165, 168));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(41, 61, 64));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(224, 231, 232));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(255, 115, 35));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(166, 75, 23));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(148, 122, 107));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(57, 43, 35));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(240, 230, 225));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(227, 64, 79));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(145, 62, 56));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(185, 154, 152));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(61, 39, 37));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(232, 223, 223));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(196, 141, 158));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(115, 81, 92));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(153, 137, 142));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(59, 40, 46));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(232, 226, 228));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(165, 188, 39));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(114, 131, 17));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(110, 123, 111));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(56, 58, 43));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(229, 231, 218));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(209, 184, 3));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(136, 119, 2));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-dark .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(56, 56, 56));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(222, 222, 212));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light2 .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(234, 235, 230));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-black .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(0, 0, 0));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-gray .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(56, 56, 56));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-white .img:after {background-image: linear-gradient(to bottom, transparent 50%, rgb(255, 255, 255));content: "";position: absolute;top: 0;left: 0;right: 0;bottom: 0;pointer-events: none;}}.image-gradient-bg-forskning-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(42, 188, 215));}.image-gradient-bg-forskning-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgba(24,128,147,1));}.image-gradient-bg-forskning-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(135, 165, 168));}.image-gradient-bg-forskning-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(41, 61, 64));}.image-gradient-bg-forskning-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(224, 231, 232));}.image-gradient-bg-ung-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(255, 115, 35));}.image-gradient-bg-ung-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(166, 75, 23));}.image-gradient-bg-ung-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(148, 122, 107));}.image-gradient-bg-ung-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(57, 43, 35));}.image-gradient-bg-ung-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(240, 230, 225));}.image-gradient-bg-sciencenorway-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(227, 64, 79));}.image-gradient-bg-sciencenorway-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(145, 62, 56));}.image-gradient-bg-sciencenorway-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(185, 154, 152));}.image-gradient-bg-sciencenorway-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(61, 39, 37));}.image-gradient-bg-sciencenorway-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(232, 223, 223));}.image-gradient-bg-forskersonen-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(196, 141, 158));}.image-gradient-bg-forskersonen-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(115, 81, 92));}.image-gradient-bg-forskersonen-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(153, 137, 142));}.image-gradient-bg-forskersonen-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(59, 40, 46));}.image-gradient-bg-forskersonen-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(232, 226, 228));}.image-gradient-bg-stilling-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(165, 188, 39));}.image-gradient-bg-stilling-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(114, 131, 17));}.image-gradient-bg-stilling-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(110, 123, 111));}.image-gradient-bg-stilling-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(56, 58, 43));}.image-gradient-bg-stilling-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(229, 231, 218));}.image-gradient-bg-native-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(209, 184, 3));}.image-gradient-bg-native-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(136, 119, 2));}.image-gradient-bg-native-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(56, 56, 56));}.image-gradient-bg-native-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(222, 222, 212));}.image-gradient-bg-native-secondary-light2.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(234, 235, 230));}.image-gradient-bg-black.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(0, 0, 0));}.image-gradient-bg-gray.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(56, 56, 56));}.image-gradient-bg-white.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(255, 255, 255));}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(42, 188, 215));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgba(24,128,147,1));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(135, 165, 168));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(41, 61, 64));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(224, 231, 232));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(255, 115, 35));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(166, 75, 23));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(148, 122, 107));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(57, 43, 35));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(240, 230, 225));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(227, 64, 79));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(145, 62, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(185, 154, 152));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(61, 39, 37));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(232, 223, 223));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(196, 141, 158));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(115, 81, 92));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(153, 137, 142));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(59, 40, 46));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(232, 226, 228));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(165, 188, 39));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(114, 131, 17));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(110, 123, 111));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(56, 58, 43));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(229, 231, 218));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(209, 184, 3));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(136, 119, 2));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-dark.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(56, 56, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(222, 222, 212));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light2.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(234, 235, 230));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-black.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(0, 0, 0));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-gray.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(56, 56, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-white.image-gradient-left .img:after {background-image: linear-gradient(to left, transparent 50%, rgb(255, 255, 255));}}.image-gradient-bg-forskning-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(42, 188, 215));}.image-gradient-bg-forskning-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgba(24,128,147,1));}.image-gradient-bg-forskning-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(135, 165, 168));}.image-gradient-bg-forskning-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(41, 61, 64));}.image-gradient-bg-forskning-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(224, 231, 232));}.image-gradient-bg-ung-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(255, 115, 35));}.image-gradient-bg-ung-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(166, 75, 23));}.image-gradient-bg-ung-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(148, 122, 107));}.image-gradient-bg-ung-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(57, 43, 35));}.image-gradient-bg-ung-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(240, 230, 225));}.image-gradient-bg-sciencenorway-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(227, 64, 79));}.image-gradient-bg-sciencenorway-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(145, 62, 56));}.image-gradient-bg-sciencenorway-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(185, 154, 152));}.image-gradient-bg-sciencenorway-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(61, 39, 37));}.image-gradient-bg-sciencenorway-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(232, 223, 223));}.image-gradient-bg-forskersonen-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(196, 141, 158));}.image-gradient-bg-forskersonen-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(115, 81, 92));}.image-gradient-bg-forskersonen-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(153, 137, 142));}.image-gradient-bg-forskersonen-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(59, 40, 46));}.image-gradient-bg-forskersonen-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(232, 226, 228));}.image-gradient-bg-stilling-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(165, 188, 39));}.image-gradient-bg-stilling-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(114, 131, 17));}.image-gradient-bg-stilling-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(110, 123, 111));}.image-gradient-bg-stilling-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(56, 58, 43));}.image-gradient-bg-stilling-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(229, 231, 218));}.image-gradient-bg-native-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(209, 184, 3));}.image-gradient-bg-native-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(136, 119, 2));}.image-gradient-bg-native-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(56, 56, 56));}.image-gradient-bg-native-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(222, 222, 212));}.image-gradient-bg-native-secondary-light2.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(234, 235, 230));}.image-gradient-bg-black.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(0, 0, 0));}.image-gradient-bg-gray.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(56, 56, 56));}.image-gradient-bg-white.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(255, 255, 255));}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(42, 188, 215));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgba(24,128,147,1));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(135, 165, 168));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(41, 61, 64));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(224, 231, 232));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(255, 115, 35));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(166, 75, 23));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(148, 122, 107));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(57, 43, 35));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(240, 230, 225));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(227, 64, 79));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(145, 62, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(185, 154, 152));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(61, 39, 37));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(232, 223, 223));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(196, 141, 158));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(115, 81, 92));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(153, 137, 142));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(59, 40, 46));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(232, 226, 228));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(165, 188, 39));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(114, 131, 17));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(110, 123, 111));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(56, 58, 43));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(229, 231, 218));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(209, 184, 3));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(136, 119, 2));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-dark.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(56, 56, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(222, 222, 212));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light2.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(234, 235, 230));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-black.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(0, 0, 0));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-gray.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(56, 56, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-white.image-gradient-right .img:after {background-image: linear-gradient(to right, transparent 50%, rgb(255, 255, 255));}}.image-gradient-bg-forskning-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(42, 188, 215));}.image-gradient-bg-forskning-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgba(24,128,147,1));}.image-gradient-bg-forskning-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(135, 165, 168));}.image-gradient-bg-forskning-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(41, 61, 64));}.image-gradient-bg-forskning-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(224, 231, 232));}.image-gradient-bg-ung-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(255, 115, 35));}.image-gradient-bg-ung-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(166, 75, 23));}.image-gradient-bg-ung-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(148, 122, 107));}.image-gradient-bg-ung-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(57, 43, 35));}.image-gradient-bg-ung-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(240, 230, 225));}.image-gradient-bg-sciencenorway-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(227, 64, 79));}.image-gradient-bg-sciencenorway-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(145, 62, 56));}.image-gradient-bg-sciencenorway-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(185, 154, 152));}.image-gradient-bg-sciencenorway-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(61, 39, 37));}.image-gradient-bg-sciencenorway-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(232, 223, 223));}.image-gradient-bg-forskersonen-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(196, 141, 158));}.image-gradient-bg-forskersonen-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(115, 81, 92));}.image-gradient-bg-forskersonen-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(153, 137, 142));}.image-gradient-bg-forskersonen-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(59, 40, 46));}.image-gradient-bg-forskersonen-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(232, 226, 228));}.image-gradient-bg-stilling-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(165, 188, 39));}.image-gradient-bg-stilling-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(114, 131, 17));}.image-gradient-bg-stilling-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(110, 123, 111));}.image-gradient-bg-stilling-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(56, 58, 43));}.image-gradient-bg-stilling-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(229, 231, 218));}.image-gradient-bg-native-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(209, 184, 3));}.image-gradient-bg-native-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(136, 119, 2));}.image-gradient-bg-native-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(56, 56, 56));}.image-gradient-bg-native-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(222, 222, 212));}.image-gradient-bg-native-secondary-light2.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(234, 235, 230));}.image-gradient-bg-black.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(0, 0, 0));}.image-gradient-bg-gray.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(56, 56, 56));}.image-gradient-bg-white.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(255, 255, 255));}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(42, 188, 215));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgba(24,128,147,1));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(135, 165, 168));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(41, 61, 64));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskning-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(224, 231, 232));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(255, 115, 35));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(166, 75, 23));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(148, 122, 107));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(57, 43, 35));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-ung-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(240, 230, 225));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(227, 64, 79));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(145, 62, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(185, 154, 152));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(61, 39, 37));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-sciencenorway-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(232, 223, 223));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(196, 141, 158));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(115, 81, 92));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(153, 137, 142));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(59, 40, 46));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-forskersonen-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(232, 226, 228));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(165, 188, 39));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(114, 131, 17));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(110, 123, 111));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(56, 58, 43));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-stilling-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(229, 231, 218));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(209, 184, 3));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-primary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(136, 119, 2));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-dark.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(56, 56, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(222, 222, 212));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-native-secondary-light2.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(234, 235, 230));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-black.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(0, 0, 0));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-gray.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(56, 56, 56));}}@media (max-width: 1023px) { .color_mobile_image-gradient-bg-white.image-gradient-top .img:after {background-image: linear-gradient(to top, transparent 50%, rgb(255, 255, 255));}}
+        </style>
+<script src="/view-resources/public/common/JWTCookie.js?v=1652437662"></script>
+<script>
+window.Dac = window.Dac || {};
+(function () {
+    if (navigator) {
+        window.Dac.clientData = {
+            language: navigator.language,
+            userAgent: navigator.userAgent,
+            innerWidth: window.innerWidth,
+            innerHeight: window.innerHeight,
+            deviceByMediaQuery: getDeviceByMediaQuery(),
+            labDevice: 'desktop', // Device from labrador
+            device: 'desktop', // Device from varnish
+            paywall: {
+                isAuthenticated: isPaywallAuthenticated(),
+                toggleAuthenticatedContent: toggleAuthenticatedContent
+            }
+        };
+        function getDeviceByMediaQuery() {
+            if (window.matchMedia('(max-width: 767px)').matches) return 'mobile';
+            if (window.matchMedia('(max-width: 1023px)').matches) return 'tablet';
+            return 'desktop';
+        }
+
+        function isPaywallAuthenticated() {
+            if (window.Dac && window.Dac.JWTCookie) {
+                var JWTCookie = new Dac.JWTCookie({ debug: false });
+                return JWTCookie.isAuthenticated();
+            }
+            return false;
+        }
+
+        function toggleAuthenticatedContent() {
+            var isPaywallAuthenticatedClass = window.Dac.clientData.paywall.isAuthenticated ? 'dac-paywall-authenticated' : 'dac-paywall-not-authenticated';
+            var paywallAuthenticatedItemsToShow = document.querySelectorAll('.' + isPaywallAuthenticatedClass);
+            for(var i = 0; i < paywallAuthenticatedItemsToShow.length; i++) {
+                paywallAuthenticatedItemsToShow[i].classList.remove(isPaywallAuthenticatedClass);
+            }
+        }
+    }
+}());
+</script><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4100304-9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-4100304-9');
+</script><script src="https://t.atmng.io/fag_pressen/cdbhOqqHW.prod.js" async></script>
+<!-- Begin comScore Tag -->
+<script>
+  var _comscore = _comscore || [];
+  _comscore.push({ c1: "2", c2: "24608128" , "cs_ucfr": "1"});
+  (function() {
+    var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
+    s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+    el.parentNode.insertBefore(s, el);
+  })();
+</script>
+<!-- End comScore Tag -->
+
+                <script type="text/javascript" src="/view-resources/public/common/prebid.js"></script>
+<script src="/view-resources/dachser2/public/forskning/aliasBidder.js?v=1652437662"></script>
+                <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js"></script>
+    <script type="text/javascript">
+        window.adn = window.adn || {};
+        adn.calls = adn.calls || [];
+        adn.calls.push(function() {
+            var adUnits = [];
+            var handleAsTablet = (Dac.clientData.device === 'tablet' || Dac.clientData.innerWidth < 1316);
+
+
+            var prebidConfig = [];
+
+            adn.chbRequest(
+                prebidConfig, 
+                { requestTiming: 'onReady', adUnits: adUnits },
+                { debug: false }
+            );
+        });
+    </script>
+        <style type="text/css" id="dachser-vieweditor-styles">
+            header#nav, header.pageHeader { font-family: sanomatSans; font-weight: 300; font-style: normal; }
+            .font-Sanomat { font-family: "Sanomat" !important; }
+            .font-Sanomat.font-weight-normal { font-weight: 400 !important; }
+            .font-sanomatSans { font-family: "sanomatSans" !important; }
+            .font-sanomatSans.font-weight-light { font-weight: 300 !important; }
+            .font-sanomatSans.font-weight-normal { font-weight: 500 !important; }
+            .font-sanomatSans.font-weight-bold { font-weight: 600 !important; }
+        </style>
+<script>
+    window.dachserData = {
+        _data: {},
+        _instances: {},
+        get: function(key) {
+            return dachserData._data[key] || null;
+        },
+        set: function(key, value) {
+            dachserData._data[key] = value;
+        },
+        push: function(key, value) {
+            if (!dachserData._data[key]) {
+                dachserData._data[key] = [];
+            }
+            dachserData._data[key].push(value);
+        },
+        setInstance: function(key, identifier, instance) {
+            if (!dachserData._instances[key]) {
+                dachserData._instances[key] = {};
+            }
+            dachserData._instances[key][identifier] = instance;
+        },
+        getInstance: function(key, identifier) {
+            return dachserData._instances[key] ? dachserData._instances[key][identifier] || null : null;
+        },
+        reflow: () => {}
+    };
+</script>
+        
+
+<script type="application/ld+json">
+[{"@context":"http://schema.org","@type":"WebSite","name":"Partner Science Norway","url":"https://partner.sciencenorway.no"},{"@context":"https://schema.org","@type":"NewsArticle","headline":"Scientists finally know how we make saliva","description":"Researchers have discovered how saliva, which is very important for our digestion and health, is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor.","author":[{"@type":"Person","name":"NMBU, Norwegian University of Life Sciences "},{"@type":"Person","name":"Morten Nordahl Ellingsen","email":"morten.ellingsen@nmbu.no"}],"publisher":{"@type":"Organization","name":"Partner Science Norway","logo":{"@type":"ImageObject","url":"/view-resources/dachser2/public/forskning/partner_logo.png"}},"image":["https://image.forskning.no/1784633.jpg?imageId=1784633&panow=100&panoh=60.169491525424&panox=0&panoy=0&heightw=34.351145038168&heighth=100&heightx=12.213740458015&heighty=0&width=1200&height=1200","https://image.forskning.no/1784633.jpg?imageId=1784633&panow=100&panoh=60.169491525424&panox=0&panoy=0&heightw=34.351145038168&heighth=100&heightx=12.213740458015&heighty=0&width=1200&height=900","https://image.forskning.no/1784633.jpg?imageId=1784633&panow=100&panoh=60.169491525424&panox=0&panoy=0&heightw=34.351145038168&heighth=100&heightx=12.213740458015&heighty=0&width=1200&height=675"],"datePublished":"2020-12-13T07:00:00.000Z","dateModified":"2020-12-11T14:17:57.000Z"}]
+</script>        
+        
+                <meta property="og:type" content="article" />
+        <meta property="article:section" content="partner" />
+<script src="//pp.lp4.io/app/5c/52/f9/5c52f9d2e45a1d917168d3b2.js"></script>
+<script>
+var k5aMeta = { "paid": 0, "login": (Dac.clientData.paywall.isAuthenticated ? 1 : 0), "subscriber": (Dac.clientData.paywall.isAuthenticated ? 1 : 0)};
+</script>
+    <script type="text/javascript" src="//cl.k5a.io/60ae49163984713a036f5c02.js" async></script>
+    </head>
+
+    <body class="article site_sn_partner section_partner  type-partner">
+<!-- Begin comScore Tag (noscript) -->
+<noscript><img src="https://sb.scorecardresearch.com/p?c1=2&c2=24608128&cv=2.0&cj=1" /></noscript>
+
+        <header class="" id="nav">
+    <div class="topBar dac-hidden-desktop-down">
+        <div class="row large-12 small-12">
+<span class="topBarTitle">Discover our other sites:</span>
+
+<nav class="navigation 	 	topBarMenu">
+	<ul>
+		<li class="fo_forskersonen">
+			<a href="//forskersonen.no" target="_self" role="button" aria-label="logo for forskersonen.no"></a>
+		</li>
+		<li class="fo_ung">
+			<a href="//ung.forskning.no" target="_self" role="button" aria-label="logo for ung.forskning.no"></a>
+		</li>
+		<li class="sciencenorway">
+			<a href="//sciencenorway.no" target="_self" role="button" aria-label="logo for sciencenorway.no"></a>
+		</li>
+		<li class="forskning">
+			<a href="//forskning.no" target="_self" role="button" aria-label="logo for forskning.no"></a>
+		</li>
+	</ul>
+</nav>
+<div class="modal">
+    <div class="forskning">
+        <a href="//forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/forskning_logo.png" />
+        </a>
+        <p>Norske og internasjonale forskningsnyheter</p>
+    </div>
+    <div class="fo_ung">
+        <a href="//ung.forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/ung_logo.png" />
+        </a>
+        <p>Forskningsnyheter for unge</p>
+    </div>
+    <div class="sciencenorway">
+        <a href="//sciencenorway.no">
+            <img src="/view-resources/dachser2/public/forskning/sciencenorway_logo.png" />
+        </a>
+        <p>Science news from Norway in English</p>
+    </div>
+    <div class="sn_partner">
+        <a href="//partner.sciencenorway.no">
+            <img src="/view-resources/dachser2/public/forskning/partner_logo.png" />
+        </a>
+        <p>Science news from Norway in English</p>
+    </div>
+    <div class="fo_forskersonen">
+        <a href="//forskersonen.no">
+            <img src="/view-resources/dachser2/public/forskning/forskersonen_logo.png" />
+        </a>
+        <p>Meninger, debatt og blogger skrevet av forskere</p>
+    </div>
+    <div class="fo_blogg">
+        <a href="//blogg.forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/blogg_logo.png" />
+        </a>
+        <p>Meninger, debatt og blogger skrevet av forskere</p>
+    </div>
+    <div class="fo_stilling">
+        <a href="//stilling.forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/stilling_logo.png" />
+        </a>
+        <p>Forskning.nos stillingsmarked</p>
+    </div>
+</div>
+         </div>
+    </div>
+    <div class="header">
+        <div class="row large-12 small-12">
+                <a class="logo" href="&#x2F;&#x2F;sciencenorway.no">
+                        <img src="&#x2F;view-resources&#x2F;dachser2&#x2F;public&#x2F;forskning&#x2F;partner_logo.png" width="396" height="" alt="Sciencenorway.no" border="0" style="border: 0; display: block;" />
+                </a>
+
+            <div class="dac-hidden-desktop-down">
+<nav class="navigation 	 	mainMenu">
+	<ul>
+		<li class="">
+			<a href="//sciencenorway.no/health" target="_self" >Health</a>
+		</li>
+		<li class="">
+			<a href="//sciencenorway.no/society-culture" target="_self" >Society</a>
+		</li>
+		<li class="">
+			<a href="//sciencenorway.no/environment" target="_self" >Environment</a>
+		</li>
+		<li class="">
+			<a href="//sciencenorway.no/natural-sciences/" target="_self" >Natural Sciences</a>
+		</li>
+		<li class="">
+			<a href="//sciencenorway.no/researchers-zone" target="_self" >Researchers&#39; Zone</a>
+		</li>
+	</ul>
+</nav>            </div>
+
+            <button aria-label="Utvid meny" class="style-reset" id="dropdownMenuButton" href="#">
+        </div>
+    </div>
+
+    <div class="dropdownMenu">
+        <div class="dropdownMenuRow row noGrid large-12 small-12">
+            <form method="get" action="/cse">
+                <input id="search-bar" type="text" name="q" placeholder="Søk...">
+            </form>
+
+            <h4>You might be looking for...</h4>
+
+<nav class="navigation 	 	dropdownMenu">
+	<ul>
+		<li class="">
+			<span>Health</span>
+		</li>
+		<li class="">
+			<span>Society</span>
+		</li>
+		<li class="">
+			<span>Environment</span>
+		</li>
+		<li class="">
+			<span>Natural Science</span>
+		</li>
+		<li class="">
+			<span>Researchers&#39; Zone</span>
+		</li>
+	</ul>
+</nav>        </div>
+
+        <div class="dropdownMenuRow row noGrid large-12 small-12">
+<nav class="navigation 	 	bottomBarMenu">
+	<ul>
+		<li class="">
+			<a href="https://sciencenorway.no/advertise" target="_self" >Advertise with us</a>
+		</li>
+		<li class="">
+			<a href="https://sciencenorway.no/learn-to-write" target="_self" >Learn to write</a>
+		</li>
+		<li class="">
+			<a href="https://sciencenorway.no/contact" target="_self" >Contact us</a>
+		</li>
+		<li class="">
+			<a href="https://sciencenorway.no/about" target="_self" >About us</a>
+		</li>
+	</ul>
+</nav>        </div>
+
+        <div class="partners dac-hidden-desktop-up">
+
+<span class="topBarTitle">Oppdag våre andre nettsteder:</span>
+
+<nav class="navigation 	 	topBarMenu">
+	<ul>
+		<li class="fo_forskersonen">
+			<a href="//forskersonen.no" target="_self" role="button" aria-label="logo for forskersonen.no"></a>
+		</li>
+		<li class="fo_ung">
+			<a href="//ung.forskning.no" target="_self" role="button" aria-label="logo for ung.forskning.no"></a>
+		</li>
+		<li class="sciencenorway">
+			<a href="//sciencenorway.no" target="_self" role="button" aria-label="logo for sciencenorway.no"></a>
+		</li>
+		<li class="forskning">
+			<a href="//forskning.no" target="_self" role="button" aria-label="logo for forskning.no"></a>
+		</li>
+	</ul>
+</nav>
+<div class="modal">
+    <div class="forskning">
+        <a href="//forskning.no" >
+            <img src="/view-resources/dachser2/public/forskning/forskning_logo.png" alt="forskning.no. logo" />
+        </a>
+        <p>Norske og internasjonale forskningsnyheter</p>
+    </div>
+    <div class="fo_ung">
+        <a href="//ung.forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/ung_logo.png" alt="ung.forskning.no. logo" />
+        </a>
+        <p>Forskningsnyheter for unge</p>
+    </div>
+    <div class="sciencenorway">
+        <a href="//sciencenorway.no">
+            <img src="/view-resources/dachser2/public/forskning/sciencenorway_logo.png" alt="sciencenorway.no. logo" />
+        </a>
+        <p>Science news from Norway in English</p>
+    </div>
+    <div class="sn_partner">
+        <a href="//partner.sciencenorway.no">
+            <img src="/view-resources/dachser2/public/forskning/partner_logo.png" alt="partner.sciencenorway.no. logo" />
+        </a>
+        <p>Science news from Norway in English</p>
+    </div>
+    <div class="fo_forskersonen">
+        <a href="//forskersonen.no">
+            <img src="/view-resources/dachser2/public/forskning/forskersonen_logo.png" alt="forskersonen.no. logo" />
+        </a>
+        <p>Meninger, debatt og blogger skrevet av forskere</p>
+    </div>
+    <div class="fo_blogg">
+        <a href="//blogg.forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/blogg_logo.png" alt="blogg.forskning.no. logo" />
+        </a>
+        <p>Meninger, debatt og blogger skrevet av forskere</p>
+    </div>
+    <div class="fo_stilling">
+        <a href="//stilling.forskning.no">
+            <img src="/view-resources/dachser2/public/forskning/stilling_logo.png" alt="stilling.forskning.no. logo" />
+        </a>
+        <p>Forskning.nos stillingsmarked</p>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // Toggle dropdown menu
+            const dropdownMenuButton = document.querySelector('#dropdownMenuButton');
+            if(dropdownMenuButton) {
+                dropdownMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('.dropdownMenu').classList.toggle('visible');
+                    dropdownMenuButton.classList.toggle('open');
+                });
+            }
+
+            // Mobile dropdown menu items
+            let menuItems = document.querySelectorAll('nav.dropdownMenu > ul > li > span');
+            if(menuItems.length) {
+                for(let i = 0; i < menuItems.length; i++) {
+                    menuItems[i].addEventListener("click", function(e) {
+                        let parentLI = e.target.closest('li');
+                        if(parentLI.classList.contains('active')) {
+                            parentLI.classList.remove('active');
+                        } else {
+                            let active = document.querySelector('nav.dropdownMenu li.active');
+                            if(active) {
+                                active.classList.remove('active');
+                            }
+                            parentLI.classList.add('active');
+                        }
+                    });
+                }
+            }
+
+            // Topbar hover and modal
+            const modal = document.querySelector('#nav .topBar .modal');
+            const menu = document.querySelector('nav.topBarMenu ul');
+            if(menu) {
+                menu.addEventListener("mouseover", function(e) {
+                    if(e.target.tagName == 'LI') {
+                        modal.classList.add('visible');
+                        let item = modal.querySelector('.visible');
+                        if(item) {
+                            item.classList.remove('visible');
+                        }
+                        item = modal.querySelector('.' + e.target.className);
+                        if(item) {
+                            item.classList.add('visible');
+                        }
+                    }
+                }, false);
+                menu.addEventListener("mouseleave", function(e) {
+                    console.log(e.target.tagName);
+                    if(e.target.tagName == 'UL') {
+                        modal.classList.remove('visible');
+                    }
+                }, false);
+                modal.addEventListener("mouseover", function(e) {
+                    modal.classList.add('visible');
+                }, false);
+                modal.addEventListener("mouseleave", function(e) {
+                    modal.classList.remove('visible');
+                }, false);
+            }
+
+
+            // Main menu animation/sticky script
+            if ('IntersectionObserver' in window) {
+                var options = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0
+                };
+                var intersectingClass = 'top-position';
+                var callback = function(entries, observer) {
+                    if (!entries[0]) { return; }
+                    if (entries[0].isIntersecting) {
+                        document.body.classList.add(intersectingClass);
+                    } else {
+                        document.body.classList.remove(intersectingClass);
+                    }
+                };
+                var observer = new IntersectionObserver(callback, options);
+                var target = document.querySelector('#nav .topBar');
+                observer.observe(target);
+            }
+        }());
+    </script>
+</header>
+
+                
+
+
+
+
+        <article class="pageWidth">
+
+            <section class="main article">
+
+                
+                <div class="articleHeader column">
+
+    
+
+            <h2 class="kicker t22 bg-secondary">This article is produced and financed by the <span class="font-weight-bold" data-lab-font_weight_desktop="font-weight-bold">Norwegian University of Life Sciences (NMBU) </span><span class="font-weight-light" data-lab-font_weight_desktop="font-weight-light">- <a target="_blank" href="https://sciencenorway.no/norway-partner/partner-articles-on-sciencenorway/1561500">read more</a></span></h2>
+
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="1058" height="604" title="Researchers have discovered how saliva is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor." alt="Researchers have discovered how saliva is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor." src="https:&#x2F;&#x2F;image.forskning.no&#x2F;1784633.webp?imageId=1784633&amp;width=1058&amp;height=604" >
+        
+    </div>
+    <div data-showmore="Vis mer" class="caption">
+        <figcaption itemprop="caption">Researchers have discovered how saliva is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor.</figcaption>
+        <figcaption itemprop="author">(Photo: Voyagerix / Shutterstock / NTB)</figcaption>
+    </div>
+</figure>
+            <div class="floatingText"></div>
+        </div>
+
+
+        <h1 itemprop="headline" class="headline font-weight-bold t54 tm42">Scientists finally know how we make saliva</h1>
+
+            <h3 itemprop="description" class="subtitle font-weight-bold">
+            Researchers have discovered how saliva, which is very important for our digestion and health, is made. They predict that in the future, a saliva test may become as common as a blood test when you see your doctor.
+            </h3>
+
+    <div class="meta">
+    
+    <div class="bylines">
+        <div class="byline  column" itemscope itemtype="http://schema.org/Person">
+    <div class="content">
+            
+        <address class="name">
+            <a rel="author" itemprop="url name" href="/cdn-cgi/l/email-protection#aac7c5d8decfc484cfc6c6c3c4cdd9cfc4eac4c7c8df84c4c5"><span class="firstname">Morten Nordahl</span> <span class="lastname">Ellingsen</span> </a>
+            <span class="description">communication advisor</span> 
+        </address>
+    </div>
+</div>
+<div class="byline  column" itemscope itemtype="http://schema.org/Person">
+    <div class="content">
+            
+        <address class="name">
+            <span class="firstname">NMBU, Norwegian University of Life Sciences</span> 
+        </address>
+    </div>
+</div>
+
+    </div>
+    
+    <div class="dates">
+    
+        <span class="dateGroup datePublished">
+            <span class="dateLabel"></span>
+            <time datetime="1607842800" title=" sunday 13. December 2020 - 08:00">sunday 13. December 2020 - 08:00</time>
+        </span>
+    </div>
+
+    <div class="social">
+<a target="blank" href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fpartner.sciencenorway.no%2Fhealth-nmbu%2Fscientists-finally-know-how-we-make-saliva%2F1784611" class="fi-social-facebook"></a><a target="blank" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fpartner.sciencenorway.no%2Fhealth-nmbu%2Fscientists-finally-know-how-we-make-saliva%2F1784611" class="fi-social-twitter"></a><a target="blank" href="/cdn-cgi/l/email-protection#86b9f5f3e4ece3e5f2bbd5e5efe3e8f2eff5f2f5a3b4b6e0efe8e7eaeaffa3b4b6ede8e9f1a3b4b6eee9f1a3b4b6f1e3a3b4b6ebe7ede3a3b4b6f5e7eaeff0e7a0e4e9e2ffbbd4e3f5e3e7f4e5eee3f4f5a3b4b6eee7f0e3a3b4b6e2eff5e5e9f0e3f4e3e2a3b4b6eee9f1a3b4b6f5e7eaeff0e7a3b4c5a3b4b6f1eeefe5eea3b4b6eff5a3b4b6f0e3f4ffa3b4b6efebf6e9f4f2e7e8f2a3b4b6e0e9f4a3b4b6e9f3f4a3b4b6e2efe1e3f5f2efe9e8a3b4b6e7e8e2a3b4b6eee3e7eaf2eea3b4c5a3b4b6eff5a3b4b6ebe7e2e3a8a3b4b6d2eee3ffa3b4b6f6f4e3e2efe5f2a3b4b6f2eee7f2a3b4b6efe8a3b4b6f2eee3a3b4b6e0f3f2f3f4e3a3b4c5a3b4b6e7a3b4b6f5e7eaeff0e7a3b4b6f2e3f5f2a3b4b6ebe7ffa3b4b6e4e3e5e9ebe3a3b4b6e7f5a3b4b6e5e9ebebe9e8a3b4b6e7f5a3b4b6e7a3b4b6e4eae9e9e2a3b4b6f2e3f5f2a3b4b6f1eee3e8a3b4b6ffe9f3a3b4b6f5e3e3a3b4b6ffe9f3f4a3b4b6e2e9e5f2e9f4a8a3b6c2eef2f2f6f5a3b5c7a3b4c0a3b4c0f6e7f4f2e8e3f4a8f5e5efe3e8e5e3e8e9f4f1e7ffa8e8e9a3b4c0eee3e7eaf2eeabe8ebe4f3a3b4c0f5e5efe3e8f2eff5f2f5abe0efe8e7eaeaffabede8e9f1abeee9f1abf1e3abebe7ede3abf5e7eaeff0e7a3b4c0b7b1beb2b0b7b7" class="fi-mail"></a>    </div>
+
+
+</div>
+
+</div>
+
+                
+                <div class="bodytext large-12 small-12 "><p class="MsoNormal">Saliva plays a key role in our oral cavity. It is a fluid with a complex composition that consists of mucus, water, proteins, enzymes and several other substances, each of which has its own function.</p><p class="MsoNormal">Saliva makes it easier to taste, swallow and digest food, it protects our teeth and it kills some bacteria we would rather not have in our bodies.</p><p class="MsoNormal">But how does the body make saliva?</p><p class="MsoNormal">To investigate this, the researchers decided to map the saliva and all the genes in the saliva of 25 people.</p><div class="column image large-4 small-12 floatRight">
+    <figure class="">
+        
+            
+            <img itemprop="image" width="353" height="410" loading="lazy" title="" alt="" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;1784626.webp?imageId=1784626&amp;x=0&amp;y=0&amp;cropw=100&amp;croph=100&amp;width=353&amp;height=410" >
+            
+            
+        
+        <div data-showmore="Vis mer" class="caption">
+            <figcaption itemprop="caption"></figcaption>
+            <figcaption itemprop="author"></figcaption>
+        </div>
+    </figure>
+</div>
+<p class="MsoNormal">"We found how human saliva is made by the corporation of three types of salivary glands", says postdoctoral fellow Marie Saitou at the Department of Animal and Aquaculture Sciences at Norwegian University of Life Sciences (NMBU).</p><p class="MsoNormal">She is the lead author of <a href="https://www.cell.com/cell-reports/fulltext/S2211-1247(20)31391-7">a report recently published in Cell Report</a> together with other researchers at University at Buffalo and University of California, San Francisco</p><h2 class="MsoNormal">The salivary glands have different functions</h2><p class="MsoNormal">Saitou talks about the three major salivary glands: the parotid gland, the submandibular gland and the sublingual salivary gland. We have a pair each of these, and it is they that produce most of our saliva.</p><p class="MsoNormal">What we did not know was which genes are active in which salivary glands. We also did not know which cell types produce the various constituents in saliva and in which glands they are produced.</p><p class="MsoNormal">The genes found in saliva provide the recipe for how each gland should produce its share of saliva. By mapping all the genes in the three glands, it turned out that each gland makes different parts of the saliva. It is thus not the case that all the salivary glands produce the same fluid. Many a little makes the mickle that is our saliva.</p><p class="MsoNormal">For example, the researchers found that the sublingual salivary gland produces almost none of the enzyme needed to digest starch. The other two glands take care of that. The sublingual salivary gland, on the other hand, produces most of a type of mucus that protects us from infections. The parotid gland does not contribute anything to this.</p><h2 class="MsoNormal">Saliva can be used to identify disease</h2><p class="MsoNormal">Our saliva turns out to be quite similar from person to person, at least among healthy people. It is useful to have such a "standard" that says how your saliva should preferably be. It makes it possible to use saliva to find out if something is wrong.</p><p class="MsoNormal">"Now that we know how healthy salivary glands produce saliva, we could use saliva in health scans to identify molecular markers of signs of diseases in the future", says Marie Saitou.</p><p class="MsoNormal">In the future, a saliva test may become as common as a blood test when you see your doctor. When there is a saliva sample that differs from the "healthy saliva standard", it may indicate that something is wrong or that you are in the process of developing a disease. This can be used, for example, to find diseases of the oral cavity, various types of cancer and some auto immune diseases.</p><h2 class="MsoNormal">Fetuses also makes saliva</h2><p class="MsoNormal">The researchers also examined whether there are any differences between fetuses and adults.</p><p class="MsoNormal">The salivary glands are developed quite early in pregnancy, long before for the infant needs to taste and eat and digest something. The researchers examined the development in the fetuses at 22 - 23 weeks.</p><p class="MsoNormal">"We found that hundreds of genes are actively working in baby salivary glands before they start eating", says Marie Saitou.</p><p class="MsoNormal">This suggests that saliva has other important functions for fetuses and infants, related to growth and development, which is yet to be discovered.</p><p class="MsoNormal">At this stage in pregnancy, all the different salivary glands make the same saliva.</p><p class="MsoNormal">"We found that the three types of salivary glands are functionally differentiated in adults but have yet to be differentiated in babies though they are anatomically separated", says Marie Saitou.</p><p class="MsoNormal">There is a development where our salivary glands go from working quite similarly to having their own special areas.</p><h2 class="MsoNormal">Can be used in animal research</h2><p class="MsoNormal">Saitou will now work further with this knowledge to investigate how this works in livestock and fish, as a member of the <a href="https://cigene.no/">CIGENE Research group</a> at NMBU.</p><p class="MsoNormal">"For example, I will look at how dietary change associated with domestication has driven the evolution of salivary glands in domestic animal or the biological mechanism of other types of bodily fluids such as mammary glands which produce milk", says Saitou.</p><div class="columns btxt_row row grid large-8 small-12 floatLeft">
+
+    <article class="column large-12 small-12 large-abs-8 " data-site-alias="" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content bg-native-secondary-light">
+        <a itemprop="url" class="" href="&#x2F;norway-partner&#x2F;partner-articles-on-sciencenorway&#x2F;1561500">
+        
+
+
+        <div class="media">
+                <figure class=" floatLeft  ">
+    <div class="img">
+        <img itemprop="image" width="314" height="225" loading="lazy" title="This article is produced and financed by NMBU" alt="This article is produced and financed by NMBU" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;1565556.webp?imageId=1565556&amp;x=0&amp;y=0&amp;cropw=100&amp;croph=100&amp;width=314&amp;height=225" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t26 tm28">This article is produced and financed by NMBU</h2>
+
+            <p itemprop="description" class="subtitle t16 tm16">
+            NMBU, the Norwegian University of Life Sciences is one of 77 owners of ScienceNorway.no. Its communication staff provide content to forskning.no. We label this content clearly to distinguish institutional outreach from independent editorial content. Read more about this arrangement.
+            </p>
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-12 small-12 large-abs-8 label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="&#x2F;animals-nmbu&#x2F;where-the-wild-things-are-scientists-map-and-forecast-apex-predator-populations-at-unprecedented-scale&#x2F;1771822">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="700" height="399" loading="lazy" title="Where the wild things are: Scientists map and forecast apex predator populations at unprecedented scale" alt="Where the wild things are: Scientists map and forecast apex predator populations at unprecedented scale" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;1771844.webp?imageId=1771844&amp;x=0&amp;y=10.32967032967&amp;cropw=100&amp;croph=87.692307692308&amp;width=700&amp;height=399" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+            <div  class="kicker ">Norwegian University of Life Sciences (NMBU)</div>
+
+        <h2 itemprop="headline"  class="headline ">Where the wild things are: Scientists map and forecast apex predator populations at unprecedented scale</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-4 label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="&#x2F;algae-biology-natural-sciences&#x2F;lake-detective-the-hunt-for-the-lakes-of-the-past&#x2F;1751945">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="337" height="194" loading="lazy" title="Lake Detective: The hunt for the lakes of the past" alt="Lake Detective: The hunt for the lakes of the past" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;1751958.webp?imageId=1751958&amp;x=0&amp;y=0&amp;cropw=100&amp;croph=88.584474885845&amp;width=337&amp;height=194" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+            <div  class="kicker ">Norwegian University of Life Sciences (NMBU)</div>
+
+        <h2 itemprop="headline"  class="headline ">Lake Detective: The hunt for the lakes of the past</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-4 label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="&#x2F;agriculture-endangered-species-environment&#x2F;coconut-oil-threatens-more-species-than-palm-oil&#x2F;1708126">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="337" height="194" loading="lazy" title="Coconut oil threatens more species than palm oil" alt="Coconut oil threatens more species than palm oil" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;1708140.webp?imageId=1708140&amp;x=0&amp;y=0&amp;cropw=100&amp;croph=71.851851851852&amp;width=337&amp;height=194" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+            <div  class="kicker ">Norwegian University of Life Sciences (NMBU)</div>
+
+        <h2 itemprop="headline"  class="headline ">Coconut oil threatens more species than palm oil</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+
+</div>
+
+</div>
+                <div class="column articleFooter">
+    <span class="tags">
+    <a href="/tag/nmbu">nmbu</a>
+    
+    <a href="/tag/partner">partner</a>
+    
+    <a href="/tag/health">health</a>
+    </span>
+    
+    
+</div>
+
+
+                <div class="row social">
+                    <div class="column large-6 small-6">
+<a target="blank" href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fpartner.sciencenorway.no%2Fhealth-nmbu%2Fscientists-finally-know-how-we-make-saliva%2F1784611" class="fi-social-facebook"></a><a target="blank" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fpartner.sciencenorway.no%2Fhealth-nmbu%2Fscientists-finally-know-how-we-make-saliva%2F1784611" class="fi-social-twitter"></a><a target="blank" href="/cdn-cgi/l/email-protection#427d313720282721367f11212b272c362b313631677072242b2c232e2e3b677072292c2d356770722a2d3567707235276770722f23292767707231232e2b342364202d263b7f102731272330212a2730316770722a233427677072262b31212d34273027266770722a2d3567707231232e2b3423677001677072352a2b212a6770722b316770723427303b6770722b2f322d3036232c36677072242d306770722d3730677072262b252731362b2d2c677072232c266770722a27232e362a6770016770722b316770722f2326276c677072162a273b677072323027262b2136677072362a23366770722b2c677072362a276770722437363730276770016770722367707231232e2b3423677072362731366770722f233b6770722027212d2f276770722331677072212d2f2f2d2c677072233167707223677072202e2d2d2667707236273136677072352a272c6770723b2d376770723127276770723b2d3730677072262d21362d306c6772062a36363231677103677004677004322330362c27306c31212b272c21272c2d3035233b6c2c2d6770042a27232e362a6f2c2f203767700431212b272c362b3136316f242b2c232e2e3b6f292c2d356f2a2d356f35276f2f2329276f31232e2b342367700473757a76747373" class="fi-mail"></a>                    </div>
+                </div>
+
+
+            </section>
+            
+        </article>
+        <section class="related">
+        <div class="row large-12">
+    <div class="front_rows large-12 small-12 ">
+        
+<!-- placeholder(#1) -->
+<div class="row large-12">
+    <div class="front_rows large-12 small-12 ">
+        
+<!-- placeholder(#1) -->
+<div class="row large-12">
+    <article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;dinosaurs-oil-and-gas&#x2F;no-oil-does-not-come-from-dinosaurs&#x2F;2024040">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="No, oil does not come from dinosaurs" alt="No, oil does not come from dinosaurs" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2019805.jpg?imageId=2019805&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">No, oil does not come from dinosaurs</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;government-research-science-policy&#x2F;minister-forces-resignation-of-the-board-of-the-research-council-of-norway-this-is-about-whether-ten-year-olds-with-cancer-diagnoses-should-live-or-die-says-rector&#x2F;2025849">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Minister forces resignation of the board of the Research Council of Norway. “This is about whether ten-year-olds with cancer diagnoses should live or die” says rector" alt="Minister forces resignation of the board of the Research Council of Norway. “This is about whether ten-year-olds with cancer diagnoses should live or die” says rector" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2025858.jpg?imageId=2025858&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=7.9617834394904&amp;heightw=28.591649681529&amp;heighth=99.847794520548&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Minister forces resignation of the board of the Research Council of Norway. “This is about whether ten-year-olds with cancer diagnoses should live or die” says rector</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;diseases-medicine-migraines&#x2F;patients-are-being-forced-to-take-regular-breaks-from-effective-migraine-medicine-but-how-do-these-expensive-injections-really-work&#x2F;2024748">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Patients are being forced to take regular breaks from effective migraine medicine. But how do these expensive injections really work?" alt="Patients are being forced to take regular breaks from effective migraine medicine. But how do these expensive injections really work?" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2019171.jpg?imageId=2019171&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Patients are being forced to take regular breaks from effective migraine medicine. But how do these expensive injections really work?</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;archaeology-history-medieval-history&#x2F;mysterious-medieval-moat-found-in-the-middle-of-oslo-could-suggest-a-desperate-need-for-defense&#x2F;2024639">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="Mysterious medieval moat found in the middle of Oslo: "Could suggest a desperate need for defense"" alt="Mysterious medieval moat found in the middle of Oslo: "Could suggest a desperate need for defense"" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2018073.jpg?imageId=2018073&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">Mysterious medieval moat found in the middle of Oslo: "Could suggest a desperate need for defense" </h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;children-childrens-health-physical-activity&#x2F;norwegian-health-director-to-parents-do-not-use-a-screen-as-a-babysitter&#x2F;2024494">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="Norwegian health director to parents: “Do not use a screen as a babysitter”" alt="Norwegian health director to parents: “Do not use a screen as a babysitter”" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2023426.jpg?imageId=2023426&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0.15220547945205&amp;heightx=42.922374429224&amp;heightw=40.994420091324&amp;heighth=99.847794520548&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">Norwegian health director to parents: “Do not use a screen as a babysitter”</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-4 small-12 large-abs-4 tag-researchers-zone " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;environment-fashion-opinion&#x2F;hit-them-where-it-hurts-producers-of-fast-fashion-should-pay-the-most&#x2F;2023959">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Hit them where it hurts: Producers of fast fashion should pay the most" alt="Hit them where it hurts: Producers of fast fashion should pay the most" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2023967.jpg?imageId=2023967&amp;panox=0&amp;panoy=39.830508474576&amp;panow=100&amp;panoh=60.169491525424&amp;heighty=0&amp;heightx=0&amp;heightw=34.48275862069&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Hit them where it hurts: Producers of fast fashion should pay the most</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;alcohol-alcohol-consumption-death&#x2F;many-dead-people-have-alcohol-in-their-blood-even-though-they-didnt-drink-before-dying&#x2F;2021475">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Many dead people have alcohol in their blood even though they didn't drink before dying" alt="Many dead people have alcohol in their blood even though they didn't drink before dying" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2021482.jpg?imageId=2021482&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0.15220547945205&amp;heightx=12.549019607843&amp;heightw=35.20697254902&amp;heighth=99.847794520548&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Many dead people have alcohol in their blood even though they didn't drink before dying</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;autism-childrens-health-diseases&#x2F;risk-of-autism-seven-times-higher-in-norwegian-children-with-immigrant-mothers&#x2F;2013301">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Risk of autism seven times higher in Norwegian children with immigrant mothers" alt="Risk of autism seven times higher in Norwegian children with immigrant mothers" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2010752.jpg?imageId=2010752&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Risk of autism seven times higher in Norwegian children with immigrant mothers</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row bg-secondary large-12">
+    <article class="column large-6 small-12 large-abs-6 is_siblingsite label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;partner.sciencenorway.no&#x2F;fish-salmon-university-of-oslo&#x2F;we-should-use-more-of-the-fish-for-human-consumption&#x2F;2024014">
+        
+            <div  class="kicker above t19 tm19">University of Oslo</div>
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="529" height="239" loading="lazy" title="We should use more of the fish for human consumption" alt="We should use more of the fish for human consumption" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2024027.jpg?imageId=2024027&amp;panow=99.893674641148&amp;panoh=59.47712605042&amp;panox=0.10632535885167&amp;panoy=40.52287394958&amp;heightw=100&amp;heighth=100&amp;heightx=0&amp;heighty=0&amp;width=529&amp;height=239" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">We should use more of the fish for human consumption</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-6 is_siblingsite label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;partner.sciencenorway.no&#x2F;health-health-care-health-policy&#x2F;healthy-and-successful-people-are-the-least-willing-to-support-the-public-health-care-system&#x2F;2021396">
+        
+            <div  class="kicker above t19 tm19">NTNU Norwegian University of Science and Technology</div>
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="529" height="239" loading="lazy" title="Healthy and successful people are the least willing to support the public health care system" alt="Healthy and successful people are the least willing to support the public health care system" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2021410.jpg?imageId=2021410&amp;panow=100&amp;panoh=100&amp;panox=0&amp;panoy=0&amp;heightw=100&amp;heighth=100&amp;heightx=0&amp;heighty=0&amp;width=529&amp;height=239" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Healthy and successful people are the least willing to support the public health care system</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row bg-secondary large-12">
+    <article class="column large-6 small-12 large-abs-6 is_siblingsite label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;partner.sciencenorway.no&#x2F;cars-and-traffic-road-safety-university-of-agder&#x2F;crash-tests-show-that-proper-repair-is-crucial-for-safety&#x2F;2014760">
+        
+            <div  class="kicker above t19 tm19">University of Agder</div>
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="529" height="239" loading="lazy" title="Crash tests show that proper repair is crucial for safety" alt="Crash tests show that proper repair is crucial for safety" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2014768.jpg?imageId=2014768&amp;panow=98.130841121495&amp;panoh=49.65034965035&amp;panox=0&amp;panoy=12.192097902098&amp;heightw=100&amp;heighth=100&amp;heightx=0&amp;heighty=0&amp;width=529&amp;height=239" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Crash tests show that proper repair is crucial for safety</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-6 is_siblingsite label-partner " data-site-alias="sn_partner" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;partner.sciencenorway.no&#x2F;bees-insects-nibio&#x2F;pollinators-feed-the-world-now-they-need-our-help&#x2F;2018854">
+        
+            <div  class="kicker above t19 tm19">NIBIO - Norwegian Institute of Bioeconomy Research</div>
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="529" height="239" loading="lazy" title="Pollinators feed the world - now they need our help" alt="Pollinators feed the world - now they need our help" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2018862.jpg?imageId=2018862&amp;panow=99.893674641148&amp;panoh=60.493829059829&amp;panox=0&amp;panoy=29.91452991453&amp;heightw=34.529915384615&amp;heighth=99.847794520548&amp;heightx=16.538461538462&amp;heighty=0.15220547945205&amp;width=529&amp;height=239" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Pollinators feed the world - now they need our help</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;academia&#x2F;critical-colleagues-may-prevent-researchers-from-stepping-into-the-public-eye&#x2F;2021926">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="Critical colleagues may prevent researchers from stepping into the public eye" alt="Critical colleagues may prevent researchers from stepping into the public eye" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2021948.jpg?imageId=2021948&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0.15220547945205&amp;heightx=23.287671232877&amp;heightw=40.994420091324&amp;heighth=99.847794520548&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">Critical colleagues may prevent researchers from stepping into the public eye</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;alcohol-diseases-the-heart&#x2F;alcohol-doesnt-prevent-heart-disease&#x2F;2021539">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="Alcohol doesn’t prevent heart disease" alt="Alcohol doesn’t prevent heart disease" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2018923.jpg?imageId=2018923&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">Alcohol doesn’t prevent heart disease</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;historie-humanities&#x2F;the-nightman-emptied-the-toilets-of-the-city-in-the-17th-century-it-was-dirty-work-and-his-kids-were-considered-dirty-too&#x2F;2020947">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="The nightman emptied the toilets of the city in the 17th century. It was dirty work, and his kids were considered dirty too" alt="The nightman emptied the toilets of the city in the 17th century. It was dirty work, and his kids were considered dirty too" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2020980.jpg?imageId=2020980&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">The nightman emptied the toilets of the city in the 17th century. It was dirty work, and his kids were considered dirty too</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;exercise-injuries-running&#x2F;this-is-the-best-treatment-for-achilles-tendon-ruptures&#x2F;2019156">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="This is the best treatment for Achilles tendon ruptures" alt="This is the best treatment for Achilles tendon ruptures" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2019167.jpg?imageId=2019167&amp;panox=0&amp;panoy=12.605042016807&amp;panow=99.893674641148&amp;panoh=59.47712605042&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">This is the best treatment for Achilles tendon ruptures</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;economy&#x2F;new-norwegian-debt-register-saves-more-people-from-the-debt-trap&#x2F;2017790">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="New Norwegian debt register saves more people from the debt trap" alt="New Norwegian debt register saves more people from the debt trap" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2017797.jpg?imageId=2017797&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">New Norwegian debt register saves more people from the debt trap</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;aquaculture-fish-fish-farming&#x2F;electric-fence-against-salmon-lice&#x2F;2017748">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="Electric fence against salmon lice" alt="Electric fence against salmon lice" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2017756.jpg?imageId=2017756&amp;panox=0&amp;panoy=0&amp;panow=99.893674641148&amp;panoh=59.47712605042&amp;heighty=0.15220547945205&amp;heightx=22.352941176471&amp;heightw=35.20697254902&amp;heighth=99.847794520548&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">Electric fence against salmon lice</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;geology-mars-space-research&#x2F;the-key-to-understanding-the-surface-of-mars-is-stored-in-oslo&#x2F;2017496">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="The key to understanding the surface of Mars is stored in Oslo" alt="The key to understanding the surface of Mars is stored in Oslo" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2017517.jpg?imageId=2017517&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">The key to understanding the surface of Mars is stored in Oslo</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-4 small-12 large-abs-4 tag-researchers-zone " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;gender-opinion-researchers-zone&#x2F;ukrainian-women-engage-in-resistance-and-should-be-in-the-peace-talks&#x2F;2019035">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Ukrainian women engage in resistance and should be in the peace talks" alt="Ukrainian women engage in resistance and should be in the peace talks" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2019194.jpg?imageId=2019194&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Ukrainian women engage in resistance and should be in the peace talks</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;covid19-health&#x2F;hugs-are-back-in-norway&#x2F;2017763">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Hugs are back in Norway" alt="Hugs are back in Norway" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2017770.jpg?imageId=2017770&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Hugs are back in Norway</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-4 small-12 large-abs-4 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;bacteria-blood&#x2F;do-we-have-bacteria-that-live-in-our-blood&#x2F;2015432">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="334" height="228" loading="lazy" title="Do we have bacteria that live in our blood?" alt="Do we have bacteria that live in our blood?" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2010774.jpg?imageId=2010774&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=334&amp;height=228" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t32 tm28">Do we have bacteria that live in our blood?</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+<div class="row large-12">
+    <article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;cardiovascular-disease-covid19-vaccines&#x2F;nordic-study-confirms-rare-side-effect-from-covid-vaccination-in-young-men&#x2F;2017407">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="Nordic study confirms rare side effect from Covid vaccination in young men" alt="Nordic study confirms rare side effect from Covid vaccination in young men" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2017419.jpg?imageId=2017419&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">Nordic study confirms rare side effect from Covid vaccination in young men</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article><article class="column large-6 small-12 large-abs-6 " data-site-alias="sciencenorway" itemscope itemtype="http://schema.org/NewsArticle">
+    <div class="content">
+        <a itemprop="url" class="" href="https:&#x2F;&#x2F;sciencenorway.no&#x2F;politics-russia-security&#x2F;how-will-russia-respond-to-a-nato-application-from-sweden-and-finland&#x2F;2017101">
+        
+
+
+        <div class="media">
+                <figure class="   ">
+    <div class="img">
+        <img itemprop="image" width="514" height="294" loading="lazy" title="How will Russia respond to a NATO application from Sweden and Finland?" alt="How will Russia respond to a NATO application from Sweden and Finland?" src="https:&#x2F;&#x2F;image.forskning.no&#x2F;2017117.jpg?imageId=2017117&amp;panox=0&amp;panoy=0&amp;panow=100&amp;panoh=100&amp;heighty=0&amp;heightx=0&amp;heightw=100&amp;heighth=100&amp;width=514&amp;height=294" >
+        
+    </div>
+    
+</figure>
+
+
+            <div class="floatingText"><div class="labels"> </div></div>
+        </div>
+        
+
+
+        <h2 itemprop="headline"  class="headline t38 tm28">How will Russia respond to a NATO application from Sweden and Finland?</h2>
+
+
+
+        </a>
+        
+    </div>
+  </article>
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+        </section>
+
+        <footer class="page">
+    <div class="row-section bg-black spaceOutsideTop-none spaceOutsideBottom-none spaceInsideBottom-large">
+<div class="row large-12">
+    <div class="column text_multiline bodytext large-4 small-12 ">
+    <div class="content">
+        <h3><b>About Sciencenorway.no</b></h3><p>Sciencenorway.no brings you science news from Norway.<br>This is the English version of forskning.no, Norway’s independent, online newspaper on science.</p><p class="MsoNormal"><a href="https://sciencenorway.no/about-sciencenorway-science-communication/privacy-policy/1571044">Privacy policy</a></p><p class="MsoNormal">ScienceNorway.no follows <a href="https://www.nored.no/Redaktoerplakaten/Redaktoerplakaten/Redaktoerplakaten-engelsk" target="_blank">the Norwegian Editor’s Code</a> and <a href="https://presse.no/pfu/etiske-regler/vaer-varsom-plakaten/vvpl-engelsk/" target="_blank">the Code of Ethics of the Norwegian Press</a>.</p>
+    </div>
+</div>
+<div class="column text_multiline bodytext large-4 small-12 ">
+    <div class="content">
+        <h3><span class=" bold">Contact us</span></h3><p><span class=" bold"></span>Editor-in-chief: Nina Kristiansen<br>+47 414 55 513 / <a href="/cdn-cgi/l/email-protection#d5bbbcbbb495b3baa7a6bebbbcbbb2fbbbba"><span class="__cf_email__" data-cfemail="66080f080726000914150d080f0801480809">[email&#160;protected]</span></a><br>Assistant editor: Ida Irene Bergstrøm<br><a href="/cdn-cgi/l/email-protection#f69f9297b6909984859d989f9891d89899"><span class="__cf_email__" data-cfemail="adc4c9ccedcbc2dfdec6c3c4c3ca83c3c2">[email&#160;protected]</span></a><br>Ads and market: Preben Forberg<br>+47 413 10 879 / <a href="/cdn-cgi/l/email-protection#1565677077707b55737a67667e7b7c7b723b7b7a"><span class="__cf_email__" data-cfemail="4a3a382f282f240a2c253839212423242d642425">[email&#160;protected]</span></a><br>Address: Sandakerveien 24 C / D3, Oslo, Norway</p>
+    </div>
+</div>
+<div class="columns large-4 small-12"><div class="row large-12 small-12">
+    <div class="column text_multiline bodytext large-12 small-12 ">
+    <div class="content">
+        <h2><span class=" white" data-lab-text_color_desktop="white">Follow us</span></h2>
+    </div>
+</div>
+<div class="markupbox column large-12 small-12">
+    <div class="content  ">
+        
+        <div class="social">
+            <p>
+                <a style="background-image: url(/view-resources/public/forskning/facebook.png)"href="https://www.facebook.com/sciencenorway/">/Sciencenorway.no</a>
+            </p>
+<p>
+                <a style="background-image: url(/view-resources/public/forskning/twitter.png)" href="https://twitter.com/Sciencenorwayno">@Sciencenorwayno</a>
+            </p>
+            <p>
+                <a style="background-image: url(/view-resources/public/forskning/facebook.png)" href="https://www.facebook.com/forskning.no">/forskning.no</a>
+            </p>
+       
+
+</div>
+        
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<div class="row-section bg-gray spaceOutsideBottom-none">
+<div class="row row_header large-12">
+    <h5 class="row_header_text large-12 small-12 ">Owners of Sciencenorway.no and forskning.no</h5>
+    <div class="column text_multiline bodytext large-4 small-12 ">
+    <div class="content">
+        <ul><li><span class="white"></span> <a href="https://www.akvaplan.niva.no/en/home/">Akvaplan-niva</a></li><li><a href="https://partner.sciencenorway.no/tag/bi" target="_blank">BI Norwegian Business School</a></li><li><a href="https://vestreviken.no/vestre-viken-hospital-trust" aria-label="">Department of Mental Health Research and Development, Division of Mental Health and Addiction | Vestre Viken Health Trust</a></li><li><a href="https://hkdir.no/norwegian-directorate-for-higher-education-and-skills" aria-label="">Directorate for Higher Education and Skills</a></li><li><a href="https://www.fhf.no/fhf/about-fhf-english/" aria-label="">FHF – Norwegian Seafood Research Fund</a></li><li><a href="https://partner.sciencenorway.no/tag/ngu" target="_blank">Geological Survey of Norway</a></li><li><a href="https://partner.sciencenorway.no/tag/inland" target="_blank">Inland Norway University of Applied Sciences</a></li><li><a href="https://sykehuset-innlandet.no/om-oss/jobb-i-sykehuset-innlandet/innlandet-hospital-trust" aria-label="">Innlandet Hospital trust</a></li><li><a href="https://ruralis.no/en/" aria-label="">Institute for Rural and Regional Research</a></li><li><a href="https://partner.sciencenorway.no/tag/institute%20for%20social%20research" target="_blank">Institute for Social Research</a></li><li><a href="https://partner.sciencenorway.no/tag/institute-marine-research" target="_blank">Institute of Marine Research (IMR)</a></li><li><a href="https://www.kristiania.no/en/" aria-label="">Kristiania University College</a></li><li><a href="https://www.ks.no/om-ks/ks-in-english/" aria-label="">KS Research and development</a></li><li><a href="https://www.himolde.no/english/" aria-label="">Molde University College</a></li><li><a href="https://www.nb.no/en/the-national-library-of-norway/" aria-label="">National Library of Norway</a></li><li><a href="https://partner.sciencenorway.no/tag/nhh" target="_blank">NHH Norwegian School of Economics</a></li><li><a href="https://partner.sciencenorway.no/tag/niku" target="_blank">NIKU - Norwegian Institute for Cultural Heritage Research</a></li><li><a href="https://partner.sciencenorway.no/tag/nilu" target="_blank">NILU – Norwegian Institute for Air Research</a></li><li><a href="https://partner.sciencenorway.no/tag/nla%20university%20college" target="_blank">NLA University College</a></li><li><a href="https://partner.sciencenorway.no/tag/nofima" target="_blank">Nofima</a></li><li>NOKUT Norwegian Agency for Quality Assurance in Education</li><li><a href="https://partner.sciencenorway.no/tag/nord%20university" target="_blank">Nord University</a></li><li>Nordland Research Institute</li><li><a href="https://partner.sciencenorway.no/norwegian-biodiversity-information-centre" target="_blank">Norwegian Biodiversity Information Centre (NBIC)</a></li><li>Norwegian Cancer Society</li><li><a href="https://partner.sciencenorway.no/tag/e-health-research" target="_blank">Norwegian Centre for E-health Research</a></li><li>Norwegian Centre for Organic Agriculture <span class="white"></span></li></ul>
+    </div>
+</div>
+<div class="column text_multiline bodytext large-4 small-12 ">
+    <div class="content">
+        <ul><li><span class="white"></span> <a href="https://partner.sciencenorway.no/tag/nkvts" target="_blank">Norwegian Centre for Violence and Traumatic Stress Studies (NKVTS)</a></li><li>Norwegian Computing Center</li><li><a href="https://partner.sciencenorway.no/tag/norwegian-defence-research" target="_blank">Norwegian Defence Research Establishment (FFI)</a></li><li><a href="https://partner.sciencenorway.no/tag/nina" target="_blank">Norwegian Institute for Nature Research (NINA)</a></li><li><a href="https://partner.sciencenorway.no/tag/niva" target="_blank">Norwegian Institute for Water Research (NIVA)</a></li><li><a href="https://partner.sciencenorway.no/tag/nibio" target="_blank">Norwegian Institute of Bioeconomy Research (NIBIO)</a></li><li><a href="https://partner.sciencenorway.no/tag/nupi" target="_blank">Norwegian Institute of International Affairs (NUPI)</a></li><li>Norwegian National Advisory Unit on Ageing and Health</li><li>Norwegian National Advisory Unit on Women’s Health</li><li>Norwegian National Association for Public Health</li><li>Norwegian Polar Institute</li><li><a href="https://partner.sciencenorway.no/tag/norwegian-school-of-sport-sciences" target="_blank">Norwegian School of Sports Sciences</a></li><li>Norwegian Space Agency</li><li><a href="https://partner.sciencenorway.no/tag/nmbu" target="_blank">Norwegian University of Life Sciences (NMBU)</a></li><li><a href="https://partner.sciencenorway.no/tag/norwegian-veterinary-institute" target="_blank">Norwegian Veterinary Institute</a></li><li><a href="https://www.nsd.no/en">NSD - Norwegian centre for research data</a></li><li><a href="https://partner.sciencenorway.no/tag/ntnu" target="_blank">NTNU Norwegian University of Science and Technology</a></li><li>Oral Health Centres of Expertise</li><li><a href="https://partner.sciencenorway.no/tag/oslomet" target="_blank">Oslo Metropolitan University</a></li><li>R&amp;D management, Norwegian Public Roads Administration</li><li>Regional Center for Child and Adolescent Mental Health, Eastern and Southern Norway (RBUP)</li><li>Simula Research Laboratory</li><li><a href="https://partner.sciencenorway.no/tag/sintef" target="_blank">SINTEF</a></li></ul>
+    </div>
+</div>
+<div class="column text_multiline bodytext large-4 small-12 ">
+    <div class="content">
+        <ul><li>Telemark Research Institute (TRI)</li><li><a href="https://partner.sciencenorway.no/tag/cas%20centre%20for%20advanced%20study" target="_blank">The Centre for Advanced Study (CAS)</a></li><li>The Fafo Institute for Labour and Social Research</li><li><a href="https://partner.sciencenorway.no/tag/fram-centre" target="_blank">The Fram Centre</a></li><li>The Narvik War and Peace Centre</li><li>The Norwegian Center for Child Behavioral Development (NUBU)</li><li>The Norwegian Center for Holocaust and Minority Studies</li><li><a href="https://partner.sciencenorway.no/tag/ngi" target="_blank">The Norwegian Geotechnical Institute</a></li><li><a href="https://partner.sciencenorway.no/tag/norwegian%20meteorological%20institute" target="_blank">The Norwegian Meteorological Institute</a></li><li><a href="https://partner.sciencenorway.no/the-norwegian-national-research-ethics-committees" target="_blank">The Norwegian National Research Ethics Committees</a></li><li><a href="https://partner.sciencenorway.no/tag/norwegian-scientific-committee-food-environment" target="_blank">The Norwegian Scientific Committee for Food and Environment</a></li><li><a href="https://partner.sciencenorway.no/tag/glacial%20geology" target="_blank">The Norwegian Water Resources and Energy Directorate</a></li><li>The Regional Research Funds in Norway</li><li><a href="https://partner.sciencenorway.no/tag/research-council-of-norway" target="_blank">The Research Council of Norway</a></li><li><a href="https://partner.sciencenorway.no/tag/unis" target="_blank">The University Centre in Svalbard</a></li><li><a href="https://partner.sciencenorway.no/tag/uit-arctic-university" target="_blank">UiT The Arctic University of Norway</a></li><li>University College of Norwegian Correctional Service</li><li><a href="https://partner.sciencenorway.no/tag/university%20of%20agder" target="_blank">University of Agder</a></li><li><a href="https://partner.sciencenorway.no/tag/university-of-bergen" target="_blank">University of Bergen</a></li><li><a href="https://partner.sciencenorway.no/tag/university%20of%20oslo" target="_blank">University of Oslo</a></li><li><a href="https://partner.sciencenorway.no/tag/university-of-southeast-norway" target="_blank">University of South-Eastern Norway</a></li><li><a href="https://partner.sciencenorway.no/tag/university-of-stavanger" target="_blank">University of Stavanger</a></li><li><a href="https://www.vid.no/en/about-us/" aria-label="">VID Specialized University</a></li><li>Volda University College</li><li><a href="https://partner.sciencenorway.no/tag/western%20norway%20research%20institute" target="_blank">Western Norway Research Institute</a></li><li>Western Norway University of Applied Sciences (HVL)</li><li><a href="https://partner.sciencenorway.no/tag/hiof" target="_blank">Østfold University College</a></li></ul>
+    </div>
+</div>
+
+</div>
+</div>
+
+    
+</footer>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/view-resources/public/common/imageExpand.js?v=1652437662"></script>
+<script src="/view-resources/public/common/ImageZoom.js?v=1652437662"></script>
+<script src="/view-resources/public/common/AutoScroller.js?v=1652437662"></script>
+<script src="/view-resources/public/common/SwipeHelper.js?v=1652437662"></script>
+<script src="/view-resources/public/common/Parallax.js?v=1652437662"></script>
+<script src="/view-resources/public/common/LabClient/labclient_es6.js?v=1652437662"></script>
+<script src="/view-resources/public/common/LabClientSetup.js?v=1652437662"></script>
+<script src="/view-resources/public/common/Mustache/mustache.min.js?v=1652437662"></script>
+
+<script type="text/javascript">
+    (function () {
+        var handlers = {
+            articlescroller: function(item) {
+                if (window.Dac && window.Dac.AutoScroller) {
+                    var element = document.querySelector(item.selector);
+                    if (!element) {
+                        console.warn('articlescroller: Missing element for selector: "' + item.selector + '".');
+                        return;
+                    }
+                    Dac.AutoScroller(element, !!item.autoscroll, item.duration);
+                } else {
+                    console.warn('articlescroller: Missing required function Dac.AutoScroller. Content will not animate.');
+                }        
+            },
+            parallax: function(item) {
+                if (window.Dac && window.Dac.Parallax) {
+                    new Dac.Parallax(item);
+                } else {
+                    console.warn('parallax: Missing required class Dac.Parallax. Content will not animate.');
+                }
+            },
+            swipehelper: function(item) {
+                if (window.Dac && window.Dac.SwipeHelper) {
+                    var element = document.querySelector(item.selector);
+                    if (!element) {
+                        console.warn('SwipeHelper: Missing element for selector: "' + item.selector + '".');
+                        return;
+                    }
+                    new Dac.SwipeHelper(element, item);
+                } else {
+                    console.warn('SwipeHelper: Missing required function Dac.SwipeHelper.');
+                } 
+            },
+            readprogress: function(item) {
+                if (window.Dac && window.Dac.ReadProgress) {
+                    var element = document.querySelector(item.selector);
+                    if (!element) {
+                        console.warn('ReadProgress: Missing element for selector: "' + item.selector + '".');
+                        return;
+                    }
+                    new Dac.ReadProgress(element, item);
+                } else {
+                    console.warn('ReadProgress: Missing required function Dac.ReadProgress.');
+                } 
+            },
+            tabnavigation: function(item) {
+                if (window.Dac && window.Dac.TabNavigation) {
+                    new Dac.TabNavigation(item);
+                } else {
+                    console.warn('TabNavigation: Missing required function Dac.Tabnavigation.');
+                } 
+            },
+            labclient: function(item) {
+                if (window.Dac && window.Dac.LabClientSetup) {
+                    window.dachserData.setInstance('labclient', item.id, new Dac.LabClientSetup(item));
+                } else {
+                    console.warn('LabClientSetup: Missing required function Dac.LabClientSetup.');
+                } 
+            },
+            elementattributetoggler: function(item) {
+                if (window.Dac && window.Dac.ElementAttributeToggler) {
+                    new Dac.ElementAttributeToggler(item);
+                } else {
+                    console.warn('ElementAttributeToggler: Missing required class Dac.ElementAttributeToggler.');
+                } 
+            },
+            labradorsearch: function(item) {
+                if (window.Dac && window.Dac.LabradorSearch) {
+                    new Dac.LabradorSearch(item);
+                } else {
+                    console.warn('LabradorSearch: Missing required class Dac.LabradorSearch.');
+                } 
+            },
+            articlelists: (item) => {
+                if (window.Dac && window.Dac.ArticleLists) {
+                    new Dac.ArticleLists(item);
+                } else {
+                    console.warn('ArticleLists: Missing required class Dac.ArticleLists.');
+                }
+            }
+        };
+    
+        // Article-scroller
+        // Register each element using AutoScroller
+        var articlescrollerQueue = window.dachserData.get('articlescroller') || [];
+        while (articlescrollerQueue.length) {
+            handlers.articlescroller(articlescrollerQueue.shift());
+        }
+    
+        // Parallax
+        // Register each element requiering js-animations
+        var parallaxQueue = window.dachserData.get('parallax') || [];
+        while (parallaxQueue.length) {
+            handlers.parallax(parallaxQueue.shift());
+        }
+    
+        // SwipeHelper
+        // Register each element using SwipeHelper:
+        var swipehelperQueue = window.dachserData.get('swipehelper') || [];
+        while (swipehelperQueue.length) {
+            handlers.swipehelper(swipehelperQueue.shift());
+        }
+
+        // ReadProgress
+        // Register each element using SwipeHelper:
+        var readprogressQueue = window.dachserData.get('readprogress') || [];
+        while (readprogressQueue.length) {
+            handlers.readprogress(readprogressQueue.shift());
+        }
+    
+        // Tab-navigation
+        var tabnavigationQueue = window.dachserData.get('tabnavigation') || [];
+        while (tabnavigationQueue.length) {
+            handlers.tabnavigation(tabnavigationQueue.shift());
+        }
+
+        // ElementAttributeToggler
+        var elementAttributeTogglerQueue = window.dachserData.get('elementattributetoggler') || [];
+        while (elementAttributeTogglerQueue.length) {
+            handlers.elementattributetoggler(elementAttributeTogglerQueue.shift());
+        }
+    
+        // LabClient - Draw content in browser client-side
+        var labclientQueue = window.dachserData.get('labclient') || [];
+        while (labclientQueue.length) {
+            handlers.labclient(labclientQueue.shift());
+        }
+
+        var labradorsearchQueue = window.dachserData.get('labradorsearch') || [];
+        while (labradorsearchQueue.length) {
+            handlers.labradorsearch(labradorsearchQueue.shift());
+        }
+
+        var articlelistsQueue = window.dachserData.get('articlelists') || [];
+        while (articlelistsQueue.length) {
+            handlers.articlelists(articlelistsQueue.shift());
+        }
+    
+    }());
+</script>
+<script type="text/javascript">
+    (function() {
+        if (!('IntersectionObserver' in window)) return;
+        
+        var stickyAds = document.querySelectorAll('.adZone.sticky .adnuntius-ad:last-child, .adZone.sticky .google-ad:last-child');
+        if (stickyAds.length) {
+            var stickyMarginTop = 84; // Value matching value for sticky styling in ads stylesheet (adnuntius and googleads)
+            var options = { root: null, rootMargin: '-' + stickyMarginTop + 'px 1000px 2000px', threshold: [0, 1] };
+            
+            for (var i = 0; i < stickyAds.length; i++) {
+                (function(i) {
+                    var observer = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.intersectionRatio == 1) {
+                                if(entry.target.offsetParent) {
+                                    entry.target.offsetParent.classList.remove('active');
+                                }
+                            } else {
+                                if(entry.target.offsetParent && (window.scrollY + stickyMarginTop) >= entry.target.offsetParent.offsetTop && window.innerWidth > 1088) {
+                                    entry.target.offsetParent.classList.add('active');
+                                }
+                            }
+                        });
+                    }, options);
+                    observer.observe(stickyAds[i]);
+                }(i));
+            }
+        }
+    }());
+</script>
+
+    <div class="powered-by "><a href="https:&#x2F;&#x2F;labradorcms.com&#x2F;" target="_blank">Powered by Labrador CMS</a></div>
+
+
+    </body>
+</html>

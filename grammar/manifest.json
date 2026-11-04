@@ -1,0 +1,8 @@
+{
+  "name": "Study4 Grammar & Practice",
+  "short_name": "Study4 Grammar",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f766e"
+}

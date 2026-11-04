@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="manifest" href="manifest.json">
+  <title>Study4 Grammar & Luyện Tập Offline (120 Bài)</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #0f766e;
+      --primary-soft: #ccfbf1;
+    }
+    body.dark {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #334155;
+      --primary: #14b8a6;
+      --primary-soft: #134e4a;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+    .sidebar { width: 340px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; z-index: 100; transition: transform 0.25s ease; }
+    .sidebar-header { padding: 15px 16px; background: linear-gradient(135deg, #0f766e, #0d9488); color: #fff; display: flex; justify-content: space-between; align-items: center; }
+    .sidebar-header h2 { margin: 0; font-size: 16.5px; display: flex; align-items: center; gap: 6px; }
+    .close-menu-btn { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    .search-box { padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
+    .search-box input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; background: var(--card); color: var(--text); outline: none; }
+    .unit-tabs { display: flex; gap: 5px; padding: 8px 10px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; background: var(--card); }
+    .unit-tab { padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .unit-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .lesson-list { flex: 1; overflow-y: auto; padding: 10px; }
+    .unit-group { margin-bottom: 14px; }
+    .unit-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--primary); padding: 7px 10px; letter-spacing: 0.4px; background: var(--bg); border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .sec-group { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 7px; overflow: hidden; background: var(--card); }
+    .sec-group.open { border-color: var(--primary); }
+    .sec-header { padding: 9px 11px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; background: var(--card); user-select: none; }
+    .sec-header:hover { background: rgba(15,118,110,0.05); }
+    .sec-group.open .sec-header { background: var(--primary-soft); color: var(--primary); }
+    .sec-meta { font-size: 11.5px; font-weight: 600; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+    .sec-items { display: none; padding: 5px 6px 6px 6px; border-top: 1px solid var(--border); background: var(--bg); }
+    .sec-group.open .sec-items { display: block; }
+    .lesson-item { padding: 8px 10px; border-radius: 7px; cursor: pointer; margin-bottom: 3px; transition: 0.15s; font-size: 13px; line-height: 1.35; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--card); }
+    .lesson-item:last-child { margin-bottom: 0; }
+    .lesson-item:hover { background: rgba(15,118,110,0.08); }
+    .lesson-item.active { background: var(--primary); color: #fff; font-weight: 700; }
+    .done-dot { font-size: 13px; color: #16a34a; flex-shrink: 0; }
+    .lesson-item.active .done-dot { color: #fff; }
+    .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .mobile-topbar { display: none; background: #0f766e; color: #fff; padding: 10px 14px; align-items: center; justify-content: space-between; font-weight: 600; }
+    .menu-toggle-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 600; }
+    .main { flex: 1; overflow-y: auto; padding: 22px 28px; }
+    .container { max-width: 920px; margin: 0 auto; background: var(--card); border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 26px; border: 1px solid var(--border); }
+    .badge { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+    .video-box { margin: 16px 0; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 16/9; }
+    .video-box iframe { width: 100%; height: 100%; border: none; }
+    .resources-bar { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13.5px; cursor: pointer; border: none; transition: 0.15s; }
+    .btn-pdf { background: #0d9488; color: #fff; }
+    .btn-yt { background: #dc2626; color: #fff; }
+    .btn-done { background: var(--border); color: var(--text); }
+    .btn-done.completed { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .pdf-preview { width: 100%; height: 560px; border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; display: none; }
+    .notes-area { margin-top: 20px; line-height: 1.75; font-size: 16px; overflow-x: auto; }
+    .notes-area img { max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; }
+    .notes-area table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+    .notes-area table, .notes-area th, .notes-area td { border: 1px solid var(--border); padding: 8px 10px; }
+    .notes-area th { background: var(--bg); }
+    /* Giao diện Bài tập Luyện tập (Hỗ trợ cả 6 dạng: dropdown, gapfill, error, sa, matching, word ordering) */
+    .practice-card { border: 2px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 20px; background: var(--bg); }
+    .practice-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .prob-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .prob-tab { padding: 6px 13px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; font-size: 13.5px; }
+    .prob-tab.active { background: #0d9488; color: #fff; border-color: #0d9488; }
+    .prob-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .btn-check { background: #0284c7; color: #fff; }
+    .btn-show { background: #f59e0b; color: #fff; }
+    .btn-clear { background: #64748b; color: #fff; }
+    .score-banner { padding: 10px 14px; border-radius: 8px; font-weight: 700; margin-bottom: 14px; display: none; }
+    .practice-body { background: var(--card); padding: 18px; border-radius: 10px; border: 1px solid var(--border); line-height: 1.85; font-size: 15.5px; }
+    .practice-body li { margin-bottom: 12px; }
+    .practice-body select, .practice-body input[type="text"], .practice-body input.vocab-input { padding: 6px 10px; border: 2px solid #94a3b8; border-radius: 6px; font-size: 15px; font-weight: 600; background: var(--card); color: var(--text); margin: 3px 4px; max-width: 100%; }
+    .practice-body input.vocab-input-sentence { width: 100%; max-width: 620px; display: block; margin-top: 6px; }
+    .practice-body .vocab-order-sentence { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-weight: 600; margin-bottom: 4px; }
+    .practice-body .ans-correct { border-color: #16a34a !important; background-color: #dcfce7 !important; color: #15803d !important; }
+    .practice-body .ans-wrong { border-color: #dc2626 !important; background-color: #fee2e2 !important; color: #b91c1c !important; }
+    .ans-hint { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 5px; background: #dcfce7; color: #15803d; font-weight: 700; font-size: 13.5px; }
+    /* Hộp Giải thích chi tiết đáp án */
+    .g-problem-explanation-wrapper { margin-top: 18px; border-top: 1px dashed var(--border); padding-top: 14px; }
+    .g-problem-explanation-wrapper a[data-toggle="collapse"] { display: inline-flex; align-items: center; gap: 6px; background: #fef3c7; color: #b45309; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .g-problem-explanation-wrapper .collapse { display: none; margin-top: 12px; padding: 14px 18px; background: var(--bg); border-radius: 10px; border-left: 4px solid #f59e0b; }
+    .g-problem-explanation-wrapper .collapse.show { display: block; }
+    .nav-footer { display: flex; justify-content: space-between; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); gap: 12px; }
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); width: 85%; max-width: 320px; box-shadow: 4px 0 20px rgba(0,0,0,0.25); }
+      .sidebar.open { transform: translateX(0); }
+      .close-menu-btn { display: block; }
+      .mobile-topbar { display: flex; }
+      .main { padding: 12px; }
+      .container { padding: 18px 14px; border-radius: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2><a href="../index.html" style="color:#fff;text-decoration:none;background:rgba(255,255,255,0.2);padding:4px 9px;border-radius:6px;font-size:13px;">🏠</a> Grammar</h2>
+      <button class="close-menu-btn" onclick="toggleMenu(false)">×</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Tìm chủ điểm, bài học...">
+    </div>
+    <div class="unit-tabs" id="unitTabs"></div>
+    <div class="lesson-list" id="lessonList"></div>
+  </div>
+
+  <div class="main-wrap">
+    <div class="mobile-topbar">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <a href="../index.html" style="color:#fff;text-decoration:none;background:rgba(255,255,255,0.2);padding:6px 10px;border-radius:6px;font-size:14px;">🏠</a>
+        <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ 120 Bài học</button>
+      </div>
+      <span id="mobileTitle" style="font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58%;">Study4 Grammar</span>
+    </div>
+    <div class="main" id="mainScroll">
+      <div class="container" id="lessonContent"></div>
+    </div>
+  </div>
+
+  <script src="../auth.js"></script>
+  <script src="grammar_data.js"></script>
+  <script>
+    const ITEMS = window.STUDY4_GRAMMAR_DATA || [];
+    const ALL_SECTIONS = Array.from(new Set(ITEMS.map(x => x.unitTitle + "||" + x.sectionName)));
+    function canAccessLesson(l) {
+      if (!window.S4Auth) return true;
+      const idx = ALL_SECTIONS.indexOf(l.unitTitle + "||" + l.sectionName);
+      return window.S4Auth.canAccessGrammarSection(idx);
+    }
+    const listEl = document.getElementById("lessonList");
+    const contentEl = document.getElementById("lessonContent");
+    const searchInput = document.getElementById("searchInput");
+    const sidebarEl = document.getElementById("sidebar");
+    let completedMap = JSON.parse(localStorage.getItem("s4_grammar_done") || "{}");
+    let activeId = localStorage.getItem("s4_grammar_last") || ITEMS[0]?.id;
+    if (!ITEMS.some(x => x.id === activeId)) activeId = ITEMS[0]?.id;
+    let activeProbIdx = 0;
+    let currentUnitFilter = "ALL";
+    let openSections = new Set();
+
+    // Mở sẵn mục chủ đề chứa bài học hiện tại
+    const initLesson = ITEMS.find(x => x.id === activeId);
+    if (initLesson) openSections.add(initLesson.unitTitle + "||" + initLesson.sectionName);
+
+    if (localStorage.getItem("s4_vocab_dark") === "1") document.body.classList.add("dark");
+
+    window.toggleMenu = function(open) {
+      sidebarEl.classList.toggle("open", open);
+    };
+
+    const UNIT_SHORT = {
+      "[Grammar] Parts of speech - Từ loại": "1. Từ loại",
+      "[Grammar] Tenses - Thì": "2. Các thì",
+      "[Grammar] Clauses - Mệnh đề": "3. Mệnh đề",
+      "[Grammar] in Writing - Văn viết": "4. Văn viết"
+    };
+
+    window.setUnitFilter = function(u) {
+      currentUnitFilter = u;
+      renderSidebar(searchInput.value);
+    };
+
+    window.toggleSection = function(secKey) {
+      if (openSections.has(secKey)) openSections.delete(secKey);
+      else openSections.add(secKey);
+      renderSidebar(searchInput.value);
+    };
+
+    function renderUnitTabs() {
+      const units = Array.from(new Set(ITEMS.map(x => x.unitTitle)));
+      const tabsEl = document.getElementById("unitTabs");
+      let html = `<button class="unit-tab ${currentUnitFilter === 'ALL' ? 'active' : ''}" onclick="setUnitFilter('ALL')">Tất cả</button>`;
+      units.forEach(u => {
+        const label = UNIT_SHORT[u] || u.replace("[Grammar] ", "");
+        html += `<button class="unit-tab ${currentUnitFilter === u ? 'active' : ''}" onclick="setUnitFilter('${u.replace(/'/g, "\\'")}')">${label}</button>`;
+      });
+      tabsEl.innerHTML = html;
+    }
+
+    function renderSidebar(filterText = "") {
+      renderUnitTabs();
+      const q = filterText.toLowerCase().trim();
+      listEl.innerHTML = "";
+
+      // Gom bài học theo: Chương (unitTitle) -> Mục chủ đề (sectionName)
+      const unitMap = new Map();
+      ITEMS.forEach(l => {
+        if (currentUnitFilter !== "ALL" && l.unitTitle !== currentUnitFilter) return;
+        const match = !q || l.title.toLowerCase().includes(q) || l.sectionName.toLowerCase().includes(q) || (l.notesHtml || "").toLowerCase().includes(q);
+        if (!match) return;
+        if (!unitMap.has(l.unitTitle)) unitMap.set(l.unitTitle, new Map());
+        const secMap = unitMap.get(l.unitTitle);
+        if (!secMap.has(l.sectionName)) secMap.set(l.sectionName, []);
+        secMap.get(l.sectionName).push(l);
+      });
+
+      unitMap.forEach((secMap, uTitle) => {
+        const gDiv = document.createElement("div");
+        gDiv.className = "unit-group";
+        let unitTotal = 0, unitDone = 0;
+        secMap.forEach(arr => {
+          unitTotal += arr.length;
+          unitDone += arr.filter(x => completedMap[x.id]).length;
+        });
+
+        gDiv.innerHTML = `<div class="unit-title"><span>${uTitle.replace("[Grammar] ", "")}</span><span>${unitDone}/${unitTotal}</span></div>`;
+
+        let secIndex = 0;
+        secMap.forEach((lessons, secName) => {
+          secIndex++;
+          const secKey = uTitle + "||" + secName;
+          const globalSecIdx = ALL_SECTIONS.indexOf(secKey);
+          const secUnlocked = !window.S4Auth || window.S4Auth.canAccessGrammarSection(globalSecIdx);
+          const isOpen = (!!q || openSections.has(secKey)) && secUnlocked;
+          const doneCount = lessons.filter(x => completedMap[x.id]).length;
+
+          const secDiv = document.createElement("div");
+          secDiv.className = "sec-group" + (isOpen ? " open" : "");
+          if (!secUnlocked) secDiv.style.opacity = "0.78";
+
+          const header = document.createElement("div");
+          header.className = "sec-header";
+          header.onclick = () => {
+            if (!secUnlocked) {
+              window.S4Auth.openActivateModal(secName);
+              return;
+            }
+            toggleSection(secKey);
+          };
+          header.innerHTML = `
+            <span style="line-height:1.35;">${secIndex}. ${secName} ${secUnlocked ? "" : '<span class="s4-lock-tag">🔒 VIP</span>'}</span>
+            <span class="sec-meta">
+              <span style="${doneCount === lessons.length ? 'color:#16a34a;font-weight:800;' : ''}">${doneCount}/${lessons.length}</span>
+              <span>${isOpen ? "▼" : "▶"}</span>
+            </span>
+          `;
+          secDiv.appendChild(header);
+
+          const itemsWrap = document.createElement("div");
+          itemsWrap.className = "sec-items";
+          lessons.forEach(l => {
+            const item = document.createElement("div");
+            item.className = "lesson-item" + (l.id === activeId ? " active" : "");
+            const icon = l.isPractice ? "✍️" : "🎬";
+            const doneMark = completedMap[l.id] ? '<span class="done-dot">✅</span>' : '';
+            item.innerHTML = `<span>${icon} Bài ${l.index}: ${l.title}</span>${doneMark}`;
+            item.onclick = () => { selectItem(l.id); toggleMenu(false); };
+            itemsWrap.appendChild(item);
+          });
+          secDiv.appendChild(itemsWrap);
+          gDiv.appendChild(secDiv);
+        });
+
+        listEl.appendChild(gDiv);
+      });
+    }
+
+    window.toggleDone = function(id) {
+      completedMap[id] = !completedMap[id];
+      localStorage.setItem("s4_grammar_done", JSON.stringify(completedMap));
+      selectItem(id, false);
+    };
+
+    function selectItem(id, resetScroll = true) {
+      let curLesson = ITEMS.find(x => x.id === id) || ITEMS[0];
+      if (curLesson && !canAccessLesson(curLesson)) {
+        if (window.S4Auth) window.S4Auth.openActivateModal(curLesson.sectionName);
+        curLesson = ITEMS[0];
+        id = curLesson.id;
+      }
+      activeId = id;
+      activeProbIdx = 0;
+      localStorage.setItem("s4_grammar_last", id);
+      if (curLesson) openSections.add(curLesson.unitTitle + "||" + curLesson.sectionName);
+      renderSidebar(searchInput.value);
+      const idx = ITEMS.findIndex(x => x.id === id);
+      const l = ITEMS[idx];
+      if (!l) return;
+
+      document.getElementById("mobileTitle").textContent = l.index + ". " + l.title;
+
+      let videoHtml = "";
+      if (l.youtubeEmbedId) {
+        videoHtml = '<div class="video-box"><iframe src="https://www.youtube-nocookie.com/embed/' + l.youtubeEmbedId + '?rel=0" allowfullscreen></iframe></div>';
+      }
+
+      const isDone = !!completedMap[l.id];
+      let btnsHtml = '<button class="btn btn-done ' + (isDone ? 'completed' : '') + '" onclick="toggleDone(\'' + l.id + '\')">' + (isDone ? '✅ Đã hoàn thành' : '⬜ Đánh dấu Đã học') + '</button>';
+      if (l.localPdfPath) {
+        btnsHtml += '<button class="btn btn-pdf" onclick="togglePdf()">📄 Xem / Ẩn Slide PDF</button>';
+        btnsHtml += '<a class="btn btn-pdf" style="background:#0284c7;" href="' + l.localPdfPath + '" download>⬇️ Tải Slide PDF</a>';
+      }
+      if (l.videoUrl) {
+        btnsHtml += '<a class="btn btn-yt" href="' + l.videoUrl + '" target="_blank">▶️ Mở Video trên YouTube</a>';
+      }
+
+      let practiceHtml = "";
+      if (l.questions && l.questions.length > 0) {
+        practiceHtml = '<div id="practiceContainer"></div>';
+      }
+
+      const prevItem = idx > 0 ? ITEMS[idx - 1] : null;
+      const nextItem = idx < ITEMS.length - 1 ? ITEMS[idx + 1] : null;
+
+      contentEl.innerHTML = `
+        <div class="badge">${l.unitTitle} &rsaquo; ${l.sectionName}</div>
+        <h1 style="margin:4px 0 12px 0;font-size:23px;">Bài ${l.index}: ${l.title}</h1>
+        ${videoHtml}
+        <div class="resources-bar">${btnsHtml}</div>
+        ${l.localPdfPath ? '<iframe id="pdfFrame" class="pdf-preview" src="' + l.localPdfPath + '"></iframe>' : ''}
+        ${practiceHtml}
+        ${l.notesHtml ? '<div class="notes-area">' + l.notesHtml + '</div>' : ''}
+        <div class="nav-footer">
+          ${prevItem ? '<button class="btn btn-done" onclick="selectItem(\'' + prevItem.id + '\')">&larr; Bài ' + prevItem.index + '</button>' : '<div></div>'}
+          ${nextItem ? '<button class="btn btn-pdf" onclick="selectItem(\'' + nextItem.id + '\')">Bài ' + nextItem.index + ': ' + nextItem.title.slice(0, 28) + '... &rarr;</button>' : '<div></div>'}
+        </div>
+      `;
+
+      if (l.questions && l.questions.length > 0) {
+        renderPracticeQuestion(l);
+      }
+      if (resetScroll) document.getElementById("mainScroll").scrollTop = 0;
+    }
+
+    window.switchProb = function(idx) {
+      activeProbIdx = idx;
+      const l = ITEMS.find(x => x.id === activeId);
+      if (l) renderPracticeQuestion(l);
+    };
+
+    function renderPracticeQuestion(lesson) {
+      const box = document.getElementById("practiceContainer");
+      if (!box) return;
+      const q = lesson.questions[activeProbIdx];
+      if (!q) return;
+
+      let tabsHtml = "";
+      if (lesson.questions.length > 1) {
+        tabsHtml = '<div class="prob-tabs">' + lesson.questions.map((p, i) =>
+          '<button class="prob-tab ' + (i === activeProbIdx ? 'active' : '') + '" onclick="switchProb(' + i + ')">Phần ' + (i + 1) + '</button>'
+        ).join("") + '</div>';
+      }
+
+      box.innerHTML = `
+        <div class="practice-card">
+          <div class="practice-header">
+            <div style="font-weight:800;font-size:16px;color:var(--primary);">✍️ Bài tập thực hành (${activeProbIdx + 1}/${lesson.questions.length})</div>
+            ${tabsHtml}
+          </div>
+          <div class="prob-controls">
+            <button class="btn btn-check" onclick="checkPracticeAnswers()">✔️ Kiểm tra đáp án</button>
+            <button class="btn btn-show" onclick="showPracticeAnswers()">🏳️ Hiện đáp án & Giải thích</button>
+            <button class="btn btn-clear" onclick="clearPracticeAnswers()">🔄 Làm lại</button>
+          </div>
+          <div id="scoreBanner" class="score-banner"></div>
+          <div class="practice-body" id="practiceBody">${q.bodyHtml}</div>
+        </div>
+      `;
+
+      const body = document.getElementById("practiceBody");
+      // 1. Chuyển đổi các thẻ <span class="vocab-error" data-error="sai">đúng</span> của dạng bài Sửa lỗi sai thành ô nhập tương tác!
+      body.querySelectorAll("span.vocab-error").forEach(span => {
+        const wrongText = span.getAttribute("data-error") || "";
+        const correctText = span.textContent.trim();
+        const wrapper = document.createElement("span");
+        wrapper.innerHTML = `<del style="color:#dc2626;font-weight:600;margin-right:4px;">${wrongText}</del><input type="text" class="vocab-input" data-answer="${correctText.replace(/"/g, '&quot;')}" placeholder="Sửa lại..." style="width:${Math.max(110, correctText.length * 10)}px;">`;
+        span.replaceWith(wrapper);
+      });
+
+      // 2. Kích hoạt nút bấm "Giải thích chi tiết đáp án" (vốn dùng Bootstrap collapse trên web gốc)
+      body.querySelectorAll('.g-problem-explanation-wrapper a[data-toggle="collapse"]').forEach(a => {
+        a.onclick = (ev) => {
+          ev.preventDefault();
+          const target = body.querySelector("#gproblemexplanation, .g-problem-explanation-wrapper .collapse");
+          if (target) target.classList.toggle("show");
+        };
+      });
+    }
+
+    function normalizeAns(str) {
+      return (str || "").trim().replace(/\s+/g, " ").replace(/[.?!]+$/, "").toLowerCase();
+    }
+
+    window.checkPracticeAnswers = function() {
+      const body = document.getElementById("practiceBody");
+      if (!body) return;
+      body.querySelectorAll(".ans-hint").forEach(e => e.remove());
+
+      let total = 0, correct = 0;
+      const fields = body.querySelectorAll("[data-answer]");
+
+      fields.forEach(el => {
+        total++;
+        const rawAns = (el.getAttribute("data-answer") || "").trim();
+        const userVal = (el.value || "").trim();
+        el.classList.remove("ans-correct", "ans-wrong");
+
+        const validAnswers = rawAns.split(/\s*[/|]\s*/).map(normalizeAns);
+        const normUser = normalizeAns(userVal);
+        const isRight = normUser !== "" && (normUser === normalizeAns(rawAns) || validAnswers.includes(normUser));
+
+        if (isRight) {
+          correct++;
+          el.classList.add("ans-correct");
+        } else {
+          el.classList.add("ans-wrong");
+          const hint = document.createElement("span");
+          hint.className = "ans-hint";
+          hint.textContent = "✓ " + rawAns;
+          el.insertAdjacentElement("afterend", hint);
+        }
+      });
+
+      // Tự động mở khung Giải thích chi tiết (nếu có) sau khi bấm Kiểm tra
+      const expCollapse = body.querySelector("#gproblemexplanation, .g-problem-explanation-wrapper .collapse");
+      if (expCollapse) expCollapse.classList.add("show");
+
+      const banner = document.getElementById("scoreBanner");
+      if (banner && total > 0) {
+        banner.style.display = "block";
+        const pct = Math.round((correct / total) * 100);
+        banner.style.background = pct >= 80 ? "#dcfce7" : "#fef3c7";
+        banner.style.color = pct >= 80 ? "#15803d" : "#b45309";
+        banner.textContent = `🎯 Kết quả: Đúng ${correct} / ${total} câu (${pct}%)`;
+      }
+    };
+
+    window.showPracticeAnswers = function() {
+      const body = document.getElementById("practiceBody");
+      if (!body) return;
+      body.querySelectorAll(".ans-hint").forEach(e => e.remove());
+
+      body.querySelectorAll("[data-answer]").forEach(el => {
+        const rawAns = el.getAttribute("data-answer") || "";
+        if (el.tagName === "SELECT") {
+          const opts = Array.from(el.options);
+          const matchOpt = opts.find(o => o.value.trim().toLowerCase() === rawAns.trim().toLowerCase() || o.textContent.trim().toLowerCase() === rawAns.trim().toLowerCase());
+          if (matchOpt) el.value = matchOpt.value;
+        } else {
+          el.value = rawAns.trim();
+        }
+        el.classList.remove("ans-wrong");
+        el.classList.add("ans-correct");
+      });
+
+      const expCollapse = body.querySelector("#gproblemexplanation, .g-problem-explanation-wrapper .collapse");
+      if (expCollapse) expCollapse.classList.add("show");
+    };
+
+    window.clearPracticeAnswers = function() {
+      const body = document.getElementById("practiceBody");
+      if (!body) return;
+      body.querySelectorAll(".ans-hint").forEach(e => e.remove());
+      body.querySelectorAll("[data-answer]").forEach(el => {
+        el.value = "";
+        el.classList.remove("ans-correct", "ans-wrong");
+      });
+      const banner = document.getElementById("scoreBanner");
+      if (banner) banner.style.display = "none";
+    };
+
+    window.togglePdf = function() {
+      const f = document.getElementById("pdfFrame");
+      if (f) f.style.display = f.style.display === "block" ? "none" : "block";
+    };
+
+    searchInput.oninput = () => renderSidebar(searchInput.value);
+    renderSidebar();
+    if (activeId) selectItem(activeId);
+  </script>
+</body>
+</html>
