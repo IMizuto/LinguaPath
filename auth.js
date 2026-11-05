@@ -556,24 +556,27 @@
     const st = document.createElement("style");
     st.id = "s4AuthStyles";
     st.textContent = `
-      .s4-user-bar { position: sticky; top: 0; background: rgba(255,255,255,0.94); color: #0f172a; backdrop-filter: blur(10px); padding: 8px 14px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; z-index: 950; border-bottom: 1px solid #e2e8f0; width: 100%; flex-shrink: 0; box-sizing: border-box; }
-      html.dark .s4-user-bar, body.dark .s4-user-bar { background: rgba(30,41,59,0.94); color: #f8fafc; border-bottom-color: #334155; }
-      .s4-user-left, .s4-user-right { display: flex; align-items: center; gap: 7px; min-width: 0; }
-      .s4-profile-trigger { display: inline-flex; align-items: center; gap: 7px; padding: 4px 11px 4px 5px; border-radius: 999px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; cursor: pointer; transition: 0.15s; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: inherit; font-size: 12.5px; }
+      html.s4-modal-lock, body.s4-modal-lock { overflow: hidden !important; overscroll-behavior: none !important; }
+      .s4-user-bar { position: sticky; top: 0; background: rgba(255,255,255,0.95); color: #0f172a; backdrop-filter: blur(10px); padding: 7px 12px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: nowrap; z-index: 950; border-bottom: 1px solid #e2e8f0; width: 100%; max-width: 100%; flex-shrink: 0; box-sizing: border-box; touch-action: manipulation; }
+      html.dark .s4-user-bar, body.dark .s4-user-bar { background: rgba(30,41,59,0.95); color: #f8fafc; border-bottom-color: #334155; }
+      .s4-user-left { display: flex; align-items: center; gap: 6px; flex: 1 1 0%; min-width: 0; overflow: hidden; }
+      .s4-user-right { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+      .s4-profile-trigger { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border-radius: 999px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; cursor: pointer; transition: 0.15s; min-width: 0; max-width: 100%; flex: 0 1 auto; overflow: hidden; white-space: nowrap; font-family: inherit; font-size: 12.5px; }
       html.dark .s4-profile-trigger, body.dark .s4-profile-trigger { background: #0f172a; border-color: #334155; color: #f8fafc; }
       .s4-profile-trigger:hover { border-color: #2563eb; }
-      .s4-role-badge { padding: 3px 9px; border-radius: 999px; font-weight: 700; font-size: 11px; white-space: nowrap; }
+      .s4-profile-name { display: block; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+      .s4-role-badge { padding: 3px 8px; border-radius: 999px; font-weight: 700; font-size: 11px; white-space: nowrap; flex-shrink: 0; }
       .s4-role-admin { background: #dc2626; color: #fff; }
       .s4-role-vip { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
       .s4-role-basic { background: #e2e8f0; color: #475569; }
       html.dark .s4-role-basic, body.dark .s4-role-basic { background: #334155; color: #cbd5e1; }
-      .s4-role-free { background: #0d9488; color: #fff; }
-      .s4-top-btn { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 6px 11px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.15s; white-space: nowrap; font-family: inherit; }
+      .s4-role-free { background: #0d9488; color: #fff; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 1; }
+      .s4-top-btn { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.15s; white-space: nowrap; font-family: inherit; flex-shrink: 0; }
       html.dark .s4-top-btn, body.dark .s4-top-btn { background: #0f172a; color: #f8fafc; border-color: #334155; }
       .s4-top-btn:hover { border-color: #2563eb; }
       .s4-top-btn.gold { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff; }
-      .s4-menu-wrap { position: relative; }
-      .s4-dropdown { position: absolute; right: 0; top: calc(100% + 8px); width: 245px; background: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 999; }
+      .s4-menu-wrap { position: relative; flex-shrink: 0; }
+      .s4-dropdown { position: absolute; right: 0; top: calc(100% + 8px); width: min(245px, calc(100vw - 20px)); background: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 999; overscroll-behavior: contain; touch-action: manipulation; }
       html.dark .s4-dropdown, body.dark .s4-dropdown { background: #1e293b; color: #f8fafc; border-color: #334155; box-shadow: 0 14px 36px rgba(0,0,0,0.45); }
       .s4-dropdown.open { display: flex; }
       .s4-dd-item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 11px; border: none; background: transparent; color: inherit; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left; border-radius: 9px; cursor: pointer; }
@@ -581,8 +584,14 @@
       html.dark .s4-dd-item:hover, body.dark .s4-dd-item:hover { background: rgba(59,130,246,0.16); color: #60a5fa; }
       .s4-dd-sep { height: 1px; background: #e2e8f0; margin: 4px 6px; }
       html.dark .s4-dd-sep, body.dark .s4-dd-sep { background: #334155; }
-      .s4-modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.78); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 14px; }
-      .s4-modal { background: #ffffff; color: #0f172a; width: 100%; max-width: 520px; border-radius: 18px; padding: 22px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); max-height: 92vh; overflow-y: auto; border: 1px solid #e2e8f0; }
+      .s4-modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.78); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 12px; overscroll-behavior: contain; touch-action: none; }
+      .s4-modal { background: #ffffff; color: #0f172a; width: 100%; max-width: 520px; border-radius: 18px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); max-height: 92vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #e2e8f0; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+      @media (max-width: 500px) {
+        .s4-user-bar { padding: 6px 10px; gap: 5px; }
+        .s4-hide-sm { display: none !important; }
+        .s4-top-btn { padding: 5px 9px; font-size: 11.5px; }
+        .s4-role-badge { padding: 2px 6px; font-size: 10.5px; }
+      }
       .s4-modal.wide { max-width: 860px; }
       html.dark .s4-modal, body.dark .s4-modal { background: #1e293b; color: #f8fafc; border-color: #334155; }
       .s4-modal h3 { margin: 0 0 6px 0; font-size: 19px; }
@@ -650,10 +659,10 @@
       bar.innerHTML = `
         <div class="s4-user-left">
           ${logoImg}
-          <span class="s4-role-badge s4-role-free">🔓 Chế độ Thử nghiệm Tự do (Mở 100% nội dung)</span>
+          <span class="s4-role-badge s4-role-free">🔓 Mở tự do 100%</span>
         </div>
         <div class="s4-user-right">
-          <button class="s4-top-btn" onclick="window.S4Auth.openLoginModal(false)">👤 Đăng nhập / Tạo tài khoản</button>
+          <button class="s4-top-btn" onclick="window.S4Auth.openLoginModal(false)">👤 Tài khoản</button>
           <button class="s4-top-btn" onclick="window.S4Auth.openInstallModal()">📲 Cài App</button>
         </div>`;
       return;
@@ -661,9 +670,9 @@
 
     if (!u) {
       bar.innerHTML = `
-        <div class="s4-user-left">${logoImg} <span>🔒 Chưa đăng nhập</span></div>
+        <div class="s4-user-left">${logoImg} <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🔒 Chưa đăng nhập</span></div>
         <div class="s4-user-right">
-          <button class="s4-top-btn gold" onclick="window.S4Auth.openLoginModal(true)">Đăng nhập / Đăng ký</button>
+          <button class="s4-top-btn gold" onclick="window.S4Auth.openLoginModal(true)">Đăng nhập</button>
           <button class="s4-top-btn" onclick="window.S4Auth.openInstallModal()">📲 Cài App</button>
         </div>`;
       return;
@@ -681,8 +690,8 @@
       <div class="s4-user-left">
         <button class="s4-profile-trigger" onclick="window.S4Auth.openProfileModal()" title="Bấm để mở Hồ sơ cá nhân & Theo dõi tiến độ">
           ${renderAvatarHtml(u.avatar, 24)}
-          <b style="overflow:hidden;text-overflow:ellipsis;">${esc(u.displayName)}</b>
-          ${u.targetBand ? `<span style="font-size:11px;opacity:.85;background:rgba(37,99,235,0.12);color:#2563eb;padding:1px 6px;border-radius:6px;font-weight:700;">🎯 ${esc(u.targetBand)}</span>` : ""}
+          <span class="s4-profile-name">${esc(u.displayName)}</span>
+          ${u.targetBand ? `<span class="s4-hide-sm" style="font-size:11px;opacity:.85;background:rgba(37,99,235,0.12);color:#2563eb;padding:1px 6px;border-radius:6px;font-weight:700;flex-shrink:0;">🎯 ${esc(u.targetBand)}</span>` : ""}
         </button>
         ${badge}
       </div>
@@ -715,6 +724,8 @@
   function newModal(extraClass) {
     injectStyles();
     closeModals();
+    document.documentElement.classList.add("s4-modal-lock");
+    document.body.classList.add("s4-modal-lock");
     const wrap = document.createElement("div");
     wrap.className = "s4-modal-backdrop";
     wrap.id = "s4AuthModal";
@@ -722,7 +733,11 @@
     document.body.appendChild(wrap);
     return { wrap, box: wrap.firstChild };
   }
-  function closeModals() { document.querySelectorAll("#s4AuthModal").forEach(el => el.remove()); }
+  function closeModals() {
+    document.querySelectorAll("#s4AuthModal").forEach(el => el.remove());
+    document.documentElement.classList.remove("s4-modal-lock");
+    document.body.classList.remove("s4-modal-lock");
+  }
 
   /* ---------- TRANG CÁ NHÂN (HỒ SƠ, TIẾN ĐỘ, HẠN VIP, ĐỔI TÊN/AVT/MẬT KHẨU) ---------- */
   function resizeImageToDataUrl(file, maxSize) {
@@ -1606,7 +1621,7 @@
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       if (window.caches) {
         caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v8").forEach(k => caches.delete(k));
+          keys.filter(k => k !== "study4-ielts-cache-v9").forEach(k => caches.delete(k));
         }).catch(() => {});
       }
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";
