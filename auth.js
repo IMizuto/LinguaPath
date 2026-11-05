@@ -10,6 +10,7 @@
   const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2";
   const P_GDONE = "s4_grammar_done", P_GLAST = "s4_grammar_last";
   const PROGRESS_KEYS = [P_SRS, P_DAYS, P_SET, P_GDONE, P_GLAST];
+  const P_SESSION = "s4_vocab_active_session_v2";   // phiên học từ vựng dở dang (chỉ lưu trên máy, không đồng bộ cloud)
   const TOTAL_VOCAB = 1827;
   const TOTAL_GRAMMAR = 120;
 
@@ -447,6 +448,7 @@
       try { rawSet("s4_auth_profile_" + cur.username, JSON.stringify(readProgress())); } catch (e) {}
       hookSuspended = true;
       PROGRESS_KEYS.forEach(k => rawRemove(k));
+      rawRemove(P_SESSION);
       hookSuspended = false;
     }
     session = null;
@@ -1598,6 +1600,7 @@
       else rawRemove("s4_auth_sync_" + cur.username);
       hookSuspended = true;
       PROGRESS_KEYS.forEach(k => rawRemove(k));
+      rawRemove(P_SESSION);
       hookSuspended = false;
     }
     session = null;
@@ -1624,7 +1627,7 @@
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       if (window.caches) {
         caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v11").forEach(k => caches.delete(k));
+          keys.filter(k => k !== "study4-ielts-cache-v12").forEach(k => caches.delete(k));
         }).catch(() => {});
       }
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";

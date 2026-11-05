@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#f1f5f9">
   <title>Study4 Vocab Master</title>
   <script>
@@ -76,13 +76,13 @@
     .mode-dd-item { width: 100%; text-align: left; padding: 9px 11px; border: none; background: transparent; color: var(--text); font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
     .mode-dd-item:hover { background: var(--bg); }
     .mode-dd-item.active { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
-    .main { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 6px)) 14px; overscroll-behavior: contain; }
+    .main { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 10px 14px calc(12px + env(safe-area-inset-bottom, 8px)) 14px; overscroll-behavior: contain; }
     body.scroll-mode .main { overflow-y: auto; overflow-x: hidden; display: block; -webkit-overflow-scrolling: touch; }
     .container { max-width: 820px; width: 100%; margin: 0 auto; flex: 1; min-height: 0; display: flex; flex-direction: column; }
     body.scroll-mode .container { display: block; }
     #statsHost { flex-shrink: 0; }
-    #cardHost { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-    body.scroll-mode #cardHost { display: block; }
+    #cardHost { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    body.scroll-mode #cardHost { display: block; overflow: visible; }
 
     .stats-card { background: var(--card); border-radius: 12px; padding: 8px 12px; border: 1px solid var(--border); margin-bottom: 8px; }
     .stats-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -114,10 +114,8 @@
     .sess-bar { height: 4px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; flex-shrink: 0; }
     .sess-bar i { display: block; height: 100%; background: var(--primary); transition: width .3s; }
 
-    .flashcard-wrap { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 14px 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .flashcard-wrap { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 14px 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; position: relative; }
     .fc-top-bar { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 8px; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
-    .fc-scroll-body { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; }
-    .fc-action-dock { flex-shrink: 0; padding-top: 10px; margin-top: 8px; border-top: 1px solid var(--border); background: var(--card); }
     .tag { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
     .tag.new { background: rgba(37,99,235,.14); color: var(--primary); }
     .tag.rev { background: rgba(217,119,6,.15); color: var(--warn); }
@@ -140,8 +138,11 @@
     .ex-box { background: var(--success-soft); padding: 10px 13px; border-radius: 10px; font-size: 14px; line-height: 1.55; }
     .srs-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
     .srs-btn { padding: 11px 6px; border: none; border-radius: 10px; font-weight: 700; font-size: 13.5px; cursor: pointer; color: #fff; }
-    .btn-flip { width: 100%; padding: 13px; border-radius: 12px; background: var(--primary); color: #fff; border: none; font-size: 15.5px; font-weight: 700; cursor: pointer; margin: 0; }
-    .btn-flip.green { background: var(--success); }
+    .fc-scroll-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-right: 4px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+    .fc-action-dock { flex-shrink: 0; padding-top: 10px; margin-top: 8px; border-top: 1px solid var(--border); background: var(--card); z-index: 10; width: 100%; box-sizing: border-box; }
+    .btn-flip { width: 100%; padding: 13px; border-radius: 12px; background: var(--primary); color: #fff; border: none; font-size: 15.5px; font-weight: 700; cursor: pointer; margin: 0; display: block; touch-action: manipulation; box-shadow: 0 2px 8px rgba(37,99,235,0.25); }
+    .btn-flip.green { background: #16a34a; box-shadow: 0 2px 8px rgba(22,163,74,0.3); }
+    .btn-flip:active { transform: scale(0.985); }
 
     .finish-box { background: var(--card); border-radius: 18px; border: 2px solid var(--success); padding: 32px 24px; text-align: center; }
     .finish-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
@@ -176,8 +177,8 @@
       .mode-nav { display: none; }
       .mode-dd-wrap { display: block; }
       .topbar { padding: 6px 10px; gap: 6px; }
-      .main { padding: 6px 10px calc(10px + env(safe-area-inset-bottom, 8px)) 10px; }
-      .stats-card { padding: 6px 10px; margin-bottom: 6px; border-radius: 10px; }
+      .main { padding: 4px 8px calc(12px + env(safe-area-inset-bottom, 10px)) 8px; }
+      .stats-card { padding: 6px 10px; margin-bottom: 5px; border-radius: 10px; }
       .stats-top { gap: 6px; }
       .quota-pill { padding: 3px 8px; font-size: 11.5px; }
       .stats-mini-inline { font-size: 11.5px; gap: 6px; }
@@ -185,20 +186,20 @@
       .stat-num { font-size: 15px; }
       .stat-label { font-size: 10px; }
       .sess-row { font-size: 11px; margin-bottom: 2px; }
-      .sess-bar { margin-bottom: 6px; height: 4px; }
+      .sess-bar { margin-bottom: 5px; height: 4px; }
       .flashcard-wrap { padding: 10px 12px; border-radius: 14px; }
-      .fc-top-bar { margin-bottom: 6px; font-size: 11px; }
-      .fc-front-img { max-height: 115px; margin-bottom: 6px; }
-      .fc-word { font-size: 23px; }
-      .fc-pos { font-size: 14px; }
-      .fc-ipa { font-size: 14.5px; margin: 2px 0 6px 0; }
-      .audio-row { margin-bottom: 4px; }
-      .audio-pill { padding: 4px 11px; font-size: 12px; }
-      .fc-back { margin-top: 8px; padding-top: 8px; }
-      .def-box { font-size: 14px; line-height: 1.42; margin-bottom: 7px; }
-      .ex-box { padding: 8px 10px; font-size: 13px; line-height: 1.42; }
-      .fc-action-dock { padding-top: 8px; margin-top: 6px; }
-      .btn-flip { padding: 11px; font-size: 15px; }
+      .fc-top-bar { margin-bottom: 4px; font-size: 11px; }
+      .fc-front-img { max-height: 100px; margin-bottom: 4px; }
+      .fc-word { font-size: 22px; }
+      .fc-pos { font-size: 13.5px; }
+      .fc-ipa { font-size: 14px; margin: 2px 0 4px 0; }
+      .audio-row { margin-bottom: 3px; }
+      .audio-pill { padding: 3px 10px; font-size: 11.5px; }
+      .fc-back { margin-top: 6px; padding-top: 6px; }
+      .def-box { font-size: 13.5px; line-height: 1.4; margin-bottom: 6px; }
+      .ex-box { padding: 7px 9px; font-size: 12.5px; line-height: 1.4; }
+      .fc-action-dock { padding-top: 6px; margin-top: 5px; }
+      .btn-flip { padding: 12px; font-size: 14.5px; }
       .srs-buttons { grid-template-columns: repeat(4, 1fr); gap: 5px; }
       .srs-btn { padding: 10px 4px; font-size: 12px; }
       .quiz-box { padding: 12px; }
@@ -262,12 +263,12 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../auth.js?v=11"></script>
+  <script src="../auth.js?v=12"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
     const VOCAB_BY_ID = new Map(VOCAB.map(v => [v.id, v]));
-    const KEYS = { srs: "s4_vocab_srs_v1", days: "s4_vocab_days_v2", settings: "s4_vocab_settings_v2" };
+    const KEYS = { srs: "s4_vocab_srs_v1", days: "s4_vocab_days_v2", settings: "s4_vocab_settings_v2", session: "s4_vocab_active_session_v2" };
     const DEFAULT_SETTINGS = { dailyNewLimit: 20, reviewCap: 100, autoAudio: true, queueOrder: "mix", bonusTodayDate: "", bonusTodayCount: 0, lastTopic: "" };
     const POOL_SIZE = 10;
 
@@ -323,6 +324,8 @@
     let listenSubMode = "choice";
 
     let studyQueue = [];
+    let sessionTopic = "";        // chủ đề mà studyQueue hiện tại được dựng cho ("" = phiên tạm: tìm kiếm / ôn luyện)
+    let tapLockAt = 0;            // mốc thời gian giao diện vừa đổi, dùng chống bấm đúp nhầm sang thẻ kế tiếp
     let sessionTotal = 0, sessionDone = 0;
     let isFlipped = false;
     let extraPracticeMode = false;
@@ -346,16 +349,104 @@
     function bumpCard() {
       cardSerial++;
       cardCache = {};
+      tapLockAt = Date.now();
       const m = document.querySelector(".main");
       if (m) m.scrollTop = 0;
       const sb = document.querySelector(".fc-scroll-body");
       if (sb) sb.scrollTop = 0;
     }
+    // Chống bấm đúp / chạm lặp: trong 350ms sau khi thẻ mới hiện ra, mọi lần chạm lên nút đáp án/nút "Đã hiểu" bị bỏ qua
+    function tapTooSoon() { return Date.now() - tapLockAt < 350; }
     function cacheGet(key, factory) { if (!(key in cardCache)) cardCache[key] = factory(); return cardCache[key]; }
+    /* ---------- Lưu / khôi phục phiên học dở dang (theo từng chủ đề) ---------- */
+    function readSessionMap() {
+      const m = loadJSON(KEYS.session, {});
+      return m && typeof m === "object" && !Array.isArray(m) ? m : {};
+    }
+    function writeSessionMap(map) {
+      try {
+        if (Object.keys(map).length) localStorage.setItem(KEYS.session, JSON.stringify(map));
+        else localStorage.removeItem(KEYS.session);
+      } catch (e) {}
+    }
+    function saveActiveSession() {
+      if (extraPracticeMode || !sessionTopic || searchQuery()) return;
+      const map = readSessionMap();
+      if (!studyQueue || !studyQueue.length) {
+        delete map[sessionTopic];
+      } else {
+        map[sessionTopic] = {
+          mode: currentMode,
+          savedAt: Date.now(),
+          sessionTotal: sessionTotal,
+          sessionDone: sessionDone,
+          queue: studyQueue.map(w => ({
+            id: w.id,
+            _new: !!w._new,
+            _stage: typeof w._stage === "number" ? w._stage : (w._new ? 0 : 1),
+            _mistakes: w._mistakes || 0,
+            _resume: w._resume || null,
+            _relearn: !!w._relearn,
+            _lapsed: !!w._lapsed,
+            _relearned: !!w._relearned,
+            _rated: !!w._rated,
+            _hardRepeated: !!w._hardRepeated,
+            _lastTask: w._lastTask || null
+          }))
+        };
+      }
+      writeSessionMap(map);
+    }
+
+    // topic: xoá phiên của 1 chủ đề; bỏ trống: xoá toàn bộ phiên dở dang
+    function clearActiveSession(topic) {
+      if (!topic) { localStorage.removeItem(KEYS.session); return; }
+      const map = readSessionMap();
+      delete map[topic];
+      writeSessionMap(map);
+    }
+
+    function tryRestoreActiveSession() {
+      if (extraPracticeMode || searchQuery()) return false;
+      const raw = readSessionMap()[currentTopic];
+      if (!raw || !Array.isArray(raw.queue) || !raw.queue.length) return false;
+
+      // Chỉ giữ phiên trong cùng ngày, hoặc lưu cách đây dưới 6 tiếng (học qua nửa đêm)
+      const savedAt = raw.savedAt || 0;
+      const sameDay = localDateStr(new Date(savedAt)) === getTodayStr();
+      if (!sameDay && Date.now() - savedAt > 6 * 3600 * 1000) {
+        clearActiveSession(currentTopic);
+        return false;
+      }
+
+      const list = [];
+      for (const item of raw.queue) {
+        const full = VOCAB_BY_ID.get(item.id);
+        if (!full) continue;
+        const st = srsData[item.id];
+        if (st && st.ignored) continue;       // đã đánh dấu "đã biết" ở nơi khác
+        if (item._new && st) continue;        // từ mới đã được học xong/chấm điểm ở nơi khác (đồng bộ thiết bị)
+        list.push(Object.assign({}, full, item));
+      }
+      if (!list.length) { clearActiveSession(currentTopic); return false; }
+
+      studyQueue = list;
+      sessionTopic = currentTopic;
+      sessionTotal = Math.max(raw.sessionTotal || 0, list.length + (raw.sessionDone || 0));
+      sessionDone = raw.sessionDone || 0;
+      smartTick = 0;
+      lastSmartWordId = "";
+      isFlipped = false;
+      bumpCard();
+      if (currentMode === "smart" && studyQueue.length) pickNextSmartItem();
+      return true;
+    }
+
     function saveState() {
       localStorage.setItem(KEYS.srs, JSON.stringify(srsData));
       localStorage.setItem(KEYS.days, JSON.stringify(dayLog));
       localStorage.setItem(KEYS.settings, JSON.stringify(userSettings));
+      saveActiveSession();
     }
     function logActivity(id) {
       const today = getTodayStr();
@@ -376,11 +467,11 @@
     function getRemainingDailyNewQuota() { return Math.max(0, getDailyTarget() - getNewWordsLearnedTodayCount()); }
 
     function setOpt(key, val) {
-      if (key === "autoAudio") userSettings.autoAudio = !!val;
-      else if (key === "queueOrder") userSettings.queueOrder = val;
+      if (key === "autoAudio") { userSettings.autoAudio = !!val; saveState(); return; }
+      if (key === "queueOrder") userSettings.queueOrder = val;
       else userSettings[key] = Number(val);
       saveState();
-      buildStudyQueue();
+      buildStudyQueue(true);   // đổi giới hạn/thứ tự -> dựng lại hàng đợi theo cài đặt mới
       renderAll();
     }
     function addBonusNewWords(n) {
@@ -507,7 +598,12 @@
       return out;
     }
 
-    function buildStudyQueue() {
+    function buildStudyQueue(forceReset) {
+      const sessionScoped = !extraPracticeMode && !searchQuery();
+      if (!forceReset && tryRestoreActiveSession()) {
+        return;
+      }
+      if (forceReset && sessionScoped) clearActiveSession(currentTopic);
       const now = Date.now();
       const scope = getScopeWords();
       let list = [];
@@ -527,6 +623,7 @@
       }
 
       studyQueue = list.map(w => Object.assign({ _new: !srsData[w.id] }, w));
+      sessionTopic = sessionScoped ? currentTopic : "";
       sessionTotal = studyQueue.length;
       sessionDone = 0;
       smartTick = 0;
@@ -534,6 +631,7 @@
       isFlipped = false;
       bumpCard();
       if (currentMode === "smart" && studyQueue.length) pickNextSmartItem();
+      saveActiveSession();
     }
 
     function advanceQueueWithQuality(q) {
@@ -557,6 +655,7 @@
       }
       isFlipped = false;
       bumpCard();
+      saveActiveSession();
       renderAll();
     }
 
@@ -646,6 +745,7 @@
 
       isFlipped = false;
       pickNextSmartItem();
+      saveActiveSession();
       renderAll();
     }
 
@@ -661,7 +761,8 @@
       logActivity(v.id);
       sessionDone++;
       isFlipped = false;
-      if (studyQueue.length) pickNextSmartItem(); else bumpCard();
+      saveActiveSession();
+      if (studyQueue.length) pickNextSmartItem(); else { clearActiveSession(); bumpCard(); }
       renderAll();
     }
 
@@ -1001,7 +1102,10 @@
         <div class="fc-action-dock">${actionFooter || ""}</div>
       </div>`;
     }
-    function flipCard() { isFlipped = true; renderMain(); }
+    function flipCard() { if (tapTooSoon()) return; isFlipped = true; tapLockAt = Date.now(); renderMain(); }
+    // Nút chấm SRS & nút "Đã hiểu": bỏ qua lần chạm lặp ngay sau khi thẻ vừa đổi (tránh bấm nhầm sang nút cùng vị trí của thẻ kế tiếp)
+    function rateBtn(q) { if (tapTooSoon()) return; advanceQueueWithQuality(q); }
+    function introDone() { if (tapTooSoon()) return; completeSmartStep(true); }
 
     function pickDistractors(v) {
       const out = [], used = new Set([v.id]);
@@ -1039,6 +1143,7 @@
     function setListenSub(d) { listenSubMode = d; cardCache = {}; renderMain(); }
 
     function answerChoice(btn) {
+      if (tapTooSoon()) return;
       const grid = btn.parentElement;
       if (grid.dataset.locked === "1") return;
       grid.dataset.locked = "1";
@@ -1122,7 +1227,7 @@
       switch (v._task) {
         case "intro": {
           const label = v._relearn ? "Đã xem lại ➔ Tiếp tục" : "Đã hiểu ➔ Tiếp tục";
-          return flashcardHtml(v, backHtml(v), `<button class="btn-flip green" onclick="completeSmartStep(true)">${label}</button>`);
+          return flashcardHtml(v, backHtml(v), `<button class="btn-flip green" onclick="introDone()">${label}</button>`);
         }
         case "mcq_en2vi": return quizHtml(v, "en2vi");
         case "mcq_vi2en": return quizHtml(v, "vi2en");
@@ -1214,8 +1319,23 @@
 
     function sessionBarHtml() {
       const pct = sessionTotal ? Math.round(sessionDone / sessionTotal * 100) : 0;
-      return `<div class="sess-row"><span>${extraPracticeMode ? "Ôn luyện (không ảnh hưởng lịch ôn)" : "Phiên học"}${extraPracticeMode ? ` <button class="skip-known-btn" onclick="exitPractice()">Thoát</button>` : ""}</span><span>${sessionDone}/${sessionTotal}</span></div>
-        <div class="sess-bar"><i style="width:${pct}%"></i></div>`;
+      // Chỉ hiện nút làm mới khi phiên đã có tiến trình dở dang (đã làm xong từ nào đó hoặc có từ đã qua bước 0)
+      const inProgress = !!sessionTopic && !extraPracticeMode && !searchQuery() &&
+        (sessionDone > 0 || studyQueue.some(w => (w._mistakes || 0) > 0 || w._stage > (w._new ? 0 : 1)));
+      return `<div class="sess-row">
+        <span>
+          ${extraPracticeMode ? "Ôn luyện (không ảnh hưởng lịch ôn)" : "Phiên học"}
+          ${extraPracticeMode ? ` <button class="skip-known-btn" onclick="exitPractice()">Thoát</button>` : ""}
+          ${inProgress ? ` <button class="skip-known-btn" style="color:var(--danger);margin-left:4px;" onclick="restartSession()" title="Bỏ tiến trình dở dang của phiên này và tạo phiên mới">🔄 Phiên mới</button>` : ""}
+        </span>
+        <span>${sessionDone}/${sessionTotal}</span>
+      </div>
+      <div class="sess-bar"><i style="width:${pct}%"></i></div>`;
+    }
+    function restartSession() {
+      if (!confirm("Bỏ tiến trình dở dang của phiên học này và tạo phiên mới?\n(Các từ đã học xong vẫn được giữ nguyên.)")) return;
+      buildStudyQueue(true);
+      renderAll();
     }
 
     function renderMain() {
@@ -1230,10 +1350,10 @@
         case "flashcard":
           html = isFlipped
             ? flashcardHtml(v, backHtml(v), `<div class="srs-buttons">
-                <button class="srs-btn" style="background:#dc2626;" onclick="advanceQueueWithQuality(0)">🔴 Quên</button>
-                <button class="srs-btn" style="background:#d97706;" onclick="advanceQueueWithQuality(1)">🟠 Khó</button>
-                <button class="srs-btn" style="background:#16a34a;" onclick="advanceQueueWithQuality(2)">🟢 Nhớ</button>
-                <button class="srs-btn" style="background:#2563eb;" onclick="advanceQueueWithQuality(3)">🔵 Rất dễ</button></div>`)
+                <button class="srs-btn" style="background:#dc2626;" onclick="rateBtn(0)">🔴 Quên</button>
+                <button class="srs-btn" style="background:#d97706;" onclick="rateBtn(1)">🟠 Khó</button>
+                <button class="srs-btn" style="background:#16a34a;" onclick="rateBtn(2)">🟢 Nhớ</button>
+                <button class="srs-btn" style="background:#2563eb;" onclick="rateBtn(3)">🔵 Rất dễ</button></div>`)
             : flashcardHtml(v, "", `<button class="btn-flip" onclick="flipCard()">Hiện nghĩa</button>`);
           break;
         case "smart": html = smartHtml(); break;
@@ -1244,7 +1364,7 @@
       }
       host.innerHTML = sessionBarHtml() + html;
       const inp = host.querySelector(".text-input");
-      if (inp) inp.focus();
+      if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); } }
       autoPlayIfNeeded();
     }
 
@@ -1265,7 +1385,7 @@
         const opts = document.querySelectorAll("#cardHost .opt-btn");
         if (opts.length) { const b = opts[Number(key) - 1]; if (b) b.click(); return; }
       }
-      if (currentMode === "smart" && e.code === "Space" && studyQueue[0]._task === "intro") { e.preventDefault(); completeSmartStep(true); return; }
+      if (currentMode === "smart" && e.code === "Space" && studyQueue[0]._task === "intro") { e.preventDefault(); introDone(); return; }
       if (currentMode === "flashcard") {
         if (e.code === "Space") { e.preventDefault(); if (!isFlipped) flipCard(); }
         else if (isFlipped && ["1", "2", "3", "4"].includes(key)) advanceQueueWithQuality(Number(key) - 1);
@@ -1294,8 +1414,9 @@
           Object.keys(obj.srsData).forEach(k => { if (VOCAB_BY_ID.has(k)) srsData[k] = obj.srsData[k]; });
           dayLog = obj.dayLog && typeof obj.dayLog === "object" ? obj.dayLog : {};
           userSettings = Object.assign({}, DEFAULT_SETTINGS, obj.userSettings || {});
+          studyQueue = []; sessionTopic = ""; clearActiveSession();   // dữ liệu mới -> bỏ phiên dở cũ
           saveState();
-          buildStudyQueue();
+          buildStudyQueue(true);
           renderAll();
           alert("✅ Đã khôi phục tiến độ.");
         } catch (e) { alert("❌ File sao lưu không hợp lệ."); }
@@ -1305,11 +1426,12 @@
     function resetProgress() {
       if (!confirm("Xóa TOÀN BỘ tiến độ từ vựng (từ đã học, lịch ôn, lịch sử, cài đặt)?\nNên bấm 💾 Sao lưu trước. Hành động này không thể hoàn tác.")) return;
       [KEYS.srs, KEYS.days, KEYS.settings].forEach(k => localStorage.removeItem(k));
+      studyQueue = []; sessionTopic = ""; clearActiveSession();
       srsData = {}; dayLog = {};
       userSettings = Object.assign({}, DEFAULT_SETTINGS);
       currentTopic = TOPICS[0] || "ALL";
       extraPracticeMode = false;
-      buildStudyQueue();
+      buildStudyQueue(true);
       renderAll();
     }
 
