@@ -841,9 +841,12 @@
         bodyHtml = `
           ${vipCardHtml}
           <div class="s4-stat-box" style="margin-bottom:12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
               <span style="font-weight:800;font-size:14px;">📈 Tổng tiến độ khóa học</span>
-              <span style="font-weight:800;color:#2563eb;font-size:15px;">${st.overallPct}%</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:11.5px;background:rgba(217,119,6,0.12);color:#d97706;padding:2px 8px;border-radius:999px;font-weight:700;">🔥 Chuỗi học: ${st.streakDays} ngày (Tổng ${st.totalStudyDays} ngày)</span>
+                <span style="font-weight:800;color:#2563eb;font-size:15px;">${st.overallPct}%</span>
+              </div>
             </div>
             <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.overallPct}%;background:linear-gradient(90deg,#2563eb,#0d9488);"></div></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
@@ -860,15 +863,15 @@
                 <div style="font-size:17px;font-weight:800;color:#0d9488;margin:2px 0;">${st.grammarDone} / ${TOTAL_GRAMMAR} <span style="font-size:12px;">(${st.grammarPct}%)</span></div>
                 <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.grammarPct}%;background:#0d9488;"></div></div>
                 <div style="font-size:11px;color:#64748b;margin-top:6px;">
-                  🔥 Chuỗi học: <b style="color:#d97706">${st.streakDays} ngày</b> • Tổng: <b>${st.totalStudyDays} ngày</b>
+                  Đã hoàn thành: <b style="color:#16a34a">${st.grammarDone} bài</b> • Chưa học: <b>${Math.max(0, TOTAL_GRAMMAR - st.grammarDone)} bài</b> (4 chương)
                 </div>
               </div>
             </div>
           </div>
           <div class="s4-stat-box">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <span style="font-weight:700;font-size:13px;">📊 Hoạt động 7 ngày gần nhất (từ vựng/ngày)</span>
-              <span style="font-size:12px;color:#16a34a;font-weight:700;">🔥 Streak ${st.streakDays} ngày</span>
+              <span style="font-weight:700;font-size:13px;">📊 Hoạt động 7 ngày gần nhất</span>
+              <span style="font-size:12px;color:#16a34a;font-weight:700;">🔥 Chuỗi ${st.streakDays} ngày liên tiếp</span>
             </div>
             <div style="display:flex;gap:6px;align-items:flex-end;padding-top:4px;">${chartBars}</div>
           </div>`;
@@ -1621,7 +1624,7 @@
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       if (window.caches) {
         caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v10").forEach(k => caches.delete(k));
+          keys.filter(k => k !== "study4-ielts-cache-v11").forEach(k => caches.delete(k));
         }).catch(() => {});
       }
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";

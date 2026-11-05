@@ -155,7 +155,7 @@
     </div>
   </div>
 
-  <script src="../auth.js?v=9"></script>
+  <script src="../auth.js?v=11"></script>
   <script src="grammar_data.js"></script>
   <script>
     if (localStorage.getItem("s4_vocab_dark") === "1") {
@@ -311,6 +311,18 @@
     window.toggleDone = function(id) {
       completedMap[id] = !completedMap[id];
       localStorage.setItem("s4_grammar_done", JSON.stringify(completedMap));
+      if (completedMap[id]) {
+        try {
+          const now = new Date();
+          const today = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
+          const days = JSON.parse(localStorage.getItem("s4_vocab_days_v2") || "{}");
+          const arr = Array.isArray(days[today]) ? days[today] : [];
+          const gKey = "g_" + id;
+          if (!arr.includes(gKey)) arr.push(gKey);
+          days[today] = arr;
+          localStorage.setItem("s4_vocab_days_v2", JSON.stringify(days));
+        } catch (e) {}
+      }
       selectItem(id, false);
     };
 

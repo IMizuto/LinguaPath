@@ -262,7 +262,7 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../auth.js?v=9"></script>
+  <script src="../auth.js?v=11"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -301,7 +301,7 @@
       });
       Object.keys(dayLog).forEach(d => {
         if (!Array.isArray(dayLog[d])) delete dayLog[d];
-        else dayLog[d] = Array.from(new Set(dayLog[d].filter(id => VOCAB_BY_ID.has(id))));
+        else dayLog[d] = Array.from(new Set(dayLog[d].filter(id => VOCAB_BY_ID.has(id) || String(id).startsWith("g_"))));
       });
       localStorage.setItem(KEYS.srs, JSON.stringify(srsData));
       localStorage.setItem(KEYS.days, JSON.stringify(dayLog));
