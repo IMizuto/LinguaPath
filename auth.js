@@ -1621,7 +1621,7 @@
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       if (window.caches) {
         caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v9").forEach(k => caches.delete(k));
+          keys.filter(k => k !== "study4-ielts-cache-v10").forEach(k => caches.delete(k));
         }).catch(() => {});
       }
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";

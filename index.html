@@ -143,44 +143,44 @@
 
     <div class="sec-title">🚀 Khóa học 4 Kỹ Năng</div>
     <div class="grid">
-      <a class="course-card locked" href="listening/index.html" onclick="return checkSkillFolder(event, 'Listening')">
+      <a class="course-card locked" href="listening/index.html" onclick="return checkSkillFolder(event, 'Listening', '🎧')">
         <div class="card-top">
           <div class="card-icon" style="background:#fef3c7;color:#d97706;">🎧</div>
           <div>
-            <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING</span>
+            <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING • SẮP RA MẮT</span>
             <h3 class="card-title">IELTS Listening</h3>
             <p class="card-desc">Audio luyện nghe, Transcript và bài tập theo từng dạng bài.</p>
           </div>
         </div>
       </a>
 
-      <a class="course-card locked" href="reading/index.html" onclick="return checkSkillFolder(event, 'Reading')">
+      <a class="course-card locked" href="reading/index.html" onclick="return checkSkillFolder(event, 'Reading', '📖')">
         <div class="card-top">
           <div class="card-icon" style="background:#dcfce7;color:#15803d;">📖</div>
           <div>
-            <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING</span>
+            <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING • SẮP RA MẮT</span>
             <h3 class="card-title">IELTS Reading</h3>
             <p class="card-desc">Bài đọc, câu hỏi thực hành và giải thích đáp án chi tiết.</p>
           </div>
         </div>
       </a>
 
-      <a class="course-card locked" href="writing/index.html" onclick="return checkSkillFolder(event, 'Writing')">
+      <a class="course-card locked" href="writing/index.html" onclick="return checkSkillFolder(event, 'Writing', '✍️')">
         <div class="card-top">
           <div class="card-icon" style="background:#f3e8ff;color:#7e22ce;">✍️</div>
           <div>
-            <span class="card-tag" style="background:#f3e8ff;color:#7e22ce;">WRITING</span>
+            <span class="card-tag" style="background:#f3e8ff;color:#7e22ce;">WRITING • SẮP RA MẮT</span>
             <h3 class="card-title">IELTS Writing</h3>
             <p class="card-desc">Bài giảng, dàn bài mẫu và phân tích cấu trúc câu Task 1 & 2.</p>
           </div>
         </div>
       </a>
 
-      <a class="course-card locked" href="speaking/index.html" onclick="return checkSkillFolder(event, 'Speaking')">
+      <a class="course-card locked" href="speaking/index.html" onclick="return checkSkillFolder(event, 'Speaking', '🗣️')">
         <div class="card-top">
           <div class="card-icon" style="background:#ffe4e6;color:#e11d48;">🗣️</div>
           <div>
-            <span class="card-tag" style="background:#ffe4e6;color:#e11d48;">SPEAKING</span>
+            <span class="card-tag" style="background:#ffe4e6;color:#e11d48;">SPEAKING • SẮP RA MẮT</span>
             <h3 class="card-title">IELTS Speaking</h3>
             <p class="card-desc">Câu hỏi theo chủ đề, bài mẫu và từ vựng Part 1, 2, 3.</p>
           </div>
@@ -283,9 +283,24 @@
       updateDashboardStats();
     }
 
-    function checkSkillFolder(ev, skillName) {
+    function checkSkillFolder(ev, skillName, icon) {
       ev.preventDefault();
-      alert("💡 Học phần IELTS " + skillName + " đã được thiết kế sẵn ô chờ!\n\nKhi nào bạn muốn tải thêm khóa " + skillName + " trên Study4, chỉ cần nhắn cho AI để tự động nạp dữ liệu vào thư mục /" + skillName.toLowerCase() + " của Siêu App này!");
+      const old = document.getElementById("s4ComingSoonModal");
+      if (old) old.remove();
+      const wrap = document.createElement("div");
+      wrap.id = "s4ComingSoonModal";
+      wrap.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;touch-action:none;";
+      wrap.innerHTML = `
+        <div style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:24px 20px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
+          <div style="width:56px;height:56px;border-radius:16px;background:rgba(37,99,235,0.12);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px auto;">${icon || "⏳"}</div>
+          <h3 style="margin:0 0 8px 0;font-size:18px;font-weight:800;">Mục IELTS ${skillName} chưa sẵn sàng</h3>
+          <p style="margin:0 0 18px 0;font-size:14px;color:var(--muted);line-height:1.55;">
+            Học phần <b>IELTS ${skillName}</b> hiện đang trong quá trình biên soạn và cập nhật nội dung.<br>Bạn vui lòng quay lại sau hoặc học trước hai mục <b>Vocabulary</b> và <b>Grammar</b> nhé!
+          </p>
+          <button onclick="document.getElementById('s4ComingSoonModal').remove()" style="width:100%;padding:11px;border-radius:10px;border:none;background:var(--primary);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">Đã hiểu</button>
+        </div>`;
+      wrap.addEventListener("click", e => { if (e.target === wrap) wrap.remove(); });
+      document.body.appendChild(wrap);
       return false;
     }
 
