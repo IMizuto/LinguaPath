@@ -1,21 +1,28 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#2563eb">
   <title>Study4 Vocab Master</title>
+  <script>
+    if (localStorage.getItem("s4_vocab_dark") === "1") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
   <style>
     :root {
       --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
       --primary: #2563eb; --primary-soft: #dbeafe; --success: #16a34a; --success-soft: #dcfce7;
       --warn: #d97706; --warn-soft: #fef3c7; --danger: #dc2626; --danger-soft: #fee2e2;
     }
-    body.dark {
+    html.dark, body.dark {
       --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --muted: #94a3b8; --border: #334155;
       --primary: #3b82f6; --primary-soft: #1e3a8a; --success-soft: #064e3b; --warn-soft: #78350f; --danger-soft: #7f1d1d;
+      color-scheme: dark;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { background: var(--bg); color: var(--text); }
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
     button { font-family: inherit; }
 
@@ -36,25 +43,31 @@
     .sidebar-foot { padding: 10px; border-top: 1px solid var(--border); display: flex; gap: 6px; }
 
     .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; }
-    .topbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 9px 14px; display: flex; align-items: center; gap: 8px; }
+    .topbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 14px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .home-btn { background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; padding: 7px 11px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap; }
-    body.dark .home-btn { background: #334155; color: #f8fafc; border-color: #475569; }
+    html.dark .home-btn, body.dark .home-btn { background: #334155; color: #f8fafc; border-color: #475569; }
     .menu-btn { display: none; background: var(--primary); color: #fff; border: none; padding: 7px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
     .mode-nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: none; }
-    .mode-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .mode-btn { padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 600; font-size: 12.5px; cursor: pointer; white-space: nowrap; }
     .mode-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .mode-btn.danger { color: var(--danger); }
-    .main { flex: 1; overflow-y: auto; padding: 16px; }
-    .container { max-width: 820px; margin: 0 auto; }
+    .main { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 6px)) 14px; }
+    body.scroll-mode .main { overflow-y: auto; display: block; }
+    .container { max-width: 820px; width: 100%; margin: 0 auto; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    body.scroll-mode .container { display: block; }
+    #statsHost { flex-shrink: 0; }
+    #cardHost { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    body.scroll-mode #cardHost { display: block; }
 
-    .stats-card { background: var(--card); border-radius: 14px; padding: 12px 16px; border: 1px solid var(--border); margin-bottom: 12px; }
-    .stats-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-    .quota-pill { background: var(--primary-soft); color: var(--primary); padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 13.5px; }
-    .stats-btns { display: flex; gap: 6px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; text-align: center; }
-    .stat-num { font-size: 20px; font-weight: 800; }
-    .stat-label { font-size: 11.5px; color: var(--muted); }
-    .panel { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 13px; }
+    .stats-card { background: var(--card); border-radius: 12px; padding: 8px 12px; border: 1px solid var(--border); margin-bottom: 8px; }
+    .stats-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .quota-pill { background: var(--primary-soft); color: var(--primary); padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 12.5px; }
+    .stats-mini-inline { display: inline-flex; gap: 10px; font-size: 12.5px; font-weight: 600; color: var(--muted); align-items: center; flex-wrap: wrap; }
+    .stats-btns { display: flex; gap: 5px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; text-align: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .stat-num { font-size: 18px; font-weight: 800; }
+    .stat-label { font-size: 11px; color: var(--muted); }
+    .panel { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 13px; }
     .limit-select { padding: 5px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 600; font-size: 13px; }
 
     .cal-wrap { width: 100%; max-width: 340px; }
@@ -72,42 +85,44 @@
     .cal-legend { display: inline-flex; align-items: center; gap: 3px; }
     .cal-legend i { display: inline-block; width: 13px; height: 13px; border-radius: 3px; }
 
-    .sess-row { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
-    .sess-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+    .sess-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 4px; flex-shrink: 0; }
+    .sess-bar { height: 4px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 8px; flex-shrink: 0; }
     .sess-bar i { display: block; height: 100%; background: var(--primary); transition: width .3s; }
 
-    .flashcard-wrap { background: var(--card); border-radius: 18px; border: 1px solid var(--border); padding: 20px 22px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); min-height: 380px; display: flex; flex-direction: column; justify-content: space-between; }
-    .fc-top-bar { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--muted); margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
-    .tag { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .flashcard-wrap { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 14px 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .fc-top-bar { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 8px; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+    .fc-scroll-body { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; }
+    .fc-action-dock { flex-shrink: 0; padding-top: 10px; margin-top: 8px; border-top: 1px solid var(--border); background: var(--card); }
+    .tag { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
     .tag.new { background: rgba(37,99,235,.14); color: var(--primary); }
     .tag.rev { background: rgba(217,119,6,.15); color: var(--warn); }
     .steps { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; }
     .steps i { width: 18px; height: 6px; border-radius: 3px; background: var(--border); }
     .steps i.done { background: var(--success); }
     .steps i.cur { background: var(--primary); }
-    .skip-known-btn { background: var(--bg); border: 1px solid var(--border); color: var(--muted); padding: 5px 11px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+    .skip-known-btn { background: var(--bg); border: 1px solid var(--border); color: var(--muted); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .skip-known-btn:hover { background: var(--warn-soft); color: var(--warn); border-color: var(--warn); }
     .fc-front { text-align: center; }
-    .fc-front-img { max-width: 100%; max-height: 215px; border-radius: 12px; object-fit: contain; background: #f8fafc; margin: 0 auto 14px auto; display: block; border: 1px solid var(--border); }
-    .fc-word { font-size: 31px; font-weight: 800; color: var(--primary); }
-    .fc-pos { font-size: 18px; color: var(--muted); font-weight: 500; }
-    .fc-ipa { font-size: 18px; color: var(--danger); font-family: monospace; margin: 6px 0 12px 0; }
-    .audio-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
-    .audio-pill { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 7px 14px; border-radius: 20px; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+    .fc-front-img { max-width: 100%; max-height: 165px; border-radius: 12px; object-fit: contain; background: #f8fafc; margin: 0 auto 10px auto; display: block; border: 1px solid var(--border); }
+    .fc-word { font-size: 28px; font-weight: 800; color: var(--primary); }
+    .fc-pos { font-size: 16px; color: var(--muted); font-weight: 500; }
+    .fc-ipa { font-size: 16.5px; color: var(--danger); font-family: monospace; margin: 4px 0 8px 0; }
+    .audio-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 6px; }
+    .audio-pill { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 6px 13px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; }
     .audio-pill:active { transform: scale(0.95); }
-    .fc-back { margin-top: 16px; padding-top: 16px; border-top: 2px dashed var(--border); text-align: left; }
-    .def-box { font-size: 16.5px; line-height: 1.55; margin-bottom: 12px; }
-    .ex-box { background: var(--success-soft); padding: 12px 15px; border-radius: 10px; font-size: 15px; line-height: 1.6; }
-    .srs-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
-    .srs-btn { padding: 12px 6px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; color: #fff; }
-    .btn-flip { width: 100%; padding: 14px; border-radius: 12px; background: var(--primary); color: #fff; border: none; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 14px; }
+    .fc-back { margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--border); text-align: left; }
+    .def-box { font-size: 15.5px; line-height: 1.5; margin-bottom: 10px; }
+    .ex-box { background: var(--success-soft); padding: 10px 13px; border-radius: 10px; font-size: 14px; line-height: 1.55; }
+    .srs-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
+    .srs-btn { padding: 11px 6px; border: none; border-radius: 10px; font-weight: 700; font-size: 13.5px; cursor: pointer; color: #fff; }
+    .btn-flip { width: 100%; padding: 13px; border-radius: 12px; background: var(--primary); color: #fff; border: none; font-size: 15.5px; font-weight: 700; cursor: pointer; margin: 0; }
     .btn-flip.green { background: var(--success); }
 
     .finish-box { background: var(--card); border-radius: 18px; border: 2px solid var(--success); padding: 32px 24px; text-align: center; }
     .finish-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
     .btn-action { padding: 12px 18px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; border: none; }
 
-    .quiz-box { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; }
+    .quiz-box { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 16px 18px; flex: 1; min-height: 0; overflow-y: auto; }
     .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
     .opt-btn { padding: 13px 15px; border-radius: 12px; border: 2px solid var(--border); background: var(--card); color: var(--text); text-align: left; font-size: 15px; font-weight: 500; cursor: pointer; line-height: 1.45; }
     .opt-btn:hover { border-color: var(--primary); }
@@ -133,32 +148,34 @@
       .sidebar.open { transform: translateX(0); }
       .close-sidebar { display: block; }
       .menu-btn { display: inline-flex; }
-      .topbar { padding: 7px 10px; gap: 6px; }
-      .main { padding: 8px 10px calc(20px + env(safe-area-inset-bottom, 12px)) 10px; }
-      .stats-card { padding: 8px 10px; margin-bottom: 8px; border-radius: 12px; }
-      .stats-top { margin-bottom: 6px; gap: 6px; }
-      .quota-pill { padding: 4px 9px; font-size: 12px; }
+      .topbar { padding: 6px 10px; gap: 6px; }
+      .main { padding: 6px 10px calc(10px + env(safe-area-inset-bottom, 8px)) 10px; }
+      .stats-card { padding: 6px 10px; margin-bottom: 6px; border-radius: 10px; }
+      .stats-top { gap: 6px; }
+      .quota-pill { padding: 3px 8px; font-size: 11.5px; }
+      .stats-mini-inline { font-size: 11.5px; gap: 6px; }
       .stats-grid { grid-template-columns: repeat(5, 1fr); gap: 4px; }
       .stat-num { font-size: 15px; }
       .stat-label { font-size: 10px; }
-      .sess-row { font-size: 11.5px; margin-bottom: 3px; }
-      .sess-bar { margin-bottom: 8px; height: 4px; }
-      .flashcard-wrap { padding: 12px 14px; min-height: auto; border-radius: 14px; }
-      .fc-top-bar { margin-bottom: 8px; font-size: 11.5px; }
-      .fc-front-img { max-height: 130px; margin-bottom: 8px; }
-      .fc-word { font-size: 24px; }
-      .fc-pos { font-size: 15px; }
-      .fc-ipa { font-size: 15px; margin: 3px 0 8px 0; }
-      .audio-row { margin-bottom: 6px; }
-      .audio-pill { padding: 5px 12px; font-size: 12.5px; }
-      .fc-back { margin-top: 10px; padding-top: 10px; }
-      .def-box { font-size: 14.5px; line-height: 1.45; margin-bottom: 8px; }
-      .ex-box { padding: 9px 11px; font-size: 13.5px; line-height: 1.45; }
-      .btn-flip { position: sticky; bottom: 4px; z-index: 20; padding: 12px; font-size: 15px; margin-top: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
-      .srs-buttons { position: sticky; bottom: 4px; z-index: 20; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; background: var(--card); padding-top: 4px; }
-      .srs-btn { padding: 10px 4px; font-size: 12.5px; }
-      .quiz-box { padding: 14px; }
-      .opt-btn { padding: 11px 12px; font-size: 14px; }
+      .sess-row { font-size: 11px; margin-bottom: 2px; }
+      .sess-bar { margin-bottom: 6px; height: 4px; }
+      .flashcard-wrap { padding: 10px 12px; border-radius: 14px; }
+      .fc-top-bar { margin-bottom: 6px; font-size: 11px; }
+      .fc-front-img { max-height: 115px; margin-bottom: 6px; }
+      .fc-word { font-size: 23px; }
+      .fc-pos { font-size: 14px; }
+      .fc-ipa { font-size: 14.5px; margin: 2px 0 6px 0; }
+      .audio-row { margin-bottom: 4px; }
+      .audio-pill { padding: 4px 11px; font-size: 12px; }
+      .fc-back { margin-top: 8px; padding-top: 8px; }
+      .def-box { font-size: 14px; line-height: 1.42; margin-bottom: 7px; }
+      .ex-box { padding: 8px 10px; font-size: 13px; line-height: 1.42; }
+      .fc-action-dock { padding-top: 8px; margin-top: 6px; }
+      .btn-flip { padding: 11px; font-size: 15px; }
+      .srs-buttons { grid-template-columns: repeat(4, 1fr); gap: 5px; }
+      .srs-btn { padding: 10px 4px; font-size: 12px; }
+      .quiz-box { padding: 12px; }
+      .opt-btn { padding: 10px 12px; font-size: 13.5px; }
     }
   </style>
 </head>
@@ -202,7 +219,7 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../auth.js?v=6"></script>
+  <script src="../auth.js?v=7"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -288,6 +305,8 @@
       cardCache = {};
       const m = document.querySelector(".main");
       if (m) m.scrollTop = 0;
+      const sb = document.querySelector(".fc-scroll-body");
+      if (sb) sb.scrollTop = 0;
     }
     function cacheGet(key, factory) { if (!(key in cardCache)) cardCache[key] = factory(); return cardCache[key]; }
     function saveState() {
@@ -477,15 +496,18 @@
     function advanceQueueWithQuality(q) {
       if (!studyQueue.length) return;
       const v = studyQueue.shift();
+      const qLen = studyQueue.length;
       if (q === 0) {
         if (!v._lapsed && !extraPracticeMode) { v._lapsed = true; v._rated = true; rateWordSRS(v.id, 0); }
         else v._lapsed = true;
         logActivity(v.id);
-        studyQueue.splice(Math.min(studyQueue.length, rint(4, 8)), 0, v);
-      } else if (q === 1 && !v._hardRepeated && !v._lapsed && studyQueue.length >= 3) {
+        const minGap = qLen <= 3 ? qLen : Math.min(qLen, Math.max(3, Math.floor(qLen * 0.25)));
+        const maxGap = qLen <= 3 ? qLen : Math.min(qLen, Math.max(6, Math.floor(qLen * 0.75)));
+        studyQueue.splice(rint(minGap, maxGap), 0, v);
+      } else if (q === 1 && !v._hardRepeated && !v._lapsed && qLen >= 3) {
         rateOnce(v, 1);
         v._hardRepeated = true;
-        studyQueue.splice(rint(Math.ceil(studyQueue.length / 2), studyQueue.length), 0, v);
+        studyQueue.splice(rint(Math.ceil(qLen * 0.45), qLen), 0, v);
       } else {
         rateOnce(v, q);
         sessionDone++;
@@ -500,14 +522,13 @@
       else advanceQueueWithQuality(ok ? 2 : 0);
     }
 
-    /* ---------- Chế độ Học: thẻ mới + bài tập trộn ngẫu nhiên + ôn từ cũ ---------- */
+    /* ---------- Chế độ Học: thẻ mới + bài tập trộn ngẫu nhiên theo giới hạn từ hàng ngày ---------- */
     function pickNextSmartItem() {
       if (!studyQueue.length) return;
       smartTick++;
 
-      // Khởi tạo trạng thái cho các từ ở đầu hàng đợi
-      const winSize = Math.min(POOL_SIZE, studyQueue.length);
-      for (let i = 0; i < winSize; i++) {
+      // Khởi tạo trạng thái cho toàn bộ hàng đợi của phiên học (theo giới hạn từ hàng ngày)
+      for (let i = 0; i < studyQueue.length; i++) {
         const w = studyQueue[i];
         if (typeof w._stage !== "number") {
           w._stage = w._new ? 0 : 1;
@@ -515,8 +536,8 @@
         }
       }
 
-      // Chọn ngẫu nhiên 1 từ trong nhóm 3 từ đầu hàng đợi (khác với từ vừa hỏi ở lượt ngay trước đó)
-      const frontCount = Math.min(3, studyQueue.length);
+      // Chọn ngẫu nhiên 1 từ trong nhóm 4 từ đầu hàng đợi (khác với từ vừa hỏi ở lượt ngay trước đó)
+      const frontCount = Math.min(4, studyQueue.length);
       const candidates = [];
       for (let i = 0; i < frontCount; i++) {
         if (studyQueue[i].id !== lastSmartWordId) candidates.push(i);
@@ -562,11 +583,22 @@
         v._relearn = true;
       }
 
-      // Đẩy từ vừa học xuống sâu trong hàng đợi (cách 5-9 từ khác) để KHÔNG BAO GIỜ lặp lại quá sớm!
+      // Khoảng lặp ngẫu nhiên trải rộng theo toàn bộ giới hạn từ học hàng ngày (studyQueue.length)
+      // thay vì chỉ lặp quanh quẩn 6 từ đầu!
       studyQueue.shift();
-      const minGap = ok || s === 0 ? 5 : 3;
-      const maxGap = ok || s === 0 ? 9 : 5;
-      const insertPos = Math.min(studyQueue.length, rint(minGap, maxGap));
+      const qLen = studyQueue.length;
+      let insertPos = qLen;
+      if (qLen > 3) {
+        if (ok || s === 0) {
+          const minGap = Math.min(qLen, Math.max(4, Math.floor(qLen * 0.35)));
+          const maxGap = qLen;
+          insertPos = rint(minGap, maxGap);
+        } else {
+          const minGap = Math.min(qLen, Math.max(3, Math.floor(qLen * 0.20)));
+          const maxGap = Math.min(qLen, Math.max(6, Math.floor(qLen * 0.60)));
+          insertPos = rint(minGap, maxGap);
+        }
+      }
       studyQueue.splice(insertPos, 0, v);
 
       isFlipped = false;
@@ -644,10 +676,15 @@
 
     function toggleSidebar(open) { $("sidebar").classList.toggle("open", open); }
     function toggleDark() {
-      document.body.classList.toggle("dark");
-      localStorage.setItem("s4_vocab_dark", document.body.classList.contains("dark") ? "1" : "0");
+      const isDark = !document.documentElement.classList.contains("dark");
+      document.documentElement.classList.toggle("dark", isDark);
+      document.body.classList.toggle("dark", isDark);
+      localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
     }
-    if (localStorage.getItem("s4_vocab_dark") === "1") document.body.classList.add("dark");
+    if (localStorage.getItem("s4_vocab_dark") === "1") {
+      document.documentElement.classList.add("dark");
+      document.body.classList.add("dark");
+    }
 
     function selectTopic(t) {
       if (window.S4Auth && !window.S4Auth.canAccessVocabTopic(t, TOPICS)) {
@@ -691,7 +728,11 @@
       if (m === "smart" && studyQueue.length) { studyQueue[0]._task = null; pickNextSmartItem(); } else bumpCard();
       renderMain();
     }
-    function togglePanel(p) { panel = panel === p ? "" : p; renderStats(); }
+    function togglePanel(p) {
+      panel = panel === p ? "" : p;
+      document.body.classList.toggle("scroll-mode", currentMode === "list" || !!panel);
+      renderStats();
+    }
     function shiftCalMonth(d) { calMonthOffset = Math.min(0, calMonthOffset + d); renderStats(); }
 
     function calendarHtml() {
@@ -751,19 +792,24 @@
       const unseen = Math.max(0, st.total - st.learning - st.ignored);
       $("statsHost").innerHTML = `<div class="stats-card">
         <div class="stats-top">
-          <span class="quota-pill">🆕 Hôm nay ${getNewWordsLearnedTodayCount()}/${target >= 9000 ? "∞" : target} từ mới</span>
+          <div class="stats-mini-inline">
+            <span class="quota-pill">🆕 Hôm nay ${getNewWordsLearnedTodayCount()}/${target >= 9000 ? "∞" : target}</span>
+            <span>📚 Đã học: <b style="color:var(--primary)">${st.learning}</b></span>
+            <span>🔔 Ôn: <b style="color:var(--danger)">${st.due}</b></span>
+          </div>
           <div class="stats-btns">
+            <button class="mode-btn ${panel === "stats" ? "active" : ""}" onclick="togglePanel('stats')">📊 Chi tiết</button>
             <button class="mode-btn ${panel === "calendar" ? "active" : ""}" onclick="togglePanel('calendar')">📅 Lịch</button>
-            <button class="mode-btn ${panel === "settings" ? "active" : ""}" onclick="togglePanel('settings')">⚙️ Cài đặt</button>
+            <button class="mode-btn ${panel === "settings" ? "active" : ""}" onclick="togglePanel('settings')">⚙️</button>
           </div>
         </div>
-        <div class="stats-grid">
+        ${panel === "stats" ? `<div class="stats-grid">
           <div><div class="stat-num" style="color:var(--primary)">${st.learning}</div><div class="stat-label">Đã học</div></div>
           <div><div class="stat-num" style="color:var(--danger)">${st.due}</div><div class="stat-label">Cần ôn</div></div>
           <div><div class="stat-num" style="color:var(--success)">${st.mastered}</div><div class="stat-label">Nhớ kỹ</div></div>
           <div><div class="stat-num" style="color:var(--warn)">${st.ignored}</div><div class="stat-label">Đã biết</div></div>
           <div><div class="stat-num">${unseen}</div><div class="stat-label">Chưa học</div></div>
-        </div>
+        </div>` : ""}
         ${panel === "settings" ? settingsHtml() : ""}
         ${panel === "calendar" ? `<div class="panel">${calendarHtml()}</div>` : ""}
       </div>`;
@@ -790,12 +836,18 @@
       return `<div class="fc-back"><div class="def-box"><b>Định nghĩa:</b><br>${(v.defRaw || "").replace(/\n/g, "<br>")}</div>
         ${v.examples && v.examples.length ? `<div class="ex-box"><b>Ví dụ:</b><br>${exampleHtml(v.examples)}</div>` : ""}</div>`;
     }
-    function flashcardHtml(v, bottom) {
-      return `<div class="flashcard-wrap"><div>${headerHtml(v)}
-        <div class="fc-front">${v.localImg ? `<img class="fc-front-img" src="${v.localImg}" alt="">` : ""}
-          <div><span class="fc-word">${v.word}</span> <span class="fc-pos">${v.pos}</span></div>
-          <div class="fc-ipa">${v.ipa}</div>${audioRowHtml(v)}
-        </div></div>${bottom}</div>`;
+    function flashcardHtml(v, extraBody, actionFooter) {
+      return `<div class="flashcard-wrap">
+        ${headerHtml(v)}
+        <div class="fc-scroll-body">
+          <div class="fc-front">${v.localImg ? `<img class="fc-front-img" src="${v.localImg}" alt="">` : ""}
+            <div><span class="fc-word">${v.word}</span> <span class="fc-pos">${v.pos}</span></div>
+            <div class="fc-ipa">${v.ipa}</div>${audioRowHtml(v)}
+          </div>
+          ${extraBody || ""}
+        </div>
+        <div class="fc-action-dock">${actionFooter || ""}</div>
+      </div>`;
     }
     function flipCard() { isFlipped = true; renderMain(); }
 
@@ -918,7 +970,7 @@
       switch (v._task) {
         case "intro": {
           const label = v._relearn ? "Đã xem lại ➔ Tiếp tục" : "Đã hiểu ➔ Tiếp tục";
-          return flashcardHtml(v, backHtml(v) + `<button class="btn-flip green" onclick="completeSmartStep(true)">${label}</button>`);
+          return flashcardHtml(v, backHtml(v), `<button class="btn-flip green" onclick="completeSmartStep(true)">${label}</button>`);
         }
         case "mcq_en2vi": return quizHtml(v, "en2vi");
         case "mcq_vi2en": return quizHtml(v, "vi2en");
@@ -1015,6 +1067,7 @@
     }
 
     function renderMain() {
+      document.body.classList.toggle("scroll-mode", currentMode === "list" || !!panel);
       renderStats();
       const host = $("cardHost");
       if (currentMode === "list") { host.innerHTML = listHtml(getScopeWords()); return; }
@@ -1023,13 +1076,13 @@
       let html;
       switch (currentMode) {
         case "flashcard":
-          html = flashcardHtml(v, isFlipped
-            ? backHtml(v) + `<div class="srs-buttons">
+          html = isFlipped
+            ? flashcardHtml(v, backHtml(v), `<div class="srs-buttons">
                 <button class="srs-btn" style="background:#dc2626;" onclick="advanceQueueWithQuality(0)">🔴 Quên</button>
                 <button class="srs-btn" style="background:#d97706;" onclick="advanceQueueWithQuality(1)">🟠 Khó</button>
                 <button class="srs-btn" style="background:#16a34a;" onclick="advanceQueueWithQuality(2)">🟢 Nhớ</button>
-                <button class="srs-btn" style="background:#2563eb;" onclick="advanceQueueWithQuality(3)">🔵 Rất dễ</button></div>`
-            : `<button class="btn-flip" onclick="flipCard()">Hiện nghĩa</button>`);
+                <button class="srs-btn" style="background:#2563eb;" onclick="advanceQueueWithQuality(3)">🔵 Rất dễ</button></div>`)
+            : flashcardHtml(v, "", `<button class="btn-flip" onclick="flipCard()">Hiện nghĩa</button>`);
           break;
         case "smart": html = smartHtml(); break;
         case "quiz": html = quizHtml(v, quizDirection); break;
