@@ -580,7 +580,7 @@
   }
 
 </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=13">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=14">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -687,7 +687,8 @@ let showViSub = true;
 let autoPauseSub = true;
 let autoLoopSub = false;
 let subPauseLock = false;
-let currentSubIdx = 0;
+let currentSubIdx = 0; // Vị trí câu đang học chép chính tả
+let transcriptActiveIdx = 0; // Vị trí dòng phụ đề đang đọc theo audio (độc lập)
 let currentWordIdx = 0;
 
 // Folder collapse states
@@ -1629,8 +1630,8 @@ window.handleDicKeydown = function(e, inp) {
         if (curMs >= (subs[i].time || 0) - 150) activeIdx = i;
         else break;
       }
-      if (activeIdx !== currentSubIdx) {
-        currentSubIdx = activeIdx;
+      if (activeIdx !== transcriptActiveIdx) {
+        transcriptActiveIdx = activeIdx;
         document.querySelectorAll('.sub-item').forEach((el, idx) => {
           const isAct = idx === activeIdx;
           el.classList.toggle('active', isAct);
@@ -1640,6 +1641,18 @@ window.handleDicKeydown = function(e, inp) {
     }
   }, 45);
 })();
+
+window.seekToTranscriptSub = function(idx) {
+  transcriptActiveIdx = idx;
+  const subs = (currentLesson?.problem?.subs || []).filter(s => s.en);
+  const s = subs[idx];
+  if (!s) return;
+  const a = document.getElementById('globalPassAudio');
+  if (a) {
+    a.currentTime = Math.max(0, (s.time || 0) / 1000);
+    a.play().catch(() => {});
+  }
+};
 
 window.checkDictation = function() {
   const subs = (currentLesson?.problem?.subs || []).filter(s => s.en);
@@ -1888,7 +1901,7 @@ function renderMain() {
       ` : `
         <div class="subs-list">
           ${subs.map((s, idx) => `
-            <div class="sub-item ${idx === currentSubIdx ? 'active' : ''}" onclick="currentSubIdx=${idx};playCurrentSub();renderMain();">
+            <div class="sub-item ${idx === transcriptActiveIdx ? 'active' : ''}" onclick="window.seekToTranscriptSub(${idx});">
               <span class="sub-time">${fmtTime(s.time)}</span>
               <div>
                 <div style="font-weight:600;color:var(--text);">${s.en}</div>
@@ -2022,7 +2035,7 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../auth.js?v=13"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=13"></script>
+  <script src="../auth.js?v=14"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=14"></script>
 </body>
 </html>

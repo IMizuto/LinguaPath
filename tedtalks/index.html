@@ -223,7 +223,7 @@
       .subs-list { max-height: none; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=13">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=14">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -347,7 +347,8 @@
     let activeId = localStorage.getItem(STORAGE_LAST) || (ITEMS[0] && ITEMS[0].id);
     let unitFilter = "ALL";
     let currentMode = "dictation"; // 'dictation' | 'transcript' | 'shadowing' | 'podcast'
-    let currentSubIdx = Math.max(0, Number(posMap[activeId] || 0));
+    let currentSubIdx = Math.max(0, Number(posMap[activeId] || 0)); // Vị trí câu đang học (Dictation & Shadowing)
+    let playbackSubIdx = 0; // Vị trí câu âm thanh/video đang phát tới (Transcript & Podcast độc lập)
     let dicLevel = "word"; // 'word' | 'word_hard' | 'sentence'
     let showEnSub = true;
     let showViSub = localStorage.getItem("s4_ted_show_vi") !== "0";
@@ -460,6 +461,7 @@
       const it = getActiveItem();
       const saved = Number(posMap[id] || 0);
       currentSubIdx = (it && saved >= 0 && saved < it.subs.length) ? saved : 0;
+      playbackSubIdx = 0;
       segmentEndSec = null;
       toggleMenu(false);
       renderSidebar();
@@ -791,24 +793,24 @@
           }
         }
 
-        // Subtitle highlight tracking
-        if (currentMode === "transcript" || !autoPauseSentence) {
+        // Subtitle highlight tracking cho Transcript (độc lập, không ghi đè vị trí bài học Dictation/Shadowing)
+        if (currentMode === "transcript") {
           const ms = sec * 1000;
           let foundIdx = 0;
           for (let i = 0; i < it.subs.length; i++) {
             if (ms >= it.subs[i].time) foundIdx = i;
             else break;
           }
-          if (foundIdx !== currentSubIdx) {
-            currentSubIdx = foundIdx;
-            if (currentMode === "transcript") highlightTranscriptRow(foundIdx);
-            else renderModeContent();
+          if (foundIdx !== playbackSubIdx) {
+            playbackSubIdx = foundIdx;
+            highlightTranscriptRow(foundIdx);
           }
         }
       }, 80);
     }
 
     function highlightTranscriptRow(idx) {
+      playbackSubIdx = idx;
       const rows = document.querySelectorAll(".sub-item");
       rows.forEach((r, i) => r.classList.toggle("active", i === idx));
       const activeRow = rows[idx];
@@ -821,7 +823,7 @@
     function renderTranscriptMode(it) {
       const box = document.getElementById("modeContainer");
       const rowsHtml = it.subs.map((s, idx) => `
-        <div class="sub-item ${idx === currentSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
+        <div class="sub-item ${idx === playbackSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
           <span class="sub-time">${fmtTime(s.time)}</span>
           <div style="flex:1;min-width:0;">
             ${showEnSub ? `<div class="sub-en">${s.en}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
@@ -845,8 +847,7 @@
     function clickTranscriptRow(idx) {
       const it = getActiveItem();
       if (!it || !it.subs[idx]) return;
-      currentSubIdx = idx;
-      saveSubPos();
+      playbackSubIdx = idx;
       segmentEndSec = null;
       highlightTranscriptRow(idx);
 
@@ -1498,9 +1499,8 @@
               if (ms >= it.subs[i].time) foundIdx = i;
               else break;
             }
-            if (foundIdx !== currentSubIdx) {
-              currentSubIdx = foundIdx;
-              saveSubPos();
+            if (foundIdx !== playbackSubIdx) {
+              playbackSubIdx = foundIdx;
               highlightTranscriptRow(foundIdx);
             }
           }
@@ -1636,7 +1636,7 @@
     function renderPodcastMode(it) {
       const box = document.getElementById("modeContainer");
       const rowsHtml = it.subs.map((s, idx) => `
-        <div class="sub-item ${idx === currentSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
+        <div class="sub-item ${idx === playbackSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
           <span class="sub-time">${fmtTime(s.time)}</span>
           <div style="flex:1;min-width:0;">
             ${showEnSub ? `<div class="sub-en">${s.en}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
@@ -1672,7 +1672,7 @@
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=13"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=13"></script>
+  <script src="../auth.js?v=14"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=14"></script>
 </body>
 </html>
