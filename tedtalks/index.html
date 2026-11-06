@@ -223,7 +223,7 @@
       .subs-list { max-height: none; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=14">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=15">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -707,14 +707,14 @@
       const cur = it.subs[idx];
       const next = it.subs[idx + 1];
       const startSec = Math.max(0, (cur.time || 0) / 1000 - 0.08);
-      segmentEndSec = (autoPauseSentence && next) ? (next.time / 1000 - 0.04) : null;
+      segmentEndSec = autoPauseSentence ? (next ? (next.time / 1000 - 0.04) : ((cur.time / 1000) + 12)) : null;
 
       if (currentEngine === "ted" || !ytReady || ytError) {
         if (currentEngine !== "ted") setMediaEngine("ted", true);
         const tedVid = document.getElementById("tedVideoPlayer");
         const bgAudio = document.getElementById("bgPodcastAudio");
-        const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
-        const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+        const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
+        const offsetSec = (activeMedia === bgAudio) ? (Number(it.podOffsetMs || 0) / 1000) : 0;
         if (activeMedia) {
           activeMedia.currentTime = Math.max(0, startSec + offsetSec);
           activeMedia.play().catch(() => {});
@@ -726,6 +726,30 @@
       setTimeout(focusCurrentDicInput, 60);
     }
 
+    function setupTedVideoEvents() {
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (!tedVid || tedVid._s4PauseAttached) return;
+      tedVid._s4PauseAttached = true;
+      tedVid.addEventListener("timeupdate", () => {
+        if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
+          const it = getActiveItem();
+          if (!it || !it.subs) return;
+          const curSub = it.subs[currentSubIdx];
+          const nextSub = it.subs[currentSubIdx + 1];
+          const cutoff = segmentEndSec !== null ? segmentEndSec : (nextSub ? (nextSub.time / 1000 - 0.04) : ((curSub.time / 1000) + 12));
+          if (cutoff !== null && tedVid.currentTime >= cutoff && !tedVid.paused) {
+            if (repeatSentence && curSub) {
+              tedVid.currentTime = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+            } else {
+              tedVid.pause();
+              segmentEndSec = null;
+              focusCurrentDicInput();
+            }
+          }
+        }
+      });
+    }
+
     function startSyncLoop() {
       if (syncTimer) clearInterval(syncTimer);
       syncTimer = setInterval(() => {
@@ -735,13 +759,14 @@
         let sec = -1;
         let isPlaying = false;
 
-        if (currentEngine === "ted" || currentMode === "podcast" || !ytReady || ytError) {
-          const tedVid = document.getElementById("tedVideoPlayer");
-          const bgAudio = document.getElementById("bgPodcastAudio");
-          const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+        const tedVid = document.getElementById("tedVideoPlayer");
+        const bgAudio = document.getElementById("bgPodcastAudio");
+
+        if (currentEngine === "ted" || !ytReady || ytError) {
+          const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
           if (activeMedia && !activeMedia.paused) {
             isPlaying = true;
-            const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+            const offsetSec = (activeMedia === bgAudio) ? (Number(it.podOffsetMs || 0) / 1000) : 0;
             sec = Math.max(0, activeMedia.currentTime - offsetSec);
           }
         } else if (ytReady && ytPlayer && typeof ytPlayer.getCurrentTime === "function") {
@@ -758,26 +783,22 @@
         if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
           const curSub = it.subs[currentSubIdx];
           const nextSub = it.subs[currentSubIdx + 1];
-          const cutoff = segmentEndSec !== null ? segmentEndSec : (nextSub ? (nextSub.time / 1000 - 0.04) : null);
+          const cutoff = segmentEndSec !== null ? segmentEndSec : (nextSub ? (nextSub.time / 1000 - 0.04) : ((curSub.time / 1000) + 12));
           if (cutoff !== null && sec >= cutoff) {
             if (repeatSentence && curSub) {
               const repeatStart = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
-              if (currentEngine === "ted" || currentMode === "podcast" || !ytReady) {
-                const tedVid = document.getElementById("tedVideoPlayer");
-                const bgAudio = document.getElementById("bgPodcastAudio");
-                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
-                const offsetSec = Number(it.podOffsetMs || 0) / 1000;
-                if (activeMedia) activeMedia.currentTime = repeatStart + offsetSec;
-              } else {
+              if (currentEngine === "ted" || !ytReady || ytError) {
+                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
+                const offsetSec = (activeMedia === bgAudio) ? (Number(it.podOffsetMs || 0) / 1000) : 0;
+                if (activeMedia) activeMedia.currentTime = Math.max(0, repeatStart + offsetSec);
+              } else if (ytReady && ytPlayer && ytPlayer.seekTo) {
                 ytPlayer.seekTo(repeatStart, true);
               }
             } else {
-              if (currentEngine === "ted" || currentMode === "podcast" || !ytReady) {
-                const tedVid = document.getElementById("tedVideoPlayer");
-                const bgAudio = document.getElementById("bgPodcastAudio");
-                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+              if (currentEngine === "ted" || !ytReady || ytError) {
+                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
                 if (activeMedia) activeMedia.pause();
-              } else {
+              } else if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
                 ytPlayer.pauseVideo();
               }
               segmentEndSec = null;
@@ -806,7 +827,7 @@
             highlightTranscriptRow(foundIdx);
           }
         }
-      }, 80);
+      }, 40);
     }
 
     function highlightTranscriptRow(idx) {
@@ -1668,11 +1689,13 @@
 
     document.getElementById("searchInput").oninput = renderSidebar;
     setupPodcastEvents();
+    setupTedVideoEvents();
+    startSyncLoop();
     renderSidebar();
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=14"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=14"></script>
+  <script src="../auth.js?v=15"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=15"></script>
 </body>
 </html>
