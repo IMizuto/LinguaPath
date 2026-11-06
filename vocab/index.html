@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = (d === "1");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+    } catch (e) {}
+  })();
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#f1f5f9">
   <title>Study4 Vocab Master</title>
-  <script>
-    if (localStorage.getItem("s4_vocab_dark") === "1") {
-      document.documentElement.classList.add("dark");
-      var mt = document.getElementById("metaThemeColor");
-      if (mt) mt.setAttribute("content", "#0f172a");
-    }
-  </script>
+  
   <style>
     @view-transition { navigation: auto; }
     :root {
@@ -155,14 +165,22 @@
     .opt-btn.correct { border-color: var(--success) !important; background: var(--success-soft) !important; font-weight: 700; }
     .opt-btn.wrong { border-color: var(--danger) !important; background: var(--danger-soft) !important; }
     .prompt-box { font-size: 17px; line-height: 1.55; padding: 14px; background: var(--bg); border-radius: 12px; }
-    .blank { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--primary); padding: 0 12px; }
+    .blank { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--primary); padding: 0 8px; }
+    .blank.correct { color: var(--success); border-bottom-color: var(--success); }
+    .blank.wrong { color: var(--danger); border-bottom-color: var(--danger); }
     .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 16px; }
     .match-tile { padding: 12px 10px; border-radius: 12px; border: 2px solid var(--border); background: var(--card); text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; min-height: 76px; display: flex; align-items: center; justify-content: center; user-select: none; }
     .match-tile.selected { border-color: var(--primary); background: var(--primary-soft); }
     .match-tile.matched { opacity: 0.18; pointer-events: none; border-color: var(--success); }
     .match-tile.error { border-color: var(--danger); background: var(--danger-soft); }
-    .text-input { width: 100%; padding: 13px 16px; font-size: 18px; font-weight: 600; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); outline: none; margin-top: 12px; text-align: center; }
+    .text-input { width: 100%; padding: 13px 16px; font-size: 18px; font-weight: 600; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); outline: none; margin-top: 12px; text-align: center; transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease; }
     .text-input:focus { border-color: var(--primary); }
+    .text-input.correct { border-color: var(--success) !important; background: var(--success-soft) !important; color: var(--success) !important; }
+    .text-input.wrong { border-color: var(--danger) !important; background: var(--danger-soft) !important; color: var(--danger) !important; }
+    .s4-ans-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
+    .s4-ans-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .s4-ans-toast.correct { background: #16a34a; }
+    .s4-ans-toast.wrong { background: #dc2626; }
     .center { text-align: center; }
     .word-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
     .word-card-img { width: 135px; height: 98px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0; }
@@ -206,12 +224,14 @@
       .opt-btn { padding: 10px 12px; font-size: 13.5px; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css">
 </head>
 <body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h2><a class="home-btn" href="../index.html" style="padding:4px 9px;font-size:12.5px;">🏠</a> 🧠 Từ vựng IELTS</h2>
+      <h2><a class="home-btn" href="../index.html#ielts" style="padding:4px 9px;font-size:12.5px;" title="Về Khóa học IELTS">🏠</a> 🧠 Từ vựng IELTS</h2>
       <button class="close-sidebar" onclick="toggleSidebar(false)">×</button>
     </div>
     <div class="search-wrap"><input type="text" id="searchWordInput" placeholder="🔍 Tìm từ hoặc nghĩa..."></div>
@@ -227,7 +247,7 @@
 
   <div class="main-wrap">
     <div class="topbar">
-      <a class="home-btn" href="../index.html" title="Về trang chủ">🏠</a>
+      <a class="home-btn" href="../index.html#ielts" title="Về Khóa học IELTS">🏠</a>
       <button class="menu-btn" onclick="toggleSidebar(true)">☰ Chủ đề</button>
       <div class="mode-dd-wrap" id="modeDdWrap">
         <button class="mode-dd-btn" id="modeDdBtn" onclick="event.stopPropagation();document.getElementById('modeDdMenu').classList.toggle('open')">
@@ -1151,35 +1171,66 @@
       btn.classList.add(ok ? "correct" : "wrong");
       if (!ok) { const r = grid.querySelector('[data-correct="true"]'); if (r) r.classList.add("correct"); }
       const serial = cardSerial;
-      setTimeout(() => { if (serial === cardSerial) handleResult(ok); }, ok ? 500 : 1300);
+      setTimeout(() => { if (serial === cardSerial) handleResult(ok); }, ok ? 1100 : 2200);
     }
 
     function normalizeAns(s) { return s.toLowerCase().replace(/[’]/g, "'").replace(/\s+/g, " ").trim(); }
+    let ansToastTimer = null;
+    function showAnsToast(ok, rightAns) {
+      let t = document.getElementById("s4AnsToast");
+      if (!t) {
+        t = document.createElement("div");
+        t.id = "s4AnsToast";
+        document.body.appendChild(t);
+      }
+      if (ansToastTimer) clearTimeout(ansToastTimer);
+      t.className = "s4-ans-toast " + (ok ? "correct" : "wrong");
+      t.textContent = ok ? "✓ Chính xác" : "✗ Đáp án: " + rightAns;
+      requestAnimationFrame(() => t.classList.add("show"));
+      ansToastTimer = setTimeout(() => t.classList.remove("show"), ok ? 1300 : 2400);
+    }
+
     function checkText() {
       const inp = $("ansInput");
       if (!inp || inp.dataset.locked === "1") return;
       const answers = cardCache.answers || [];
       const ok = answers.includes(normalizeAns(inp.value));
-      finishText(inp, ok);
+      finishText(inp, ok, false);
     }
     function giveUp() {
       const inp = $("ansInput");
       if (!inp || inp.dataset.locked === "1") return;
-      inp.value = (cardCache.answers || [""])[0];
-      finishText(inp, false);
+      finishText(inp, false, true);
     }
-    function finishText(inp, ok) {
+    function finishText(inp, ok, isGiveUp) {
       inp.dataset.locked = "1";
+      const rightAns = (studyQueue[0] && studyQueue[0].word) || (cardCache.answers || [""])[0];
+      if (isGiveUp) inp.value = rightAns;
+
+      inp.classList.remove("correct", "wrong");
+      inp.classList.add(ok ? "correct" : "wrong");
+
+      document.querySelectorAll("#cardHost .blank").forEach(b => {
+        b.classList.remove("correct", "wrong");
+        b.classList.add(ok ? "correct" : "wrong");
+        b.textContent = rightAns;
+      });
+
       const fb = $("ansFeedback");
-      fb.style.color = ok ? "var(--success)" : "var(--danger)";
-      fb.textContent = ok ? "✅ Chính xác!" : "❌ Đáp án: " + (cardCache.answers || [""])[0];
+      if (fb) {
+        fb.style.color = ok ? "var(--success)" : "var(--danger)";
+        fb.textContent = ok ? "" : "Đáp án: " + rightAns;
+      }
+
+      showAnsToast(ok, rightAns);
+
       const serial = cardSerial;
-      setTimeout(() => { if (serial === cardSerial) handleResult(ok); }, ok ? 600 : 1500);
+      setTimeout(() => { if (serial === cardSerial) handleResult(ok); }, ok ? 1400 : 2600);
     }
     function textInputHtml(placeholder) {
       return `<input type="text" id="ansInput" class="text-input" placeholder="${placeholder}" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkText()">
-        <div id="ansFeedback" style="margin-top:10px;font-weight:700;min-height:22px;"></div>
-        <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;">
+        <div id="ansFeedback" style="margin-top:8px;font-weight:700;font-size:14px;min-height:20px;"></div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;">
           <button class="mode-btn active" onclick="checkText()">Kiểm tra</button>
           <button class="mode-btn" onclick="giveUp()">Hiện đáp án</button>
         </div>`;
@@ -1444,5 +1495,6 @@
     buildStudyQueue();
     renderAll();
   </script>
+  <script src="../assets/ghibli/ghibli-theme.js"></script>
 </body>
 </html>

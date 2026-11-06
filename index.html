@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = (d === "1");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+    } catch (e) {}
+  })();
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#f1f5f9">
@@ -11,13 +27,9 @@
   <link rel="icon" href="icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <title>Study4 IELTS</title>
-  <script>
-    if (localStorage.getItem("s4_vocab_dark") === "1") {
-      document.documentElement.classList.add("dark");
-      var mt = document.getElementById("metaThemeColor");
-      if (mt) mt.setAttribute("content", "#0f172a");
-    }
-  </script>
+  <link rel="prefetch" href="listening/data/listening_manifest.js">
+  <link rel="prefetch" href="reading/data/reading_manifest.js">
+  
   <style>
     @view-transition { navigation: auto; }
     :root {
@@ -42,18 +54,22 @@
     html, body { margin: 0; width: 100%; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; touch-action: pan-y; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #0d9488 100%); color: #fff; padding: 26px 18px 34px 18px; border-bottom-left-radius: 26px; border-bottom-right-radius: 26px; box-shadow: 0 8px 28px rgba(37,99,235,0.22); }
     .hero-inner { max-width: 920px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .hero h1 { margin: 0; font-size: 23px; font-weight: 800; letter-spacing: -0.3px; }
-    .hero p { margin: 6px 0 0 0; font-size: 14px; opacity: 0.9; }
+    .hero h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
+    .hero p { margin: 4px 0 0 0; font-size: 13.5px; opacity: 0.9; }
     .dark-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 16px; cursor: pointer; flex-shrink: 0; }
+    .back-portal-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 7px 13px; border-radius: 11px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: background 0.15s ease; }
+    .back-portal-btn:hover { background: rgba(255,255,255,0.3); }
     .data-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 600; font-size: 13px; cursor: pointer; }
     .container { max-width: 920px; width: 100%; margin: -22px auto 36px auto; padding: 0 14px; }
+    .portal-wrap { padding-top: 28px; }
     .summary-bar { background: var(--card); border-radius: 16px; padding: 14px 16px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,0.06); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; text-align: center; margin-bottom: 22px; }
     .sum-num { font-size: 20px; font-weight: 800; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sum-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
     .sec-title { font-size: 14.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 20px 0 12px 4px; display: flex; align-items: center; gap: 8px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-    .course-card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); padding: 18px; text-decoration: none; color: var(--text); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.18s ease, box-shadow 0.18s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: relative; overflow: hidden; min-width: 0; }
+    .course-card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); padding: 18px; text-decoration: none; color: var(--text); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: relative; overflow: hidden; min-width: 0; cursor: pointer; }
     .course-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,0.09); border-color: var(--primary); }
+    .course-card:active { transform: scale(0.985); }
     .course-card.locked { opacity: 0.78; }
     .card-top { display: flex; align-items: flex-start; gap: 14px; min-width: 0; }
     .card-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 25px; flex-shrink: 0; }
@@ -63,10 +79,16 @@
     .card-footer { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
     .prog-row { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; gap: 8px; }
     .prog-bar { height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .prog-fill { height: 100%; border-radius: 4px; transition: width 0.3s ease; }
+    .prog-fill { height: 100%; border-radius: 4px; transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes layerFadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .view-layer { display: none; }
+    .view-layer.active { display: block; animation: layerFadeUp 0.24s cubic-bezier(0.22, 1, 0.36, 1); }
     @media (max-width: 520px) {
       .hero { padding: 20px 14px 28px 14px; border-bottom-left-radius: 22px; border-bottom-right-radius: 22px; }
-      .hero h1 { font-size: 19px; }
+      .hero h1 { font-size: 18.5px; }
       .summary-bar { padding: 12px 8px; gap: 6px; margin-bottom: 18px; }
       .sum-num { font-size: 17px; }
       .sum-label { font-size: 11px; }
@@ -74,125 +96,220 @@
       .course-card { padding: 15px; border-radius: 15px; }
     }
   </style>
+  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css">
 </head>
 <body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
   <div class="hero">
     <div class="hero-inner">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <img src="icon-192.png" alt="Logo" style="width:44px;height:44px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.25);">
-        <h1>STUDY4 IELTS</h1>
+      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+        <img src="icon-192.png" alt="Logo" style="width:44px;height:44px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.25);flex-shrink:0;">
+        <h1 id="heroTitle">STUDY4 IELTS</h1>
       </div>
-      <button class="dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <button class="back-portal-btn" id="btnBackPortal" style="display:none;" onclick="openPortal()">← Tất cả khóa học</button>
+        <button class="dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
+      </div>
     </div>
   </div>
 
   <div class="container">
-    <div class="summary-bar">
-      <div>
-        <div class="sum-num" id="statVocabLearned">0 / 1827</div>
-        <div class="sum-label">Từ vựng đã học</div>
-      </div>
-      <div>
-        <div class="sum-num" style="color:#dc2626;" id="statVocabDue">0</div>
-        <div class="sum-label">Cần ôn hôm nay</div>
-      </div>
-      <div>
-        <div class="sum-num" style="color:#0d9488;" id="statGrammarDone">0 / 120</div>
-        <div class="sum-label">Bài Grammar</div>
+    <!-- =====================================================================
+         TẦNG 1: TRANG ĐẦU TIÊN - DANH SÁCH KHÓA HỌC LỚN
+         (Không có thanh thống kê trên; khóa nào chưa có dữ liệu báo chưa hoàn thiện)
+         ===================================================================== -->
+    <div id="viewPortal" class="view-layer active portal-wrap">
+      <div class="sec-title" style="margin-top:6px;">🎓 Danh Sách Khóa Học</div>
+      <div class="grid">
+        <!-- 1. KHÓA HỌC IELTS (ĐÃ CÓ DỮ LIỆU -> ẤN VÀO MỞ KHÓA HỌC CHÍNH) -->
+        <div class="course-card" onclick="openCourse('ielts')">
+          <div class="card-top">
+            <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">🎓</div>
+            <div>
+              <span class="card-tag" style="background:#dbeafe;color:#1d4ed8;">VOCAB • GRAMMAR • 4 KỸ NĂNG</span>
+              <h3 class="card-title">IELTS</h3>
+              <p class="card-desc">Hệ thống từ vựng SRS (1,827 từ), 120 bài ngữ pháp trọng tâm và luyện 4 kỹ năng Listening, Reading, Writing, Speaking.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="prog-row">
+              <span id="portalIeltsSummary">Tiến độ: 0%</span>
+              <span style="color:#2563eb;">Vào học &rarr;</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="portalIeltsBar" style="width:0%;background:#2563eb;"></div></div>
+          </div>
+        </div>
+
+        <!-- 2. KHÓA HỌC TED TALKS (ĐÃ CÓ DỮ LIỆU 40 BÀI -> ẤN VÀO HỌC TRỰC TIẾP) -->
+        <a class="course-card" href="tedtalks/index.html">
+          <div class="card-top">
+            <div class="card-icon" style="background:#fee2e2;color:#dc2626;">🎙️</div>
+            <div>
+              <span class="card-tag" style="background:#fee2e2;color:#dc2626;">2 CHƯƠNG • 40 VIDEO BÀI HỌC</span>
+              <h3 class="card-title">TED Talks</h3>
+              <p class="card-desc">Luyện nghe chép chính tả (Dictation), phụ đề song ngữ Anh - Việt tương tác và luyện nói Shadowing cùng diễn giả TED.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="prog-row">
+              <span id="portalTedSummary">Tiến độ: 0% (0/40 bài)</span>
+              <span style="color:#dc2626;">Vào học &rarr;</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="portalTedBar" style="width:0%;background:#dc2626;"></div></div>
+          </div>
+        </a>
+
+        <!-- 3. KHÓA HỌC TOEIC (CHƯA CÓ DỮ LIỆU -> BÁO CHƯA HOÀN THIỆN) -->
+        <a class="course-card locked" href="#" onclick="return checkSkillFolder(event, 'Khóa học TOEIC', '💼')">
+          <div class="card-top">
+            <div class="card-icon" style="background:#fef3c7;color:#d97706;">💼</div>
+            <div>
+              <span class="card-tag" style="background:#fef3c7;color:#b45309;">TOEIC • SẮP RA MẮT</span>
+              <h3 class="card-title">TOEIC</h3>
+              <p class="card-desc">Từ vựng TOEIC thương mại, ngữ pháp cốt lõi và luyện nghe đọc theo cấu trúc đề thi TOEIC.</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- 4. KHÓA HỌC HSK (CHƯA CÓ DỮ LIỆU -> BÁO CHƯA HOÀN THIỆN) -->
+        <a class="course-card locked" href="#" onclick="return checkSkillFolder(event, 'Khóa học HSK', '🏮')">
+          <div class="card-top">
+            <div class="card-icon" style="background:#ede9fe;color:#6d28d9;">🏮</div>
+            <div>
+              <span class="card-tag" style="background:#ede9fe;color:#6d28d9;">HSK • SẮP RA MẮT</span>
+              <h3 class="card-title">HSK</h3>
+              <p class="card-desc">Từ vựng tiếng Trung HSK 1–6 theo thuật toán SRS, bộ thủ chữ Hán, ngữ pháp và luyện nghe đọc.</p>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
 
-    <div class="sec-title">🔥 Khóa học nền tảng</div>
-    <div class="grid">
-      <a class="course-card" href="vocab/index.html">
-        <div class="card-top">
-          <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">🧠</div>
-          <div>
-            <span class="card-tag" style="background:#dbeafe;color:#1d4ed8;">20 CHỦ ĐỀ • 1,827 TỪ</span>
-            <h3 class="card-title">IELTS Vocabulary</h3>
-            <p class="card-desc">Flashcards lặp lại ngắt quãng (SRS) kèm ảnh minh họa, âm thanh UK/US và bài tập trộn ngẫu nhiên.</p>
-          </div>
+    <!-- =====================================================================
+         TẦNG 2: KHÓA HỌC IELTS CHÍNH (GIỮ NGUYÊN Y HỆT NHƯ BẢN ĐANG HỌC)
+         ===================================================================== -->
+    <div id="viewCourse_ielts" class="view-layer">
+      <div class="summary-bar">
+        <div>
+          <div class="sum-num" id="statVocabLearned">0 / 1827</div>
+          <div class="sum-label">Từ vựng đã học</div>
         </div>
-        <div class="card-footer">
-          <div class="prog-row">
-            <span id="vocabPctText">Tiến độ: 0%</span>
-            <span style="color:#2563eb;">Vào học &rarr;</span>
-          </div>
-          <div class="prog-bar"><div class="prog-fill" id="vocabProgFill" style="width:0%;background:#2563eb;"></div></div>
+        <div>
+          <div class="sum-num" style="color:#dc2626;" id="statVocabDue">0</div>
+          <div class="sum-label">Cần ôn hôm nay</div>
         </div>
-      </a>
+        <div>
+          <div class="sum-num" style="color:#0d9488;" id="statGrammarDone">0 / 120</div>
+          <div class="sum-label">Bài Grammar</div>
+        </div>
+      </div>
 
-      <a class="course-card" href="grammar/index.html">
-        <div class="card-top">
-          <div class="card-icon" style="background:#ccfbf1;color:#0f766e;">📚</div>
-          <div>
-            <span class="card-tag" style="background:#ccfbf1;color:#0f766e;">4 CHƯƠNG • 120 BÀI HỌC</span>
-            <h3 class="card-title">IELTS Grammar</h3>
-            <p class="card-desc">Video bài giảng, Slide PDF, lý thuyết trọng tâm và bài tập thực hành chấm điểm tự động.</p>
+      <div class="sec-title">🔥 Khóa học nền tảng</div>
+      <div class="grid">
+        <a class="course-card" href="vocab/index.html">
+          <div class="card-top">
+            <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">🧠</div>
+            <div>
+              <span class="card-tag" style="background:#dbeafe;color:#1d4ed8;">20 CHỦ ĐỀ • 1,827 TỪ</span>
+              <h3 class="card-title">IELTS Vocabulary</h3>
+              <p class="card-desc">Flashcards lặp lại ngắt quãng (SRS) kèm ảnh minh họa, âm thanh UK/US và bài tập trộn ngẫu nhiên.</p>
+            </div>
           </div>
-        </div>
-        <div class="card-footer">
-          <div class="prog-row">
-            <span id="grammarPctText">Tiến độ: 0%</span>
-            <span style="color:#0d9488;">Vào học &rarr;</span>
+          <div class="card-footer">
+            <div class="prog-row">
+              <span id="vocabPctText">Tiến độ: 0%</span>
+              <span style="color:#2563eb;">Vào học &rarr;</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="vocabProgFill" style="width:0%;background:#2563eb;"></div></div>
           </div>
-          <div class="prog-bar"><div class="prog-fill" id="grammarProgFill" style="width:0%;background:#0d9488;"></div></div>
-        </div>
-      </a>
-    </div>
+        </a>
 
-    <div class="sec-title">🚀 Khóa học 4 Kỹ Năng</div>
-    <div class="grid">
-      <a class="course-card locked" href="listening/index.html" onclick="return checkSkillFolder(event, 'Listening', '🎧')">
-        <div class="card-top">
-          <div class="card-icon" style="background:#fef3c7;color:#d97706;">🎧</div>
-          <div>
-            <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING • SẮP RA MẮT</span>
-            <h3 class="card-title">IELTS Listening</h3>
-            <p class="card-desc">Audio luyện nghe, Transcript và bài tập theo từng dạng bài.</p>
+        <a class="course-card" href="grammar/index.html">
+          <div class="card-top">
+            <div class="card-icon" style="background:#ccfbf1;color:#0f766e;">📚</div>
+            <div>
+              <span class="card-tag" style="background:#ccfbf1;color:#0f766e;">4 CHƯƠNG • 120 BÀI HỌC</span>
+              <h3 class="card-title">IELTS Grammar</h3>
+              <p class="card-desc">Video bài giảng, Slide PDF, lý thuyết trọng tâm và bài tập thực hành chấm điểm tự động.</p>
+            </div>
           </div>
-        </div>
-      </a>
-
-      <a class="course-card locked" href="reading/index.html" onclick="return checkSkillFolder(event, 'Reading', '📖')">
-        <div class="card-top">
-          <div class="card-icon" style="background:#dcfce7;color:#15803d;">📖</div>
-          <div>
-            <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING • SẮP RA MẮT</span>
-            <h3 class="card-title">IELTS Reading</h3>
-            <p class="card-desc">Bài đọc, câu hỏi thực hành và giải thích đáp án chi tiết.</p>
+          <div class="card-footer">
+            <div class="prog-row">
+              <span id="grammarPctText">Tiến độ: 0%</span>
+              <span style="color:#0d9488;">Vào học &rarr;</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="grammarProgFill" style="width:0%;background:#0d9488;"></div></div>
           </div>
-        </div>
-      </a>
+        </a>
+      </div>
 
-      <a class="course-card locked" href="writing/index.html" onclick="return checkSkillFolder(event, 'Writing', '✍️')">
-        <div class="card-top">
-          <div class="card-icon" style="background:#f3e8ff;color:#7e22ce;">✍️</div>
-          <div>
-            <span class="card-tag" style="background:#f3e8ff;color:#7e22ce;">WRITING • SẮP RA MẮT</span>
-            <h3 class="card-title">IELTS Writing</h3>
-            <p class="card-desc">Bài giảng, dàn bài mẫu và phân tích cấu trúc câu Task 1 & 2.</p>
+      <div class="sec-title">🚀 Khóa học 4 Kỹ Năng</div>
+      <div class="grid">
+        <a class="course-card" href="listening/index.html">
+          <div class="card-top">
+            <div class="card-icon" style="background:#fef3c7;color:#d97706;">🎧</div>
+            <div>
+              <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING • 1,482 BÀI & 6,808 TỪ</span>
+              <h3 class="card-title">IELTS Intensive Listening</h3>
+              <p class="card-desc">10 chủ đề Từ vựng SRS (2,176 từ), 4,632 từ nghe chính tả, 670 bài nghe Dictation & 775 video chữa đề chi tiết.</p>
+            </div>
           </div>
-        </div>
-      </a>
-
-      <a class="course-card locked" href="speaking/index.html" onclick="return checkSkillFolder(event, 'Speaking', '🗣️')">
-        <div class="card-top">
-          <div class="card-icon" style="background:#ffe4e6;color:#e11d48;">🗣️</div>
-          <div>
-            <span class="card-tag" style="background:#ffe4e6;color:#e11d48;">SPEAKING • SẮP RA MẮT</span>
-            <h3 class="card-title">IELTS Speaking</h3>
-            <p class="card-desc">Câu hỏi theo chủ đề, bài mẫu và từ vựng Part 1, 2, 3.</p>
+          <div class="card-prog">
+            <div class="prog-row">
+              <span id="listeningPctText">Tiến độ: 0 bài • 0 từ đã thuộc</span>
+              <span style="color:#d97706;">Vào học &rarr;</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="listeningProgFill" style="width:0%;background:#d97706;"></div></div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
 
-    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
-      <button class="data-btn" onclick="backupAll()">💾 Sao lưu</button>
-      <button class="data-btn" onclick="document.getElementById('restoreFile').click()">📂 Khôi phục</button>
-      <button class="data-btn" style="color:#dc2626;" onclick="resetAll()">🗑️ Đặt lại tiến độ</button>
-      <input type="file" id="restoreFile" accept=".json" style="display:none" onchange="restoreAll(event)">
+        <a class="course-card" href="reading/index.html">
+          <div class="card-top">
+            <div class="card-icon" style="background:#dcfce7;color:#15803d;">📖</div>
+            <div>
+              <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING • 1,220 BÀI & 2,969 TỪ</span>
+              <h3 class="card-title">IELTS Intensive Reading</h3>
+              <p class="card-desc">10 chủ đề Từ vựng SRS (2,969 từ), 318 bài đọc Academic Reading song ngữ, 16 bài chiến thuật & 876 video chữa đề.</p>
+            </div>
+          </div>
+          <div class="card-prog">
+            <div class="prog-row">
+              <span id="readingPctText">Tiến độ: 0 bài • 0 từ đã thuộc</span>
+              <span style="color:#15803d;">Vào học &rarr;</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="readingProgFill" style="width:0%;background:#15803d;"></div></div>
+          </div>
+        </a>
+
+        <a class="course-card locked" href="writing/index.html" onclick="return checkSkillFolder(event, 'IELTS Writing', '✍️')">
+          <div class="card-top">
+            <div class="card-icon" style="background:#f3e8ff;color:#7e22ce;">✍️</div>
+            <div>
+              <span class="card-tag" style="background:#f3e8ff;color:#7e22ce;">WRITING • SẮP RA MẮT</span>
+              <h3 class="card-title">IELTS Writing</h3>
+              <p class="card-desc">Bài giảng, dàn bài mẫu và phân tích cấu trúc câu Task 1 & 2.</p>
+            </div>
+          </div>
+        </a>
+
+        <a class="course-card locked" href="speaking/index.html" onclick="return checkSkillFolder(event, 'IELTS Speaking', '🗣️')">
+          <div class="card-top">
+            <div class="card-icon" style="background:#ffe4e6;color:#e11d48;">🗣️</div>
+            <div>
+              <span class="card-tag" style="background:#ffe4e6;color:#e11d48;">SPEAKING • SẮP RA MẮT</span>
+              <h3 class="card-title">IELTS Speaking</h3>
+              <p class="card-desc">Câu hỏi theo chủ đề, bài mẫu và từ vựng Part 1, 2, 3.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
+        <button class="data-btn" onclick="backupAll()">💾 Sao lưu</button>
+        <button class="data-btn" onclick="document.getElementById('restoreFile').click()">📂 Khôi phục</button>
+        <button class="data-btn" style="color:#dc2626;" onclick="resetAll()">🗑️ Đặt lại tiến độ</button>
+        <input type="file" id="restoreFile" accept=".json" style="display:none" onchange="restoreAll(event)">
+      </div>
     </div>
   </div>
 
@@ -209,6 +326,37 @@
       const mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
     }
+
+    function applyViewFromHash() {
+      const hash = (location.hash || "").replace(/^#/, "").toLowerCase();
+      const portalEl = document.getElementById("viewPortal");
+      const ieltsEl = document.getElementById("viewCourse_ielts");
+      const btnBack = document.getElementById("btnBackPortal");
+
+      if (hash === "ielts") {
+        portalEl.classList.remove("active");
+        ieltsEl.classList.add("active");
+        btnBack.style.display = "inline-flex";
+      } else {
+        ieltsEl.classList.remove("active");
+        portalEl.classList.add("active");
+        btnBack.style.display = "none";
+      }
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function openCourse(courseKey) {
+      location.hash = courseKey;
+    }
+
+    function openPortal() {
+      if (location.hash) {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+      }
+      applyViewFromHash();
+    }
+
+    window.addEventListener("hashchange", applyViewFromHash);
 
     function updateDashboardStats() {
       try {
@@ -241,6 +389,38 @@
         document.getElementById("statGrammarDone").textContent = gCount + " / 120";
         document.getElementById("grammarPctText").textContent = "Tiến độ: " + gPct + "% (" + gCount + " bài)";
         document.getElementById("grammarProgFill").style.width = gPct + "%";
+
+        const lisDoneRaw = JSON.parse(localStorage.getItem("s4_listening_done") || "[]");
+        const lisCount = Array.isArray(lisDoneRaw) ? lisDoneRaw.length : Object.values(lisDoneRaw).filter(Boolean).length;
+        const lisSrs = JSON.parse(localStorage.getItem("s4_listening_srs_v1") || "{}");
+        const lisWords = Object.keys(lisSrs).filter(k => lisSrs[k] && (lisSrs[k].reps > 0 || lisSrs[k].ignored)).length;
+        const lisPct = Math.min(100, Math.round(((lisCount + lisWords) / (1482 + 2176)) * 100));
+        const lisTextEl = document.getElementById("listeningPctText");
+        const lisFillEl = document.getElementById("listeningProgFill");
+        if (lisTextEl) lisTextEl.textContent = "Đã học: " + lisCount + "/1,482 bài • " + lisWords + "/2,176 từ SRS";
+        if (lisFillEl) lisFillEl.style.width = lisPct + "%";
+
+        const readDoneRaw = JSON.parse(localStorage.getItem("s4_reading_done") || "[]");
+        const readCount = Array.isArray(readDoneRaw) ? readDoneRaw.length : Object.values(readDoneRaw).filter(Boolean).length;
+        const readSrs = JSON.parse(localStorage.getItem("s4_reading_srs_v1") || "{}");
+        const readWords = Object.keys(readSrs).filter(k => readSrs[k] && (readSrs[k].reps > 0 || readSrs[k].ignored)).length;
+        const readPct = Math.min(100, Math.round(((readCount + readWords) / (1220 + 2969)) * 100));
+        const readTextEl = document.getElementById("readingPctText");
+        const readFillEl = document.getElementById("readingProgFill");
+        if (readTextEl) readTextEl.textContent = "Đã học: " + readCount + "/1,220 bài • " + readWords + "/2,969 từ SRS";
+        if (readFillEl) readFillEl.style.width = readPct + "%";
+
+        const overallIeltsPct = Math.min(100, Math.round(((totalDoneCount + gCount + lisCount + readCount + lisWords + readWords) / (1827 + 120 + 1482 + 1220 + 2176 + 2969)) * 100));
+        document.getElementById("portalIeltsSummary").textContent = "Tiến độ: " + overallIeltsPct + "% (" + (totalDoneCount + lisWords + readWords) + " từ • " + (gCount + lisCount + readCount) + " bài)";
+        document.getElementById("portalIeltsBar").style.width = overallIeltsPct + "%";
+
+        const tedDone = JSON.parse(localStorage.getItem("s4_ted_done") || "{}");
+        const tedCount = Object.values(tedDone).filter(Boolean).length;
+        const tedPct = Math.min(100, Math.round((tedCount / 40) * 100));
+        const tedSumEl = document.getElementById("portalTedSummary");
+        const tedBarEl = document.getElementById("portalTedBar");
+        if (tedSumEl) tedSumEl.textContent = "Tiến độ: " + tedPct + "% (" + tedCount + "/40 bài)";
+        if (tedBarEl) tedBarEl.style.width = tedPct + "%";
       } catch (e) {}
     }
 
@@ -284,7 +464,7 @@
     }
 
     function checkSkillFolder(ev, skillName, icon) {
-      ev.preventDefault();
+      if (ev) ev.preventDefault();
       const old = document.getElementById("s4ComingSoonModal");
       if (old) old.remove();
       const wrap = document.createElement("div");
@@ -293,9 +473,9 @@
       wrap.innerHTML = `
         <div style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:24px 20px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
           <div style="width:56px;height:56px;border-radius:16px;background:rgba(37,99,235,0.12);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px auto;">${icon || "⏳"}</div>
-          <h3 style="margin:0 0 8px 0;font-size:18px;font-weight:800;">Mục IELTS ${skillName} chưa sẵn sàng</h3>
+          <h3 style="margin:0 0 8px 0;font-size:18px;font-weight:800;">Mục ${skillName} chưa sẵn sàng</h3>
           <p style="margin:0 0 18px 0;font-size:14px;color:var(--muted);line-height:1.55;">
-            Học phần <b>IELTS ${skillName}</b> hiện đang trong quá trình biên soạn và cập nhật nội dung.<br>Bạn vui lòng quay lại sau hoặc học trước hai mục <b>Vocabulary</b> và <b>Grammar</b> nhé!
+            Học phần <b>${skillName}</b> hiện đang trong quá trình biên soạn và hoàn thiện nội dung.<br>Bạn vui lòng quay lại sau nhé!
           </p>
           <button onclick="document.getElementById('s4ComingSoonModal').remove()" style="width:100%;padding:11px;border-radius:10px;border:none;background:var(--primary);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">Đã hiểu</button>
         </div>`;
@@ -305,7 +485,9 @@
     }
 
     updateDashboardStats();
+    applyViewFromHash();
   </script>
   <script src="auth.js?v=12"></script>
+  <script src="assets/ghibli/ghibli-theme.js"></script>
 </body>
 </html>

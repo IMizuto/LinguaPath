@@ -1,0 +1,752 @@
+/* ==========================================================================
+   GLOBAL THEME & COLOR-MODE ENGINE FOR IELTSPATH / STUDY4
+   - 2 Independent Axes:
+     1. Theme Style:   🌿 Studio Ghibli (html.theme-ghibli) vs 🎨 Mặc định
+     2. Lighting Mode: 🌙 Tối (html.dark)                  vs ☀️ Sáng (html:not(.dark))
+   - 4 Harmonious Combinations:
+     A. 🌿 Ghibli + 🌙 Tối  (Starry Forest Night — soothing dark moss & warm lantern amber)
+     B. 🌿 Ghibli + ☀️ Sáng (Sunlit Meadow Parchment — warm ivory & deep forest ink)
+     C. 🎨 Mặc định + 🌙 Tối (Modern Dark Slate)
+     D. 🎨 Mặc định + ☀️ Sáng (Modern Clean Light)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700;800&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. DEFAULT THEME + LIGHT MODE (🎨 Mặc định + ☀️ Sáng)
+   Ensures pages originally written in dark-slate (reading, listening) also
+   render cleanly in Standard Light Mode!
+   -------------------------------------------------------------------------- */
+html:not(.theme-ghibli):not(.dark),
+html:not(.theme-ghibli):not(.dark) body {
+  --bg: #f1f5f9 !important;
+  --panel: #ffffff !important;
+  --panel-hover: #f8fafc !important;
+  --card: #ffffff !important;
+  --text: #0f172a !important;
+  --sub-text: #334155 !important;
+  --muted: #64748b !important;
+  --border: #cbd5e1 !important;
+  --hl-gold: #b45309 !important;
+  --hl-green: #047857 !important;
+  --hl-cyan: #0369a1 !important;
+  --box-sub: #f1f5f9 !important;
+  --vi-bg: rgba(14, 116, 144, 0.08) !important;
+  --vi-text: #0f172a !important;
+  color-scheme: light !important;
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. DEFAULT THEME + DARK MODE (🎨 Mặc định + 🌙 Tối)
+   -------------------------------------------------------------------------- */
+html.dark:not(.theme-ghibli),
+html.dark:not(.theme-ghibli) body {
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --panel-hover: #334155;
+  --card: #1e293b;
+  --text: #f8fafc;
+  --sub-text: #cbd5e1;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, 0.22);
+  --hl-gold: #fde68a;
+  --hl-green: #34d399;
+  --hl-cyan: #38bdf8;
+  --box-sub: rgba(15, 23, 42, 0.65);
+  --vi-bg: rgba(56, 189, 248, 0.10);
+  --vi-text: #bae6fd;
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   3. STUDIO GHIBLI + LIGHT MODE (🌿 Ghibli + ☀️ Sáng — Nắng Thảo Nguyên)
+   High-contrast deep ink text on warm parchment cards so nothing is washed out!
+   -------------------------------------------------------------------------- */
+html.theme-ghibli:not(.dark),
+html.theme-ghibli:not(.dark) body {
+  --bg: #efe8d5 !important;
+  --panel: rgba(253, 250, 242, 0.92) !important;
+  --panel-hover: rgba(245, 237, 218, 0.96) !important;
+  --card: rgba(254, 252, 246, 0.94) !important;
+  --text: #16261c !important;
+  --sub-text: #2c4033 !important;
+  --muted: #4e6355 !important;
+  --border: #cbb894 !important;
+  --primary: #2d6a4f !important;
+  --primary-hover: #1b4332 !important;
+  --primary-soft: rgba(45, 106, 79, 0.14) !important;
+  --accent: #c85a32 !important;
+  --success: #2d6a4f !important;
+  --success-soft: rgba(45, 106, 79, 0.16) !important;
+  --danger: #c94a38 !important;
+  --danger-soft: rgba(201, 74, 56, 0.15) !important;
+  --hl-gold: #9a3412 !important;
+  --hl-green: #1b5e3a !important;
+  --hl-cyan: #0369a1 !important;
+  --box-sub: #f2ead8 !important;
+  --vi-bg: rgba(45, 106, 79, 0.10) !important;
+  --vi-text: #14452f !important;
+  color-scheme: light !important;
+  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  color: #16261c !important;
+  background: transparent !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. STUDIO GHIBLI + DARK MODE (🌿 Ghibli + 🌙 Tối — Rừng Đêm Đom Đóm)
+   Super comfortable for night study: deep forest night moss, warm Calcifer
+   amber lantern highlights, moonlight cream text, zero eye strain!
+   -------------------------------------------------------------------------- */
+html.theme-ghibli.dark,
+html.theme-ghibli.dark body {
+  --bg: #0d1813 !important;
+  --panel: rgba(18, 31, 25, 0.90) !important;
+  --panel-hover: rgba(26, 44, 36, 0.95) !important;
+  --card: rgba(21, 36, 29, 0.92) !important;
+  --text: #f1ede4 !important;
+  --sub-text: #cfe2d5 !important;
+  --muted: #8ca896 !important;
+  --border: rgba(212, 163, 115, 0.28) !important;
+  --primary: #40916c !important;
+  --primary-hover: #52b788 !important;
+  --primary-soft: rgba(82, 183, 136, 0.18) !important;
+  --accent: #f4a261 !important;
+  --success: #52b788 !important;
+  --success-soft: rgba(82, 183, 136, 0.20) !important;
+  --danger: #e76f51 !important;
+  --danger-soft: rgba(231, 111, 81, 0.20) !important;
+  --hl-gold: #f6bd60 !important;
+  --hl-green: #74c69d !important;
+  --hl-cyan: #64dfdf !important;
+  --box-sub: rgba(10, 19, 15, 0.78) !important;
+  --vi-bg: rgba(82, 183, 136, 0.12) !important;
+  --vi-text: #b7e4c7 !important;
+  color-scheme: dark !important;
+  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  color: #f1ede4 !important;
+  background: transparent !important;
+}
+
+/* --------------------------------------------------------------------------
+   DEDICATED FIXED GHIBLI WATERCOLOR BACKDROP LAYER (#ghibliBackdropLayer)
+   -------------------------------------------------------------------------- */
+.ghibli-backdrop-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  display: none;
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  transition: filter 0.35s ease, opacity 0.35s ease;
+}
+
+html.theme-ghibli .ghibli-backdrop-layer {
+  display: block;
+}
+
+/* Ghibli Day Backdrop: Warm sunlit watercolor meadow clearly visible in margins */
+html.theme-ghibli:not(.dark) .ghibli-backdrop-layer {
+  background-image:
+    linear-gradient(180deg, rgba(252, 248, 236, 0.22) 0%, rgba(244, 238, 220, 0.36) 55%, rgba(235, 226, 202, 0.45) 100%),
+    url('ghibli_bg.jpg');
+  filter: saturate(1.12) contrast(1.02);
+}
+
+/* Ghibli Night Backdrop: Tranquil moonlit forest night with warm lantern vignette */
+html.theme-ghibli.dark .ghibli-backdrop-layer {
+  background-image:
+    radial-gradient(circle at 82% 15%, rgba(246, 189, 96, 0.14) 0%, transparent 45%),
+    linear-gradient(180deg, rgba(9, 18, 14, 0.68) 0%, rgba(12, 24, 19, 0.76) 60%, rgba(10, 20, 16, 0.85) 100%),
+    url('ghibli_bg.jpg');
+  filter: brightness(0.68) saturate(0.85);
+}
+
+html.theme-ghibli .main-wrap,
+html.theme-ghibli .workspace,
+html.theme-ghibli .main,
+html.theme-ghibli .main-area {
+  background: transparent !important;
+}
+
+/* Center & proportion main lesson area so Ghibli backdrop breathes on both sides */
+html.theme-ghibli .lesson-container {
+  max-width: 960px !important;
+}
+
+/* --------------------------------------------------------------------------
+   UNIVERSAL LIGHT-MODE CONTRAST FIXES (For both Default Light & Ghibli Light)
+   Fixes topbar, sidebar, dictation boxes, example boxes, and buttons
+   -------------------------------------------------------------------------- */
+html:not(.dark) .topbar,
+html:not(.dark) header.topbar {
+  background: rgba(253, 250, 242, 0.94) !important;
+  border-bottom: 1.5px solid var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.05) !important;
+}
+html:not(.theme-ghibli):not(.dark) .topbar,
+html:not(.theme-ghibli):not(.dark) header.topbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+html:not(.dark) .prog-pill {
+  background: var(--box-sub) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+
+html:not(.dark) .top-switch,
+html:not(.dark) .mode-bar {
+  background: var(--box-sub) !important;
+  border: 1px solid var(--border) !important;
+}
+
+html:not(.dark) .top-switch-btn,
+html:not(.dark) .mode-tab {
+  color: var(--sub-text) !important;
+}
+html:not(.dark) .top-switch-btn.active,
+html:not(.dark) .mode-tab.active {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+}
+
+html:not(.dark) .sidebar {
+  background: var(--panel) !important;
+  border-right: 1.5px solid var(--border) !important;
+}
+
+html:not(.dark) .folder-box {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid var(--border) !important;
+}
+html:not(.dark) .folder-header {
+  background: rgba(45, 106, 79, 0.06) !important;
+}
+html:not(.dark) .folder-title {
+  color: var(--text) !important;
+}
+html:not(.dark) .folder-meta {
+  background: rgba(3, 105, 161, 0.12) !important;
+  color: #0369a1 !important;
+}
+html:not(.dark) .subfolder-box {
+  background: rgba(248, 244, 234, 0.85) !important;
+  border-color: var(--border) !important;
+}
+html:not(.dark) .subfolder-header {
+  color: var(--sub-text) !important;
+}
+html:not(.dark) .subfolder-body {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+html:not(.dark) .testfolder-box {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: var(--border) !important;
+}
+html:not(.dark) .testfolder-header {
+  color: var(--muted) !important;
+}
+html:not(.dark) .lesson-item {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(203, 184, 148, 0.35) !important;
+}
+html:not(.dark) .lesson-item:hover {
+  background: rgba(45, 106, 79, 0.10) !important;
+}
+html:not(.dark) .lesson-item.active {
+  background: rgba(45, 106, 79, 0.16) !important;
+  border-color: var(--primary) !important;
+}
+html:not(.dark) .lesson-item-title {
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+html:not(.dark) .done-badge {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: var(--muted) !important;
+}
+html:not(.dark) .lesson-item.done .done-badge {
+  background: rgba(21, 128, 61, 0.18) !important;
+  color: #15803d !important;
+}
+
+/* Fix Dictation Box, Example List, Audio Bar, Sub Items, Inputs in Light Mode */
+html:not(.dark) .audio-bar {
+  background: var(--card) !important;
+  border: 1.5px solid var(--border) !important;
+  color: var(--text) !important;
+}
+html:not(.dark) .bg-badge {
+  background: rgba(21, 128, 61, 0.14) !important;
+  color: #14532d !important;
+}
+html:not(.dark) .dic-sentence,
+html:not(.dark) .example-list,
+html:not(.dark) .sub-item,
+html:not(.dark) .vocab-mini-item,
+html:not(.dark) .quiz-opt,
+html:not(.dark) .match-btn {
+  background: var(--box-sub) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+html:not(.dark) .dic-input,
+html:not(.dark) .spell-input,
+html:not(.dark) .search-input {
+  background: #ffffff !important;
+  border: 2px solid #94a3b8 !important;
+  color: var(--text) !important;
+}
+html.theme-ghibli:not(.dark) .dic-input,
+html.theme-ghibli:not(.dark) .spell-input,
+html.theme-ghibli:not(.dark) .search-input {
+  border-color: #b59e7a !important;
+}
+html:not(.dark) .dic-input.correct,
+html:not(.dark) .spell-input.correct,
+html:not(.dark) .quiz-opt.correct {
+  background: #dcfce7 !important;
+  border-color: #16a34a !important;
+  color: #14532d !important;
+}
+html:not(.dark) .dic-input.wrong,
+html:not(.dark) .spell-input.wrong,
+html:not(.dark) .quiz-opt.wrong {
+  background: #fee2e2 !important;
+  border-color: #dc2626 !important;
+  color: #7f1d1d !important;
+}
+
+html:not(.dark) .btn,
+html:not(.dark) .back-btn,
+html:not(.dark) .mini-btn {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+html:not(.dark) .btn:hover,
+html:not(.dark) .back-btn:hover,
+html:not(.dark) .mini-btn:hover {
+  background: var(--box-sub) !important;
+}
+html:not(.dark) .btn-primary {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+html:not(.dark) .para-en,
+html:not(.dark) .theory-card,
+html:not(.dark) .theory-card td,
+html:not(.dark) .theory-card th {
+  color: var(--text) !important;
+}
+html:not(.dark) .theory-card table {
+  background: var(--box-sub) !important;
+}
+html:not(.dark) .para-vi {
+  background: var(--vi-bg) !important;
+  color: var(--vi-text) !important;
+  border-left-color: var(--primary) !important;
+}
+html:not(.dark) .vocab-hl {
+  background: rgba(21, 128, 61, 0.14) !important;
+  color: #14532d !important;
+  border-bottom-color: #15803d !important;
+}
+html:not(.dark) .inspector-pos {
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: var(--sub-text) !important;
+}
+html:not(.dark) .srs-btn.Hard { background: #fee2e2 !important; border-color: #f87171 !important; color: #991b1b !important; }
+html:not(.dark) .srs-btn.Good { background: #fef3c7 !important; border-color: #fbbf24 !important; color: #92400e !important; }
+html:not(.dark) .srs-btn.Easy { background: #dcfce7 !important; border-color: #34d399 !important; color: #065f46 !important; }
+
+/* --------------------------------------------------------------------------
+   STUDIO GHIBLI CARD & HERO STYLING (Applies to both Ghibli Light & Ghibli Dark)
+   -------------------------------------------------------------------------- */
+html.theme-ghibli .hero {
+  background:
+    linear-gradient(125deg, rgba(16, 40, 29, 0.76) 0%, rgba(36, 85, 63, 0.62) 55%, rgba(140, 92, 46, 0.68) 100%),
+    url('ghibli_study_banner.jpg') !important;
+  background-size: cover !important;
+  background-position: center 42% !important;
+  border-bottom: 3px solid rgba(212, 163, 115, 0.65) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22) !important;
+}
+
+html.theme-ghibli .course-card,
+html.theme-ghibli .summary-bar,
+html.theme-ghibli .passage-card,
+html.theme-ghibli .vocab-inspector,
+html.theme-ghibli .smart-box,
+html.theme-ghibli .drill-box,
+html.theme-ghibli .dic-card,
+html.theme-ghibli .dic-box,
+html.theme-ghibli .shad-card,
+html.theme-ghibli .theory-card,
+html.theme-ghibli .audio-bar,
+html.theme-ghibli .mode-bar,
+html.theme-ghibli .srs-stat-card,
+html.theme-ghibli .vocab-card-item,
+html.theme-ghibli .stats-card,
+html.theme-ghibli .cat-group,
+html.theme-ghibli .sec-group,
+html.theme-ghibli .practice-card,
+html.theme-ghibli .topic-banner,
+html.theme-ghibli .content-card,
+html.theme-ghibli .exercise-box,
+html.theme-ghibli .video-panel,
+html.theme-ghibli .content-panel {
+  background: var(--card) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12) !important;
+  color: var(--text) !important;
+}
+
+/* Ghibli Dark specific subtle adjustments for cards, topbar & sidebar */
+html.theme-ghibli.dark .topbar,
+html.theme-ghibli.dark header.topbar {
+  background: rgba(15, 27, 22, 0.94) !important;
+  border-bottom: 1.5px solid rgba(212, 163, 115, 0.3) !important;
+}
+html.theme-ghibli.dark .sidebar {
+  background: rgba(16, 28, 23, 0.92) !important;
+  backdrop-filter: blur(10px);
+  border-right: 1.5px solid rgba(212, 163, 115, 0.28) !important;
+}
+html.theme-ghibli.dark .folder-box {
+  background: rgba(22, 38, 31, 0.78) !important;
+  border-color: rgba(212, 163, 115, 0.22) !important;
+}
+html.theme-ghibli.dark .subfolder-box {
+  background: rgba(16, 29, 23, 0.75) !important;
+}
+html.theme-ghibli.dark .dic-sentence,
+html.theme-ghibli.dark .example-list,
+html.theme-ghibli.dark .sub-item,
+html.theme-ghibli.dark .quiz-opt,
+html.theme-ghibli.dark .match-btn {
+  background: rgba(10, 19, 15, 0.75) !important;
+  border-color: rgba(212, 163, 115, 0.24) !important;
+  color: #f1ede4 !important;
+}
+html.theme-ghibli.dark .dic-input,
+html.theme-ghibli.dark .spell-input,
+html.theme-ghibli.dark .search-input {
+  background: #0d1813 !important;
+  border-color: #52b788 !important;
+  color: #f1ede4 !important;
+}
+html.theme-ghibli.dark .fc-card {
+  background: linear-gradient(145deg, #162820, #0d1813) !important;
+  border: 2px solid rgba(212, 163, 115, 0.45) !important;
+  color: #f1ede4 !important;
+}
+html.theme-ghibli:not(.dark) .fc-card {
+  background: linear-gradient(145deg, #fffdf9, #f3ead5) !important;
+  border: 2px solid #cbb894 !important;
+  color: #16261c !important;
+}
+
+/* Course Card Hover & Leaf Accent */
+html.theme-ghibli .course-card {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.22s ease !important;
+}
+html.theme-ghibli .course-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: var(--primary) !important;
+}
+html.theme-ghibli .course-card::after {
+  content: "🌿";
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 15px;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   SEPARATED DUAL-CONTROL DOCK (Theme: 🌿 Ghibli / 🎨 Mặc định | Mode: ☀️ Sáng / 🌙 Tối)
+   & SOOT SPRITES MOVED TO BOTTOM-RIGHT SO SIDEBAR IS NEVER BLOCKED
+   -------------------------------------------------------------------------- */
+.s4-theme-dock {
+  position: fixed;
+  bottom: 14px;
+  right: 16px;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(254, 251, 243, 0.96);
+  border: 1.5px solid #cbb894;
+  border-radius: 999px;
+  padding: 5px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  font-family: 'Quicksand', -apple-system, sans-serif;
+}
+html.dark .s4-theme-dock {
+  background: rgba(18, 30, 26, 0.96);
+  border-color: rgba(212, 163, 115, 0.4);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+}
+.s4-dock-sep {
+  width: 1.5px;
+  height: 18px;
+  background: rgba(148, 163, 184, 0.35);
+  margin: 0 2px;
+}
+.s4-theme-opt {
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  color: #334155;
+  transition: all 0.16s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+html.dark .s4-theme-opt {
+  color: #cbd5e1;
+}
+.s4-theme-opt:hover {
+  background: rgba(148, 163, 184, 0.14);
+}
+.s4-theme-opt.active[data-style-opt="ghibli"] {
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(45, 106, 79, 0.35);
+}
+.s4-theme-opt.active[data-style-opt="default"] {
+  background: #3b82f6;
+  color: #ffffff !important;
+}
+.s4-theme-opt.active[data-light-opt="light"] {
+  background: #f59e0b;
+  color: #1c1917 !important;
+}
+.s4-theme-opt.active[data-light-opt="dark"] {
+  background: #334155;
+  color: #fde68a !important;
+  border-color: rgba(253, 230, 138, 0.35);
+}
+
+/* Soot Sprites (Susuwatari) Stage — Placed above Bottom-Right Dock so Left Sidebar is 100% clear! */
+.ghibli-sprites-stage {
+  position: fixed;
+  bottom: 56px;
+  right: 22px;
+  z-index: 9985;
+  display: none;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: auto;
+  user-select: none;
+}
+html.theme-ghibli .ghibli-sprites-stage {
+  display: flex;
+}
+
+.soot-sprite {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: sootBob 3.2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.32));
+}
+.soot-sprite:nth-child(2) {
+  width: 32px;
+  height: 32px;
+  animation-delay: -1.1s;
+}
+.soot-sprite:nth-child(3) {
+  width: 26px;
+  height: 26px;
+  animation-delay: -2.3s;
+}
+.soot-sprite:hover {
+  transform: translateY(-8px) scale(1.12);
+}
+.soot-sprite.jump {
+  animation: sootJump 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.soot-speech {
+  position: absolute;
+  bottom: 46px;
+  right: 0;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+.ghibli-sprites-stage:hover .soot-speech,
+.soot-speech.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.konpeito-star {
+  position: fixed;
+  z-index: 9995;
+  pointer-events: none;
+  font-size: 16px;
+  animation: konpeitoFly 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.ghibli-sky-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9970;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+}
+html.theme-ghibli .ghibli-sky-layer {
+  display: block;
+}
+.ghibli-leaf {
+  position: absolute;
+  top: -30px;
+  font-size: 15px;
+  opacity: 0.55;
+  animation: ghibliFall linear infinite;
+}
+
+@keyframes sootBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(3deg); }
+}
+@keyframes sootJump {
+  0% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-20px) scale(1.18) rotate(-10deg); }
+  75% { transform: translateY(-5px) scale(0.95) rotate(6deg); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes konpeitoFly {
+  0% { opacity: 1; transform: translate(0, 0) scale(0.6) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx, 20px), var(--ty, -60px)) scale(1.25) rotate(180deg); }
+}
+@keyframes ghibliFall {
+  0% { transform: translate3d(0, -30px, 0) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.55; }
+  85% { opacity: 0.55; }
+  100% { transform: translate3d(var(--drift, 90px), 105vh, 0) rotate(360deg); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .ghibli-sprites-stage { bottom: 50px; right: 12px; transform: scale(0.85); transform-origin: bottom right; }
+  .s4-theme-dock { bottom: 8px; right: 8px; padding: 4px 6px; gap: 3px; }
+  .s4-theme-opt { padding: 4px 7px; font-size: 11px; }
+}
+
+/* Mobile Theme Dock & Sprites */
+.s4-dock-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 3px 6px;
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+}
+.s4-theme-dock.minimized {
+  padding: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.s4-theme-dock.minimized .s4-theme-opt,
+.s4-theme-dock.minimized .s4-dock-sep {
+  display: none !important;
+}
+.s4-theme-dock.minimized .s4-dock-toggle {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+}
+.s4-theme-dock.minimized .s4-dock-toggle::before {
+  content: "🌿";
+}
+html:not(.theme-ghibli) .s4-theme-dock.minimized .s4-dock-toggle::before {
+  content: "🎨";
+}
+
+@media (max-width: 640px) {
+  .s4-theme-dock {
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 10px !important;
+    padding: 3px 6px !important;
+    gap: 3px !important;
+    border-radius: 999px !important;
+    background: rgba(254, 251, 243, 0.94) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.24) !important;
+  }
+  html.dark .s4-theme-dock {
+    background: rgba(18, 30, 26, 0.95) !important;
+  }
+  .s4-theme-opt {
+    padding: 4px 6px !important;
+    font-size: 11.5px !important;
+  }
+  .s4-opt-text {
+    display: none !important;
+  }
+  .s4-dock-toggle {
+    display: inline-flex !important;
+  }
+  .ghibli-sprites-stage {
+    bottom: calc(48px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 12px !important;
+    transform: scale(0.72) !important;
+    transform-origin: bottom right !important;
+    pointer-events: none !important;
+  }
+  .ghibli-sprites-stage .soot-sprite {
+    pointer-events: auto !important;
+  }
+  .soot-speech {
+    right: 0 !important;
+    max-width: 210px !important;
+    white-space: normal !important;
+    font-size: 10.5px !important;
+    line-height: 1.35 !important;
+  }
+}

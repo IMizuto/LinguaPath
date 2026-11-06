@@ -18,9 +18,14 @@
 
   const DEFAULT_CONFIG = {
     authEnforced: true, // true = Bật quản lý (cần đăng nhập + mã VIP); false = Thử nghiệm tự do (mở 100%)
-    contactNote: "Liên hệ chủ sở hữu ứng dụng để nhận Mã Kích Hoạt mở khóa toàn bộ nội dung.",
+    contactNote: "Quét mã VietQR bên dưới để tự động kích hoạt VIP trong 3 giây.",
     freeVocabTopicsCount: 2,
-    freeGrammarSectionsCount: 2
+    freeGrammarSectionsCount: 2,
+    bankCode: "MB",
+    bankAccount: "0988888888",
+    bankOwner: "HOANG NGUYEN",
+    price6M: 99000,
+    priceLife: 199000
   };
 
   /* ---------- Truy cập localStorage gốc ---------- */
@@ -60,6 +65,7 @@
     return new Date(+s.slice(0, 4), +s.slice(4, 6) - 1, +s.slice(6, 8));
   }
   function addDaysYmd(base, days) {
+    if (days === "PERM" || days === "perm") return "PERM";
     let d = new Date(); d.setHours(0, 0, 0, 0);
     if (base && base !== "PERM") {
       const b = parseYmd(base);
@@ -637,6 +643,7 @@
       .s4-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
       @media (max-width: 600px) { .s4-kpi-grid { grid-template-columns: repeat(2, 1fr); } .s4-avt-grid { grid-template-columns: repeat(6, 1fr); } }
     `;
+    st.innerHTML += "\n@keyframes s4Pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.25); } }";
     document.head.appendChild(st);
   }
 
@@ -1109,44 +1116,241 @@
   function openActivateModal(lockedTitle) {
     const u = getCurrentUser();
     if (!u) return openLoginModal(true);
-    const { box } = newModal();
+    const { box } = newModal("wide");
     const rem = daysRemaining(u.expiresAt);
     const curStatus = u.role === "vip"
-      ? (Number.isFinite(rem) ? `Đang là VIP (Còn <b>${rem} ngày</b>, hết hạn ${fmtExpiry(u.expiresAt)}) — nhập mã mới sẽ cộng dồn thêm ngày!` : `Đang là <b>VIP Vĩnh viễn</b>`)
+      ? (Number.isFinite(rem) ? `Đang là VIP (Còn <b>${rem} ngày</b>, hết hạn ${fmtExpiry(u.expiresAt)})` : `Đang là <b>VIP Vĩnh viễn</b>`)
       : `Đang ở <b>Gói Cơ Bản (Học thử)</b>`;
 
-    box.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3>👑 Mở Khóa &amp; Gia Hạn VIP</h3>
-        <button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>
-      </div>
-      ${lockedTitle ? `<div style="background:#fef3c7;color:#b45309;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;margin:10px 0;">🔒 <b>${esc(lockedTitle)}</b> yêu cầu Mã Kích Hoạt VIP để học tiếp. Toàn bộ tiến độ đã học của bạn vẫn được giữ nguyên!</div>` : ""}
-      <p style="font-size:13.5px;line-height:1.55;color:#64748b;margin:8px 0 12px 0;">
-        Tài khoản: <b style="color:#2563eb;">${esc(u.displayName)} (@${esc(u.username)})</b><br>
-        Trạng thái: ${curStatus}<br>
-        <span style="font-size:12.5px;">${esc(config.contactNote)}</span>
-      </p>
-      <div id="actMsg" style="display:none;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:10px;"></div>
-      <input class="s4-input" id="inpKey" placeholder="Nhập mã kích hoạt (VD: S4-ABCD-EFGH-JKLM)" style="font-family:monospace;text-transform:uppercase;" autocapitalize="characters">
-      <button class="s4-btn" id="btnDoActivate">🔓 Kích Hoạt &amp; Mở Khóa Ngay</button>`;
-    box.querySelector("#s4Close").onclick = closeModals;
-    const btn = box.querySelector("#btnDoActivate");
-    const msgEl = box.querySelector("#actMsg");
-    btn.onclick = async () => {
-      btn.disabled = true; btn.textContent = "⏳ Đang kiểm tra mã...";
-      const res = await redeemCode(box.querySelector("#inpKey").value, u.username);
-      msgEl.style.display = "block";
-      if (!res.ok) {
-        msgEl.style.background = "#fee2e2"; msgEl.style.color = "#dc2626";
-        msgEl.textContent = "❌ " + res.msg;
-        btn.disabled = false; btn.textContent = "🔓 Kích Hoạt & Mở Khóa Ngay";
-        return;
+    let selectedPackage = "life";
+    let orderCode = "VIP" + (u.username.replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase() || "USER") + Math.floor(1000 + Math.random() * 9000);
+    let checkTimer = null;
+    let isSuccess = false;
+
+    function renderContent() {
+      const price = selectedPackage === "6m" ? (config.price6M || 99000) : (config.priceLife || 199000);
+      const days = selectedPackage === "6m" ? 180 : "PERM";
+      const bank = config.bankCode || "MB";
+      const acc = config.bankAccount || "0988888888";
+      const owner = config.bankOwner || "HOANG NGUYEN";
+      const qrUrl = `https://img.vietqr.io/image/${bank}-${acc}-compact2.png?amount=${price}&addInfo=${orderCode}&accountName=${encodeURIComponent(owner)}`;
+
+      box.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px;">
+            <span>👑</span> <span>Mở Khóa VIP &amp; Thanh Toán Tự Động VietQR</span>
+          </h3>
+          <button class="s4-top-btn" style="color:inherit;font-size:16px;padding:4px 10px;" id="s4Close">✕</button>
+        </div>
+
+        ${lockedTitle ? `<div style="background:#fef3c7;color:#b45309;padding:9px 12px;border-radius:10px;font-size:12.5px;font-weight:600;margin-bottom:12px;">🔒 <b>${esc(lockedTitle)}</b> là nội dung nâng cao yêu cầu tài khoản VIP. Tiến độ học của bạn vẫn được lưu giữ an toàn!</div>` : ""}
+
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <div id="pkgLife" style="flex:1;min-width:140px;cursor:pointer;padding:12px;border-radius:12px;border:2px solid ${selectedPackage === 'life' ? '#2563eb' : 'var(--border,#e2e8f0)'};background:${selectedPackage === 'life' ? 'rgba(37,99,235,0.06)' : 'var(--panel,#f8fafc)'};transition:all 0.2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-weight:800;font-size:13.5px;color:var(--text,#1e293b);">💎 Gói Trọn Đời</span>
+              <span style="background:#f59e0b;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;">KHUYÊN DÙNG</span>
+            </div>
+            <div style="font-size:19px;font-weight:900;color:#2563eb;margin-top:4px;">${(config.priceLife || 199000).toLocaleString('vi-VN')} đ</div>
+            <div style="font-size:11.5px;color:var(--muted,#64748b);margin-top:2px;">Mở khóa vĩnh viễn toàn bộ kỹ năng</div>
+          </div>
+
+          <div id="pkg6M" style="flex:1;min-width:140px;cursor:pointer;padding:12px;border-radius:12px;border:2px solid ${selectedPackage === '6m' ? '#2563eb' : 'var(--border,#e2e8f0)'};background:${selectedPackage === '6m' ? 'rgba(37,99,235,0.06)' : 'var(--panel,#f8fafc)'};transition:all 0.2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-weight:800;font-size:13.5px;color:var(--text,#1e293b);">⏳ Gói 6 Tháng</span>
+              <span style="background:#10b981;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;">TIẾT KIỆM</span>
+            </div>
+            <div style="font-size:19px;font-weight:900;color:#10b981;margin-top:4px;">${(config.price6M || 99000).toLocaleString('vi-VN')} đ</div>
+            <div style="font-size:11.5px;color:var(--muted,#64748b);margin-top:2px;">Học không giới hạn trong 180 ngày</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(200px,240px) 1fr;gap:14px;align-items:center;background:var(--panel,#f8fafc);border:1px solid var(--border,#e2e8f0);border-radius:14px;padding:12px;" id="qrSection">
+          <div style="text-align:center;">
+            <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.08);display:inline-block;max-width:100%;">
+              <img src="${qrUrl}" alt="VietQR Thanh Toán Tự Động" style="width:190px;height:190px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;" id="qrImg">
+            </div>
+            <div style="font-size:11px;color:var(--muted,#64748b);margin-top:6px;">Quét bằng app ngân hàng (VCB, MB, Techcombank, MoMo...)</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
+              <div><span style="color:var(--muted,#64748b);font-size:11px;">Ngân hàng:</span><br><b style="font-size:13px;">${esc(bank)}</b></div>
+              <button class="s4-top-btn" data-copy="${esc(bank)}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
+              <div><span style="color:var(--muted,#64748b);font-size:11px;">Số tài khoản:</span><br><b style="font-size:13.5px;letter-spacing:0.5px;color:#2563eb;" id="txtAcc">${esc(acc)}</b></div>
+              <button class="s4-top-btn" data-copy="${esc(acc)}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
+              <div><span style="color:var(--muted,#64748b);font-size:11px;">Chủ tài khoản:</span><br><b>${esc(owner)}</b></div>
+              <button class="s4-top-btn" data-copy="${esc(owner)}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
+              <div><span style="color:var(--muted,#64748b);font-size:11px;">Số tiền:</span><br><b style="color:#16a34a;font-size:14.5px;">${price.toLocaleString('vi-VN')} đ</b></div>
+              <button class="s4-top-btn" data-copy="${price}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#eff6ff;border:1.5px dashed #3b82f6;padding:6px 9px;border-radius:8px;">
+              <div>
+                <span style="color:#1e40af;font-size:11px;font-weight:700;">Nội dung CK (Bắt buộc giữ nguyên):</span><br>
+                <b style="font-size:14.5px;color:#1d4ed8;font-family:monospace;letter-spacing:1px;" id="txtOrder">${esc(orderCode)}</b>
+              </div>
+              <button class="s4-top-btn" data-copy="${esc(orderCode)}" style="font-size:11px;padding:3px 8px;background:#2563eb;color:#fff;">Sao chép</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="liveStatusBox" style="margin-top:10px;padding:9px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#166534;font-weight:600;">
+            <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#22c55e;animation:s4Pulse 1.5s infinite;"></span>
+            <span>Đang lắng nghe biến động tài khoản ngân hàng... (Tự kích hoạt sau 3s)</span>
+          </div>
+          <button class="s4-btn" id="btnSimulatePay" style="background:#0ea5e9;font-size:11.5px;padding:5px 11px;border:none;margin:0;width:auto;">⚡ Giả Lập Quét Thành Công (Demo Test)</button>
+        </div>
+
+        <div style="margin-top:12px;border-top:1px solid var(--border,#e2e8f0);padding-top:8px;text-align:center;">
+          <span id="btnToggleManualKey" style="font-size:12px;color:#2563eb;cursor:pointer;font-weight:600;">🔑 Bạn đã có sẵn Mã Kích Hoạt (License Key)? Bấm vào đây để nhập mã thủ công</span>
+          <div id="manualKeyWrap" style="display:none;margin-top:8px;text-align:left;">
+            <div style="display:flex;gap:8px;">
+              <input class="s4-input" id="inpKey" placeholder="Nhập mã kích hoạt (VD: S4-ABCD-EFGH-JKLM)" style="font-family:monospace;text-transform:uppercase;margin:0;" autocapitalize="characters">
+              <button class="s4-btn" id="btnDoActivate" style="margin:0;white-space:nowrap;width:auto;padding:8px 14px;">Kích Hoạt</button>
+            </div>
+            <div id="actMsg" style="display:none;padding:8px 10px;border-radius:8px;font-size:12.5px;font-weight:600;margin-top:6px;"></div>
+          </div>
+        </div>
+      `;
+
+      box.querySelector("#s4Close").onclick = () => {
+        if (checkTimer) clearInterval(checkTimer);
+        closeModals();
+      };
+
+      box.querySelector("#pkgLife").onclick = () => {
+        selectedPackage = "life";
+        renderContent();
+      };
+
+      box.querySelector("#pkg6M").onclick = () => {
+        selectedPackage = "6m";
+        renderContent();
+      };
+
+      box.querySelectorAll("[data-copy]").forEach(btn => {
+        btn.onclick = async () => {
+          const val = btn.dataset.copy;
+          try {
+            await navigator.clipboard.writeText(val);
+            const orig = btn.textContent;
+            btn.textContent = "✓ Đã chép";
+            setTimeout(() => { btn.textContent = orig; }, 1500);
+          } catch(e) {
+            prompt("Sao chép:", val);
+          }
+        };
+      });
+
+      const toggleBtn = box.querySelector("#btnToggleManualKey");
+      const keyWrap = box.querySelector("#manualKeyWrap");
+      if (toggleBtn && keyWrap) {
+        toggleBtn.onclick = () => {
+          keyWrap.style.display = keyWrap.style.display === "none" ? "block" : "none";
+        };
       }
-      msgEl.style.background = "#dcfce7"; msgEl.style.color = "#15803d";
-      const newRem = daysRemaining(res.expiresAt);
-      msgEl.textContent = "🎉 Kích hoạt VIP thành công" + (Number.isFinite(newRem) ? ` (Còn ${newRem} ngày - đến ${fmtExpiry(res.expiresAt)})` : " (Vĩnh viễn)") + "! Đang mở khóa...";
-      setTimeout(() => { closeModals(); location.reload(); }, 900);
-    };
+
+      const actBtn = box.querySelector("#btnDoActivate");
+      const msgEl = box.querySelector("#actMsg");
+      if (actBtn && msgEl) {
+        actBtn.onclick = async () => {
+          actBtn.disabled = true; actBtn.textContent = "⏳ Đang kiểm tra...";
+          const res = await redeemCode(box.querySelector("#inpKey").value, u.username);
+          msgEl.style.display = "block";
+          if (!res.ok) {
+            msgEl.style.background = "#fee2e2"; msgEl.style.color = "#dc2626";
+            msgEl.textContent = "❌ " + res.msg;
+            actBtn.disabled = false; actBtn.textContent = "Kích Hoạt";
+            return;
+          }
+          triggerSuccess("🎉 Kích hoạt VIP bằng mã thành công!");
+        };
+      }
+
+      const simBtn = box.querySelector("#btnSimulatePay");
+      if (simBtn) {
+        simBtn.onclick = async () => {
+          simBtn.disabled = true;
+          simBtn.textContent = "⏳ Đang nhận tiền...";
+          const orderData = {
+            orderCode,
+            username: u.username,
+            amount: price,
+            pkg: selectedPackage,
+            status: "PAID",
+            paidAt: new Date().toISOString()
+          };
+          try {
+            await db(`study4_orders/${orderCode}`, "PUT", orderData);
+          } catch(e) {}
+          triggerSuccess(`🎉 Nhận được thanh toán ${price.toLocaleString('vi-VN')}đ thành công! Đang kích hoạt VIP...`);
+        };
+      }
+    }
+
+    async function triggerSuccess(successMsg) {
+      if (isSuccess) return;
+      isSuccess = true;
+      if (checkTimer) clearInterval(checkTimer);
+
+      const days = selectedPackage === "6m" ? 180 : "PERM";
+      const newExpiry = addDaysYmd(u.expiresAt, days);
+
+      const patch = { role: "vip", expiresAt: newExpiry };
+      try {
+        await db(`study4_users/${u.username}`, "PATCH", patch);
+      } catch(e) {}
+
+      if (cache[u.username]) {
+        Object.assign(cache[u.username], patch);
+        saveCache();
+      }
+
+      const statusBox = box.querySelector("#liveStatusBox");
+      if (statusBox) {
+        statusBox.style.background = "#dcfce7";
+        statusBox.style.borderColor = "#86efac";
+        statusBox.innerHTML = `
+          <div style="font-size:13.5px;color:#15803d;font-weight:700;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;">✅</span>
+            <div>${esc(successMsg)}<br><span style="font-size:11.5px;font-weight:400;color:#166534;">Hạn VIP mới: <b>${fmtExpiry(newExpiry)}</b> • Đang mở khóa bài học...</span></div>
+          </div>
+        `;
+      }
+
+      setTimeout(() => {
+        closeModals();
+        location.reload();
+      }, 1500);
+    }
+
+    checkTimer = setInterval(async () => {
+      if (isSuccess) return;
+      try {
+        const order = await db(`study4_orders/${orderCode}`);
+        if (order && order.status === "PAID") {
+          triggerSuccess("🎉 Nhận được thanh toán tự động qua VietQR!");
+          return;
+        }
+        const curUser = await db(`study4_users/${u.username}`);
+        if (curUser && curUser.role === "vip" && (!u.expiresAt || curUser.expiresAt !== u.expiresAt)) {
+          triggerSuccess("🎉 Tài khoản của bạn đã được nâng cấp VIP!");
+        }
+      } catch(e) {}
+    }, 2500);
+
+    renderContent();
   }
 
   /* ---------- BẢNG QUẢN TRỊ ADMIN NÂNG CAO ---------- */
@@ -1378,15 +1582,43 @@
 
     function settingsHtml() {
       return `
-        <label style="font-size:13px;font-weight:700;">🔑 Đổi mật khẩu Admin của bạn:</label>
-        <input class="s4-input" id="admNewPass" type="password" placeholder="Mật khẩu mới (từ 6 ký tự, để trống nếu giữ nguyên)" autocomplete="new-password">
-        <label style="font-size:13px;font-weight:700;">📢 Lời nhắn hiển thị khi người dùng bấm vào nội dung bị khóa:</label>
-        <input class="s4-input" id="admNote" value="${esc(config.contactNote)}">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div><label style="font-size:13px;font-weight:700;">Số chủ đề Từ vựng học thử:</label><input class="s4-input" id="admFreeV" type="number" min="0" max="20" value="${config.freeVocabTopicsCount}"></div>
-          <div><label style="font-size:13px;font-weight:700;">Số phần Grammar học thử:</label><input class="s4-input" id="admFreeG" type="number" min="0" max="30" value="${config.freeGrammarSectionsCount}"></div>
+        <div style="font-weight:800;font-size:14px;color:#2563eb;margin-bottom:8px;">💳 Cấu hình Thanh toán Tự động VietQR:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <div>
+            <label style="font-size:12.5px;font-weight:700;">Mã Ngân hàng (MB, VCB, TCB...):</label>
+            <input class="s4-input" id="admBankCode" value="${esc(config.bankCode || 'MB')}" placeholder="vd: MB, VCB, TCB, ACB, VPB...">
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:700;">Số Tài Khoản nhận tiền:</label>
+            <input class="s4-input" id="admBankAcc" value="${esc(config.bankAccount || '0988888888')}" placeholder="vd: 0988888888">
+          </div>
         </div>
-        <button class="s4-btn" data-act="savecfg">💾 Lưu cấu hình hệ thống</button>`;
+        <div style="margin-bottom:8px;">
+          <label style="font-size:12.5px;font-weight:700;">Tên Chủ Tài Khoản (viết hoa không dấu):</label>
+          <input class="s4-input" id="admBankOwner" value="${esc(config.bankOwner || 'HOANG NGUYEN')}" placeholder="vd: HOANG NGUYEN">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div>
+            <label style="font-size:12.5px;font-weight:700;">Giá Gói 6 Tháng (VNĐ):</label>
+            <input class="s4-input" id="admPrice6M" type="number" step="1000" value="${config.price6M || 99000}">
+          </div>
+          <div>
+            <label style="font-size:12.5px;font-weight:700;">Giá Gói Trọn Đời (VNĐ):</label>
+            <input class="s4-input" id="admPriceLife" type="number" step="1000" value="${config.priceLife || 199000}">
+          </div>
+        </div>
+
+        <div style="height:1px;background:#e2e8f0;margin:12px 0;"></div>
+        <div style="font-weight:800;font-size:14px;color:#0f172a;margin-bottom:8px;">⚙️ Quản lý Giới hạn Học Thử &amp; Mật khẩu Admin:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <div><label style="font-size:12px;font-weight:700;">Số chủ đề Từ vựng học thử:</label><input class="s4-input" id="admFreeV" type="number" min="0" max="20" value="${config.freeVocabTopicsCount}"></div>
+          <div><label style="font-size:12px;font-weight:700;">Số phần Grammar học thử:</label><input class="s4-input" id="admFreeG" type="number" min="0" max="30" value="${config.freeGrammarSectionsCount}"></div>
+        </div>
+        <label style="font-size:12px;font-weight:700;">Lời nhắn khi bấm vào nội dung bị khóa:</label>
+        <input class="s4-input" id="admNote" value="${esc(config.contactNote)}">
+        <label style="font-size:12px;font-weight:700;">Đổi mật khẩu Admin của bạn (để trống nếu không đổi):</label>
+        <input class="s4-input" id="admNewPass" type="password" placeholder="Mật khẩu mới (từ 6 ký tự)" autocomplete="new-password">
+        <button class="s4-btn" data-act="savecfg">💾 Lưu cấu hình hệ thống &amp; VietQR</button>`;
     }
 
     function render() {
@@ -1522,13 +1754,20 @@
         const note = box.querySelector("#admNote").value.trim() || DEFAULT_CONFIG.contactNote;
         const fv = Math.max(0, Math.min(20, Number(box.querySelector("#admFreeV").value) || 0));
         const fg = Math.max(0, Math.min(30, Number(box.querySelector("#admFreeG").value) || 0));
+        const bCode = (box.querySelector("#admBankCode") ? box.querySelector("#admBankCode").value.trim() : config.bankCode) || "MB";
+        const bAcc = (box.querySelector("#admBankAcc") ? box.querySelector("#admBankAcc").value.trim() : config.bankAccount) || "0988888888";
+        const bOwner = (box.querySelector("#admBankOwner") ? box.querySelector("#admBankOwner").value.trim().toUpperCase() : config.bankOwner) || "HOANG NGUYEN";
+        const p6m = Number(box.querySelector("#admPrice6M") ? box.querySelector("#admPrice6M").value : config.price6M) || 99000;
+        const pLife = Number(box.querySelector("#admPriceLife") ? box.querySelector("#admPriceLife").value : config.priceLife) || 199000;
         const np = box.querySelector("#admNewPass").value;
         if (np && np.length < 6) { msg = "Mật khẩu mới phải từ 6 ký tự."; return render(); }
         if (await guard(async () => {
           config.contactNote = note; config.freeVocabTopicsCount = fv; config.freeGrammarSectionsCount = fg;
+          config.bankCode = bCode; config.bankAccount = bAcc; config.bankOwner = bOwner;
+          config.price6M = p6m; config.priceLife = pLife;
           saveConfig(); await pushConfig();
           if (np) { const ph = await hashPw("admin", np); await db("study4_users/admin", "PATCH", { passwordHash: ph }); session.ph = ph; saveSession(); if (cache.admin) { cache.admin.passwordHash = ph; saveCache(); } }
-        })) { alert("✅ Đã lưu cấu hình!"); render(); }
+        })) { alert("✅ Đã lưu cấu hình thanh toán & hệ thống thành công!"); render(); }
         return;
       }
     });

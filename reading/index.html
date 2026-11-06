@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = (d === "1");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+    } catch (e) {}
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+<title>IELTS Intensive Reading — Từ vựng SRS, 318 Bài đọc & 876 Video Chữa đề</title>
+<link rel="preload" href="data/reading_manifest.js" as="script">
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --card: #334155;
+    --border: rgba(148, 163, 184, 0.18);
+    --text: #f8fafc;
+    --sub-text: #cbd5e1;
+    --muted: #94a3b8;
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --accent: #38bdf8;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --hl-gold: #fde68a;
+    --hl-green: #34d399;
+    --hl-cyan: #38bdf8;
+    --box-sub: rgba(15, 23, 42, 0.6);
+    --vi-bg: rgba(56, 189, 248, 0.1);
+    --vi-text: #bae6fd;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popCorrect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shakeWrong {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Topbar */
+  .topbar {
+    min-height: 58px;
+    background:var(--box-sub);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    z-index: 20;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .back-btn {
+    text-decoration: none;
+    color: var(--text);
+    background: rgba(255,255,255,0.07);
+    padding: 7px 12px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.14); transform: translateX(-2px); }
+  .brand-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .top-switch {
+    display: flex;
+    background: rgba(30, 41, 59, 0.9);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .top-switch-btn {
+    padding: 6px 11px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s;
+  }
+  .top-switch-btn.active {
+    background: var(--primary);
+    color: #052e16;
+  }
+  .prog-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    padding: 5px 11px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    color:var(--text);
+    white-space: nowrap;
+  }
+
+  /* Workspace */
+  .workspace { display: flex; flex: 1; min-height: 0; overflow: hidden; }
+  .sidebar {
+    width: 355px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-height: 0;
+    height: 100%;
+  }
+  .sidebar-header {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .search-row { display: flex; gap: 6px; }
+  .search-input {
+    flex: 1;
+    padding: 8px 11px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background:var(--box-sub);
+    color: var(--text);
+    font-size: 12.5px;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--primary); }
+  .mini-btn {
+    padding: 6px 9px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .mini-btn:hover { color: var(--text); background: rgba(255,255,255,0.1); }
+
+  /* 3-Level Collapsible Tree Sidebar - Block flow so items never squish or overlap */
+  .lesson-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    display: block;
+  }
+  .folder-box {
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background:var(--box-sub);
+    margin-bottom: 9px;
+  }
+  .folder-header {
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    user-select: none;
+  }
+  .folder-header:hover { background: rgba(255,255,255,0.07); }
+  .folder-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color:var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.35;
+  }
+  .folder-meta {
+    font-size: 11px;
+    font-weight: 700;
+    color:var(--hl-cyan);
+    background: rgba(56, 189, 248, 0.12);
+    padding: 2px 7px;
+    border-radius: 99px;
+    flex-shrink: 0;
+  }
+  .folder-body {
+    padding: 6px 8px 8px;
+    border-top: 1px solid var(--border);
+    display: block;
+  }
+  .folder-box.collapsed > .folder-body { display: none; }
+  .folder-arrow {
+    font-size: 11px;
+    color: var(--muted);
+    transition: transform 0.18s;
+    display: inline-block;
+  }
+  .folder-box:not(.collapsed) > .folder-header .folder-arrow { transform: rotate(90deg); }
+
+  /* Level 2 Book Folder */
+  .subfolder-box {
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.5);
+    margin-bottom: 6px;
+  }
+  .subfolder-header {
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color:var(--sub-text);
+    user-select: none;
+  }
+  .subfolder-header:hover { background: rgba(255,255,255,0.05); }
+  .subfolder-body {
+    padding: 5px 6px 6px;
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+    display: block;
+    background:var(--box-sub);
+  }
+  .subfolder-box.collapsed > .subfolder-body { display: none; }
+  .subfolder-box:not(.collapsed) > .subfolder-header .folder-arrow { transform: rotate(90deg); }
+
+  /* Level 3 Test Folder */
+  .testfolder-box {
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 7px;
+    background: rgba(30, 41, 59, 0.35);
+    margin-bottom: 5px;
+  }
+  .testfolder-header {
+    padding: 6px 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    font-weight: 700;
+    color:var(--muted);
+    user-select: none;
+  }
+  .testfolder-header:hover { color:var(--text); background: rgba(255,255,255,0.04); }
+  .testfolder-body {
+    padding: 4px 5px 5px;
+    border-top: 1px solid rgba(148, 163, 184, 0.08);
+    display: block;
+  }
+  .testfolder-box.collapsed > .testfolder-body { display: none; }
+  .testfolder-box:not(.collapsed) > .testfolder-header .folder-arrow { transform: rotate(90deg); }
+
+  .lesson-item {
+    padding: 8px 10px;
+    border-radius: 7px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .lesson-item:hover { background: rgba(255,255,255,0.07); }
+  .lesson-item.active {
+    background: rgba(16, 185, 129, 0.18);
+    border-color: rgba(16, 185, 129, 0.45);
+  }
+  .lesson-item-title { font-size: 12px; font-weight: 600; color:var(--text); line-height: 1.35; }
+  .lesson-item-sub { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .done-badge {
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    background: rgba(255,255,255,0.06);
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .lesson-item.done .done-badge {
+    background: rgba(16, 185, 129, 0.22);
+    color:var(--hl-green);
+  }
+
+  /* Main Area */
+  .main-area { flex: 1; overflow-y: auto; padding: 20px 26px 60px; }
+  .lesson-container { max-width: 1060px; margin: 0 auto;  }
+  .lesson-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .lesson-unit-tag { font-size: 11px; font-weight: 800; color:var(--hl-cyan); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .lesson-title { font-size: 20px; font-weight: 800; line-height: 1.3; }
+  .btn {
+    padding: 7px 13px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { background: rgba(255,255,255,0.12); }
+  .btn-primary { background: var(--primary); border-color: var(--primary); color: #052e16; }
+  .btn-primary:hover { background: var(--primary-hover); color: #fff; }
+  .btn-done.completed { background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5); color:var(--hl-green); }
+
+  /* Mode Bar */
+  .mode-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 18px;
+    background: rgba(30, 41, 59, 0.85);
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .mode-tabs { display: flex; flex-wrap: wrap; gap: 5px; }
+  .mode-tab {
+    padding: 7px 11px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.16s;
+  }
+  .mode-tab:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .mode-tab.active {
+    background: rgba(16, 185, 129, 0.18);
+    color:var(--hl-green);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  /* Smart Learn & SRS Banner */
+  .srs-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 720px) { .srs-stats-bar { grid-template-columns: repeat(2, 1fr); } }
+  .srs-stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .srs-stat-num { font-size: 20px; font-weight: 800; }
+  .srs-stat-label { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+
+  /* Smart Learn Card */
+  .smart-box {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .step-dots { display: flex; gap: 6px; margin-bottom: 14px; }
+  .step-pill {
+    flex: 1;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(255,255,255,0.08);
+  }
+  .step-pill.done { background: var(--primary); }
+  .step-pill.active { background: #38bdf8; }
+  .example-list {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background:var(--box-sub);
+    border-radius: 10px;
+    border-left: 3px solid #38bdf8;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color:var(--text);
+  }
+
+  /* SRS Rating Buttons */
+  .srs-rate-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .srs-btn {
+    padding: 11px 10px;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.15s;
+  }
+  .srs-btn:hover { transform: translateY(-2px); }
+  .srs-btn.Hard { background: rgba(239, 68, 68, 0.18); border-color: rgba(239, 68, 68, 0.45); color: #fca5a5; }
+  .srs-btn.Good { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.45); color:var(--hl-gold); }
+  .srs-btn.Easy { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.45); color: #6ee7b7; }
+
+  /* Video + Theory */
+  .video-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .video-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .theory-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    line-height: 1.75;
+    font-size: 15px;
+    color:var(--text);
+  }
+  .theory-card h1, .theory-card h2, .theory-card h3 { color:var(--hl-cyan); margin: 18px 0 10px; font-size: 18px; }
+  .theory-card p { margin-bottom: 12px; }
+  .theory-card ul, .theory-card ol { margin: 8px 0 14px 24px; }
+  .theory-card li { margin-bottom: 6px; }
+  .theory-card table { width: 100% !important; border-collapse: collapse; margin: 14px 0; background:var(--box-sub); }
+  .theory-card td, .theory-card th { border: 1px solid var(--border) !important; padding: 8px 12px !important; color:var(--text) !important; }
+  .theory-card img { max-width: 100% !important; height: auto !important; border-radius: 10px; margin: 10px 0; }
+
+  /* Reading Split Layout */
+  .reading-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 960px) { .reading-grid { grid-template-columns: 1fr; } }
+  .passage-card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; }
+  .para-block { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px dashed rgba(148, 163, 184, 0.14); }
+  .para-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .para-en { font-size: 15.5px; line-height: 1.8; color:var(--text); }
+  .para-vi {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background:var(--vi-bg);
+    border-left: 3px solid #38bdf8;
+    border-radius: 6px;
+    font-size: 13.8px;
+    line-height: 1.65;
+    color:var(--vi-text);
+  }
+  .vocab-hl {
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+    border-bottom: 1.5px dashed #34d399;
+    padding: 1px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .vocab-hl:hover { background: rgba(16, 185, 129, 0.35); color: #fff; }
+
+  /* Sticky Vocab Inspector */
+  .vocab-inspector {
+    position: sticky;
+    top: 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 15px;
+    max-height: calc(100vh - 110px);
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .inspector-selected {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: 11px;
+    padding: 12px;
+  }
+  .inspector-word { font-size: 17px; font-weight: 800; color:var(--hl-green); display: flex; align-items: center; justify-content: space-between; }
+  .inspector-pos { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 99px; background: rgba(255,255,255,0.1); color:var(--sub-text); }
+  .inspector-vi { font-size: 13.5px; font-weight: 700; color:var(--hl-gold); margin-top: 6px; }
+  .inspector-en { font-size: 12px; color:var(--sub-text); margin-top: 4px; line-height: 1.5; }
+  .inspector-list { overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px; }
+  .vocab-mini-item {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background:var(--box-sub);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .vocab-mini-item:hover, .vocab-mini-item.active { border-color:var(--hl-green); background: rgba(16, 185, 129, 0.12); }
+
+  /* Flashcard & Vocab Table */
+  .fc-stage { max-width: 600px; margin: 0 auto 26px; text-align: center; }
+  .fc-card {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    border-radius: 18px;
+    padding: 32px 26px;
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+  .fc-card:hover { transform: translateY(-2px); }
+  .fc-term { font-size: 28px; font-weight: 800; color:var(--hl-green); margin-bottom: 6px; }
+  .fc-vi { font-size: 19px; font-weight: 700; color:var(--hl-gold); margin-bottom: 8px; }
+  .fc-en { font-size: 13.5px; color:var(--sub-text); max-width: 480px; line-height: 1.55; }
+
+  .vocab-table-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .vocab-card-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* Quiz, Matching & Spelling */
+  .drill-box {
+    max-width: 660px;
+    margin: 0 auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .quiz-opt {
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+    border-radius: 10px;
+    background:var(--box-sub);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 9px;
+    transition: all 0.16s;
+  }
+  .quiz-opt:hover { background: rgba(255,255,255,0.08); }
+  .quiz-opt.correct { background: rgba(16, 185, 129, 0.22); border-color: #10b981; color: #6ee7b7; animation: popCorrect 0.3s ease; }
+  .quiz-opt.wrong { background: rgba(239, 68, 68, 0.22); border-color: #ef4444; color: #fca5a5; animation: shakeWrong 0.3s ease; }
+
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .match-btn {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background:var(--box-sub);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .match-btn.selected { border-color:var(--hl-cyan); background: rgba(56, 189, 248, 0.16); color:var(--vi-text); }
+  .match-btn.matched { opacity: 0.3; pointer-events: none; border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
+  .match-btn.wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.2); animation: shakeWrong 0.3s ease; }
+
+  .spell-input {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 11px;
+    border: 2px solid var(--border);
+    background:var(--box-sub);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    outline: none;
+    margin: 12px 0;
+  }
+  .spell-input.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; animation: popCorrect 0.3s ease; }
+  .spell-input.wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); color: #fca5a5; animation: shakeWrong 0.3s ease; }
+
+  /* Mobile Sidebar Drawer & Responsive Enhancements */
+  .menu-toggle-btn { display: none; }
+  .close-sidebar-btn { display: none; }
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 180;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .sidebar-backdrop.open { display: block; }
+
+  @media (max-width: 768px) {
+    .menu-toggle-btn { display: inline-flex !important; }
+    .close-sidebar-btn { display: block !important; }
+    .topbar { padding: 8px 10px; gap: 6px; }
+    .brand-title { font-size: 13.5px; }
+    .topbar-right { display: none; }
+    .top-switch {
+      max-width: 100%;
+      order: 3;
+      width: 100%;
+      margin-top: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .top-switch::-webkit-scrollbar { display: none; }
+    .sidebar {
+      position: fixed !important;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 86% !important;
+      max-width: 320px !important;
+      z-index: 190 !important;
+      transform: translateX(-100%);
+      transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), visibility 0.22s;
+      visibility: hidden;
+      box-shadow: none;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+      visibility: visible;
+      box-shadow: 10px 0 32px rgba(0, 0, 0, 0.5);
+    }
+    .main-area {
+      padding: 12px 10px calc(36px + env(safe-area-inset-bottom, 12px)) 10px !important;
+      width: 100%;
+    }
+    .lesson-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .lesson-title { font-size: 17px; }
+    .lesson-actions { width: 100%; }
+    .btn-done { width: 100%; justify-content: center; }
+    .smart-box, .drill-box, .passage-card, .dic-card { padding: 14px 12px; border-radius: 12px; }
+    .srs-stats-bar { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .srs-stat-card { padding: 8px 10px; }
+    .srs-stat-num { font-size: 17px; }
+    .fc-card { min-height: 180px; padding: 20px 14px; }
+    .fc-term { font-size: 22px; }
+    .fc-vi { font-size: 16px; }
+    .srs-rate-row { gap: 6px; }
+    .srs-btn { padding: 9px 6px; font-size: 11.5px; }
+    .dic-sentence { font-size: 15px; padding: 12px 10px; line-height: 2.0; }
+    .dic-input { font-size: 15px; padding: 4px 6px; }
+    .reading-grid { grid-template-columns: 1fr; }
+    .vocab-inspector { position: static; max-height: none; }
+  }
+
+</style>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css">
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;">☰ Bài học</button>
+    <a href="../index.html#ielts" class="back-btn">← Khóa IELTS</a>
+    <div class="brand-title"><span>📖 IELTS Intensive Reading</span></div>
+  </div>
+
+  <div class="top-switch">
+    <button class="top-switch-btn active" id="topBtn_u_3" onclick="quickSwitchUnit('u_3')">🃏 Từ vựng Chủ đề & SRS (2,969 từ)</button>
+    <button class="top-switch-btn" id="topBtn_u_2" onclick="quickSwitchUnit('u_2')">📖 318 Bài đọc & Từ vựng</button>
+    <button class="top-switch-btn" id="topBtn_u_1" onclick="quickSwitchUnit('u_1')">🎬 Chiến thuật (16 bài)</button>
+    <button class="top-switch-btn" id="topBtn_u_4" onclick="quickSwitchUnit('u_4')">📝 Chữa đề chi tiết (876 video)</button>
+  </div>
+
+  <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
+    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
+    <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
+  </div>
+</header>
+
+<div class="workspace">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar(false)"></div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="search-row">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Tìm chủ đề, bài đọc, đề Cam..." oninput="renderSidebar()">
+        <button class="mini-btn" onclick="toggleAllFolders()" id="btnToggleAll">Thu gọn</button>
+      </div>
+    </div>
+    
+    <div class="lesson-list" id="lessonList">
+      <script>
+        (function() {
+          try {
+            var sh = localStorage.getItem('s4_read_last_sidebar_html');
+            if (sh) { document.write(sh); return; }
+          } catch(e) {}
+          document.write('<div style="padding:10px;display:flex;flex-direction:column;gap:8px;"><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div></div>');
+        })();
+      </script>
+    </div>
+  </aside>
+
+  <main class="main-area" id="mainArea">
+    
+    <div class="lesson-container" id="lessonContainer">
+      <script>
+        (function() {
+          try {
+            var h = localStorage.getItem('s4_read_last_rendered_html');
+            if (h) { document.write(h); return; }
+          } catch(e) {}
+          document.write('<div class="lesson-card-skeleton" style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px 22px;box-shadow:0 10px 28px rgba(0,0,0,0.12);display:flex;flex-direction:column;gap:16px;"><div style="width:100%;min-height:300px;background:var(--box-sub);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);"><div style="font-size:26px;">🌿</div><div style="font-size:14px;font-weight:700;color:var(--text);">Đang nạp bài học...</div></div></div>');
+        })();
+      </script>
+    </div>
+  </main>
+</div>
+
+<audio id="ttsAudioPlayer" style="display:none;"></audio>
+<script src="data/reading_manifest.js"></script>
+<script>
+(function() {
+  if (location.protocol === 'file:') {
+    location.href = 'http://localhost:8899/reading/index.html' + location.search + location.hash;
+  }
+})();
+
+const MANIFEST = window.STUDY4_READING_MANIFEST || { units: [] };
+const DATA = {
+  units: MANIFEST.units || []
+};
+const DONE_KEY = 's4_reading_done';
+const LAST_KEY = 's4_reading_last_v2';
+const SRS_KEY = 's4_reading_srs_v1';
+
+let doneSet = new Set(JSON.parse(localStorage.getItem(DONE_KEY) || '[]'));
+let srsMap = JSON.parse(localStorage.getItem(SRS_KEY) || '{}');
+let currentLesson = null;
+let currentMode = 'smart_learn'; // 'passage' | 'smart_learn' | 'srs_review' | 'flashcards' | 'quiz' | 'matching' | 'listen' | 'spelling'
+let showViTrans = true;
+let selectedVocabIdx = 0;
+
+// Folder collapse states
+let collapsedUnits = { u_3: false, u_2: true, u_1: true, u_4: true };
+let collapsedBooks = {};
+let collapsedTests = {};
+
+// Smart Learn batch state
+let smartQueue = []; // array of { wordObj, key, step: 0..3, mistakes: 0 }
+let smartCursor = 0;
+let smartLocked = false;
+
+// Free Drill states
+let fcIndex = 0;
+let fcFlipped = false;
+let srsReviewQueue = [];
+let srsReviewIdx = 0;
+let quizIndex = 0;
+let quizScore = 0;
+let quizLocked = false;
+let spellIndex = 0;
+let listenIndex = 0;
+let matchPairs = [];
+let matchSelectedLeft = null;
+let matchSelectedRight = null;
+let matchedIds = new Set();
+
+const loadedChunks = {};
+function ensureChunkLoaded(unitId, cb) {
+  if (window.__STUDY4_READ_CHUNK && window.__STUDY4_READ_CHUNK[unitId]) {
+    const chunk = window.__STUDY4_READ_CHUNK[unitId];
+    const targetUnit = DATA.units.find(u => u.unitId === unitId);
+    if (targetUnit && chunk.items) {
+      targetUnit.items = chunk.items;
+    }
+    (chunk.items || []).forEach(it => {
+      const found = ALL_LESSONS.find(x => x.id === it.id);
+      if (found) {
+        Object.assign(found, it, { unitId, unitName: targetUnit ? targetUnit.unitName : '' });
+      }
+    });
+    cb && cb();
+    return;
+  }
+
+  if (loadedChunks[unitId] === 'loading') {
+    const checkInt = setInterval(() => {
+      if (window.__STUDY4_READ_CHUNK && window.__STUDY4_READ_CHUNK[unitId]) {
+        clearInterval(checkInt);
+        ensureChunkLoaded(unitId, cb);
+      }
+    }, 30);
+    return;
+  }
+
+  loadedChunks[unitId] = 'loading';
+  const s = document.createElement('script');
+  s.src = `data/reading_${unitId}.js`;
+  s.onload = function() {
+    loadedChunks[unitId] = 'done';
+    ensureChunkLoaded(unitId, cb);
+  };
+  s.onerror = function() {
+    console.error('Failed to load chunk for ' + unitId);
+    loadedChunks[unitId] = 'error';
+    cb && cb();
+  };
+  document.head.appendChild(s);
+}
+
+function getAllLessons() {
+  const list = [];
+  (DATA.units || []).forEach(u => {
+    (u.items || []).forEach((it, idx) => {
+      list.push({ ...it, unitId: u.unitId, unitName: u.unitName, idxInUnit: it.idxInUnit !== undefined ? it.idxInUnit : idx });
+    });
+  });
+  return list;
+}
+
+const ALL_LESSONS = getAllLessons();
+const TOTAL_COURSE_VOCAB = 2969;
+
+function getBookName(str) {
+  const s = str || '';
+  let m = s.match(/(IELTS Collection \d+|Collection \d+)/i);
+  if (m) return m[1].replace(/^Collection/i, 'IELTS Collection');
+  m = s.match(/(Practice Set \d+)/i);
+  if (m) return m[1];
+  if (/Simulation/i.test(s)) return 'IELTS Simulation Tests';
+  if (/BC Test/i.test(s)) return 'British Council (BC) Tests';
+  if (/Sample Test/i.test(s)) return 'IELTS Sample Tests';
+  return 'Bộ đề khác';
+}
+
+function getTestName(str) {
+  const s = str || '';
+  const m = s.match(/(Test \d+)/i);
+  return m ? m[1] : s.split('|')[0].trim();
+}
+
+function initDefaultCollapse() {
+  ALL_LESSONS.forEach(it => {
+    if (it.unitId === 'u_2') {
+      const b = 'u2_' + getBookName(it.title);
+      const t = b + '_' + getTestName(it.title);
+      if (!(b in collapsedBooks)) collapsedBooks[b] = true;
+      if (!(t in collapsedTests)) collapsedTests[t] = true;
+    } else if (it.unitId === 'u_4') {
+      const b = 'u4_' + getBookName(it.group);
+      const t = b + '_' + (it.group || '');
+      if (!(b in collapsedBooks)) collapsedBooks[b] = true;
+      if (!(t in collapsedTests)) collapsedTests[t] = true;
+    }
+  });
+}
+initDefaultCollapse();
+
+function saveDone() {
+  localStorage.setItem(DONE_KEY, JSON.stringify([...doneSet]));
+  updateTopProgress();
+}
+
+function saveSrs() {
+  localStorage.setItem(SRS_KEY, JSON.stringify(srsMap));
+  updateTopProgress();
+}
+
+function getWordKey(v) {
+  return ((v.origin || v.word || v.term || '').toLowerCase().trim());
+}
+
+function updateTopProgress() {
+  const learnedWords = Object.keys(srsMap).filter(k => srsMap[k] && (srsMap[k].reps > 0 || srsMap[k].ignored)).length;
+  const el = document.getElementById('topProgText');
+  if (el) el.textContent = `Đã hoàn thành: ${doneSet.size} bài • Đã thuộc: ${learnedWords} từ`;
+}
+
+function playWordAudio(v, lang = 'en-GB') {
+  const wordText = v.origin || v.word || v.term || '';
+  const url = lang === 'en-US' ? (v.usAudio || v.ukAudio) : (v.ukAudio || v.usAudio);
+  if (url) {
+    const fullUrl = url.startsWith('http') ? url : 'https://study4.com' + url;
+    const player = document.getElementById('ttsAudioPlayer');
+    player.src = fullUrl;
+    player.play().catch(() => speakWordFallback(wordText, lang));
+  } else {
+    speakWordFallback(wordText, lang);
+  }
+}
+
+function speakWordFallback(text, lang = 'en-GB') {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang;
+  u.rate = 0.95;
+  window.speechSynthesis.speak(u);
+}
+
+window.quickSwitchUnit = function(uid) {
+  ['u_3', 'u_2', 'u_1', 'u_4'].forEach(id => {
+    const btn = document.getElementById('topBtn_' + id);
+    if (btn) btn.classList.toggle('active', id === uid);
+    collapsedUnits[id] = (id !== uid);
+  });
+  const firstInUnit = ALL_LESSONS.find(x => x.unitId === uid);
+  if (firstInUnit) {
+    selectLesson(firstInUnit.id);
+    setTimeout(() => {
+      const actEl = document.querySelector('#lessonList .lesson-item.active');
+      if (actEl) actEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }, 60);
+  } else {
+    renderSidebar();
+  }
+};
+
+window.toggleUnitFolder = function(uid) {
+  collapsedUnits[uid] = !collapsedUnits[uid];
+  renderSidebar();
+};
+window.toggleBookFolder = function(bKey) {
+  collapsedBooks[bKey] = !collapsedBooks[bKey];
+  renderSidebar();
+};
+window.toggleTestFolder = function(tKey) {
+  collapsedTests[tKey] = !collapsedTests[tKey];
+  renderSidebar();
+};
+
+let allCollapsedFlag = true;
+window.toggleAllFolders = function() {
+  allCollapsedFlag = !allCollapsedFlag;
+  Object.keys(collapsedUnits).forEach(k => { collapsedUnits[k] = allCollapsedFlag; });
+  Object.keys(collapsedBooks).forEach(k => { collapsedBooks[k] = allCollapsedFlag; });
+  document.getElementById('btnToggleAll').textContent = allCollapsedFlag ? 'Mở hết' : 'Thu gọn';
+  renderSidebar();
+};
+
+window.renderSidebar = function() {
+  const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+  const listEl = document.getElementById('lessonList');
+  let html = '';
+
+  const unitOrder = ['u_3', 'u_2', 'u_1', 'u_4'];
+  const unitLabels = {
+    u_3: '📂 1. Từ vựng theo Chủ đề (2,969 từ)',
+    u_2: '📂 2. Bài đọc & Từ vựng (318 Passage)',
+    u_1: '📂 3. Chiến thuật làm bài (16 bài)',
+    u_4: '📂 4. Chữa đề chi tiết (876 video)'
+  };
+
+  unitOrder.forEach(uid => {
+    const u = DATA.units.find(x => x.unitId === uid);
+    if (!u) return;
+    const items = (u.items || []).filter(it => {
+      if (!q) return true;
+      return (it.title || '').toLowerCase().includes(q) || (it.group || '').toLowerCase().includes(q);
+    });
+    if (!items.length) return;
+
+    const doneInUnit = items.filter(it => doneSet.has(it.id)).length;
+    const isCollapsed = q ? false : !!collapsedUnits[uid];
+
+    html += `
+      <div class="folder-box ${isCollapsed ? 'collapsed' : ''}">
+        <div class="folder-header" onclick="toggleUnitFolder('${uid}')">
+          <div class="folder-title">
+            <span class="folder-arrow">▸</span>
+            <span>${unitLabels[uid] || u.unitName}</span>
+          </div>
+          <span class="folder-meta">${doneInUnit}/${items.length}</span>
+        </div>
+        <div class="folder-body">
+    `;
+
+    if (uid === 'u_3' || uid === 'u_1') {
+      items.forEach(it => {
+        const isDone = doneSet.has(it.id);
+        const isActive = currentLesson && currentLesson.id === it.id;
+        let subText = '🎬 Video bài giảng & Lý thuyết';
+        if (uid === 'u_3') {
+          const wCnt = it.wordCount || (it.problem?.words ? it.problem.words.length : 0);
+          if (it.problem && it.problem.words) {
+            const wList = it.problem.words;
+            const learnedCnt = wList.filter(w => {
+              const s = srsMap[getWordKey(w)];
+              return s && (s.reps > 0 || s.ignored);
+            }).length;
+            subText = `🃏 ${wList.length} từ • Đã thuộc: ${learnedCnt}/${wList.length}`;
+          } else {
+            subText = `🃏 ${wCnt} từ`;
+          }
+        }
+        html += `
+          <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
+            <div>
+              <div class="lesson-item-title">${it.title}</div>
+              <div class="lesson-item-sub">${subText}</div>
+            </div>
+            <div class="done-badge">${isDone ? '✓' : ''}</div>
+          </div>
+        `;
+      });
+    } else if (uid === 'u_2') {
+      // Group 318 passages by Book -> Test
+      const books = {};
+      items.forEach(it => {
+        const bName = getBookName(it.title);
+        const tName = getTestName(it.title);
+        if (!books[bName]) books[bName] = {};
+        if (!books[bName][tName]) books[bName][tName] = [];
+        books[bName][tName].push(it);
+      });
+
+      Object.keys(books).forEach(bName => {
+        const bKey = 'u2_' + bName;
+        const bTests = books[bName];
+        const totalInBook = Object.values(bTests).reduce((acc, arr) => acc + arr.length, 0);
+        const isBookCol = q ? false : !!collapsedBooks[bKey];
+
+        html += `
+          <div class="subfolder-box ${isBookCol ? 'collapsed' : ''}">
+            <div class="subfolder-header" onclick="toggleBookFolder('${bKey}')">
+              <span><span class="folder-arrow">▸</span> 📁 ${bName}</span>
+              <span style="font-size:10.5px;color:var(--hl-green);">${totalInBook} bài</span>
+            </div>
+            <div class="subfolder-body">
+              ${Object.keys(bTests).map(tName => {
+                const tKey = bKey + '_' + tName;
+                const tItems = bTests[tName];
+                const isTestCol = q ? false : !!collapsedTests[tKey];
+                return `
+                  <div class="testfolder-box ${isTestCol ? 'collapsed' : ''}">
+                    <div class="testfolder-header" onclick="toggleTestFolder('${tKey}')">
+                      <span><span class="folder-arrow">▸</span> 📄 ${tName}</span>
+                      <span>${tItems.length} Passage</span>
+                    </div>
+                    <div class="testfolder-body">
+                      ${tItems.map(it => {
+                        const isDone = doneSet.has(it.id);
+                        const isActive = currentLesson && currentLesson.id === it.id;
+                        const shortTitle = it.title.split('|').slice(1).join('|').trim() || it.title;
+                        const wCnt = (it.problem && it.problem.vocabList) ? it.problem.vocabList.length : 0;
+                        return `
+                          <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
+                            <div>
+                              <div class="lesson-item-title">${shortTitle}</div>
+                              <div class="lesson-item-sub">📖 Đọc song ngữ • ${wCnt} từ vựng</div>
+                            </div>
+                            <div class="done-badge">${isDone ? '✓' : ''}</div>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+    } else if (uid === 'u_4') {
+      // Group 876 explanation videos by Book -> Group (Test)
+      const books = {};
+      items.forEach(it => {
+        const bName = getBookName(it.group);
+        const gName = (it.group || 'Chữa đề').replace(/^Chữa chi tiết\s*/i, '');
+        if (!books[bName]) books[bName] = {};
+        if (!books[bName][gName]) books[bName][gName] = [];
+        books[bName][gName].push(it);
+      });
+
+      Object.keys(books).forEach(bName => {
+        const bKey = 'u4_' + bName;
+        const bGroups = books[bName];
+        const totalInBook = Object.values(bGroups).reduce((acc, arr) => acc + arr.length, 0);
+        const isBookCol = q ? false : !!collapsedBooks[bKey];
+
+        html += `
+          <div class="subfolder-box ${isBookCol ? 'collapsed' : ''}">
+            <div class="subfolder-header" onclick="toggleBookFolder('${bKey}')">
+              <span><span class="folder-arrow">▸</span> 📁 ${bName}</span>
+              <span style="font-size:10.5px;color:var(--hl-cyan);">${Object.keys(bGroups).length} đề (${totalInBook} video)</span>
+            </div>
+            <div class="subfolder-body">
+              ${Object.keys(bGroups).map(gName => {
+                const tKey = bKey + '_' + bGroups[gName][0].group;
+                const tItems = bGroups[gName];
+                const isTestCol = q ? false : !!collapsedTests[tKey];
+                return `
+                  <div class="testfolder-box ${isTestCol ? 'collapsed' : ''}">
+                    <div class="testfolder-header" onclick="toggleTestFolder('${tKey.replace(/'/g, "\\'")}')">
+                      <span><span class="folder-arrow">▸</span> 🎬 ${gName}</span>
+                      <span>${tItems.length} phần</span>
+                    </div>
+                    <div class="testfolder-body">
+                      ${tItems.map(it => {
+                        const isDone = doneSet.has(it.id);
+                        const isActive = currentLesson && currentLesson.id === it.id;
+                        return `
+                          <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
+                            <div class="lesson-item-title">${it.title}</div>
+                            <div class="done-badge">${isDone ? '✓' : ''}</div>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    html += `</div></div>`;
+  });
+
+  listEl.innerHTML = html || `<div style="padding:20px;text-align:center;color:var(--muted);">Không tìm thấy mục phù hợp.</div>`;
+  try {
+    if (!q) localStorage.setItem('s4_read_last_sidebar_html', listEl.innerHTML);
+  } catch(e) {}
+};
+
+function getActiveVocabList() {
+  if (!currentLesson || !currentLesson.problem) return [];
+  if (currentLesson.problem.pType === 'topic_flashcards') {
+    return (currentLesson.problem.words || []).map(w => ({
+      term: w.word,
+      origin: w.word,
+      pos: (w.pos || '').replace(/[()]/g, ''),
+      ipa: w.ipa || '',
+      vi: w.defVi || '',
+      en: w.defEn || '',
+      examples: w.examples || [],
+      ukAudio: w.ukAudio || '',
+      usAudio: w.usAudio || ''
+    }));
+  }
+  return currentLesson.problem.vocabList || [];
+}
+
+function buildSmartLearnQueue() {
+  const vList = getActiveVocabList();
+  const unlearned = vList.filter(v => {
+    const s = srsMap[getWordKey(v)];
+    return !s || (!s.ignored && (!s.reps || s.reps === 0));
+  });
+  const source = unlearned.length > 0 ? unlearned : vList;
+  smartQueue = source.slice(0, 10).map(v => ({
+    wordObj: v,
+    key: getWordKey(v),
+    step: 0,
+    mistakes: 0
+  }));
+  smartCursor = 0;
+  smartLocked = false;
+}
+
+function buildSrsReviewQueue() {
+  const vList = getActiveVocabList();
+  const now = Date.now();
+  const due = vList.filter(v => {
+    const s = srsMap[getWordKey(v)];
+    return s && !s.ignored && s.reps > 0 && (!s.due || now >= s.due);
+  });
+  srsReviewQueue = due.length > 0 ? due : vList.slice(0, 20);
+  srsReviewIdx = 0;
+  fcFlipped = false;
+}
+
+function initMatchingRound() {
+  const vList = getActiveVocabList();
+  const sample = [...vList].sort(() => Math.random() - 0.5).slice(0, 6);
+  matchPairs = sample.map((v, i) => ({ id: i, term: v.origin || v.term, vi: v.vi, pos: v.pos, raw: v }));
+  matchSelectedLeft = null;
+  matchSelectedRight = null;
+  matchedIds = new Set();
+}
+
+
+window.toggleMobileSidebar = function(force) {
+  const sb = document.querySelector('.sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (!sb) return;
+  const isOpen = (typeof force === 'boolean') ? force : !sb.classList.contains('open');
+  sb.classList.toggle('open', isOpen);
+  if (bd) bd.classList.toggle('open', isOpen);
+  document.body.classList.toggle('sidebar-open', isOpen);
+};
+
+window.selectLesson = function(id) {
+  const meta = ALL_LESSONS.find(x => x.id === id);
+  if (!meta) return;
+  localStorage.setItem(LAST_KEY, id);
+
+  ['u_3', 'u_2', 'u_1', 'u_4'].forEach(uid => {
+    const btn = document.getElementById('topBtn_' + uid);
+    if (btn) btn.classList.toggle('active', meta.unitId === uid);
+  });
+
+  collapsedUnits[meta.unitId] = false;
+  if (meta.unitId === 'u_2') {
+    const bKey = 'u2_' + getBookName(meta.title);
+    const tKey = bKey + '_' + getTestName(meta.title);
+    collapsedBooks[bKey] = false;
+    collapsedTests[tKey] = false;
+  } else if (meta.unitId === 'u_4') {
+    const bKey = 'u4_' + getBookName(meta.group);
+    const tKey = bKey + '_' + meta.group;
+    collapsedBooks[bKey] = false;
+    collapsedTests[tKey] = false;
+  }
+
+  currentLesson = meta;
+  renderSidebar();
+
+  ensureChunkLoaded(meta.unitId, function() {
+    const found = ALL_LESSONS.find(x => x.id === id);
+    if (!found || !found.problem) return;
+    currentLesson = found;
+    try {
+      localStorage.setItem('s4_read_last_lesson_cache', JSON.stringify(found));
+    } catch(e) {}
+
+    if (found.problem && found.problem.pType === 'topic_flashcards') {
+      currentMode = 'smart_learn';
+    } else if (found.problem && found.problem.pType === 'reading_vocab') {
+      currentMode = 'passage';
+    } else {
+      currentMode = 'video';
+    }
+
+    selectedVocabIdx = 0;
+    fcIndex = 0;
+    fcFlipped = false;
+    quizIndex = 0;
+    quizScore = 0;
+    spellIndex = 0;
+    listenIndex = 0;
+    buildSmartLearnQueue();
+    buildSrsReviewQueue();
+    initMatchingRound();
+
+    renderSidebar();
+    renderMain();
+    document.getElementById('mainArea').scrollTop = 0;
+  });
+};
+
+window.setMode = function(m) {
+  currentMode = m;
+  fcFlipped = false;
+  quizLocked = false;
+  smartLocked = false;
+  if (m === 'smart_learn' && smartQueue.length === 0) buildSmartLearnQueue();
+  if (m === 'srs_review') buildSrsReviewQueue();
+  if (m === 'matching') initMatchingRound();
+  renderMain();
+};
+
+window.toggleDoneCurrent = function() {
+  if (!currentLesson) return;
+  if (doneSet.has(currentLesson.id)) doneSet.delete(currentLesson.id);
+  else doneSet.add(currentLesson.id);
+  saveDone();
+  renderSidebar();
+  renderMain();
+};
+
+window.toggleViTrans = function() {
+  showViTrans = !showViTrans;
+  renderMain();
+};
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightVocabInText(text, vocabList) {
+  if (!vocabList || !vocabList.length) return text;
+  let result = text;
+  const indexed = vocabList.map((v, idx) => ({ ...v, idx })).filter(v => v.term && v.term.length > 2);
+  indexed.sort((a, b) => b.term.length - a.term.length);
+
+  const placeholders = [];
+  indexed.forEach(v => {
+    const pattern = new RegExp(`\\b(${escapeRegExp(v.term)})\\b`, 'gi');
+    result = result.replace(pattern, (match) => {
+      const pid = `@@VOCAB_${placeholders.length}@@`;
+      placeholders.push(`<span class="vocab-hl" onclick="inspectVocab(${v.idx})" title="${(v.vi || '').replace(/"/g, '&quot;')}">${match}</span>`);
+      return pid;
+    });
+  });
+
+  placeholders.forEach((html, i) => {
+    result = result.replace(`@@VOCAB_${i}@@`, html);
+  });
+  return result;
+}
+
+window.inspectVocab = function(idx) {
+  selectedVocabIdx = idx;
+  const vList = getActiveVocabList();
+  const v = vList[idx];
+  if (v) playWordAudio(v, 'en-GB');
+  renderInspectorOnly();
+};
+
+function renderInspectorOnly() {
+  const box = document.getElementById('vocabInspectorBox');
+  if (!box) return;
+  const vList = getActiveVocabList();
+  const cur = vList[selectedVocabIdx] || vList[0];
+
+  box.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:12px;font-weight:800;text-transform:uppercase;color:var(--hl-cyan);">🎯 Từ vựng trong bài (${vList.length})</span>
+      <button class="mini-btn" style="color:var(--hl-green);border-color:rgba(52,211,153,0.4);" onclick="setMode('smart_learn')">🧠 Học 4 bước</button>
+    </div>
+    ${cur ? `
+      <div class="inspector-selected">
+        <div class="inspector-word">
+          <span>${cur.origin || cur.term} <small style="font-size:12px;color:var(--muted);font-weight:500;">${cur.ipa || ''}</small></span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            ${cur.pos ? `<span class="inspector-pos">${cur.pos}</span>` : ''}
+            <button class="btn" style="padding:3px 7px;font-size:11px;" onclick="playWordAudio(getActiveVocabList()[${selectedVocabIdx}], 'en-GB')">🔊 UK</button>
+            <button class="btn" style="padding:3px 7px;font-size:11px;" onclick="playWordAudio(getActiveVocabList()[${selectedVocabIdx}], 'en-US')">🔊 US</button>
+          </div>
+        </div>
+        <div class="inspector-vi">🇻🇳 ${cur.vi || ''}</div>
+        <div class="inspector-en">📘 ${cur.en || ''}</div>
+      </div>
+    ` : ''}
+    <div class="inspector-list">
+      ${vList.map((v, i) => `
+        <div class="vocab-mini-item ${i === selectedVocabIdx ? 'active' : ''}" onclick="inspectVocab(${i})">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong style="color:var(--text);font-size:13px;">${v.origin || v.term} <small style="color:var(--muted);font-weight:400;">${v.ipa || ''}</small></strong>
+            <span style="font-size:10.5px;color:var(--muted);">${v.pos || ''}</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--hl-gold);margin-top:2px;">${v.vi || ''}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderSrsSummaryBanner(vList) {
+  const now = Date.now();
+  let learned = 0, due = 0, ignored = 0;
+  vList.forEach(v => {
+    const s = srsMap[getWordKey(v)];
+    if (!s) return;
+    if (s.ignored) ignored++;
+    else if (s.reps > 0) {
+      learned++;
+      if (!s.due || now >= s.due) due++;
+    }
+  });
+  const unlearned = Math.max(0, vList.length - learned - ignored);
+  const isAllTopics = currentLesson && currentLesson.id === 'reading_u3_all';
+
+  return `
+    <div class="srs-stats-bar">
+      <div class="srs-stat-card">
+        <span class="srs-stat-num" style="color:var(--hl-cyan);">${vList.length.toLocaleString()}</span>
+        <span class="srs-stat-label">${isAllTopics ? 'Tổng số từ vựng (10 chủ đề)' : `Từ của bài này (Toàn khóa: ${TOTAL_COURSE_VOCAB.toLocaleString()} từ)`}</span>
+        ${!isAllTopics ? `<div style="font-size:11px;color:var(--hl-green);margin-top:4px;cursor:pointer;font-weight:700;" onclick="selectLesson('reading_u3_all')">🌟 Bấm xem trọn bộ ${TOTAL_COURSE_VOCAB.toLocaleString()} từ →</div>` : ''}
+      </div>
+      <div class="srs-stat-card">
+        <span class="srs-stat-num" style="color:#f59e0b;">${unlearned.toLocaleString()}</span>
+        <span class="srs-stat-label">Từ mới chưa học</span>
+      </div>
+      <div class="srs-stat-card">
+        <span class="srs-stat-num" style="color:var(--hl-green);">${learned.toLocaleString()}</span>
+        <span class="srs-stat-label">Đã học (${ignored} đã biết)</span>
+      </div>
+      <div class="srs-stat-card">
+        <span class="srs-stat-num" style="color:#f87171;">${due.toLocaleString()}</span>
+        <span class="srs-stat-label">Cần ôn tập hôm nay</span>
+      </div>
+    </div>
+  `;
+}
+
+function formatExampleHtml(exStr) {
+  return (exStr || '')
+    .replace(/\[([^\]]+)\]/g, '<strong style="color:var(--hl-green);">$1</strong>')
+    .replace(/\(=Dịch:\s*([^)]+)\)/g, '<br><span style="color:var(--muted);font-size:12.5px;">🇻🇳 $1</span>');
+}
+
+function renderSmartLearnView(vList) {
+  if (!smartQueue.length) {
+    return `
+      <div class="smart-box" style="text-align:center;padding:36px;">
+        <div style="font-size:22px;font-weight:800;color:var(--hl-green);margin-bottom:10px;">🎉 Bạn đã hoàn thành lô 10 từ mới!</div>
+        <p style="color:var(--muted);margin-bottom:18px;">Toàn bộ các từ trong phiên vừa rồi đã được chấm điểm tự động và đưa vào lịch ôn tập lặp lại ngắt quãng (SRS).</p>
+        <div style="display:flex;justify-content:center;gap:12px;">
+          <button class="btn btn-primary" onclick="buildSmartLearnQueue(); renderMain();">🚀 Học tiếp 10 từ mới</button>
+          <button class="btn" onclick="setMode('srs_review')">🔄 Chuyển sang Ôn tập Flashcards</button>
+        </div>
+      </div>
+    `;
+  }
+
+  const item = smartQueue[smartCursor] || smartQueue[0];
+  const cur = item.wordObj;
+  const step = item.step; // 0: Intro card, 1: Quiz Meaning, 2: Context/Listen Quiz, 3: Spelling
+
+  const stepHeader = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px;color:var(--muted);">
+      <span>Lô học thông minh: <strong>Từ ${smartCursor + 1} / ${smartQueue.length}</strong></span>
+      <span style="color:var(--hl-cyan);font-weight:700;">Bước ${step + 1} / 4: ${['Làm quen từ mới', 'Trắc nghiệm nghĩa Việt', 'Nghe & Ngữ cảnh', 'Gõ từ chuẩn xác'][step]}</span>
+    </div>
+    <div class="step-dots">
+      ${[0,1,2,3].map(s => `<div class="step-pill ${s < step ? 'done' : (s === step ? 'active' : '')}"></div>`).join('')}
+    </div>
+  `;
+
+  if (step === 0) {
+    setTimeout(() => playWordAudio(cur, 'en-GB'), 80);
+    return `
+      <div class="smart-box">
+        ${stepHeader}
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:14px 0 10px;">
+          <div>
+            <span style="font-size:28px;font-weight:800;color:var(--hl-green);">${cur.origin || cur.term}</span>
+            ${cur.pos ? `<span class="inspector-pos" style="margin-left:8px;">${cur.pos}</span>` : ''}
+            ${cur.ipa ? `<span style="color:var(--hl-cyan);font-size:15px;margin-left:8px;">${cur.ipa}</span>` : ''}
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-GB')">🔊 UK</button>
+            <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-US')">🔊 US</button>
+          </div>
+        </div>
+        <div style="font-size:18px;font-weight:800;color:var(--hl-gold);margin-bottom:6px;">🇻🇳 ${cur.vi || ''}</div>
+        <div style="font-size:14px;color:var(--sub-text);line-height:1.55;">📘 ${cur.en || ''}</div>
+        ${(cur.examples && cur.examples.length) ? `
+          <div class="example-list">
+            <div style="font-size:11.5px;font-weight:800;color:var(--hl-cyan);text-transform:uppercase;">Ví dụ thực tế trong IELTS:</div>
+            ${cur.examples.slice(0, 3).map(ex => `<div>• ${formatExampleHtml(ex)}</div>`).join('')}
+          </div>
+        ` : ''}
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px;">
+          <button class="btn" style="color:var(--muted);" onclick="smartIgnoreWord()">⏭️ Đã biết từ này (Bỏ qua)</button>
+          <button class="btn btn-primary" style="padding:10px 22px;font-size:14px;" onclick="smartAdvanceStep(true)">Đã hiểu ➔ Tiếp tục (Enter)</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (step === 1) {
+    const distractors = vList.filter(x => getWordKey(x) !== item.key).sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
+    return `
+      <div class="smart-box">
+        ${stepHeader}
+        <div style="margin:14px 0 18px;">
+          <div style="font-size:26px;font-weight:800;color:var(--hl-cyan);">${cur.origin || cur.term} <small style="font-size:14px;color:var(--muted);">${cur.ipa || ''} (${cur.pos || ''})</small></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px;">Chọn nghĩa tiếng Việt chính xác của từ trên:</div>
+        </div>
+        <div>
+          ${options.map(opt => `
+            <button class="quiz-opt" onclick="smartCheckOption(this, ${opt === cur})">${opt.vi}</button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  if (step === 2) {
+    const distractors = vList.filter(x => getWordKey(x) !== item.key).sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
+    const sampleEx = (cur.examples && cur.examples[0])
+      ? cur.examples[0].replace(/\[([^\]]+)\]/gi, '<strong style="color:#f59e0b;">[ _____ ]</strong>').split('(=Dịch:')[0]
+      : `📘 ${cur.en || ''}`;
+    setTimeout(() => playWordAudio(cur, 'en-GB'), 80);
+
+    return `
+      <div class="smart-box">
+        ${stepHeader}
+        <div style="margin:14px 0 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <button class="btn btn-primary" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-GB')">🔊 Nghe phát âm</button>
+            <span style="font-size:16px;font-weight:700;color:var(--hl-gold);">🇻🇳 ${cur.vi}</span>
+          </div>
+          <div style="padding:12px 14px;background:var(--box-sub);border-radius:10px;font-size:14.5px;line-height:1.6;">
+            ${sampleEx}
+          </div>
+        </div>
+        <div>
+          ${options.map(opt => `
+            <button class="quiz-opt" onclick="smartCheckOption(this, ${opt === cur})">
+              <strong>${opt.origin || opt.term}</strong> <span style="color:var(--muted);font-size:12px;">${opt.ipa || ''}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // Step 3: Spelling
+  const target = (cur.origin || cur.term || '').trim();
+  const hint = target ? `${target[0]}${' _'.repeat(Math.max(1, target.length - 1))} (${target.length} ký tự)` : '';
+  return `
+    <div class="smart-box">
+      ${stepHeader}
+      <div style="margin:12px 0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:20px;font-weight:800;color:var(--hl-gold);">🇻🇳 ${cur.vi || ''}</span>
+          <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-GB')">🔊 Nghe gợi ý</button>
+        </div>
+        <div style="font-size:13.5px;color:var(--sub-text);margin-top:6px;">📘 ${cur.en || ''}</div>
+        <div style="font-size:12.5px;color:var(--hl-cyan);margin-top:6px;">Gợi ý: <strong>${hint}</strong> (${cur.pos || ''})</div>
+        <input type="text" id="smartSpellInput" class="spell-input" placeholder="Gõ từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') smartCheckSpelling()">
+        <div id="smartSpellFeedback" style="min-height:22px;font-size:13.5px;font-weight:700;margin-bottom:8px;"></div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="smartCheckSpelling()">✔️ Kiểm tra (Enter)</button>
+          <button class="btn" onclick="document.getElementById('smartSpellInput').value='${target.replace(/'/g, "\\'")}'; document.getElementById('smartSpellInput').focus();">💡 Hiện đáp án</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.smartIgnoreWord = function() {
+  const item = smartQueue[smartCursor];
+  if (!item) return;
+  srsMap[item.key] = { ignored: true, updatedAt: Date.now() };
+  saveSrs();
+  smartQueue.splice(smartCursor, 1);
+  if (smartCursor >= smartQueue.length) smartCursor = 0;
+  renderMain();
+  renderSidebar();
+};
+
+window.smartAdvanceStep = function(isSuccess) {
+  const item = smartQueue[smartCursor];
+  if (!item) return;
+  if (isSuccess) {
+    item.step++;
+    if (item.step >= 4) {
+      // Completed all 4 steps! Grade SM-2 automatically based on mistakes
+      const prev = srsMap[item.key] || { reps: 0, interval: 0, ease: 2.5 };
+      const quality = item.mistakes === 0 ? 5 : (item.mistakes === 1 ? 4 : 3);
+      const reps = (prev.reps || 0) + 1;
+      const interval = reps === 1 ? (quality === 5 ? 4 : 1) : Math.round((prev.interval || 1) * (prev.ease || 2.5));
+      const ease = Math.max(1.3, (prev.ease || 2.5) + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
+      srsMap[item.key] = {
+        reps,
+        interval,
+        ease,
+        due: Date.now() + interval * 86400000,
+        updatedAt: Date.now()
+      };
+      saveSrs();
+      smartQueue.splice(smartCursor, 1);
+      if (smartCursor >= smartQueue.length) smartCursor = 0;
+      renderSidebar();
+    } else {
+      smartCursor = (smartCursor + 1) % smartQueue.length;
+    }
+  } else {
+    item.mistakes++;
+  }
+  renderMain();
+};
+
+window.smartCheckOption = function(btn, isCorrect) {
+  if (smartLocked) return;
+  smartLocked = true;
+  const item = smartQueue[smartCursor];
+  if (item) playWordAudio(item.wordObj, 'en-GB');
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    setTimeout(() => {
+      smartLocked = false;
+      smartAdvanceStep(true);
+    }, 950);
+  } else {
+    btn.classList.add('wrong');
+    if (item) item.mistakes++;
+    setTimeout(() => { smartLocked = false; }, 650);
+  }
+};
+
+window.smartCheckSpelling = function() {
+  const inp = document.getElementById('smartSpellInput');
+  const fb = document.getElementById('smartSpellFeedback');
+  const item = smartQueue[smartCursor];
+  if (!inp || !item) return;
+  const cur = item.wordObj;
+  const target = (cur.origin || cur.term || '').trim().toLowerCase();
+  const val = inp.value.trim().toLowerCase();
+
+  inp.classList.remove('correct', 'wrong');
+  void inp.offsetWidth;
+
+  if (val === target) {
+    inp.classList.add('correct');
+    fb.style.color = '#34d399';
+    fb.textContent = `✓ Chính xác! Đã thuộc từ "${cur.origin || cur.term}"`;
+    playWordAudio(cur, 'en-GB');
+    setTimeout(() => {
+      smartAdvanceStep(true);
+    }, 1050);
+  } else {
+    inp.classList.add('wrong');
+    item.mistakes++;
+    fb.style.color = '#f87171';
+    fb.textContent = `✗ Chưa đúng, hãy kiểm tra lại chính tả!`;
+  }
+};
+
+window.rateSrsCard = function(grade) {
+  const cur = srsReviewQueue[srsReviewIdx];
+  if (!cur) return;
+  const key = getWordKey(cur);
+  const prev = srsMap[key] || { reps: 0, interval: 1, ease: 2.5 };
+  let interval = 1, reps = (prev.reps || 0) + 1, ease = prev.ease || 2.5, dueOffsetMs = 86400000;
+
+  if (grade === 'Hard') {
+    interval = 0;
+    dueOffsetMs = 10 * 60 * 1000; // 10 mins
+    ease = Math.max(1.3, ease - 0.2);
+  } else if (grade === 'Good') {
+    interval = Math.max(1, Math.round((prev.interval || 1) * 1.5));
+    dueOffsetMs = interval * 86400000;
+  } else {
+    interval = Math.max(4, Math.round((prev.interval || 2) * ease));
+    dueOffsetMs = interval * 86400000;
+    ease = ease + 0.1;
+  }
+
+  srsMap[key] = { reps, interval, ease, due: Date.now() + dueOffsetMs, updatedAt: Date.now() };
+  saveSrs();
+  fcFlipped = false;
+  srsReviewIdx = (srsReviewIdx + 1) % srsReviewQueue.length;
+  renderMain();
+  renderSidebar();
+};
+
+function renderMain() {
+  const container = document.getElementById('lessonContainer');
+  if (!currentLesson) return;
+
+  const isDone = doneSet.has(currentLesson.id);
+  const pType = currentLesson.problem ? currentLesson.problem.pType : 'video';
+
+  let bodyHtml = '';
+
+  if (pType === 'video' || !currentLesson.problem) {
+    bodyHtml = `
+      ${currentLesson.youtubeId ? `
+        <div class="video-box">
+          <iframe src="https://www.youtube-nocookie.com/embed/${currentLesson.youtubeId}?rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+      ` : ''}
+      ${currentLesson.htmlContent ? `<div class="theory-card">${currentLesson.htmlContent}</div>` : ''}
+    `;
+  } else {
+    const isPassage = (pType === 'reading_vocab');
+    const paras = isPassage ? (currentLesson.problem.paragraphs || []) : [];
+    const vList = getActiveVocabList();
+
+    const modeBar = `
+      <div class="mode-bar">
+        <div class="mode-tabs">
+          ${isPassage ? `<button class="mode-tab ${currentMode === 'passage' ? 'active' : ''}" onclick="setMode('passage')">📖 Đọc song ngữ (${paras.length} đoạn)</button>` : ''}
+          <button class="mode-tab ${currentMode === 'smart_learn' ? 'active' : ''}" onclick="setMode('smart_learn')">🧠 Học từ mới 4 bước (Smart Learn)</button>
+          <button class="mode-tab ${currentMode === 'srs_review' ? 'active' : ''}" onclick="setMode('srs_review')">🔄 Ôn tập Flashcards SRS</button>
+          <button class="mode-tab ${currentMode === 'flashcards' ? 'active' : ''}" onclick="setMode('flashcards')">📋 Bảng từ (${vList.length})</button>
+          <button class="mode-tab ${currentMode === 'quiz' ? 'active' : ''}" onclick="setMode('quiz')">🎯 Trắc nghiệm</button>
+          <button class="mode-tab ${currentMode === 'matching' ? 'active' : ''}" onclick="setMode('matching')">🧩 Tìm cặp</button>
+          <button class="mode-tab ${currentMode === 'listen' ? 'active' : ''}" onclick="setMode('listen')">🎧 Nghe từ</button>
+          <button class="mode-tab ${currentMode === 'spelling' ? 'active' : ''}" onclick="setMode('spelling')">✍️ Điền từ</button>
+        </div>
+        ${currentMode === 'passage' && isPassage ? `
+          <button class="btn" onclick="toggleViTrans()">
+            🇻🇳 Dịch song ngữ: <strong style="color:${showViTrans ? '#34d399' : '#94a3b8'}">${showViTrans ? 'Bật' : 'Tắt'}</strong>
+          </button>
+        ` : ''}
+      </div>
+    `;
+
+    if (currentMode === 'passage' && isPassage) {
+      const parasHtml = paras.map(p => {
+        const enText = (p.input || []).join(' ');
+        const viText = (p.translated || []).join(' ');
+        const sameText = enText.trim() === viText.trim();
+        return `
+          <div class="para-block">
+            <div class="para-en">${highlightVocabInText(enText, vList)}</div>
+            ${(showViTrans && viText && !sameText) ? `<div class="para-vi">🇻🇳 ${viText}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      bodyHtml = `
+        ${modeBar}
+        <div class="reading-grid">
+          <div class="passage-card">${parasHtml}</div>
+          <div class="vocab-inspector" id="vocabInspectorBox"></div>
+        </div>
+      `;
+    } else if (currentMode === 'smart_learn') {
+      bodyHtml = `
+        ${modeBar}
+        ${renderSrsSummaryBanner(vList)}
+        ${renderSmartLearnView(vList)}
+      `;
+    } else if (currentMode === 'srs_review') {
+      const cur = srsReviewQueue[srsReviewIdx] || vList[0];
+      bodyHtml = `
+        ${modeBar}
+        ${renderSrsSummaryBanner(vList)}
+        <div class="fc-stage">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">
+            Thẻ ôn tập SRS ${srsReviewIdx + 1} / ${srsReviewQueue.length} — Nhấn vào thẻ để lật mặt & tự đánh giá mức độ nhớ
+          </div>
+          <div class="fc-card" onclick="fcFlipped = !fcFlipped; renderMain();">
+            <div class="fc-term">${cur.origin || cur.term} ${cur.pos ? `<span style="font-size:15px;color:var(--muted);">(${cur.pos})</span>` : ''}</div>
+            ${cur.ipa ? `<div style="color:var(--hl-cyan);font-size:15px;margin-bottom:10px;">${cur.ipa}</div>` : ''}
+            ${fcFlipped ? `
+              <div class="fc-vi">🇻🇳 ${cur.vi || ''}</div>
+              <div class="fc-en">📘 ${cur.en || ''}</div>
+              ${(cur.examples && cur.examples[0]) ? `<div style="margin-top:10px;font-size:12.5px;color:var(--muted);max-width:460px;">"${cur.examples[0].split('(=Dịch:')[0]}"</div>` : ''}
+            ` : `<div style="font-size:13px;color:var(--muted);margin-top:10px;">👆 Nhấn để lật xem nghĩa & câu ví dụ</div>`}
+          </div>
+          <div style="display:flex;justify-content:center;gap:10px;margin-top:12px;">
+            <button class="btn" onclick="playWordAudio(srsReviewQueue[${srsReviewIdx}], 'en-GB')">🔊 Phát âm UK</button>
+            <button class="btn" onclick="playWordAudio(srsReviewQueue[${srsReviewIdx}], 'en-US')">🔊 Phát âm US</button>
+          </div>
+          <div class="srs-rate-row">
+            <button class="srs-btn Hard" onclick="rateSrsCard('Hard')">🔴 Chưa nhớ (Ôn lại sau 10p)</button>
+            <button class="srs-btn Good" onclick="rateSrsCard('Good')">🟡 Tạm nhớ (Ôn sau 1-2 ngày)</button>
+            <button class="srs-btn Easy" onclick="rateSrsCard('Easy')">🟢 Đã thuộc kỹ (Ôn sau 4+ ngày)</button>
+          </div>
+        </div>
+      `;
+    } else if (currentMode === 'flashcards') {
+      bodyHtml = `
+        ${modeBar}
+        ${renderSrsSummaryBanner(vList)}
+        <div class="vocab-table-grid">
+          ${vList.map((v, idx) => `
+            <div class="vocab-card-item">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong style="font-size:15.5px;color:var(--hl-green);">${v.origin || v.term} <small style="color:var(--hl-cyan);font-weight:400;">${v.ipa || ''}</small> <span style="font-size:11.5px;color:var(--muted);">(${v.pos || ''})</span></strong>
+                <div style="display:flex;gap:4px;">
+                  <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${idx}], 'en-GB')">🔊 UK</button>
+                  <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${idx}], 'en-US')">US</button>
+                </div>
+              </div>
+              <div style="font-size:13.5px;font-weight:700;color:var(--hl-gold);">🇻🇳 ${v.vi || ''}</div>
+              <div style="font-size:12px;color:var(--sub-text);line-height:1.45;">📘 ${v.en || ''}</div>
+              ${(v.examples && v.examples[0]) ? `<div style="font-size:11.5px;color:var(--muted);margin-top:4px;border-top:1px dashed var(--border);padding-top:4px;">• ${formatExampleHtml(v.examples[0])}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else if (currentMode === 'quiz') {
+      const cur = vList[quizIndex] || vList[0];
+      const distractors = vList.filter((_, i) => i !== quizIndex).sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
+
+      bodyHtml = `
+        ${modeBar}
+        <div class="drill-box">
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:12px;">
+            <span>Câu ${quizIndex + 1} / ${vList.length}</span>
+            <span style="color:var(--hl-green);font-weight:700;">Điểm: ${quizScore}</span>
+          </div>
+          <div style="font-size:24px;font-weight:800;color:var(--hl-cyan);margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+            <span>${cur.origin || cur.term}</span>
+            <span style="font-size:14px;color:var(--muted);">${cur.ipa || ''} (${cur.pos || ''})</span>
+            <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${quizIndex}], 'en-GB')">🔊</button>
+          </div>
+          <div style="font-size:13.5px;color:var(--sub-text);margin-bottom:18px;">📘 ${cur.en || ''}</div>
+          <div>
+            ${options.map((opt) => `
+              <button class="quiz-opt" onclick="checkQuizOption(this, ${opt === cur})">${opt.vi}</button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else if (currentMode === 'matching') {
+      const leftList = [...matchPairs];
+      const rightList = [...matchPairs].sort((a, b) => a.vi.localeCompare(b.vi));
+      const allDone = matchedIds.size === matchPairs.length;
+
+      bodyHtml = `
+        ${modeBar}
+        <div class="drill-box" style="max-width:760px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span style="font-size:13.5px;color:var(--muted);">Chọn 1 từ tiếng Anh ở cột trái và nghĩa tiếng Việt tương ứng ở cột phải</span>
+            <button class="btn btn-primary" onclick="initMatchingRound(); renderMain();">🔄 Đổi bộ từ mới</button>
+          </div>
+          ${allDone ? `
+            <div style="padding:26px;text-align:center;color:var(--hl-green);font-size:18px;font-weight:800;">
+              🎉 Tuyệt vời! Bạn đã nối đúng toàn bộ các cặp từ!
+            </div>
+          ` : `
+            <div class="match-grid">
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                ${leftList.map((p, idx) => `
+                  <button class="match-btn ${matchedIds.has(p.id) ? 'matched' : ''} ${matchSelectedLeft === p.id ? 'selected' : ''}" onclick="selectMatchLeft(${p.id}, ${idx})">
+                    🔊 <strong>${p.term}</strong> <span style="font-size:11px;color:var(--muted);">(${p.pos || ''})</span>
+                  </button>
+                `).join('')}
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                ${rightList.map(p => `
+                  <button class="match-btn ${matchedIds.has(p.id) ? 'matched' : ''} ${matchSelectedRight === p.id ? 'selected' : ''}" id="matchRight_${p.id}" onclick="selectMatchRight(${p.id})">
+                    🇻🇳 ${p.vi}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `}
+        </div>
+      `;
+    } else if (currentMode === 'listen') {
+      const cur = vList[listenIndex] || vList[0];
+      const distractors = vList.filter((_, i) => i !== listenIndex).sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
+      setTimeout(() => playWordAudio(cur, 'en-GB'), 100);
+
+      bodyHtml = `
+        ${modeBar}
+        <div class="drill-box">
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:14px;">
+            <span>Câu nghe ${listenIndex + 1} / ${vList.length}</span>
+            <span style="color:var(--hl-cyan);">Nghe phát âm và chọn từ + nghĩa đúng</span>
+          </div>
+          <div style="text-align:center;margin:18px 0 22px;">
+            <button class="btn btn-primary" style="padding:14px 26px;font-size:16px;border-radius:99px;" onclick="playWordAudio(getActiveVocabList()[${listenIndex}], 'en-GB')">
+              🔊 Bấm để nghe phát âm từ vựng
+            </button>
+          </div>
+          <div>
+            ${options.map((opt) => `
+              <button class="quiz-opt" onclick="checkListenOption(this, ${opt === cur})">
+                <strong>${opt.origin || opt.term}</strong> <small style="color:var(--muted);">${opt.ipa || ''}</small> — <span style="color:var(--hl-gold);">${opt.vi}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else if (currentMode === 'spelling') {
+      const cur = vList[spellIndex] || vList[0];
+      const target = (cur.origin || cur.term || '').trim();
+      const hint = target ? `${target[0]}${' _'.repeat(Math.max(1, target.length - 1))} (${target.length} chữ cái)` : '';
+
+      bodyHtml = `
+        ${modeBar}
+        <div class="drill-box">
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:12px;">
+            <span>Từ ${spellIndex + 1} / ${vList.length}</span>
+            <button class="btn" style="padding:4px 10px;font-size:12px;" onclick="playWordAudio(getActiveVocabList()[${spellIndex}], 'en-GB')">🔊 Nghe phát âm</button>
+          </div>
+          <div style="font-size:20px;font-weight:800;color:var(--hl-gold);margin-bottom:6px;">🇻🇳 ${cur.vi || ''}</div>
+          <div style="font-size:13.5px;color:var(--sub-text);margin-bottom:8px;">📘 ${cur.en || ''}</div>
+          <div style="font-size:12.5px;color:var(--hl-cyan);margin-bottom:8px;">Gợi ý: <strong>${hint}</strong></div>
+          <input type="text" id="spellInput" class="spell-input" placeholder="Nhập từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') checkSpelling()">
+          <div id="spellFeedback" style="min-height:22px;font-size:13.5px;font-weight:700;margin-bottom:10px;"></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-primary" onclick="checkSpelling()">✔️ Kiểm tra (Enter)</button>
+            <button class="btn" onclick="revealSpelling()">💡 Xem đáp án</button>
+            <button class="btn" onclick="nextSpelling()">Từ tiếp theo →</button>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="lesson-header">
+      <div>
+        <div class="lesson-unit-tag">${currentLesson.group || currentLesson.unitName}</div>
+        <h1 class="lesson-title">${currentLesson.title}</h1>
+      </div>
+      <div class="lesson-actions">
+        <button class="btn btn-done ${isDone ? 'completed' : ''}" onclick="toggleDoneCurrent()">
+          ${isDone ? '✓ Đã hoàn thành' : '○ Đánh dấu hoàn thành'}
+        </button>
+      </div>
+    </div>
+    ${bodyHtml}
+  `;
+
+  if (pType === 'reading_vocab' && currentMode === 'passage') {
+    renderInspectorOnly();
+  }
+  if (currentMode === 'spelling') {
+    const inp = document.getElementById('spellInput');
+    if (inp) inp.focus();
+  }
+  if (currentMode === 'smart_learn') {
+    const sInp = document.getElementById('smartSpellInput');
+    if (sInp) sInp.focus();
+  }
+
+  try {
+    localStorage.setItem('s4_read_last_rendered_html', container.innerHTML);
+  } catch(e) {}
+}
+
+window.checkQuizOption = function(btn, isCorrect) {
+  if (quizLocked) return;
+  quizLocked = true;
+  const vList = getActiveVocabList();
+  const cur = vList[quizIndex];
+  if (cur) playWordAudio(cur, 'en-GB');
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    quizScore++;
+    setTimeout(() => {
+      quizLocked = false;
+      quizIndex = (quizIndex + 1) % vList.length;
+      renderMain();
+    }, 950);
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(() => { quizLocked = false; }, 650);
+  }
+};
+
+window.checkListenOption = function(btn, isCorrect) {
+  if (quizLocked) return;
+  quizLocked = true;
+  const vList = getActiveVocabList();
+  if (isCorrect) {
+    btn.classList.add('correct');
+    setTimeout(() => {
+      quizLocked = false;
+      listenIndex = (listenIndex + 1) % vList.length;
+      renderMain();
+    }, 950);
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(() => { quizLocked = false; }, 650);
+  }
+};
+
+window.selectMatchLeft = function(id, idx) {
+  const p = matchPairs[idx];
+  if (p && p.raw) playWordAudio(p.raw, 'en-GB');
+  matchSelectedLeft = id;
+  checkMatchPair();
+};
+
+window.selectMatchRight = function(id) {
+  matchSelectedRight = id;
+  checkMatchPair();
+};
+
+function checkMatchPair() {
+  if (matchSelectedLeft === null || matchSelectedRight === null) {
+    renderMain();
+    return;
+  }
+  if (matchSelectedLeft === matchSelectedRight) {
+    matchedIds.add(matchSelectedLeft);
+    matchSelectedLeft = null;
+    matchSelectedRight = null;
+    renderMain();
+  } else {
+    const rBtn = document.getElementById('matchRight_' + matchSelectedRight);
+    if (rBtn) rBtn.classList.add('wrong');
+    setTimeout(() => {
+      matchSelectedLeft = null;
+      matchSelectedRight = null;
+      renderMain();
+    }, 450);
+  }
+}
+
+window.checkSpelling = function() {
+  const inp = document.getElementById('spellInput');
+  const fb = document.getElementById('spellFeedback');
+  if (!inp) return;
+  const vList = getActiveVocabList();
+  const cur = vList[spellIndex];
+  if (!cur) return;
+
+  const target = (cur.origin || cur.term || '').trim().toLowerCase();
+  const val = inp.value.trim().toLowerCase();
+
+  inp.classList.remove('correct', 'wrong');
+  void inp.offsetWidth;
+
+  if (val === target || val === (cur.term || '').trim().toLowerCase()) {
+    inp.classList.add('correct');
+    fb.style.color = '#34d399';
+    fb.textContent = `✓ Chính xác! ${cur.origin || cur.term} — ${cur.vi}`;
+    playWordAudio(cur, 'en-GB');
+    setTimeout(() => {
+      spellIndex = (spellIndex + 1) % vList.length;
+      renderMain();
+    }, 1050);
+  } else {
+    inp.classList.add('wrong');
+    fb.style.color = '#f87171';
+    fb.textContent = `✗ Chưa đúng, hãy thử lại!`;
+  }
+};
+
+window.revealSpelling = function() {
+  const inp = document.getElementById('spellInput');
+  const fb = document.getElementById('spellFeedback');
+  const vList = getActiveVocabList();
+  const cur = vList[spellIndex];
+  if (!cur || !inp) return;
+  inp.value = cur.origin || cur.term;
+  fb.style.color = '#38bdf8';
+  fb.textContent = `💡 Đáp án: ${cur.origin || cur.term} (${cur.vi})`;
+  playWordAudio(cur, 'en-GB');
+};
+
+window.nextSpelling = function() {
+  const vList = getActiveVocabList();
+  if (!vList.length) return;
+  spellIndex = (spellIndex + 1) % vList.length;
+  renderMain();
+};
+
+// Keyboard shortcut for Smart Learn Step 0
+window.addEventListener('keydown', (e) => {
+  if (currentMode === 'smart_learn' && smartQueue[smartCursor] && smartQueue[smartCursor].step === 0 && e.key === 'Enter') {
+    e.preventDefault();
+    smartAdvanceStep(true);
+  }
+});
+
+// Init: Restore instant cache or open default lesson
+updateTopProgress();
+const lastId = localStorage.getItem(LAST_KEY);
+const defaultLesson = ALL_LESSONS.find(x => x.unitId === 'u_3') || ALL_LESSONS[0];
+const initialLesson = ALL_LESSONS.find(x => x.id === lastId) || defaultLesson;
+
+let cachedLesson = null;
+try {
+  cachedLesson = JSON.parse(localStorage.getItem('s4_read_last_lesson_cache') || 'null');
+} catch(e) {}
+
+if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id && cachedLesson.problem) {
+  currentLesson = cachedLesson;
+  if (currentLesson.problem && currentLesson.problem.pType === 'topic_flashcards') {
+    currentMode = 'smart_learn';
+  } else if (currentLesson.problem && currentLesson.problem.pType === 'reading_vocab') {
+    currentMode = 'passage';
+  } else {
+    currentMode = 'video';
+  }
+  buildSmartLearnQueue();
+  buildSrsReviewQueue();
+  renderSidebar();
+  renderMain();
+  ensureChunkLoaded(currentLesson.unitId);
+} else if (initialLesson) {
+  selectLesson(initialLesson.id);
+}
+
+// Background idle preloading of other units
+setTimeout(function() {
+  const remainingUnits = ['u_3', 'u_1', 'u_4', 'u_2'].filter(u => !window.__STUDY4_READ_CHUNK || !window.__STUDY4_READ_CHUNK[u]);
+  let idx = 0;
+  function loadNext() {
+    if (idx >= remainingUnits.length) return;
+    ensureChunkLoaded(remainingUnits[idx++], function() {
+      setTimeout(loadNext, 400);
+    });
+  }
+  loadNext();
+}, 1200);
+</script>
+  <script src="../auth.js?v=12"></script>
+  <script src="../assets/ghibli/ghibli-theme.js"></script>
+</body>
+</html>
