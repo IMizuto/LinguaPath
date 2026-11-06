@@ -212,7 +212,7 @@
       .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
       .close-menu-btn { display: block; }
       .menu-toggle-btn { display: inline-flex; }
-      .main { padding: 10px 10px calc(16px + env(safe-area-inset-bottom, 8px)) 10px; }
+      .main { padding: 8px 8px calc(24px + env(safe-area-inset-bottom, 8px)) 8px; }
       .topbar { padding: 8px 10px; flex-wrap: wrap; row-gap: 6px; }
       .topbar-left { display: contents; }
       .menu-toggle-btn { order: 0; }
@@ -221,9 +221,16 @@
       .mode-pill { padding: 7px 11px; font-size: 12.5px; }
       .ctrl-bar, .engine-btns { min-width: 0; }
       .subs-list { max-height: none; }
+      .video-panel { padding: 10px; border-radius: 12px; }
+      .video-title { font-size: 14.5px; margin-bottom: 8px; }
+      .content-panel { padding: 12px; border-radius: 12px; }
+      .dic-box { padding-bottom: 42vh; }
+      .dic-sentence { font-size: 16px; line-height: 2.35; padding: 12px 10px; }
+      .dic-input { min-height: 40px; font-size: 16px; padding: 6px 8px; }
+      .dic-full-input { font-size: 16px; min-height: 44px; padding: 10px 12px; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=15">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=16">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -530,12 +537,28 @@
     let ytWanted = false;
     let ytError = false;
 
+    function scrollInputIntoOptimalView(el) {
+      if (!el) return;
+      setTimeout(() => {
+        try {
+          el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+        } catch (e) {
+          try { el.scrollIntoView(); } catch (err) {}
+        }
+      }, 160);
+    }
+
     function focusCurrentDicInput() {
       if (currentMode !== "dictation") return;
       const box = document.getElementById("modeContainer");
       if (!box) return;
       const target = box.querySelector(".dic-input:not(.correct), .dic-full-input:not(.correct)") || box.querySelector(".dic-input, .dic-full-input");
-      if (target) { try { target.focus({ preventScroll: true }); } catch (e) {} }
+      if (target) {
+        try {
+          target.focus();
+          scrollInputIntoOptimalView(target);
+        } catch (e) {}
+      }
     }
 
     function tedVideoUrl(it) {
@@ -932,14 +955,14 @@
       if (dicLevel === "sentence") {
         inputAreaHtml = `
           <div class="dic-sentence">
-            <input type="text" id="dicFullInput" class="dic-full-input" placeholder="Nghe và gõ lại cả câu tiếng Anh..." autocomplete="off" spellcheck="false" onkeydown="handleDicKey(event, this)">
+            <input type="text" id="dicFullInput" class="dic-full-input" placeholder="Nghe và gõ lại cả câu tiếng Anh..." autocomplete="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" onkeydown="handleDicKey(event, this)">
           </div>`;
       } else {
         const tokens = buildDictationTokens(sub.en, currentSubIdx, dicLevel);
         inputAreaHtml = `<div class="dic-sentence">` + tokens.map(tk => {
           if (!tk.isBlank) return `<span>${tk.raw} </span>`;
           const w = Math.max(66, tk.answer.length * 10 + 18);
-          return `${tk.prefix}<input type="text" class="dic-input" data-ans="${tk.answer.replace(/"/g, "&quot;")}" style="width:${w}px;" autocomplete="off" spellcheck="false" oninput="handleDicInput(this)" onkeydown="handleDicKey(event, this)">${tk.suffix} `;
+          return `${tk.prefix}<input type="text" class="dic-input" data-ans="${tk.answer.replace(/"/g, "&quot;")}" style="width:${w}px;" autocomplete="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" oninput="handleDicInput(this)" onkeydown="handleDicKey(event, this)">${tk.suffix} `;
         }).join("") + `</div>`;
       }
 
@@ -980,7 +1003,12 @@
       `;
 
       const firstInp = box.querySelector(".dic-input, .dic-full-input");
-      if (firstInp) { try { firstInp.focus({ preventScroll: true }); } catch (e) {} }
+      if (firstInp) {
+        try {
+          firstInp.focus();
+          scrollInputIntoOptimalView(firstInp);
+        } catch (e) {}
+      }
     }
 
     let autoNextTimer = null;
@@ -1034,6 +1062,7 @@
         if (idx >= 0 && idx < inputs.length - 1) {
           ev.preventDefault();
           inputs[idx + 1].focus();
+          scrollInputIntoOptimalView(inputs[idx + 1]);
         }
         return;
       }
@@ -1043,6 +1072,7 @@
         if (idx > 0) {
           ev.preventDefault();
           inputs[idx - 1].focus();
+          scrollInputIntoOptimalView(inputs[idx - 1]);
         }
       }
     }
@@ -1087,7 +1117,10 @@
         triggerAutoAdvance();
       } else {
         showToast(false, "✗ Xem các ô tô đỏ");
-        if (firstWrong) firstWrong.focus();
+        if (firstWrong) {
+          firstWrong.focus();
+          scrollInputIntoOptimalView(firstWrong);
+        }
       }
     }
 
@@ -1695,7 +1728,7 @@
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=15"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=15"></script>
+  <script src="../auth.js?v=16"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=16"></script>
 </body>
 </html>

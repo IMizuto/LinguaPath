@@ -1,10 +1,10 @@
-const CACHE_NAME = "study4-ielts-cache-v15";
+const CACHE_NAME = "study4-ielts-cache-v16";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./auth.js?v=15",
-  "./assets/ghibli/ghibli-theme.css?v=15",
-  "./assets/ghibli/ghibli-theme.js?v=15",
+  "./auth.js?v=16",
+  "./assets/ghibli/ghibli-theme.css?v=16",
+  "./assets/ghibli/ghibli-theme.js?v=16",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
