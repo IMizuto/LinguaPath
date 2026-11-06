@@ -3,6 +3,8 @@ const CORE_ASSETS = [
   "./",
   "./index.html",
   "./auth.js?v=13",
+  "./assets/ghibli/ghibli-theme.css?v=13",
+  "./assets/ghibli/ghibli-theme.js?v=13",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
