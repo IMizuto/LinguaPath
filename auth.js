@@ -53,7 +53,11 @@
   const saveSession = () => { if (session) rawSet(K.session, JSON.stringify(session)); else rawRemove(K.session); };
   const saveCache = () => rawSet(K.cache, JSON.stringify(cache));
 
-  const isHomePage = () => !(location.pathname.includes("/vocab/") || location.pathname.includes("/grammar/"));
+  const isHomePage = () => {
+    const p = (location.pathname || '').replace(/\\/g, '/');
+    const subdirs = ['/vocab/', '/grammar/', '/reading/', '/listening/', '/tedtalks/', '/writing/', '/speaking/'];
+    return !subdirs.some(d => p.includes(d));
+  };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   /* ---------- Tiện ích ngày tháng, thời hạn VIP & băm mật khẩu ---------- */
