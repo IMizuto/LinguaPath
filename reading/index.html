@@ -751,6 +751,7 @@
 
   <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
     <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
+    <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">🌙</button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
   </div>
 </header>
@@ -1298,7 +1299,7 @@ window.selectLesson = function(id) {
 
   ensureChunkLoaded(meta.unitId, function() {
     const found = ALL_LESSONS.find(x => x.id === id);
-    if (!found || !found.problem) return;
+    if (!found) return;
     currentLesson = found;
     try {
       localStorage.setItem('s4_read_last_lesson_cache', JSON.stringify(found));
@@ -1310,6 +1311,10 @@ window.selectLesson = function(id) {
       currentMode = 'passage';
     } else {
       currentMode = 'video';
+    }
+
+    if (window.innerWidth <= 768 && typeof toggleMobileSidebar === 'function') {
+      toggleMobileSidebar(false);
     }
 
     selectedVocabIdx = 0;
@@ -1736,7 +1741,12 @@ function renderMain() {
     bodyHtml = `
       ${currentLesson.youtubeId ? `
         <div class="video-box">
-          <iframe src="https://www.youtube-nocookie.com/embed/${currentLesson.youtubeId}?rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+          <iframe src="https://www.youtube.com/embed/${currentLesson.youtubeId}?rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:-12px;margin-bottom:16px;">
+          <a href="https://www.youtube.com/watch?v=${currentLesson.youtubeId}" target="_blank" rel="noopener noreferrer" class="btn mini-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;">
+            <span>📺 Mở xem trực tiếp trên YouTube</span> ↗
+          </a>
         </div>
       ` : ''}
       ${currentLesson.htmlContent ? `<div class="theory-card">${currentLesson.htmlContent}</div>` : ''}
@@ -2128,7 +2138,7 @@ try {
   cachedLesson = JSON.parse(localStorage.getItem('s4_read_last_lesson_cache') || 'null');
 } catch(e) {}
 
-if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id && cachedLesson.problem) {
+if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   currentLesson = cachedLesson;
   if (currentLesson.problem && currentLesson.problem.pType === 'topic_flashcards') {
     currentMode = 'smart_learn';

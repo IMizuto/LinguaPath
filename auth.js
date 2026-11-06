@@ -53,7 +53,11 @@
   const saveSession = () => { if (session) rawSet(K.session, JSON.stringify(session)); else rawRemove(K.session); };
   const saveCache = () => rawSet(K.cache, JSON.stringify(cache));
 
-  const isHomePage = () => !(location.pathname.includes("/vocab/") || location.pathname.includes("/grammar/"));
+  const isHomePage = () => {
+    const p = (location.pathname || '').replace(/\\/g, '/');
+    const subdirs = ['/vocab/', '/grammar/', '/reading/', '/listening/', '/tedtalks/', '/writing/', '/speaking/'];
+    return !subdirs.some(d => p.includes(d));
+  };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   /* ---------- Tiện ích ngày tháng, thời hạn VIP & băm mật khẩu ---------- */
@@ -1209,7 +1213,7 @@
             <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#22c55e;animation:s4Pulse 1.5s infinite;"></span>
             <span>Đang lắng nghe biến động tài khoản ngân hàng... (Tự kích hoạt sau 3s)</span>
           </div>
-          <button class="s4-btn" id="btnSimulatePay" style="background:#0ea5e9;font-size:11.5px;padding:5px 11px;border:none;margin:0;width:auto;">⚡ Giả Lập Quét Thành Công (Demo Test)</button>
+          ${isAdmin() ? '<button class="s4-btn" id="btnSimulatePay" style="background:#0ea5e9;font-size:11.5px;padding:5px 11px;border:none;margin:0;width:auto;">⚡ Giả Lập Quét Thành Công (Demo Test)</button>' : ''}
         </div>
 
         <div style="margin-top:12px;border-top:1px solid var(--border,#e2e8f0);padding-top:8px;text-align:center;">

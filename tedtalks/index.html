@@ -53,7 +53,8 @@
       color-scheme: dark;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); display: flex; }
+    html, body { margin: 0; padding: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+    .ted-app-layout { display: flex; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; position: relative; }
     body.sidebar-open .main-wrap { pointer-events: none; user-select: none; overflow: hidden !important; }
     .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 190; backdrop-filter: blur(2px); touch-action: none; }
     .sidebar-backdrop.open { display: block; }
@@ -75,10 +76,12 @@
     .done-dot { font-size: 13px; color: #16a34a; flex-shrink: 0; }
     .lesson-item.active .done-dot { color: #fff; }
 
-    .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; }
-    .topbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
+    .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; max-width: 100%; }
+    .topbar { min-width: 0; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
+    .topbar-left { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0; }
+    .topbar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .menu-toggle-btn { display: none; background: var(--primary); border: none; color: #fff; padding: 7px 11px; border-radius: 8px; font-size: 12.5px; cursor: pointer; font-weight: 700; flex-shrink: 0; }
-    .mode-pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .mode-pills { display: flex; gap: 6px; flex: 1 1 auto; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; touch-action: pan-x; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
     .mode-pills::-webkit-scrollbar { display: none; }
     .mode-pill { padding: 7px 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease; }
     .mode-pill:hover { border-color: var(--primary); }
@@ -108,7 +111,7 @@
 
     .main { flex: 1; overflow-y: auto; padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px)) 20px; -webkit-overflow-scrolling: touch; }
     .workspace { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 440px 1fr; gap: 18px; align-items: start; }
-    .video-panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
+    .video-panel { min-width: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
     .video-title { font-size: 16px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.35; }
     .yt-box { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; }
     .yt-box iframe { width: 100%; height: 100%; border: none; }
@@ -139,7 +142,7 @@
     .dic-prog-track { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
     .dic-prog-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #f97316); border-radius: 999px; transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
     .dic-progress { font-size: 12.5px; font-weight: 700; color: var(--muted); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-    .dic-sentence { font-size: 17px; line-height: 2.15; padding: 16px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px; transition: border-color 0.2s ease; }
+    .dic-sentence { overflow-wrap: anywhere; font-size: 17px; line-height: 2.15; padding: 16px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px; transition: border-color 0.2s ease; }
     .dic-input { padding: 5px 8px; font-size: 16px; font-weight: 700; border: 2px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); outline: none; text-align: center; margin: 2px 3px; transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
     .dic-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(220,38,38,0.14); }
     .dic-input.correct { border-color: var(--success) !important; background: var(--success-soft) !important; color: var(--success) !important; animation: popCorrect 0.24s ease; }
@@ -190,8 +193,18 @@
     .s4-toast.good { background: #16a34a; }
     .s4-toast.warn { background: #dc2626; }
 
+    .ted-engine-bar { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .engine-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+    .engine-btn { padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease; }
+    .engine-btn:hover { border-color: var(--primary); }
+    .engine-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .engine-btn.ext { color: #ef4444; border-color: rgba(239, 68, 68, 0.35); }
+    .engine-status { display: none; font-size: 11.5px; color: #d97706; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 10px; border-radius: 8px; line-height: 1.35; }
+    html.dark .engine-status { color: #fde68a; }
+
+
     @media (max-width: 900px) {
-      .workspace { grid-template-columns: 1fr; }
+      .workspace { grid-template-columns: minmax(0, 1fr); }
       .video-panel { position: static; }
     }
     @media (max-width: 768px) {
@@ -200,13 +213,22 @@
       .close-menu-btn { display: block; }
       .menu-toggle-btn { display: inline-flex; }
       .main { padding: 10px 10px calc(16px + env(safe-area-inset-bottom, 8px)) 10px; }
+      .topbar { padding: 8px 10px; flex-wrap: wrap; row-gap: 6px; }
+      .topbar-left { display: contents; }
+      .menu-toggle-btn { order: 0; }
+      .topbar-right { order: 1; margin-left: auto; }
+      .mode-pills { order: 2; flex: 0 0 100%; width: 100%; }
+      .mode-pill { padding: 7px 11px; font-size: 12.5px; }
+      .ctrl-bar, .engine-btns { min-width: 0; }
+      .subs-list { max-height: none; }
     }
   </style>
   <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
-  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMenu(false)"></div>
+  <div class="ted-app-layout">
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMenu(false)"></div>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h2><a href="../index.html" class="home-pill" title="Về trang khóa học">🏠</a> 🎙️ TED Talks</h2>
@@ -225,7 +247,7 @@
 
   <div class="main-wrap">
     <div class="topbar">
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div class="topbar-left">
         <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ Danh sách (40)</button>
         <div class="mode-pills">
           <button class="mode-pill active" data-mode="dictation" onclick="switchMode('dictation')">✍️ Chép chính tả</button>
@@ -234,7 +256,7 @@
           <button class="mode-pill" data-mode="podcast" onclick="switchMode('podcast')">📻 Podcast (Chạy nền)</button>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:6px;">
+      <div class="topbar-right">
         <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
         <button class="theme-btn" onclick="toggleDark()">🌓</button>
       </div>
@@ -245,8 +267,17 @@
         <!-- Cột trái: Video YouTube / Podcast Chạy Nền -->
         <div class="video-panel">
           <h1 class="video-title" id="videoTitle">Đang tải...</h1>
-          <div class="yt-box" id="ytBoxWrap">
+                    <div class="yt-box" id="ytBoxWrap">
             <div id="ytPlayer"></div>
+            <video id="tedVideoPlayer" class="ted-html5-player" playsinline controls preload="metadata" style="display:none;width:100%;height:100%;object-fit:contain;background:#000;border-radius:10px;"></video>
+          </div>
+          <div class="ted-engine-bar" id="tedEngineBar">
+            <div class="engine-btns">
+              <button class="engine-btn" id="btnEngYt" onclick="setMediaEngine('yt')">📺 YouTube (dự phòng)</button>
+              <button class="engine-btn active" id="btnEngTed" onclick="setMediaEngine('ted')">🎬 Video TED gốc</button>
+              <a class="engine-btn ext" id="btnEngExtYt" href="#" target="_blank" rel="noopener">↗️ Xem trên YouTube</a>
+            </div>
+            <div class="engine-status" id="tedEngineStatus"></div>
           </div>
           <!-- Trình phát Podcast Chạy Nền (HTML5 Audio + MediaSession) -->
           <div class="podcast-box" id="podcastBoxWrap">
@@ -300,10 +331,11 @@
       </div>
     </div>
   </div>
+  </div>
 
   <script src="tedtalks_data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <!-- YouTube API lazy-loaded on demand when user switches to YouTube engine -->
   <script>
     const ITEMS = window.STUDY4_TED_DATA || [];
     const STORAGE_DONE = "s4_ted_done";
@@ -470,9 +502,13 @@
       const ytWrap = document.getElementById("ytBoxWrap");
       const podWrap = document.getElementById("podcastBoxWrap");
       const bgAudio = document.getElementById("bgPodcastAudio");
+      const tedVid = document.getElementById("tedVideoPlayer");
       if (m === "podcast") {
         if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
           try { ytPlayer.pauseVideo(); } catch (e) {}
+        }
+        if (tedVid && !tedVid.paused) {
+          try { tedVid.pause(); } catch (e) {}
         }
         if (ytWrap) ytWrap.style.display = "none";
         if (podWrap) podWrap.style.display = "block";
@@ -487,7 +523,11 @@
       renderModeContent();
     }
 
-    /* ---------- YouTube Player ---------- */
+    /* ---------- Dual-Engine Player: YouTube + Native TED CDN Stream ---------- */
+    let currentEngine = "ted"; // "ted" (mac dinh) | "yt"
+    let ytWanted = false;
+    let ytError = false;
+
     function focusCurrentDicInput() {
       if (currentMode !== "dictation") return;
       const box = document.getElementById("modeContainer");
@@ -496,37 +536,143 @@
       if (target) { try { target.focus({ preventScroll: true }); } catch (e) {} }
     }
 
+    function tedVideoUrl(it) {
+      if (!it) return "";
+      const a = it.audioHls || it.hls || "";
+      if (a) return a.replace(/index-f\d+-a\d+\.m3u8.*$/, "manifest.m3u8");
+      return it.mp4 || "";
+    }
+    let tedHls = null;
+    let tedVidLoadedUrl = "";
+    function loadTedVideo(vid, it) {
+      const url = tedVideoUrl(it);
+      if (!vid || !url || tedVidLoadedUrl === url) return;
+      tedVidLoadedUrl = url;
+      if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
+      if (/\.m3u8/.test(url) && window.Hls && Hls.isSupported()) {
+        tedHls = new Hls({ enableWorker: true, maxBufferLength: 20, maxMaxBufferLength: 40 });
+        tedHls.loadSource(url);
+        tedHls.attachMedia(vid);
+      } else {
+        vid.src = url;
+        vid.load();
+      }
+    }
+    function ensureYouTubeApi() {
+      if (window.YT && window.YT.Player) { if (!ytPlayer) window.onYouTubeIframeAPIReady(); return; }
+      if (document.getElementById("ytApiScript")) return;
+      const s = document.createElement("script");
+      s.id = "ytApiScript";
+      s.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(s);
+    }
+
+    function setMediaEngine(eng, isAutoFallback) {
+      currentEngine = eng;
+      const it = getActiveItem();
+      const btnYt = document.getElementById("btnEngYt");
+      const btnTed = document.getElementById("btnEngTed");
+      const statusEl = document.getElementById("tedEngineStatus");
+      if (btnYt) btnYt.classList.toggle("active", eng === "yt");
+      if (btnTed) btnTed.classList.toggle("active", eng === "ted");
+
+      if (eng === "ted") {
+        if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
+          try { ytPlayer.pauseVideo(); } catch (e) {}
+        }
+        showTedPlayerUI();
+        if (statusEl) {
+          statusEl.style.display = "block";
+          statusEl.innerHTML = isAutoFallback
+            ? "⚠️ YouTube bị hạn chế nhúng (Lỗi 150) — Đã chuyển sang luồng TED gốc ổn định 100%!"
+            : "📻 Đang phát qua luồng TED Video/Audio gốc từ máy chủ TED CDN.";
+        }
+        if (isAutoFallback) showToast(false, "Đã chuyển sang luồng TED gốc!");
+      } else {
+        ytError = false;
+        const tedVid = document.getElementById("tedVideoPlayer");
+        if (tedVid && !tedVid.paused) {
+          try { tedVid.pause(); } catch (e) {}
+        }
+        showYtPlayerUI();
+        if (statusEl) statusEl.style.display = "none";
+        if (ytReady && ytPlayer && ytPlayer.cueVideoById && it) {
+          try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
+        }
+      }
+    }
+
+    function showTedPlayerUI() {
+      const ytBox = document.getElementById("ytPlayer");
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (ytBox) ytBox.style.display = "none";
+      if (tedVid) {
+        tedVid.style.display = "block";
+        const it = getActiveItem();
+        loadTedVideo(tedVid, it);
+      }
+    }
+
+    function showYtPlayerUI() {
+      const ytBox = document.getElementById("ytPlayer");
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (ytBox) ytBox.style.display = "block";
+      if (tedVid) tedVid.style.display = "none";
+    }
+
     window.onYouTubeIframeAPIReady = function () {
+      if (currentEngine === "ted" && !ytWanted) return;
       const it = getActiveItem();
       if (!it) return;
       const pVars = { rel: 0, modestbranding: 1, playsinline: 1 };
-      if (location.protocol.startsWith("http")) pVars.origin = location.origin;
-      ytPlayer = new YT.Player("ytPlayer", {
-        videoId: it.youtubeId,
-        playerVars: pVars,
-        events: {
-          onReady: () => { ytReady = true; startSyncLoop(); },
-          onStateChange: (ev) => {
-            if (ev && ev.data === 1 && (currentMode === "dictation" || currentMode === "shadowing")) {
-              const curIt = getActiveItem();
-              const curSub = curIt && curIt.subs[currentSubIdx];
-              const nextSub = curIt && curIt.subs[currentSubIdx + 1];
-              if (curSub) {
-                const startSec = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
-                const endSec = nextSub ? (nextSub.time / 1000 - 0.04) : null;
-                if (autoPauseSentence) segmentEndSec = endSec;
-                const nowSec = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
-                // Nếu bấm Play trên YouTube khi đang ở nhạc dạo đầu hoặc đã dừng ở cuối câu -> tự tua về đầu câu hiện tại
-                if (nowSec < startSec - 0.6 || (endSec !== null && nowSec >= endSec - 0.15)) {
-                  ytPlayer.seekTo(startSec, true);
-                }
+      // origin omitted to prevent YouTube postMessage mismatch warnings on GitHub Pages
+      try {
+        ytPlayer = new YT.Player("ytPlayer", {
+          videoId: it.youtubeId,
+          playerVars: pVars,
+          events: {
+            onReady: () => {
+              ytReady = true;
+              ytError = false;
+              startSyncLoop();
+              if (currentEngine === "ted" && !ytWanted && ytPlayer && ytPlayer.pauseVideo) {
+                try { ytPlayer.pauseVideo(); } catch (e) {}
               }
-              setTimeout(focusCurrentDicInput, 60);
+            },
+            onStateChange: (ev) => {
+              if (ev && ev.data === 1 && (currentMode === "dictation" || currentMode === "shadowing")) {
+                const curIt = getActiveItem();
+                const curSub = curIt && curIt.subs[currentSubIdx];
+                const nextSub = curIt && curIt.subs[currentSubIdx + 1];
+                if (curSub) {
+                  const startSec = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+                  const endSec = nextSub ? (nextSub.time / 1000 - 0.04) : null;
+                  if (autoPauseSentence) segmentEndSec = endSec;
+                  const nowSec = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
+                  if (nowSec < startSec - 0.6 || (endSec !== null && nowSec >= endSec - 0.15)) {
+                    ytPlayer.seekTo(startSec, true);
+                  }
+                }
+                setTimeout(focusCurrentDicInput, 60);
+              }
+            },
+            onError: (ev) => {
+              console.warn("YouTube Player error:", ev && ev.data);
+              ytError = true;
+              setMediaEngine("ted", true);
             }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.warn("YT.Player init failed:", err);
+        ytError = true;
+        setMediaEngine("ted", true);
+      }
     };
+
+    if (window.YT && window.YT.Player) {
+      window.onYouTubeIframeAPIReady();
+    }
 
     function loadActiveVideo(autoPlayPodcast) {
       const it = getActiveItem();
@@ -534,10 +680,22 @@
       document.getElementById("videoTitle").textContent = it.title;
       document.getElementById("videoMetaInfo").textContent = `${it.unit} • ${it.subs.length} câu phụ đề`;
       updateDoneBtn();
+
+      const extBtn = document.getElementById("btnEngExtYt");
+      if (extBtn) extBtn.href = `https://www.youtube.com/watch?v=${it.youtubeId}`;
+
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (tedVid && it.mp4) {
+        tedVid.src = it.mp4;
+        tedVid.load();
+      }
+
       if (currentMode === "podcast") {
         loadPodcastStream(it, !!autoPlayPodcast);
+      } else if (currentEngine === "ted") {
+        showTedPlayerUI();
       } else if (ytReady && ytPlayer && ytPlayer.cueVideoById) {
-        ytPlayer.cueVideoById(it.youtubeId);
+        try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
       }
     }
 
@@ -548,7 +706,18 @@
       const next = it.subs[idx + 1];
       const startSec = Math.max(0, (cur.time || 0) / 1000 - 0.08);
       segmentEndSec = (autoPauseSentence && next) ? (next.time / 1000 - 0.04) : null;
-      if (ytReady && ytPlayer && ytPlayer.seekTo) {
+
+      if (currentEngine === "ted" || !ytReady || ytError) {
+        if (currentEngine !== "ted") setMediaEngine("ted", true);
+        const tedVid = document.getElementById("tedVideoPlayer");
+        const bgAudio = document.getElementById("bgPodcastAudio");
+        const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+        const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+        if (activeMedia) {
+          activeMedia.currentTime = Math.max(0, startSec + offsetSec);
+          activeMedia.play().catch(() => {});
+        }
+      } else if (ytReady && ytPlayer && ytPlayer.seekTo) {
         ytPlayer.seekTo(startSec, true);
         ytPlayer.playVideo();
       }
@@ -558,23 +727,57 @@
     function startSyncLoop() {
       if (syncTimer) clearInterval(syncTimer);
       syncTimer = setInterval(() => {
-        if (!ytReady || !ytPlayer || typeof ytPlayer.getCurrentTime !== "function") return;
-        const state = ytPlayer.getPlayerState ? ytPlayer.getPlayerState() : -1;
-        if (state !== 1) return; // 1 = playing
-        const sec = ytPlayer.getCurrentTime();
         const it = getActiveItem();
-        if (!it || !it.subs.length) return;
+        if (!it || !it.subs || !it.subs.length) return;
 
-        // Trong chế độ Chép chính tả / Shadowing: tự động dừng (hoặc lặp lại) khi hết câu hiện tại
+        let sec = -1;
+        let isPlaying = false;
+
+        if (currentEngine === "ted" || currentMode === "podcast" || !ytReady || ytError) {
+          const tedVid = document.getElementById("tedVideoPlayer");
+          const bgAudio = document.getElementById("bgPodcastAudio");
+          const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+          if (activeMedia && !activeMedia.paused) {
+            isPlaying = true;
+            const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+            sec = Math.max(0, activeMedia.currentTime - offsetSec);
+          }
+        } else if (ytReady && ytPlayer && typeof ytPlayer.getCurrentTime === "function") {
+          const state = ytPlayer.getPlayerState ? ytPlayer.getPlayerState() : -1;
+          if (state === 1) {
+            isPlaying = true;
+            sec = ytPlayer.getCurrentTime();
+          }
+        }
+
+        if (!isPlaying || sec < 0) return;
+
+        // Auto pause on end of sentence (Dictation & Shadowing)
         if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
           const curSub = it.subs[currentSubIdx];
           const nextSub = it.subs[currentSubIdx + 1];
           const cutoff = segmentEndSec !== null ? segmentEndSec : (nextSub ? (nextSub.time / 1000 - 0.04) : null);
           if (cutoff !== null && sec >= cutoff) {
             if (repeatSentence && curSub) {
-              ytPlayer.seekTo(Math.max(0, (curSub.time || 0) / 1000 - 0.08), true);
+              const repeatStart = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+              if (currentEngine === "ted" || currentMode === "podcast" || !ytReady) {
+                const tedVid = document.getElementById("tedVideoPlayer");
+                const bgAudio = document.getElementById("bgPodcastAudio");
+                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+                const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+                if (activeMedia) activeMedia.currentTime = repeatStart + offsetSec;
+              } else {
+                ytPlayer.seekTo(repeatStart, true);
+              }
             } else {
-              ytPlayer.pauseVideo();
+              if (currentEngine === "ted" || currentMode === "podcast" || !ytReady) {
+                const tedVid = document.getElementById("tedVideoPlayer");
+                const bgAudio = document.getElementById("bgPodcastAudio");
+                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+                if (activeMedia) activeMedia.pause();
+              } else {
+                ytPlayer.pauseVideo();
+              }
               segmentEndSec = null;
               focusCurrentDicInput();
               if (currentMode === "shadowing" && pendingAutoRecordAfterListen) {
@@ -588,7 +791,7 @@
           }
         }
 
-        // Trong chế độ Nghe & Transcript (hoặc khi tắt Tự dừng câu): tự động highlight câu đang nói
+        // Subtitle highlight tracking
         if (currentMode === "transcript" || !autoPauseSentence) {
           const ms = sec * 1000;
           let foundIdx = 0;
@@ -646,17 +849,23 @@
       saveSubPos();
       segmentEndSec = null;
       highlightTranscriptRow(idx);
-      if (currentMode === "podcast") {
+
+      const startSec = Math.max(0, it.subs[idx].time / 1000);
+      if (currentMode === "podcast" || currentEngine === "ted" || !ytReady || ytError) {
+        if (currentEngine !== "ted" && currentMode !== "podcast") setMediaEngine("ted", true);
+        const tedVid = document.getElementById("tedVideoPlayer");
         const bgAudio = document.getElementById("bgPodcastAudio");
-        if (bgAudio) {
-          const offsetMs = Number(it.podOffsetMs || 0);
-          bgAudio.currentTime = Math.max(0, (it.subs[idx].time + offsetMs) / 1000);
-          bgAudio.play().catch(() => {});
+        const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+        const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+        if (activeMedia) {
+          activeMedia.currentTime = Math.max(0, startSec + offsetSec);
+          activeMedia.play().catch(() => {});
         }
         return;
       }
+
       if (ytReady && ytPlayer && ytPlayer.seekTo) {
-        ytPlayer.seekTo(it.subs[idx].time / 1000, true);
+        ytPlayer.seekTo(startSec, true);
         ytPlayer.playVideo();
       }
     }
@@ -1296,6 +1505,16 @@
             }
           }
         }
+
+        if ("mediaSession" in navigator && dur > 0 && !isNaN(dur) && isFinite(dur)) {
+          try {
+            navigator.mediaSession.setPositionState({
+              duration: dur,
+              playbackRate: bgAudio.playbackRate || 1,
+              position: Math.min(Math.max(0, sec), dur)
+            });
+          } catch (e) {}
+        }
       });
       bgAudio.addEventListener("ended", () => {
         if (podcastAutoNext) {
@@ -1334,8 +1553,14 @@
         });
         navigator.mediaSession.setActionHandler("previoustrack", () => stepLesson(-1, true));
         navigator.mediaSession.setActionHandler("nexttrack", () => stepLesson(1, true));
-        navigator.mediaSession.setActionHandler("seekbackward", () => seekPodcast(-10));
-        navigator.mediaSession.setActionHandler("seekforward", () => seekPodcast(10));
+        navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+          const skip = (details && details.seekOffset) || 10;
+          seekPodcast(-skip);
+        });
+        navigator.mediaSession.setActionHandler("seekforward", (details) => {
+          const skip = (details && details.seekOffset) || 10;
+          seekPodcast(skip);
+        });
         navigator.mediaSession.setActionHandler("seekto", (details) => {
           const a = document.getElementById("bgPodcastAudio");
           if (a && details && typeof details.seekTime === "number") a.currentTime = details.seekTime;

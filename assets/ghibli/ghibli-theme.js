@@ -8,6 +8,7 @@
 (function () {
   const STYLE_KEY = 's4_theme_style'; // 'ghibli' | 'default'
   const DARK_KEY = 's4_vocab_dark';   // '1' (dark) | '0' (light)
+  const LITE_KEY = 's4_ghibli_lite';  // '1' (lite mode: tắt hiệu ứng nặng) | '0' (full)
 
   // Detect base path relative to root
   const pathParts = location.pathname.replace(/\\/g, '/').split('/');
@@ -42,18 +43,48 @@
     return true;
   }
 
+  function getSavedLite() {
+    const l = localStorage.getItem(LITE_KEY);
+    if (l === '1' || l === '0') return l === '1';
+    // Tự động nhận diện thiết bị yếu (<= 4 CPU threads hoặc <= 4GB RAM)
+    const isLowEnd = (typeof navigator !== 'undefined') && (
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      (navigator.deviceMemory && navigator.deviceMemory <= 4)
+    );
+    if (isLowEnd) {
+      localStorage.setItem(LITE_KEY, '1');
+      return true;
+    }
+    return false;
+  }
+
   function applyThemeState() {
     const style = getSavedStyle();
     const isDark = getSavedDark();
     const htmlEl = document.documentElement;
     const bodyEl = document.body;
 
+    const isLite = getSavedLite();
     htmlEl.classList.toggle('theme-ghibli', style === 'ghibli');
     htmlEl.classList.toggle('dark', isDark);
+    htmlEl.classList.toggle('ghibli-lite', isLite && style === 'ghibli');
 
     if (bodyEl) {
       bodyEl.classList.toggle('theme-ghibli', style === 'ghibli');
       bodyEl.classList.toggle('dark', isDark);
+      bodyEl.classList.toggle('ghibli-lite', isLite && style === 'ghibli');
+    }
+
+    // Cập nhật trạng thái nút Chế độ Nhẹ
+    const liteBtn = document.getElementById('btnGhibliLite');
+    if (liteBtn) {
+      liteBtn.style.display = style === 'ghibli' ? 'inline-flex' : 'none';
+      liteBtn.classList.toggle('active', isLite);
+      liteBtn.title = isLite ? "Chế độ Nhẹ: ĐANG BẬT (Đã tắt bớt hiệu ứng bay/mờ cho máy mượt)" : "Chế độ Nhẹ: ĐANG TẮT (Bấm để tắt hiệu ứng cho máy yếu)";
+      const txt = liteBtn.querySelector('.s4-opt-text');
+      if (txt) txt.textContent = isLite ? " Nhẹ" : " Đầy đủ";
+      const icon = liteBtn.querySelector('.s4-opt-icon');
+      if (icon) icon.textContent = isLite ? "🍃" : "✨";
     }
 
     // Update dock buttons active state
@@ -96,6 +127,13 @@
   window.toggleDarkModeOnly = function () {
     const nextDark = !getSavedDark();
     localStorage.setItem(DARK_KEY, nextDark ? '1' : '0');
+    applyThemeState();
+  };
+
+  // Toggle Chế độ Nhẹ cho Ghibli (Tắt bớt hiệu ứng cho máy yếu)
+  window.toggleGhibliLite = function () {
+    const nextLite = !getSavedLite();
+    localStorage.setItem(LITE_KEY, nextLite ? '1' : '0');
     applyThemeState();
   };
 
@@ -187,12 +225,8 @@
         <button class="s4-theme-opt" data-style-opt="default" onclick="setThemeStyle('default')" title="Chủ đề Mặc định">
           <span class="s4-opt-icon">🎨</span><span class="s4-opt-text"> Gốc</span>
         </button>
-        <div class="s4-dock-sep"></div>
-        <button class="s4-theme-opt" data-light-opt="dark" onclick="setLightMode('dark')" title="Chế độ Tối dịu mắt">
-          <span class="s4-opt-icon">🌙</span><span class="s4-opt-text"> Tối</span>
-        </button>
-        <button class="s4-theme-opt" data-light-opt="light" onclick="setLightMode('light')" title="Chế độ Sáng">
-          <span class="s4-opt-icon">☀️</span><span class="s4-opt-text"> Sáng</span>
+        <button class="s4-theme-opt" id="btnGhibliLite" onclick="toggleGhibliLite()" title="Bật/Tắt hiệu ứng chuyển động cho máy yếu">
+          <span class="s4-opt-icon">🍃</span><span class="s4-opt-text"> Nhẹ</span>
         </button>
         <button class="s4-dock-toggle" onclick="toggleThemeDockMinimize()" title="Thu gọn / Mở rộng">▾</button>
       `;
