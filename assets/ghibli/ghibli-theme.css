@@ -481,27 +481,8 @@ html.theme-ghibli .course-card::after {
    SEPARATED DUAL-CONTROL DOCK (Theme: 🌿 Ghibli / 🎨 Mặc định | Mode: ☀️ Sáng / 🌙 Tối)
    & SOOT SPRITES MOVED TO BOTTOM-RIGHT SO SIDEBAR IS NEVER BLOCKED
    -------------------------------------------------------------------------- */
-.s4-theme-dock {
-  position: fixed;
-  bottom: 14px;
-  right: 16px;
-  z-index: 9990;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(254, 251, 243, 0.96);
-  border: 1.5px solid #cbb894;
-  border-radius: 999px;
-  padding: 5px 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(10px);
-  font-family: 'Quicksand', -apple-system, sans-serif;
-}
-html.dark .s4-theme-dock {
-  background: rgba(18, 30, 26, 0.96);
-  border-color: rgba(212, 163, 115, 0.4);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
-}
+.s4-theme-dock { display: none !important; }
+html.dark .s4-theme-dock { display: none !important; }
 .s4-dock-sep {
   width: 1.5px;
   height: 18px;
@@ -549,20 +530,8 @@ html.dark .s4-theme-opt {
 }
 
 /* Soot Sprites (Susuwatari) Stage — Placed above Bottom-Right Dock so Left Sidebar is 100% clear! */
-.ghibli-sprites-stage {
-  position: fixed;
-  bottom: 56px;
-  right: 22px;
-  z-index: 9985;
-  display: none;
-  align-items: flex-end;
-  gap: 6px;
-  pointer-events: auto;
-  user-select: none;
-}
-html.theme-ghibli .ghibli-sprites-stage {
-  display: flex;
-}
+.ghibli-sprites-stage { display: none !important; }
+html.theme-ghibli .ghibli-sprites-stage { display: none !important; }
 
 .soot-sprite {
   width: 40px;
@@ -679,9 +648,7 @@ html.theme-ghibli .ghibli-sky-layer {
   }
 
   /* 2. Hide soot sprites on mobile screens so bottom controls are 100% unobstructed */
-  .ghibli-sprites-stage {
-    display: none !important;
-  }
+  .ghibli-sprites-stage { display: none !important; }
 
   /* 3. Strip ALL backdrop-filter blur across every single card and panel */
   html.theme-ghibli .course-card,
@@ -773,9 +740,7 @@ body.perf-lite .ghibli-sky-layer {
   display: none !important;
 }
 html.perf-lite .ghibli-sprites-stage,
-body.perf-lite .ghibli-sprites-stage {
-  display: none !important;
-}
+body.perf-lite .ghibli-sprites-stage { display: none !important; }
 html.perf-lite .course-card,
 html.perf-lite .summary-bar,
 html.perf-lite .passage-card,
@@ -790,11 +755,7 @@ html.perf-lite .audio-bar,
 html.perf-lite .mode-bar,
 html.perf-lite .sidebar,
 html.perf-lite .topbar,
-html.perf-lite .s4-theme-dock {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
-}
+html.perf-lite .s4-theme-dock { display: none !important; }
 html.perf-lite .ghibli-backdrop-layer {
   filter: none !important;
 }
@@ -847,18 +808,8 @@ html:not(.theme-ghibli) .s4-theme-dock.minimized .s4-dock-toggle::before {
 }
 
 @media (max-width: 640px) {
-  .s4-theme-dock {
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
-    right: 10px !important;
-    padding: 3px 6px !important;
-    gap: 3px !important;
-    border-radius: 999px !important;
-    background: rgba(254, 251, 243, 0.94) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.24) !important;
-  }
-  html.dark .s4-theme-dock {
-    background: rgba(18, 30, 26, 0.95) !important;
-  }
+  .s4-theme-dock { display: none !important; }
+  html.dark .s4-theme-dock { display: none !important; }
   .s4-theme-opt {
     padding: 4px 6px !important;
     font-size: 11.5px !important;
