@@ -2,12 +2,13 @@
    STUDIO GHIBLI & DUAL-AXIS THEME ENGINE (ghibli-theme.js)
    - Axis 1 (Theme Style):   🌿 Ghibli  | 🎨 Mặc định   (stored in 's4_theme_style')
    - Axis 2 (Lighting Mode): 🌙 Tối     | ☀️ Sáng       (stored in 's4_vocab_dark')
-   Both axes work independently so the user can use Ghibli Dark (Rừng Đêm)
-   or Ghibli Light (Nắng Sớm), or Default Dark / Default Light at any time!
+   - Axis 3 (Performance):   ⚡ Siêu Nhẹ / Mượt (stored in 's4_perf_lite')
+   Optimized for ultra-smooth 60-120fps performance on mobile & budget devices.
    ========================================================================== */
 (function () {
   const STYLE_KEY = 's4_theme_style'; // 'ghibli' | 'default'
   const DARK_KEY = 's4_vocab_dark';   // '1' (dark) | '0' (light)
+  const LITE_KEY = 's4_perf_lite';    // '1' (ultra-fast lite) | '0' (rich effects)
 
   // Detect base path relative to root
   const pathParts = location.pathname.replace(/\\/g, '/').split('/');
@@ -16,17 +17,21 @@
   );
   const assetPrefix = inSubdir ? '../assets/ghibli/' : 'assets/ghibli/';
 
-  // Set CSS custom properties for background & banner image URLs
-  
-  
-
   const GHIBLI_QUOTES = [
     '🌿 "Mỗi từ vựng hôm nay là một hạt mầm nở hoa trong khu rừng tri thức!"',
-    '✨ "Cố lên nhé! Bồ hóng Susuwatari đang rắc kẹo sao Konpeito cổ vũ bạn!"',
-    '🍃 "Hãy cứ đi từng bước nhỏ, như Totoro đợi xe buýt mèo dưới cơn mưa."',
+    '✨ "Cố lên nhé! Từng bước nhỏ sẽ đưa bạn đến đích IELTS mong muốn!"',
+    '🍃 "Hãy cứ đi từng bước vững chãi, như Totoro đợi xe buýt mèo dưới cơn mưa."',
     '🔥 "Calcifer truyền lửa nhiệt huyết: Hôm nay hoàn thành thêm 1 bài học nhé!"',
     '🌸 "Dù gió có thổi mạnh thế nào, đôi cánh tri thức vẫn đưa bạn bay xa."'
   ];
+
+  function isMobileDevice() {
+    return (
+      window.innerWidth <= 768 ||
+      (typeof window.orientation !== 'undefined') ||
+      (navigator.userAgent && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+    );
+  }
 
   function getSavedStyle() {
     const s = localStorage.getItem(STYLE_KEY);
@@ -37,23 +42,35 @@
   function getSavedDark() {
     const d = localStorage.getItem(DARK_KEY);
     if (d === '1' || d === '0') return d === '1';
-    // Default to Dark Mode ('1') so the screen is gentle on the eyes!
     localStorage.setItem(DARK_KEY, '1');
     return true;
+  }
+
+  function getSavedLite() {
+    const l = localStorage.getItem(LITE_KEY);
+    if (l === '1') return true;
+    if (l === '0') return false;
+    // On mobile devices, default to Lite Mode (1) for zero lag!
+    const defLite = isMobileDevice();
+    localStorage.setItem(LITE_KEY, defLite ? '1' : '0');
+    return defLite;
   }
 
   function applyThemeState() {
     const style = getSavedStyle();
     const isDark = getSavedDark();
+    const isLite = getSavedLite();
     const htmlEl = document.documentElement;
     const bodyEl = document.body;
 
     htmlEl.classList.toggle('theme-ghibli', style === 'ghibli');
     htmlEl.classList.toggle('dark', isDark);
+    htmlEl.classList.toggle('perf-lite', isLite);
 
     if (bodyEl) {
       bodyEl.classList.toggle('theme-ghibli', style === 'ghibli');
       bodyEl.classList.toggle('dark', isDark);
+      bodyEl.classList.toggle('perf-lite', isLite);
     }
 
     // Update dock buttons active state
@@ -64,6 +81,19 @@
       const targetDark = btn.getAttribute('data-light-opt') === 'dark';
       btn.classList.toggle('active', targetDark === isDark);
     });
+    document.querySelectorAll('.s4-theme-opt[data-lite-opt]').forEach(btn => {
+      btn.classList.toggle('active', isLite);
+      btn.title = isLite
+        ? 'Chế độ Siêu Nhẹ: ĐANG BẬT (Tối ưu pin & mượt mà)'
+        : 'Chế độ Siêu Nhẹ: TẮT (Hiệu ứng đầy đủ)';
+    });
+
+    // Toggle sky layer & soot sprites visibility based on Lite Mode
+    const sky = document.getElementById('ghibliSkyLayer');
+    if (sky) sky.style.display = (!isLite && style === 'ghibli' && !isMobileDevice()) ? 'block' : 'none';
+
+    const stage = document.getElementById('ghibliSpritesStage');
+    if (stage) stage.style.display = (!isLite && style === 'ghibli' && !isMobileDevice()) ? 'flex' : 'none';
 
     // Update Portal Ghibli Banner visibility & dark/light appearance
     const bannerBox = document.getElementById('ghibliPortalBanner');
@@ -92,11 +122,24 @@
     applyThemeState();
   };
 
-  // Toggle dark/light only (keeps current Ghibli/Default theme intact!)
+  // Independent control 3: Toggle Lite / Performance Mode
+  window.toggleLiteMode = function () {
+    const nextLite = !getSavedLite();
+    localStorage.setItem(LITE_KEY, nextLite ? '1' : '0');
+    applyThemeState();
+  };
+
+  // Toggle dark/light only
   window.toggleDarkModeOnly = function () {
     const nextDark = !getSavedDark();
     localStorage.setItem(DARK_KEY, nextDark ? '1' : '0');
     applyThemeState();
+  };
+
+  // Toggle Dock minimize
+  window.toggleThemeDockMinimize = function () {
+    const dock = document.getElementById('s4ThemeDock');
+    if (dock) dock.classList.toggle('minimized');
   };
 
   // Apply immediately on script load
@@ -120,22 +163,23 @@
     `;
   }
 
-  function spawnKonpeitoBurst(x, y, count = 8) {
-    const icons = ['⭐', '✨', '🍬', '🌸', '🍃', '🌼'];
+  function spawnKonpeitoBurst(x, y, count = 6) {
+    if (getSavedLite() || isMobileDevice()) return; // Skip DOM particle burst in Lite/Mobile mode
+    const icons = ['⭐', '✨', '🍬', '🌸', '🍃'];
     for (let i = 0; i < count; i++) {
       const el = document.createElement('div');
       el.className = 'konpeito-star';
       el.textContent = icons[i % icons.length];
       const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.4 - 0.2);
-      const dist = 35 + Math.random() * 45;
+      const dist = 30 + Math.random() * 40;
       const tx = Math.round(Math.cos(angle) * dist);
-      const ty = Math.round(Math.sin(angle) * dist - 25);
+      const ty = Math.round(Math.sin(angle) * dist - 20);
       el.style.left = x + 'px';
       el.style.top = y + 'px';
       el.style.setProperty('--tx', tx + 'px');
       el.style.setProperty('--ty', ty + 'px');
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 920);
+      setTimeout(() => el.remove(), 800);
     }
   }
 
@@ -152,19 +196,18 @@
         const gain = audioCtx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.07);
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime + idx * 0.07);
-        gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + idx * 0.07 + 0.45);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime + idx * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + idx * 0.07 + 0.40);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(audioCtx.currentTime + idx * 0.07);
-        osc.stop(audioCtx.currentTime + idx * 0.07 + 0.46);
+        osc.stop(audioCtx.currentTime + idx * 0.07 + 0.42);
       });
     } catch (e) {}
   }
 
   function initGhibliUI() {
     if (!document.body) return;
-    // Hook existing header dark-mode buttons so they toggle Dark/Light independently of Ghibli!
     window.toggleDark = window.toggleDarkModeOnly;
 
     // 0. Dedicated Fixed Ghibli Watercolor Backdrop Layer
@@ -175,7 +218,7 @@
       document.body.insertBefore(backdrop, document.body.firstChild);
     }
 
-    // 1. Separated Dual-Control Floating Dock (Theme: Ghibli / Mặc định | Mode: Sáng / Tối)
+    // 1. Separated Dual-Control Floating Dock with Performance (Lite) Toggle
     if (!document.getElementById('s4ThemeDock')) {
       const dock = document.createElement('div');
       dock.id = 's4ThemeDock';
@@ -194,29 +237,34 @@
         <button class="s4-theme-opt" data-light-opt="light" onclick="setLightMode('light')" title="Chế độ Sáng">
           <span class="s4-opt-icon">☀️</span><span class="s4-opt-text"> Sáng</span>
         </button>
+        <div class="s4-dock-sep"></div>
+        <button class="s4-theme-opt" data-lite-opt="lite" onclick="toggleLiteMode()" title="Chế độ Siêu Nhẹ (Tối ưu pin & mượt mà trên điện thoại)">
+          <span class="s4-opt-icon">⚡</span><span class="s4-opt-text"> Mượt</span>
+        </button>
         <button class="s4-dock-toggle" onclick="toggleThemeDockMinimize()" title="Thu gọn / Mở rộng">▾</button>
       `;
       document.body.appendChild(dock);
     }
 
-    // 2. Floating Ghibli Sky Layer (Leaves & Fireflies)
-    if (!document.getElementById('ghibliSkyLayer')) {
+    // 2. Floating Ghibli Sky Layer (Leaves & Fireflies) — DESKTOP ONLY
+    const isMob = isMobileDevice();
+    if (!isMob && !document.getElementById('ghibliSkyLayer')) {
       const sky = document.createElement('div');
       sky.id = 'ghibliSkyLayer';
       sky.className = 'ghibli-sky-layer';
-      const particles = ['🍃', '✨', '🌿', '🌼', '✨', '🍃', '🌸', '✨'];
+      const particles = ['🍃', '✨', '🌿', '🌼', '✨', '🍃'];
       sky.innerHTML = particles.map((p, i) => {
-        const left = (i * 13 + 7) % 95;
-        const dur = 15 + (i % 5) * 3.5;
-        const delay = -(i * 2.3);
-        const drift = (i % 2 === 0 ? 75 : -65) + 'px';
+        const left = (i * 17 + 8) % 95;
+        const dur = 18 + (i % 4) * 4;
+        const delay = -(i * 2.5);
+        const drift = (i % 2 === 0 ? 65 : -55) + 'px';
         return `<span class="ghibli-leaf" style="left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;--drift:${drift};">${p}</span>`;
       }).join('');
       document.body.appendChild(sky);
     }
 
-    // 3. Interactive Soot Sprites (Susuwatari) Stage — Placed at Bottom-Right above Dock
-    if (!document.getElementById('ghibliSpritesStage')) {
+    // 3. Interactive Soot Sprites (Susuwatari) — DESKTOP ONLY
+    if (!isMob && !document.getElementById('ghibliSpritesStage')) {
       const stage = document.createElement('div');
       stage.id = 'ghibliSpritesStage';
       stage.className = 'ghibli-sprites-stage';
@@ -234,27 +282,27 @@
           void sp.offsetWidth;
           sp.classList.add('jump');
           const rect = sp.getBoundingClientRect();
-          spawnKonpeitoBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 10);
+          spawnKonpeitoBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 8);
           playGhibliChime();
           const bubble = document.getElementById('sootSpeechBubble');
           if (bubble) {
             bubble.textContent = GHIBLI_QUOTES[Math.floor(Math.random() * GHIBLI_QUOTES.length)];
             bubble.classList.add('show');
-            setTimeout(() => bubble.classList.remove('show'), 3600);
+            setTimeout(() => bubble.classList.remove('show'), 3200);
           }
         });
       });
 
       window.addEventListener('mousemove', (e) => {
-        if (!document.documentElement.classList.contains('theme-ghibli')) return;
+        if (getSavedLite() || !document.documentElement.classList.contains('theme-ghibli')) return;
         const pupils = document.querySelectorAll('.soot-pupil');
         pupils.forEach(p => {
           const rect = p.getBoundingClientRect();
           const cx = rect.left + rect.width / 2;
           const cy = rect.top + rect.height / 2;
           const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
-          const ox = Math.cos(angle) * 2.1;
-          const oy = Math.sin(angle) * 2.1;
+          const ox = Math.cos(angle) * 2.0;
+          const oy = Math.sin(angle) * 2.0;
           const baseCx = p.id.startsWith('pupilL') ? 23 : 37;
           p.setAttribute('cx', (baseCx + ox).toFixed(2));
           p.setAttribute('cy', (27 + oy).toFixed(2));
@@ -262,7 +310,7 @@
       }, { passive: true });
     }
 
-    // 4. Inject Cozy Ghibli Study Banner on Portal / Home (index.html)
+    // 4. Inject Ghibli Study Banner on Portal / Home (index.html)
     const portalWrap = document.getElementById('viewPortal');
     if (portalWrap && !document.getElementById('ghibliPortalBanner')) {
       const banner = document.createElement('div');
@@ -272,11 +320,11 @@
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        padding: 18px 22px;
+        padding: 16px 20px;
         margin-bottom: 18px;
-        border-radius: 22px;
-        border: 2px solid var(--border);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+        border-radius: 20px;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
         flex-wrap: wrap;
       `;
       banner.innerHTML = `
@@ -284,36 +332,18 @@
           <div style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-soft);color:var(--hl-green);font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:99px;margin-bottom:6px;">
             <span>🌿 GÓC HỌC TẬP STUDIO GHIBLI</span>
           </div>
-          <div style="font-size:18px;font-weight:800;color:var(--text);line-height:1.35;">
+          <div style="font-size:17px;font-weight:800;color:var(--text);line-height:1.35;">
             Chào mừng bạn đến Khu Rừng Tri Thức IELTS & Ngoại Ngữ
           </div>
-          <div id="ghibliBannerQuote" style="font-size:13.5px;color:var(--sub-text);margin-top:4px;font-weight:600;">
+          <div id="ghibliBannerQuote" style="font-size:13px;color:var(--sub-text);margin-top:4px;font-weight:600;">
             ${GHIBLI_QUOTES[0]}
           </div>
         </div>
-        <button onclick="document.querySelector('.soot-sprite')?.click()" style="background:var(--primary);color:#fff;border:none;padding:9px 15px;border-radius:99px;font-family:inherit;font-size:12.5px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(45,106,79,0.28);">
-          🍬 Gọi Bồ Hóng cổ vũ
-        </button>
       `;
       portalWrap.insertBefore(banner, portalWrap.firstChild);
     }
 
     applyThemeState();
-
-    // 5. Celebrate when user answers correctly (.correct class added)
-    const observer = new MutationObserver((mutations) => {
-      if (!document.documentElement.classList.contains('theme-ghibli')) return;
-      for (const m of mutations) {
-        if (m.type === 'attributes' && m.attributeName === 'class' && m.target.classList?.contains('correct')) {
-          const rect = m.target.getBoundingClientRect();
-          if (rect.width > 0) {
-            spawnKonpeitoBurst(rect.left + rect.width / 2, rect.top, 6);
-          }
-          break;
-        }
-      }
-    });
-    observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   }
 
   if (document.readyState === 'loading') {
