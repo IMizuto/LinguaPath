@@ -527,7 +527,7 @@
     .close-sidebar-btn { display: block !important; }
     .topbar { padding: 8px 10px; gap: 6px; }
     .brand-title { font-size: 13.5px; }
-    .topbar-right { display: none; }
+    .topbar-right { display: flex; } .topbar-right .prog-pill { display: none; }
     .top-switch {
       max-width: 100%;
       order: 3;
@@ -603,7 +603,8 @@
 
   <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
     <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
-    <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">🌙</button>
+    <button class="btn mini-btn" data-effects-toggle onclick="toggleEffects()" title="Bật / Tắt Hiệu ứng" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--text);">✨</button>
+    <button class="btn mini-btn dark-btn" data-dark-toggle onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">🌙</button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
   </div>
 </header>

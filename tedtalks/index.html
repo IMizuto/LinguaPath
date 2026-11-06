@@ -190,6 +190,16 @@
     .s4-toast.good { background: #16a34a; }
     .s4-toast.warn { background: #dc2626; }
 
+    .ted-engine-bar { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .engine-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+    .engine-btn { padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease; }
+    .engine-btn:hover { border-color: var(--primary); }
+    .engine-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .engine-btn.ext { color: #ef4444; border-color: rgba(239, 68, 68, 0.35); }
+    .engine-status { display: none; font-size: 11.5px; color: #d97706; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 10px; border-radius: 8px; line-height: 1.35; }
+    html.dark .engine-status { color: #fde68a; }
+
+
     @media (max-width: 900px) {
       .workspace { grid-template-columns: 1fr; }
       .video-panel { position: static; }
@@ -236,7 +246,8 @@
       </div>
       <div style="display:flex;align-items:center;gap:6px;">
         <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
-        <button class="theme-btn" onclick="toggleDark()">🌓</button>
+        <button class="theme-btn" data-effects-toggle onclick="toggleEffects()" title="Bật / Tắt Hiệu ứng">✨</button>
+        <button class="theme-btn" data-dark-toggle onclick="toggleDark()" title="Đổi Sáng / Tối">🌙</button>
       </div>
     </div>
 
@@ -245,8 +256,17 @@
         <!-- Cột trái: Video YouTube / Podcast Chạy Nền -->
         <div class="video-panel">
           <h1 class="video-title" id="videoTitle">Đang tải...</h1>
-          <div class="yt-box" id="ytBoxWrap">
+                    <div class="yt-box" id="ytBoxWrap">
             <div id="ytPlayer"></div>
+            <video id="tedVideoPlayer" class="ted-html5-player" playsinline controls preload="metadata" style="display:none;width:100%;height:100%;object-fit:contain;background:#000;border-radius:10px;"></video>
+          </div>
+          <div class="ted-engine-bar" id="tedEngineBar">
+            <div class="engine-btns">
+              <button class="engine-btn active" id="btnEngYt" onclick="setMediaEngine('yt')">📺 Video YouTube</button>
+              <button class="engine-btn" id="btnEngTed" onclick="setMediaEngine('ted')">📻 Video TED gốc (Dự phòng)</button>
+              <a class="engine-btn ext" id="btnEngExtYt" href="#" target="_blank" rel="noopener">↗️ Xem trên YouTube</a>
+            </div>
+            <div class="engine-status" id="tedEngineStatus"></div>
           </div>
           <!-- Trình phát Podcast Chạy Nền (HTML5 Audio + MediaSession) -->
           <div class="podcast-box" id="podcastBoxWrap">
@@ -487,7 +507,10 @@
       renderModeContent();
     }
 
-    /* ---------- YouTube Player ---------- */
+    /* ---------- Dual-Engine Player: YouTube + Native TED CDN Stream ---------- */
+    let currentEngine = "yt"; // "yt" | "ted"
+    let ytError = false;
+
     function focusCurrentDicInput() {
       if (currentMode !== "dictation") return;
       const box = document.getElementById("modeContainer");
@@ -496,37 +519,111 @@
       if (target) { try { target.focus({ preventScroll: true }); } catch (e) {} }
     }
 
+    function setMediaEngine(eng, isAutoFallback) {
+      currentEngine = eng;
+      const it = getActiveItem();
+      const btnYt = document.getElementById("btnEngYt");
+      const btnTed = document.getElementById("btnEngTed");
+      const statusEl = document.getElementById("tedEngineStatus");
+      if (btnYt) btnYt.classList.toggle("active", eng === "yt");
+      if (btnTed) btnTed.classList.toggle("active", eng === "ted");
+
+      if (eng === "ted") {
+        if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
+          try { ytPlayer.pauseVideo(); } catch (e) {}
+        }
+        showTedPlayerUI();
+        if (statusEl) {
+          statusEl.style.display = "block";
+          statusEl.innerHTML = isAutoFallback
+            ? "⚠️ YouTube bị hạn chế nhúng (Lỗi 150) — Đã chuyển sang luồng TED gốc ổn định 100%!"
+            : "📻 Đang phát qua luồng TED Video/Audio gốc từ máy chủ TED CDN.";
+        }
+        if (isAutoFallback) showToast(false, "Đã chuyển sang luồng TED gốc!");
+      } else {
+        ytError = false;
+        const tedVid = document.getElementById("tedVideoPlayer");
+        if (tedVid && !tedVid.paused) {
+          try { tedVid.pause(); } catch (e) {}
+        }
+        showYtPlayerUI();
+        if (statusEl) statusEl.style.display = "none";
+        if (ytReady && ytPlayer && ytPlayer.cueVideoById && it) {
+          try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
+        }
+      }
+    }
+
+    function showTedPlayerUI() {
+      const ytBox = document.getElementById("ytPlayer");
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (ytBox) ytBox.style.display = "none";
+      if (tedVid) {
+        tedVid.style.display = "block";
+        const it = getActiveItem();
+        if (it && it.mp4 && tedVid.src !== it.mp4) {
+          tedVid.src = it.mp4;
+          tedVid.load();
+        }
+      }
+    }
+
+    function showYtPlayerUI() {
+      const ytBox = document.getElementById("ytPlayer");
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (ytBox) ytBox.style.display = "block";
+      if (tedVid) tedVid.style.display = "none";
+    }
+
     window.onYouTubeIframeAPIReady = function () {
       const it = getActiveItem();
       if (!it) return;
       const pVars = { rel: 0, modestbranding: 1, playsinline: 1 };
       if (location.protocol.startsWith("http")) pVars.origin = location.origin;
-      ytPlayer = new YT.Player("ytPlayer", {
-        videoId: it.youtubeId,
-        playerVars: pVars,
-        events: {
-          onReady: () => { ytReady = true; startSyncLoop(); },
-          onStateChange: (ev) => {
-            if (ev && ev.data === 1 && (currentMode === "dictation" || currentMode === "shadowing")) {
-              const curIt = getActiveItem();
-              const curSub = curIt && curIt.subs[currentSubIdx];
-              const nextSub = curIt && curIt.subs[currentSubIdx + 1];
-              if (curSub) {
-                const startSec = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
-                const endSec = nextSub ? (nextSub.time / 1000 - 0.04) : null;
-                if (autoPauseSentence) segmentEndSec = endSec;
-                const nowSec = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
-                // Nếu bấm Play trên YouTube khi đang ở nhạc dạo đầu hoặc đã dừng ở cuối câu -> tự tua về đầu câu hiện tại
-                if (nowSec < startSec - 0.6 || (endSec !== null && nowSec >= endSec - 0.15)) {
-                  ytPlayer.seekTo(startSec, true);
+      try {
+        ytPlayer = new YT.Player("ytPlayer", {
+          videoId: it.youtubeId,
+          playerVars: pVars,
+          events: {
+            onReady: () => {
+              ytReady = true;
+              ytError = false;
+              startSyncLoop();
+            },
+            onStateChange: (ev) => {
+              if (ev && ev.data === 1 && (currentMode === "dictation" || currentMode === "shadowing")) {
+                const curIt = getActiveItem();
+                const curSub = curIt && curIt.subs[currentSubIdx];
+                const nextSub = curIt && curIt.subs[currentSubIdx + 1];
+                if (curSub) {
+                  const startSec = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+                  const endSec = nextSub ? (nextSub.time / 1000 - 0.04) : null;
+                  if (autoPauseSentence) segmentEndSec = endSec;
+                  const nowSec = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
+                  if (nowSec < startSec - 0.6 || (endSec !== null && nowSec >= endSec - 0.15)) {
+                    ytPlayer.seekTo(startSec, true);
+                  }
                 }
+                setTimeout(focusCurrentDicInput, 60);
               }
-              setTimeout(focusCurrentDicInput, 60);
+            },
+            onError: (ev) => {
+              console.warn("YouTube Player error:", ev && ev.data);
+              ytError = true;
+              setMediaEngine("ted", true);
             }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.warn("YT.Player init failed:", err);
+        ytError = true;
+        setMediaEngine("ted", true);
+      }
     };
+
+    if (window.YT && window.YT.Player) {
+      window.onYouTubeIframeAPIReady();
+    }
 
     function loadActiveVideo(autoPlayPodcast) {
       const it = getActiveItem();
@@ -534,10 +631,22 @@
       document.getElementById("videoTitle").textContent = it.title;
       document.getElementById("videoMetaInfo").textContent = `${it.unit} • ${it.subs.length} câu phụ đề`;
       updateDoneBtn();
+
+      const extBtn = document.getElementById("btnEngExtYt");
+      if (extBtn) extBtn.href = `https://www.youtube.com/watch?v=${it.youtubeId}`;
+
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (tedVid && it.mp4) {
+        tedVid.src = it.mp4;
+        tedVid.load();
+      }
+
       if (currentMode === "podcast") {
         loadPodcastStream(it, !!autoPlayPodcast);
+      } else if (currentEngine === "ted") {
+        showTedPlayerUI();
       } else if (ytReady && ytPlayer && ytPlayer.cueVideoById) {
-        ytPlayer.cueVideoById(it.youtubeId);
+        try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
       }
     }
 
@@ -548,7 +657,18 @@
       const next = it.subs[idx + 1];
       const startSec = Math.max(0, (cur.time || 0) / 1000 - 0.08);
       segmentEndSec = (autoPauseSentence && next) ? (next.time / 1000 - 0.04) : null;
-      if (ytReady && ytPlayer && ytPlayer.seekTo) {
+
+      if (currentEngine === "ted" || !ytReady || ytError) {
+        if (currentEngine !== "ted") setMediaEngine("ted", true);
+        const tedVid = document.getElementById("tedVideoPlayer");
+        const bgAudio = document.getElementById("bgPodcastAudio");
+        const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+        const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+        if (activeMedia) {
+          activeMedia.currentTime = Math.max(0, startSec + offsetSec);
+          activeMedia.play().catch(() => {});
+        }
+      } else if (ytReady && ytPlayer && ytPlayer.seekTo) {
         ytPlayer.seekTo(startSec, true);
         ytPlayer.playVideo();
       }
@@ -558,23 +678,57 @@
     function startSyncLoop() {
       if (syncTimer) clearInterval(syncTimer);
       syncTimer = setInterval(() => {
-        if (!ytReady || !ytPlayer || typeof ytPlayer.getCurrentTime !== "function") return;
-        const state = ytPlayer.getPlayerState ? ytPlayer.getPlayerState() : -1;
-        if (state !== 1) return; // 1 = playing
-        const sec = ytPlayer.getCurrentTime();
         const it = getActiveItem();
-        if (!it || !it.subs.length) return;
+        if (!it || !it.subs || !it.subs.length) return;
 
-        // Trong chế độ Chép chính tả / Shadowing: tự động dừng (hoặc lặp lại) khi hết câu hiện tại
+        let sec = -1;
+        let isPlaying = false;
+
+        if (currentEngine === "ted" || currentMode === "podcast" || !ytReady || ytError) {
+          const tedVid = document.getElementById("tedVideoPlayer");
+          const bgAudio = document.getElementById("bgPodcastAudio");
+          const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+          if (activeMedia && !activeMedia.paused) {
+            isPlaying = true;
+            const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+            sec = Math.max(0, activeMedia.currentTime - offsetSec);
+          }
+        } else if (ytReady && ytPlayer && typeof ytPlayer.getCurrentTime === "function") {
+          const state = ytPlayer.getPlayerState ? ytPlayer.getPlayerState() : -1;
+          if (state === 1) {
+            isPlaying = true;
+            sec = ytPlayer.getCurrentTime();
+          }
+        }
+
+        if (!isPlaying || sec < 0) return;
+
+        // Auto pause on end of sentence (Dictation & Shadowing)
         if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
           const curSub = it.subs[currentSubIdx];
           const nextSub = it.subs[currentSubIdx + 1];
           const cutoff = segmentEndSec !== null ? segmentEndSec : (nextSub ? (nextSub.time / 1000 - 0.04) : null);
           if (cutoff !== null && sec >= cutoff) {
             if (repeatSentence && curSub) {
-              ytPlayer.seekTo(Math.max(0, (curSub.time || 0) / 1000 - 0.08), true);
+              const repeatStart = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+              if (currentEngine === "ted" || currentMode === "podcast" || !ytReady) {
+                const tedVid = document.getElementById("tedVideoPlayer");
+                const bgAudio = document.getElementById("bgPodcastAudio");
+                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+                const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+                if (activeMedia) activeMedia.currentTime = repeatStart + offsetSec;
+              } else {
+                ytPlayer.seekTo(repeatStart, true);
+              }
             } else {
-              ytPlayer.pauseVideo();
+              if (currentEngine === "ted" || currentMode === "podcast" || !ytReady) {
+                const tedVid = document.getElementById("tedVideoPlayer");
+                const bgAudio = document.getElementById("bgPodcastAudio");
+                const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+                if (activeMedia) activeMedia.pause();
+              } else {
+                ytPlayer.pauseVideo();
+              }
               segmentEndSec = null;
               focusCurrentDicInput();
               if (currentMode === "shadowing" && pendingAutoRecordAfterListen) {
@@ -588,7 +742,7 @@
           }
         }
 
-        // Trong chế độ Nghe & Transcript (hoặc khi tắt Tự dừng câu): tự động highlight câu đang nói
+        // Subtitle highlight tracking
         if (currentMode === "transcript" || !autoPauseSentence) {
           const ms = sec * 1000;
           let foundIdx = 0;
@@ -646,17 +800,23 @@
       saveSubPos();
       segmentEndSec = null;
       highlightTranscriptRow(idx);
-      if (currentMode === "podcast") {
+
+      const startSec = Math.max(0, it.subs[idx].time / 1000);
+      if (currentMode === "podcast" || currentEngine === "ted" || !ytReady || ytError) {
+        if (currentEngine !== "ted" && currentMode !== "podcast") setMediaEngine("ted", true);
+        const tedVid = document.getElementById("tedVideoPlayer");
         const bgAudio = document.getElementById("bgPodcastAudio");
-        if (bgAudio) {
-          const offsetMs = Number(it.podOffsetMs || 0);
-          bgAudio.currentTime = Math.max(0, (it.subs[idx].time + offsetMs) / 1000);
-          bgAudio.play().catch(() => {});
+        const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid && tedVid.src ? tedVid : bgAudio);
+        const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+        if (activeMedia) {
+          activeMedia.currentTime = Math.max(0, startSec + offsetSec);
+          activeMedia.play().catch(() => {});
         }
         return;
       }
+
       if (ytReady && ytPlayer && ytPlayer.seekTo) {
-        ytPlayer.seekTo(it.subs[idx].time / 1000, true);
+        ytPlayer.seekTo(startSec, true);
         ytPlayer.playVideo();
       }
     }
