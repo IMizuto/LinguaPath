@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
   (function () {
     try {
@@ -14,12 +19,15 @@
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      var ua = navigator.userAgent || "";
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
+      if (isIOS && isStandalone) {
+        document.documentElement.style.setProperty("--s4-safe-top", window.screen.height >= 812 ? "50px" : "24px");
+      }
     } catch (e) {}
   })();
-</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-  <meta name="theme-color" id="metaThemeColor" content="#f1f5f9">
+  </script>
   <title>Study4 Vocab Master</title>
   
   <style>
@@ -175,8 +183,8 @@
     .match-tile.error { border-color: var(--danger); background: var(--danger-soft); }
     .text-input { width: 100%; padding: 13px 16px; font-size: 18px; font-weight: 600; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); outline: none; margin-top: 12px; text-align: center; transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease; }
     .text-input:focus { border-color: var(--primary); }
-    .text-input.correct { border-color: var(--success) !important; background: var(--success-soft) !important; color: var(--success) !important; }
-    .text-input.wrong { border-color: var(--danger) !important; background: var(--danger-soft) !important; color: var(--danger) !important; }
+    .text-input.correct { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.16) !important; color: var(--success) !important; }
+    .text-input.wrong { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.15) !important; color: var(--danger) !important; }
     .s4-ans-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
     .s4-ans-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .s4-ans-toast.correct { background: #16a34a; }
@@ -224,7 +232,7 @@
       .opt-btn { padding: 10px 12px; font-size: 13.5px; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=16">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=24">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -272,6 +280,7 @@
         <button class="mode-btn" data-mode="cloze" onclick="setMode('cloze')">✍️ Điền từ</button>
         <button class="mode-btn" data-mode="list" onclick="setMode('list')">📖 Danh sách</button>
       </div>
+      <button class="mode-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
       <button class="mode-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
     </div>
     <div class="main">
@@ -283,7 +292,7 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../auth.js?v=16"></script>
+  <script src="../auth.js?v=18"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -885,10 +894,7 @@
     }
 
     function selectTopic(t) {
-      if (window.S4Auth && !window.S4Auth.canAccessVocabTopic(t, TOPICS)) {
-        window.S4Auth.openActivateModal(t === "ALL" ? "Tất cả 20 chủ đề" : t === "ALL_DUE" ? "Ôn tập toàn bộ chủ đề" : t);
-        return;
-      }
+      /* Mở khóa 100% */
       currentTopic = t;
       userSettings.lastTopic = t;
       const idx = TOPICS.indexOf(t);
@@ -906,8 +912,8 @@
 
     function renderSidebar() {
       const st = lastStats;
-      const canAccess = k => !window.S4Auth || window.S4Auth.canAccessVocabTopic(k, TOPICS);
-      const lockBadge = k => canAccess(k) ? "" : `<span class="s4-lock-tag">🔒 VIP</span>`;
+      const canAccess = () => true;
+      const lockBadge = () => "";
 
       const tabsEl = $("catTabs");
       if (tabsEl) {
@@ -1190,6 +1196,28 @@
       ansToastTimer = setTimeout(() => t.classList.remove("show"), ok ? 1300 : 2400);
     }
 
+    function scrollInputIntoOptimalView(el) {
+      if (!el) return;
+      setTimeout(() => {
+        try { el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }); } catch (e) {}
+      }, 150);
+    }
+    function onAnsInputEdit(inp) {
+      if (!inp) return;
+      inp.dataset.wrongWaiting = "0";
+      inp.classList.remove("correct", "wrong");
+    }
+    function handleAnsKeydown(ev) {
+      if (ev.key === "Enter") {
+        ev.preventDefault();
+        const inp = $("ansInput");
+        if (inp && inp.dataset.wrongWaiting === "1") {
+          handleResult(false);
+          return;
+        }
+        checkText();
+      }
+    }
     function checkText() {
       const inp = $("ansInput");
       if (!inp || inp.dataset.locked === "1") return;
@@ -1203,7 +1231,6 @@
       finishText(inp, false, true);
     }
     function finishText(inp, ok, isGiveUp) {
-      inp.dataset.locked = "1";
       const rightAns = (studyQueue[0] && studyQueue[0].word) || (cardCache.answers || [""])[0];
       if (isGiveUp) inp.value = rightAns;
 
@@ -1217,22 +1244,43 @@
       });
 
       const fb = $("ansFeedback");
-      if (fb) {
-        fb.style.color = ok ? "var(--success)" : "var(--danger)";
-        fb.textContent = ok ? "" : "Đáp án: " + rightAns;
+      const nextBtn = $("nextAfterWrongBtn");
+
+      if (ok) {
+        inp.dataset.locked = "1";
+        inp.dataset.wrongWaiting = "0";
+        if (fb) {
+          fb.style.color = "var(--success)";
+          fb.innerHTML = `✓ Chính xác: <b>${rightAns}</b>`;
+        }
+        if (nextBtn) nextBtn.style.display = "none";
+        showAnsToast(true, rightAns);
+        const w = studyQueue[0];
+        if (w) playVocab(w.id, "uk");
+        const passSrs = inp.dataset.hadWrong !== "1";
+        const serial = cardSerial;
+        setTimeout(() => { if (serial === cardSerial) handleResult(passSrs); }, 1100);
+      } else {
+        // Không tự động chuyển câu khi sai: tô đỏ nhẹ + hiện đáp án đúng để người học quan sát
+        inp.dataset.hadWrong = "1";
+        inp.dataset.wrongWaiting = "1";
+        if (fb) {
+          fb.style.color = "var(--danger)";
+          fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${rightAns}</span>`;
+        }
+        if (nextBtn) nextBtn.style.display = "inline-flex";
+        showAnsToast(false, rightAns);
+        const w = studyQueue[0];
+        if (w) playVocab(w.id, "uk");
       }
-
-      showAnsToast(ok, rightAns);
-
-      const serial = cardSerial;
-      setTimeout(() => { if (serial === cardSerial) handleResult(ok); }, ok ? 1400 : 2600);
     }
     function textInputHtml(placeholder) {
-      return `<input type="text" id="ansInput" class="text-input" placeholder="${placeholder}" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkText()">
-        <div id="ansFeedback" style="margin-top:8px;font-weight:700;font-size:14px;min-height:20px;"></div>
-        <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;">
-          <button class="mode-btn active" onclick="checkText()">Kiểm tra</button>
-          <button class="mode-btn" onclick="giveUp()">Hiện đáp án</button>
+      return `<input type="text" id="ansInput" class="text-input" placeholder="${placeholder}" autocomplete="off" autocapitalize="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" oninput="onAnsInputEdit(this)" onkeydown="handleAnsKeydown(event)">
+        <div id="ansFeedback" style="margin-top:8px;font-weight:700;font-size:14px;min-height:24px;"></div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+          <button class="mode-btn active" onclick="checkText()">✔️ Kiểm tra</button>
+          <button class="mode-btn" onclick="giveUp()">💡 Hiện đáp án</button>
+          <button class="mode-btn" id="nextAfterWrongBtn" style="display:none;background:var(--primary);color:#fff;border-color:var(--primary);" onclick="handleResult(false)">Câu tiếp theo ➔</button>
         </div>`;
     }
 
@@ -1495,6 +1543,6 @@
     buildStudyQueue();
     renderAll();
   </script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=16"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>

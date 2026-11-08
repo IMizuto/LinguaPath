@@ -9,23 +9,36 @@
   const K = { cfg: "s4_auth_config_v2", session: "s4_auth_session_v2", cache: "s4_auth_cache_v2" };
   const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2";
   const P_GDONE = "s4_grammar_done", P_GLAST = "s4_grammar_last";
-  const PROGRESS_KEYS = [P_SRS, P_DAYS, P_SET, P_GDONE, P_GLAST];
+  const P_LDONE = "s4_listening_done", P_LLAST = "s4_listening_last_v2", P_LSRS = "s4_listening_srs_v1", P_LDAYS = "s4_listening_days_v1", P_LSET = "s4_listening_settings_v1";
+  const P_RDONE = "s4_reading_done", P_RLAST = "s4_reading_last_v2", P_RSRS = "s4_reading_srs_v1", P_RDAYS = "s4_reading_days_v1", P_RSET = "s4_reading_settings_v1";
+  const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos";
+  const PROGRESS_KEYS = [
+    P_SRS, P_DAYS, P_SET,
+    P_GDONE, P_GLAST,
+    P_LDONE, P_LLAST, P_LSRS, P_LDAYS, P_LSET,
+    P_RDONE, P_RLAST, P_RSRS, P_RDAYS, P_RSET,
+    P_TDONE, P_TLAST, P_TPOS
+  ];
   const P_SESSION = "s4_vocab_active_session_v2";   // phiên học từ vựng dở dang (chỉ lưu trên máy, không đồng bộ cloud)
   const TOTAL_VOCAB = 1827;
   const TOTAL_GRAMMAR = 120;
+  const TOTAL_LISTENING_LESSONS = 1482;
+  const TOTAL_LISTENING_VOCAB = 2176;
+  const TOTAL_READING_LESSONS = 1220;
+  const TOTAL_READING_VOCAB = 2969;
+  const TOTAL_TED_LESSONS = 40;
 
   const AVATAR_PRESETS = ["🎓", "🦊", "🐼", "🦁", "🐯", "🐨", "🦉", "🦄", "🐲", "🚀", "⚡", "🌟", "💎", "🔥", "🍀", "🎯"];
 
   const DEFAULT_CONFIG = {
-    authEnforced: true, // true = Bật quản lý (cần đăng nhập + mã VIP); false = Thử nghiệm tự do (mở 100%)
-    contactNote: "Quét mã VietQR bên dưới để tự động kích hoạt VIP trong 3 giây.",
-    freeVocabTopicsCount: 2,
-    freeGrammarSectionsCount: 2,
+    authEnforced: false, // Mở khóa 100% tự do
+    contactNote: "20% số tiền ủng hộ (Donate) sẽ được trích chuyển trực tiếp tới Mặt trận Tổ quốc Việt Nam để ủng hộ đồng bào & các hoạt động thiện nguyện.",
     bankCode: "MB",
     bankAccount: "0988888888",
     bankOwner: "HOANG NGUYEN",
-    price6M: 99000,
-    priceLife: 199000
+    transferMemo: "UNG HO STUDY4",
+    freeVocabTopicsCount: 999,
+    freeGrammarSectionsCount: 999
   };
 
   /* ---------- Truy cập localStorage gốc ---------- */
@@ -46,6 +59,9 @@
 
   const hadCachedConfig = !!localStorage.getItem(K.cfg);
   let config = Object.assign({}, DEFAULT_CONFIG, loadObj(K.cfg, {}));
+  if (!config.contactNote || config.contactNote.includes("kích hoạt") || config.contactNote.includes("Kích Hoạt")) {
+    config.contactNote = DEFAULT_CONFIG.contactNote;
+  }
   let session = loadObj(K.session, null);   // { username, ph }
   let cache = loadObj(K.cache, {});         // { username: {username, displayName, avatar, targetBand, bio, role, status, expiresAt, passwordHash, createdAt} }
 
@@ -169,9 +185,7 @@
     return effective(u);
   }
   function isFullAccess() {
-    if (!config.authEnforced) return true;
-    const u = getCurrentUser();
-    return !!u && (u.role === "admin" || u.role === "vip");
+    return true;
   }
   function isAdmin() { const u = getCurrentUser(); return !!u && u.role === "admin"; }
 
@@ -228,33 +242,63 @@
       return canon(parseJ(x, x)) === canon(parseJ(y, y));
     });
   }
-  const stamp = x => Math.max(Number(x && x.lastReview) || 0, Number(x && x.updatedAt) || 0);
+  const stamp = x => Math.max(Number(x && x.lastReview) || 0, Number(x && x.updatedAt) || 0, Number(x && x.reps) || 0);
+  function mergeSrsMap(aStr, bStr) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const m = Object.assign({}, a);
+    Object.keys(b).forEach(id => { if (!a[id] || stamp(b[id]) >= stamp(a[id])) m[id] = b[id]; });
+    return JSON.stringify(m);
+  }
+  function mergeDaysMap(aStr, bStr) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const m = {};
+    new Set(Object.keys(a).concat(Object.keys(b))).forEach(d => {
+      m[d] = Array.from(new Set([].concat(Array.isArray(a[d]) ? a[d] : [], Array.isArray(b[d]) ? b[d] : [])));
+    });
+    return JSON.stringify(m);
+  }
+  function mergeDoneListOrMap(aStr, bStr, asArray) {
+    const toIds = raw => {
+      const parsed = parseJ(raw, asArray ? [] : {});
+      if (Array.isArray(parsed)) return parsed.filter(Boolean);
+      if (parsed && typeof parsed === "object") return Object.keys(parsed).filter(k => parsed[k]);
+      return [];
+    };
+    const mergedIds = Array.from(new Set(toIds(aStr).concat(toIds(bStr))));
+    if (asArray) return JSON.stringify(mergedIds);
+    const outObj = {};
+    mergedIds.forEach(id => { outObj[id] = true; });
+    return JSON.stringify(outObj);
+  }
   function mergeProgress(local, remote) {
     const out = {};
-    if (local[P_SRS] !== undefined || remote[P_SRS] !== undefined) {
-      const a = parseJ(local[P_SRS], {}), b = parseJ(remote[P_SRS], {});
+    // 1. SRS Maps (Vocab, Listening, Reading)
+    [P_SRS, P_LSRS, P_RSRS].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSrsMap(local[k], remote[k]);
+    });
+    // 2. Study Days Maps (Vocab, Listening, Reading)
+    [P_DAYS, P_LDAYS, P_RDAYS].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDaysMap(local[k], remote[k]);
+    });
+    // 3. Done Maps / Lists (Grammar & TED as Object maps; Listening & Reading as Arrays)
+    [P_GDONE, P_TDONE].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], false);
+    });
+    [P_LDONE, P_RDONE].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], true);
+    });
+    // 4. TED Subtitle Position Map (keep max subtitle index per video)
+    if (local[P_TPOS] !== undefined || remote[P_TPOS] !== undefined) {
+      const a = parseJ(local[P_TPOS], {}), b = parseJ(remote[P_TPOS], {});
       const m = Object.assign({}, a);
-      Object.keys(b).forEach(id => { if (!a[id] || stamp(b[id]) > stamp(a[id])) m[id] = b[id]; });
-      out[P_SRS] = JSON.stringify(m);
+      Object.keys(b).forEach(id => { m[id] = Math.max(Number(a[id]) || 0, Number(b[id]) || 0); });
+      out[P_TPOS] = JSON.stringify(m);
     }
-    if (local[P_DAYS] !== undefined || remote[P_DAYS] !== undefined) {
-      const a = parseJ(local[P_DAYS], {}), b = parseJ(remote[P_DAYS], {});
-      const m = {};
-      new Set(Object.keys(a).concat(Object.keys(b))).forEach(d => {
-        m[d] = Array.from(new Set([].concat(Array.isArray(a[d]) ? a[d] : [], Array.isArray(b[d]) ? b[d] : [])));
-      });
-      out[P_DAYS] = JSON.stringify(m);
-    }
-    if (local[P_GDONE] !== undefined || remote[P_GDONE] !== undefined) {
-      const a = parseJ(local[P_GDONE], {}), b = parseJ(remote[P_GDONE], {});
-      const m = Object.assign({}, a);
-      Object.keys(b).forEach(id => { if (b[id]) m[id] = true; });
-      out[P_GDONE] = JSON.stringify(m);
-    }
-    const last = remote[P_GLAST] !== undefined ? remote[P_GLAST] : local[P_GLAST];
-    if (last !== undefined) out[P_GLAST] = last;
-    const set = remote[P_SET] !== undefined ? remote[P_SET] : local[P_SET];
-    if (set !== undefined) out[P_SET] = set;
+    // 5. Last Lesson & Settings keys
+    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_TLAST].forEach(k => {
+      const v = remote[k] !== undefined ? remote[k] : local[k];
+      if (v !== undefined) out[k] = v;
+    });
     return out;
   }
 
@@ -262,10 +306,32 @@
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
 
+  function countDoneEntries(raw) {
+    const parsed = parseJ(raw, null);
+    if (Array.isArray(parsed)) return parsed.filter(Boolean).length;
+    if (parsed && typeof parsed === "object") return Object.values(parsed).filter(Boolean).length;
+    return 0;
+  }
+
+  function countSrsEntries(raw) {
+    const srs = parseJ(raw, {});
+    const now = Date.now();
+    let learned = 0, ignored = 0, mastered = 0, due = 0;
+    Object.keys(srs).forEach(k => {
+      const st = srs[k];
+      if (!st || typeof st !== "object") return;
+      if (st.ignored) { ignored++; return; }
+      if (st.reps > 0 || st.due || st.lastReview || /^w_\d+$/.test(k)) {
+        learned++;
+        if (now >= Number(st.due || 0)) due++;
+        else if (Number(st.interval || 0) >= 7) mastered++;
+      }
+    });
+    return { learned, ignored, mastered, due, totalDone: learned + ignored };
+  }
+
   function progressStats(map) {
     const srs = parseJ(map[P_SRS], {});
-    const g = parseJ(map[P_GDONE], {});
-    const days = parseJ(map[P_DAYS], {});
     const now = Date.now();
     let vocabLearned = 0, vocabIgnored = 0, vocabMastered = 0, vocabDue = 0;
     Object.keys(srs).forEach(k => {
@@ -276,10 +342,39 @@
       if (now >= Number(st.due || 0)) vocabDue++;
       else if (Number(st.interval || 0) >= 7) vocabMastered++;
     });
-    const grammarDone = Object.values(g).filter(Boolean).length;
+
+    const grammarDone = countDoneEntries(map[P_GDONE]);
+    const listeningDone = countDoneEntries(map[P_LDONE]);
+    const readingDone = countDoneEntries(map[P_RDONE]);
+    const tedDone = countDoneEntries(map[P_TDONE]);
+
+    const lisSrsStat = countSrsEntries(map[P_LSRS]);
+    const readSrsStat = countSrsEntries(map[P_RSRS]);
+    const listeningWords = lisSrsStat.totalDone;
+    const readingWords = readSrsStat.totalDone;
+
+    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords;
+    const totalLessonsAll = grammarDone + listeningDone + readingDone + tedDone;
+    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due;
+
     const vocabPct = Math.min(100, Math.round(((vocabLearned + vocabIgnored) / TOTAL_VOCAB) * 100));
     const grammarPct = Math.min(100, Math.round((grammarDone / TOTAL_GRAMMAR) * 100));
-    const overallPct = Math.min(100, Math.round((vocabPct * 0.7 + grammarPct * 0.3)));
+    const overallPct = Math.min(100, Math.round(
+      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_TED_LESSONS)) * 100
+    ));
+
+    // Merge study days across Vocab, Listening, Reading for accurate streak
+    const daysV = parseJ(map[P_DAYS], {});
+    const daysL = parseJ(map[P_LDAYS], {});
+    const daysR = parseJ(map[P_RDAYS], {});
+    const days = {};
+    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR))).forEach(d => {
+      days[d] = Array.from(new Set([].concat(
+        Array.isArray(daysV[d]) ? daysV[d] : [],
+        Array.isArray(daysL[d]) ? daysL[d] : [],
+        Array.isArray(daysR[d]) ? daysR[d] : []
+      )));
+    });
 
     let streakDays = 0;
     const cur = new Date();
@@ -309,6 +404,14 @@
       vocabPct,
       grammarDone,
       grammarPct,
+      listeningDone,
+      listeningWords,
+      readingDone,
+      readingWords,
+      tedDone,
+      totalWordsAll,
+      totalLessonsAll,
+      totalDueAll,
       overallPct,
       streakDays,
       totalStudyDays,
@@ -317,7 +420,7 @@
   }
   function hasProgress(map) {
     const s = progressStats(map);
-    return s.vocabLearned > 0 || s.vocabIgnored > 0 || s.grammarDone > 0;
+    return s.totalWordsAll > 0 || s.totalLessonsAll > 0;
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
@@ -359,6 +462,13 @@
       vocabPct: st.vocabPct,
       grammarDone: st.grammarDone,
       grammarPct: st.grammarPct,
+      listeningDone: st.listeningDone,
+      listeningWords: st.listeningWords,
+      readingDone: st.readingDone,
+      readingWords: st.readingWords,
+      tedDone: st.tedDone,
+      totalWordsAll: st.totalWordsAll,
+      totalLessonsAll: st.totalLessonsAll,
       overallPct: st.overallPct,
       streakDays: st.streakDays,
       totalStudyDays: st.totalStudyDays,
@@ -433,9 +543,17 @@
     if (!remote || typeof remote !== "object") return false;
     const next = Object.assign({}, config);
     if (typeof remote.authEnforced === "boolean") next.authEnforced = remote.authEnforced;
-    if (typeof remote.contactNote === "string" && remote.contactNote) next.contactNote = remote.contactNote;
-    if (Number.isFinite(Number(remote.freeVocabTopicsCount))) next.freeVocabTopicsCount = Number(remote.freeVocabTopicsCount);
-    if (Number.isFinite(Number(remote.freeGrammarSectionsCount))) next.freeGrammarSectionsCount = Number(remote.freeGrammarSectionsCount);
+    if (typeof remote.contactNote === "string") {
+      if (remote.contactNote.includes("kích hoạt") || remote.contactNote.includes("Kích Hoạt")) {
+        next.contactNote = DEFAULT_CONFIG.contactNote;
+      } else {
+        next.contactNote = remote.contactNote;
+      }
+    }
+    if (typeof remote.bankCode === "string" && remote.bankCode) next.bankCode = remote.bankCode;
+    if (typeof remote.bankAccount === "string" && remote.bankAccount) next.bankAccount = remote.bankAccount;
+    if (typeof remote.bankOwner === "string" && remote.bankOwner) next.bankOwner = remote.bankOwner;
+    if (typeof remote.transferMemo === "string" && remote.transferMemo) next.transferMemo = remote.transferMemo;
     const changed = canon(next) !== canon(config);
     config = next;
     saveConfig();
@@ -443,10 +561,11 @@
   }
   async function pushConfig() {
     await db("study4_config", "PATCH", {
-      authEnforced: !!config.authEnforced,
       contactNote: config.contactNote,
-      freeVocabTopicsCount: Number(config.freeVocabTopicsCount),
-      freeGrammarSectionsCount: Number(config.freeGrammarSectionsCount),
+      bankCode: config.bankCode,
+      bankAccount: config.bankAccount,
+      bankOwner: config.bankOwner,
+      transferMemo: config.transferMemo,
       updatedAt: new Date().toISOString()
     });
   }
@@ -563,13 +682,29 @@
   /* ---------- Giao diện & CSS ---------- */
   function getLogoPath() { return isHomePage() ? "icon-192.png" : "../icon-192.png"; }
 
+  function updateSafeAreaVar() {
+    try {
+      const ua = navigator.userAgent || "";
+      const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const isStandalone = window.navigator.standalone === true ||
+        (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+        (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
+      if (isIOS && isStandalone) {
+        const inset = window.screen.height >= 812 ? "50px" : "24px";
+        document.documentElement.style.setProperty("--s4-safe-top", inset);
+      }
+    } catch (e) {}
+  }
+
   function injectStyles() {
+    updateSafeAreaVar();
     if (document.getElementById("s4AuthStyles")) return;
     const st = document.createElement("style");
     st.id = "s4AuthStyles";
     st.textContent = `
       html.s4-modal-lock, body.s4-modal-lock { overflow: hidden !important; overscroll-behavior: none !important; }
-      .s4-user-bar { position: sticky; top: 0; background: rgba(255,255,255,0.95); color: #0f172a; backdrop-filter: blur(10px); padding: 7px 12px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: nowrap; z-index: 950; border-bottom: 1px solid #e2e8f0; width: 100%; max-width: 100%; flex-shrink: 0; box-sizing: border-box; touch-action: manipulation; }
+      :root { --s4-top-inset: max(env(safe-area-inset-top, 0px), var(--s4-safe-top, 0px)); }
+      .s4-user-bar { position: sticky; top: 0; background: rgba(255,255,255,0.95); color: #0f172a; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: calc(7px + var(--s4-top-inset, 0px)) calc(12px + env(safe-area-inset-right, 0px)) 7px calc(12px + env(safe-area-inset-left, 0px)); font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: nowrap; z-index: 950; border-bottom: 1px solid #e2e8f0; width: 100%; max-width: 100%; flex-shrink: 0; box-sizing: border-box; touch-action: manipulation; }
       html.dark .s4-user-bar, body.dark .s4-user-bar { background: rgba(30,41,59,0.95); color: #f8fafc; border-bottom-color: #334155; }
       .s4-user-left { display: flex; align-items: center; gap: 6px; flex: 1 1 0%; min-width: 0; overflow: hidden; }
       .s4-user-right { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
@@ -587,6 +722,17 @@
       html.dark .s4-top-btn, body.dark .s4-top-btn { background: #0f172a; color: #f8fafc; border-color: #334155; }
       .s4-top-btn:hover { border-color: #2563eb; }
       .s4-top-btn.gold { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff; }
+      .s4-top-btn.donate { background: linear-gradient(135deg, #ec4899, #e11d48); border: none; color: #fff; box-shadow: 0 2px 8px rgba(225,29,72,0.25); }
+      .s4-top-btn.donate:hover { filter: brightness(1.06); }
+      .s4-pass-wrap { position: relative; width: 100%; margin-bottom: 10px; }
+      .s4-pass-wrap .s4-input { margin-bottom: 0 !important; padding-right: 42px !important; }
+      .s4-pass-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b; font-size: 15px; padding: 4px 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; user-select: none; }
+      .s4-pass-toggle:hover { color: #2563eb; background: rgba(37,99,235,0.08); }
+      .s4-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+      .s4-badge-active { background: #dcfce7; color: #15803d; }
+      .s4-badge-blocked { background: #fee2e2; color: #dc2626; }
+      .s4-badge-admin { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+      .s4-badge-warn { background: #fef3c7; color: #b45309; }
       .s4-menu-wrap { position: relative; flex-shrink: 0; }
       .s4-dropdown { position: absolute; right: 0; top: calc(100% + 8px); width: min(245px, calc(100vw - 20px)); background: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 999; overscroll-behavior: contain; touch-action: manipulation; }
       html.dark .s4-dropdown, body.dark .s4-dropdown { background: #1e293b; color: #f8fafc; border-color: #334155; box-shadow: 0 14px 36px rgba(0,0,0,0.45); }
@@ -596,15 +742,22 @@
       html.dark .s4-dd-item:hover, body.dark .s4-dd-item:hover { background: rgba(59,130,246,0.16); color: #60a5fa; }
       .s4-dd-sep { height: 1px; background: #e2e8f0; margin: 4px 6px; }
       html.dark .s4-dd-sep, body.dark .s4-dd-sep { background: #334155; }
-      .s4-modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.78); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 12px; overscroll-behavior: contain; touch-action: none; }
-      .s4-modal { background: #ffffff; color: #0f172a; width: 100%; max-width: 520px; border-radius: 18px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); max-height: 92vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #e2e8f0; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+      .s4-modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.78); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: calc(12px + var(--s4-top-inset, 0px)) calc(12px + env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px)); overscroll-behavior: contain; touch-action: none; box-sizing: border-box; }
+      .s4-modal { background: #ffffff; color: #0f172a; width: 100%; max-width: 520px; border-radius: 18px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); max-height: calc(100dvh - var(--s4-top-inset, 0px) - env(safe-area-inset-bottom, 0px) - 24px); overflow-y: auto; overflow-x: hidden; border: 1px solid #e2e8f0; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; box-sizing: border-box; }
       @media (max-width: 500px) {
-        .s4-user-bar { padding: 6px 10px; gap: 5px; }
+        .s4-user-bar { padding: calc(6px + var(--s4-top-inset, 0px)) calc(10px + env(safe-area-inset-right, 0px)) 6px calc(10px + env(safe-area-inset-left, 0px)); gap: 5px; }
         .s4-hide-sm { display: none !important; }
         .s4-top-btn { padding: 5px 9px; font-size: 11.5px; }
         .s4-role-badge { padding: 2px 6px; font-size: 10.5px; }
       }
       .s4-modal.wide { max-width: 860px; }
+      .s4-donate-grid { display: grid; grid-template-columns: minmax(185px, 220px) minmax(0, 1fr); gap: 14px; align-items: center; background: var(--panel, #f8fafc); border: 1px solid var(--border, #e2e8f0); border-radius: 14px; padding: 14px; box-sizing: border-box; }
+      .s4-donate-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--bg, #fff); padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border, #e2e8f0); min-width: 0; }
+      .s4-donate-row-memo { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: #fff1f2; border: 1.5px dashed #f43f5e; padding: 7px 10px; border-radius: 8px; min-width: 0; }
+      @media (max-width: 580px) {
+        .s4-modal { padding: 16px 14px; border-radius: 16px; }
+        .s4-donate-grid { grid-template-columns: minmax(0, 1fr); padding: 12px 10px; gap: 12px; }
+      }
       html.dark .s4-modal, body.dark .s4-modal { background: #1e293b; color: #f8fafc; border-color: #334155; }
       .s4-modal h3 { margin: 0 0 6px 0; font-size: 19px; }
       .s4-input { width: 100%; padding: 10px 13px; border-radius: 10px; border: 1.5px solid #cbd5e1; background: #f8fafc; color: #0f172a; font-size: 14px; margin-bottom: 10px; outline: none; box-sizing: border-box; }
@@ -668,36 +821,23 @@
     const logoImg = `<img src="${getLogoPath()}" alt="Logo" style="width:22px;height:22px;border-radius:5px;vertical-align:middle;">`;
     const u = getCurrentUser();
 
-    if (!config.authEnforced && !u) {
+    if (!u) {
       bar.innerHTML = `
         <div class="s4-user-left">
           ${logoImg}
-          <span class="s4-role-badge s4-role-free">🔓 Mở tự do 100%</span>
+          <span class="s4-role-badge s4-role-free">🌿 Mở miễn phí 100%</span>
         </div>
         <div class="s4-user-right">
-          <button class="s4-top-btn" onclick="window.S4Auth.openLoginModal(false)">👤 Tài khoản</button>
+          <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ</button>
+          <button class="s4-top-btn" onclick="window.S4Auth.openLoginModal(false)">👤 Đăng nhập</button>
           <button class="s4-top-btn" onclick="window.S4Auth.openInstallModal()">📲 Cài App</button>
         </div>`;
       return;
     }
 
-    if (!u) {
-      bar.innerHTML = `
-        <div class="s4-user-left">${logoImg} <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🔒 Chưa đăng nhập</span></div>
-        <div class="s4-user-right">
-          <button class="s4-top-btn gold" onclick="window.S4Auth.openLoginModal(true)">Đăng nhập</button>
-          <button class="s4-top-btn" onclick="window.S4Auth.openInstallModal()">📲 Cài App</button>
-        </div>`;
-      return;
-    }
-
-    const rem = daysRemaining(u.expiresAt);
-    const vipDaysText = Number.isFinite(rem) ? (rem >= 0 ? ` (${rem}N)` : " (Hết hạn)") : "";
     const badge = u.role === "admin"
       ? `<span class="s4-role-badge s4-role-admin">🛡️ Admin</span>`
-      : u.role === "vip"
-        ? `<span class="s4-role-badge s4-role-vip">👑 VIP${vipDaysText}</span>`
-        : `<span class="s4-role-badge s4-role-basic">🌱 Cơ Bản</span>`;
+      : `<span class="s4-role-badge s4-role-free">🌿 Học viên</span>`;
 
     bar.innerHTML = `
       <div class="s4-user-left">
@@ -709,9 +849,8 @@
         ${badge}
       </div>
       <div class="s4-user-right">
-        ${u.role === "admin"
-          ? `<button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">🛡️ Quản trị</button>`
-          : `<button class="s4-top-btn gold" onclick="window.S4Auth.openActivateModal()">🔑 ${u.role === "vip" ? "Gia hạn" : "Mở VIP"}</button>`}
+        <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ</button>
+        ${u.role === "admin" ? `<button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">🛡️ Quản trị</button>` : ""}
         <div class="s4-menu-wrap">
           <button class="s4-top-btn" id="s4MenuToggle" onclick="event.stopPropagation();document.getElementById('s4TopDropdown').classList.toggle('open')">☰ Mục ▾</button>
           <div class="s4-dropdown" id="s4TopDropdown">
@@ -719,8 +858,8 @@
             <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('edit')">🎨 Đổi Tên, Avatar &amp; Mục tiêu</button>
             <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('pw')">🔐 Đổi mật khẩu</button>
             <div class="s4-dd-sep"></div>
-            ${u.role === "admin" ? `<button class="s4-dd-item" onclick="window.S4Auth.openAdminModal()">🛡️ Trung tâm Quản trị &amp; Cấp mã</button>` : ""}
-            <button class="s4-dd-item" onclick="window.S4Auth.openActivateModal()">👑 ${u.role === "vip" ? "Kiểm tra / Gia hạn mã VIP" : "Nhập Mã Kích Hoạt VIP"}</button>
+            ${u.role === "admin" ? `<button class="s4-dd-item" onclick="window.S4Auth.openAdminModal()">🛡️ Trung tâm Quản trị</button>` : ""}
+            <button class="s4-dd-item" style="color:#e11d48;font-weight:700;" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ dự án &amp; Mặt trận Tổ quốc</button>
             <button class="s4-dd-item" onclick="window.S4Auth.openInstallModal()">📲 Cài App vào Màn hình chính</button>
             <div class="s4-dd-sep"></div>
             <button class="s4-dd-item" style="color:#dc2626;" onclick="window.S4Auth.logout()">🚪 Đăng xuất tài khoản</button>
@@ -797,42 +936,25 @@
           <div class="s4-stat-box" style="background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border:none;margin-bottom:14px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
               <div>
-                <div style="font-size:12px;opacity:.8;">Hạng tài khoản</div>
+                <div style="font-size:12px;opacity:.8;">Vai trò hệ thống</div>
                 <div style="font-size:17px;font-weight:800;">🛡️ Quản Trị Viên Hệ Thống</div>
-                <div style="font-size:12px;color:#4ade80;margin-top:2px;">♾️ Mở khóa toàn bộ nội dung vĩnh viễn</div>
+                <div style="font-size:12px;color:#4ade80;margin-top:2px;">🌱 Đang mở khóa miễn phí 100% cho cộng đồng</div>
               </div>
-              <button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">🛡️ Bảng Quản Trị</button>
-            </div>
-          </div>`;
-      } else if (curU.role === "vip") {
-        const isPerm = !Number.isFinite(rem);
-        const daysLabel = isPerm ? "♾️ Vĩnh viễn (Không giới hạn ngày)" : `⏳ Còn ${rem} ngày sử dụng (Hết hạn: ${fmtExpiry(curU.expiresAt)})`;
-        const barPct = isPerm ? 100 : Math.max(5, Math.min(100, Math.round((rem / 30) * 100)));
-        vipCardHtml = `
-          <div class="s4-stat-box" style="background:linear-gradient(135deg,#92400e,#b45309);color:#fff;border:none;margin-bottom:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              <div>
-                <div style="font-size:12px;opacity:.88;">Gói tài khoản hiện tại</div>
-                <div style="font-size:17px;font-weight:800;">👑 Thành Viên VIP Full</div>
-                <div style="font-size:12.5px;margin-top:3px;font-weight:600;">${daysLabel}</div>
+              <div style="display:flex;gap:6px;">
+                <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 QR Ủng hộ</button>
+                <button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">🛡️ Quản Trị</button>
               </div>
-              <button class="s4-top-btn" style="background:rgba(255,255,255,0.2);border:none;" onclick="window.S4Auth.openActivateModal()">➕ Nạp thêm mã</button>
-            </div>
-            <div style="height:6px;background:rgba(255,255,255,0.22);border-radius:3px;margin-top:10px;overflow:hidden;">
-              <div style="height:100%;width:${barPct}%;background:#fde047;"></div>
             </div>
           </div>`;
       } else {
-        const expNote = curU.expiredVipAt ? `<div style="font-size:12px;color:#fca5a5;margin-top:2px;">⚠️ Gói VIP của bạn đã hết hạn vào ngày ${fmtExpiry(curU.expiredVipAt)}.</div>` : "";
         vipCardHtml = `
-          <div class="s4-stat-box" style="margin-bottom:14px;border-color:#f59e0b;">
+          <div class="s4-stat-box" style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1.5px solid #fda4af;color:#881337;margin-bottom:14px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              <div>
-                <div style="font-size:12px;color:#64748b;">Gói tài khoản hiện tại</div>
-                <div style="font-size:16px;font-weight:800;">🌱 Gói Cơ Bản (Học thử ${config.freeVocabTopicsCount} chủ đề đầu)</div>
-                ${expNote}
+              <div style="max-width:340px;">
+                <div style="font-size:14.5px;font-weight:800;color:#9f1239;">🌿 Tài khoản Học Viên (Mở khóa 100% trọn bộ)</div>
+                <div style="font-size:12px;margin-top:3px;line-height:1.45;">🌱 20% tiền ủng hộ (Donate) được chuyển trực tiếp tới <b>Mặt trận Tổ quốc Việt Nam</b>.</div>
               </div>
-              <button class="s4-top-btn gold" onclick="window.S4Auth.openActivateModal()">🔑 Kích hoạt VIP ngay</button>
+              <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ dự án</button>
             </div>
           </div>`;
       }
@@ -914,12 +1036,21 @@
       } else {
         bodyHtml = `
           <label style="font-size:12.5px;font-weight:700;">Mật khẩu hiện tại:</label>
-          <input class="s4-input" id="pwOld" type="password" placeholder="Nhập mật khẩu hiện tại" autocomplete="current-password">
+          <div class="s4-pass-wrap">
+            <input class="s4-input" id="pwOld" type="password" placeholder="Nhập mật khẩu hiện tại" autocomplete="current-password">
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+          </div>
           <label style="font-size:12.5px;font-weight:700;">Mật khẩu mới (tối thiểu 6 ký tự):</label>
-          <input class="s4-input" id="pwNew" type="password" placeholder="Nhập mật khẩu mới" autocomplete="new-password">
+          <div class="s4-pass-wrap">
+            <input class="s4-input" id="pwNew" type="password" placeholder="Nhập mật khẩu mới" autocomplete="new-password">
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+          </div>
           <label style="font-size:12.5px;font-weight:700;">Xác nhận mật khẩu mới:</label>
-          <input class="s4-input" id="pwNew2" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
-          <button class="s4-btn" id="btnChangePw">🔐 Cập Nhật Mật Khẩu Mới</button>`;
+          <div class="s4-pass-wrap">
+            <input class="s4-input" id="pwNew2" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+          </div>
+          <button class="s4-btn" id="btnChangePw">Cập Nhật Mật Khẩu Mới</button>`;
       }
 
       box.innerHTML = `
@@ -938,7 +1069,7 @@
           <button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>
         </div>
         <div class="s4-tabs">
-          <button class="s4-tab ${tab === "overview" ? "active" : ""}" data-t="overview">📊 Tiến độ &amp; Hạn VIP</button>
+          <button class="s4-tab ${tab === "overview" ? "active" : ""}" data-t="overview">📊 Tiến độ học tập</button>
           <button class="s4-tab ${tab === "edit" ? "active" : ""}" data-t="edit">🎨 Đổi tên &amp; Avatar</button>
           <button class="s4-tab ${tab === "pw" ? "active" : ""}" data-t="pw">🔐 Đổi mật khẩu</button>
         </div>
@@ -947,6 +1078,9 @@
         ${bodyHtml}`;
 
       box.querySelector("#s4Close").onclick = closeModals;
+      const cb = box.querySelector("#s4CloseBottom");
+      if (cb) cb.onclick = closeModals;
+      if (typeof setupPassToggles === "function") setupPassToggles(box);
       box.querySelectorAll("[data-t]").forEach(b => {
         b.onclick = () => { tab = b.dataset.t; msg = ""; err = ""; render(); };
       });
@@ -1017,47 +1151,152 @@
   }
 
   /* ---------- ĐĂNG NHẬP / ĐĂNG KÝ ---------- */
+  function setupPassToggles(container) {
+    (container || document).querySelectorAll(".s4-pass-toggle").forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const wrap = btn.closest(".s4-pass-wrap");
+        const inp = wrap ? wrap.querySelector("input") : null;
+        if (!inp) return;
+        const isPass = inp.type === "password";
+        inp.type = isPass ? "text" : "password";
+        btn.textContent = isPass ? "🙈" : "👁️";
+        btn.title = isPass ? "Ẩn mật khẩu" : "Hiện mật khẩu";
+      };
+    });
+  }
+
   function openLoginModal(forceLock) {
     const { box } = newModal();
-    let mode = "login";
+    let mode = "login"; // "login" | "register" | "forgot"
     let flash = sessionStorage.getItem("s4_logout_msg") || "";
     sessionStorage.removeItem("s4_logout_msg");
     let busy = false;
     let setupMode = false;
+    let forgotStep = 1; // 1: enter username, 2: verify display name & reset
 
     function render(errMsg, infoMsg) {
       const canClose = !forceLock || !config.authEnforced || !!getCurrentUser();
+
+      let bodyHtml = "";
+      if (mode === "forgot") {
+        bodyHtml = `
+          <div style="font-weight:700;font-size:14.5px;margin-bottom:4px;color:#2563eb;">Khôi phục mật khẩu</div>
+          <div style="font-size:12.5px;color:#64748b;margin-bottom:12px;">Nhập tên đăng nhập để xác minh và đặt lại mật khẩu mới.</div>
+          <form id="s4ForgotForm">
+            <input class="s4-input" id="inpForgotUser" placeholder="Tên đăng nhập (@username)" autocomplete="username" autocapitalize="off" required>
+            <input class="s4-input" id="inpForgotName" placeholder="Họ tên hiển thị đã đăng ký (để xác minh)" required>
+            <div class="s4-pass-wrap">
+              <input class="s4-input" id="inpForgotPass" type="password" placeholder="Mật khẩu mới (tối thiểu 6 ký tự)" autocomplete="new-password" required>
+              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            </div>
+            <div class="s4-pass-wrap">
+              <input class="s4-input" id="inpForgotPass2" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password" required>
+              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            </div>
+            <button type="submit" class="s4-btn" id="btnDoForgot">Đặt Lại Mật Khẩu</button>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+              <a href="#" id="linkBackLogin" style="font-size:12.5px;color:#2563eb;text-decoration:none;font-weight:700;">← Quay lại Đăng nhập</a>
+              <button type="button" id="btnRequestAdminReset" style="background:none;border:none;font-size:12px;color:#64748b;cursor:pointer;text-decoration:underline;">Nhờ Admin cấp lại</button>
+            </div>
+          </form>
+        `;
+      } else {
+        bodyHtml = `
+          <p style="font-size:13px;color:#64748b;margin:8px 0 12px 0;">
+            Toàn bộ bài học đều được mở miễn phí 100%. Đăng nhập giúp bạn lưu trữ và đồng bộ tiến độ học tập tự động trên mọi thiết bị.
+          </p>
+          ${setupMode ? "" : `<div class="s4-tabs">
+            <button class="s4-tab ${mode === "login" ? "active" : ""}" id="tabLogin" type="button">Đăng nhập</button>
+            <button class="s4-tab ${mode === "register" ? "active" : ""}" id="tabReg" type="button">Tạo tài khoản mới</button>
+          </div>`}
+          <form id="s4AuthForm">
+            ${mode === "register" && !setupMode ? `<input class="s4-input" id="inpDisplay" placeholder="Họ tên hiển thị (VD: Minh Anh)" maxlength="40" required>` : ""}
+            <input class="s4-input" id="inpUser" placeholder="Tên đăng nhập (chữ thường, số, _ ; 3-20 ký tự)" autocomplete="username" autocapitalize="off" required value="${setupMode ? "admin" : ""}" ${setupMode ? "readonly" : ""}>
+            <div class="s4-pass-wrap">
+              <input class="s4-input" id="inpPass" type="password" placeholder="${setupMode ? "Đặt mật khẩu Admin mới (từ 6 ký tự)" : "Mật khẩu"}" autocomplete="${mode === "login" && !setupMode ? "current-password" : "new-password"}" required>
+              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            </div>
+            ${setupMode ? `<div class="s4-pass-wrap"><input class="s4-input" id="inpPass2" type="password" placeholder="Nhập lại mật khẩu Admin" autocomplete="new-password" required><button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button></div>` : ""}
+            ${mode === "login" && !setupMode ? `<div style="display:flex;justify-content:flex-end;margin-top:-4px;margin-bottom:10px;"><a href="#" id="linkForgot" style="font-size:12px;color:#2563eb;text-decoration:none;font-weight:600;">Quên mật khẩu?</a></div>` : ""}
+            <button type="submit" class="s4-btn" id="s4Submit">${setupMode ? "Thiết lập mật khẩu Admin" : mode === "login" ? "Đăng nhập vào học" : "Đăng ký & Vào học"}</button>
+          </form>
+        `;
+      }
+
       box.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <img src="${getLogoPath()}" alt="Logo" style="width:36px;height:36px;border-radius:9px;">
-            <h3 style="margin:0;">Study4 IELTS</h3>
+            <img src="${getLogoPath()}" alt="Logo" style="width:34px;height:34px;border-radius:9px;">
+            <h3 style="margin:0;font-size:18px;">Study4 IELTS</h3>
           </div>
           ${canClose ? `<button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>` : ""}
         </div>
-        <p style="font-size:13px;color:#64748b;margin:8px 0 12px 0;">
-          Tài khoản dùng chung trên mọi thiết bị, tiến độ học tự động lưu theo tài khoản. Gói <b>Cơ bản</b> học thử ${config.freeVocabTopicsCount} chủ đề đầu; nhập <b>Mã Kích Hoạt VIP</b> để mở toàn bộ.
-        </p>
-        ${setupMode ? "" : `<div class="s4-tabs">
-          <button class="s4-tab ${mode === "login" ? "active" : ""}" id="tabLogin" type="button">Đăng nhập</button>
-          <button class="s4-tab ${mode === "register" ? "active" : ""}" id="tabReg" type="button">Tạo tài khoản mới</button>
-        </div>`}
         ${flash ? `<div class="s4-info">ℹ️ ${esc(flash)}</div>` : ""}
         ${infoMsg ? `<div class="s4-info">ℹ️ ${esc(infoMsg)}</div>` : ""}
         ${errMsg ? `<div class="s4-err">⚠️ ${esc(errMsg)}</div>` : ""}
-        <form id="s4AuthForm">
-          ${mode === "register" && !setupMode ? `<input class="s4-input" id="inpDisplay" placeholder="Họ tên hiển thị (VD: Minh Anh)" maxlength="40" required>` : ""}
-          <input class="s4-input" id="inpUser" placeholder="Tên đăng nhập (chữ thường, số, _ ; 3-20 ký tự)" autocomplete="username" autocapitalize="off" required value="${setupMode ? "admin" : ""}" ${setupMode ? "readonly" : ""}>
-          <input class="s4-input" id="inpPass" type="password" placeholder="${setupMode ? "Đặt mật khẩu Admin mới (từ 6 ký tự)" : "Mật khẩu"}" autocomplete="${mode === "login" && !setupMode ? "current-password" : "new-password"}" required>
-          ${setupMode ? `<input class="s4-input" id="inpPass2" type="password" placeholder="Nhập lại mật khẩu Admin" autocomplete="new-password" required>` : ""}
-          ${mode === "register" && !setupMode ? `<input class="s4-input" id="inpActKey" placeholder="🔑 Mã Kích Hoạt VIP (không bắt buộc)" style="text-transform:uppercase;">` : ""}
-          <button type="submit" class="s4-btn" id="s4Submit">${setupMode ? "🛡️ Thiết lập mật khẩu Admin" : mode === "login" ? "🚀 Đăng nhập vào học" : "✨ Đăng ký & Vào học"}</button>
-        </form>`;
+        ${bodyHtml}
+      `;
+
       flash = "";
       const c = box.querySelector("#s4Close"); if (c) c.onclick = closeModals;
       const tl = box.querySelector("#tabLogin"); if (tl) tl.onclick = () => { mode = "login"; render(); };
       const tr = box.querySelector("#tabReg"); if (tr) tr.onclick = () => { mode = "register"; render(); };
-      box.querySelector("#s4AuthForm").onsubmit = onSubmit;
+      const lf = box.querySelector("#linkForgot"); if (lf) lf.onclick = (e) => { e.preventDefault(); mode = "forgot"; render(); };
+      const bl = box.querySelector("#linkBackLogin"); if (bl) bl.onclick = (e) => { e.preventDefault(); mode = "login"; render(); };
+
+      setupPassToggles(box);
+
+      const reqAdminBtn = box.querySelector("#btnRequestAdminReset");
+      if (reqAdminBtn) {
+        reqAdminBtn.onclick = async () => {
+          const uInp = (box.querySelector("#inpForgotUser").value || "").trim().toLowerCase();
+          if (!uInp) return alert("Vui lòng nhập tên đăng nhập trước.");
+          try {
+            const userRec = await db("study4_users/" + uInp);
+            if (!userRec) return alert("Không tìm thấy tài khoản @" + uInp);
+            await db("study4_reset_requests/" + uInp, "PUT", {
+              username: uInp,
+              displayName: userRec.displayName || uInp,
+              requestedAt: new Date().toISOString()
+            });
+            alert("Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ đặt lại mật khẩu cho tài khoản @" + uInp);
+          } catch(e) {
+            alert("Lỗi kết nối máy chủ. Hãy thử lại khi có mạng.");
+          }
+        };
+      }
+
+      const forgotForm = box.querySelector("#s4ForgotForm");
+      if (forgotForm) {
+        forgotForm.onsubmit = async (e) => {
+          e.preventDefault();
+          const uInp = box.querySelector("#inpForgotUser").value.trim().toLowerCase();
+          const nInp = box.querySelector("#inpForgotName").value.trim().toLowerCase();
+          const p1 = box.querySelector("#inpForgotPass").value;
+          const p2 = box.querySelector("#inpForgotPass2").value;
+          if (p1.length < 6) return render("Mật khẩu mới phải từ 6 ký tự trở lên.");
+          if (p1 !== p2) return render("Hai mật khẩu nhập chưa khớp nhau.");
+          try {
+            const userRec = await db("study4_users/" + uInp);
+            if (!userRec || !userRec.passwordHash) return render("Không tìm thấy tài khoản @" + uInp);
+            const savedName = (userRec.displayName || userRec.username || "").trim().toLowerCase();
+            if (savedName !== nInp && userRec.username.toLowerCase() !== nInp) {
+              return render("Họ tên hiển thị xác minh chưa khớp với thông tin đã đăng ký.");
+            }
+            const ph = await hashPw(uInp, p1);
+            await db("study4_users/" + uInp, "PATCH", { passwordHash: ph });
+            await db("study4_reset_requests/" + uInp, "DELETE").catch(() => {});
+            mode = "login";
+            render("", "Đặt lại mật khẩu thành công! Hãy đăng nhập bằng mật khẩu mới.");
+          } catch(e) {
+            render("Lỗi kết nối máy chủ khi đặt lại mật khẩu.");
+          }
+        };
+      }
+
+      const authForm = box.querySelector("#s4AuthForm");
+      if (authForm) authForm.onsubmit = onSubmit;
     }
 
     async function onSubmit(ev) {
@@ -1066,7 +1305,7 @@
       const btn = box.querySelector("#s4Submit");
       const raw = box.querySelector("#inpUser").value.trim().toLowerCase();
       const pass = box.querySelector("#inpPass").value;
-      busy = true; btn.disabled = true; btn.textContent = "⏳ Đang xử lý...";
+      busy = true; btn.disabled = true; btn.textContent = "Đang xử lý...";
       try {
         if (setupMode) {
           if (pass.length < 6) throw new Error("Mật khẩu phải từ 6 ký tự trở lên.");
@@ -1079,19 +1318,17 @@
 
         if (mode === "login") {
           const r = await doLogin(raw, pass);
-          if (r.needSetup) { setupMode = true; busy = false; return render("", "Tài khoản Admin chưa có mật khẩu. Hãy đặt mật khẩu Admin ngay bây giờ (chỉ làm 1 lần)."); }
+          if (r.needSetup) { setupMode = true; busy = false; return render("", "Tài khoản Admin chưa có mật khẩu. Hãy đặt mật khẩu Admin ngay bây giờ."); }
           if (!r.ok) throw new Error(r.msg);
           closeModals(); location.reload();
         } else {
           if (raw === "admin") throw new Error("Tên \"admin\" được dành riêng, vui lòng chọn tên khác.");
           if (pass.length < 6) throw new Error("Mật khẩu phải từ 6 ký tự trở lên.");
           const disp = (box.querySelector("#inpDisplay").value.trim() || raw).slice(0, 40);
-          const actKey = (box.querySelector("#inpActKey").value || "").trim();
           let existing;
-          try { existing = await db(`study4_users/${raw}`); }
+          try { existing = await db("study4_users/" + raw); }
           catch (e) { throw new Error("Cần có mạng để tạo tài khoản. Vui lòng kết nối internet và thử lại."); }
           if (existing && existing.passwordHash) throw new Error("Tên đăng nhập này đã có người dùng, vui lòng chọn tên khác.");
-          if (actKey) { const p = await peekCode(actKey, raw); if (!p.ok) throw new Error(p.msg); }
           const ph = await hashPw(raw, pass);
           const st = progressStats(readProgress());
           const rec = {
@@ -1100,11 +1337,7 @@
             vocabLearned: st.vocabLearned, grammarDone: st.grammarDone, overallPct: st.overallPct,
             createdAt: new Date().toISOString().slice(0, 10), lastActive: new Date().toISOString()
           };
-          await db(`study4_users/${raw}`, "PUT", rec);
-          if (actKey) {
-            const r = await redeemCode(actKey, raw);
-            if (r.ok) { rec.role = "vip"; rec.expiresAt = r.expiresAt; }
-          }
+          await db("study4_users/" + raw, "PUT", rec);
           await startSession(rec, ph);
           closeModals(); location.reload();
         }
@@ -1117,132 +1350,80 @@
     render();
   }
 
-  function openActivateModal(lockedTitle) {
+  function openDonateModal() {
     const u = getCurrentUser();
-    if (!u) return openLoginModal(true);
     const { box } = newModal("wide");
-    const rem = daysRemaining(u.expiresAt);
-    const curStatus = u.role === "vip"
-      ? (Number.isFinite(rem) ? `Đang là VIP (Còn <b>${rem} ngày</b>, hết hạn ${fmtExpiry(u.expiresAt)})` : `Đang là <b>VIP Vĩnh viễn</b>`)
-      : `Đang ở <b>Gói Cơ Bản (Học thử)</b>`;
-
-    let selectedPackage = "life";
-    let orderCode = "VIP" + (u.username.replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase() || "USER") + Math.floor(1000 + Math.random() * 9000);
-    let checkTimer = null;
-    let isSuccess = false;
 
     function renderContent() {
-      const price = selectedPackage === "6m" ? (config.price6M || 99000) : (config.priceLife || 199000);
-      const days = selectedPackage === "6m" ? 180 : "PERM";
       const bank = config.bankCode || "MB";
       const acc = config.bankAccount || "0988888888";
       const owner = config.bankOwner || "HOANG NGUYEN";
-      const qrUrl = `https://img.vietqr.io/image/${bank}-${acc}-compact2.png?amount=${price}&addInfo=${orderCode}&accountName=${encodeURIComponent(owner)}`;
+      const noteText = config.contactNote || "20% số tiền ủng hộ (Donate) sẽ được trích chuyển trực tiếp tới Mặt trận Tổ quốc Việt Nam để ủng hộ đồng bào & các hoạt động thiện nguyện.";
+      const memo = config.transferMemo || ("UNG HO STUDY4" + (u && u.username ? " " + u.username.toUpperCase() : ""));
+      const qrUrl = "https://img.vietqr.io/image/" + encodeURIComponent(bank) + "-" + encodeURIComponent(acc) + "-compact2.png?addInfo=" + encodeURIComponent(memo) + "&accountName=" + encodeURIComponent(owner);
 
       box.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <h3 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px;">
-            <span>👑</span> <span>Mở Khóa VIP &amp; Thanh Toán Tự Động VietQR</span>
+          <h3 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px;color:#e11d48;">
+            <span>💖</span> <span>Ủng Hộ Dự Án (Donate) &amp; Chung Tay Thiện Nguyện</span>
           </h3>
           <button class="s4-top-btn" style="color:inherit;font-size:16px;padding:4px 10px;" id="s4Close">✕</button>
         </div>
 
-        ${lockedTitle ? `<div style="background:#fef3c7;color:#b45309;padding:9px 12px;border-radius:10px;font-size:12.5px;font-weight:600;margin-bottom:12px;">🔒 <b>${esc(lockedTitle)}</b> là nội dung nâng cao yêu cầu tài khoản VIP. Tiến độ học của bạn vẫn được lưu giữ an toàn!</div>` : ""}
-
-        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-          <div id="pkgLife" style="flex:1;min-width:140px;cursor:pointer;padding:12px;border-radius:12px;border:2px solid ${selectedPackage === 'life' ? '#2563eb' : 'var(--border,#e2e8f0)'};background:${selectedPackage === 'life' ? 'rgba(37,99,235,0.06)' : 'var(--panel,#f8fafc)'};transition:all 0.2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-weight:800;font-size:13.5px;color:var(--text,#1e293b);">💎 Gói Trọn Đời</span>
-              <span style="background:#f59e0b;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;">KHUYÊN DÙNG</span>
-            </div>
-            <div style="font-size:19px;font-weight:900;color:#2563eb;margin-top:4px;">${(config.priceLife || 199000).toLocaleString('vi-VN')} đ</div>
-            <div style="font-size:11.5px;color:var(--muted,#64748b);margin-top:2px;">Mở khóa vĩnh viễn toàn bộ kỹ năng</div>
+        <div style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1.5px solid #fda4af;color:#881337;padding:12px 14px;border-radius:12px;margin-bottom:14px;line-height:1.55;">
+          <div style="font-weight:800;font-size:14px;color:#9f1239;margin-bottom:4px;">
+            Cam Kết Đồng Hành Cùng Mặt Trận Tổ Quốc Việt Nam
           </div>
-
-          <div id="pkg6M" style="flex:1;min-width:140px;cursor:pointer;padding:12px;border-radius:12px;border:2px solid ${selectedPackage === '6m' ? '#2563eb' : 'var(--border,#e2e8f0)'};background:${selectedPackage === '6m' ? 'rgba(37,99,235,0.06)' : 'var(--panel,#f8fafc)'};transition:all 0.2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-weight:800;font-size:13.5px;color:var(--text,#1e293b);">⏳ Gói 6 Tháng</span>
-              <span style="background:#10b981;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;">TIẾT KIỆM</span>
-            </div>
-            <div style="font-size:19px;font-weight:900;color:#10b981;margin-top:4px;">${(config.price6M || 99000).toLocaleString('vi-VN')} đ</div>
-            <div style="font-size:11.5px;color:var(--muted,#64748b);margin-top:2px;">Học không giới hạn trong 180 ngày</div>
+          <div style="font-size:13px;">
+            Toàn bộ kho từ vựng, ngữ pháp và luyện 4 kỹ năng IELTS trên hệ thống đều được <b>mở miễn phí 100%</b> cho cộng đồng.<br>
+            🌱 <b>${esc(noteText)}</b>
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:minmax(200px,240px) 1fr;gap:14px;align-items:center;background:var(--panel,#f8fafc);border:1px solid var(--border,#e2e8f0);border-radius:14px;padding:12px;" id="qrSection">
+        <div class="s4-donate-grid">
           <div style="text-align:center;">
             <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.08);display:inline-block;max-width:100%;">
-              <img src="${qrUrl}" alt="VietQR Thanh Toán Tự Động" style="width:190px;height:190px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;" id="qrImg">
+              <img src="${qrUrl}" alt="VietQR Donate" style="width:176px;height:176px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;" id="qrImg">
             </div>
-            <div style="font-size:11px;color:var(--muted,#64748b);margin-top:6px;">Quét bằng app ngân hàng (VCB, MB, Techcombank, MoMo...)</div>
+            <div style="font-size:11px;color:var(--muted,#64748b);margin-top:6px;">Quét mã VietQR bằng mọi ứng dụng Ngân hàng / Ví điện tử</div>
           </div>
 
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
-              <div><span style="color:var(--muted,#64748b);font-size:11px;">Ngân hàng:</span><br><b style="font-size:13px;">${esc(bank)}</b></div>
-              <button class="s4-top-btn" data-copy="${esc(bank)}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+          <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px;min-width:0;">
+            <div class="s4-donate-row">
+              <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;"><span style="color:var(--muted,#64748b);font-size:11px;">Ngân hàng thụ hưởng:</span><br><b style="font-size:13.5px;">${esc(bank)}</b></div>
+              <button class="s4-top-btn" data-copy="${esc(bank)}" style="font-size:11px;padding:4px 9px;">Sao chép</button>
             </div>
 
-            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
-              <div><span style="color:var(--muted,#64748b);font-size:11px;">Số tài khoản:</span><br><b style="font-size:13.5px;letter-spacing:0.5px;color:#2563eb;" id="txtAcc">${esc(acc)}</b></div>
-              <button class="s4-top-btn" data-copy="${esc(acc)}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+            <div class="s4-donate-row">
+              <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;"><span style="color:var(--muted,#64748b);font-size:11px;">Số tài khoản:</span><br><b style="font-size:14px;letter-spacing:0.5px;color:#2563eb;">${esc(acc)}</b></div>
+              <button class="s4-top-btn" data-copy="${esc(acc)}" style="font-size:11px;padding:4px 9px;">Sao chép</button>
             </div>
 
-            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
-              <div><span style="color:var(--muted,#64748b);font-size:11px;">Chủ tài khoản:</span><br><b>${esc(owner)}</b></div>
-              <button class="s4-top-btn" data-copy="${esc(owner)}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
+            <div class="s4-donate-row">
+              <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;"><span style="color:var(--muted,#64748b);font-size:11px;">Chủ tài khoản:</span><br><b>${esc(owner)}</b></div>
+              <button class="s4-top-btn" data-copy="${esc(owner)}" style="font-size:11px;padding:4px 9px;">Sao chép</button>
             </div>
 
-            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg,#fff);padding:6px 9px;border-radius:8px;border:1px solid var(--border,#e2e8f0);">
-              <div><span style="color:var(--muted,#64748b);font-size:11px;">Số tiền:</span><br><b style="color:#16a34a;font-size:14.5px;">${price.toLocaleString('vi-VN')} đ</b></div>
-              <button class="s4-top-btn" data-copy="${price}" style="font-size:11px;padding:2px 7px;">Sao chép</button>
-            </div>
-
-            <div style="display:flex;justify-content:space-between;align-items:center;background:#eff6ff;border:1.5px dashed #3b82f6;padding:6px 9px;border-radius:8px;">
-              <div>
-                <span style="color:#1e40af;font-size:11px;font-weight:700;">Nội dung CK (Bắt buộc giữ nguyên):</span><br>
-                <b style="font-size:14.5px;color:#1d4ed8;font-family:monospace;letter-spacing:1px;" id="txtOrder">${esc(orderCode)}</b>
+            <div class="s4-donate-row-memo">
+              <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;">
+                <span style="color:#9f1239;font-size:11px;font-weight:700;">Nội dung chuyển khoản gợi ý:</span><br>
+                <b style="font-size:13px;color:#e11d48;font-family:monospace;word-break:break-all;">${esc(memo)}</b>
               </div>
-              <button class="s4-top-btn" data-copy="${esc(orderCode)}" style="font-size:11px;padding:3px 8px;background:#2563eb;color:#fff;">Sao chép</button>
+              <button class="s4-top-btn donate" data-copy="${esc(memo)}" style="font-size:11px;padding:4px 9px;">Sao chép</button>
             </div>
           </div>
         </div>
 
-        <div id="liveStatusBox" style="margin-top:10px;padding:9px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#166534;font-weight:600;">
-            <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#22c55e;animation:s4Pulse 1.5s infinite;"></span>
-            <span>Đang lắng nghe biến động tài khoản ngân hàng... (Tự kích hoạt sau 3s)</span>
-          </div>
-          ${isAdmin() ? '<button class="s4-btn" id="btnSimulatePay" style="background:#0ea5e9;font-size:11.5px;padding:5px 11px;border:none;margin:0;width:auto;">⚡ Giả Lập Quét Thành Công (Demo Test)</button>' : ''}
+        <div style="margin-top:12px;padding:10px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;font-size:12.5px;color:#166534;text-align:center;font-weight:600;">
+          Cảm ơn tấm lòng của bạn! Mọi sự ủng hộ đều là động lực quý báu để duy trì và hoàn thiện sớm nhất các học phần mới cho cộng đồng.
         </div>
 
-        <div style="margin-top:12px;border-top:1px solid var(--border,#e2e8f0);padding-top:8px;text-align:center;">
-          <span id="btnToggleManualKey" style="font-size:12px;color:#2563eb;cursor:pointer;font-weight:600;">🔑 Bạn đã có sẵn Mã Kích Hoạt (License Key)? Bấm vào đây để nhập mã thủ công</span>
-          <div id="manualKeyWrap" style="display:none;margin-top:8px;text-align:left;">
-            <div style="display:flex;gap:8px;">
-              <input class="s4-input" id="inpKey" placeholder="Nhập mã kích hoạt (VD: S4-ABCD-EFGH-JKLM)" style="font-family:monospace;text-transform:uppercase;margin:0;" autocapitalize="characters">
-              <button class="s4-btn" id="btnDoActivate" style="margin:0;white-space:nowrap;width:auto;padding:8px 14px;">Kích Hoạt</button>
-            </div>
-            <div id="actMsg" style="display:none;padding:8px 10px;border-radius:8px;font-size:12.5px;font-weight:600;margin-top:6px;"></div>
-          </div>
+        <div style="margin-top:10px;display:flex;justify-content:flex-end;">
+          <button class="s4-top-btn" id="s4CloseBottom" style="padding:8px 18px;font-size:13px;">Đóng</button>
         </div>
       `;
 
-      box.querySelector("#s4Close").onclick = () => {
-        if (checkTimer) clearInterval(checkTimer);
-        closeModals();
-      };
-
-      box.querySelector("#pkgLife").onclick = () => {
-        selectedPackage = "life";
-        renderContent();
-      };
-
-      box.querySelector("#pkg6M").onclick = () => {
-        selectedPackage = "6m";
-        renderContent();
-      };
-
+      box.querySelector("#s4Close").onclick = closeModals;
       box.querySelectorAll("[data-copy]").forEach(btn => {
         btn.onclick = async () => {
           const val = btn.dataset.copy;
@@ -1251,111 +1432,16 @@
             const orig = btn.textContent;
             btn.textContent = "✓ Đã chép";
             setTimeout(() => { btn.textContent = orig; }, 1500);
-          } catch(e) {
+          } catch (e) {
             prompt("Sao chép:", val);
           }
         };
       });
-
-      const toggleBtn = box.querySelector("#btnToggleManualKey");
-      const keyWrap = box.querySelector("#manualKeyWrap");
-      if (toggleBtn && keyWrap) {
-        toggleBtn.onclick = () => {
-          keyWrap.style.display = keyWrap.style.display === "none" ? "block" : "none";
-        };
-      }
-
-      const actBtn = box.querySelector("#btnDoActivate");
-      const msgEl = box.querySelector("#actMsg");
-      if (actBtn && msgEl) {
-        actBtn.onclick = async () => {
-          actBtn.disabled = true; actBtn.textContent = "⏳ Đang kiểm tra...";
-          const res = await redeemCode(box.querySelector("#inpKey").value, u.username);
-          msgEl.style.display = "block";
-          if (!res.ok) {
-            msgEl.style.background = "#fee2e2"; msgEl.style.color = "#dc2626";
-            msgEl.textContent = "❌ " + res.msg;
-            actBtn.disabled = false; actBtn.textContent = "Kích Hoạt";
-            return;
-          }
-          triggerSuccess("🎉 Kích hoạt VIP bằng mã thành công!");
-        };
-      }
-
-      const simBtn = box.querySelector("#btnSimulatePay");
-      if (simBtn) {
-        simBtn.onclick = async () => {
-          simBtn.disabled = true;
-          simBtn.textContent = "⏳ Đang nhận tiền...";
-          const orderData = {
-            orderCode,
-            username: u.username,
-            amount: price,
-            pkg: selectedPackage,
-            status: "PAID",
-            paidAt: new Date().toISOString()
-          };
-          try {
-            await db(`study4_orders/${orderCode}`, "PUT", orderData);
-          } catch(e) {}
-          triggerSuccess(`🎉 Nhận được thanh toán ${price.toLocaleString('vi-VN')}đ thành công! Đang kích hoạt VIP...`);
-        };
-      }
     }
-
-    async function triggerSuccess(successMsg) {
-      if (isSuccess) return;
-      isSuccess = true;
-      if (checkTimer) clearInterval(checkTimer);
-
-      const days = selectedPackage === "6m" ? 180 : "PERM";
-      const newExpiry = addDaysYmd(u.expiresAt, days);
-
-      const patch = { role: "vip", expiresAt: newExpiry };
-      try {
-        await db(`study4_users/${u.username}`, "PATCH", patch);
-      } catch(e) {}
-
-      if (cache[u.username]) {
-        Object.assign(cache[u.username], patch);
-        saveCache();
-      }
-
-      const statusBox = box.querySelector("#liveStatusBox");
-      if (statusBox) {
-        statusBox.style.background = "#dcfce7";
-        statusBox.style.borderColor = "#86efac";
-        statusBox.innerHTML = `
-          <div style="font-size:13.5px;color:#15803d;font-weight:700;display:flex;align-items:center;gap:8px;">
-            <span style="font-size:20px;">✅</span>
-            <div>${esc(successMsg)}<br><span style="font-size:11.5px;font-weight:400;color:#166534;">Hạn VIP mới: <b>${fmtExpiry(newExpiry)}</b> • Đang mở khóa bài học...</span></div>
-          </div>
-        `;
-      }
-
-      setTimeout(() => {
-        closeModals();
-        location.reload();
-      }, 1500);
-    }
-
-    checkTimer = setInterval(async () => {
-      if (isSuccess) return;
-      try {
-        const order = await db(`study4_orders/${orderCode}`);
-        if (order && order.status === "PAID") {
-          triggerSuccess("🎉 Nhận được thanh toán tự động qua VietQR!");
-          return;
-        }
-        const curUser = await db(`study4_users/${u.username}`);
-        if (curUser && curUser.role === "vip" && (!u.expiresAt || curUser.expiresAt !== u.expiresAt)) {
-          triggerSuccess("🎉 Tài khoản của bạn đã được nâng cấp VIP!");
-        }
-      } catch(e) {}
-    }, 2500);
 
     renderContent();
   }
+  const openActivateModal = openDonateModal;
 
   /* ---------- BẢNG QUẢN TRỊ ADMIN NÂNG CAO ---------- */
   const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -1370,56 +1456,22 @@
   function openAdminModal(startTab) {
     if (!isAdmin()) return;
     const { box } = newModal("wide");
-    let tab = startTab || "users";
-    let codes = null, users = null, loading = false, msg = "", fresh = [];
+    let tab = startTab || "users"; // "users" | "settings"
+    let users = null, resetRequests = null, loading = false, msg = "";
     let userSearch = "", userFilter = "all", inspectUser = null, inspectProgress = null;
 
     async function load() {
       loading = true; render();
       try {
-        if (tab === "codes") codes = (await db("study4_codes")) || {};
-        if (tab === "users") users = (await db("study4_users")) || {};
+        if (tab === "users") {
+          users = (await db("study4_users")) || {};
+          resetRequests = (await db("study4_reset_requests")) || {};
+        }
         msg = "";
-      } catch (e) { msg = "Không tải được dữ liệu từ máy chủ. Kiểm tra kết nối mạng."; }
+      } catch (e) {
+        msg = "Không tải được dữ liệu từ máy chủ. Kiểm tra kết nối mạng.";
+      }
       loading = false; render();
-    }
-
-    function bannerHtml() {
-      return config.authEnforced
-        ? `<div class="s4-mode-banner" style="background:#fef3c7;color:#92400e;border:1px solid #f59e0b;">
-             <div><b>🔒 ĐANG BẬT QUẢN LÝ</b><div style="font-size:12px;">Cần đăng nhập; gói Cơ bản chỉ học ${config.freeVocabTopicsCount} chủ đề đầu, muốn học tiếp phải có Mã VIP. Dữ liệu đã học được giữ nguyên.</div></div>
-             <button class="s4-top-btn" style="background:#0d9488;border:none;padding:8px 12px;" data-act="mode" data-v="0">🔓 Chuyển sang Mở tự do</button>
-           </div>`
-        : `<div class="s4-mode-banner" style="background:#dcfce7;color:#14532d;border:1px solid #22c55e;">
-             <div><b>🔓 ĐANG Ở CHẾ ĐỘ THỬ NGHIỆM TỰ DO</b><div style="font-size:12px;">Ai vào cũng học được 100% nội dung, không cần đăng nhập. Khi bật Quản lý, dữ liệu vẫn giữ nguyên nhưng phải có Mã VIP mới học tiếp.</div></div>
-             <button class="s4-top-btn" style="background:#dc2626;border:none;padding:8px 12px;" data-act="mode" data-v="1">🔒 Bật Quản lý &amp; Mã VIP</button>
-           </div>`;
-    }
-
-    function codesHtml() {
-      const list = Object.keys(codes || {}).map(c => Object.assign({ code: c }, codes[c])).sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
-      const unusedCount = list.filter(x => !x.usedBy).length;
-      const rows = list.map(c => `<tr>
-        <td style="font-family:monospace;font-weight:700;">${esc(c.code)}</td>
-        <td>${daysLabel(c.days)}</td>
-        <td>${c.forUser ? `<b>@${esc(c.forUser)}</b>` : "<i>Bất kỳ ai</i>"}</td>
-        <td>${c.usedBy ? `<span style="color:#16a34a;font-weight:700;">✅ @${esc(c.usedBy)}</span>` : `<span style="color:#d97706;font-weight:700;">⏳ Chưa dùng</span>`}</td>
-        <td><button class="s4-mini" data-act="copy" data-v="${esc(c.code)}">📋 Copy</button><button class="s4-mini" style="background:#ef4444;" data-act="delcode" data-v="${esc(c.code)}">Xóa</button></td>
-      </tr>`).join("");
-      return `
-        <div style="background:#f8fafc;padding:14px;border-radius:12px;border:1px solid #e2e8f0;color:#0f172a;">
-          <div style="font-weight:700;margin-bottom:8px;">🔑 Tạo Mã Kích Hoạt VIP (Tổng: ${list.length} mã • Chưa dùng: ${unusedCount})</div>
-          <div style="display:grid;grid-template-columns:1fr 90px;gap:8px;">
-            <select class="s4-input" id="kgDays" style="margin:0;">
-              <option value="0">♾️ Vĩnh viễn</option><option value="7">⏳ 7 ngày</option><option value="30">📅 30 ngày</option><option value="90">📅 90 ngày</option><option value="365">📅 365 ngày</option>
-            </select>
-            <input class="s4-input" id="kgQty" type="number" min="1" max="20" value="1" style="margin:0;" title="Số lượng mã">
-          </div>
-          <input class="s4-input" id="kgUser" placeholder="Gán riêng cho 1 username (không bắt buộc, VD: minhanh)" style="margin-top:8px;">
-          <button class="s4-btn" data-act="gen">⚡ Sinh Mã Kích Hoạt</button>
-          ${fresh.length ? fresh.map(c => `<div class="s4-key-box" data-act="copy" data-v="${esc(c)}" title="Bấm để sao chép">${esc(c)}</div>`).join("") + `<div style="font-size:12px;color:#64748b;margin-top:6px;">Bấm vào mã để sao chép rồi gửi cho học viên.</div>` : ""}
-        </div>
-        <div class="s4-table-wrap"><table class="s4-table"><thead><tr><th>Mã VIP</th><th>Thời hạn</th><th>Dành cho</th><th>Trạng thái</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="5" style="color:#64748b;">Chưa có mã nào.</td></tr>`}</tbody></table></div>`;
     }
 
     function inspectModalHtml(u) {
@@ -1428,43 +1480,54 @@
       const vMastered = Number(u.vocabMastered) || 0;
       const vDue = Number(u.vocabDue) || 0;
       const gDone = Number(u.grammarDone) || 0;
+      const lisDone = Number(u.listeningDone) || 0;
+      const lisWords = Number(u.listeningWords) || 0;
+      const readDone = Number(u.readingDone) || 0;
+      const readWords = Number(u.readingWords) || 0;
+      const tedDone = Number(u.tedDone) || 0;
+
       const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
       const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
-      const oPct = Math.min(100, Math.round(vPct * 0.7 + gPct * 0.3));
       const st = inspectProgress ? progressStats(inspectProgress) : null;
+      const oPct = st ? st.overallPct : (u.overallPct || Math.round(vPct * 0.7 + gPct * 0.3));
 
       return `
-        <div class="s4-stat-box" style="margin-bottom:14px;border:2px solid #2563eb;">
+        <div class="s4-stat-box" style="margin-bottom:14px;border:1.5px solid #2563eb;background:var(--panel,#f8fafc);">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              ${renderAvatarHtml(u.avatar, 46)}
+              ${renderAvatarHtml(u.avatar, 42)}
               <div>
-                <div style="font-weight:800;font-size:16px;">${esc(u.displayName || u.username)} <span style="font-weight:600;color:#64748b;font-size:13px;">(@${esc(u.username)})</span></div>
-                <div style="font-size:12px;color:#64748b;">🎯 Mục tiêu Band ${esc(u.targetBand || "7.0")} • Tạo ngày: ${esc(u.createdAt || "—")} • Hoạt động: <b>${fmtRelativeTime(u.lastActive)}</b></div>
-                ${u.bio ? `<div style="font-size:12px;color:#0d9488;margin-top:2px;">“${esc(u.bio)}”</div>` : ""}
+                <div style="font-weight:800;font-size:15.5px;">${esc(u.displayName || u.username)} <span style="font-weight:600;color:#64748b;font-size:12.5px;">(@${esc(u.username)})</span></div>
+                <div style="font-size:12px;color:#64748b;">Mục tiêu: Band ${esc(u.targetBand || "7.0")} • Đăng ký: ${esc(u.createdAt || "—")} • Online: <b>${fmtRelativeTime(u.lastActive)}</b></div>
               </div>
             </div>
-            <button class="s4-mini" style="background:#64748b;" data-act="closeinspect">Đóng chi tiết ✕</button>
+            <button class="s4-mini" style="background:#64748b;" data-act="closeinspect">Đóng ✕</button>
           </div>
-          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            ${vipRemainingBadgeHtml(effective(u))}
-            <span class="s4-vip-Remain s4-vr-ok">🔥 Chuỗi Streak: ${st ? st.streakDays : (u.streakDays || 0)} ngày (Tổng ${st ? st.totalStudyDays : (u.totalStudyDays || 0)} ngày học)</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;margin-top:10px;">
             <div style="padding:8px 10px;background:rgba(37,99,235,0.08);border-radius:8px;">
-              <div style="font-size:11.5px;color:#64748b;">Tổng hoàn thành</div>
-              <div style="font-size:18px;font-weight:800;color:#2563eb;">${oPct}%</div>
-              <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${oPct}%;background:#2563eb;"></div></div>
+              <div style="font-size:11px;color:#64748b;">Tổng hoàn thành</div>
+              <div style="font-size:16px;font-weight:800;color:#2563eb;">${oPct}%</div>
             </div>
             <div style="padding:8px 10px;background:rgba(22,163,74,0.08);border-radius:8px;">
-              <div style="font-size:11.5px;color:#64748b;">Từ vựng (${vPct}%)</div>
-              <div style="font-size:15px;font-weight:800;color:#16a34a;">${vLearned + vIgnored} / ${TOTAL_VOCAB}</div>
-              <div style="font-size:11px;color:#64748b;">Học: ${vLearned} • Nhớ kỹ: ${vMastered} • Biết: ${vIgnored} • Ôn: ${vDue}</div>
+              <div style="font-size:11px;color:#64748b;">Từ vựng SRS</div>
+              <div style="font-size:14.5px;font-weight:800;color:#16a34a;">${vLearned + vIgnored} / ${TOTAL_VOCAB}</div>
             </div>
             <div style="padding:8px 10px;background:rgba(13,148,136,0.08);border-radius:8px;">
-              <div style="font-size:11.5px;color:#64748b;">Ngữ pháp (${gPct}%)</div>
-              <div style="font-size:15px;font-weight:800;color:#0d9488;">${gDone} / ${TOTAL_GRAMMAR} bài</div>
-              <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${gPct}%;background:#0d9488;"></div></div>
+              <div style="font-size:11px;color:#64748b;">Ngữ pháp</div>
+              <div style="font-size:14.5px;font-weight:800;color:#0d9488;">${gDone} / ${TOTAL_GRAMMAR} bài</div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(217,119,6,0.08);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">Listening</div>
+              <div style="font-size:14.5px;font-weight:800;color:#d97706;">${lisDone} bài • ${lisWords} từ</div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(124,58,237,0.08);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">Reading</div>
+              <div style="font-size:14.5px;font-weight:800;color:#7c3aed;">${readDone} bài • ${readWords} từ</div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(225,29,72,0.08);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">TED Talks</div>
+              <div style="font-size:14.5px;font-weight:800;color:#e11d48;">${tedDone} / ${TOTAL_TED_LESSONS} bài</div>
             </div>
           </div>
         </div>`;
@@ -1472,76 +1535,63 @@
 
     function usersHtml() {
       const allUsers = Object.keys(users || {}).filter(k => users[k] && users[k].passwordHash).map(k => users[k]);
-      const todayIsoPrefix = new Date().toISOString().slice(0, 10);
       const totalCount = allUsers.length;
-      const vipActiveCount = allUsers.filter(u => effective(u).role === "vip" || u.role === "admin").length;
-      const activeTodayCount = allUsers.filter(u => String(u.lastActive || "").startsWith(todayIsoPrefix)).length;
-      const avgPct = totalCount ? Math.round(allUsers.reduce((acc, u) => {
-        const vP = Math.min(100, Math.round((((Number(u.vocabLearned) || 0) + (Number(u.vocabIgnored) || 0)) / TOTAL_VOCAB) * 100));
-        const gP = Math.min(100, Math.round(((Number(u.grammarDone) || 0) / TOTAL_GRAMMAR) * 100));
-        return acc + Math.round(vP * 0.7 + gP * 0.3);
-      }, 0) / totalCount) : 0;
+      const activeCount = allUsers.filter(u => u.status !== "blocked").length;
+      const blockedCount = allUsers.filter(u => u.status === "blocked").length;
+      const resetCount = Object.keys(resetRequests || {}).length;
 
       const q = userSearch.trim().toLowerCase();
       const filtered = allUsers.filter(u => {
-        const eff = effective(u);
-        const rem = daysRemaining(u.expiresAt);
         if (q && !(u.username.toLowerCase().includes(q) || String(u.displayName || "").toLowerCase().includes(q))) return false;
-        if (userFilter === "vip") return eff.role === "vip";
-        if (userFilter === "basic") return eff.role === "basic";
-        if (userFilter === "expiring") return eff.role === "vip" && Number.isFinite(rem) && rem <= 7;
+        if (userFilter === "active") return u.status !== "blocked";
         if (userFilter === "blocked") return u.status === "blocked";
+        if (userFilter === "reset") return resetRequests && resetRequests[u.username];
         return true;
       }).sort((a, b) => String(b.lastActive || b.createdAt || "").localeCompare(String(a.lastActive || a.createdAt || "")));
 
       const rows = filtered.map(it => {
         const isAdm = it.username === "admin";
-        const eff = effective(it);
         const vLearned = Number(it.vocabLearned) || 0;
         const vIgnored = Number(it.vocabIgnored) || 0;
         const gDone = Number(it.grammarDone) || 0;
         const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
         const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
-        const oPct = Math.min(100, Math.round(vPct * 0.7 + gPct * 0.3));
+        const oPct = Number(it.overallPct) || Math.min(100, Math.round(vPct * 0.7 + gPct * 0.3));
+        const hasReset = resetRequests && resetRequests[it.username];
 
         return `<tr>
           <td>
             <div style="display:flex;align-items:center;gap:8px;">
-              ${renderAvatarHtml(it.avatar, 32)}
+              ${renderAvatarHtml(it.avatar, 30)}
               <div>
                 <b>${esc(it.displayName || it.username)}</b> <span style="color:#64748b;font-size:11.5px;">(@${esc(it.username)})</span>
-                <div style="font-size:11px;color:#64748b;">🕒 ${fmtRelativeTime(it.lastActive)} ${it.targetBand ? `• 🎯 ${esc(it.targetBand)}` : ""}</div>
+                <div style="font-size:11px;color:#64748b;">${fmtRelativeTime(it.lastActive)} ${it.targetBand ? "• Band " + esc(it.targetBand) : ""}</div>
               </div>
             </div>
           </td>
-          <td style="min-width:175px;">
-            <div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;">
-              <span>Tổng: <b style="color:#2563eb">${oPct}%</b></span>
-              <span>🔥 ${it.streakDays || 0} ngày</span>
-            </div>
-            <div class="s4-prog-track" style="margin:3px 0 5px 0;"><div class="s4-prog-bar" style="width:${oPct}%;background:linear-gradient(90deg,#2563eb,#16a34a);"></div></div>
-            <div style="font-size:11px;color:#64748b;">
-              📚 <b>${vLearned + vIgnored}</b>/${TOTAL_VOCAB} (${vPct}%) • 📘 <b>${gDone}</b>/${TOTAL_GRAMMAR} (${gPct}%)
-            </div>
-          </td>
           <td style="min-width:140px;">
-            <select data-act="role" data-v="${esc(it.username)}" style="padding:4px 6px;border-radius:6px;margin-bottom:4px;font-weight:700;" ${isAdm ? "disabled" : ""}>
-              <option value="basic" ${eff.role === "basic" ? "selected" : ""}>🌱 Cơ bản</option>
-              <option value="vip" ${eff.role === "vip" ? "selected" : ""}>👑 VIP Full</option>
-              <option value="admin" ${eff.role === "admin" ? "selected" : ""}>🛡️ Admin</option>
-            </select>
-            <div>${vipRemainingBadgeHtml(eff)}</div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;">
+              <span>Tiến độ: <b style="color:#2563eb">${oPct}%</b></span>
+              <span>🔥 ${it.streakDays || 0}N</span>
+            </div>
+            <div class="s4-prog-track" style="margin:3px 0 4px 0;"><div class="s4-prog-bar" style="width:${oPct}%;background:linear-gradient(90deg,#2563eb,#16a34a);"></div></div>
+            <div style="font-size:10.5px;color:#64748b;">Từ: ${vLearned + vIgnored}/${TOTAL_VOCAB} • NP: ${gDone}/${TOTAL_GRAMMAR}</div>
           </td>
           <td>
-            <button class="s4-mini" style="background:#2563eb;" data-act="inspect" data-v="${esc(it.username)}" title="Xem chi tiết tiến độ">🔍 Chi tiết</button>
-            ${isAdm ? "" : `
-              <button class="s4-mini" style="background:#16a34a;" data-act="ext" data-v="${esc(it.username)}" title="Cộng thêm 30 ngày VIP">＋30 ngày</button>
-              <button class="s4-mini" style="background:#0284c7;" data-act="setdays" data-v="${esc(it.username)}" title="Đặt số ngày VIP tùy ý">📅 Đặt ngày</button>
-              <button class="s4-mini" style="background:#d97706;" data-act="perm" data-v="${esc(it.username)}" title="Cho VIP Vĩnh viễn">♾️</button>
-              <button class="s4-mini" style="background:${it.status === "blocked" ? "#dc2626" : "#0d9488"};" data-act="block" data-v="${esc(it.username)}">${it.status === "blocked" ? "🚫 Đang khóa" : "✅ Mở"}</button>
-            `}
-            <button class="s4-mini" data-act="resetpw" data-v="${esc(it.username)}">🔑 Đổi MK</button>
-            ${isAdm ? "" : `<button class="s4-mini" style="background:#ef4444;" data-act="deluser" data-v="${esc(it.username)}">Xóa</button>`}
+            ${isAdm ? '<span class="s4-badge s4-badge-admin">Quản trị viên</span>' :
+              it.status === "blocked" ? '<span class="s4-badge s4-badge-blocked">Đã khóa</span>' :
+              hasReset ? '<span class="s4-badge s4-badge-warn">Yêu cầu đặt lại MK</span>' :
+              '<span class="s4-badge s4-badge-active">Hoạt động</span>'}
+          </td>
+          <td>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              <button class="s4-mini" style="background:#2563eb;" data-act="inspect" data-v="${esc(it.username)}" title="Xem chi tiết tiến độ">Chi tiết</button>
+              <button class="s4-mini" style="background:#0284c7;" data-act="resetpw" data-v="${esc(it.username)}" title="Đặt mật khẩu mới cho học viên">Đổi MK</button>
+              ${isAdm ? "" : `
+                <button class="s4-mini" style="background:${it.status === "blocked" ? "#16a34a" : "#dc2626"};" data-act="block" data-v="${esc(it.username)}">${it.status === "blocked" ? "Mở khóa" : "Khóa"}</button>
+                <button class="s4-mini" style="background:#64748b;" data-act="deluser" data-v="${esc(it.username)}">Xóa</button>
+              `}
+            </div>
           </td>
         </tr>`;
       }).join("");
@@ -1549,36 +1599,38 @@
       return `
         <div class="s4-kpi-grid">
           <div class="s4-stat-box" style="text-align:center;padding:9px;">
-            <div style="font-size:19px;font-weight:800;color:#2563eb;">${totalCount}</div>
+            <div style="font-size:18px;font-weight:800;color:#2563eb;">${totalCount}</div>
             <div style="font-size:11px;color:#64748b;">Tổng tài khoản</div>
           </div>
           <div class="s4-stat-box" style="text-align:center;padding:9px;">
-            <div style="font-size:19px;font-weight:800;color:#d97706;">${vipActiveCount}</div>
-            <div style="font-size:11px;color:#64748b;">👑 Đang có VIP</div>
+            <div style="font-size:18px;font-weight:800;color:#16a34a;">${activeCount}</div>
+            <div style="font-size:11px;color:#64748b;">Đang hoạt động</div>
           </div>
           <div class="s4-stat-box" style="text-align:center;padding:9px;">
-            <div style="font-size:19px;font-weight:800;color:#16a34a;">${activeTodayCount}</div>
-            <div style="font-size:11px;color:#64748b;">🔥 Học hôm nay</div>
+            <div style="font-size:18px;font-weight:800;color:#dc2626;">${blockedCount}</div>
+            <div style="font-size:11px;color:#64748b;">Đã bị khóa</div>
           </div>
           <div class="s4-stat-box" style="text-align:center;padding:9px;">
-            <div style="font-size:19px;font-weight:800;color:#0d9488;">${avgPct}%</div>
-            <div style="font-size:11px;color:#64748b;">📈 Tiến độ TB</div>
+            <div style="font-size:18px;font-weight:800;color:#d97706;">${resetCount}</div>
+            <div style="font-size:11px;color:#64748b;">Yêu cầu đặt lại MK</div>
           </div>
         </div>
+
         ${inspectUser && users[inspectUser] ? inspectModalHtml(users[inspectUser]) : ""}
+
         <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-          <input class="s4-input" id="admSearchUser" placeholder="🔍 Tìm theo tên hoặc @username..." value="${esc(userSearch)}" style="flex:1;min-width:180px;margin:0;padding:8px 11px;">
+          <input class="s4-input" id="admSearchUser" placeholder="Tìm kiếm theo tên hoặc @username..." value="${esc(userSearch)}" style="flex:1;min-width:180px;margin:0;padding:8px 11px;">
           <select class="s4-input" id="admFilterUser" style="width:auto;margin:0;padding:8px 11px;">
             <option value="all" ${userFilter === "all" ? "selected" : ""}>Tất cả (${totalCount})</option>
-            <option value="vip" ${userFilter === "vip" ? "selected" : ""}>👑 Đang VIP</option>
-            <option value="basic" ${userFilter === "basic" ? "selected" : ""}>🌱 Cơ bản</option>
-            <option value="expiring" ${userFilter === "expiring" ? "selected" : ""}>⚠️ Sắp hết hạn (≤7 ngày)</option>
-            <option value="blocked" ${userFilter === "blocked" ? "selected" : ""}>🚫 Đang khóa</option>
+            <option value="active" ${userFilter === "active" ? "selected" : ""}>Hoạt động</option>
+            <option value="blocked" ${userFilter === "blocked" ? "selected" : ""}>Đã khóa (${blockedCount})</option>
+            <option value="reset" ${userFilter === "reset" ? "selected" : ""}>Có yêu cầu đặt lại MK (${resetCount})</option>
           </select>
         </div>
+
         <div class="s4-table-wrap">
           <table class="s4-table">
-            <thead><tr><th>Học viên</th><th>Tiến trình học (%)</th><th>Gói &amp; Hạn VIP còn lại</th><th>Kiểm soát</th></tr></thead>
+            <thead><tr><th>Học viên</th><th>Tiến độ học</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
             <tbody>${rows || `<tr><td colspan="4" style="color:#64748b;text-align:center;padding:16px;">Không tìm thấy tài khoản phù hợp.</td></tr>`}</tbody>
           </table>
         </div>`;
@@ -1586,63 +1638,63 @@
 
     function settingsHtml() {
       return `
-        <div style="font-weight:800;font-size:14px;color:#2563eb;margin-bottom:8px;">💳 Cấu hình Thanh toán Tự động VietQR:</div>
+        <div style="font-weight:800;font-size:14.5px;color:#2563eb;margin-bottom:8px;">Cấu hình Thông tin QR Ủng hộ (Donate):</div>
+        <div style="margin-bottom:8px;">
+          <label style="font-size:12px;font-weight:700;">Thông điệp thiện nguyện (Hiển thị nổi bật trong popup Donate):</label>
+          <textarea class="s4-input" id="admNote" rows="2" style="font-family:inherit;resize:vertical;">${esc(config.contactNote || "")}</textarea>
+        </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <div>
-            <label style="font-size:12.5px;font-weight:700;">Mã Ngân hàng (MB, VCB, TCB...):</label>
-            <input class="s4-input" id="admBankCode" value="${esc(config.bankCode || 'MB')}" placeholder="vd: MB, VCB, TCB, ACB, VPB...">
+            <label style="font-size:12px;font-weight:700;">Mã Ngân hàng (MB, VCB, TCB, ACB...):</label>
+            <input class="s4-input" id="admBankCode" value="${esc(config.bankCode || 'MB')}" placeholder="VD: MB, VCB, TCB...">
           </div>
           <div>
-            <label style="font-size:12.5px;font-weight:700;">Số Tài Khoản nhận tiền:</label>
-            <input class="s4-input" id="admBankAcc" value="${esc(config.bankAccount || '0988888888')}" placeholder="vd: 0988888888">
+            <label style="font-size:12px;font-weight:700;">Số Tài Khoản nhận tiền:</label>
+            <input class="s4-input" id="admBankAcc" value="${esc(config.bankAccount || '')}" placeholder="VD: 0988888888">
           </div>
         </div>
-        <div style="margin-bottom:8px;">
-          <label style="font-size:12.5px;font-weight:700;">Tên Chủ Tài Khoản (viết hoa không dấu):</label>
-          <input class="s4-input" id="admBankOwner" value="${esc(config.bankOwner || 'HOANG NGUYEN')}" placeholder="vd: HOANG NGUYEN">
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
           <div>
-            <label style="font-size:12.5px;font-weight:700;">Giá Gói 6 Tháng (VNĐ):</label>
-            <input class="s4-input" id="admPrice6M" type="number" step="1000" value="${config.price6M || 99000}">
+            <label style="font-size:12px;font-weight:700;">Tên Chủ Tài Khoản (viết hoa không dấu):</label>
+            <input class="s4-input" id="admBankOwner" value="${esc(config.bankOwner || '')}" placeholder="VD: HOANG NGUYEN">
           </div>
           <div>
-            <label style="font-size:12.5px;font-weight:700;">Giá Gói Trọn Đời (VNĐ):</label>
-            <input class="s4-input" id="admPriceLife" type="number" step="1000" value="${config.priceLife || 199000}">
+            <label style="font-size:12px;font-weight:700;">Nội dung chuyển khoản gợi ý:</label>
+            <input class="s4-input" id="admTransferMemo" value="${esc(config.transferMemo || 'UNG HO STUDY4')}" placeholder="VD: UNG HO STUDY4">
           </div>
         </div>
 
-        <div style="height:1px;background:#e2e8f0;margin:12px 0;"></div>
-        <div style="font-weight:800;font-size:14px;color:#0f172a;margin-bottom:8px;">⚙️ Quản lý Giới hạn Học Thử &amp; Mật khẩu Admin:</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-          <div><label style="font-size:12px;font-weight:700;">Số chủ đề Từ vựng học thử:</label><input class="s4-input" id="admFreeV" type="number" min="0" max="20" value="${config.freeVocabTopicsCount}"></div>
-          <div><label style="font-size:12px;font-weight:700;">Số phần Grammar học thử:</label><input class="s4-input" id="admFreeG" type="number" min="0" max="30" value="${config.freeGrammarSectionsCount}"></div>
+        <div style="height:1px;background:#e2e8f0;margin:14px 0;"></div>
+        <div style="font-weight:800;font-size:14px;color:#0f172a;margin-bottom:8px;">Đổi mật khẩu Quản trị viên (Admin):</div>
+        <div style="margin-bottom:12px;">
+          <div class="s4-pass-wrap">
+            <input class="s4-input" id="admNewPass" type="password" placeholder="Nhập mật khẩu Admin mới (tối thiểu 6 ký tự, để trống nếu không đổi)" autocomplete="new-password">
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+          </div>
         </div>
-        <label style="font-size:12px;font-weight:700;">Lời nhắn khi bấm vào nội dung bị khóa:</label>
-        <input class="s4-input" id="admNote" value="${esc(config.contactNote)}">
-        <label style="font-size:12px;font-weight:700;">Đổi mật khẩu Admin của bạn (để trống nếu không đổi):</label>
-        <input class="s4-input" id="admNewPass" type="password" placeholder="Mật khẩu mới (từ 6 ký tự)" autocomplete="new-password">
-        <button class="s4-btn" data-act="savecfg">💾 Lưu cấu hình hệ thống &amp; VietQR</button>`;
+
+        <button class="s4-btn" data-act="savecfg">Lưu Toàn Bộ Cài Đặt</button>`;
     }
 
     function render() {
       box.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <img src="${getLogoPath()}" alt="Logo" style="width:32px;height:32px;border-radius:8px;">
-            <h3 style="margin:0;">🛡️ Trung Tâm Quản Trị Học Viên &amp; VIP</h3>
+            <img src="${getLogoPath()}" alt="Logo" style="width:30px;height:30px;border-radius:8px;">
+            <h3 style="margin:0;font-size:17.5px;">Quản Trị Hệ Thống</h3>
           </div>
           <button class="s4-top-btn" style="color:inherit;" data-act="close">✕</button>
         </div>
-        ${bannerHtml()}
         <div class="s4-tabs">
-          <button class="s4-tab ${tab === "users" ? "active" : ""}" data-act="tab" data-v="users">👥 Học viên &amp; Tiến độ</button>
-          <button class="s4-tab ${tab === "codes" ? "active" : ""}" data-act="tab" data-v="codes">🔑 Cấp Mã Kích Hoạt</button>
-          <button class="s4-tab ${tab === "settings" ? "active" : ""}" data-act="tab" data-v="settings">⚙️ Cài đặt hệ thống</button>
+          <button class="s4-tab ${tab === "users" ? "active" : ""}" data-act="tab" data-v="users">👥 Quản lý học viên</button>
+          <button class="s4-tab ${tab === "settings" ? "active" : ""}" data-act="tab" data-v="settings">⚙️ Cài đặt hệ thống &amp; QR Donate</button>
         </div>
         ${msg ? `<div class="s4-err">⚠️ ${esc(msg)}</div>` : ""}
-        ${loading ? `<div style="padding:20px;text-align:center;color:#64748b;">⏳ Đang đồng bộ dữ liệu từ máy chủ...</div>`
-          : tab === "codes" ? (codes ? codesHtml() : "") : tab === "users" ? (users ? usersHtml() : "") : settingsHtml()}`;
+        ${loading ? `<div style="padding:20px;text-align:center;color:#64748b;">Đang tải dữ liệu từ máy chủ...</div>`
+          : tab === "users" ? (users ? usersHtml() : "") : settingsHtml()}
+      `;
+
+      setupPassToggles(box);
 
       const sInp = box.querySelector("#admSearchUser");
       if (sInp) {
@@ -1670,47 +1722,22 @@
       if (!el) return;
       const act = el.dataset.act, v = el.dataset.v;
       if (act === "close") return closeModals();
-      if (act === "tab") { tab = v; fresh = []; return load(); }
-      if (act === "mode") {
-        if (!(await guard(async () => { config.authEnforced = v === "1"; saveConfig(); await pushConfig(); }))) return;
-        location.reload(); return;
-      }
-      if (act === "copy") {
-        try { await navigator.clipboard.writeText(v); el.textContent = el.classList.contains("s4-key-box") ? "✅ Đã sao chép: " + v : "✅ Đã copy"; } catch (e) { prompt("Sao chép mã:", v); }
-        return;
-      }
-      if (act === "gen") {
-        const days = Number(box.querySelector("#kgDays").value);
-        const qty = Math.max(1, Math.min(20, Number(box.querySelector("#kgQty").value) || 1));
-        const forUser = box.querySelector("#kgUser").value.trim().toLowerCase();
-        if (forUser && !USER_RE.test(forUser)) { msg = "Tên tài khoản không hợp lệ."; return render(); }
-        const made = [];
-        if (!(await guard(async () => {
-          for (let i = 0; i < qty; i++) {
-            const code = randomCode();
-            const rec = { days: days, createdAt: new Date().toISOString(), createdBy: "admin" };
-            if (forUser) rec.forUser = forUser;
-            await db(`study4_codes/${code}`, "PUT", rec);
-            made.push(code);
-          }
-        }))) return;
-        fresh = made;
-        codes = (await db("study4_codes").catch(() => codes)) || codes;
-        return render();
-      }
-      if (act === "delcode") { if (!confirm("Xóa mã " + v + "?")) return; if (await guard(() => db(`study4_codes/${v}`, "DELETE"))) { delete codes[v]; render(); } return; }
+      if (act === "tab") { tab = v; return load(); }
+
       if (act === "inspect") {
         inspectUser = v;
         inspectProgress = null;
         render();
         try {
-          const p = await db(`study4_progress/${v}`);
+          const p = await db("study4_progress/" + v);
           if (p && p.data) {
             inspectProgress = p.data;
             const st = progressStats(p.data);
             Object.assign(users[v], {
               vocabLearned: st.vocabLearned, vocabIgnored: st.vocabIgnored, vocabMastered: st.vocabMastered, vocabDue: st.vocabDue,
-              grammarDone: st.grammarDone, streakDays: st.streakDays, totalStudyDays: st.totalStudyDays
+              grammarDone: st.grammarDone, listeningDone: st.listeningDone, listeningWords: st.listeningWords,
+              readingDone: st.readingDone, readingWords: st.readingWords, tedDone: st.tedDone,
+              overallPct: st.overallPct, streakDays: st.streakDays, totalStudyDays: st.totalStudyDays
             });
             render();
           }
@@ -1718,76 +1745,80 @@
         return;
       }
       if (act === "closeinspect") { inspectUser = null; inspectProgress = null; return render(); }
-      if (act === "ext") {
+
+      if (act === "block") {
+        const nx = users[v].status === "blocked" ? "active" : "blocked";
         if (await guard(async () => {
-          const r = await db(`study4_users/${v}`);
-          const cur = r && r.role === "vip" ? r.expiresAt : null;
-          const exp = cur === "PERM" ? "PERM" : addDaysYmd(cur, 30);
-          await db(`study4_users/${v}`, "PATCH", { role: "vip", expiresAt: exp });
-          users[v].role = "vip"; users[v].expiresAt = exp;
+          await db("study4_users/" + v, "PATCH", { status: nx });
+          users[v].status = nx;
         })) render();
         return;
       }
-      if (act === "setdays") {
-        const rawDays = prompt(`Nhập số ngày VIP muốn cấp cho "${v}" (Tính từ hôm nay, hoặc nhập 0 để cho Vĩnh viễn):`, "30");
-        if (rawDays === null) return;
-        const nDays = Number(rawDays);
-        if (!Number.isFinite(nDays) || nDays < 0) { msg = "Số ngày không hợp lệ."; return render(); }
-        if (await guard(async () => {
-          const exp = nDays === 0 ? "PERM" : addDaysYmd(null, Math.round(nDays));
-          await db(`study4_users/${v}`, "PATCH", { role: "vip", expiresAt: exp });
-          users[v].role = "vip"; users[v].expiresAt = exp;
-        })) render();
-        return;
-      }
-      if (act === "perm") { if (await guard(async () => { await db(`study4_users/${v}`, "PATCH", { role: "vip", expiresAt: "PERM" }); users[v].role = "vip"; users[v].expiresAt = "PERM"; })) render(); return; }
-      if (act === "block") { const nx = users[v].status === "blocked" ? "active" : "blocked"; if (await guard(async () => { await db(`study4_users/${v}`, "PATCH", { status: nx }); users[v].status = nx; })) render(); return; }
+
       if (act === "resetpw") {
         const np = prompt("Nhập mật khẩu MỚI cho tài khoản \"" + v + "\" (từ 6 ký tự):");
         if (!np) return;
         if (np.length < 6) { msg = "Mật khẩu phải từ 6 ký tự."; return render(); }
-        if (await guard(async () => { const ph = await hashPw(v, np); await db(`study4_users/${v}`, "PATCH", { passwordHash: ph }); if (session && session.username === v) { session.ph = ph; saveSession(); if (cache[v]) { cache[v].passwordHash = ph; saveCache(); } } })) { msg = ""; alert("✅ Đã đặt lại mật khẩu cho " + v + "."); }
+        if (await guard(async () => {
+          const ph = await hashPw(v, np);
+          await db("study4_users/" + v, "PATCH", { passwordHash: ph });
+          await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
+          if (resetRequests) delete resetRequests[v];
+          if (session && session.username === v) { session.ph = ph; saveSession(); if (cache[v]) { cache[v].passwordHash = ph; saveCache(); } }
+        })) { msg = ""; alert("Đã đặt lại mật khẩu cho @" + v + " thành công!"); render(); }
         return;
       }
+
       if (act === "deluser") {
-        if (!confirm("Xóa vĩnh viễn tài khoản " + v + " và toàn bộ tiến độ học của họ?")) return;
-        if (await guard(async () => { await db(`study4_users/${v}`, "DELETE"); await db(`study4_progress/${v}`, "DELETE"); delete users[v]; if (inspectUser === v) inspectUser = null; })) render();
+        if (!confirm("Xóa tài khoản " + v + " và toàn bộ tiến độ học của họ?")) return;
+        if (await guard(async () => {
+          await db("study4_users/" + v, "DELETE");
+          await db("study4_progress/" + v, "DELETE");
+          await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
+          delete users[v];
+          if (resetRequests) delete resetRequests[v];
+          if (inspectUser === v) inspectUser = null;
+        })) render();
         return;
       }
+
       if (act === "savecfg") {
         const note = box.querySelector("#admNote").value.trim() || DEFAULT_CONFIG.contactNote;
-        const fv = Math.max(0, Math.min(20, Number(box.querySelector("#admFreeV").value) || 0));
-        const fg = Math.max(0, Math.min(30, Number(box.querySelector("#admFreeG").value) || 0));
         const bCode = (box.querySelector("#admBankCode") ? box.querySelector("#admBankCode").value.trim() : config.bankCode) || "MB";
         const bAcc = (box.querySelector("#admBankAcc") ? box.querySelector("#admBankAcc").value.trim() : config.bankAccount) || "0988888888";
         const bOwner = (box.querySelector("#admBankOwner") ? box.querySelector("#admBankOwner").value.trim().toUpperCase() : config.bankOwner) || "HOANG NGUYEN";
-        const p6m = Number(box.querySelector("#admPrice6M") ? box.querySelector("#admPrice6M").value : config.price6M) || 99000;
-        const pLife = Number(box.querySelector("#admPriceLife") ? box.querySelector("#admPriceLife").value : config.priceLife) || 199000;
+        const memo = (box.querySelector("#admTransferMemo") ? box.querySelector("#admTransferMemo").value.trim() : config.transferMemo) || "UNG HO STUDY4";
         const np = box.querySelector("#admNewPass").value;
-        if (np && np.length < 6) { msg = "Mật khẩu mới phải từ 6 ký tự."; return render(); }
+
+        if (np && np.length < 6) { msg = "Mật khẩu Admin mới phải từ 6 ký tự."; return render(); }
+
         if (await guard(async () => {
-          config.contactNote = note; config.freeVocabTopicsCount = fv; config.freeGrammarSectionsCount = fg;
-          config.bankCode = bCode; config.bankAccount = bAcc; config.bankOwner = bOwner;
-          config.price6M = p6m; config.priceLife = pLife;
-          saveConfig(); await pushConfig();
-          if (np) { const ph = await hashPw("admin", np); await db("study4_users/admin", "PATCH", { passwordHash: ph }); session.ph = ph; saveSession(); if (cache.admin) { cache.admin.passwordHash = ph; saveCache(); } }
-        })) { alert("✅ Đã lưu cấu hình thanh toán & hệ thống thành công!"); render(); }
+          config.contactNote = note;
+          config.bankCode = bCode;
+          config.bankAccount = bAcc;
+          config.bankOwner = bOwner;
+          config.transferMemo = memo;
+          saveConfig();
+          await pushConfig();
+
+          if (np) {
+            const ph = await hashPw("admin", np);
+            await db("study4_users/admin", "PATCH", { passwordHash: ph });
+            session.ph = ph;
+            saveSession();
+            if (cache.admin) { cache.admin.passwordHash = ph; saveCache(); }
+          }
+        })) {
+          alert("Đã lưu cấu hình hệ thống & thông tin QR Donate thành công!");
+          render();
+        }
         return;
       }
-    });
-    box.addEventListener("change", async ev => {
-      const el = ev.target.closest("[data-act='role']");
-      if (!el) return;
-      const uname = el.dataset.v, role = el.value;
-      const patch = { role: role };
-      if (role === "vip" && !(users[uname] && users[uname].expiresAt)) patch.expiresAt = "PERM";
-      if (await guard(async () => { await db(`study4_users/${uname}`, "PATCH", patch); Object.assign(users[uname], patch); })) render();
     });
 
     load();
   }
-
-  /* ---------- Cài app ---------- */
+/* ---------- Cài app ---------- */
   let deferredPrompt = null;
   window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredPrompt = e; });
 
@@ -1821,17 +1852,9 @@
     if (btn && deferredPrompt) btn.onclick = () => { deferredPrompt.prompt(); deferredPrompt = null; closeModals(); };
   }
 
-  /* ---------- Phân quyền nội dung ---------- */
-  function canAccessVocabTopic(topicName, allTopicsList) {
-    if (isFullAccess()) return true;
-    if (topicName === "ALL" || topicName === "ALL_DUE") return false;
-    const idx = allTopicsList.indexOf(topicName);
-    return idx >= 0 && idx < config.freeVocabTopicsCount;
-  }
-  function canAccessGrammarSection(sectionIndexZeroBased) {
-    if (isFullAccess()) return true;
-    return sectionIndexZeroBased < config.freeGrammarSectionsCount;
-  }
+  /* ---------- Phân quyền nội dung (Mở khóa 100% miễn phí) ---------- */
+  function canAccessVocabTopic() { return true; }
+  function canAccessGrammarSection() { return true; }
 
   async function logout() {
     const cur = session;
@@ -1854,7 +1877,7 @@
   window.S4Auth = {
     getCurrentUser, isFullAccess, isAdmin, daysRemaining,
     canAccessVocabTopic, canAccessGrammarSection,
-    openLoginModal, openProfileModal, openActivateModal, openAdminModal, openInstallModal, closeModals,
+    openLoginModal, openProfileModal, openActivateModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
     logout, syncNow: () => syncProgress(false)
   };
 
@@ -1865,12 +1888,12 @@
       try { firstConfigChanged = await Promise.race([fetchConfig(), new Promise((_, rej) => setTimeout(rej, 4000))]); } catch (e) {}
     }
     renderTopBar();
-    if (config.authEnforced && !getCurrentUser()) openLoginModal(true);
+    /* Mở tự do 100% không ép đăng nhập */
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       if (window.caches) {
         caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v12").forEach(k => caches.delete(k));
+          keys.filter(k => k !== "study4-ielts-cache-v16").forEach(k => caches.delete(k));
         }).catch(() => {});
       }
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";

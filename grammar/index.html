@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
   (function () {
     try {
@@ -14,12 +19,15 @@
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      var ua = navigator.userAgent || "";
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
+      if (isIOS && isStandalone) {
+        document.documentElement.style.setProperty("--s4-safe-top", window.screen.height >= 812 ? "50px" : "24px");
+      }
     } catch (e) {}
   })();
-</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-  <meta name="theme-color" id="metaThemeColor" content="#f1f5f9">
+  </script>
   <link rel="manifest" href="manifest.json">
   <title>Study4 Grammar & Luyện Tập Offline (120 Bài)</title>
   
@@ -115,9 +123,12 @@
     .practice-body select, .practice-body input[type="text"], .practice-body input.vocab-input { padding: 6px 10px; border: 2px solid #94a3b8; border-radius: 6px; font-size: 15px; font-weight: 600; background: var(--card); color: var(--text); margin: 3px 4px; max-width: 100%; }
     .practice-body input.vocab-input-sentence { width: 100%; max-width: 620px; display: block; margin-top: 6px; }
     .practice-body .vocab-order-sentence { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-weight: 600; margin-bottom: 4px; }
-    .practice-body .ans-correct { border-color: #16a34a !important; background-color: #dcfce7 !important; color: #15803d !important; }
-    .practice-body .ans-wrong { border-color: #dc2626 !important; background-color: #fee2e2 !important; color: #b91c1c !important; }
-    .ans-hint { display: inline-block; margin-left: 6px; padding: 2px 7px; border-radius: 5px; background: #dcfce7; color: #15803d; font-weight: 700; font-size: 13px; }
+    .practice-body .ans-correct { border-color: #10b981 !important; background-color: rgba(16, 185, 129, 0.16) !important; color: #059669 !important; }
+    .practice-body .ans-wrong { border-color: #ef4444 !important; background-color: rgba(239, 68, 68, 0.15) !important; color: #dc2626 !important; }
+    html.dark .practice-body .ans-correct, body.dark .practice-body .ans-correct { background-color: rgba(16, 185, 129, 0.22) !important; color: #6ee7b7 !important; }
+    html.dark .practice-body .ans-wrong, body.dark .practice-body .ans-wrong { background-color: rgba(239, 68, 68, 0.22) !important; color: #fca5a5 !important; }
+    .ans-hint { display: inline-flex; align-items: center; margin-left: 6px; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.4); color: #065f46; font-weight: 700; font-size: 13px; }
+    html.dark .ans-hint, body.dark .ans-hint { background: rgba(16, 185, 129, 0.22); border-color: rgba(16, 185, 129, 0.45); color: #6ee7b7; }
     .s4-g-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
     .s4-g-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .s4-g-toast.good { background: #16a34a; }
@@ -137,7 +148,7 @@
       .container { padding: 18px 14px; border-radius: 10px; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=16">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=24">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -146,6 +157,7 @@
     <div class="sidebar-header">
       <h2><a href="../index.html#ielts" class="home-pill" title="Về Khóa học IELTS">🏠</a> 📚 Ngữ pháp IELTS</h2>
       <div style="display:flex;align-items:center;gap:6px;">
+        <button class="theme-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án & Mặt trận Tổ quốc" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;font-size:12px;font-weight:700;padding:5px 9px;">💖 Ủng hộ</button>
         <button class="theme-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
         <button class="close-menu-btn" onclick="toggleMenu(false)">×</button>
       </div>
@@ -171,7 +183,7 @@
     </div>
   </div>
 
-  <script src="../auth.js?v=16"></script>
+  <script src="../auth.js?v=18"></script>
   <script src="grammar_data.js"></script>
   <script>
     if (localStorage.getItem("s4_vocab_dark") === "1") {
@@ -188,11 +200,7 @@
     };
     const ITEMS = window.STUDY4_GRAMMAR_DATA || [];
     const ALL_SECTIONS = Array.from(new Set(ITEMS.map(x => x.unitTitle + "||" + x.sectionName)));
-    function canAccessLesson(l) {
-      if (!window.S4Auth) return true;
-      const idx = ALL_SECTIONS.indexOf(l.unitTitle + "||" + l.sectionName);
-      return window.S4Auth.canAccessGrammarSection(idx);
-    }
+    function canAccessLesson() { return true; }
     const listEl = document.getElementById("lessonList");
     const contentEl = document.getElementById("lessonContent");
     const searchInput = document.getElementById("searchInput");
@@ -279,7 +287,7 @@
           secIndex++;
           const secKey = uTitle + "||" + secName;
           const globalSecIdx = ALL_SECTIONS.indexOf(secKey);
-          const secUnlocked = !window.S4Auth || window.S4Auth.canAccessGrammarSection(globalSecIdx);
+          const secUnlocked = true;
           const isOpen = (!!q || openSections.has(secKey)) && secUnlocked;
           const doneCount = lessons.filter(x => completedMap[x.id]).length;
 
@@ -297,7 +305,7 @@
             toggleSection(secKey);
           };
           header.innerHTML = `
-            <span style="line-height:1.35;">${secIndex}. ${secName} ${secUnlocked ? "" : '<span class="s4-lock-tag">🔒 VIP</span>'}</span>
+            <span style="line-height:1.35;">${secIndex}. ${secName}</span>
             <span class="sec-meta">
               <span style="${doneCount === lessons.length ? 'color:#16a34a;font-weight:800;' : ''}">${doneCount}/${lessons.length}</span>
               <span>${isOpen ? "▼" : "▶"}</span>
@@ -342,7 +350,165 @@
       selectItem(id, false);
     };
 
-    function selectItem(id, resetScroll = true) {
+    
+window.S4FormatTheoryHtml = function(rawHtml) {
+  if (!rawHtml || typeof rawHtml !== 'string') return '';
+  let html = rawHtml;
+
+  // 1. Remove empty spacer paragraphs (<p>&nbsp;</p>, <p><span>&nbsp;</span></p>, etc.)
+  html = html.replace(/<p\b[^>]*>(?:\s|&nbsp;|\u00a0|<br\s*\/?>|<(?:span|strong|em|u)\b[^>]*>(?:\s|&nbsp;|\u00a0|<br\s*\/?>)*<\/(?:span|strong|em|u)>)*<\/p>/gi, '');
+
+  // 2. Convert Google Docs single-item <ol><li style="list-style-type:upper-roman|decimal"><h1|h2>...</h1|h2></li></ol> into structured section headers
+  const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+  html = html.replace(/<ol(?:\s+start="(\d+)")?\s*>\s*<li\b([^>]*)>\s*<(h[1-3])\b[^>]*>([\s\S]*?)<\/\3>\s*<\/li>\s*<\/ol>/gi, function(m, startNum, liAttr, hTag, inner) {
+    const idx = startNum ? Math.max(1, parseInt(startNum, 10)) : 1;
+    const isRoman = /upper-roman/i.test(liAttr);
+    const isAlpha = /upper-alpha/i.test(liAttr);
+    const badge = isRoman ? (ROMAN[idx - 1] || idx) : (isAlpha ? String.fromCharCode(64 + idx) : String(idx));
+    const isSub = hTag.toLowerCase() !== 'h1' && !isRoman;
+    const cleanInner = inner.replace(/&nbsp;/gi, ' ').trim();
+    if (isSub) {
+      return '<div class="s4-subsec-heading"><span class="s4-subsec-badge">' + badge + '</span><span class="s4-subsec-title">' + cleanInner + '</span></div>';
+    }
+    return '<div class="s4-sec-heading"><span class="s4-sec-badge">' + badge + '</span><span class="s4-sec-title">' + cleanInner + '</span></div>';
+  });
+
+  // 3. Convert Google Docs fake bullet paragraphs <p style="...list-style-type:disc...">...</p>
+  html = html.replace(/<p\b([^>]*style\s*=\s*"[^"]*list-style-type\s*:\s*disc[^"]*"[^>]*)>([\s\S]*?)<\/p>/gi, '<p class="s4-pseudo-li">$2</p>');
+
+  // 4. Process all tags with a style="..." attribute
+  html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?)\sstyle\s*=\s*"([^"]*)"([^>]*)>/gi, function(full, tag, before, styleStr, after) {
+    const t = tag.toLowerCase();
+    const classes = [];
+    let s = styleStr;
+
+    // Highlight background colors -> soft pastel badge classes
+    if (/background(?:-color)?\s*:\s*#ffff00\b/i.test(s)) {
+      classes.push('s4-hl-amber');
+      s = s.replace(/background(?:-color)?\s*:\s*#ffff00\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#00ffff\b/i.test(s)) {
+      classes.push('s4-hl-sky');
+      s = s.replace(/background(?:-color)?\s*:\s*#00ffff\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#00ff00\b/i.test(s)) {
+      classes.push('s4-hl-emerald');
+      s = s.replace(/background(?:-color)?\s*:\s*#00ff00\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#ff9900\b/i.test(s)) {
+      classes.push('s4-hl-rose');
+      s = s.replace(/background(?:-color)?\s*:\s*#ff9900\s*;?/gi, '');
+    }
+
+    // Table header / accent cell backgrounds (#9fc5e8, #a4c2f4)
+    if (/background(?:-color)?\s*:\s*#(?:9fc5e8|a4c2f4)\b/i.test(s)) {
+      classes.push('s4-td-accent');
+      s = s.replace(/background(?:-color)?\s*:\s*#(?:9fc5e8|a4c2f4)\s*;?/gi, '');
+    }
+
+    // Strip white / light gray / transparent backgrounds that break Dark Mode
+    s = s.replace(/background(?:-color)?\s*:\s*(?:#ffffff|#fff|#f1f3f5|white|transparent)\s*;?/gi, '');
+
+    // Foreground text colors
+    if (/(?:^|[;\s])color\s*:\s*#ff0000\b/i.test(s)) {
+      classes.push('s4-txt-red');
+      s = s.replace(/(?:^|[;\s])color\s*:\s*#ff0000\s*;?/gi, '');
+    }
+    if (/(?:^|[;\s])color\s*:\s*(?:#1155cc|#0000ff|#6d9eeb|rgb\(\s*53\s*,\s*80\s*,\s*154\s*\))/i.test(s)) {
+      classes.push('s4-txt-blue');
+      s = s.replace(/(?:^|[;\s])color\s*:\s*(?:#1155cc|#0000ff|#6d9eeb|rgb\(\s*53\s*,\s*80\s*,\s*154\s*\))\s*;?/gi, '');
+    }
+    // Strip hardcoded dark/black text colors
+    s = s.replace(/(?:^|[;\s])color\s*:\s*(?:#000000|#000|black|#1a1a1a|#242938)\s*;?/gi, '');
+
+    // Clean up table, td, th, img, span fixed pixel dimensions & borders
+    if (t === 'table' || t === 'td' || t === 'th' || t === 'img' || t === 'span') {
+      s = s.replace(/\b(?:width|height)\s*:\s*[\d.]+px\s*;?/gi, '');
+      s = s.replace(/\btable-layout\s*:\s*fixed\s*;?/gi, '');
+      s = s.replace(/\bborder(?:-(?:top|bottom|left|right))?\s*:\s*[\d.]+px\s+solid\s+#[0-9a-fA-F]+\s*;?/gi, '');
+      s = s.replace(/\boverflow\s*:\s*hidden\s*;?/gi, '');
+    }
+
+    // Soften excessive Google Docs left margins and remove justify alignment
+    s = s.replace(/\btext-align\s*:\s*justify\s*;?/gi, '');
+    s = s.replace(/\bmargin-left\s*:\s*(\d+)px\s*;?/gi, function(_, px) {
+      const n = parseInt(px, 10);
+      if (n >= 120) return 'margin-left:28px;';
+      if (n >= 70) return 'margin-left:20px;';
+      if (n >= 36) return 'margin-left:12px;';
+      return '';
+    });
+
+    s = s.replace(/;\s*;/g, ';').trim().replace(/^;+|;+$/g, '').trim();
+
+    let combinedBeforeAfter = before + after;
+    if (classes.length > 0) {
+      if (/\bclass\s*=\s*"([^"]*)"/i.test(combinedBeforeAfter)) {
+        combinedBeforeAfter = combinedBeforeAfter.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, existing) {
+          return 'class="' + (existing + ' ' + classes.join(' ')).trim() + '"';
+        });
+      } else {
+        combinedBeforeAfter = ' class="' + classes.join(' ') + '"' + combinedBeforeAfter;
+      }
+    }
+
+    const styleAttr = s ? ' style="' + s + '"' : '';
+    return '<' + tag + combinedBeforeAfter + styleAttr + '>';
+  });
+
+  // 5. Move leading/trailing spaces outside highlight pills so borders hug the words cleanly
+  html = html.replace(/<span\s+class="(s4-hl-[a-z0-9\s-]+)">(\s*)([\s\S]*?)(\s*)<\/span>/gi, function(m, cls, lead, inner, trail) {
+    if (!inner.trim()) return lead + trail;
+    return (lead || '') + '<span class="' + cls + '">' + inner + '</span>' + (trail || '');
+  });
+
+  // 6. Merge accidentally split paragraph lines right before "⇒ Paragraph X" (e.g. Question 18 in L15)
+  html = html.replace(/<p>([\s\S]*?,)<\/p>\s*<p>(\s*(?:<span[^>]*>)*\s*[a-z][\s\S]*?)<\/p>(?=\s*<p[^>]*>\s*(?:<[^>]+>)*\s*(?:⇒|→|=>)\s*Paragraph)/gi, '<p>$1 $2</p>');
+
+  // 7. Classify <p> blocks into Step Callouts, Question Cards, Passage Excerpts, Answer Pills, and Note Callouts
+  html = html.replace(/<p(\b[^>]*)>([\s\S]*?)<\/p>/gi, function(full, pAttr, inner) {
+    if (/s4-pseudo-li/i.test(pAttr)) return full;
+    const plain = inner.replace(/<[^>]+>/g, '').replace(/&nbsp;|\u00a0/g, ' ').replace(/&rarr;/g, '→').replace(/\s+/g, ' ').trim();
+    if (!plain) return full;
+
+    // 7a. Step Callout: "Bước 1: ...", "Bước 3 + Bước 4 + Bước 5"
+    if (/^Bước\s*\d+/i.test(plain) && plain.length < 160) {
+      return '<div class="s4-step-callout"><span class="s4-step-icon">🧭</span><div class="s4-step-body">' + inner + '</div></div>';
+    }
+
+    // 7b. Question Card: "Question 14: ...", "Practice 1: ..."
+    if (/^(?:Question\s*\d+|Practice\s*\d+)\s*[:.]/i.test(plain)) {
+      const decorated = inner.replace(/(?:<u>\s*)?(Question\s*\d+|Practice\s*\d+)\s*:?\s*(?:<\/u>)?(?:\s*<\/span>\s*<span[^>]*>)?\s*[:.]?\s*/i, '<span class="s4-q-badge">$1</span> ');
+      return '<div class="s4-question-card">' + decorated + '</div>';
+    }
+
+    // 7c. Passage Excerpt: starts with "A. ", "B. ", ..., "I. " and is a passage paragraph (> 60 chars)
+    if (/^[A-I]\.\s+/.test(plain) && plain.length > 60) {
+      const decorated = inner.replace(/^(\s*(?:<[^>]+>\s*)*)([A-I])\.?(\s*(?:<\/[^>]+>\s*)*)/, '$1<span class="s4-para-badge">Đoạn $2</span>$3 ');
+      return '<div class="s4-passage-excerpt">' + decorated + '</div>';
+    }
+
+    // 7d. Answer Pill or Conclusion Box: starts with "→", "⇒", "=>", or "Đáp án:"
+    if (/^(?:→|⇒|=>)\s*/i.test(plain) || /^Đáp án\s*:/i.test(plain)) {
+      const isShortAnswer = /^(?:→|⇒|=>)\s*(?:Paragraph\s+[A-Z]|Đáp án|Key|Answer|Main topic)/i.test(plain) || /^Đáp án\s*:/i.test(plain) || plain.length < 75;
+      if (isShortAnswer) {
+        return '<div class="s4-answer-wrap"><div class="s4-answer-pill">🎯 ' + inner.replace(/^(\s*(?:<[^>]+>\s*)*)(?:→|⇒|=>)\s*/, '$1') + '</div></div>';
+      }
+      return '<div class="s4-conclusion-box">' + inner + '</div>';
+    }
+
+    // 7e. Note Callout: starts with "Lưu ý:", "Chú ý:"
+    if (/^(?:Lưu ý|Chú ý|Mẹo)\s*:/i.test(plain)) {
+      return '<div class="s4-note-callout">💡 ' + inner + '</div>';
+    }
+
+    return full;
+  });
+
+  return html;
+};
+
+function selectItem(id, resetScroll = true) {
       let curLesson = ITEMS.find(x => x.id === id) || ITEMS[0];
       if (curLesson && !canAccessLesson(curLesson)) {
         if (window.S4Auth) window.S4Auth.openActivateModal(curLesson.sectionName);
@@ -352,8 +518,15 @@
       activeId = id;
       activeProbIdx = 0;
       localStorage.setItem("s4_grammar_last", id);
-      if (curLesson) openSections.add(curLesson.unitTitle + "||" + curLesson.sectionName);
+      if (curLesson) {
+        openSections.clear();
+        openSections.add(curLesson.unitTitle + "||" + curLesson.sectionName);
+      }
       renderSidebar(searchInput.value);
+      setTimeout(() => {
+        const act = listEl.querySelector(".lesson-item.active");
+        if (act) { try { act.scrollIntoView({ block: "center", behavior: "auto" }); } catch (e) {} }
+      }, 50);
       const idx = ITEMS.findIndex(x => x.id === id);
       const l = ITEMS[idx];
       if (!l) return;
@@ -390,7 +563,7 @@
         <div class="resources-bar">${btnsHtml}</div>
         ${l.localPdfPath ? '<iframe id="pdfFrame" class="pdf-preview" src="' + l.localPdfPath + '"></iframe>' : ''}
         ${practiceHtml}
-        ${l.notesHtml ? '<div class="notes-area">' + l.notesHtml + '</div>' : ''}
+        ${l.notesHtml ? '<div class="notes-area">' + window.S4FormatTheoryHtml(l.notesHtml) + '</div>' : ''}
         <div class="nav-footer">
           ${prevItem ? '<button class="btn btn-done" onclick="selectItem(\'' + prevItem.id + '\')">&larr; Bài ' + prevItem.index + '</button>' : '<div></div>'}
           ${nextItem ? '<button class="btn btn-pdf" onclick="selectItem(\'' + nextItem.id + '\')">Bài ' + nextItem.index + ': ' + nextItem.title.slice(0, 28) + '... &rarr;</button>' : '<div></div>'}
@@ -434,7 +607,7 @@
             <button class="btn btn-clear" onclick="clearPracticeAnswers()">🔄 Làm lại</button>
           </div>
           <div id="scoreBanner" class="score-banner"></div>
-          <div class="practice-body" id="practiceBody">${q.bodyHtml}</div>
+          <div class="practice-body" id="practiceBody">${window.S4FormatTheoryHtml(q.bodyHtml)}</div>
         </div>
       `;
 
@@ -458,6 +631,16 @@
       });
       // 3. Nhấn Enter trong ô điền từ bất kỳ để kiểm tra tức thì ô đó và hiện thông báo Đúng/Sai
       body.querySelectorAll("input[data-answer], select[data-answer]").forEach(el => {
+        el.addEventListener("focus", () => {
+          setTimeout(() => {
+            try { el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }); } catch (e) {}
+          }, 150);
+        });
+        el.addEventListener("input", () => {
+          el.classList.remove("ans-correct", "ans-wrong");
+          const next = el.nextElementSibling;
+          if (next && next.classList.contains("ans-hint")) next.remove();
+        });
         el.addEventListener("keydown", ev => {
           if (ev.key === "Enter") {
             ev.preventDefault();
@@ -588,6 +771,6 @@
     renderSidebar();
     if (activeId) selectItem(activeId);
   </script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=16"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>

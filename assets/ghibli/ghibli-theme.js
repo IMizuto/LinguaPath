@@ -9,6 +9,7 @@
   const STYLE_KEY = 's4_theme_style'; // 'ghibli' | 'default'
   const DARK_KEY = 's4_vocab_dark';   // '1' (dark) | '0' (light)
   const LITE_KEY = 's4_ghibli_lite';  // '1' (lite mode: tắt hiệu ứng nặng) | '0' (full)
+  const DOCK_MIN_KEY = 's4_dock_min'; // '1' (thu gọn dock) | '0' (mở rộng)
 
   // Detect base path relative to root
   const pathParts = location.pathname.replace(/\\/g, '/').split('/');
@@ -16,10 +17,6 @@
     d => pathParts.includes(d)
   );
   const assetPrefix = inSubdir ? '../assets/ghibli/' : 'assets/ghibli/';
-
-  // Set CSS custom properties for background & banner image URLs
-  
-  
 
   const GHIBLI_QUOTES = [
     '🌿 "Mỗi từ vựng hôm nay là một hạt mầm nở hoa trong khu rừng tri thức!"',
@@ -96,6 +93,19 @@
       btn.classList.toggle('active', targetDark === isDark);
     });
 
+    // Đồng bộ biểu tượng Sáng (☀️) / Tối (🌙) trên tất cả các nút chuyển đổi giao diện
+    document.querySelectorAll('button[onclick*="toggleDark"], .dark-btn, .theme-btn').forEach(btn => {
+      if (btn.classList.contains('s4-theme-opt')) return;
+      btn.textContent = isDark ? '☀️' : '🌙';
+      btn.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+    });
+
+    // Cập nhật màu thanh trình duyệt (meta theme-color)
+    const mt = document.getElementById('metaThemeColor');
+    if (mt) {
+      mt.setAttribute('content', isDark ? (style === 'ghibli' ? '#121e1a' : '#0f172a') : (style === 'ghibli' ? '#f4efe1' : '#f1f5f9'));
+    }
+
     // Update Portal Ghibli Banner visibility & dark/light appearance
     const bannerBox = document.getElementById('ghibliPortalBanner');
     if (bannerBox) {
@@ -135,6 +145,25 @@
     const nextLite = !getSavedLite();
     localStorage.setItem(LITE_KEY, nextLite ? '1' : '0');
     applyThemeState();
+  };
+
+  // Thu gọn / Mở rộng thanh Dock Ghibli ở góc phải dưới
+  window.toggleThemeDockMinimize = function (forceState) {
+    const dock = document.getElementById('s4ThemeDock');
+    if (!dock) return;
+    const nextMin = typeof forceState === 'boolean' ? forceState : !dock.classList.contains('minimized');
+    dock.classList.toggle('minimized', nextMin);
+    localStorage.setItem(DOCK_MIN_KEY, nextMin ? '1' : '0');
+    const toggleBtn = dock.querySelector('.s4-dock-toggle');
+    if (toggleBtn) {
+      toggleBtn.textContent = nextMin ? '' : '▾';
+      toggleBtn.title = nextMin ? 'Mở thanh giao diện Ghibli' : 'Thu gọn thanh giao diện';
+    }
+    const stage = document.getElementById('ghibliSpritesStage');
+    if (stage) {
+      stage.style.opacity = nextMin ? '0' : '';
+      stage.style.pointerEvents = nextMin ? 'none' : '';
+    }
   };
 
   // Apply immediately on script load
@@ -228,7 +257,7 @@
         <button class="s4-theme-opt" id="btnGhibliLite" onclick="toggleGhibliLite()" title="Bật/Tắt hiệu ứng chuyển động cho máy yếu">
           <span class="s4-opt-icon">🍃</span><span class="s4-opt-text"> Nhẹ</span>
         </button>
-        <button class="s4-dock-toggle" onclick="toggleThemeDockMinimize()" title="Thu gọn / Mở rộng">▾</button>
+        <button class="s4-dock-toggle" onclick="toggleThemeDockMinimize()" title="Thu gọn / Mở rộng" style="display:inline-flex;">▾</button>
       `;
       document.body.appendChild(dock);
     }
@@ -332,22 +361,13 @@
       portalWrap.insertBefore(banner, portalWrap.firstChild);
     }
 
-    applyThemeState();
+    // Khôi phục trạng thái thu gọn của thanh Dock (Trên điện thoại <= 768px tự động thu gọn mặc định để không che chữ)
+    const savedMin = localStorage.getItem(DOCK_MIN_KEY);
+    if (savedMin === '1' || (savedMin === null && window.innerWidth <= 768)) {
+      window.toggleThemeDockMinimize(true);
+    }
 
-    // 5. Celebrate when user answers correctly (.correct class added)
-    const observer = new MutationObserver((mutations) => {
-      if (!document.documentElement.classList.contains('theme-ghibli')) return;
-      for (const m of mutations) {
-        if (m.type === 'attributes' && m.attributeName === 'class' && m.target.classList?.contains('correct')) {
-          const rect = m.target.getBoundingClientRect();
-          if (rect.width > 0) {
-            spawnKonpeitoBurst(rect.left + rect.width / 2, rect.top, 6);
-          }
-          break;
-        }
-      }
-    });
-    observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    applyThemeState();
   }
 
   if (document.readyState === 'loading') {

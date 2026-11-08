@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
   (function () {
     try {
@@ -14,11 +19,15 @@
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      var ua = navigator.userAgent || "";
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
+      if (isIOS && isStandalone) {
+        document.documentElement.style.setProperty("--s4-safe-top", window.screen.height >= 812 ? "50px" : "24px");
+      }
     } catch (e) {}
   })();
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  </script>
 <title>IELTS Intensive Reading — Từ vựng SRS, 318 Bài đọc & 876 Video Chữa đề</title>
 <link rel="preload" href="data/reading_manifest.js" as="script">
 <style>
@@ -327,7 +336,7 @@
   }
 
   /* Main Area */
-  .main-area { flex: 1; overflow-y: auto; padding: 20px 26px 60px; }
+  .main-area { flex: 1; min-width: 0; overflow-y: auto; overflow-x: hidden; padding: 20px 26px 60px; }
   .lesson-container { max-width: 1060px; margin: 0 auto;  }
   .lesson-header {
     display: flex;
@@ -496,7 +505,7 @@
   /* Reading Split Layout */
   .reading-grid {
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: minmax(0, 1fr) 290px;
     gap: 18px;
     align-items: start;
   }
@@ -526,6 +535,214 @@
     transition: all 0.15s;
   }
   .vocab-hl:hover { background: rgba(16, 185, 129, 0.35); color: #fff; }
+
+  /* Reading Synonyms & Paraphrase (2-Column Split + Practice + Table) */
+  .syn-subbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .syn-sub-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .syn-sub-btn {
+    padding: 7px 13px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--box-sub);
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .syn-sub-btn:hover { border-color: var(--primary); }
+  .syn-sub-btn.active {
+    background: rgba(16, 185, 129, 0.22);
+    border-color: #10b981;
+    color: var(--hl-green);
+  }
+  .syn-pair-banner {
+    padding: 10px 14px;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .syn-split-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    gap: 16px;
+    align-items: start;
+  }
+  @media (max-width: 960px) {
+    .syn-split-grid { grid-template-columns: 1fr; }
+  }
+  .syn-col-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text);
+  }
+  .syn-col-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--hl-cyan);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .syn-col-card p { margin-bottom: 12px; }
+  .syn-col-card .paraitem.synonym {
+    background: rgba(245, 158, 11, 0.16);
+    color: var(--hl-gold);
+    border-bottom: 2px dashed #f59e0b;
+    padding: 1px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.16s;
+  }
+  .syn-col-card .paraitem.synonym:hover {
+    background: rgba(245, 158, 11, 0.32);
+  }
+  .syn-col-card .paraitem.synonym.syn-active {
+    background: rgba(16, 185, 129, 0.28) !important;
+    color: #6ee7b7 !important;
+    border-bottom: 2px solid #10b981 !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35);
+  }
+  .syn-col-card .paraitem.synonym.syn-wrong {
+    background: rgba(239, 68, 68, 0.25) !important;
+    color: #fca5a5 !important;
+    border-bottom: 2px solid #ef4444 !important;
+  }
+  .syn-col-card .paraitem-question {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 5px;
+    border-radius: 4px;
+    background: rgba(56, 189, 248, 0.24);
+    color: #38bdf8;
+    font-size: 11px;
+    font-weight: 800;
+    vertical-align: baseline;
+  }
+  .syn-col-card .question-group-wrapper {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .syn-col-card .question-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--box-sub);
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+  .syn-col-card .question-number {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.18);
+    color: var(--hl-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .syn-col-card .question-content { flex: 1; min-width: 0; }
+  .syn-col-card .question-answers ul { list-style: none; padding-left: 4px; margin: 6px 0; }
+  .syn-col-card .question-answers li { margin-bottom: 4px; font-size: 14px; }
+  .syn-col-card .question-correct {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 9px;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: var(--hl-green);
+    font-size: 12.5px;
+    font-weight: 800;
+  }
+  .syn-col-card .question-correct::before { content: "✓ Đáp án: "; }
+  .syn-col-card table { width: 100% !important; border-collapse: collapse; margin: 10px 0; }
+  .syn-col-card td, .syn-col-card th { border: 1px solid var(--border) !important; padding: 6px 10px !important; }
+  .syn-table-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .syn-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .syn-table th {
+    text-align: left;
+    padding: 12px 14px;
+    background: var(--box-sub);
+    color: var(--hl-cyan);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .syn-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .syn-table tr:hover td { background: rgba(16, 185, 129, 0.08); cursor: pointer; }
+  .syn-opt-btn {
+    width: 100%;
+    text-align: left;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--box-sub);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: all 0.15s;
+  }
+  .syn-opt-btn:hover { border-color: var(--primary); }
+  .syn-opt-btn.correct {
+    background: rgba(16, 185, 129, 0.16) !important;
+    border-color: #10b981 !important;
+    color: var(--hl-green) !important;
+  }
+  .syn-opt-btn.wrong {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: #ef4444 !important;
+    color: #fca5a5 !important;
+  }
 
   /* Sticky Vocab Inspector */
   .vocab-inspector {
@@ -730,14 +947,14 @@
   }
 
 </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=16">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=24">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
 
 <header class="topbar">
   <div class="topbar-left">
-    <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;">☰ Bài học</button>
+    <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;" title="Thu gọn / Mở rộng danh sách bài bên trái"><span class="s4-desk-sb-lbl">◀ Ẩn mục lục</span><span class="s4-mob-sb-lbl">☰ Mục lục</span></button>
     <a href="../index.html#ielts" class="back-btn">← Khóa IELTS</a>
     <div class="brand-title"><span>📖 IELTS Intensive Reading</span></div>
   </div>
@@ -745,12 +962,13 @@
   <div class="top-switch">
     <button class="top-switch-btn active" id="topBtn_u_3" onclick="quickSwitchUnit('u_3')">🃏 Từ vựng Chủ đề & SRS (2,969 từ)</button>
     <button class="top-switch-btn" id="topBtn_u_2" onclick="quickSwitchUnit('u_2')">📖 318 Bài đọc & Từ vựng</button>
+    <button class="top-switch-btn" id="topBtn_pz" onclick="openReadingPracticeZone()">🎯 Practice Zone (106 đề)</button>
     <button class="top-switch-btn" id="topBtn_u_1" onclick="quickSwitchUnit('u_1')">🎬 Chiến thuật (16 bài)</button>
     <button class="top-switch-btn" id="topBtn_u_4" onclick="quickSwitchUnit('u_4')">📝 Chữa đề chi tiết (876 video)</button>
   </div>
 
   <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
-    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
+    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
     <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">🌙</button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
   </div>
@@ -797,6 +1015,7 @@
 
 <audio id="ttsAudioPlayer" style="display:none;"></audio>
 <script src="data/reading_manifest.js"></script>
+<script src="../assets/s4-vocab-engine.js?v=16"></script>
 <script>
 (function() {
   if (location.protocol === 'file:') {
@@ -815,7 +1034,75 @@ const SRS_KEY = 's4_reading_srs_v1';
 let doneSet = new Set(JSON.parse(localStorage.getItem(DONE_KEY) || '[]'));
 let srsMap = JSON.parse(localStorage.getItem(SRS_KEY) || '{}');
 let currentLesson = null;
-let currentMode = 'smart_learn'; // 'passage' | 'smart_learn' | 'srs_review' | 'flashcards' | 'quiz' | 'matching' | 'listen' | 'spelling'
+let currentMode = 'smart'; // 'passage' | 'synonyms' | 'smart' | 'flashcard' | 'quiz' | 'listen' | 'match' | 'cloze' | 'list'
+let synSubMode = 'learn'; // 'learn' | 'practice' | 'table'
+let activeSynUid = '';
+let synPracIdx = 0;
+let synPracFeedback = '';
+let synPracIsCorrect = false;
+let synPracOptions = [];
+let synPracCacheKey = '';
+let synChunkState = 'idle';
+
+function ensureSynonymsLoaded(cb) {
+  if (window.__STUDY4_READ_SYNONYMS) {
+    cb && cb();
+    return;
+  }
+  if (synChunkState === 'loading') {
+    const iv = setInterval(() => {
+      if (window.__STUDY4_READ_SYNONYMS) {
+        clearInterval(iv);
+        cb && cb();
+      }
+    }, 30);
+    return;
+  }
+  synChunkState = 'loading';
+  const s = document.createElement('script');
+  s.src = 'data/reading_synonyms.js';
+  s.onload = () => {
+    synChunkState = 'done';
+    cb && cb();
+  };
+  s.onerror = () => {
+    synChunkState = 'error';
+    cb && cb();
+  };
+  document.head.appendChild(s);
+}
+
+function getActiveSynData() {
+  if (!currentLesson) return { leftHtml: '', rightHtml: '', pairs: [] };
+  const map = window.__STUDY4_READ_SYNONYMS || {};
+  const fromChunk = map[currentLesson.id];
+  const pairs = (fromChunk && fromChunk.pairs) || (currentLesson.problem && currentLesson.problem.synPairs) || [];
+  return {
+    leftHtml: fromChunk ? (fromChunk.leftHtml || '') : '',
+    rightHtml: fromChunk ? (fromChunk.rightHtml || '') : '',
+    pairs
+  };
+}
+
+if (window.S4VocabEngine) {
+  window.S4VocabEngine.init({
+    srsKey: SRS_KEY,
+    daysKey: 's4_reading_days_v1',
+    settingsKey: 's4_reading_settings_v1',
+    getSrsMap: () => srsMap,
+    onSaveSrs: () => { saveSrs(); renderSidebar(); },
+    playWordAudio: (v, lang) => playWordAudio(v, lang),
+    getExtraModeButtonsHtml: () => {
+      if (currentLesson && currentLesson.problem && currentLesson.problem.pType === 'reading_vocab') {
+        const paras = currentLesson.problem.paragraphs || [];
+        const synCnt = currentLesson.problem.synCount || (currentLesson.problem.synPairs || []).length || 0;
+        return `<button class="s4v-mode-btn" onclick="setMode('passage')">📖 Đọc song ngữ (${paras.length} đoạn)</button>` +
+               `<button class="s4v-mode-btn" onclick="setMode('synonyms')">🔄 Đồng/Trái nghĩa (${synCnt})</button>`;
+      }
+      return '';
+    }
+  });
+}
 let showViTrans = true;
 let selectedVocabIdx = 0;
 
@@ -977,22 +1264,82 @@ function speakWordFallback(text, lang = 'en-GB') {
   window.speechSynthesis.speak(u);
 }
 
-window.quickSwitchUnit = function(uid) {
-  ['u_3', 'u_2', 'u_1', 'u_4'].forEach(id => {
-    const btn = document.getElementById('topBtn_' + id);
-    if (btn) btn.classList.toggle('active', id === uid);
-    collapsedUnits[id] = (id !== uid);
+function syncActiveUnitUI(meta) {
+  if (!meta) return;
+  ['u_3', 'u_2', 'u_1', 'u_4'].forEach(uid => {
+    const btn = document.getElementById('topBtn_' + uid);
+    if (btn) btn.classList.toggle('active', meta.unitId === uid);
+    collapsedUnits[uid] = (meta.unitId !== uid);
   });
-  const firstInUnit = ALL_LESSONS.find(x => x.unitId === uid);
-  if (firstInUnit) {
-    selectLesson(firstInUnit.id);
-    setTimeout(() => {
-      const actEl = document.querySelector('#lessonList .lesson-item.active');
-      if (actEl) actEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }, 60);
+  if (meta.unitId === 'u_2') {
+    const bKey = 'u2_' + getBookName(meta.title);
+    const tKey = bKey + '_' + getTestName(meta.title);
+    collapsedBooks[bKey] = false;
+    collapsedTests[tKey] = false;
+  } else if (meta.unitId === 'u_4') {
+    const bKey = 'u4_' + getBookName(meta.group);
+    const tKey = bKey + '_' + meta.group;
+    collapsedBooks[bKey] = false;
+    collapsedTests[tKey] = false;
+  }
+  try {
+    const byUnit = JSON.parse(localStorage.getItem('s4_read_last_by_unit') || '{}');
+    byUnit[meta.unitId] = meta.id;
+    localStorage.setItem('s4_read_last_by_unit', JSON.stringify(byUnit));
+  } catch (e) {}
+}
+
+function scrollActiveLessonIntoView(smooth) {
+  setTimeout(() => {
+    const actEl = document.querySelector('#lessonList .lesson-item.active');
+    if (actEl) {
+      try { actEl.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' }); } catch (e) {}
+    }
+  }, 60);
+}
+
+window.quickSwitchUnit = function(uid) {
+  if (window.S4PracticeZone) window.S4PracticeZone.setReadingHubOpen(false);
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.remove('active');
+  let targetLesson = null;
+  try {
+    const byUnit = JSON.parse(localStorage.getItem('s4_read_last_by_unit') || '{}');
+    if (byUnit[uid]) {
+      targetLesson = ALL_LESSONS.find(x => x.id === byUnit[uid] && x.unitId === uid);
+    }
+  } catch (e) {}
+  if (!targetLesson) {
+    targetLesson = ALL_LESSONS.find(x => x.unitId === uid);
+  }
+  if (targetLesson) {
+    selectLesson(targetLesson.id);
+    scrollActiveLessonIntoView(true);
   } else {
+    ['u_3', 'u_2', 'u_1', 'u_4'].forEach(id => {
+      const btn = document.getElementById('topBtn_' + id);
+      if (btn) btn.classList.toggle('active', id === uid);
+      collapsedUnits[id] = (id !== uid);
+    });
     renderSidebar();
   }
+};
+
+window.openReadingPracticeZone = function() {
+  ['u_3', 'u_2', 'u_1', 'u_4'].forEach(id => {
+    const btn = document.getElementById('topBtn_' + id);
+    if (btn) btn.classList.remove('active');
+    collapsedUnits[id] = (id !== 'u_2');
+  });
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.add('active');
+  ensureChunkLoaded('u_2', function() {
+    ensureSynonymsLoaded(function() {
+      if (window.S4PracticeZone) window.S4PracticeZone.openReadingHub();
+      renderSidebar();
+      renderMain();
+    });
+  });
 };
 
 window.toggleUnitFolder = function(uid) {
@@ -1121,12 +1468,13 @@ window.renderSidebar = function() {
                         const isDone = doneSet.has(it.id);
                         const isActive = currentLesson && currentLesson.id === it.id;
                         const shortTitle = it.title.split('|').slice(1).join('|').trim() || it.title;
-                        const wCnt = (it.problem && it.problem.vocabList) ? it.problem.vocabList.length : 0;
+                        const wCnt = it.wordCount || ((it.problem && it.problem.vocabList) ? it.problem.vocabList.length : 0);
+                        const synCnt = it.synCount || ((it.problem && it.problem.synPairs) ? it.problem.synPairs.length : 0);
                         return `
                           <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
                             <div>
                               <div class="lesson-item-title">${shortTitle}</div>
-                              <div class="lesson-item-sub">📖 Đọc song ngữ • ${wCnt} từ vựng</div>
+                              <div class="lesson-item-sub">📖 Đọc song ngữ • ${wCnt} từ${synCnt ? ` • 🔄 ${synCnt} đồng nghĩa` : ''}</div>
                             </div>
                             <div class="done-badge">${isDone ? '✓' : ''}</div>
                           </div>
@@ -1262,6 +1610,13 @@ function initMatchingRound() {
 
 
 window.toggleMobileSidebar = function(force) {
+  if (window.innerWidth > 768) {
+    const nextCol = (typeof force === 'boolean') ? !force : !document.body.classList.contains('sidebar-collapsed');
+    document.body.classList.toggle('sidebar-collapsed', nextCol);
+    const deskLbl = document.querySelector('#btnToggleSidebar .s4-desk-sb-lbl');
+    if (deskLbl) deskLbl.textContent = nextCol ? '☰ Mở mục lục' : '◀ Ẩn mục lục';
+    return;
+  }
   const sb = document.querySelector('.sidebar');
   const bd = document.getElementById('sidebarBackdrop');
   if (!sb) return;
@@ -1271,31 +1626,22 @@ window.toggleMobileSidebar = function(force) {
   document.body.classList.toggle('sidebar-open', isOpen);
 };
 
-window.selectLesson = function(id) {
+window.selectLesson = function(id, forcedMode) {
   const meta = ALL_LESSONS.find(x => x.id === id);
   if (!meta) return;
+  if (window.S4PracticeZone) window.S4PracticeZone.setReadingHubOpen(false);
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.toggle('active', forcedMode === 'practice_test');
   localStorage.setItem(LAST_KEY, id);
-
-  ['u_3', 'u_2', 'u_1', 'u_4'].forEach(uid => {
-    const btn = document.getElementById('topBtn_' + uid);
-    if (btn) btn.classList.toggle('active', meta.unitId === uid);
-  });
-
-  collapsedUnits[meta.unitId] = false;
-  if (meta.unitId === 'u_2') {
-    const bKey = 'u2_' + getBookName(meta.title);
-    const tKey = bKey + '_' + getTestName(meta.title);
-    collapsedBooks[bKey] = false;
-    collapsedTests[tKey] = false;
-  } else if (meta.unitId === 'u_4') {
-    const bKey = 'u4_' + getBookName(meta.group);
-    const tKey = bKey + '_' + meta.group;
-    collapsedBooks[bKey] = false;
-    collapsedTests[tKey] = false;
+  syncActiveUnitUI(meta);
+  if (forcedMode === 'practice_test' && pzBtn) {
+    pzBtn.classList.add('active');
+    const u2Btn = document.getElementById('topBtn_u_2');
+    if (u2Btn) u2Btn.classList.remove('active');
   }
-
   currentLesson = meta;
   renderSidebar();
+  scrollActiveLessonIntoView(false);
 
   ensureChunkLoaded(meta.unitId, function() {
     const found = ALL_LESSONS.find(x => x.id === id);
@@ -1305,7 +1651,9 @@ window.selectLesson = function(id) {
       localStorage.setItem('s4_read_last_lesson_cache', JSON.stringify(found));
     } catch(e) {}
 
-    if (found.problem && found.problem.pType === 'topic_flashcards') {
+    if (forcedMode) {
+      currentMode = forcedMode;
+    } else if (found.problem && found.problem.pType === 'topic_flashcards') {
       currentMode = 'smart_learn';
     } else if (found.problem && found.problem.pType === 'reading_vocab') {
       currentMode = 'passage';
@@ -1328,22 +1676,186 @@ window.selectLesson = function(id) {
     buildSrsReviewQueue();
     initMatchingRound();
 
-    renderSidebar();
-    renderMain();
+    if (currentMode === 'practice_test' || currentMode === 'synonyms') {
+      ensureSynonymsLoaded(() => {
+        renderSidebar();
+        renderMain();
+      });
+    } else {
+      renderSidebar();
+      renderMain();
+    }
     document.getElementById('mainArea').scrollTop = 0;
   });
 };
 
 window.setMode = function(m) {
+  if (window.S4PracticeZone) {
+    window.S4PracticeZone.setReadingHubOpen(false);
+    if (m === 'practice_test') window.S4PracticeZone.enterCbtExamMode(true);
+    else window.S4PracticeZone.exitCbtExamMode();
+  }
   currentMode = m;
   fcFlipped = false;
   quizLocked = false;
   smartLocked = false;
+  if (m === 'synonyms' || m === 'practice_test') {
+    ensureSynonymsLoaded(() => renderMain());
+  }
   if (m === 'smart_learn' && smartQueue.length === 0) buildSmartLearnQueue();
   if (m === 'srs_review') buildSrsReviewQueue();
   if (m === 'matching') initMatchingRound();
   renderMain();
 };
+
+window.setSynSubMode = function(sm) {
+  synSubMode = sm;
+  synPracFeedback = '';
+  synPracIsCorrect = false;
+  renderMain();
+};
+
+window.selectSynUid = function(uid, side) {
+  if (!uid) return;
+  if (synSubMode === 'practice' && side === 'left') {
+    const synData = getActiveSynData();
+    const pairs = synData.pairs || [];
+    const curPair = pairs[synPracIdx];
+    if (!curPair) return;
+    if (uid === curPair.uid) {
+      synPracIsCorrect = true;
+      synPracFeedback = `✓ Chính xác! "${curPair.questionPhrase}" = "${curPair.passagePhrase}"`;
+      activeSynUid = uid;
+      renderMain();
+      setTimeout(() => {
+        if (currentMode === 'synonyms' && synSubMode === 'practice' && synPracIsCorrect) {
+          stepSynPractice(1);
+        }
+      }, 1100);
+    } else {
+      synPracIsCorrect = false;
+      const clickedPair = pairs.find(p => p.uid === uid);
+      synPracFeedback = `✗ Chưa đúng (bạn vừa chọn "${clickedPair ? clickedPair.passagePhrase : '...'}") — Đáp án đúng: <span class="dic-ans-hint">✓ ${curPair.passagePhrase}</span>`;
+      activeSynUid = curPair.uid;
+      renderMain();
+      setTimeout(() => scrollSynUidIntoView(curPair.uid, 'left'), 60);
+    }
+    return;
+  }
+  activeSynUid = uid;
+  highlightActiveSynUidInDom(uid);
+  const targetSide = side === 'left' ? 'right' : 'left';
+  scrollSynUidIntoView(uid, targetSide);
+};
+
+function highlightActiveSynUidInDom(uid) {
+  document.querySelectorAll('.syn-col-card .paraitem.synonym').forEach(el => {
+    el.classList.toggle('syn-active', el.getAttribute('data-uid') === uid);
+  });
+  const banner = document.getElementById('synActivePairBanner');
+  if (banner) {
+    const synData = getActiveSynData();
+    const found = (synData.pairs || []).find(p => p.uid === uid);
+    if (found) {
+      banner.innerHTML = `<span>🔗 <strong>Câu Q${found.qNum}:</strong> Trong câu hỏi <strong style="color:var(--hl-gold);">"${found.questionPhrase}"</strong> ↔ Trong bài đọc <strong style="color:var(--hl-green);">"${found.passagePhrase}"</strong></span>`;
+    }
+  }
+}
+
+function scrollSynUidIntoView(uid, side) {
+  const containerId = side === 'left' ? 'synLeftCol' : 'synRightCol';
+  const col = document.getElementById(containerId);
+  if (!col) return;
+  const target = col.querySelector(`.paraitem.synonym[data-uid="${uid}"]`);
+  if (target) {
+    try { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+  }
+}
+
+window.stepSynPractice = function(delta) {
+  const synData = getActiveSynData();
+  const pairs = synData.pairs || [];
+  if (!pairs.length) return;
+  synPracIdx = (synPracIdx + delta + pairs.length) % pairs.length;
+  synPracFeedback = '';
+  synPracIsCorrect = false;
+  synPracCacheKey = '';
+  activeSynUid = '';
+  renderMain();
+};
+
+window.checkSynChoice = function(btn, chosenUid) {
+  const synData = getActiveSynData();
+  const pairs = synData.pairs || [];
+  const curPair = pairs[synPracIdx];
+  if (!curPair) return;
+  if (chosenUid === curPair.uid) {
+    btn.classList.add('correct');
+    synPracIsCorrect = true;
+    synPracFeedback = `✓ Chính xác! "${curPair.questionPhrase}" = "${curPair.passagePhrase}"`;
+    activeSynUid = curPair.uid;
+    highlightActiveSynUidInDom(curPair.uid);
+    scrollSynUidIntoView(curPair.uid, 'left');
+    const fbEl = document.getElementById('synPracFeedbackBox');
+    if (fbEl) {
+      fbEl.style.color = '#34d399';
+      fbEl.innerHTML = synPracFeedback;
+    }
+    setTimeout(() => {
+      if (currentMode === 'synonyms' && synSubMode === 'practice' && synPracIsCorrect) {
+        stepSynPractice(1);
+      }
+    }, 1050);
+  } else {
+    btn.classList.add('wrong');
+    synPracIsCorrect = false;
+    synPracFeedback = `✗ Chưa đúng — Đáp án đúng trong bài đọc: <span class="dic-ans-hint">✓ ${curPair.passagePhrase}</span>`;
+    activeSynUid = curPair.uid;
+    highlightActiveSynUidInDom(curPair.uid);
+    scrollSynUidIntoView(curPair.uid, 'left');
+    const fbEl = document.getElementById('synPracFeedbackBox');
+    if (fbEl) {
+      fbEl.style.color = '#f87171';
+      fbEl.innerHTML = synPracFeedback;
+    }
+  }
+};
+
+window.jumpToSynUid = function(uid) {
+  activeSynUid = uid;
+  synSubMode = 'learn';
+  renderMain();
+  setTimeout(() => {
+    highlightActiveSynUidInDom(uid);
+    scrollSynUidIntoView(uid, 'left');
+    scrollSynUidIntoView(uid, 'right');
+  }, 80);
+};
+
+function bindSynColumnClicks() {
+  const leftCol = document.getElementById('synLeftCol');
+  const rightCol = document.getElementById('synRightCol');
+  if (leftCol) {
+    leftCol.querySelectorAll('.paraitem.synonym[data-uid]').forEach(el => {
+      const uid = el.getAttribute('data-uid');
+      if (uid === activeSynUid) el.classList.add('syn-active');
+      el.onclick = (e) => {
+        e.stopPropagation();
+        selectSynUid(uid, 'left');
+      };
+    });
+  }
+  if (rightCol) {
+    rightCol.querySelectorAll('.paraitem.synonym[data-uid]').forEach(el => {
+      const uid = el.getAttribute('data-uid');
+      if (uid === activeSynUid) el.classList.add('syn-active');
+      el.onclick = (e) => {
+        e.stopPropagation();
+        selectSynUid(uid, 'right');
+      };
+    });
+  }
+}
 
 window.toggleDoneCurrent = function() {
   if (!currentLesson) return;
@@ -1469,6 +1981,164 @@ function renderSrsSummaryBanner(vList) {
     </div>
   `;
 }
+
+
+window.S4FormatTheoryHtml = function(rawHtml) {
+  if (!rawHtml || typeof rawHtml !== 'string') return '';
+  let html = rawHtml;
+
+  // 1. Remove empty spacer paragraphs (<p>&nbsp;</p>, <p><span>&nbsp;</span></p>, etc.)
+  html = html.replace(/<p\b[^>]*>(?:\s|&nbsp;|\u00a0|<br\s*\/?>|<(?:span|strong|em|u)\b[^>]*>(?:\s|&nbsp;|\u00a0|<br\s*\/?>)*<\/(?:span|strong|em|u)>)*<\/p>/gi, '');
+
+  // 2. Convert Google Docs single-item <ol><li style="list-style-type:upper-roman|decimal"><h1|h2>...</h1|h2></li></ol> into structured section headers
+  const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+  html = html.replace(/<ol(?:\s+start="(\d+)")?\s*>\s*<li\b([^>]*)>\s*<(h[1-3])\b[^>]*>([\s\S]*?)<\/\3>\s*<\/li>\s*<\/ol>/gi, function(m, startNum, liAttr, hTag, inner) {
+    const idx = startNum ? Math.max(1, parseInt(startNum, 10)) : 1;
+    const isRoman = /upper-roman/i.test(liAttr);
+    const isAlpha = /upper-alpha/i.test(liAttr);
+    const badge = isRoman ? (ROMAN[idx - 1] || idx) : (isAlpha ? String.fromCharCode(64 + idx) : String(idx));
+    const isSub = hTag.toLowerCase() !== 'h1' && !isRoman;
+    const cleanInner = inner.replace(/&nbsp;/gi, ' ').trim();
+    if (isSub) {
+      return '<div class="s4-subsec-heading"><span class="s4-subsec-badge">' + badge + '</span><span class="s4-subsec-title">' + cleanInner + '</span></div>';
+    }
+    return '<div class="s4-sec-heading"><span class="s4-sec-badge">' + badge + '</span><span class="s4-sec-title">' + cleanInner + '</span></div>';
+  });
+
+  // 3. Convert Google Docs fake bullet paragraphs <p style="...list-style-type:disc...">...</p>
+  html = html.replace(/<p\b([^>]*style\s*=\s*"[^"]*list-style-type\s*:\s*disc[^"]*"[^>]*)>([\s\S]*?)<\/p>/gi, '<p class="s4-pseudo-li">$2</p>');
+
+  // 4. Process all tags with a style="..." attribute
+  html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?)\sstyle\s*=\s*"([^"]*)"([^>]*)>/gi, function(full, tag, before, styleStr, after) {
+    const t = tag.toLowerCase();
+    const classes = [];
+    let s = styleStr;
+
+    // Highlight background colors -> soft pastel badge classes
+    if (/background(?:-color)?\s*:\s*#ffff00\b/i.test(s)) {
+      classes.push('s4-hl-amber');
+      s = s.replace(/background(?:-color)?\s*:\s*#ffff00\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#00ffff\b/i.test(s)) {
+      classes.push('s4-hl-sky');
+      s = s.replace(/background(?:-color)?\s*:\s*#00ffff\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#00ff00\b/i.test(s)) {
+      classes.push('s4-hl-emerald');
+      s = s.replace(/background(?:-color)?\s*:\s*#00ff00\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#ff9900\b/i.test(s)) {
+      classes.push('s4-hl-rose');
+      s = s.replace(/background(?:-color)?\s*:\s*#ff9900\s*;?/gi, '');
+    }
+
+    // Table header / accent cell backgrounds (#9fc5e8, #a4c2f4)
+    if (/background(?:-color)?\s*:\s*#(?:9fc5e8|a4c2f4)\b/i.test(s)) {
+      classes.push('s4-td-accent');
+      s = s.replace(/background(?:-color)?\s*:\s*#(?:9fc5e8|a4c2f4)\s*;?/gi, '');
+    }
+
+    // Strip white / light gray / transparent backgrounds that break Dark Mode
+    s = s.replace(/background(?:-color)?\s*:\s*(?:#ffffff|#fff|#f1f3f5|white|transparent)\s*;?/gi, '');
+
+    // Foreground text colors
+    if (/(?:^|[;\s])color\s*:\s*#ff0000\b/i.test(s)) {
+      classes.push('s4-txt-red');
+      s = s.replace(/(?:^|[;\s])color\s*:\s*#ff0000\s*;?/gi, '');
+    }
+    if (/(?:^|[;\s])color\s*:\s*(?:#1155cc|#0000ff|#6d9eeb|rgb\(\s*53\s*,\s*80\s*,\s*154\s*\))/i.test(s)) {
+      classes.push('s4-txt-blue');
+      s = s.replace(/(?:^|[;\s])color\s*:\s*(?:#1155cc|#0000ff|#6d9eeb|rgb\(\s*53\s*,\s*80\s*,\s*154\s*\))\s*;?/gi, '');
+    }
+    // Strip hardcoded dark/black text colors
+    s = s.replace(/(?:^|[;\s])color\s*:\s*(?:#000000|#000|black|#1a1a1a|#242938)\s*;?/gi, '');
+
+    // Clean up table, td, th, img, span fixed pixel dimensions & borders
+    if (t === 'table' || t === 'td' || t === 'th' || t === 'img' || t === 'span') {
+      s = s.replace(/\b(?:width|height)\s*:\s*[\d.]+px\s*;?/gi, '');
+      s = s.replace(/\btable-layout\s*:\s*fixed\s*;?/gi, '');
+      s = s.replace(/\bborder(?:-(?:top|bottom|left|right))?\s*:\s*[\d.]+px\s+solid\s+#[0-9a-fA-F]+\s*;?/gi, '');
+      s = s.replace(/\boverflow\s*:\s*hidden\s*;?/gi, '');
+    }
+
+    // Soften excessive Google Docs left margins and remove justify alignment
+    s = s.replace(/\btext-align\s*:\s*justify\s*;?/gi, '');
+    s = s.replace(/\bmargin-left\s*:\s*(\d+)px\s*;?/gi, function(_, px) {
+      const n = parseInt(px, 10);
+      if (n >= 120) return 'margin-left:28px;';
+      if (n >= 70) return 'margin-left:20px;';
+      if (n >= 36) return 'margin-left:12px;';
+      return '';
+    });
+
+    s = s.replace(/;\s*;/g, ';').trim().replace(/^;+|;+$/g, '').trim();
+
+    let combinedBeforeAfter = before + after;
+    if (classes.length > 0) {
+      if (/\bclass\s*=\s*"([^"]*)"/i.test(combinedBeforeAfter)) {
+        combinedBeforeAfter = combinedBeforeAfter.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, existing) {
+          return 'class="' + (existing + ' ' + classes.join(' ')).trim() + '"';
+        });
+      } else {
+        combinedBeforeAfter = ' class="' + classes.join(' ') + '"' + combinedBeforeAfter;
+      }
+    }
+
+    const styleAttr = s ? ' style="' + s + '"' : '';
+    return '<' + tag + combinedBeforeAfter + styleAttr + '>';
+  });
+
+  // 5. Move leading/trailing spaces outside highlight pills so borders hug the words cleanly
+  html = html.replace(/<span\s+class="(s4-hl-[a-z0-9\s-]+)">(\s*)([\s\S]*?)(\s*)<\/span>/gi, function(m, cls, lead, inner, trail) {
+    if (!inner.trim()) return lead + trail;
+    return (lead || '') + '<span class="' + cls + '">' + inner + '</span>' + (trail || '');
+  });
+
+  // 6. Merge accidentally split paragraph lines right before "⇒ Paragraph X" (e.g. Question 18 in L15)
+  html = html.replace(/<p>([\s\S]*?,)<\/p>\s*<p>(\s*(?:<span[^>]*>)*\s*[a-z][\s\S]*?)<\/p>(?=\s*<p[^>]*>\s*(?:<[^>]+>)*\s*(?:⇒|→|=>)\s*Paragraph)/gi, '<p>$1 $2</p>');
+
+  // 7. Classify <p> blocks into Step Callouts, Question Cards, Passage Excerpts, Answer Pills, and Note Callouts
+  html = html.replace(/<p(\b[^>]*)>([\s\S]*?)<\/p>/gi, function(full, pAttr, inner) {
+    if (/s4-pseudo-li/i.test(pAttr)) return full;
+    const plain = inner.replace(/<[^>]+>/g, '').replace(/&nbsp;|\u00a0/g, ' ').replace(/&rarr;/g, '→').replace(/\s+/g, ' ').trim();
+    if (!plain) return full;
+
+    // 7a. Step Callout: "Bước 1: ...", "Bước 3 + Bước 4 + Bước 5"
+    if (/^Bước\s*\d+/i.test(plain) && plain.length < 160) {
+      return '<div class="s4-step-callout"><span class="s4-step-icon">🧭</span><div class="s4-step-body">' + inner + '</div></div>';
+    }
+
+    // 7b. Question Card: "Question 14: ...", "Practice 1: ..."
+    if (/^(?:Question\s*\d+|Practice\s*\d+)\s*[:.]/i.test(plain)) {
+      const decorated = inner.replace(/(?:<u>\s*)?(Question\s*\d+|Practice\s*\d+)\s*:?\s*(?:<\/u>)?(?:\s*<\/span>\s*<span[^>]*>)?\s*[:.]?\s*/i, '<span class="s4-q-badge">$1</span> ');
+      return '<div class="s4-question-card">' + decorated + '</div>';
+    }
+
+    // 7c. Passage Excerpt: starts with "A. ", "B. ", ..., "I. " and is a passage paragraph (> 60 chars)
+    if (/^[A-I]\.\s+/.test(plain) && plain.length > 60) {
+      const decorated = inner.replace(/^(\s*(?:<[^>]+>\s*)*)([A-I])\.?(\s*(?:<\/[^>]+>\s*)*)/, '$1<span class="s4-para-badge">Đoạn $2</span>$3 ');
+      return '<div class="s4-passage-excerpt">' + decorated + '</div>';
+    }
+
+    // 7d. Answer Pill or Conclusion Box: starts with "→", "⇒", "=>", or "Đáp án:"
+    if (/^(?:→|⇒|=>)\s*/i.test(plain) || /^Đáp án\s*:/i.test(plain)) {
+      const isShortAnswer = /^(?:→|⇒|=>)\s*(?:Paragraph\s+[A-Z]|Đáp án|Key|Answer|Main topic)/i.test(plain) || /^Đáp án\s*:/i.test(plain) || plain.length < 75;
+      if (isShortAnswer) {
+        return '<div class="s4-answer-wrap"><div class="s4-answer-pill">🎯 ' + inner.replace(/^(\s*(?:<[^>]+>\s*)*)(?:→|⇒|=>)\s*/, '$1') + '</div></div>';
+      }
+      return '<div class="s4-conclusion-box">' + inner + '</div>';
+    }
+
+    // 7e. Note Callout: starts with "Lưu ý:", "Chú ý:"
+    if (/^(?:Lưu ý|Chú ý|Mẹo)\s*:/i.test(plain)) {
+      return '<div class="s4-note-callout">💡 ' + inner + '</div>';
+    }
+
+    return full;
+  });
+
+  return html;
+};
 
 function formatExampleHtml(exStr) {
   return (exStr || '')
@@ -1696,7 +2366,7 @@ window.smartCheckSpelling = function() {
     inp.classList.add('wrong');
     item.mistakes++;
     fb.style.color = '#f87171';
-    fb.textContent = `✗ Chưa đúng, hãy kiểm tra lại chính tả!`;
+    fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${cur.origin || cur.term}</span>`;
   }
 };
 
@@ -1730,6 +2400,10 @@ window.rateSrsCard = function(grade) {
 
 function renderMain() {
   const container = document.getElementById('lessonContainer');
+  if (window.S4PracticeZone && window.S4PracticeZone.isReadingHubOpen()) {
+    container.innerHTML = window.S4PracticeZone.renderReadingHub(ALL_LESSONS);
+    return;
+  }
   if (!currentLesson) return;
 
   const isDone = doneSet.has(currentLesson.id);
@@ -1749,221 +2423,182 @@ function renderMain() {
           </a>
         </div>
       ` : ''}
-      ${currentLesson.htmlContent ? `<div class="theory-card">${currentLesson.htmlContent}</div>` : ''}
+      ${currentLesson.htmlContent ? `<div class="theory-card">${window.S4FormatTheoryHtml(currentLesson.htmlContent)}</div>` : ''}
     `;
   } else {
     const isPassage = (pType === 'reading_vocab');
     const paras = isPassage ? (currentLesson.problem.paragraphs || []) : [];
     const vList = getActiveVocabList();
 
-    const modeBar = `
-      <div class="mode-bar">
-        <div class="mode-tabs">
-          ${isPassage ? `<button class="mode-tab ${currentMode === 'passage' ? 'active' : ''}" onclick="setMode('passage')">📖 Đọc song ngữ (${paras.length} đoạn)</button>` : ''}
-          <button class="mode-tab ${currentMode === 'smart_learn' ? 'active' : ''}" onclick="setMode('smart_learn')">🧠 Học từ mới 4 bước (Smart Learn)</button>
-          <button class="mode-tab ${currentMode === 'srs_review' ? 'active' : ''}" onclick="setMode('srs_review')">🔄 Ôn tập Flashcards SRS</button>
-          <button class="mode-tab ${currentMode === 'flashcards' ? 'active' : ''}" onclick="setMode('flashcards')">📋 Bảng từ (${vList.length})</button>
-          <button class="mode-tab ${currentMode === 'quiz' ? 'active' : ''}" onclick="setMode('quiz')">🎯 Trắc nghiệm</button>
-          <button class="mode-tab ${currentMode === 'matching' ? 'active' : ''}" onclick="setMode('matching')">🧩 Tìm cặp</button>
-          <button class="mode-tab ${currentMode === 'listen' ? 'active' : ''}" onclick="setMode('listen')">🎧 Nghe từ</button>
-          <button class="mode-tab ${currentMode === 'spelling' ? 'active' : ''}" onclick="setMode('spelling')">✍️ Điền từ</button>
-        </div>
-        ${currentMode === 'passage' && isPassage ? `
-          <button class="btn" onclick="toggleViTrans()">
-            🇻🇳 Dịch song ngữ: <strong style="color:${showViTrans ? '#34d399' : '#94a3b8'}">${showViTrans ? 'Bật' : 'Tắt'}</strong>
-          </button>
-        ` : ''}
-      </div>
-    `;
+    const synCnt = isPassage ? (currentLesson.problem.synCount || (currentLesson.problem.synPairs || []).length || 0) : 0;
 
-    if (currentMode === 'passage' && isPassage) {
-      const parasHtml = paras.map(p => {
-        const enText = (p.input || []).join(' ');
-        const viText = (p.translated || []).join(' ');
-        const sameText = enText.trim() === viText.trim();
-        return `
-          <div class="para-block">
-            <div class="para-en">${highlightVocabInText(enText, vList)}</div>
-            ${(showViTrans && viText && !sameText) ? `<div class="para-vi">🇻🇳 ${viText}</div>` : ''}
+    if ((currentMode === 'passage' || currentMode === 'synonyms' || currentMode === 'practice_test') && isPassage) {
+      const modeBar = `
+        <div class="s4v-mode-bar" style="margin-bottom:12px;">
+          <button class="s4v-mode-btn ${currentMode === 'passage' ? 'active' : ''}" onclick="setMode('passage')">📖 Đọc song ngữ (${paras.length} đoạn)</button>
+          <button class="s4v-mode-btn ${currentMode === 'practice_test' ? 'active' : ''}" onclick="setMode('practice_test')">🎯 Làm bài & Chấm điểm</button>
+          <button class="s4v-mode-btn ${currentMode === 'synonyms' ? 'active' : ''}" onclick="setMode('synonyms')">🔄 Đồng/Trái nghĩa (${synCnt})</button>
+          <button class="s4v-mode-btn" onclick="setMode('smart')">🎓 Học</button>
+          <button class="s4v-mode-btn" onclick="setMode('flashcard')">🗂️ Flashcard</button>
+          <button class="s4v-mode-btn" onclick="setMode('quiz')">❓ Trắc nghiệm</button>
+          <button class="s4v-mode-btn" onclick="setMode('listen')">🎧 Nghe</button>
+          <button class="s4v-mode-btn" onclick="setMode('match')">🧩 Ghép cặp</button>
+          <button class="s4v-mode-btn" onclick="setMode('cloze')">✍️ Điền từ</button>
+          <button class="s4v-mode-btn" onclick="setMode('list')">📖 Danh sách (${vList.length})</button>
+          ${currentMode === 'passage' ? `
+            <button class="s4v-mode-btn" style="margin-left:auto;" onclick="toggleViTrans()">
+              🇻🇳 Dịch song ngữ: <strong style="color:${showViTrans ? '#34d399' : '#94a3b8'}">${showViTrans ? 'Bật' : 'Tắt'}</strong>
+            </button>
+          ` : ''}
+        </div>
+      `;
+
+      if (currentMode === 'practice_test' && window.S4PracticeZone) {
+        bodyHtml = window.S4PracticeZone.renderReadingPracticeView(currentLesson, ALL_LESSONS, modeBar);
+      } else if (currentMode === 'passage') {
+        const parasHtml = paras.map(p => {
+          const enText = (p.input || []).join(' ');
+          const viText = (p.translated || []).join(' ');
+          const sameText = enText.trim() === viText.trim();
+          return `
+            <div class="para-block">
+              <div class="para-en">${highlightVocabInText(enText, vList)}</div>
+              ${(showViTrans && viText && !sameText) ? `<div class="para-vi">🇻🇳 ${viText}</div>` : ''}
+            </div>
+          `;
+        }).join('');
+
+        bodyHtml = `
+          ${modeBar}
+          <div class="reading-grid">
+            <div class="passage-card">${parasHtml}</div>
+            <div class="vocab-inspector" id="vocabInspectorBox"></div>
           </div>
         `;
-      }).join('');
+      } else {
+        const synData = getActiveSynData();
+        const pairs = (synData.pairs || []).filter(p => p.questionPhrase || p.passagePhrase);
+        if (!activeSynUid && pairs.length > 0 && synSubMode === 'learn') {
+          activeSynUid = pairs[0].uid;
+        }
+        const curActivePair = pairs.find(p => p.uid === activeSynUid) || pairs[0];
 
-      bodyHtml = `
-        ${modeBar}
-        <div class="reading-grid">
-          <div class="passage-card">${parasHtml}</div>
-          <div class="vocab-inspector" id="vocabInspectorBox"></div>
-        </div>
-      `;
-    } else if (currentMode === 'smart_learn') {
-      bodyHtml = `
-        ${modeBar}
-        ${renderSrsSummaryBanner(vList)}
-        ${renderSmartLearnView(vList)}
-      `;
-    } else if (currentMode === 'srs_review') {
-      const cur = srsReviewQueue[srsReviewIdx] || vList[0];
-      bodyHtml = `
-        ${modeBar}
-        ${renderSrsSummaryBanner(vList)}
-        <div class="fc-stage">
-          <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">
-            Thẻ ôn tập SRS ${srsReviewIdx + 1} / ${srsReviewQueue.length} — Nhấn vào thẻ để lật mặt & tự đánh giá mức độ nhớ
+        const subBar = `
+          <div class="syn-subbar">
+            <div class="syn-sub-tabs">
+              <button class="syn-sub-btn ${synSubMode === 'learn' ? 'active' : ''}" onclick="setSynSubMode('learn')">👁️ Xem bài đọc & Đối chiếu Câu hỏi (2 cột)</button>
+              <button class="syn-sub-btn ${synSubMode === 'practice' ? 'active' : ''}" onclick="setSynSubMode('practice')">🎯 Luyện tập Tìm cụm đồng nghĩa</button>
+              <button class="syn-sub-btn ${synSubMode === 'table' ? 'active' : ''}" onclick="setSynSubMode('table')">📋 Bảng Tổng hợp Paraphrase (${pairs.length} cặp)</button>
+            </div>
+            <span style="font-size:12px;color:var(--muted);font-weight:600;">💡 Bấm vào bất kỳ cụm từ tô màu nào để đối chiếu 2 chiều</span>
           </div>
-          <div class="fc-card" onclick="fcFlipped = !fcFlipped; renderMain();">
-            <div class="fc-term">${cur.origin || cur.term} ${cur.pos ? `<span style="font-size:15px;color:var(--muted);">(${cur.pos})</span>` : ''}</div>
-            ${cur.ipa ? `<div style="color:var(--hl-cyan);font-size:15px;margin-bottom:10px;">${cur.ipa}</div>` : ''}
-            ${fcFlipped ? `
-              <div class="fc-vi">🇻🇳 ${cur.vi || ''}</div>
-              <div class="fc-en">📘 ${cur.en || ''}</div>
-              ${(cur.examples && cur.examples[0]) ? `<div style="margin-top:10px;font-size:12.5px;color:var(--muted);max-width:460px;">"${cur.examples[0].split('(=Dịch:')[0]}"</div>` : ''}
-            ` : `<div style="font-size:13px;color:var(--muted);margin-top:10px;">👆 Nhấn để lật xem nghĩa & câu ví dụ</div>`}
-          </div>
-          <div style="display:flex;justify-content:center;gap:10px;margin-top:12px;">
-            <button class="btn" onclick="playWordAudio(srsReviewQueue[${srsReviewIdx}], 'en-GB')">🔊 Phát âm UK</button>
-            <button class="btn" onclick="playWordAudio(srsReviewQueue[${srsReviewIdx}], 'en-US')">🔊 Phát âm US</button>
-          </div>
-          <div class="srs-rate-row">
-            <button class="srs-btn Hard" onclick="rateSrsCard('Hard')">🔴 Chưa nhớ (Ôn lại sau 10p)</button>
-            <button class="srs-btn Good" onclick="rateSrsCard('Good')">🟡 Tạm nhớ (Ôn sau 1-2 ngày)</button>
-            <button class="srs-btn Easy" onclick="rateSrsCard('Easy')">🟢 Đã thuộc kỹ (Ôn sau 4+ ngày)</button>
-          </div>
-        </div>
-      `;
-    } else if (currentMode === 'flashcards') {
-      bodyHtml = `
-        ${modeBar}
-        ${renderSrsSummaryBanner(vList)}
-        <div class="vocab-table-grid">
-          ${vList.map((v, idx) => `
-            <div class="vocab-card-item">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <strong style="font-size:15.5px;color:var(--hl-green);">${v.origin || v.term} <small style="color:var(--hl-cyan);font-weight:400;">${v.ipa || ''}</small> <span style="font-size:11.5px;color:var(--muted);">(${v.pos || ''})</span></strong>
-                <div style="display:flex;gap:4px;">
-                  <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${idx}], 'en-GB')">🔊 UK</button>
-                  <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${idx}], 'en-US')">US</button>
+        `;
+
+        if (synSubMode === 'table') {
+          bodyHtml = `
+            ${modeBar}
+            ${subBar}
+            <div class="syn-table-wrap">
+              <table class="syn-table">
+                <thead>
+                  <tr>
+                    <th style="width:76px;">Câu</th>
+                    <th>Từ / Cụm từ trong Câu hỏi (Question)</th>
+                    <th>Từ / Cụm từ đồng/trái nghĩa trong Bài đọc (Passage)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${pairs.map(p => `
+                    <tr onclick="jumpToSynUid('${p.uid}')" title="Bấm để xem vị trí trong bài đọc 2 cột">
+                      <td><span class="paraitem-question" style="font-size:12px;padding:2px 7px;">Q${p.qNum || '?'}</span></td>
+                      <td style="font-weight:700;color:var(--hl-gold);">${p.questionPhrase || '—'}</td>
+                      <td style="font-weight:700;color:var(--hl-green);">${p.passagePhrase || '—'}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        } else if (synSubMode === 'practice') {
+          if (synPracIdx >= pairs.length) synPracIdx = 0;
+          const curPair = pairs[synPracIdx];
+          const cacheKey = `${currentLesson.id}_${synPracIdx}`;
+          if (synPracCacheKey !== cacheKey && curPair) {
+            synPracCacheKey = cacheKey;
+            const others = pairs.filter(p => p.uid !== curPair.uid && p.passagePhrase && p.passagePhrase !== curPair.passagePhrase);
+            const distractors = [...others].sort(() => Math.random() - 0.5).slice(0, 3);
+            synPracOptions = [curPair, ...distractors].sort(() => Math.random() - 0.5);
+          }
+
+          bodyHtml = `
+            ${modeBar}
+            ${subBar}
+            <div class="syn-split-grid">
+              <div class="syn-col-card" id="synLeftCol">
+                <div class="syn-col-title">
+                  <span>📖 BÀI ĐỌC (BẤM CHỌN CỤM TỪ ĐỒNG NGHĨA TRONG BÀI)</span>
+                  <span>${pairs.length} vị trí</span>
                 </div>
+                ${synData.leftHtml || '<div style="padding:20px;color:var(--muted);">Đang tải nội dung bài đọc...</div>'}
               </div>
-              <div style="font-size:13.5px;font-weight:700;color:var(--hl-gold);">🇻🇳 ${v.vi || ''}</div>
-              <div style="font-size:12px;color:var(--sub-text);line-height:1.45;">📘 ${v.en || ''}</div>
-              ${(v.examples && v.examples[0]) ? `<div style="font-size:11.5px;color:var(--muted);margin-top:4px;border-top:1px dashed var(--border);padding-top:4px;">• ${formatExampleHtml(v.examples[0])}</div>` : ''}
-            </div>
-          `).join('')}
-        </div>
-      `;
-    } else if (currentMode === 'quiz') {
-      const cur = vList[quizIndex] || vList[0];
-      const distractors = vList.filter((_, i) => i !== quizIndex).sort(() => Math.random() - 0.5).slice(0, 3);
-      const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
-
-      bodyHtml = `
-        ${modeBar}
-        <div class="drill-box">
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:12px;">
-            <span>Câu ${quizIndex + 1} / ${vList.length}</span>
-            <span style="color:var(--hl-green);font-weight:700;">Điểm: ${quizScore}</span>
-          </div>
-          <div style="font-size:24px;font-weight:800;color:var(--hl-cyan);margin-bottom:6px;display:flex;align-items:center;gap:10px;">
-            <span>${cur.origin || cur.term}</span>
-            <span style="font-size:14px;color:var(--muted);">${cur.ipa || ''} (${cur.pos || ''})</span>
-            <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${quizIndex}], 'en-GB')">🔊</button>
-          </div>
-          <div style="font-size:13.5px;color:var(--sub-text);margin-bottom:18px;">📘 ${cur.en || ''}</div>
-          <div>
-            ${options.map((opt) => `
-              <button class="quiz-opt" onclick="checkQuizOption(this, ${opt === cur})">${opt.vi}</button>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    } else if (currentMode === 'matching') {
-      const leftList = [...matchPairs];
-      const rightList = [...matchPairs].sort((a, b) => a.vi.localeCompare(b.vi));
-      const allDone = matchedIds.size === matchPairs.length;
-
-      bodyHtml = `
-        ${modeBar}
-        <div class="drill-box" style="max-width:760px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <span style="font-size:13.5px;color:var(--muted);">Chọn 1 từ tiếng Anh ở cột trái và nghĩa tiếng Việt tương ứng ở cột phải</span>
-            <button class="btn btn-primary" onclick="initMatchingRound(); renderMain();">🔄 Đổi bộ từ mới</button>
-          </div>
-          ${allDone ? `
-            <div style="padding:26px;text-align:center;color:var(--hl-green);font-size:18px;font-weight:800;">
-              🎉 Tuyệt vời! Bạn đã nối đúng toàn bộ các cặp từ!
-            </div>
-          ` : `
-            <div class="match-grid">
-              <div style="display:flex;flex-direction:column;gap:8px;">
-                ${leftList.map((p, idx) => `
-                  <button class="match-btn ${matchedIds.has(p.id) ? 'matched' : ''} ${matchSelectedLeft === p.id ? 'selected' : ''}" onclick="selectMatchLeft(${p.id}, ${idx})">
-                    🔊 <strong>${p.term}</strong> <span style="font-size:11px;color:var(--muted);">(${p.pos || ''})</span>
-                  </button>
-                `).join('')}
-              </div>
-              <div style="display:flex;flex-direction:column;gap:8px;">
-                ${rightList.map(p => `
-                  <button class="match-btn ${matchedIds.has(p.id) ? 'matched' : ''} ${matchSelectedRight === p.id ? 'selected' : ''}" id="matchRight_${p.id}" onclick="selectMatchRight(${p.id})">
-                    🇻🇳 ${p.vi}
-                  </button>
-                `).join('')}
+              <div class="syn-col-card" id="synRightCol">
+                <div class="syn-col-title">
+                  <span>🎯 CÂU HỎI LUYỆN TẬP PARAPHRASE (${synPracIdx + 1} / ${pairs.length})</span>
+                  <span style="color:var(--hl-gold);">Câu Q${curPair ? curPair.qNum : '?'}</span>
+                </div>
+                ${curPair ? `
+                  <div style="padding:14px 16px;background:var(--box-sub);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;">
+                    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Tìm cụm từ trong <strong>Bài đọc bên trái</strong> đồng nghĩa / paraphrase với cụm từ sau trong <strong>Câu hỏi Q${curPair.qNum}</strong>:</div>
+                    <div style="font-size:20px;font-weight:800;color:var(--hl-gold);">"${curPair.questionPhrase}"</div>
+                  </div>
+                  <div style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:8px;">👉 Cách 1: Bấm trực tiếp vào cụm từ tô màu trong Bài đọc bên trái.<br>👉 Cách 2: Chọn nhanh 1 trong 4 cụm từ trích từ bài đọc dưới đây:</div>
+                  <div>
+                    ${synPracOptions.map(opt => `
+                      <button class="syn-opt-btn" onclick="checkSynChoice(this, '${opt.uid}')">
+                        ${opt.passagePhrase} <span class="paraitem-question">Q${opt.qNum}</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <div id="synPracFeedbackBox" style="min-height:24px;font-size:13.5px;font-weight:700;margin:10px 0;color:${synPracIsCorrect ? '#34d399' : '#f87171'};">${synPracFeedback}</div>
+                  <div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px;">
+                    <button class="btn" onclick="stepSynPractice(-1)">◀ Câu trước</button>
+                    <button class="btn" onclick="activeSynUid='${curPair.uid}';synPracFeedback='💡 Đáp án đúng: \x22' + '${(curPair.passagePhrase || '').replace(/'/g, "\\'")}' + '\x22';synPracIsCorrect=true;renderMain();setTimeout(()=>scrollSynUidIntoView('${curPair.uid}','left'),60);">💡 Hiện vị trí đáp án</button>
+                    <button class="btn btn-primary" onclick="stepSynPractice(1)">Câu tiếp ▶</button>
+                  </div>
+                ` : '<div style="padding:20px;color:var(--muted);">Không có dữ liệu câu hỏi.</div>'}
               </div>
             </div>
-          `}
-        </div>
-      `;
-    } else if (currentMode === 'listen') {
-      const cur = vList[listenIndex] || vList[0];
-      const distractors = vList.filter((_, i) => i !== listenIndex).sort(() => Math.random() - 0.5).slice(0, 3);
-      const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
-      setTimeout(() => playWordAudio(cur, 'en-GB'), 100);
-
-      bodyHtml = `
-        ${modeBar}
-        <div class="drill-box">
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:14px;">
-            <span>Câu nghe ${listenIndex + 1} / ${vList.length}</span>
-            <span style="color:var(--hl-cyan);">Nghe phát âm và chọn từ + nghĩa đúng</span>
-          </div>
-          <div style="text-align:center;margin:18px 0 22px;">
-            <button class="btn btn-primary" style="padding:14px 26px;font-size:16px;border-radius:99px;" onclick="playWordAudio(getActiveVocabList()[${listenIndex}], 'en-GB')">
-              🔊 Bấm để nghe phát âm từ vựng
-            </button>
-          </div>
-          <div>
-            ${options.map((opt) => `
-              <button class="quiz-opt" onclick="checkListenOption(this, ${opt === cur})">
-                <strong>${opt.origin || opt.term}</strong> <small style="color:var(--muted);">${opt.ipa || ''}</small> — <span style="color:var(--hl-gold);">${opt.vi}</span>
-              </button>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    } else if (currentMode === 'spelling') {
-      const cur = vList[spellIndex] || vList[0];
-      const target = (cur.origin || cur.term || '').trim();
-      const hint = target ? `${target[0]}${' _'.repeat(Math.max(1, target.length - 1))} (${target.length} chữ cái)` : '';
-
-      bodyHtml = `
-        ${modeBar}
-        <div class="drill-box">
-          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:12px;">
-            <span>Từ ${spellIndex + 1} / ${vList.length}</span>
-            <button class="btn" style="padding:4px 10px;font-size:12px;" onclick="playWordAudio(getActiveVocabList()[${spellIndex}], 'en-GB')">🔊 Nghe phát âm</button>
-          </div>
-          <div style="font-size:20px;font-weight:800;color:var(--hl-gold);margin-bottom:6px;">🇻🇳 ${cur.vi || ''}</div>
-          <div style="font-size:13.5px;color:var(--sub-text);margin-bottom:8px;">📘 ${cur.en || ''}</div>
-          <div style="font-size:12.5px;color:var(--hl-cyan);margin-bottom:8px;">Gợi ý: <strong>${hint}</strong></div>
-          <input type="text" id="spellInput" class="spell-input" placeholder="Nhập từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') checkSpelling()">
-          <div id="spellFeedback" style="min-height:22px;font-size:13.5px;font-weight:700;margin-bottom:10px;"></div>
-          <div style="display:flex;gap:10px;">
-            <button class="btn btn-primary" onclick="checkSpelling()">✔️ Kiểm tra (Enter)</button>
-            <button class="btn" onclick="revealSpelling()">💡 Xem đáp án</button>
-            <button class="btn" onclick="nextSpelling()">Từ tiếp theo →</button>
-          </div>
-        </div>
-      `;
+          `;
+        } else {
+          bodyHtml = `
+            ${modeBar}
+            ${subBar}
+            <div class="syn-pair-banner" id="synActivePairBanner">
+              ${curActivePair ? `
+                <span>🔗 <strong>Câu Q${curActivePair.qNum}:</strong> Trong câu hỏi <strong style="color:var(--hl-gold);">"${curActivePair.questionPhrase}"</strong> ↔ Trong bài đọc <strong style="color:var(--hl-green);">"${curActivePair.passagePhrase}"</strong></span>
+              ` : '<span>💡 Bấm vào bất kỳ cụm từ Q1, Q2... nào ở bài đọc hoặc câu hỏi để đối chiếu</span>'}
+            </div>
+            <div class="syn-split-grid">
+              <div class="syn-col-card" id="synLeftCol">
+                <div class="syn-col-title">
+                  <span>📖 BÀI ĐỌC IELTS READING (CỤM TỪ ĐỒNG NGHĨA)</span>
+                  <span>${pairs.length} cặp</span>
+                </div>
+                ${synData.leftHtml || '<div style="padding:20px;color:var(--muted);">Đang tải nội dung bài đọc...</div>'}
+              </div>
+              <div class="syn-col-card" id="synRightCol">
+                <div class="syn-col-title">
+                  <span>❓ CÂU HỎI ĐỀ THI & ĐÁP ÁN (CỤM TỪ PARAPHRASE)</span>
+                  <span>Bấm vào từ để đối chiếu</span>
+                </div>
+                ${synData.rightHtml || '<div style="padding:20px;color:var(--muted);">Đang tải danh sách câu hỏi...</div>'}
+              </div>
+            </div>
+          `;
+        }
+      }
+    } else {
+      bodyHtml = '<div id="s4VocabMount"></div>';
     }
   }
 
@@ -1984,6 +2619,20 @@ function renderMain() {
 
   if (pType === 'reading_vocab' && currentMode === 'passage') {
     renderInspectorOnly();
+  } else if (pType === 'reading_vocab' && currentMode === 'practice_test' && window.S4PracticeZone) {
+    ensureSynonymsLoaded(() => {
+      window.S4PracticeZone.mountReadingDomEvents(currentLesson, ALL_LESSONS);
+    });
+    window.S4PracticeZone.mountReadingDomEvents(currentLesson, ALL_LESSONS);
+  } else if (pType === 'reading_vocab' && currentMode === 'synonyms') {
+    ensureSynonymsLoaded(() => {
+      bindSynColumnClicks();
+    });
+    bindSynColumnClicks();
+  } else if (pType !== 'video' && currentLesson.problem && window.S4VocabEngine) {
+    const modeMap = { smart_learn: 'smart', srs_review: 'flashcard', flashcards: 'list', matching: 'match', spelling: 'cloze' };
+    const m = modeMap[currentMode] || (['smart','flashcard','quiz','listen','match','cloze','list'].includes(currentMode) ? currentMode : 'smart');
+    window.S4VocabEngine.mount('s4VocabMount', currentLesson.id, getActiveVocabList(), currentLesson.title, m);
   }
   if (currentMode === 'spelling') {
     const inp = document.getElementById('spellInput');
@@ -2096,7 +2745,7 @@ window.checkSpelling = function() {
   } else {
     inp.classList.add('wrong');
     fb.style.color = '#f87171';
-    fb.textContent = `✗ Chưa đúng, hãy thử lại!`;
+    fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${cur.origin || cur.term}</span>`;
   }
 };
 
@@ -2140,6 +2789,7 @@ try {
 
 if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   currentLesson = cachedLesson;
+  syncActiveUnitUI(currentLesson);
   if (currentLesson.problem && currentLesson.problem.pType === 'topic_flashcards') {
     currentMode = 'smart_learn';
   } else if (currentLesson.problem && currentLesson.problem.pType === 'reading_vocab') {
@@ -2151,7 +2801,17 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   buildSrsReviewQueue();
   renderSidebar();
   renderMain();
-  ensureChunkLoaded(currentLesson.unitId);
+  scrollActiveLessonIntoView(false);
+  ensureChunkLoaded(currentLesson.unitId, function() {
+    const fresh = ALL_LESSONS.find(x => x.id === currentLesson.id);
+    if (fresh) {
+      const needReRender = !currentLesson.problem;
+      currentLesson = fresh;
+      if (needReRender) renderMain();
+    }
+    renderSidebar();
+    scrollActiveLessonIntoView(false);
+  });
 } else if (initialLesson) {
   selectLesson(initialLesson.id);
 }
@@ -2169,7 +2829,8 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../auth.js?v=16"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=16"></script>
+  <script src="../assets/s4-practice-zone.js?v=24"></script>
+  <script src="../auth.js?v=18"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>

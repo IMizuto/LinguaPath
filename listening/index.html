@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
   (function () {
     try {
@@ -14,11 +19,15 @@
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      var ua = navigator.userAgent || "";
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
+      if (isIOS && isStandalone) {
+        document.documentElement.style.setProperty("--s4-safe-top", window.screen.height >= 812 ? "50px" : "24px");
+      }
     } catch (e) {}
   })();
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  </script>
 <title>IELTS Intensive Listening — Từ vựng SRS, Luyện nghe Dictation & 775 Video Chữa đề</title>
 <link rel="preload" href="data/listening_manifest.js" as="script">
 <style>
@@ -581,14 +590,14 @@
   }
 
 </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=16">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=24">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
 
 <header class="topbar">
   <div class="topbar-left">
-    <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;">☰ Bài học</button>
+    <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;" title="Thu gọn / Mở rộng danh sách bài bên trái"><span class="s4-desk-sb-lbl">◀ Ẩn mục lục</span><span class="s4-mob-sb-lbl">☰ Mục lục</span></button>
     <a href="../index.html#ielts" class="back-btn">← Khóa IELTS</a>
     <div class="brand-title"><span>🎧 IELTS Intensive Listening</span></div>
   </div>
@@ -598,12 +607,13 @@
     <button class="top-switch-btn" id="topBtn_u_2" onclick="quickSwitchUnit('u_2')">✍️ Nghe từ vựng (4,632 từ)</button>
     <button class="top-switch-btn" id="topBtn_u_3" onclick="quickSwitchUnit('u_3')">🎧 Nghe theo Chủ đề (66 bài)</button>
     <button class="top-switch-btn" id="topBtn_u_4" onclick="quickSwitchUnit('u_4')">🏆 Đề thi IELTS (604 bài)</button>
+    <button class="top-switch-btn" id="topBtn_pz" onclick="activateListeningPzTab()">🎯 Practice Zone (169 đề)</button>
     <button class="top-switch-btn" id="topBtn_u_1" onclick="quickSwitchUnit('u_1')">🎬 Chiến thuật (12 bài)</button>
     <button class="top-switch-btn" id="topBtn_u_6" onclick="quickSwitchUnit('u_6')">📝 Chữa đề (775 video)</button>
   </div>
 
   <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
-    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
+    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
     <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">🌙</button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
   </div>
@@ -653,6 +663,7 @@
 </div>
 <audio id="ttsAudioPlayer" style="display:none;"></audio>
 <script src="data/listening_manifest.js"></script>
+<script src="../assets/s4-vocab-engine.js?v=16"></script>
 <script>
 (function() {
   if (location.protocol === 'file:') {
@@ -660,6 +671,7 @@
   }
 })();
 
+document.querySelectorAll('#lessonContainer #globalPassAudio').forEach(el => el.remove());
 const MANIFEST = window.STUDY4_LISTENING_MANIFEST || { units: [] };
 const DATA = {
   units: MANIFEST.units || [],
@@ -679,7 +691,17 @@ try {
 
 let srsMap = JSON.parse(localStorage.getItem(SRS_KEY) || '{}');
 let currentLesson = null;
-let currentMode = 'smart_learn';
+let currentMode = 'smart';
+if (window.S4VocabEngine) {
+  window.S4VocabEngine.init({
+    srsKey: SRS_KEY,
+    daysKey: 's4_listening_days_v1',
+    settingsKey: 's4_listening_settings_v1',
+    getSrsMap: () => srsMap,
+    onSaveSrs: () => { saveSrs(); renderSidebar(); },
+    playWordAudio: (v, lang) => playWordAudio(v, lang)
+  });
+}
 
 // Dictation states
 let passageMode = 'dictation'; // 'dictation' | 'transcript'
@@ -856,20 +878,91 @@ function speakWordFallback(text, lang = 'en-GB') {
   window.speechSynthesis.speak(u);
 }
 
-window.quickSwitchUnit = function(uid) {
+function syncActiveUnitUI(meta) {
+  if (!meta) return;
+  ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(uid => {
+    const btn = document.getElementById('topBtn_' + uid);
+    if (btn) btn.classList.toggle('active', meta.unitId === uid);
+    collapsedUnits[uid] = (meta.unitId !== uid);
+  });
+  if (meta.unitId === 'u_3') {
+    const bKey = 'u3_' + getTopicLevelGroup(meta.idxInUnit || 0);
+    collapsedBooks[bKey] = false;
+  } else if (meta.unitId === 'u_4') {
+    const bKey = 'u4_' + getBookName(meta.title);
+    const tKey = bKey + '_' + getTestName(meta.title);
+    collapsedBooks[bKey] = false;
+    collapsedTests[tKey] = false;
+  } else if (meta.unitId === 'u_6') {
+    const bKey = 'u6_' + getBookName(meta.group);
+    const tKey = bKey + '_' + meta.group;
+    collapsedBooks[bKey] = false;
+    collapsedTests[tKey] = false;
+  }
+  try {
+    const byUnit = JSON.parse(localStorage.getItem('s4_listen_last_by_unit') || '{}');
+    byUnit[meta.unitId] = meta.id;
+    localStorage.setItem('s4_listen_last_by_unit', JSON.stringify(byUnit));
+  } catch (e) {}
+}
+
+function scrollActiveLessonIntoView(smooth) {
+  setTimeout(() => {
+    const actEl = document.querySelector('#lessonList .lesson-item.active');
+    if (actEl) {
+      try { actEl.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' }); } catch (e) {}
+    }
+  }, 60);
+}
+
+let isListeningPzMode = false;
+window.activateListeningPzTab = function() {
+  isListeningPzMode = true;
+  subPauseLock = false;
+  const pa = document.getElementById('globalPassAudio');
+  if (pa && !pa.paused) pa.pause();
+  if (window.S4PracticeZone) window.S4PracticeZone.setListeningHubOpen(true);
   ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
     const btn = document.getElementById('topBtn_' + id);
-    if (btn) btn.classList.toggle('active', id === uid);
-    collapsedUnits[id] = (id !== uid);
+    if (btn) btn.classList.remove('active');
+    collapsedUnits[id] = (id !== 'u_4');
   });
-  const firstInUnit = ALL_LESSONS.find(x => x.unitId === uid);
-  if (firstInUnit) {
-    selectLesson(firstInUnit.id);
-    setTimeout(() => {
-      const actEl = document.querySelector('#lessonList .lesson-item.active');
-      if (actEl) actEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }, 60);
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.add('active');
+  if (window.S4PracticeZone) {
+    window.S4PracticeZone.ensureListeningPzLoaded(() => {
+      renderSidebar();
+      renderMain();
+    });
   } else {
+    renderSidebar();
+    renderMain();
+  }
+};
+
+window.quickSwitchUnit = function(uid) {
+  isListeningPzMode = false;
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.remove('active');
+  let targetLesson = null;
+  try {
+    const byUnit = JSON.parse(localStorage.getItem('s4_listen_last_by_unit') || '{}');
+    if (byUnit[uid]) {
+      targetLesson = ALL_LESSONS.find(x => x.id === byUnit[uid] && x.unitId === uid);
+    }
+  } catch (e) {}
+  if (!targetLesson) {
+    targetLesson = ALL_LESSONS.find(x => x.unitId === uid);
+  }
+  if (targetLesson) {
+    selectLesson(targetLesson.id);
+    scrollActiveLessonIntoView(true);
+  } else {
+    ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
+      const btn = document.getElementById('topBtn_' + id);
+      if (btn) btn.classList.toggle('active', id === uid);
+      collapsedUnits[id] = (id !== uid);
+    });
     renderSidebar();
   }
 };
@@ -1168,6 +1261,13 @@ function buildSrsReviewQueue() {
 
 
 window.toggleMobileSidebar = function(force) {
+  if (window.innerWidth > 768) {
+    const nextCol = (typeof force === 'boolean') ? !force : !document.body.classList.contains('sidebar-collapsed');
+    document.body.classList.toggle('sidebar-collapsed', nextCol);
+    const deskLbl = document.querySelector('#btnToggleSidebar .s4-desk-sb-lbl');
+    if (deskLbl) deskLbl.textContent = nextCol ? '☰ Mở mục lục' : '◀ Ẩn mục lục';
+    return;
+  }
   const sb = document.querySelector('.sidebar');
   const bd = document.getElementById('sidebarBackdrop');
   if (!sb) return;
@@ -1180,31 +1280,14 @@ window.toggleMobileSidebar = function(force) {
 window.selectLesson = function(id) {
   const meta = ALL_LESSONS.find(x => x.id === id);
   if (!meta) return;
+  isListeningPzMode = false;
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.remove('active');
   localStorage.setItem(LAST_KEY, id);
-
-  ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(uid => {
-    const btn = document.getElementById('topBtn_' + uid);
-    if (btn) btn.classList.toggle('active', meta.unitId === uid);
-  });
-
-  collapsedUnits[meta.unitId] = false;
-  if (meta.unitId === 'u_3') {
-    const bKey = 'u3_' + getTopicLevelGroup(meta.idxInUnit || 0);
-    collapsedBooks[bKey] = false;
-  } else if (meta.unitId === 'u_4') {
-    const bKey = 'u4_' + getBookName(meta.title);
-    const tKey = bKey + '_' + getTestName(meta.title);
-    collapsedBooks[bKey] = false;
-    collapsedTests[tKey] = false;
-  } else if (meta.unitId === 'u_6') {
-    const bKey = 'u6_' + getBookName(meta.group);
-    const tKey = bKey + '_' + meta.group;
-    collapsedBooks[bKey] = false;
-    collapsedTests[tKey] = false;
-  }
-
+  syncActiveUnitUI(meta);
   currentLesson = meta;
   renderSidebar();
+  scrollActiveLessonIntoView(false);
 
   ensureChunkLoaded(meta.unitId, function() {
     const found = ALL_LESSONS.find(x => x.id === id);
@@ -1217,7 +1300,7 @@ window.selectLesson = function(id) {
     currentSubIdx = 0;
     currentWordIdx = 0;
     const pType = found.problem ? found.problem.pType : 'video';
-    if (pType === 'topic_flashcards') {
+        if (pType === 'topic_flashcards') {
       currentMode = 'smart_learn';
       buildSmartLearnQueue();
       buildSrsReviewQueue();
@@ -1581,6 +1664,12 @@ function focusCurrentDicInput() {
 }
 window.focusCurrentDicInput = focusCurrentDicInput;
 
+window.handleDicInput = function(inp) {
+  inp.classList.remove('correct', 'wrong');
+  const next = inp.nextElementSibling;
+  if (next && next.classList.contains('dic-ans-hint')) next.remove();
+};
+
 window.handleDicKeydown = function(e, inp) {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -1605,6 +1694,7 @@ window.handleDicKeydown = function(e, inp) {
   const passAudioEl = document.getElementById('globalPassAudio');
   if (passAudioEl) {
     passAudioEl.addEventListener('play', () => {
+      if (isListeningPzMode) return;
       if (!currentLesson || currentLesson.problem?.pType !== 'listen_passage') return;
       const subs = (currentLesson.problem.subs || []).filter(s => s.en);
       if (!subs.length || passageMode !== 'dictation' || !autoPauseSub) return;
@@ -1621,6 +1711,7 @@ window.handleDicKeydown = function(e, inp) {
   }
 
   setInterval(() => {
+    if (isListeningPzMode) return;
     const a = document.getElementById('globalPassAudio');
     if (!a || a.paused) return;
     if (!currentLesson || currentLesson.problem?.pType !== 'listen_passage') return;
@@ -1638,7 +1729,7 @@ window.handleDicKeydown = function(e, inp) {
         if (autoLoopSub) {
           a.pause();
           setTimeout(() => {
-            if (passageMode === 'dictation' && autoLoopSub) {
+            if (!isListeningPzMode && passageMode === 'dictation' && autoLoopSub) {
               subPauseLock = false;
               a.currentTime = Math.max(0, startMs / 1000);
               a.play().catch(() => {});
@@ -1690,11 +1781,22 @@ window.checkDictation = function() {
     const ans = inp.getAttribute('data-ans') || '';
     const ok = normWord(inp.value) === normWord(ans);
     inp.classList.remove('correct', 'wrong');
+    const oldHint = inp.nextElementSibling;
+    if (oldHint && oldHint.classList.contains('dic-ans-hint')) oldHint.remove();
     inp.classList.add(ok ? 'correct' : 'wrong');
-    if (!ok) allOk = false;
+    if (!ok) {
+      allOk = false;
+      const hint = document.createElement('span');
+      hint.className = 'dic-ans-hint';
+      hint.textContent = '✓ ' + ans;
+      inp.insertAdjacentElement('afterend', hint);
+    }
   });
   const rev = document.getElementById('dicAnsReveal');
-  if (rev) rev.textContent = allOk ? `✓ Chính xác: ${sub.en}` : `Đáp án: ${sub.en}`;
+  if (rev) {
+    rev.style.color = allOk ? 'var(--hl-green)' : '#f87171';
+    rev.textContent = allOk ? `✓ Chính xác: ${sub.en}` : `✗ Chưa đúng — Đáp án đầy đủ: ${sub.en}`;
+  }
   if (allOk && currentSubIdx < subs.length - 1) {
     setTimeout(() => {
       currentSubIdx++;
@@ -1710,6 +1812,8 @@ window.revealDictation = function() {
     inp.value = inp.getAttribute('data-ans') || '';
     inp.classList.remove('wrong');
     inp.classList.add('correct');
+    const oldHint = inp.nextElementSibling;
+    if (oldHint && oldHint.classList.contains('dic-ans-hint')) oldHint.remove();
   });
 };
 
@@ -1732,7 +1836,7 @@ window.checkWordDictation = function() {
     }, 950);
   } else {
     fb.style.color = '#f87171';
-    fb.textContent = `✗ Chưa đúng! Đáp án: ${wObj.term}`;
+    fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${wObj.term}</span>`;
   }
 };
 
@@ -1768,9 +1872,186 @@ function getMatchingExplainLessons(lesson) {
   return ALL_LESSONS.filter(x => x.unitId === 'u_6' && getBookName(x.group) === bName && getTestName(x.group) === tName);
 }
 
+
+window.S4FormatTheoryHtml = function(rawHtml) {
+  if (!rawHtml || typeof rawHtml !== 'string') return '';
+  let html = rawHtml;
+
+  // 1. Remove empty spacer paragraphs (<p>&nbsp;</p>, <p><span>&nbsp;</span></p>, etc.)
+  html = html.replace(/<p\b[^>]*>(?:\s|&nbsp;|\u00a0|<br\s*\/?>|<(?:span|strong|em|u)\b[^>]*>(?:\s|&nbsp;|\u00a0|<br\s*\/?>)*<\/(?:span|strong|em|u)>)*<\/p>/gi, '');
+
+  // 2. Convert Google Docs single-item <ol><li style="list-style-type:upper-roman|decimal"><h1|h2>...</h1|h2></li></ol> into structured section headers
+  const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+  html = html.replace(/<ol(?:\s+start="(\d+)")?\s*>\s*<li\b([^>]*)>\s*<(h[1-3])\b[^>]*>([\s\S]*?)<\/\3>\s*<\/li>\s*<\/ol>/gi, function(m, startNum, liAttr, hTag, inner) {
+    const idx = startNum ? Math.max(1, parseInt(startNum, 10)) : 1;
+    const isRoman = /upper-roman/i.test(liAttr);
+    const isAlpha = /upper-alpha/i.test(liAttr);
+    const badge = isRoman ? (ROMAN[idx - 1] || idx) : (isAlpha ? String.fromCharCode(64 + idx) : String(idx));
+    const isSub = hTag.toLowerCase() !== 'h1' && !isRoman;
+    const cleanInner = inner.replace(/&nbsp;/gi, ' ').trim();
+    if (isSub) {
+      return '<div class="s4-subsec-heading"><span class="s4-subsec-badge">' + badge + '</span><span class="s4-subsec-title">' + cleanInner + '</span></div>';
+    }
+    return '<div class="s4-sec-heading"><span class="s4-sec-badge">' + badge + '</span><span class="s4-sec-title">' + cleanInner + '</span></div>';
+  });
+
+  // 3. Convert Google Docs fake bullet paragraphs <p style="...list-style-type:disc...">...</p>
+  html = html.replace(/<p\b([^>]*style\s*=\s*"[^"]*list-style-type\s*:\s*disc[^"]*"[^>]*)>([\s\S]*?)<\/p>/gi, '<p class="s4-pseudo-li">$2</p>');
+
+  // 4. Process all tags with a style="..." attribute
+  html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?)\sstyle\s*=\s*"([^"]*)"([^>]*)>/gi, function(full, tag, before, styleStr, after) {
+    const t = tag.toLowerCase();
+    const classes = [];
+    let s = styleStr;
+
+    // Highlight background colors -> soft pastel badge classes
+    if (/background(?:-color)?\s*:\s*#ffff00\b/i.test(s)) {
+      classes.push('s4-hl-amber');
+      s = s.replace(/background(?:-color)?\s*:\s*#ffff00\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#00ffff\b/i.test(s)) {
+      classes.push('s4-hl-sky');
+      s = s.replace(/background(?:-color)?\s*:\s*#00ffff\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#00ff00\b/i.test(s)) {
+      classes.push('s4-hl-emerald');
+      s = s.replace(/background(?:-color)?\s*:\s*#00ff00\s*;?/gi, '');
+    }
+    if (/background(?:-color)?\s*:\s*#ff9900\b/i.test(s)) {
+      classes.push('s4-hl-rose');
+      s = s.replace(/background(?:-color)?\s*:\s*#ff9900\s*;?/gi, '');
+    }
+
+    // Table header / accent cell backgrounds (#9fc5e8, #a4c2f4)
+    if (/background(?:-color)?\s*:\s*#(?:9fc5e8|a4c2f4)\b/i.test(s)) {
+      classes.push('s4-td-accent');
+      s = s.replace(/background(?:-color)?\s*:\s*#(?:9fc5e8|a4c2f4)\s*;?/gi, '');
+    }
+
+    // Strip white / light gray / transparent backgrounds that break Dark Mode
+    s = s.replace(/background(?:-color)?\s*:\s*(?:#ffffff|#fff|#f1f3f5|white|transparent)\s*;?/gi, '');
+
+    // Foreground text colors
+    if (/(?:^|[;\s])color\s*:\s*#ff0000\b/i.test(s)) {
+      classes.push('s4-txt-red');
+      s = s.replace(/(?:^|[;\s])color\s*:\s*#ff0000\s*;?/gi, '');
+    }
+    if (/(?:^|[;\s])color\s*:\s*(?:#1155cc|#0000ff|#6d9eeb|rgb\(\s*53\s*,\s*80\s*,\s*154\s*\))/i.test(s)) {
+      classes.push('s4-txt-blue');
+      s = s.replace(/(?:^|[;\s])color\s*:\s*(?:#1155cc|#0000ff|#6d9eeb|rgb\(\s*53\s*,\s*80\s*,\s*154\s*\))\s*;?/gi, '');
+    }
+    // Strip hardcoded dark/black text colors
+    s = s.replace(/(?:^|[;\s])color\s*:\s*(?:#000000|#000|black|#1a1a1a|#242938)\s*;?/gi, '');
+
+    // Clean up table, td, th, img, span fixed pixel dimensions & borders
+    if (t === 'table' || t === 'td' || t === 'th' || t === 'img' || t === 'span') {
+      s = s.replace(/\b(?:width|height)\s*:\s*[\d.]+px\s*;?/gi, '');
+      s = s.replace(/\btable-layout\s*:\s*fixed\s*;?/gi, '');
+      s = s.replace(/\bborder(?:-(?:top|bottom|left|right))?\s*:\s*[\d.]+px\s+solid\s+#[0-9a-fA-F]+\s*;?/gi, '');
+      s = s.replace(/\boverflow\s*:\s*hidden\s*;?/gi, '');
+    }
+
+    // Soften excessive Google Docs left margins and remove justify alignment
+    s = s.replace(/\btext-align\s*:\s*justify\s*;?/gi, '');
+    s = s.replace(/\bmargin-left\s*:\s*(\d+)px\s*;?/gi, function(_, px) {
+      const n = parseInt(px, 10);
+      if (n >= 120) return 'margin-left:28px;';
+      if (n >= 70) return 'margin-left:20px;';
+      if (n >= 36) return 'margin-left:12px;';
+      return '';
+    });
+
+    s = s.replace(/;\s*;/g, ';').trim().replace(/^;+|;+$/g, '').trim();
+
+    let combinedBeforeAfter = before + after;
+    if (classes.length > 0) {
+      if (/\bclass\s*=\s*"([^"]*)"/i.test(combinedBeforeAfter)) {
+        combinedBeforeAfter = combinedBeforeAfter.replace(/\bclass\s*=\s*"([^"]*)"/i, function(_, existing) {
+          return 'class="' + (existing + ' ' + classes.join(' ')).trim() + '"';
+        });
+      } else {
+        combinedBeforeAfter = ' class="' + classes.join(' ') + '"' + combinedBeforeAfter;
+      }
+    }
+
+    const styleAttr = s ? ' style="' + s + '"' : '';
+    return '<' + tag + combinedBeforeAfter + styleAttr + '>';
+  });
+
+  // 5. Move leading/trailing spaces outside highlight pills so borders hug the words cleanly
+  html = html.replace(/<span\s+class="(s4-hl-[a-z0-9\s-]+)">(\s*)([\s\S]*?)(\s*)<\/span>/gi, function(m, cls, lead, inner, trail) {
+    if (!inner.trim()) return lead + trail;
+    return (lead || '') + '<span class="' + cls + '">' + inner + '</span>' + (trail || '');
+  });
+
+  // 6. Merge accidentally split paragraph lines right before "⇒ Paragraph X" (e.g. Question 18 in L15)
+  html = html.replace(/<p>([\s\S]*?,)<\/p>\s*<p>(\s*(?:<span[^>]*>)*\s*[a-z][\s\S]*?)<\/p>(?=\s*<p[^>]*>\s*(?:<[^>]+>)*\s*(?:⇒|→|=>)\s*Paragraph)/gi, '<p>$1 $2</p>');
+
+  // 7. Classify <p> blocks into Step Callouts, Question Cards, Passage Excerpts, Answer Pills, and Note Callouts
+  html = html.replace(/<p(\b[^>]*)>([\s\S]*?)<\/p>/gi, function(full, pAttr, inner) {
+    if (/s4-pseudo-li/i.test(pAttr)) return full;
+    const plain = inner.replace(/<[^>]+>/g, '').replace(/&nbsp;|\u00a0/g, ' ').replace(/&rarr;/g, '→').replace(/\s+/g, ' ').trim();
+    if (!plain) return full;
+
+    // 7a. Step Callout: "Bước 1: ...", "Bước 3 + Bước 4 + Bước 5"
+    if (/^Bước\s*\d+/i.test(plain) && plain.length < 160) {
+      return '<div class="s4-step-callout"><span class="s4-step-icon">🧭</span><div class="s4-step-body">' + inner + '</div></div>';
+    }
+
+    // 7b. Question Card: "Question 14: ...", "Practice 1: ..."
+    if (/^(?:Question\s*\d+|Practice\s*\d+)\s*[:.]/i.test(plain)) {
+      const decorated = inner.replace(/(?:<u>\s*)?(Question\s*\d+|Practice\s*\d+)\s*:?\s*(?:<\/u>)?(?:\s*<\/span>\s*<span[^>]*>)?\s*[:.]?\s*/i, '<span class="s4-q-badge">$1</span> ');
+      return '<div class="s4-question-card">' + decorated + '</div>';
+    }
+
+    // 7c. Passage Excerpt: starts with "A. ", "B. ", ..., "I. " and is a passage paragraph (> 60 chars)
+    if (/^[A-I]\.\s+/.test(plain) && plain.length > 60) {
+      const decorated = inner.replace(/^(\s*(?:<[^>]+>\s*)*)([A-I])\.?(\s*(?:<\/[^>]+>\s*)*)/, '$1<span class="s4-para-badge">Đoạn $2</span>$3 ');
+      return '<div class="s4-passage-excerpt">' + decorated + '</div>';
+    }
+
+    // 7d. Answer Pill or Conclusion Box: starts with "→", "⇒", "=>", or "Đáp án:"
+    if (/^(?:→|⇒|=>)\s*/i.test(plain) || /^Đáp án\s*:/i.test(plain)) {
+      const isShortAnswer = /^(?:→|⇒|=>)\s*(?:Paragraph\s+[A-Z]|Đáp án|Key|Answer|Main topic)/i.test(plain) || /^Đáp án\s*:/i.test(plain) || plain.length < 75;
+      if (isShortAnswer) {
+        return '<div class="s4-answer-wrap"><div class="s4-answer-pill">🎯 ' + inner.replace(/^(\s*(?:<[^>]+>\s*)*)(?:→|⇒|=>)\s*/, '$1') + '</div></div>';
+      }
+      return '<div class="s4-conclusion-box">' + inner + '</div>';
+    }
+
+    // 7e. Note Callout: starts with "Lưu ý:", "Chú ý:"
+    if (/^(?:Lưu ý|Chú ý|Mẹo)\s*:/i.test(plain)) {
+      return '<div class="s4-note-callout">💡 ' + inner + '</div>';
+    }
+
+    return full;
+  });
+
+  return html;
+};
+
+window.openListeningPzFromLesson = function() {
+  if (!currentLesson || !window.S4PracticeZone) return;
+  isListeningPzMode = true;
+  subPauseLock = false;
+  const pa = document.getElementById('globalPassAudio');
+  if (pa && !pa.paused) pa.pause();
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.add('active');
+  window.S4PracticeZone.enterCbtExamMode(true);
+  window.S4PracticeZone.ensureListeningPzLoaded(() => {
+    window.S4PracticeZone.setActiveListeningTestForLesson(currentLesson);
+    renderMain();
+  });
+};
+window.exitListeningPzMode = function() {
+  isListeningPzMode = false;
+  if (window.S4PracticeZone) window.S4PracticeZone.exitCbtExamMode();
+  renderMain();
+};
+
 function renderMain() {
   const container = document.getElementById('lessonContainer');
-  if (!currentLesson) return;
 
   // CRITICAL: Rescue globalPassAudio back into #hiddenAudioHolder before overwriting container.innerHTML
   const passAudio = document.getElementById('globalPassAudio');
@@ -1779,67 +2060,30 @@ function renderMain() {
     hiddenHolder.appendChild(passAudio);
   }
 
+  if (isListeningPzMode && window.S4PracticeZone) {
+    if (!window.__STUDY4_LISTEN_PZ) {
+      container.innerHTML = '<div style="padding:36px;text-align:center;color:var(--muted);font-weight:700;">⏳ Đang nạp kho 169 Đề thi IELTS Listening Practice Zone...</div>';
+      window.S4PracticeZone.ensureListeningPzLoaded(() => renderMain());
+      return;
+    }
+    if (window.S4PracticeZone.isListeningHubOpen()) {
+      container.innerHTML = window.S4PracticeZone.renderListeningHub();
+      return;
+    }
+    const activeTest = window.S4PracticeZone.getActiveListeningTest(currentLesson);
+    container.innerHTML = window.S4PracticeZone.renderListeningExamView(activeTest);
+    window.S4PracticeZone.mountListeningDomEvents(activeTest);
+    return;
+  }
+
+  if (!currentLesson) return;
+
   const isDone = doneSet.has(currentLesson.id);
   const pType = currentLesson.problem ? currentLesson.problem.pType : 'video';
   let bodyHtml = '';
 
   if (pType === 'topic_flashcards') {
-    const vList = getActiveVocabList();
-    const modeBar = `
-      <div class="mode-bar">
-        <div class="mode-tabs">
-          <button class="mode-tab ${currentMode === 'smart_learn' ? 'active' : ''}" onclick="setMode('smart_learn')">🧠 Học từ mới 4 bước (Smart Learn)</button>
-          <button class="mode-tab ${currentMode === 'srs_review' ? 'active' : ''}" onclick="setMode('srs_review')">🔄 Ôn tập Flashcards SRS</button>
-          <button class="mode-tab ${currentMode === 'flashcards' ? 'active' : ''}" onclick="setMode('flashcards')">📋 Bảng từ (${vList.length})</button>
-        </div>
-      </div>
-    `;
-    if (currentMode === 'smart_learn') {
-      bodyHtml = `${modeBar}${renderSrsSummaryBanner(vList)}${renderSmartLearnView(vList)}`;
-    } else if (currentMode === 'srs_review') {
-      const cur = srsReviewQueue[srsReviewIdx] || vList[0];
-      bodyHtml = `
-        ${modeBar}
-        ${renderSrsSummaryBanner(vList)}
-        <div class="fc-stage">
-          <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Thẻ ôn tập SRS ${srsReviewIdx + 1} / ${srsReviewQueue.length} — Nhấn vào thẻ để lật mặt</div>
-          <div class="fc-card" onclick="fcFlipped = !fcFlipped; renderMain();">
-            <div style="font-size:28px;font-weight:800;color:var(--hl-gold);">${cur.origin || cur.term} <small style="font-size:15px;color:var(--muted);">(${cur.pos || ''})</small></div>
-            ${cur.ipa ? `<div style="color:var(--hl-cyan);font-size:15px;margin:6px 0 10px;">${cur.ipa}</div>` : ''}
-            ${fcFlipped ? `
-              <div style="font-size:19px;font-weight:700;color:var(--hl-green);margin-bottom:8px;">🇻🇳 ${cur.vi || ''}</div>
-              <div style="font-size:13.5px;color:var(--sub-text);max-width:480px;">📘 ${cur.en || ''}</div>
-            ` : `<div style="font-size:13px;color:var(--muted);margin-top:10px;">👆 Nhấn để xem nghĩa tiếng Việt & giải nghĩa</div>`}
-          </div>
-          <div style="display:flex;justify-content:center;gap:10px;margin-top:12px;">
-            <button class="btn" onclick="playWordAudio(srsReviewQueue[${srsReviewIdx}], 'en-GB')">🔊 UK</button>
-            <button class="btn" onclick="playWordAudio(srsReviewQueue[${srsReviewIdx}], 'en-US')">🔊 US</button>
-          </div>
-          <div class="srs-rate-row">
-            <button class="srs-btn Hard" onclick="rateSrsCard('Hard')">🔴 Chưa nhớ (10p)</button>
-            <button class="srs-btn Good" onclick="rateSrsCard('Good')">🟡 Tạm nhớ (1 ngày)</button>
-            <button class="srs-btn Easy" onclick="rateSrsCard('Easy')">🟢 Đã thuộc (4+ ngày)</button>
-          </div>
-        </div>
-      `;
-    } else {
-      bodyHtml = `
-        ${modeBar}
-        ${renderSrsSummaryBanner(vList)}
-        <div class="vocab-table-grid">
-          ${vList.map((v, idx) => `
-            <div class="vocab-card-item">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <strong style="font-size:15.5px;color:var(--hl-gold);">${v.origin || v.term} <small style="color:var(--hl-cyan);font-weight:400;">${v.ipa || ''}</small></strong>
-                <button class="mini-btn" onclick="playWordAudio(getActiveVocabList()[${idx}], 'en-GB')">🔊 UK</button>
-              </div>
-              <div style="font-size:13.5px;font-weight:700;color:var(--hl-green);">🇻🇳 ${v.vi || ''}</div>
-              <div style="font-size:12px;color:var(--sub-text);">📘 ${v.en || ''}</div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
+    bodyHtml = '<div id="s4VocabMount"></div>';
   } else if (pType === 'dictation_words') {
     const words = POOLS[currentLesson.problem.poolKey] || [];
     const wObj = words[currentWordIdx] || { term: '', definition: '', pronunciation: '', audio: '' };
@@ -1889,6 +2133,9 @@ function renderMain() {
               <button class="btn ${passageMode === 'dictation' ? 'btn-primary' : ''}" onclick="passageMode='dictation';renderMain();">✍️ Chép chính tả</button>
               <button class="btn ${passageMode === 'transcript' ? 'btn-primary' : ''}" onclick="passageMode='transcript';renderMain();">📜 Transcript (${subs.length} câu)</button>
             ` : ''}
+            ${currentLesson.unitId === 'u_4' ? `
+              <button class="btn" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);" onclick="openListeningPzFromLesson()">🎯 Làm đề & Chấm điểm</button>
+            ` : ''}
           </div>
         </div>
       </div>
@@ -1913,7 +2160,7 @@ function renderMain() {
             ${buildDictationTokens(sub.en, currentSubIdx, dicLevel).map(tk => {
               if (!tk.isBlank) return `<span>${tk.raw} </span>`;
               const w = Math.max(66, tk.answer.length * 10 + 18);
-              return `${tk.prefix}<input type="text" class="dic-input" data-ans="${tk.answer.replace(/"/g, '&quot;')}" style="width:${w}px;" onfocus="scrollInputIntoOptimalView(this)" onkeydown="handleDicKeydown(event, this)">${tk.suffix} `;
+              return `${tk.prefix}<input type="text" class="dic-input" data-ans="${tk.answer.replace(/"/g, '&quot;')}" style="width:${w}px;" autocomplete="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" oninput="handleDicInput(this)" onkeydown="handleDicKeydown(event, this)">${tk.suffix} `;
             }).join('')}
           </div>
           <div id="dicAnsReveal" style="min-height:20px;font-size:13.5px;font-weight:700;color:var(--hl-green);margin:8px 0;"></div>
@@ -1974,7 +2221,7 @@ function renderMain() {
           </a>
         </div>
       ` : ''}
-      ${currentLesson.htmlContent ? `<div class="theory-card">${currentLesson.htmlContent}</div>` : ''}
+      ${currentLesson.htmlContent ? `<div class="theory-card">${window.S4FormatTheoryHtml(currentLesson.htmlContent)}</div>` : ''}
     `;
   }
 
@@ -1993,10 +2240,21 @@ function renderMain() {
     ${bodyHtml}
   `;
 
+  if (pType === 'topic_flashcards' && window.S4VocabEngine) {
+    const modeMap = { smart_learn: 'smart', srs_review: 'flashcard', flashcards: 'list', matching: 'match', spelling: 'cloze' };
+    window.S4VocabEngine.mount('s4VocabMount', currentLesson.id, getActiveVocabList(), currentLesson.title, modeMap[currentMode] || currentMode);
+  }
+  try {
+    localStorage.setItem('s4_listen_last_rendered_html', container.innerHTML);
+  } catch(e) {}
+
   if (pType === 'listen_passage') {
     const slot = document.getElementById('audioSlot');
     const passAudio = document.getElementById('globalPassAudio');
     if (slot && passAudio) {
+      if (currentLesson.problem?.audioUrl && passAudio.getAttribute('src') !== currentLesson.problem.audioUrl) {
+        passAudio.src = currentLesson.problem.audioUrl;
+      }
       passAudio.style.display = 'block';
       passAudio.controls = true;
       slot.appendChild(passAudio);
@@ -2004,10 +2262,6 @@ function renderMain() {
   }
   const focusEl = document.getElementById('smartSpellInput') || document.getElementById('wordDicInput') || document.querySelector('.dic-input');
   if (focusEl) focusEl.focus();
-
-  try {
-    localStorage.setItem('s4_listen_last_rendered_html', container.innerHTML);
-  } catch(e) {}
 }
 
 window.addEventListener('keydown', (e) => {
@@ -2030,6 +2284,7 @@ try {
 
 if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   currentLesson = cachedLesson;
+  syncActiveUnitUI(currentLesson);
   const pType = currentLesson.problem ? currentLesson.problem.pType : 'video';
   if (pType === 'topic_flashcards') {
     buildSmartLearnQueue();
@@ -2044,7 +2299,17 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   }
   renderSidebar();
   renderMain();
-  ensureChunkLoaded(currentLesson.unitId);
+  scrollActiveLessonIntoView(false);
+  ensureChunkLoaded(currentLesson.unitId, function() {
+    const fresh = ALL_LESSONS.find(x => x.id === currentLesson.id);
+    if (fresh) {
+      const needReRender = (currentLesson.problem?.pType === 'dictation_words') || (!currentLesson.problem);
+      currentLesson = fresh;
+      if (needReRender) renderMain();
+    }
+    renderSidebar();
+    scrollActiveLessonIntoView(false);
+  });
 } else if (initialLesson) {
   selectLesson(initialLesson.id);
 }
@@ -2062,7 +2327,8 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../auth.js?v=16"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=16"></script>
+  <script src="../assets/s4-practice-zone.js?v=24"></script>
+  <script src="../auth.js?v=18"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>

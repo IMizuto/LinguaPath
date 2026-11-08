@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
   (function () {
     try {
@@ -14,13 +19,16 @@
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      var ua = navigator.userAgent || "";
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
+      if (isIOS && isStandalone) {
+        document.documentElement.style.setProperty("--s4-safe-top", window.screen.height >= 812 ? "50px" : "24px");
+      }
     } catch (e) {}
   })();
-</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
-  <meta name="theme-color" id="metaThemeColor" content="#f1f5f9">
-  <title>TED Talks English - Luyện Nghe & Shadowing (40 Bài)</title>
+  </script>
+  <title>TED Talks English - Luyện Nghe & Shadowing (202 Bài)</title>
   
   <style>
     @view-transition { navigation: auto; }
@@ -230,7 +238,7 @@
       .dic-full-input { font-size: 16px; min-height: 44px; padding: 10px 12px; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=16">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=24">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -245,7 +253,7 @@
       <input type="text" id="searchInput" placeholder="🔍 Tìm bài diễn thuyết TED...">
     </div>
     <div class="unit-tabs">
-      <button class="unit-tab active" onclick="setUnitFilter('ALL', this)">Tất cả (40)</button>
+      <button class="unit-tab active" onclick="setUnitFilter('ALL', this)">Tất cả (202)</button>
       <button class="unit-tab" onclick="setUnitFilter('Short', this)">Ngắn 0-6p</button>
       <button class="unit-tab" onclick="setUnitFilter('Long', this)">Dài 6p+</button>
     </div>
@@ -255,7 +263,7 @@
   <div class="main-wrap">
     <div class="topbar">
       <div class="topbar-left">
-        <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ Danh sách (40)</button>
+        <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ Danh sách (202)</button>
         <div class="mode-pills">
           <button class="mode-pill active" data-mode="dictation" onclick="switchMode('dictation')">✍️ Chép chính tả</button>
           <button class="mode-pill" data-mode="transcript" onclick="switchMode('transcript')">🎧 Nghe & Transcript</button>
@@ -264,7 +272,7 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openActivateModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 9px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">👑 Mở VIP</button>
+        <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
         <button class="theme-btn" onclick="toggleDark()">🌓</button>
       </div>
     </div>
@@ -472,6 +480,10 @@
       segmentEndSec = null;
       toggleMenu(false);
       renderSidebar();
+      setTimeout(() => {
+        const act = document.querySelector("#lessonList .lesson-item.active");
+        if (act) { try { act.scrollIntoView({ block: "center", behavior: "auto" }); } catch (e) {} }
+      }, 50);
       loadActiveVideo(autoPlayPodcast);
       renderModeContent();
     }
@@ -567,11 +579,23 @@
       if (a) return a.replace(/index-f\d+-a\d+\.m3u8.*$/, "manifest.m3u8");
       return it.mp4 || "";
     }
+    function getTedOffsetMs(it) {
+      if (!it) return 0;
+      if (currentMode === "podcast" || currentEngine === "ted" || !ytReady || ytError) {
+        return Number(it.podOffsetMs || 0);
+      }
+      return 0;
+    }
+    function getSubDisplayTimeMs(it, sub) {
+      if (!sub) return 0;
+      return Math.max(0, Number(sub.time || 0) + getTedOffsetMs(it));
+    }
     let tedHls = null;
     let tedVidLoadedUrl = "";
     function loadTedVideo(vid, it) {
       const url = tedVideoUrl(it);
-      if (!vid || !url || tedVidLoadedUrl === url) return;
+      if (!vid || !url) return;
+      if (tedVidLoadedUrl === url && (tedHls || vid.src === url)) return;
       tedVidLoadedUrl = url;
       if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
       if (/\.m3u8/.test(url) && window.Hls && Hls.isSupported()) {
@@ -709,13 +733,13 @@
       const extBtn = document.getElementById("btnEngExtYt");
       if (extBtn) extBtn.href = `https://www.youtube.com/watch?v=${it.youtubeId}`;
 
-      const tedVid = document.getElementById("tedVideoPlayer");
-      if (tedVid && it.mp4) {
-        tedVid.src = it.mp4;
-        tedVid.load();
-      }
+      const hasTedStream = !!(it.mp4 || it.audioHls || it.hls);
 
-      if (currentMode === "podcast") {
+      if (!hasTedStream && it.youtubeId) {
+        ytWanted = true;
+        ensureYouTubeApi();
+        setMediaEngine("yt");
+      } else if (currentMode === "podcast") {
         loadPodcastStream(it, !!autoPlayPodcast);
       } else if (currentEngine === "ted") {
         showTedPlayerUI();
@@ -737,7 +761,7 @@
         const tedVid = document.getElementById("tedVideoPlayer");
         const bgAudio = document.getElementById("bgPodcastAudio");
         const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
-        const offsetSec = (activeMedia === bgAudio) ? (Number(it.podOffsetMs || 0) / 1000) : 0;
+        const offsetSec = Number(it.podOffsetMs || 0) / 1000;
         if (activeMedia) {
           activeMedia.currentTime = Math.max(0, startSec + offsetSec);
           activeMedia.play().catch(() => {});
@@ -757,12 +781,15 @@
         if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
           const it = getActiveItem();
           if (!it || !it.subs) return;
+          const offsetSec = Number(it.podOffsetMs || 0) / 1000;
+          const unadjustedSec = tedVid.currentTime - offsetSec;
           const curSub = it.subs[currentSubIdx];
           const nextSub = it.subs[currentSubIdx + 1];
           const cutoff = segmentEndSec !== null ? segmentEndSec : (nextSub ? (nextSub.time / 1000 - 0.04) : ((curSub.time / 1000) + 12));
-          if (cutoff !== null && tedVid.currentTime >= cutoff && !tedVid.paused) {
+          if (cutoff !== null && unadjustedSec >= cutoff && !tedVid.paused) {
             if (repeatSentence && curSub) {
-              tedVid.currentTime = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+              const repeatStart = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
+              tedVid.currentTime = Math.max(0, repeatStart + offsetSec);
             } else {
               tedVid.pause();
               segmentEndSec = null;
@@ -789,7 +816,7 @@
           const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
           if (activeMedia && !activeMedia.paused) {
             isPlaying = true;
-            const offsetSec = (activeMedia === bgAudio) ? (Number(it.podOffsetMs || 0) / 1000) : 0;
+            const offsetSec = Number(it.podOffsetMs || 0) / 1000;
             sec = Math.max(0, activeMedia.currentTime - offsetSec);
           }
         } else if (ytReady && ytPlayer && typeof ytPlayer.getCurrentTime === "function") {
@@ -812,7 +839,7 @@
               const repeatStart = Math.max(0, (curSub.time || 0) / 1000 - 0.08);
               if (currentEngine === "ted" || !ytReady || ytError) {
                 const activeMedia = (currentMode === "podcast") ? bgAudio : (tedVid || bgAudio);
-                const offsetSec = (activeMedia === bgAudio) ? (Number(it.podOffsetMs || 0) / 1000) : 0;
+                const offsetSec = Number(it.podOffsetMs || 0) / 1000;
                 if (activeMedia) activeMedia.currentTime = Math.max(0, repeatStart + offsetSec);
               } else if (ytReady && ytPlayer && ytPlayer.seekTo) {
                 ytPlayer.seekTo(repeatStart, true);
@@ -868,7 +895,7 @@
       const box = document.getElementById("modeContainer");
       const rowsHtml = it.subs.map((s, idx) => `
         <div class="sub-item ${idx === playbackSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
-          <span class="sub-time">${fmtTime(s.time)}</span>
+          <span class="sub-time">${fmtTime(getSubDisplayTimeMs(it, s))}</span>
           <div style="flex:1;min-width:0;">
             ${showEnSub ? `<div class="sub-en">${s.en}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
             ${showViSub && s.vi ? `<div class="sub-vi">${s.vi}</div>` : ""}
@@ -980,7 +1007,7 @@
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button class="ctrl-btn" onclick="stepSub(-1)">◀ Câu trước</button>
-            <button class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">🔊 Nghe câu này (${fmtTime(sub.time)})</button>
+            <button class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">🔊 Nghe câu này (${fmtTime(getSubDisplayTimeMs(it, sub))})</button>
             <button class="ctrl-btn" onclick="stepSub(1)">Câu sau ▶</button>
           </div>
         </div>
@@ -1035,8 +1062,10 @@
 
     function handleDicInput(el) {
       if (!el) return;
-      // Không tự chấm khi đang gõ; chỉ xoá màu xanh/đỏ cũ nếu người dùng sửa lại chữ trong ô
+      // Không tự chấm khi đang gõ; chỉ xoá màu xanh/đỏ cũ và nhãn đáp án nếu người dùng sửa lại chữ trong ô
       el.classList.remove("correct", "wrong");
+      const next = el.nextElementSibling;
+      if (next && next.classList.contains("dic-ans-hint")) next.remove();
     }
 
     function handleDicKey(ev, el) {
@@ -1100,6 +1129,7 @@
 
       const inputs = [...document.querySelectorAll(".dic-input")];
       if (!inputs.length) return;
+      document.querySelectorAll(".dic-sentence .dic-ans-hint").forEach(h => h.remove());
       let allOk = true;
       let firstWrong = null;
       inputs.forEach(inp => {
@@ -1110,13 +1140,19 @@
         if (!ok) {
           allOk = false;
           if (!firstWrong) firstWrong = inp;
+          const hint = document.createElement("span");
+          hint.className = "dic-ans-hint";
+          hint.textContent = "✓ " + ans;
+          inp.insertAdjacentElement("afterend", hint);
         }
       });
-      document.getElementById("dicAnsReveal").textContent = allOk ? "" : "Đáp án: " + sub.en;
+      document.getElementById("dicAnsReveal").innerHTML = allOk
+        ? `<span style="color:var(--success)">✓ Chính xác: ${sub.en}</span>`
+        : `<span style="color:var(--danger)">✗ Chưa đúng — Đáp án đầy đủ:</span> <span style="color:var(--success)">${sub.en}</span>`;
       if (allOk) {
         triggerAutoAdvance();
       } else {
-        showToast(false, "✗ Xem các ô tô đỏ");
+        showToast(false, "✗ Xem các ô tô đỏ & đáp án đúng bên cạnh");
         if (firstWrong) {
           firstWrong.focus();
           scrollInputIntoOptimalView(firstWrong);
@@ -1135,6 +1171,7 @@
         fullInp.classList.remove("wrong");
         fullInp.classList.add("correct");
       }
+      document.querySelectorAll(".dic-sentence .dic-ans-hint").forEach(h => h.remove());
       document.querySelectorAll(".dic-input").forEach(inp => {
         inp.value = inp.getAttribute("data-ans") || "";
         inp.classList.remove("wrong");
@@ -1285,7 +1322,7 @@
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button class="ctrl-btn" onclick="stepSub(-1)">◀ Câu trước</button>
-            <button class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">🔊 Nghe mẫu (${fmtTime(sub.time)})</button>
+            <button class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">🔊 Nghe mẫu (${fmtTime(getSubDisplayTimeMs(it, sub))})</button>
             <button class="ctrl-btn" style="border-color:var(--primary);color:var(--primary);" onclick="listenThenAutoShadow()">🎧➔🎙️ Nghe mẫu & Tự thu</button>
             <button class="ctrl-btn" onclick="stepSub(1)">Câu sau ▶</button>
           </div>
@@ -1725,10 +1762,14 @@
     setupTedVideoEvents();
     startSyncLoop();
     renderSidebar();
+    setTimeout(() => {
+      const act = document.querySelector("#lessonList .lesson-item.active");
+      if (act) { try { act.scrollIntoView({ block: "center", behavior: "auto" }); } catch (e) {} }
+    }, 50);
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=16"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=16"></script>
+  <script src="../auth.js?v=18"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>
