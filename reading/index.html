@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
@@ -1277,7 +1278,8 @@ function updateTopProgress() {
 function playWordAudio(v, lang = 'en-GB') {
   const wordText = v.origin || v.word || v.term || '';
   const url = lang === 'en-US' ? (v.usAudio || v.ukAudio) : (v.ukAudio || v.usAudio);
-  if (url) {
+  const isPrivateTts = url && (url.includes('/ai_services/tts') || url.includes('study4.com/login'));
+  if (url && !isPrivateTts) {
     const fullUrl = url.startsWith('http') ? url : 'https://study4.com' + url;
     const player = document.getElementById('ttsAudioPlayer');
     player.src = fullUrl;
@@ -2863,6 +2865,6 @@ setTimeout(function() {
 </script>
   <script src="../assets/s4-practice-zone.js?v=30"></script>
   <script src="../auth.js?v=29"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=25"></script>
 </body>
 </html>

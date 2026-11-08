@@ -1916,11 +1916,6 @@
     /* Mở tự do 100% không ép đăng nhập */
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-      if (window.caches) {
-        caches.keys().then(keys => {
-          keys.filter(k => k !== "study4-ielts-cache-v16").forEach(k => caches.delete(k));
-        }).catch(() => {});
-      }
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";
       navigator.serviceWorker.register(swPath).then(reg => reg.update()).catch(() => {});
     }

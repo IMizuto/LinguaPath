@@ -1,4 +1,4 @@
-const CACHE_NAME = "study4-ielts-cache-v38";
+const CACHE_NAME = "linguapath-cache-v39";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -13,7 +13,13 @@ const CORE_ASSETS = [
   "./vocab/index.html",
   "./vocab/vocab_data.js",
   "./grammar/index.html",
-  "./grammar/grammar_data.js"
+  "./grammar/grammar_data.js",
+  "./listening/index.html",
+  "./listening/data/listening_manifest.js",
+  "./reading/index.html",
+  "./reading/data/reading_manifest.js",
+  "./tedtalks/index.html",
+  "./tedtalks/tedtalks_data.js"
 ];
 
 self.addEventListener("install", (event) => {
