@@ -686,15 +686,21 @@
     try {
       const ua = navigator.userAgent || "";
       const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const isPortrait = window.innerHeight >= window.innerWidth;
+      const maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
       const isStandalone = window.navigator.standalone === true ||
         (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
-        (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
-      if (isIOS && isStandalone) {
-        const inset = window.screen.height >= 812 ? "50px" : "24px";
+        (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+      if (isIOS && isStandalone && isPortrait) {
+        const inset = maxDim >= 812 ? "50px" : "24px";
         document.documentElement.style.setProperty("--s4-safe-top", inset);
+      } else {
+        document.documentElement.style.setProperty("--s4-safe-top", "0px");
       }
     } catch (e) {}
   }
+  window.addEventListener("resize", updateSafeAreaVar);
+  window.addEventListener("orientationchange", () => setTimeout(updateSafeAreaVar, 80));
 
   function injectStyles() {
     updateSafeAreaVar();
@@ -704,6 +710,7 @@
     st.textContent = `
       html.s4-modal-lock, body.s4-modal-lock { overflow: hidden !important; overscroll-behavior: none !important; }
       :root { --s4-top-inset: max(env(safe-area-inset-top, 0px), var(--s4-safe-top, 0px)); }
+      @media (orientation: landscape) { :root { --s4-top-inset: env(safe-area-inset-top, 0px); } }
       .s4-user-bar { position: sticky; top: 0; background: rgba(255,255,255,0.95); color: #0f172a; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: calc(7px + var(--s4-top-inset, 0px)) calc(12px + env(safe-area-inset-right, 0px)) 7px calc(12px + env(safe-area-inset-left, 0px)); font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: nowrap; z-index: 950; border-bottom: 1px solid #e2e8f0; width: 100%; max-width: 100%; flex-shrink: 0; box-sizing: border-box; touch-action: manipulation; }
       html.dark .s4-user-bar, body.dark .s4-user-bar { background: rgba(30,41,59,0.95); color: #f8fafc; border-bottom-color: #334155; }
       .s4-user-left { display: flex; align-items: center; gap: 6px; flex: 1 1 0%; min-width: 0; overflow: hidden; }
@@ -882,9 +889,17 @@
     wrap.className = "s4-modal-backdrop";
     wrap.id = "s4AuthModal";
     wrap.innerHTML = `<div class="s4-modal ${extraClass || ""}"></div>`;
+    wrap.addEventListener("click", (e) => {
+      if (e.target === wrap) closeModals();
+    });
     document.body.appendChild(wrap);
     return { wrap, box: wrap.firstChild };
   }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && document.getElementById("s4AuthModal")) {
+      closeModals();
+    }
+  });
   function closeModals() {
     document.querySelectorAll("#s4AuthModal").forEach(el => el.remove());
     document.documentElement.classList.remove("s4-modal-lock");
@@ -1077,7 +1092,10 @@
         ${err ? `<div class="s4-err">⚠️ ${esc(err)}</div>` : ""}
         ${bodyHtml}`;
 
-      box.querySelector("#s4Close").onclick = closeModals;
+      const cTop = box.querySelector("#s4Close");
+      if (cTop) cTop.onclick = closeModals;
+      const cBottom = box.querySelector("#s4CloseBottom");
+      if (cBottom) cBottom.onclick = closeModals;
       const cb = box.querySelector("#s4CloseBottom");
       if (cb) cb.onclick = closeModals;
       if (typeof setupPassToggles === "function") setupPassToggles(box);
@@ -1367,7 +1385,7 @@
           <h3 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px;color:#e11d48;">
             <span>💖</span> <span>Ủng Hộ Dự Án (Donate) &amp; Chung Tay Thiện Nguyện</span>
           </h3>
-          <button class="s4-top-btn" style="color:inherit;font-size:16px;padding:4px 10px;" id="s4Close">✕</button>
+          <button type="button" class="s4-top-btn" style="color:inherit;font-size:16px;padding:4px 10px;cursor:pointer;" id="s4Close" onclick="window.S4Auth.closeModals()">✕</button>
         </div>
 
         <div style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1.5px solid #fda4af;color:#881337;padding:12px 14px;border-radius:12px;margin-bottom:14px;line-height:1.55;">
@@ -1419,7 +1437,7 @@
         </div>
 
         <div style="margin-top:10px;display:flex;justify-content:flex-end;">
-          <button class="s4-top-btn" id="s4CloseBottom" style="padding:8px 18px;font-size:13px;">Đóng</button>
+          <button type="button" class="s4-top-btn" id="s4CloseBottom" onclick="window.S4Auth.closeModals()" style="padding:8px 18px;font-size:13px;cursor:pointer;">Đóng</button>
         </div>
       `;
 

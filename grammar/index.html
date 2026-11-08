@@ -19,12 +19,17 @@
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
       if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
-      var ua = navigator.userAgent || "";
-      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-      var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && Math.abs(window.innerHeight - window.screen.height) < 28);
-      if (isIOS && isStandalone) {
-        document.documentElement.style.setProperty("--s4-safe-top", window.screen.height >= 812 ? "50px" : "24px");
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        document.documentElement.style.setProperty("--s4-safe-top", (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px");
       }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function() { setTimeout(syncSafeTop, 80); });
     } catch (e) {}
   })();
   </script>
@@ -183,7 +188,7 @@
     </div>
   </div>
 
-  <script src="../auth.js?v=18"></script>
+  <script src="../auth.js?v=19"></script>
   <script src="grammar_data.js"></script>
   <script>
     if (localStorage.getItem("s4_vocab_dark") === "1") {

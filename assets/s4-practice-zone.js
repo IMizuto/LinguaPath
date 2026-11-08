@@ -216,7 +216,7 @@
     const btn = document.getElementById('s4CbtFsBtn');
     if (!btn) return;
     const isFs = !!document.fullscreenElement;
-    btn.innerHTML = isFs ? '🗗 Thoát Fullscreen (Esc)' : '⛶ Toàn màn hình (F11)';
+    btn.innerHTML = isFs ? '🗗<span class="s4-cbt-hide-mob"> Thoát Fullscreen (Esc)</span>' : '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình (F11)</span>';
     btn.classList.toggle('active', isFs);
   }
 
@@ -261,13 +261,24 @@
     }, 2800);
   }
 
-  window.s4CbtMobileQuickHighlight = function () {
+  window.s4CbtQuickHighlight = function () {
     const sel = window.getSelection();
     if (!sel || sel.isCollapsed || !sel.toString().trim()) {
-      showCbtToast('🖍️ Chạm giữ để bôi đen từ/cụm từ trong bài trước, sau đó bấm nút 🖍️ để tô vàng!');
+      showCbtToast('🖍️ Hãy bôi đen một đoạn văn bản trước rồi bấm nút để Highlight!');
       return;
     }
     applySelectionHighlight(false);
+    hideHighlightPopup();
+  };
+  window.s4CbtMobileQuickHighlight = window.s4CbtQuickHighlight;
+
+  window.s4CbtQuickNote = function () {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+      showCbtToast('📝 Hãy bôi đen một đoạn văn bản trước rồi bấm nút để thêm Ghi chú!');
+      return;
+    }
+    applySelectionHighlight(true);
     hideHighlightPopup();
   };
 
@@ -285,31 +296,57 @@
     leftPane.style.setProperty('--cbt-left-pct', cbtLeftPct + '%');
 
     let isDragging = false;
-    resizer.onmousedown = (e) => {
-      e.preventDefault();
+    const startDrag = (e) => {
       isDragging = true;
       resizer.classList.add('dragging');
       document.body.style.cursor = 'col-resize';
       document.body.style.userSelect = 'none';
     };
 
-    window.onmousemove = (e) => {
+    const doDrag = (clientX) => {
       if (!isDragging) return;
       const rect = splitArea.getBoundingClientRect();
       if (!rect.width) return;
-      const relX = e.clientX - rect.left;
-      const pct = Math.max(28, Math.min(72, Math.round((relX / rect.width) * 100)));
+      const relX = clientX - rect.left;
+      const pct = Math.max(22, Math.min(78, Math.round((relX / rect.width) * 100)));
       cbtLeftPct = pct;
       leftPane.style.setProperty('--cbt-left-pct', pct + '%');
     };
 
-    window.onmouseup = () => {
+    const endDrag = () => {
       if (!isDragging) return;
       isDragging = false;
       resizer.classList.remove('dragging');
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
     };
+
+    // Mouse drag
+    resizer.onmousedown = (e) => {
+      e.preventDefault();
+      startDrag(e);
+    };
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) doDrag(e.clientX);
+    });
+    window.addEventListener('mouseup', endDrag);
+
+    // Touch drag on mobile / tablet landscape
+    resizer.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length === 1) {
+        startDrag(e);
+      }
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (e) => {
+      if (isDragging && e.touches && e.touches.length === 1) {
+        doDrag(e.touches[0].clientX);
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
   }
 
   // =========================================================================
@@ -899,8 +936,10 @@
               <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn ${cbtFontClass === 'cbt-font-lg' ? 'active' : ''}" data-font="cbt-font-lg" style="border:none;padding:4px 8px;font-size:13.5px;" onclick="window.s4CbtSetFont('cbt-font-lg')">A+</button>
               <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn ${cbtFontClass === 'cbt-font-xl' ? 'active' : ''}" data-font="cbt-font-xl" style="border:none;padding:4px 8px;font-size:15px;" onclick="window.s4CbtSetFont('cbt-font-xl')">A++</button>
             </div>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtQuickHighlight()" title="Tô vàng cụm từ đang chọn">🖍️<span class="s4-cbt-hide-mob"> Highlight</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtQuickNote()" title="Thêm ghi chú cho cụm từ đang chọn">📝<span class="s4-cbt-hide-mob"> Note</span></button>
             <button type="button" class="s4-cbt-ctrl-btn s4-cbt-fs-btn ${isFs ? 'active' : ''}" id="s4CbtFsBtn" onclick="window.s4CbtToggleFullscreen()">
-              ${isFs ? '🗗 Thoát Fullscreen (Esc)' : '⛶ Toàn màn hình (F11)'}
+              ${isFs ? '🗗<span class="s4-cbt-hide-mob"> Thoát Fullscreen (Esc)</span>' : '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình (F11)</span>'}
             </button>
             ${!isSubmitted ? `
               <button type="button" class="s4-cbt-submit-btn" onclick="window.s4PzSubmitReading('${sessionKey}')">✔ Nộp bài<span class="s4-cbt-hide-mob"> & Chấm điểm</span></button>
@@ -1343,8 +1382,10 @@
               <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn ${cbtFontClass === 'cbt-font-lg' ? 'active' : ''}" data-font="cbt-font-lg" style="border:none;padding:4px 8px;font-size:13.5px;" onclick="window.s4CbtSetFont('cbt-font-lg')">A+</button>
               <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn ${cbtFontClass === 'cbt-font-xl' ? 'active' : ''}" data-font="cbt-font-xl" style="border:none;padding:4px 8px;font-size:15px;" onclick="window.s4CbtSetFont('cbt-font-xl')">A++</button>
             </div>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtQuickHighlight()" title="Tô vàng cụm từ đang chọn">🖍️<span class="s4-cbt-hide-mob"> Highlight</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtQuickNote()" title="Thêm ghi chú cho cụm từ đang chọn">📝<span class="s4-cbt-hide-mob"> Note</span></button>
             <button type="button" class="s4-cbt-ctrl-btn s4-cbt-fs-btn ${isFs ? 'active' : ''}" id="s4CbtFsBtn" onclick="window.s4CbtToggleFullscreen()">
-              ${isFs ? '🗗 Thoát Fullscreen (Esc)' : '⛶ Toàn màn hình (F11)'}
+              ${isFs ? '🗗<span class="s4-cbt-hide-mob"> Thoát Fullscreen (Esc)</span>' : '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình (F11)</span>'}
             </button>
             ${!isSubmitted ? `
               <button type="button" class="s4-cbt-submit-btn" onclick="window.s4PzSubmitListening('${sessionKey}')">✔ Nộp bài<span class="s4-cbt-hide-mob"> & Chấm điểm</span></button>

@@ -1,11 +1,11 @@
-const CACHE_NAME = "study4-ielts-cache-v25";
+const CACHE_NAME = "study4-ielts-cache-v27";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./auth.js?v=18",
+  "./auth.js?v=19",
   "./assets/s4-vocab-engine.js?v=16",
-  "./assets/s4-practice-zone.js?v=24",
-  "./assets/ghibli/ghibli-theme.css?v=24",
+  "./assets/s4-practice-zone.js?v=25",
+  "./assets/ghibli/ghibli-theme.css?v=25",
   "./assets/ghibli/ghibli-theme.js?v=24",
   "./manifest.json",
   "./icon-192.png",

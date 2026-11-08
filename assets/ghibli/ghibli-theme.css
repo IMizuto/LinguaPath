@@ -1871,7 +1871,12 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
   overflow: hidden;
   position: relative;
 }
-.s4-cbt-pane-left {
+.syn-col-title {
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    font-size: 11.5px !important;
+  }
+  .s4-cbt-pane-left {
   width: var(--cbt-left-pct, 50%);
   min-width: 280px;
   max-width: 74%;
@@ -1895,6 +1900,17 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
   user-select: none;
   z-index: 15;
   transition: background 0.15s;
+  position: relative;
+  touch-action: none !important;
+}
+.s4-cbt-resizer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -12px;
+  right: -12px;
+  z-index: 20;
 }
 .s4-cbt-resizer:hover,
 .s4-cbt-resizer.dragging {
@@ -1931,12 +1947,12 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
   font-size: 19.5px;
 }
 
-/* Thanh chuyển chế độ xem trên Điện thoại (Ẩn trên Desktop, Hiện trên Mobile <= 820px) */
+/* Thanh chuyển chế độ xem trên Điện thoại Dọc (Ẩn trên Desktop & Khi Xoay Ngang Landscape) */
 .s4-cbt-mobile-switcher {
   display: none;
 }
 
-@media (max-width: 820px) {
+@media (max-width: 540px), (max-width: 860px) and (orientation: portrait) {
   /* 1. Header Phòng thi CBT gọn 2 dòng trên Điện thoại, không bao giờ tràn ngang */
   .s4-cbt-header {
     height: auto !important;
@@ -2360,10 +2376,15 @@ html:not(.dark) .s4-cbt-user-hl {
 }
 
 /* ================================================================
-   9. CHUẨN HÓA iOS SAFE AREA (TAI THỎ / DYNAMIC ISLAND / HOME INDICATOR)
+   9. CHUẨN HÓA iOS SAFE AREA & GIAO DIỆN XOAY NGANG (LANDSCAPE = NHƯ MÁY TÍNH)
    ================================================================ */
 :root {
   --s4-top-inset: max(env(safe-area-inset-top, 0px), var(--s4-safe-top, 0px));
+}
+@media (orientation: landscape) {
+  :root {
+    --s4-top-inset: env(safe-area-inset-top, 0px) !important;
+  }
 }
 .topbar,
 header.topbar {
@@ -2373,8 +2394,8 @@ header.topbar {
 }
 .s4-cbt-header {
   padding-top: calc(6px + var(--s4-top-inset, 0px)) !important;
-  padding-left: calc(10px + env(safe-area-inset-left, 0px)) !important;
-  padding-right: calc(10px + env(safe-area-inset-right, 0px)) !important;
+  padding-left: calc(12px + env(safe-area-inset-left, 0px)) !important;
+  padding-right: calc(12px + env(safe-area-inset-right, 0px)) !important;
   height: auto !important;
   min-height: calc(48px + var(--s4-top-inset, 0px)) !important;
 }
@@ -2384,9 +2405,120 @@ header.topbar {
     padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 768px) and (orientation: portrait) {
   .topbar,
   header.topbar {
     padding: calc(6px + var(--s4-top-inset, 0px)) calc(8px + env(safe-area-inset-right, 0px)) 6px calc(8px + env(safe-area-inset-left, 0px)) !important;
+  }
+}
+
+/* Tối ưu giao diện Máy tính 2 cột khi Xoay Ngang trên Điện thoại / Tablet nhỏ (Android & iPhone Landscape) */
+@media (min-width: 541px) and (max-width: 1100px), (orientation: landscape) and (max-height: 560px) {
+  .s4-cbt-header {
+    min-height: 40px !important;
+    padding: calc(4px + var(--s4-top-inset, 0px)) calc(10px + env(safe-area-inset-right, 0px)) 4px calc(10px + env(safe-area-inset-left, 0px)) !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+  .s4-cbt-header-left {
+    flex: 1 1 140px !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    gap: 6px !important;
+  }
+  .s4-cbt-brand-badge {
+    padding: 3px 6px !important;
+    font-size: 10px !important;
+  }
+  .s4-cbt-test-title {
+    font-size: 12px !important;
+    max-width: 100% !important;
+    flex: 1 1 60px !important;
+    min-width: 50px !important;
+  }
+  .s4-cbt-header-center {
+    gap: 5px !important;
+    flex-shrink: 0 !important;
+  }
+  .s4-cbt-timer-box {
+    padding: 3px 8px !important;
+    font-size: 12px !important;
+    gap: 4px !important;
+  }
+  .s4-cbt-timer-box select {
+    font-size: 11px !important;
+  }
+  .s4-cbt-header-center > span {
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+  .s4-cbt-header-right {
+    gap: 3px !important;
+    flex-shrink: 0 !important;
+    flex-wrap: nowrap !important;
+  }
+  .s4-cbt-header-right .s4-cbt-ctrl-btn {
+    padding: 3px 6px !important;
+    font-size: 11px !important;
+  }
+  .s4-cbt-vol-group {
+    display: none !important;
+  }
+  .s4-cbt-ctrl-btn {
+    padding: 4px 7px !important;
+    font-size: 11px !important;
+  }
+  .s4-cbt-submit-btn {
+    padding: 5px 9px !important;
+    font-size: 11.5px !important;
+  }
+  .s4-cbt-hide-mob,
+  .s4-cbt-desktop-tip {
+    display: none !important;
+  }
+  /* Đảm bảo thanh Part Banner + Audio gọn trên 1 dòng duy nhất khi xoay ngang */
+  .s4-cbt-part-banner {
+    padding: 3px calc(12px + env(safe-area-inset-right, 0px)) 3px calc(12px + env(safe-area-inset-left, 0px)) !important;
+    min-height: 34px !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+    font-size: 11.5px !important;
+  }
+  #s4CbtAudioMount {
+    flex: 1 1 180px !important;
+    min-width: 140px !important;
+    max-width: 420px !important;
+  }
+  #s4CbtAudioMount audio {
+    height: 28px !important;
+  }
+  /* 2 cột Trái - Phải giống máy tính, cho phép kéo thanh chia đôi linh hoạt từ 25% đến 75% */
+  .s4-cbt-pane-left {
+    min-width: 170px !important;
+    padding: 12px 14px 24px calc(14px + env(safe-area-inset-left, 0px)) !important;
+  }
+  .s4-cbt-pane-right {
+    min-width: 170px !important;
+    padding: 12px calc(14px + env(safe-area-inset-right, 0px)) 24px 14px !important;
+  }
+  .s4-cbt-resizer {
+    width: 12px !important;
+    min-width: 12px !important;
+    touch-action: none !important;
+  }
+  /* Thanh Câu hỏi 1..40 ở đáy gọn gàng */
+  .s4-cbt-bottom-bar {
+    min-height: 38px !important;
+    padding: 3px calc(10px + env(safe-area-inset-right, 0px)) calc(3px + env(safe-area-inset-bottom, 0px)) calc(10px + env(safe-area-inset-left, 0px)) !important;
+    gap: 6px !important;
+  }
+  .s4-cbt-part-groups {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto !important;
+    scrollbar-width: none;
+  }
+  .s4-cbt-part-groups::-webkit-scrollbar {
+    display: none;
   }
 }
