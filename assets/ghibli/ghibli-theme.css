@@ -2074,7 +2074,7 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    padding: 12px 12px 22px !important;
+    padding: 12px 12px 200px !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
   }
@@ -2499,7 +2499,7 @@ header.topbar {
   }
   .s4-cbt-pane-right {
     min-width: 170px !important;
-    padding: 12px calc(14px + env(safe-area-inset-right, 0px)) 24px 14px !important;
+    padding: 12px calc(14px + env(safe-area-inset-right, 0px)) 240px 14px !important;
   }
   .s4-cbt-resizer {
     width: 12px !important;

@@ -34,7 +34,9 @@
   })();
   </script>
   <link rel="manifest" href="manifest.json">
-  <title>Study4 Grammar & Luyện Tập Offline (120 Bài)</title>
+  <title>LinguaPath Grammar Master — Free for Community</title>
+  <link rel="icon" href="../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../icon-192.png">
   
   <style>
     @view-transition { navigation: auto; }
@@ -163,7 +165,7 @@
       <h2><a href="../index.html#ielts" class="home-pill" title="Về Khóa học IELTS">🏠</a> 📚 Ngữ pháp IELTS</h2>
       <div style="display:flex;align-items:center;gap:6px;">
         <button class="theme-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án & Mặt trận Tổ quốc" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;font-size:12px;font-weight:700;padding:5px 9px;">💖 Ủng hộ</button>
-        <button class="theme-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
+        <button class="theme-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
         <button class="close-menu-btn" onclick="toggleMenu(false)">×</button>
       </div>
     </div>
@@ -180,15 +182,15 @@
         <a href="../index.html#ielts" class="home-pill" title="Về Khóa học IELTS">🏠</a>
         <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ Mục bài học</button>
       </div>
-      <span id="mobileTitle" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;text-align:center;">Study4 Grammar</span>
-      <button class="theme-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
+      <span id="mobileTitle" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;text-align:center;">LinguaPath Grammar</span>
+      <button class="theme-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
     </div>
     <div class="main" id="mainScroll">
       <div class="container" id="lessonContent"></div>
     </div>
   </div>
 
-  <script src="../auth.js?v=19"></script>
+  <script src="../auth.js?v=29"></script>
   <script src="grammar_data.js"></script>
   <script>
     if (localStorage.getItem("s4_vocab_dark") === "1") {
@@ -546,8 +548,9 @@ function selectItem(id, resetScroll = true) {
       const isDone = !!completedMap[l.id];
       let btnsHtml = '<button class="btn btn-done ' + (isDone ? 'completed' : '') + '" onclick="toggleDone(\'' + l.id + '\')">' + (isDone ? '✅ Đã hoàn thành' : '⬜ Đánh dấu Đã học') + '</button>';
       if (l.localPdfPath) {
-        btnsHtml += '<button class="btn btn-pdf" onclick="togglePdf()">📄 Xem / Ẩn Slide PDF</button>';
-        btnsHtml += '<a class="btn btn-pdf" style="background:#0284c7;" href="' + l.localPdfPath + '" download>⬇️ Tải Slide PDF</a>';
+        btnsHtml += '<button class="btn btn-pdf" id="btnTogglePdf" onclick="togglePdf()">📑 Xem Slide PDF</button>';
+        btnsHtml += '<a class="btn btn-pdf" style="background:#0284c7;" href="' + l.localPdfPath + '" target="_blank" title="Mở slide trong tab mới toàn màn hình">⛶ Mở tab mới</a>';
+        btnsHtml += '<a class="btn btn-pdf" style="background:#475569;" href="' + l.localPdfPath + '" download title="Lưu slide về máy">⬇️ Tải PDF</a>';
       }
       if (l.videoUrl) {
         btnsHtml += '<a class="btn btn-yt" href="' + l.videoUrl + '" target="_blank">▶️ Mở Video trên YouTube</a>';
@@ -566,7 +569,15 @@ function selectItem(id, resetScroll = true) {
         <h1 style="margin:4px 0 12px 0;font-size:23px;">Bài ${l.index}: ${l.title}</h1>
         ${videoHtml}
         <div class="resources-bar">${btnsHtml}</div>
-        ${l.localPdfPath ? '<iframe id="pdfFrame" class="pdf-preview" src="' + l.localPdfPath + '"></iframe>' : ''}
+        ${l.localPdfPath ? `
+        <div id="pdfWrapper" class="pdf-wrapper" style="display:none;margin-top:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);padding:8px 12px;border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;font-size:12.5px;font-weight:700;">
+            <span>📑 Slide bài giảng PDF</span>
+            <a href="${l.localPdfPath}" target="_blank" class="btn btn-pdf" style="padding:4px 9px;font-size:11.5px;text-decoration:none;" title="Mở slide trong tab mới để phóng to">⛶ Mở tab mới toàn màn hình</a>
+          </div>
+          <iframe id="pdfFrame" class="pdf-preview" data-src="${l.localPdfPath}" style="width:100%;height:580px;border:1px solid var(--border);border-radius:0 0 10px 10px;background:#fff;display:block;"></iframe>
+        </div>
+        ` : ''}
         ${practiceHtml}
         ${l.notesHtml ? '<div class="notes-area">' + window.S4FormatTheoryHtml(l.notesHtml) + '</div>' : ''}
         <div class="nav-footer">
@@ -768,8 +779,23 @@ function selectItem(id, resetScroll = true) {
     };
 
     window.togglePdf = function() {
-      const f = document.getElementById("pdfFrame");
-      if (f) f.style.display = f.style.display === "block" ? "none" : "block";
+      const wrap = document.getElementById("pdfWrapper");
+      const frame = document.getElementById("pdfFrame");
+      const btn = document.getElementById("btnTogglePdf");
+      if (!wrap || !frame) return;
+      const isHidden = (wrap.style.display === "none" || !wrap.style.display);
+      if (isHidden) {
+        if (!frame.src || frame.src === "about:blank" || frame.src === window.location.href) {
+          const ds = frame.getAttribute("data-src");
+          if (ds) frame.src = ds;
+        }
+        wrap.style.display = "block";
+        if (btn) btn.textContent = "📑 Ẩn Slide PDF";
+        try { wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch(e) {}
+      } else {
+        wrap.style.display = "none";
+        if (btn) btn.textContent = "📑 Xem Slide PDF";
+      }
     };
 
     searchInput.oninput = () => renderSidebar(searchInput.value);

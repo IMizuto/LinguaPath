@@ -1,11 +1,11 @@
 {
-  "name": "Study4 IELTS Master",
-  "short_name": "Study4 IELTS",
-  "description": "Ứng dụng học Từ vựng & Ngữ pháp IELTS",
+  "name": "LinguaPath — Free for Community",
+  "short_name": "LinguaPath",
+  "description": "Nền tảng tự học & luyện thi ngoại ngữ miễn phí vì cộng đồng",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#1e40af",
+  "background_color": "#fff1f2",
+  "theme_color": "#fb7185",
   "orientation": "any",
   "icons": [
     {

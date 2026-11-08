@@ -33,7 +33,9 @@
     } catch (e) {}
   })();
   </script>
-  <title>TED Talks English - Luyện Nghe & Shadowing (202 Bài)</title>
+  <title>LinguaPath TED Talks English — Free for Community</title>
+  <link rel="icon" href="../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../icon-192.png">
   
   <style>
     @view-transition { navigation: auto; }
@@ -246,6 +248,16 @@
   <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=24">
 </head>
 <body>
+  <script>
+    (function () {
+      try {
+        var s = localStorage.getItem("s4_theme_style") || "ghibli";
+        var isDark = (localStorage.getItem("s4_vocab_dark") !== "0");
+        if (s === "ghibli") document.body.classList.add("theme-ghibli");
+        if (isDark) document.body.classList.add("dark");
+      } catch (e) {}
+    })();
+  </script>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
   <div class="ted-app-layout">
     <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMenu(false)"></div>
@@ -278,7 +290,7 @@
       </div>
       <div class="topbar-right">
         <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
-        <button class="theme-btn" onclick="toggleDark()">🌓</button>
+        <button class="theme-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
       </div>
     </div>
 
@@ -393,12 +405,17 @@
     let syncTimer = null;
 
     function toggleDark() {
-      const isDark = !document.documentElement.classList.contains("dark");
-      document.documentElement.classList.toggle("dark", isDark);
-      document.body.classList.toggle("dark", isDark);
-      localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
-      const mt = document.getElementById("metaThemeColor");
-      if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
+      if (window.toggleDarkModeOnly) {
+        window.toggleDarkModeOnly();
+      } else {
+        const isDark = !document.documentElement.classList.contains("dark");
+        document.documentElement.classList.toggle("dark", isDark);
+        document.body.classList.toggle("dark", isDark);
+        localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
+        const mt = document.getElementById("metaThemeColor");
+        if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
+        document.querySelectorAll('.dark-btn').forEach(b => b.textContent = isDark ? '☀️' : '🌙');
+      }
     }
 
     function toggleMenu(open) {
@@ -1633,7 +1650,7 @@
       try {
         navigator.mediaSession.metadata = new MediaMetadata({
           title: talkTitle,
-          artist: speaker + " • Study4 TED Talks",
+          artist: speaker + " • LinguaPath TED Talks",
           album: it.unit,
           artwork: [
             { src: thumbUrl, sizes: "480x360", type: "image/jpeg" }
@@ -1774,7 +1791,7 @@
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=19"></script>
+  <script src="../auth.js?v=29"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>

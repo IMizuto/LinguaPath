@@ -36,7 +36,7 @@
     bankCode: "MB",
     bankAccount: "0988888888",
     bankOwner: "HOANG NGUYEN",
-    transferMemo: "UNG HO STUDY4",
+    transferMemo: "UNG HO LINGUAPATH",
     freeVocabTopicsCount: 999,
     freeGrammarSectionsCount: 999
   };
@@ -680,7 +680,7 @@
   }
 
   /* ---------- Giao diện & CSS ---------- */
-  function getLogoPath() { return isHomePage() ? "icon-192.png" : "../icon-192.png"; }
+  function getLogoPath() { return isHomePage() ? "icon-192.png?v=pink" : "../icon-192.png?v=pink"; }
 
   function updateSafeAreaVar() {
     try {
@@ -1246,7 +1246,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div style="display:flex;align-items:center;gap:10px;">
             <img src="${getLogoPath()}" alt="Logo" style="width:34px;height:34px;border-radius:9px;">
-            <h3 style="margin:0;font-size:18px;">Study4 IELTS</h3>
+            <div style="display:flex;align-items:center;gap:6px;"><h3 style="margin:0;font-size:18px;font-weight:800;">LinguaPath</h3><span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:999px;background:rgba(16,185,129,0.18);color:#10b981;border:1px solid rgba(16,185,129,0.3);">Community</span></div>
           </div>
           ${canClose ? `<button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>` : ""}
         </div>
@@ -1377,7 +1377,7 @@
       const acc = config.bankAccount || "0988888888";
       const owner = config.bankOwner || "HOANG NGUYEN";
       const noteText = config.contactNote || "20% số tiền ủng hộ (Donate) sẽ được trích chuyển trực tiếp tới Mặt trận Tổ quốc Việt Nam để ủng hộ đồng bào & các hoạt động thiện nguyện.";
-      const memo = config.transferMemo || ("UNG HO STUDY4" + (u && u.username ? " " + u.username.toUpperCase() : ""));
+      const memo = config.transferMemo || ("UNG HO LINGUAPATH" + (u && u.username ? " " + u.username.toUpperCase() : ""));
       const qrUrl = "https://img.vietqr.io/image/" + encodeURIComponent(bank) + "-" + encodeURIComponent(acc) + "-compact2.png?addInfo=" + encodeURIComponent(memo) + "&accountName=" + encodeURIComponent(owner);
 
       box.innerHTML = `
@@ -1678,7 +1678,7 @@
           </div>
           <div>
             <label style="font-size:12px;font-weight:700;">Nội dung chuyển khoản gợi ý:</label>
-            <input class="s4-input" id="admTransferMemo" value="${esc(config.transferMemo || 'UNG HO STUDY4')}" placeholder="VD: UNG HO STUDY4">
+            <input class="s4-input" id="admTransferMemo" value="${esc(config.transferMemo || 'UNG HO LINGUAPATH')}" placeholder="VD: UNG HO STUDY4">
           </div>
         </div>
 
@@ -1805,7 +1805,7 @@
         const bCode = (box.querySelector("#admBankCode") ? box.querySelector("#admBankCode").value.trim() : config.bankCode) || "MB";
         const bAcc = (box.querySelector("#admBankAcc") ? box.querySelector("#admBankAcc").value.trim() : config.bankAccount) || "0988888888";
         const bOwner = (box.querySelector("#admBankOwner") ? box.querySelector("#admBankOwner").value.trim().toUpperCase() : config.bankOwner) || "HOANG NGUYEN";
-        const memo = (box.querySelector("#admTransferMemo") ? box.querySelector("#admTransferMemo").value.trim() : config.transferMemo) || "UNG HO STUDY4";
+        const memo = (box.querySelector("#admTransferMemo") ? box.querySelector("#admTransferMemo").value.trim() : config.transferMemo) || "UNG HO LINGUAPATH";
         const np = box.querySelector("#admNewPass").value;
 
         if (np && np.length < 6) { msg = "Mật khẩu Admin mới phải từ 6 ký tự."; return render(); }
@@ -1901,6 +1901,13 @@
 
   /* ---------- Khởi động ---------- */
   async function boot() {
+
+    try {
+      if (!isHomePage()) {
+        document.documentElement.lang = 'en';
+      }
+    } catch (e) {}
+
     let firstConfigChanged = false;
     if (!hadCachedConfig) {
       try { firstConfigChanged = await Promise.race([fetchConfig(), new Promise((_, rej) => setTimeout(rej, 4000))]); } catch (e) {}
@@ -1934,6 +1941,7 @@
       refreshSession().catch(() => {});
       syncProgress(false).catch(() => {});
     }
+    setTimeout(checkFirstTimeCommunityDisclaimer, 250);
   }
 
   document.addEventListener("visibilitychange", () => {
@@ -1955,6 +1963,76 @@
     const s = getSync(session.username);
     if (s && s.dirty) pushProgress().catch(() => {});
   });
+
+  
+    
+  /* =========================================================================
+   * THÔNG BÁO TÔN TRỌNG BẢN QUYỀN & SỨ MỆNH CHIA SẺ PHI LỢI NHUẬN
+   * Hiển thị 1 lần duy nhất khi người học vào web lần đầu tiên
+   * ========================================================================= */
+  const K_DISCLAIMER_ACK = "linguapath_disclaimer_v2";
+
+  function checkFirstTimeCommunityDisclaimer() {
+    try {
+      if (localStorage.getItem(K_DISCLAIMER_ACK) === "1") return;
+    } catch (e) {
+      return;
+    }
+
+    if (document.getElementById("lpDisclaimerModal")) return;
+
+    const modal = document.createElement("div");
+    modal.id = "lpDisclaimerModal";
+    modal.style.cssText = "display:flex;align-items:center;justify-content:center;z-index:2147483647;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(6px);padding:16px;box-sizing:border-box;";
+    modal.innerHTML = `
+      <div style="background:var(--card, #1e293b);color:var(--text, #f8fafc);max-width:540px;width:100%;border-radius:18px;border:1.5px solid rgba(251,191,36,0.35);box-shadow:0 24px 60px rgba(0,0,0,0.5);overflow:hidden;animation:s4ModalIn 0.24s cubic-bezier(0.16,1,0.3,1);font-family:inherit;">
+        <div style="padding:22px 24px 14px;background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(251,191,36,0.12));border-bottom:1px solid var(--border, rgba(255,255,255,0.08));display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;border-radius:12px;background:var(--primary, #10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+            🌿
+          </div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <h2 style="margin:0;font-size:17.5px;font-weight:800;letter-spacing:-0.01em;">LinguaPath</h2>
+              <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:rgba(16,185,129,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.35);">Free for Community</span>
+            </div>
+            <p style="margin:2px 0 0;font-size:12px;color:var(--muted, #94a3b8);font-weight:500;">Thông báo Tôn trọng Bản quyền & Sứ mệnh Chia sẻ</p>
+          </div>
+        </div>
+        
+        <div style="padding:20px 24px;font-size:13.5px;line-height:1.6;color:var(--text, #f1f5f9);">
+          <div style="margin-bottom:12px;padding:12px 14px;background:rgba(255,255,255,0.04);border-radius:10px;border-left:3.5px solid #10b981;">
+            <strong>🤝 Sứ mệnh phi lợi nhuận:</strong> Nền tảng được xây dựng hoàn toàn phi thương mại nhằm hỗ trợ học sinh, sinh viên và cộng đồng có môi trường mô phỏng phòng thi máy tính để tự rèn luyện kỹ năng mọi lúc, mọi nơi.
+          </div>
+          
+          <div style="margin-bottom:12px;padding:12px 14px;background:rgba(251,191,36,0.06);border-radius:10px;border-left:3.5px solid #f59e0b;">
+            <strong>📚 Nguồn gốc tài liệu:</strong> Dữ liệu học thuật trong hệ thống được tham khảo và biên soạn dựa trên các khóa <strong>IELTS Fundamentals</strong> và <strong>IELTS 4 Kỹ Năng</strong> của nền tảng <strong>STUDY4</strong>.
+          </div>
+          
+          <div style="padding:12px 14px;background:rgba(59,130,246,0.06);border-radius:10px;border-left:3.5px solid #3b82f6;font-size:13px;">
+            <strong>💎 Tôn trọng tác giả:</strong> Để trải nghiệm trọn vẹn 100% dữ liệu gốc, kho đề mới nhất, bài giảng chuyên sâu và hệ thống giáo viên chấm bài tương tác, chúng tôi <strong>khuyến khích bạn đăng ký mua khóa học chính thức trực tiếp tại website chính hãng của STUDY4</strong> (<a href="https://study4.com" target="_blank" rel="noopener" style="color:#60a5fa;text-decoration:underline;font-weight:700;">study4.com</a>).
+          </div>
+        </div>
+        
+        <div style="padding:14px 24px 20px;display:flex;align-items:center;justify-content:flex-end;gap:12px;border-top:1px solid var(--border, rgba(255,255,255,0.08));background:rgba(0,0,0,0.12);">
+          <button type="button" id="lpDisclaimerBtn" style="padding:10px 20px;border-radius:10px;background:linear-gradient(135deg, #10b981, #059669);color:#ffffff;border:none;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);transition:all 0.15s ease;">
+            🚀 Tôi đã hiểu & Bắt đầu học miễn phí
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const btn = document.getElementById("lpDisclaimerBtn");
+    if (btn) {
+      btn.onclick = () => {
+        try { localStorage.setItem(K_DISCLAIMER_ACK, "1"); } catch (e) {}
+        modal.style.opacity = "0";
+        modal.style.transition = "opacity 0.2s ease";
+        setTimeout(() => modal.remove(), 210);
+      };
+    }
+  }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

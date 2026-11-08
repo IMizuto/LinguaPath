@@ -180,6 +180,9 @@
 
   function enterCbtExamMode(requestBrowserFs) {
     document.body.classList.add('s4-cbt-mode');
+    try {
+      document.documentElement.lang = 'en';
+    } catch (e) {}
     if (requestBrowserFs) {
       try {
         const docEl = document.documentElement;
@@ -192,6 +195,9 @@
 
   function exitCbtExamMode() {
     document.body.classList.remove('s4-cbt-mode');
+    try {
+      document.documentElement.lang = 'vi';
+    } catch (e) {}
     try {
       if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
@@ -566,16 +572,25 @@
               inp = document.createElement('input');
               inp.type = 'text';
               inp.className = 's4-pz-text-input';
-              inp.setAttribute('data-qid', qid);
-              inp.setAttribute('spellcheck', 'false');
-              inp.setAttribute('autocomplete', 'off');
-              inp.placeholder = pills.length ? `Chọn hoặc gõ đáp án câu ${qNum}...` : `Nhập đáp án câu ${qNum}...`;
               ansContainer.appendChild(inp);
             } else {
               inp.classList.add('s4-pz-text-input');
-              inp.setAttribute('data-qid', qid);
-              inp.placeholder = pills.length ? `Chọn hoặc gõ đáp án câu ${qNum}...` : `Nhập đáp án câu ${qNum}...`;
             }
+            inp.setAttribute('data-qid', qid);
+            inp.setAttribute('name', 'ielts_ans_' + qid);
+            inp.setAttribute('lang', 'en');
+            inp.setAttribute('xml:lang', 'en');
+            inp.lang = 'en';
+            inp.setAttribute('inputmode', 'text');
+            inp.setAttribute('autocorrect', 'off');
+            inp.setAttribute('autocapitalize', 'none');
+            inp.setAttribute('spellcheck', 'false');
+            inp.setAttribute('autocomplete', 'off');
+            inp.setAttribute('enterkeyhint', 'next');
+            inp.setAttribute('data-form-type', 'other');
+            inp.setAttribute('data-lpignore', 'true');
+            inp.setAttribute('data-1p-ignore', 'true');
+            inp.placeholder = pills.length ? `Chọn hoặc gõ đáp án câu ${qNum}...` : `Nhập đáp án câu ${qNum}...`;
             inp.value = userVal;
 
             if (pills.length > 0) {
@@ -616,8 +631,16 @@
         });
 
         qw.querySelectorAll('input[type="text"][data-qid]').forEach(inp => {
-          inp.onfocus = () => setFocusedQuestion(qid);
-          inp.oninput = () => {
+          let isComposing = false;
+          inp.addEventListener('compositionstart', () => {
+            isComposing = true;
+          });
+          inp.addEventListener('compositionend', () => {
+            isComposing = false;
+            handleAnswerChange();
+          });
+
+          const handleAnswerChange = () => {
             const v = inp.value.trim();
             if (v) ansStore[qid] = v;
             else delete ansStore[qid];
@@ -629,6 +652,21 @@
               });
             }
             updateNavButtonState(qid, !!v);
+          };
+
+          inp.onfocus = () => {
+            setFocusedQuestion(qid);
+            setTimeout(() => {
+              try { inp.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+            }, 120);
+          };
+          inp.oninput = (ev) => {
+            if (ev && ev.isComposing) return;
+            if (isComposing) return;
+            handleAnswerChange();
+          };
+          inp.onblur = () => {
+            handleAnswerChange();
           };
           inp.onkeydown = (ev) => {
             if (ev.key === 'Enter' || ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
@@ -996,7 +1034,7 @@
         </div>
 
         <!-- RESIZABLE 2-COLUMN SPLIT SCREEN (LEFT: PASSAGE | RIGHT: QUESTIONS) -->
-        <div class="s4-cbt-split-area ${cbtFontClass} mob-view-${cbtMobileView}" id="s4CbtSplitArea">
+        <div class="s4-cbt-split-area ${cbtFontClass} mob-view-${cbtMobileView}" id="s4CbtSplitArea" lang="en">
           <div class="s4-cbt-pane-left" id="s4CbtLeftPane" style="--cbt-left-pct:${cbtLeftPct}%;">
             <div class="syn-col-title">
               <span>📖 READING PASSAGE ${activePartIdx + 1}: ${targetLesson.title.split(/[|-]/).pop().trim()}</span>
@@ -1011,7 +1049,7 @@
             <div class="s4-cbt-resizer-grip"></div>
           </div>
 
-          <div class="s4-cbt-pane-right s4-pz-container" id="s4CbtRightPane">
+          <div class="s4-cbt-pane-right s4-pz-container" id="s4CbtRightPane" lang="en">
             <div class="syn-col-title">
               <span>❓ QUESTIONS ${firstQNum}–${lastQNum}</span>
               <span>${isSubmitted ? 'Đã chấm điểm & hiện đáp án' : 'Chọn hoặc gõ đáp án (Enter qua câu kế)'}</span>
@@ -1443,7 +1481,7 @@
         </div>
 
         <!-- RESIZABLE 2-COLUMN SPLIT SCREEN (LEFT: NOTES/TABLES/MAPS | RIGHT: ANSWER SHEET) -->
-        <div class="s4-cbt-split-area ${cbtFontClass} mob-view-${cbtMobileView}" id="s4CbtSplitArea">
+        <div class="s4-cbt-split-area ${cbtFontClass} mob-view-${cbtMobileView}" id="s4CbtSplitArea" lang="en">
           <div class="s4-cbt-pane-left" id="s4CbtLeftPane" style="--cbt-left-pct:${cbtLeftPct}%;">
             <div class="syn-col-title">
               <span>📋 PART ${activePartIdx + 1}: QUESTION PROMPTS / NOTES / TABLES / MAPS</span>
@@ -1456,7 +1494,7 @@
             <div class="s4-cbt-resizer-grip"></div>
           </div>
 
-          <div class="s4-cbt-pane-right s4-pz-container" id="s4CbtRightPane">
+          <div class="s4-cbt-pane-right s4-pz-container" id="s4CbtRightPane" lang="en">
             <div class="syn-col-title">
               <span>✍️ ANSWER SHEET — QUESTIONS ${firstQNum}–${lastQNum}</span>
               <span>${isSubmitted ? 'Đã chấm điểm & hiện đáp án' : 'Gõ đáp án & nhấn Enter qua câu kế'}</span>

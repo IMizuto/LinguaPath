@@ -93,9 +93,10 @@
       btn.classList.toggle('active', targetDark === isDark);
     });
 
-    // Đồng bộ biểu tượng Sáng (☀️) / Tối (🌙) trên tất cả các nút chuyển đổi giao diện
-    document.querySelectorAll('button[onclick*="toggleDark"], .dark-btn, .theme-btn').forEach(btn => {
+    // Đồng bộ biểu tượng Sáng (☀️) / Tối (🌙) trên tất cả các nút chuyển đổi giao diện (loại trừ nút Donate hoặc nút dock)
+    document.querySelectorAll('button[onclick*="toggleDark"], .dark-btn, .theme-btn[onclick*="toggleDark"], .mode-btn[onclick*="toggleDark"]').forEach(btn => {
       if (btn.classList.contains('s4-theme-opt')) return;
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('openDonateModal')) return;
       btn.textContent = isDark ? '☀️' : '🌙';
       btn.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
     });
@@ -166,8 +167,32 @@
     }
   };
 
-  // Apply immediately on script load
+  // Gán ngay toggleDark cho window để có thể gọi mọi lúc
+  window.toggleDark = window.toggleDarkModeOnly;
+
+  // Áp dụng trạng thái theme ngay lập tức khi file script tải
   applyThemeState();
+
+  // 🔄 ĐỒNG BỘ THỜI GIAN THỰC GIỮA TẤT CẢ CÁC TAB / CỬA SỔ TRÌNH DUYỆT (Real-time Cross-tab Sync)
+  window.addEventListener('storage', function (e) {
+    if (!e) return;
+    if (e.key === STYLE_KEY || e.key === DARK_KEY || e.key === LITE_KEY) {
+      applyThemeState();
+    }
+    if (e.key === DOCK_MIN_KEY) {
+      window.toggleThemeDockMinimize(e.newValue === '1');
+    }
+  });
+
+  // Tự động kiểm tra và đồng bộ lại khi người dùng quay lại tab (focus / visibility)
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+      applyThemeState();
+    }
+  });
+  window.addEventListener('focus', function () {
+    applyThemeState();
+  });
 
   function buildSootSpriteSvg(idSuffix) {
     return `

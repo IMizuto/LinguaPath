@@ -30,10 +30,27 @@
       syncSafeTop();
       window.addEventListener("resize", syncSafeTop);
       window.addEventListener("orientationchange", function() { setTimeout(syncSafeTop, 80); });
+      window.toggleDark = function() {
+        if (window.toggleDarkModeOnly) {
+          window.toggleDarkModeOnly();
+        } else {
+          var curDark = localStorage.getItem("s4_vocab_dark") !== "0";
+          var nextDark = !curDark;
+          localStorage.setItem("s4_vocab_dark", nextDark ? "1" : "0");
+          document.documentElement.classList.toggle("dark", nextDark);
+          if (document.body) document.body.classList.toggle("dark", nextDark);
+          document.querySelectorAll('.dark-btn').forEach(function(b) {
+            b.textContent = nextDark ? '☀️' : '🌙';
+            b.title = nextDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+          });
+        }
+      };
     } catch (e) {}
   })();
   </script>
-<title>IELTS Intensive Reading — Từ vựng SRS, 318 Bài đọc & 876 Video Chữa đề</title>
+<title>LinguaPath IELTS Reading — Free for Community</title>
+  <link rel="icon" href="../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../icon-192.png">
 <link rel="preload" href="data/reading_manifest.js" as="script">
 <style>
   :root {
@@ -955,6 +972,16 @@
   <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=25">
 </head>
 <body>
+  <script>
+    (function () {
+      try {
+        var s = localStorage.getItem("s4_theme_style") || "ghibli";
+        var isDark = (localStorage.getItem("s4_vocab_dark") !== "0");
+        if (s === "ghibli") document.body.classList.add("theme-ghibli");
+        if (isDark) document.body.classList.add("dark");
+      } catch (e) {}
+    })();
+  </script>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
 
 <header class="topbar">
@@ -974,7 +1001,7 @@
 
   <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
     <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
-    <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">🌙</button>
+    <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">☀️</button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
   </div>
 </header>
@@ -2834,8 +2861,8 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../assets/s4-practice-zone.js?v=25"></script>
-  <script src="../auth.js?v=19"></script>
+  <script src="../assets/s4-practice-zone.js?v=30"></script>
+  <script src="../auth.js?v=29"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>

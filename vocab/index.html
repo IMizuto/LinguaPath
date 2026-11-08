@@ -33,7 +33,9 @@
     } catch (e) {}
   })();
   </script>
-  <title>Study4 Vocab Master</title>
+  <title>LinguaPath Vocab Master — Free for Community</title>
+  <link rel="icon" href="../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../icon-192.png">
   
   <style>
     @view-transition { navigation: auto; }
@@ -286,7 +288,7 @@
         <button class="mode-btn" data-mode="list" onclick="setMode('list')">📖 Danh sách</button>
       </div>
       <button class="mode-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
-      <button class="mode-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
+      <button class="mode-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
     </div>
     <div class="main">
       <div class="container">
@@ -297,7 +299,7 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../auth.js?v=19"></script>
+  <script src="../auth.js?v=29"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -1501,7 +1503,7 @@
       const data = { app: "study4-vocab", version: 2, exportedAt: new Date().toISOString(), srsData, dayLog, userSettings };
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: "application/json" }));
-      a.download = "Study4_Vocab_Backup_" + getTodayStr() + ".json";
+      a.download = "LinguaPath_Vocab_Backup_" + getTodayStr() + ".json";
       a.click();
     }
     function importProgress(ev) {

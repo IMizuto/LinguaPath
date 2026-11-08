@@ -33,11 +33,11 @@
   </script>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Study4 IELTS">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <title>Study4 IELTS</title>
+  <title>LinguaPath — Nền tảng Tự học Đa ngôn ngữ (Free for Community)</title>
   <link rel="prefetch" href="listening/data/listening_manifest.js">
   <link rel="prefetch" href="reading/data/reading_manifest.js">
   
@@ -114,12 +114,12 @@
   <div class="hero">
     <div class="hero-inner">
       <div style="display:flex;align-items:center;gap:12px;min-width:0;">
-        <img src="icon-192.png" alt="Logo" style="width:44px;height:44px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.25);flex-shrink:0;">
-        <h1 id="heroTitle">STUDY4 IELTS</h1>
+        <img src="icon-192.png?v=pink" alt="Logo" style="width:44px;height:44px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.25);flex-shrink:0;">
+        <h1 id="heroTitle">LinguaPath</h1>
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
         <button class="back-portal-btn" id="btnBackPortal" style="display:none;" onclick="openPortal()">← Tất cả khóa học</button>
-        <button class="dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">🌙</button>
+        <button class="dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
       </div>
     </div>
   </div>
@@ -478,7 +478,7 @@
       appKeys().forEach(k => data.items[k] = localStorage.getItem(k));
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: "application/json" }));
-      a.download = "Study4_Backup_" + new Date().toISOString().slice(0, 10) + ".json";
+      a.download = "LinguaPath_Backup_" + new Date().toISOString().slice(0, 10) + ".json";
       a.click();
     }
     function restoreAll(ev) {
@@ -550,7 +550,7 @@
     updateDashboardStats();
     applyViewFromHash();
   </script>
-  <script src="auth.js?v=19"></script>
+  <script src="auth.js?v=29"></script>
   <script src="assets/ghibli/ghibli-theme.js?v=24"></script>
 </body>
 </html>
