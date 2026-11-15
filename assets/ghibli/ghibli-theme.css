@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GLOBAL THEME & COLOR-MODE ENGINE FOR IELTSPATH / STUDY4
+   GLOBAL THEME & COLOR-MODE ENGINE FOR LINGUAPATH
    - 2 Independent Axes:
      1. Theme Style:   🌿 Studio Ghibli (html.theme-ghibli) vs 🎨 Mặc định
      2. Lighting Mode: 🌙 Tối (html.dark)                  vs ☀️ Sáng (html:not(.dark))
@@ -733,7 +733,9 @@ html.theme-ghibli .ghibli-sky-layer {
 
 /* Mobile Theme Dock & Sprites */
 .s4-dock-toggle {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   font-size: 11px;
@@ -758,18 +760,33 @@ html.theme-ghibli .ghibli-sky-layer {
   display: flex !important;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   background: var(--card);
   border: 1.5px solid var(--border);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  font-size: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  font-size: 15px;
+  opacity: 0.9;
 }
 .s4-theme-dock.minimized .s4-dock-toggle::before {
   content: "🌿";
 }
 html:not(.theme-ghibli) .s4-theme-dock.minimized .s4-dock-toggle::before {
   content: "🎨";
+}
+body.in-cbt-mode .s4-theme-dock,
+body.in-cbt-mode .ghibli-sprites-stage,
+body.s4-kbd-open .s4-theme-dock,
+body.s4-kbd-open .ghibli-sprites-stage {
+  display: none !important;
+}
+@media (min-width: 769px) {
+  body:not(.s4-cbt-mode):not(.in-cbt-mode) > .container,
+  body:not(.s4-cbt-mode):not(.in-cbt-mode) .main-area,
+  body:not(.s4-cbt-mode):not(.in-cbt-mode) .main,
+  body:not(.s4-cbt-mode):not(.in-cbt-mode) .s4v-wrap {
+    padding-bottom: 68px !important;
+  }
 }
 
 @media (max-width: 640px) {
@@ -831,7 +848,7 @@ html.ghibli-lite .sidebar,
 html.ghibli-lite .topbar,
 html.ghibli-lite .s4-theme-dock,
 html.ghibli-lite .video-panel,
-html.ghibli-lite .content-panel {
+html.ghibli-lite .content-panel, html.ghibli-lite .w-lobby-card, html.ghibli-lite .w-lightbox, html.ghibli-lite .w-modal-backdrop, html.ghibli-lite .sidebar-backdrop {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -1228,7 +1245,7 @@ html:not(.dark) .s4-answer-pill strong {
 }
 
 /* ================================================================
-   PRACTICE ZONE (READING 106 ĐỀ / 318 BÀI & LISTENING 169 ĐỀ / 676 BÀI)
+   PRACTICE ZONE (READING 184 ĐỀ / 552 BÀI & LISTENING 113 ĐỀ / 452 BÀI)
    ================================================================ */
 .s4-pz-toolbar {
   display: flex;
@@ -1694,36 +1711,74 @@ html.theme-ghibli .lesson-container,
 }
 
 /* 2. Chế độ Phòng Thi Máy Tính IELTS (Inspera CBT Shell) */
+html.s4-cbt-active,
+body.s4-cbt-mode {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 body.s4-cbt-mode .topbar,
 body.s4-cbt-mode .sidebar,
 body.s4-cbt-mode .s4-theme-dock,
 body.s4-cbt-mode .ghibli-sprites-stage {
   display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+}
+html.theme-ghibli body.s4-cbt-mode .workspace,
+body.s4-cbt-mode .workspace {
+  overflow: hidden !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 html.theme-ghibli body.s4-cbt-mode .main-area,
 body.s4-cbt-mode .main-area {
   padding: 0 !important;
   overflow: hidden !important;
   height: 100vh !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
 }
 html.theme-ghibli body.s4-cbt-mode .lesson-container,
 body.s4-cbt-mode .lesson-container {
-  max-width: 100% !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
   height: 100vh !important;
   margin: 0 !important;
+  padding: 0 !important;
 }
 
-.s4-cbt-shell {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+body.s4-cbt-mode #s4PzExamRoot,
+body.s4-cbt-mode #s4PzListenExamRoot,
+body.s4-cbt-mode #practiceZoneContainer,
+body.s4-cbt-mode .s4-cbt-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
   background: var(--bg);
   color: var(--text);
-  overflow: hidden;
-  position: fixed;
-  inset: 0;
-  z-index: 9980;
+  overflow: hidden !important;
+  position: fixed !important;
+  inset: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 9980 !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+}
+body:not(.s4-cbt-mode) #practiceZoneContainer {
+  display: none !important;
 }
 body:not(.s4-cbt-mode) .s4-cbt-shell {
   position: relative;
@@ -1768,6 +1823,62 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* Tự động co giãn Topbar trên Laptop & Màn hình thường ở mức Zoom 100% chuẩn (<= 1560px) */
+@media (max-width: 1560px) {
+  .s4-cbt-header {
+    padding: 0 10px !important;
+    gap: 6px !important;
+  }
+  .s4-cbt-header-left {
+    gap: 6px !important;
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+  }
+  .s4-cbt-brand-badge {
+    padding: 4px 7px !important;
+    font-size: 11px !important;
+  }
+  .s4-cbt-test-title {
+    max-width: 160px !important;
+    font-size: 12.5px !important;
+  }
+  .s4-cbt-header-center {
+    gap: 5px !important;
+    flex-shrink: 0 !important;
+  }
+  .s4-cbt-timer-box {
+    padding: 4px 8px !important;
+    font-size: 12.5px !important;
+  }
+  .s4-cbt-header-right {
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+  }
+  .s4-cbt-header-right .s4-cbt-label-opt {
+    display: none !important;
+  }
+  .s4-cbt-submit-btn {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+  }
+  .s4-cbt-ctrl-btn {
+    padding: 5px 7px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+@media (max-width: 1250px) {
+  .s4-cbt-test-title {
+    max-width: 110px !important;
+  }
+  .s4-cbt-header-center > span {
+    font-size: 11.5px !important;
+  }
+  .s4-cbt-header-right .s4-cbt-ctrl-btn {
+    padding: 4px 6px !important;
+  }
 }
 .s4-cbt-test-title {
   font-size: 13.5px;
@@ -2199,14 +2310,23 @@ html:not(.dark) .s4-cbt-user-hl {
   justify-content: space-between;
   gap: 8px;
   z-index: 30;
-  overflow-x: auto;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 .s4-cbt-part-groups {
   display: flex;
   align-items: center;
   gap: 6px;
-  overflow-x: auto;
+  overflow-x: auto !important;
   padding: 2px 0;
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  scrollbar-width: none;
+}
+.s4-cbt-part-groups::-webkit-scrollbar {
+  display: none;
 }
 .s4-cbt-part-cluster {
   display: inline-flex;
@@ -2307,7 +2427,7 @@ html:not(.dark) .s4-cbt-user-hl {
     display: inline !important;
   }
 
-  /* Thu gọn Topbar trên Điện thoại từ 130px xuống ~76px (ẩn dòng phụ topbar-right) */
+  /* Thu gọn Topbar trên Điện thoại nhưng vẫn giữ nút Lịch sử / Ủng hộ / Đổi sáng tối trong .topbar-right */
   .topbar,
   header.topbar {
     min-height: 0 !important;
@@ -2315,6 +2435,24 @@ html:not(.dark) .s4-cbt-user-hl {
     gap: 5px !important;
   }
   .topbar-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+    order: 2 !important;
+    margin-left: auto !important;
+  }
+  .topbar-right .prog-pill {
+    display: none !important;
+  }
+  .topbar-right .mini-btn,
+  .topbar-right .theme-btn {
+    padding: 4px 8px !important;
+    font-size: 11.5px !important;
+    min-height: 28px;
+  }
+  .s4-hist-lbl,
+  .s4-donate-lbl {
     display: none !important;
   }
   .top-switch {
@@ -2343,10 +2481,18 @@ html:not(.dark) .s4-cbt-user-hl {
     flex-shrink: 0 !important;
   }
 
-  /* Căn lề gọn cho vùng bài học & các thẻ trên Điện thoại */
+  /* Căn lề gọn cho vùng bài học & chừa khoảng trống dưới đáy để không bị Dock che nút */
+  html.theme-ghibli .main-area,
+  .main-area,
+  .main,
+  .s4v-wrap {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 12px)) !important;
+  }
   html.theme-ghibli .main-area,
   .main-area {
-    padding: 10px 8px calc(44px + env(safe-area-inset-bottom, 12px)) 8px !important;
+    padding-top: 10px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
   .passage-card,
   .theory-card,
@@ -2368,8 +2514,10 @@ html:not(.dark) .s4-cbt-user-hl {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  /* Ẩn cụm Bồ Hóng khi đang trong các trang học kỹ năng trên Điện thoại để không che chữ */
+  /* Ẩn cụm Bồ Hóng trong các trang học trên Điện thoại để không che chữ hoặc nút điều khiển */
   .workspace ~ .ghibli-sprites-stage,
+  body:has(.topbar) .ghibli-sprites-stage,
+  body:has(.mobile-topbar) .ghibli-sprites-stage,
   .s4-theme-dock.minimized ~ .ghibli-sprites-stage {
     display: none !important;
   }
@@ -2520,5 +2668,915 @@ header.topbar {
   }
   .s4-cbt-part-groups::-webkit-scrollbar {
     display: none;
+  }
+}
+
+
+/* =========================================================================
+   EXAM CANDIDATE LOBBY & SUBMISSIONS HISTORY (UNIFIED FOR ALL SKILLS)
+   ========================================================================= */
+/* =========================================================================
+   MÀN HÌNH SẢNH PHÒNG THI PRACTICE ZONE (EXAM CANDIDATE LOBBY)
+   ========================================================================= */
+.w-cbt-lobby {
+  width: 100%;
+  max-width: 100%;
+  min-height: calc(100vh - 70px);
+  padding: 16px 18px 80px;
+  box-sizing: border-box;
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+.w-lobby-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.w-lobby-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.w-lobby-header-badge {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.w-lobby-chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+.w-lobby-chip.cbt {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.w-lobby-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.w-lobby-subtitle {
+  font-size: 12.5px;
+  color: var(--muted);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.w-lobby-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.w-lobby-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.w-lobby-card-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.w-lobby-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.w-lobby-card-head h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.w-lobby-card-head p {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* Tasks Summary */
+.w-lobby-task-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.w-lobby-task-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--box-sub);
+  border: 1px solid var(--border);
+}
+
+.w-lobby-task-tag {
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 7px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.w-lobby-task-tag.t1 {
+  background: #2563eb;
+  color: #fff;
+}
+
+.w-lobby-task-tag.t2 {
+  background: #9333ea;
+  color: #fff;
+}
+
+.w-lobby-task-info strong {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.w-lobby-task-meta {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Rules items */
+.w-lobby-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.w-lobby-rule-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.w-rule-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.w-lobby-rule-item strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 2px;
+  font-size: 12.5px;
+}
+
+.w-lobby-rule-item p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Config col */
+.w-lobby-config-group {
+  margin-bottom: 12px;
+}
+
+.w-config-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.w-config-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.w-config-radio {
+  display: flex;
+  cursor: pointer;
+  margin: 0;
+}
+
+.w-config-radio input {
+  display: none;
+}
+
+.w-radio-box {
+  width: 100%;
+  padding: 8px 6px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--box-sub);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.w-config-radio input:checked + .w-radio-box {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.w-radio-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.w-config-radio input:checked + .w-radio-box .w-radio-title {
+  color: #2563eb;
+}
+
+.w-radio-desc {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.25;
+}
+
+.w-time-presets, .w-font-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.w-time-btn, .w-font-btn {
+  flex: 1;
+  min-width: 65px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--box-sub);
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.w-time-btn.active, .w-font-btn.active {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
+.w-lobby-test-picker-bar {
+  display: flex;
+  gap: 6px;
+}
+
+.w-lobby-btn-sec {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--box-sub);
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.w-lobby-btn-sec.rnd {
+  background: rgba(147, 51, 234, 0.1);
+  border-color: #9333ea;
+  color: #9333ea;
+}
+
+.w-lobby-btn-sec:hover {
+  filter: brightness(0.95);
+}
+
+/* CTA Zone */
+.w-lobby-cta-zone {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.w-lobby-start-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: all 0.2s ease;
+}
+
+.w-lobby-start-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+.w-lobby-start-btn:active {
+  transform: translateY(0);
+}
+
+.w-lobby-start-btn span {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.w-lobby-start-btn small {
+  font-size: 11px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.w-lobby-back-btn {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.w-lobby-back-btn:hover {
+  background: var(--box-sub);
+  color: var(--text);
+}
+
+@media (max-width: 860px) {
+  .w-lobby-grid {
+    grid-template-columns: 1fr;
+  }
+  .w-config-options {
+    grid-template-columns: 1fr;
+  }
+  .w-cbt-lobby {
+    padding: 14px 10px 40px;
+  }
+}
+
+/* =========================================================================
+   CARD ĐÁNH GIÁ & CHẤM ĐIỂM CỦA AI (AI EVALUATION & CORRECTIONS)
+   ========================================================================= */
+.w-ai-eval-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.w-ai-eval-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.w-ai-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.w-ai-band-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 10px;
+  background: rgba(100, 116, 139, 0.12);
+  border: 1.5px solid var(--border);
+  min-width: 85px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.w-ai-band-badge strong {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.w-ai-scores-grid {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.w-ai-score-box {
+  background: var(--box-sub);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.w-ai-score-box.main {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+.w-ai-score-box label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.w-ai-score-box.main label {
+  color: #2563eb;
+  font-size: 12.5px;
+}
+
+.w-ai-score-box input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--text);
+  padding: 6px 8px;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.w-ai-score-box.main input {
+  font-size: 18px;
+  color: #2563eb;
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.w-ai-score-box input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.w-ai-feedback-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.w-ai-feedback-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.w-ai-field-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.w-ai-textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--box-sub);
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.w-ai-textarea:focus {
+  border-color: #2563eb;
+  background: var(--card);
+}
+
+.w-ai-actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 860px) {
+  .w-ai-scores-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .w-ai-score-box.main {
+    grid-column: span 2;
+  }
+  .w-ai-feedback-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   DANH SÁCH LỊCH SỬ BÀI LÀM (SUBMISSIONS HISTORY)
+   ========================================================================= */
+.w-lobby-history-section {
+  margin-top: 22px;
+}
+
+.w-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.w-history-empty {
+  text-align: center;
+  padding: 36px 16px;
+  color: var(--muted);
+  font-size: 13.5px;
+  background: var(--box-sub);
+  border-radius: 10px;
+  border: 1.5px dashed var(--border);
+}
+
+.w-history-empty-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.w-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--box-sub);
+  border: 1.5px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.w-history-item:hover {
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.w-history-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.w-history-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.w-history-code-tag {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(37, 99, 235, 0.15);
+  color: #2563eb;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.w-history-title-text {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.w-history-meta-row {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.w-history-words-row {
+  font-size: 11.5px;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.w-history-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.w-history-score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 95px;
+}
+
+.w-history-score-badge.graded .w-score-main {
+  font-size: 16px;
+  font-weight: 900;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 4px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.w-history-score-badge.pending .w-score-main {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  background: rgba(100, 116, 139, 0.12);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.w-score-sub {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+.w-history-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.w-history-btn-view {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.w-history-btn-view:hover {
+  background: #1d4ed8;
+}
+
+.w-history-btn-icon {
+  padding: 6px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.w-history-btn-icon:hover {
+  color: var(--text);
+  border-color: var(--primary);
+}
+
+.w-history-btn-icon.del:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+/* Modal backdrop & container */
+.w-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.w-history-modal-box {
+  width: 100%;
+  max-width: 840px;
+  max-height: 85vh;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.w-history-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.w-history-filter-bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.w-filter-pill {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--box-sub);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.w-filter-pill.active {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+}
+
+.w-history-list.modal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 2px 4px;
+  min-height: 220px;
+}
+
+@media (max-width: 860px) {
+  .w-history-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .w-history-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .w-history-score-badge {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+
+/* ==========================================================================
+   BƯỚC 3.1 — TỐI ƯU MƯỢT & TRUY CẬP (focus, giảm chuyển động, bớt blur GPU)
+   ========================================================================== */
+
+/* Viền focus rõ ràng khi điều hướng bằng bàn phím (không hiện khi bấm chuột/chạm) */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible,
+.btn:focus-visible,
+.mini-btn:focus-visible,
+.top-switch-btn:focus-visible,
+.mode-tab:focus-visible {
+  outline: 2.5px solid var(--primary, #2d6a4f) !important;
+  outline-offset: 2px !important;
+  border-radius: inherit;
+}
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary, #2d6a4f);
+  outline-offset: 1px;
+}
+
+/* Bỏ độ trễ chạm đúp & chống zoom nhầm khi bấm nhanh vào nút */
+button,
+.btn,
+.mini-btn,
+.top-switch-btn,
+.mode-tab,
+a.btn {
+  touch-action: manipulation;
+}
+
+/* Tôn trọng cài đặt "Giảm chuyển động" của hệ điều hành: tắt hiệu ứng vô hạn, tiết kiệm pin/CPU */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ghibli-sprites-stage {
+    display: none !important;
+  }
+}
+
+/* Điện thoại / máy yếu: bỏ làm mờ nền (backdrop-filter) tốn GPU, thay bằng nền đặc */
+@media (max-width: 768px) {
+  .topbar,
+  header.topbar,
+  .s4-ui-backdrop,
+  .w-modal-backdrop,
+  .sidebar-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Tránh trình duyệt di động (iOS Safari) tự động zoom khi chạm vào ô nhập liệu < 16px */
+  body input[type="text"]:not(.text-input),
+  body input[type="search"],
+  body input[type="email"],
+  body input[type="password"],
+  body input[type="number"],
+  body input:not([type]):not(.text-input),
+  body textarea {
+    font-size: 16px;
   }
 }

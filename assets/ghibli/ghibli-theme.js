@@ -34,7 +34,8 @@
 
   function getSavedDark() {
     const d = localStorage.getItem(DARK_KEY);
-    if (d === '1' || d === '0') return d === '1';
+    if (d === '0' || d === 'false') return false;
+    if (d === '1' || d === 'true') return true;
     // Default to Dark Mode ('1') so the screen is gentle on the eyes!
     localStorage.setItem(DARK_KEY, '1');
     return true;
@@ -101,6 +102,12 @@
       btn.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
     });
 
+    // Đồng bộ nút bật/tắt Ghibli Theme trên thanh topbar (ví dụ trang Writing)
+    document.querySelectorAll('button[onclick*="toggleGhibliTheme"]').forEach(btn => {
+      btn.textContent = style === 'ghibli' ? '🌿' : '🎨';
+      btn.title = style === 'ghibli' ? 'Đang bật Giao diện Ghibli — Bấm để về Mặc định' : 'Đang dùng Giao diện Mặc định — Bấm để bật Ghibli';
+    });
+
     // Cập nhật màu thanh trình duyệt (meta theme-color)
     const mt = document.getElementById('metaThemeColor');
     if (mt) {
@@ -125,6 +132,11 @@
   window.setThemeStyle = function (style) {
     localStorage.setItem(STYLE_KEY, style === 'ghibli' ? 'ghibli' : 'default');
     applyThemeState();
+  };
+
+  // Toggle between Ghibli and Default theme style
+  window.toggleGhibliTheme = function () {
+    window.setThemeStyle(getSavedStyle() === 'ghibli' ? 'default' : 'ghibli');
   };
 
   // Independent control 2: Set Lighting Mode ('dark' | 'light')
@@ -167,8 +179,9 @@
     }
   };
 
-  // Gán ngay toggleDark cho window để có thể gọi mọi lúc
+  // Gán ngay toggleDark và applyThemeState cho window để có thể gọi mọi lúc
   window.toggleDark = window.toggleDarkModeOnly;
+  window.applyThemeState = applyThemeState;
 
   // Áp dụng trạng thái theme ngay lập tức khi file script tải
   applyThemeState();
@@ -333,21 +346,36 @@
         });
       });
 
-      window.addEventListener('mousemove', (e) => {
-        if (!document.documentElement.classList.contains('theme-ghibli')) return;
-        const pupils = document.querySelectorAll('.soot-pupil');
-        pupils.forEach(p => {
-          const rect = p.getBoundingClientRect();
-          const cx = rect.left + rect.width / 2;
-          const cy = rect.top + rect.height / 2;
-          const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
-          const ox = Math.cos(angle) * 2.1;
-          const oy = Math.sin(angle) * 2.1;
-          const baseCx = p.id.startsWith('pupilL') ? 23 : 37;
-          p.setAttribute('cx', (baseCx + ox).toFixed(2));
-          p.setAttribute('cy', (27 + oy).toFixed(2));
-        });
-      }, { passive: true });
+      if (!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches)) {
+        const pupilNodes = Array.from(stage.querySelectorAll('.soot-pupil')).map(p => ({
+          el: p,
+          baseCx: p.id.startsWith('pupilL') ? 23 : 37
+        }));
+        let pupilRafId = 0;
+        let lastPtrX = 0;
+        let lastPtrY = 0;
+        window.addEventListener('mousemove', (e) => {
+          const rootCls = document.documentElement.classList;
+          if (document.hidden || !rootCls.contains('theme-ghibli') || rootCls.contains('ghibli-lite')) return;
+          if (localStorage.getItem(DOCK_MIN_KEY) === '1') return;
+          lastPtrX = e.clientX;
+          lastPtrY = e.clientY;
+          if (pupilRafId) return;
+          pupilRafId = window.requestAnimationFrame(() => {
+            pupilRafId = 0;
+            const curCls = document.documentElement.classList;
+            if (document.hidden || !curCls.contains('theme-ghibli') || curCls.contains('ghibli-lite')) return;
+            const rects = pupilNodes.map(item => item.el.getBoundingClientRect());
+            for (let i = 0; i < pupilNodes.length; i++) {
+              const r = rects[i];
+              if (!r.width && !r.height) continue;
+              const angle = Math.atan2(lastPtrY - (r.top + r.height / 2), lastPtrX - (r.left + r.width / 2));
+              pupilNodes[i].el.setAttribute('cx', (pupilNodes[i].baseCx + Math.cos(angle) * 2.1).toFixed(2));
+              pupilNodes[i].el.setAttribute('cy', (27 + Math.sin(angle) * 2.1).toFixed(2));
+            }
+          });
+        }, { passive: true });
+      }
     }
 
     // 4. Inject Cozy Ghibli Study Banner on Portal / Home (index.html)
@@ -390,6 +418,35 @@
     const savedMin = localStorage.getItem(DOCK_MIN_KEY);
     if (savedMin === '1' || (savedMin === null && window.innerWidth <= 768)) {
       window.toggleThemeDockMinimize(true);
+    }
+
+    // Tự động ẩn Dock khi bàn phím di động đang mở (tránh che nút/ô nhập) & thu gọn lại khi chạm ra ngoài trên Mobile
+    if (!window.__s4DockGuardBound) {
+      window.__s4DockGuardBound = true;
+      document.addEventListener('focusin', (e) => {
+        if (window.innerWidth > 768) return;
+        const tag = e.target && e.target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target && e.target.isContentEditable)) {
+          if (document.body) document.body.classList.add('s4-kbd-open');
+        }
+      });
+      document.addEventListener('focusout', () => {
+        setTimeout(() => {
+          const ae = document.activeElement;
+          const tag = ae && ae.tagName;
+          const stillEditing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (ae && ae.isContentEditable);
+          if (!stillEditing && document.body) document.body.classList.remove('s4-kbd-open');
+        }, 120);
+      });
+      document.addEventListener('pointerdown', (e) => {
+        if (window.innerWidth > 768) return;
+        const dock = document.getElementById('s4ThemeDock');
+        if (!dock || dock.classList.contains('minimized')) return;
+        if (dock.contains(e.target)) return;
+        const stage = document.getElementById('ghibliSpritesStage');
+        if (stage && stage.contains(e.target)) return;
+        window.toggleThemeDockMinimize(true);
+      }, { passive: true });
     }
 
     applyThemeState();

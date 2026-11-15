@@ -2,11 +2,12 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#0d1813">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
   <script>
   (function () {
     try {
@@ -14,7 +15,7 @@
       if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
       var d = localStorage.getItem("s4_vocab_dark");
       if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
-      var isDark = (d === "1");
+      var isDark = !(d === "0" || d === "false");
       var cl = document.documentElement.classList;
       if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
       if (isDark) cl.add("dark"); else cl.remove("dark");
@@ -34,7 +35,7 @@
     } catch (e) {}
   })();
   </script>
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="../manifest.json">
   <title>LinguaPath Grammar Master — Free for Community</title>
   <link rel="icon" href="../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../icon-192.png">
@@ -64,8 +65,12 @@
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html { background: var(--bg); color: var(--text); width: 100%; max-width: 100%; overflow: hidden; overscroll-behavior: none; }
     body { margin: 0; width: 100%; max-width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; touch-action: pan-y; }
-    body.sidebar-open .main-wrap { pointer-events: none; user-select: none; overflow: hidden !important; }
-    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 190; backdrop-filter: blur(2px); touch-action: none; overscroll-behavior: none; }
+    body.sidebar-open { overflow: hidden !important; }
+    body.sidebar-open .main-wrap,
+    body.sidebar-open .main-wrap iframe,
+    body.sidebar-open .main-wrap video,
+    body.sidebar-open .main { pointer-events: none !important; user-select: none; overflow: hidden !important; }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 10040; backdrop-filter: blur(2px); touch-action: none; overscroll-behavior: none; }
     .sidebar-backdrop.open { display: block; }
     .sidebar { width: 340px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; height: 100dvh; z-index: 200; overscroll-behavior: contain; touch-action: pan-y; }
     .sidebar-header { padding: 12px 14px; background: var(--card); color: var(--text); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
@@ -74,8 +79,8 @@
     .close-menu-btn { display: none; background: var(--bg); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px; border-radius: 8px; font-size: 20px; line-height: 1; cursor: pointer; }
     .search-box { padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0; }
     .search-box input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; background: var(--card); color: var(--text); outline: none; }
-    .unit-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 7px 8px; border-bottom: 1px solid var(--border); background: var(--card); flex-shrink: 0; }
-    .unit-tab { padding: 6px 2px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; text-align: center; overflow: hidden; text-overflow: ellipsis; }
+    .unit-tabs { display: flex; flex-wrap: wrap; gap: 5px; padding: 7px 10px; border-bottom: 1px solid var(--border); background: var(--card); flex-shrink: 0; }
+    .unit-tab { flex: 1 1 auto; min-width: max-content; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap; text-align: center; }
     .unit-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .lesson-list { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 10px; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
     .unit-group { margin-bottom: 14px; }
@@ -109,7 +114,9 @@
     .btn-yt { background: #dc2626; color: #fff; }
     .btn-done { background: var(--border); color: var(--text); }
     .btn-done.completed { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .pdf-preview { width: 100%; height: 560px; border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; display: none; }
+    .pdf-preview { width: 100%; height: 580px; border: 1px solid var(--border); border-radius: 0 0 10px 10px; background: #fff; display: block; }
+    .pdf-mobile-fallback { display: none; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 0 0 10px 10px; background: var(--card); font-size: 13.5px; line-height: 1.5; }
+    .pdf-mobile-actions { display: flex; flex-wrap: wrap; gap: 8px; }
     .notes-area { margin-top: 20px; line-height: 1.75; font-size: 16px; overflow-x: auto; }
     .notes-area img { max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; }
     .notes-area table { width: 100%; border-collapse: collapse; margin: 14px 0; }
@@ -138,6 +145,7 @@
     .ans-hint { display: inline-flex; align-items: center; margin-left: 6px; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.4); color: #065f46; font-weight: 700; font-size: 13px; }
     html.dark .ans-hint, body.dark .ans-hint { background: rgba(16, 185, 129, 0.22); border-color: rgba(16, 185, 129, 0.45); color: #6ee7b7; }
     .s4-g-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
+    @media (max-width: 768px) { .s4-g-toast { top: calc(56px + env(safe-area-inset-top, 0px)); } }
     .s4-g-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .s4-g-toast.good { background: #16a34a; }
     .s4-g-toast.warn { background: #dc2626; }
@@ -148,15 +156,21 @@
     .g-problem-explanation-wrapper .collapse.show { display: block; }
     .nav-footer { display: flex; justify-content: space-between; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); gap: 12px; }
     @media (max-width: 768px) {
-      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); width: 86%; max-width: 330px; border-right: none; box-shadow: none; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
+      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: 330px; border-right: none; box-shadow: none; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
       .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; border-right: 1px solid var(--border); box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
       .close-menu-btn { display: block; }
       .mobile-topbar { display: flex; }
       .main { padding: 12px 12px calc(16px + env(safe-area-inset-bottom, 8px)) 12px; }
       .container { padding: 18px 14px; border-radius: 10px; }
+      #pdfFrame.pdf-preview { display: none !important; height: 0 !important; }
+      .pdf-mobile-fallback { display: flex; }
+      .pdf-hdr-ext { display: none !important; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=25">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -171,7 +185,13 @@
       </div>
     </div>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Tìm chủ điểm, bài học...">
+      <div class="s4-search-group is-compact">
+        <div class="s4-search-field">
+          <input type="text" id="searchInput" class="s4-search-input" placeholder="Tìm chủ điểm, bài học..." autocomplete="off">
+          <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+        </div>
+        <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+      </div>
     </div>
     <div class="unit-tabs" id="unitTabs"></div>
     <div class="lesson-list" id="lessonList"></div>
@@ -191,24 +211,30 @@
     </div>
   </div>
 
-  <script src="../auth.js?v=29"></script>
+  <script src="../assets/s4-ui.js?v=63"></script>
+  <script src="../auth.js?v=30"></script>
   <script src="grammar_data.js"></script>
   <script>
-    if (localStorage.getItem("s4_vocab_dark") === "1") {
-      document.documentElement.classList.add("dark");
-      document.body.classList.add("dark");
-    }
-    window.toggleDark = function() {
-      const isDark = !document.documentElement.classList.contains("dark");
+    (function () {
+      var d = localStorage.getItem("s4_vocab_dark");
+      var isDark = !(d === "0" || d === "false");
       document.documentElement.classList.toggle("dark", isDark);
       document.body.classList.toggle("dark", isDark);
-      localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
-      const mt = document.getElementById("metaThemeColor");
-      if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
+    })();
+    window.toggleDark = function() {
+      if (window.toggleDarkModeOnly) {
+        window.toggleDarkModeOnly();
+      } else {
+        const isDark = !document.documentElement.classList.contains("dark");
+        document.documentElement.classList.toggle("dark", isDark);
+        document.body.classList.toggle("dark", isDark);
+        localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
+        const mt = document.getElementById("metaThemeColor");
+        if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
+        document.querySelectorAll('.dark-btn').forEach(b => { b.textContent = isDark ? '☀️' : '🌙'; });
+      }
     };
     const ITEMS = window.STUDY4_GRAMMAR_DATA || [];
-    const ALL_SECTIONS = Array.from(new Set(ITEMS.map(x => x.unitTitle + "||" + x.sectionName)));
-    function canAccessLesson() { return true; }
     const listEl = document.getElementById("lessonList");
     const contentEl = document.getElementById("lessonContent");
     const searchInput = document.getElementById("searchInput");
@@ -224,14 +250,20 @@
     const initLesson = ITEMS.find(x => x.id === activeId);
     if (initLesson) openSections.add(initLesson.unitTitle + "||" + initLesson.sectionName);
 
-    if (localStorage.getItem("s4_vocab_dark") === "1") document.body.classList.add("dark");
-
     window.toggleMenu = function(open) {
-      sidebarEl.classList.toggle("open", open);
-      document.body.classList.toggle("sidebar-open", open);
+      const isOpen = !!open;
+      sidebarEl.classList.toggle("open", isOpen);
+      document.body.classList.toggle("sidebar-open", isOpen);
       const bd = document.getElementById("sidebarBackdrop");
-      if (bd) bd.classList.toggle("open", open);
+      if (bd) bd.classList.toggle("open", isOpen);
+      const mw = document.querySelector(".main-wrap");
+      if (mw && "inert" in mw) mw.inert = isOpen;
     };
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.body.classList.contains("sidebar-open")) {
+        window.toggleMenu(false);
+      }
+    });
 
     const UNIT_SHORT = {
       "[Grammar] Parts of speech - Từ loại": "1. Từ loại",
@@ -271,7 +303,10 @@
       const unitMap = new Map();
       ITEMS.forEach(l => {
         if (currentUnitFilter !== "ALL" && l.unitTitle !== currentUnitFilter) return;
-        const match = !q || l.title.toLowerCase().includes(q) || l.sectionName.toLowerCase().includes(q) || (l.notesHtml || "").toLowerCase().includes(q);
+        const noteTxt = q && l.notesHtml ? l.notesHtml.replace(/<[^>]+>/g, " ") : "";
+        const match = !q || ((window.S4UI && typeof window.S4UI.matchesSearch === "function")
+          ? window.S4UI.matchesSearch(l.title + " " + l.sectionName + " " + noteTxt, q)
+          : (l.title.toLowerCase().includes(q) || l.sectionName.toLowerCase().includes(q) || noteTxt.toLowerCase().includes(q)));
         if (!match) return;
         if (!unitMap.has(l.unitTitle)) unitMap.set(l.unitTitle, new Map());
         const secMap = unitMap.get(l.unitTitle);
@@ -294,24 +329,15 @@
         secMap.forEach((lessons, secName) => {
           secIndex++;
           const secKey = uTitle + "||" + secName;
-          const globalSecIdx = ALL_SECTIONS.indexOf(secKey);
-          const secUnlocked = true;
-          const isOpen = (!!q || openSections.has(secKey)) && secUnlocked;
+          const isOpen = !!q || openSections.has(secKey);
           const doneCount = lessons.filter(x => completedMap[x.id]).length;
 
           const secDiv = document.createElement("div");
           secDiv.className = "sec-group" + (isOpen ? " open" : "");
-          if (!secUnlocked) secDiv.style.opacity = "0.78";
 
           const header = document.createElement("div");
           header.className = "sec-header";
-          header.onclick = () => {
-            if (!secUnlocked) {
-              window.S4Auth.openActivateModal(secName);
-              return;
-            }
-            toggleSection(secKey);
-          };
+          header.onclick = () => toggleSection(secKey);
           header.innerHTML = `
             <span style="line-height:1.35;">${secIndex}. ${secName}</span>
             <span class="sec-meta">
@@ -338,6 +364,16 @@
 
         listEl.appendChild(gDiv);
       });
+
+      if (unitMap.size === 0) {
+        const safeQ = window.S4UI ? window.S4UI.escapeHtml(q) : q;
+        listEl.innerHTML = `<div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">
+          <div style="font-size:26px;">🔍</div>
+          <div style="font-size:13.5px;font-weight:800;color:var(--text);">Không tìm thấy chủ điểm phù hợp</div>
+          ${q ? `<div style="font-size:12px;">Từ khóa "<strong>${safeQ}</strong>" không khớp bài nào.</div>` : ""}
+          <button type="button" class="s4-pz-clear-chip" onclick="window.clearGrammarSearch()">✕ Xóa tìm kiếm</button>
+        </div>`;
+      }
     }
 
     window.toggleDone = function(id) {
@@ -517,12 +553,8 @@ window.S4FormatTheoryHtml = function(rawHtml) {
 };
 
 function selectItem(id, resetScroll = true) {
-      let curLesson = ITEMS.find(x => x.id === id) || ITEMS[0];
-      if (curLesson && !canAccessLesson(curLesson)) {
-        if (window.S4Auth) window.S4Auth.openActivateModal(curLesson.sectionName);
-        curLesson = ITEMS[0];
-        id = curLesson.id;
-      }
+      const curLesson = ITEMS.find(x => x.id === id) || ITEMS[0];
+      if (curLesson) id = curLesson.id;
       activeId = id;
       activeProbIdx = 0;
       localStorage.setItem("s4_grammar_last", id);
@@ -574,9 +606,16 @@ function selectItem(id, resetScroll = true) {
         <div id="pdfWrapper" class="pdf-wrapper" style="display:none;margin-top:14px;">
           <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);padding:8px 12px;border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;font-size:12.5px;font-weight:700;">
             <span>📑 Slide bài giảng PDF</span>
-            <a href="${l.localPdfPath}" target="_blank" class="btn btn-pdf" style="padding:4px 9px;font-size:11.5px;text-decoration:none;" title="Mở slide trong tab mới để phóng to">⛶ Mở tab mới toàn màn hình</a>
+            <a href="${l.localPdfPath}" target="_blank" class="btn btn-pdf pdf-hdr-ext" style="padding:4px 9px;font-size:11.5px;text-decoration:none;" title="Mở slide trong tab mới để phóng to">⛶ Mở tab mới toàn màn hình</a>
           </div>
-          <iframe id="pdfFrame" class="pdf-preview" data-src="${l.localPdfPath}" style="width:100%;height:580px;border:1px solid var(--border);border-radius:0 0 10px 10px;background:#fff;display:block;"></iframe>
+          <iframe id="pdfFrame" class="pdf-preview" data-src="${l.localPdfPath}" title="Slide bài giảng PDF"></iframe>
+          <div id="pdfMobileFallback" class="pdf-mobile-fallback">
+            <div style="color:var(--muted);">📱 Trình duyệt di động không hỗ trợ xem PDF nhúng trực tiếp trong khung. Vui lòng mở slide ở tab toàn màn hình hoặc tải về máy để xem rõ nét:</div>
+            <div class="pdf-mobile-actions">
+              <a href="${l.localPdfPath}" target="_blank" rel="noopener" class="btn btn-pdf">⛶ Mở xem Slide PDF</a>
+              <a href="${l.localPdfPath}" download class="btn btn-done">⬇️ Tải Slide PDF</a>
+            </div>
+          </div>
         </div>
         ` : ''}
         ${practiceHtml}
@@ -672,6 +711,14 @@ function selectItem(id, resetScroll = true) {
 
     let gToastTimer = null;
     function showGrammarToast(isGood, htmlMsg, durationMs) {
+      if (window.S4UI && typeof window.S4UI.toast === "function") {
+        window.S4UI.toast({
+          type: isGood ? "success" : "warn",
+          html: htmlMsg,
+          duration: durationMs || 2200
+        });
+        return;
+      }
       let t = document.getElementById("s4GrammarToast");
       if (!t) {
         t = document.createElement("div");
@@ -786,11 +833,12 @@ function selectItem(id, resetScroll = true) {
       if (!wrap || !frame) return;
       const isHidden = (wrap.style.display === "none" || !wrap.style.display);
       if (isHidden) {
-        if (!frame.src || frame.src === "about:blank" || frame.src === window.location.href) {
+        wrap.style.display = "block";
+        const isMobileFrameHidden = window.innerWidth <= 768 || window.getComputedStyle(frame).display === "none" || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+        if (!isMobileFrameHidden && (!frame.src || frame.src === "about:blank" || frame.src === window.location.href)) {
           const ds = frame.getAttribute("data-src");
           if (ds) frame.src = ds;
         }
-        wrap.style.display = "block";
         if (btn) btn.textContent = "📑 Ẩn Slide PDF";
         try { wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch(e) {}
       } else {
@@ -799,10 +847,30 @@ function selectItem(id, resetScroll = true) {
       }
     };
 
-    searchInput.oninput = () => renderSidebar(searchInput.value);
+    let grammarSearchTimer = null;
+    window.clearGrammarSearch = function () {
+      searchInput.value = "";
+      if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(searchInput);
+      try { searchInput.focus({ preventScroll: true }); } catch (e) {}
+      renderSidebar("");
+    };
+    if (window.S4UI && typeof window.S4UI.bindSearchBar === "function") {
+      window.S4UI.bindSearchBar({
+        input: searchInput,
+        clearBtn: "searchInput_clear",
+        searchBtn: "searchInput_btn",
+        delay: 180,
+        onSearch: (val) => { clearTimeout(grammarSearchTimer); renderSidebar(val); }
+      });
+    } else {
+      searchInput.oninput = () => {
+        clearTimeout(grammarSearchTimer);
+        grammarSearchTimer = setTimeout(() => renderSidebar(searchInput.value), 180);
+      };
+    }
     renderSidebar();
     if (activeId) selectItem(activeId);
   </script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=25"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>
 </html>

@@ -2,11 +2,13 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#0d1813">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../manifest.json">
   <script>
   (function () {
     try {
@@ -14,7 +16,7 @@
       if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
       var d = localStorage.getItem("s4_vocab_dark");
       if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
-      var isDark = (d === "1");
+      var isDark = !(d === "0" || d === "false");
       var cl = document.documentElement.classList;
       if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
       if (isDark) cl.add("dark"); else cl.remove("dark");
@@ -71,8 +73,12 @@
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin: 0; padding: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
     .ted-app-layout { display: flex; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; position: relative; }
-    body.sidebar-open .main-wrap { pointer-events: none; user-select: none; overflow: hidden !important; }
-    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 190; backdrop-filter: blur(2px); touch-action: none; }
+    body.sidebar-open { overflow: hidden !important; }
+    body.sidebar-open .main-wrap,
+    body.sidebar-open .main-wrap iframe,
+    body.sidebar-open .main-wrap video,
+    body.sidebar-open .main { pointer-events: none !important; user-select: none; overflow: hidden !important; }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 10040; backdrop-filter: blur(2px); touch-action: none; }
     .sidebar-backdrop.open { display: block; }
     .sidebar { width: 335px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; height: 100dvh; z-index: 200; flex-shrink: 0; }
     .sidebar-header { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -135,6 +141,8 @@
     .btn-done { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 700; font-size: 12.5px; cursor: pointer; transition: all 0.18s ease; }
     .btn-done:active { transform: scale(0.96); }
     .btn-done.completed { background: var(--success-soft); color: var(--success); border-color: var(--success); }
+    .ted-pin-btn { display: none; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 700; font-size: 12px; cursor: pointer; align-items: center; gap: 4px; }
+    .ted-pin-btn.active { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
 
     .content-panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; min-width: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
     .ctrl-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border); }
@@ -220,20 +228,96 @@
 
 
     @media (max-width: 900px) {
-      .workspace { grid-template-columns: minmax(0, 1fr); }
+      .workspace { grid-template-columns: minmax(0, 1fr); padding-top: 8px; }
+      .main { padding-top: 0; }
       .video-panel { position: static; }
+      .ted-pin-btn { display: inline-flex; }
+    }
+    @media (max-width: 900px) and (min-height: 580px) {
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .main {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-bottom: 8px;
+        min-height: 0;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .workspace {
+        flex: 1 1 0;
+        width: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel {
+        position: static;
+        flex-shrink: 0;
+        z-index: 25;
+        padding: 8px 10px;
+        border-radius: 0 0 12px 12px;
+        background: var(--card) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .content-panel {
+        flex: 1 1 0;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .sub-item {
+        scroll-margin-top: 8px;
+      }
+      html.theme-ghibli body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel {
+        background: rgba(252, 248, 238, 0.98) !important;
+      }
+      html.theme-ghibli.dark body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel {
+        background: rgba(16, 28, 23, 0.98) !important;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .video-title {
+        font-size: 13.5px;
+        margin-bottom: 6px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .yt-box {
+        max-height: 22vh;
+        margin: 0 auto;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .ted-engine-bar {
+        margin-top: 6px;
+        gap: 4px;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .engine-btns {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        gap: 5px;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .engine-btns::-webkit-scrollbar { display: none; }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .engine-btn {
+        padding: 4px 7px;
+        font-size: 11px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .video-meta {
+        margin-top: 6px;
+      }
     }
     @media (max-width: 768px) {
-      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-100%); width: 86%; max-width: 330px; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
+      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: 330px; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
       .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
       .close-menu-btn { display: block; }
       .menu-toggle-btn { display: inline-flex; }
-      .main { padding: 8px 8px calc(24px + env(safe-area-inset-bottom, 8px)) 8px; }
+      .main { padding: 0 8px calc(24px + env(safe-area-inset-bottom, 8px)) 8px; }
       .topbar { padding: 8px 10px; flex-wrap: wrap; row-gap: 6px; }
       .topbar-left { display: contents; }
       .menu-toggle-btn { order: 0; }
-      .topbar-right { order: 1; margin-left: auto; }
-      .mode-pills { order: 2; flex: 0 0 100%; width: 100%; }
+      .topbar-right { order: 2; margin-left: auto; }
+      .mode-pills { order: 3; flex: 0 0 100%; width: 100%; }
       .mode-pill { padding: 7px 11px; font-size: 12.5px; }
       .ctrl-bar, .engine-btns { min-width: 0; }
       .subs-list { max-height: none; }
@@ -245,40 +329,55 @@
       .dic-input { min-height: 40px; font-size: 16px; padding: 6px 8px; }
       .dic-full-input { font-size: 16px; min-height: 44px; padding: 10px 12px; }
     }
+    @media (max-width: 540px) {
+      .ted-hide-sm { display: none; }
+      .mode-pills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; overflow: visible; }
+      .mode-pill { padding: 6px 6px; font-size: 11.5px; text-align: center; }
+    }
   </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=25">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
 </head>
 <body>
   <script>
     (function () {
       try {
         var s = localStorage.getItem("s4_theme_style") || "ghibli";
-        var isDark = (localStorage.getItem("s4_vocab_dark") !== "0");
-        if (s === "ghibli") document.body.classList.add("theme-ghibli");
-        if (isDark) document.body.classList.add("dark");
+        var d = localStorage.getItem("s4_vocab_dark");
+        var isDark = !(d === "0" || d === "false");
+        document.body.classList.toggle("theme-ghibli", s === "ghibli");
+        document.body.classList.toggle("dark", isDark);
       } catch (e) {}
     })();
   </script>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
   <div class="ted-app-layout">
     <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMenu(false)"></div>
-  <div class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h2><a href="../index.html" class="home-pill" title="Về trang khóa học">🏠</a> 🎙️ TED Talks</h2>
       <button class="close-menu-btn" onclick="toggleMenu(false)">×</button>
     </div>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Tìm bài diễn thuyết TED...">
+      <div class="s4-search-group is-compact">
+        <div class="s4-search-field">
+          <input type="text" id="searchInput" class="s4-search-input" placeholder="Tìm bài diễn thuyết TED..." autocomplete="off">
+          <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+        </div>
+        <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+      </div>
     </div>
     <div class="unit-tabs">
       <button class="unit-tab active" onclick="setUnitFilter('ALL', this)">Tất cả (202)</button>
       <button class="unit-tab" onclick="setUnitFilter('Short', this)">Ngắn 0-6p</button>
       <button class="unit-tab" onclick="setUnitFilter('Long', this)">Dài 6p+</button>
     </div>
-    <div class="lesson-list" id="lessonList"></div>
-  </div>
+      <div class="lesson-list" id="lessonList"></div>
+    </div>
 
-  <div class="main-wrap">
+    <div class="main-wrap">
     <div class="topbar">
       <div class="topbar-left">
         <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ Danh sách (202)</button>
@@ -286,11 +385,11 @@
           <button class="mode-pill active" data-mode="dictation" onclick="switchMode('dictation')">✍️ Chép chính tả</button>
           <button class="mode-pill" data-mode="transcript" onclick="switchMode('transcript')">🎧 Nghe & Transcript</button>
           <button class="mode-pill" data-mode="shadowing" onclick="switchMode('shadowing')">🗣️ Shadowing</button>
-          <button class="mode-pill" data-mode="podcast" onclick="switchMode('podcast')">📻 Podcast (Chạy nền)</button>
+          <button class="mode-pill" data-mode="podcast" onclick="switchMode('podcast')">📻 Podcast<span class="ted-hide-sm"> (Chạy nền)</span></button>
         </div>
       </div>
       <div class="topbar-right">
-        <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
+        <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖<span class="s4-donate-lbl"> Ủng hộ</span></button>
         <button class="theme-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
       </div>
     </div>
@@ -355,7 +454,10 @@
           </div>
           <div class="video-meta">
             <span style="font-size:12.5px;color:var(--muted);font-weight:600;" id="videoMetaInfo">0 câu phụ đề</span>
-            <button class="btn-done" id="btnDoneLesson" onclick="toggleDoneCurrent()">⬜ Đánh dấu hoàn thành</button>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <button type="button" class="ted-pin-btn active" id="btnTogglePinVideo" onclick="toggleTedVideoPin()" title="Ghim hoặc bỏ ghim video khi cuộn">📌 Đang ghim</button>
+              <button class="btn-done" id="btnDoneLesson" onclick="toggleDoneCurrent()">⬜ Đánh dấu hoàn thành</button>
+            </div>
           </div>
         </div>
 
@@ -363,12 +465,13 @@
         <div class="content-panel" id="modeContainer"></div>
       </div>
     </div>
-  </div>
+    </div>
   </div>
 
   <script src="tedtalks_data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
   <!-- YouTube API lazy-loaded on demand when user switches to YouTube engine -->
+  <script src="../assets/s4-ui.js?v=63"></script>
   <script>
     const ITEMS = window.STUDY4_TED_DATA || [];
     const STORAGE_DONE = "s4_ted_done";
@@ -420,13 +523,35 @@
     }
 
     function toggleMenu(open) {
-      document.getElementById("sidebar").classList.toggle("open", open);
-      document.getElementById("sidebarBackdrop").classList.toggle("open", open);
-      document.body.classList.toggle("sidebar-open", open);
+      const isOpen = !!open;
+      document.getElementById("sidebar").classList.toggle("open", isOpen);
+      document.getElementById("sidebarBackdrop").classList.toggle("open", isOpen);
+      document.body.classList.toggle("sidebar-open", isOpen);
+      const mw = document.querySelector(".main-wrap");
+      if (mw && "inert" in mw) mw.inert = isOpen;
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.body.classList.contains("sidebar-open")) toggleMenu(false);
+    });
+    function toggleTedVideoPin() {
+      const unpinned = document.body.classList.toggle("ted-unpin-video");
+      const btn = document.getElementById("btnTogglePinVideo");
+      if (btn) {
+        btn.classList.toggle("active", !unpinned);
+        btn.textContent = unpinned ? "📌 Ghim video" : "📌 Đang ghim";
+      }
     }
 
     let toastTimer = null;
     function showToast(good, text) {
+      if (window.S4UI && typeof window.S4UI.toast === "function") {
+        window.S4UI.toast(
+          good ? "success" : "warn",
+          text,
+          { duration: good ? 1100 : 1800 }
+        );
+        return;
+      }
       let t = document.getElementById("s4TedToast");
       if (!t) {
         t = document.createElement("div");
@@ -459,12 +584,16 @@
     }
 
     function renderSidebar() {
-      const q = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+      const q = (document.getElementById("searchInput").value || "").trim();
       const listEl = document.getElementById("lessonList");
       const filtered = ITEMS.filter(it => {
         if (unitFilter === "Short" && !it.unit.includes("Short")) return false;
         if (unitFilter === "Long" && !it.unit.includes("Long")) return false;
-        if (q && !it.title.toLowerCase().includes(q)) return false;
+        if (q) {
+          return (window.S4UI && typeof window.S4UI.matchesSearch === "function")
+            ? window.S4UI.matchesSearch((it.index || "") + " " + it.title + " " + (it.unit || ""), q)
+            : it.title.toLowerCase().includes(q.toLowerCase());
+        }
         return true;
       });
 
@@ -490,7 +619,13 @@
           </div>`;
         });
       });
-      listEl.innerHTML = html || `<div style="padding:16px;text-align:center;color:var(--muted);">Không tìm thấy bài nào.</div>`;
+      const safeQ = window.S4UI ? window.S4UI.escapeHtml(q) : q;
+      listEl.innerHTML = html || `<div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">
+        <div style="font-size:26px;">🔍</div>
+        <div style="font-size:13.5px;font-weight:800;color:var(--text);">Không tìm thấy bài TED Talks phù hợp</div>
+        ${q ? `<div style="font-size:12px;">Từ khóa "<strong>${safeQ}</strong>" không khớp bài nào.</div>` : ""}
+        <button type="button" class="s4-pz-clear-chip" onclick="clearTedSearch()">✕ Xóa tìm kiếm</button>
+      </div>`;
     }
 
     function selectLesson(id, autoPlayPodcast) {
@@ -1780,7 +1915,30 @@
       else renderDictationMode(it);
     }
 
-    document.getElementById("searchInput").oninput = renderSidebar;
+    let tedSearchTimer = null;
+    window.clearTedSearch = function () {
+      const inp = document.getElementById("searchInput");
+      if (inp) {
+        inp.value = "";
+        if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+        try { inp.focus({ preventScroll: true }); } catch (e) {}
+      }
+      renderSidebar();
+    };
+    if (window.S4UI && typeof window.S4UI.bindSearchBar === "function") {
+      window.S4UI.bindSearchBar({
+        input: "searchInput",
+        clearBtn: "searchInput_clear",
+        searchBtn: "searchInput_btn",
+        delay: 180,
+        onSearch: () => { clearTimeout(tedSearchTimer); renderSidebar(); }
+      });
+    } else {
+      document.getElementById("searchInput").oninput = () => {
+        clearTimeout(tedSearchTimer);
+        tedSearchTimer = setTimeout(renderSidebar, 180);
+      };
+    }
     setupPodcastEvents();
     setupTedVideoEvents();
     startSyncLoop();
@@ -1792,7 +1950,7 @@
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=29"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=25"></script>
+  <script src="../auth.js?v=30"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>
 </html>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgSqueak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" rx="20" fill="url(#bgSqueak)"/>
+  <!-- Floor shadow -->
+  <ellipse cx="185" cy="212" rx="95" ry="14" fill="#fde68a"/>
+  <!-- Mouse tail -->
+  <path d="M112 192 C72 192 58 164 78 144 C92 130 82 110 66 112" fill="none" stroke="#f472b6" stroke-width="6" stroke-linecap="round"/>
+  <!-- Mouse body -->
+  <ellipse cx="176" cy="172" rx="64" ry="40" fill="#94a3b8"/>
+  <ellipse cx="184" cy="186" rx="46" ry="22" fill="#cbd5e1"/>
+  <!-- Mouse ears -->
+  <circle cx="192" cy="116" r="24" fill="#94a3b8"/>
+  <circle cx="192" cy="116" r="14" fill="#fbcfe8"/>
+  <circle cx="226" cy="122" r="22" fill="#94a3b8"/>
+  <circle cx="226" cy="122" r="12" fill="#fbcfe8"/>
+  <!-- Mouse head & nose -->
+  <path d="M210 144 C236 144 264 162 272 178 C258 196 226 202 204 196 Z" fill="#94a3b8"/>
+  <circle cx="272" cy="176" r="7" fill="#ec4899"/>
+  <circle cx="236" cy="162" r="5" fill="#1e293b"/>
+  <circle cx="238" cy="160" r="1.8" fill="#ffffff"/>
+  <!-- Whiskers -->
+  <g stroke="#475569" stroke-width="2" stroke-linecap="round">
+    <line x1="254" y1="180" x2="284" y2="174"/>
+    <line x1="254" y1="185" x2="285" y2="188"/>
+  </g>
+  <!-- Sound waves & high-pitched squeak bubble -->
+  <path d="M288 148 Q304 134 294 118" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M300 158 Q324 134 308 106" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round"/>
+  <rect x="234" y="42" width="122" height="46" rx="16" fill="#ffffff" stroke="#f59e0b" stroke-width="3"/>
+  <polygon points="268,88 282,88 264,106" fill="#ffffff" stroke="#f59e0b" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="268" y1="88" x2="282" y2="88" stroke="#ffffff" stroke-width="4"/>
+  <text x="295" y="71" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="800" fill="#b45309">SQUEAK!</text>
+</svg>

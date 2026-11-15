@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bgAbuse" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#115e59"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" rx="20" fill="url(#bgAbuse)"/>
+  <!-- Tilted mistreatment / power-imbalance blocks on left -->
+  <rect x="78" y="176" width="110" height="22" rx="6" fill="#94a3b8"/>
+  <rect x="92" y="114" width="110" height="60" rx="8" fill="#cbd5e1" stroke="#64748b" stroke-width="2.5"/>
+  <path d="M118 144 L176 144 M147 124 L147 164" stroke="#64748b" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+  <!-- Red prohibition / stop symbol overlapping bad hand/fist metaphor -->
+  <circle cx="242" cy="136" r="66" fill="#fee2e2" stroke="#dc2626" stroke-width="10"/>
+  <path d="M214 114 L270 114 C276 114 280 119 280 125 L280 156 C280 163 275 168 268 168 L220 168 C212 168 206 162 206 154 L206 122 C206 117 210 114 214 114 Z" fill="#fca5a5"/>
+  <g stroke="#b91c1c" stroke-width="3.5" stroke-linecap="round">
+    <line x1="222" y1="114" x2="222" y2="142"/>
+    <line x1="240" y1="114" x2="240" y2="142"/>
+    <line x1="258" y1="114" x2="258" y2="142"/>
+  </g>
+  <line x1="196" y1="182" x2="288" y2="90" stroke="#dc2626" stroke-width="11" stroke-linecap="round"/>
+  <!-- Protective shield badge on bottom-left -->
+  <path d="M108 48 L142 62 L142 94 C142 115 127 132 108 139 C89 132 74 115 74 94 L74 62 Z" fill="url(#shieldGrad)" stroke="#ffffff" stroke-width="3"/>
+  <polyline points="94,95 104,105 123,82" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

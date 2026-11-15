@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="skyMeteor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="meteorTail" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fb923c" stop-opacity="0.95"/>
+      <stop offset="55%" stop-color="#fde047" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#fef9c3" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" rx="20" fill="url(#skyMeteor)"/>
+  <!-- Stars -->
+  <g fill="#f8fafc">
+    <circle cx="54" cy="48" r="2.2" opacity="0.9"/>
+    <circle cx="110" cy="84" r="1.5" opacity="0.7"/>
+    <circle cx="162" cy="40" r="2.5" opacity="0.9"/>
+    <circle cx="230" cy="64" r="1.6" opacity="0.6"/>
+    <circle cx="348" cy="52" r="2.4" opacity="0.85"/>
+    <circle cx="312" cy="196" r="2" opacity="0.8"/>
+    <circle cx="72" cy="198" r="1.8" opacity="0.7"/>
+    <circle cx="192" cy="222" r="2.2" opacity="0.75"/>
+  </g>
+  <!-- Distant planet horizon -->
+  <path d="M0 242 Q200 202 400 242 L400 280 L0 280 Z" fill="#312e81" opacity="0.65"/>
+  <!-- Glowing meteor streak -->
+  <polygon points="102,174 334,42 352,64 134,202" fill="url(#meteorTail)"/>
+  <line x1="128" y1="184" x2="316" y2="62" stroke="#fef08a" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  <!-- Meteor rock core + glow -->
+  <circle cx="116" cy="186" r="34" fill="#fb923c" opacity="0.35"/>
+  <circle cx="116" cy="186" r="23" fill="#facc15" opacity="0.6"/>
+  <polygon points="98,176 116,166 134,174 132,196 112,205 95,193" fill="#78350f" stroke="#fdba74" stroke-width="3"/>
+  <circle cx="110" cy="182" r="4" fill="#92400e"/>
+  <circle cx="122" cy="190" r="3" fill="#92400e"/>
+</svg>

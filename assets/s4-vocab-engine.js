@@ -1,4 +1,4 @@
-/* Study4 IELTS - Fundamental Vocabulary SRS Engine (Shared Module for Listening & Reading)
+/* LinguaPath - Fundamental Vocabulary SRS Engine (Shared Module for Listening & Reading)
  * Đồng bộ 100% cơ chế học từ vựng của phần Vocabulary Fundamental (vocab/index.html):
  * - 7 chế độ: Học thông minh (Smart 4 bước trộn ngẫu nhiên), Flashcard (4 mức SM-2), Trắc nghiệm (Anh-Việt/Việt-Anh/Trộn),
  *   Luyện nghe (Chọn từ/Chính tả), Ghép cặp (6 cặp), Điền từ vào ngữ cảnh (Cloze), Danh sách từ (4 bộ lọc).
@@ -21,6 +21,7 @@
     srsKey: "s4_vocab_srs_v1",
     daysKey: "s4_vocab_days_v2",
     settingsKey: "s4_vocab_settings_v2",
+    sessionKey: "",
     getSrsMap: () => ({}),
     onSaveSrs: () => {},
     playWordAudio: () => {},
@@ -98,7 +99,7 @@
       .s4v-sess-bar { height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
       .s4v-sess-bar i { display: block; height: 100%; background: var(--primary); transition: width .3s; }
 
-      .s4v-card-box { background: var(--card, var(--panel)); border-radius: 16px; border: 1px solid var(--border); padding: 18px 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); }
+      .s4v-card-box { background: var(--card, var(--panel)); border-radius: 16px; border: 1px solid var(--border); padding: 18px 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); max-width: 100%; box-sizing: border-box; overflow-x: hidden; overflow-wrap: anywhere; }
       .s4v-top-bar { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--muted); margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
       .s4v-tag { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
       .s4v-tag.new { background: rgba(37,99,235,.16); color: var(--primary); }
@@ -126,11 +127,113 @@
       .s4v-srs-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
       .s4v-srs-btn { padding: 11px 6px; border: none; border-radius: 10px; font-weight: 700; font-size: 13.5px; cursor: pointer; color: #fff; }
 
-      .s4v-prompt-box { font-size: 17px; line-height: 1.6; padding: 14px 16px; background: var(--bg, var(--box-sub)); border: 1px solid var(--border); border-radius: 12px; }
+      .s4v-prompt-box { font-size: 17px; line-height: 1.6; padding: 14px 16px; background: var(--bg, var(--box-sub)); border: 1px solid var(--border); border-radius: 12px; max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
       .s4v-blank { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--primary); padding: 0 8px; }
       .s4v-blank.correct { color: #10b981; border-bottom-color: #10b981; }
       .s4v-blank.wrong { color: #ef4444; border-bottom-color: #ef4444; }
-      .s4v-options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
+      .s4v-options-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 16px; }
+      .s4v-options-grid.is-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .s4v-wrap .opt-btn.quiz-opt,
+      .s4v-wrap .quiz-opt {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 16px;
+        border-radius: 12px;
+        border-width: 1.5px;
+        border-style: solid;
+        border-color: var(--border);
+        background: var(--box-sub, var(--bg, var(--card)));
+        color: var(--text);
+        text-align: left;
+        font-size: 14.5px;
+        font-weight: 500;
+        line-height: 1.45;
+        cursor: pointer;
+        margin-bottom: 0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        transition: border-color 0.15s ease, transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+      }
+      .s4v-wrap .opt-btn.quiz-opt:hover:not(.correct):not(.wrong),
+      .s4v-wrap .quiz-opt:hover:not(.correct):not(.wrong) {
+        border-color: var(--primary);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+      .s4v-opt-key {
+        flex: 0 0 26px;
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        background: var(--card, var(--panel));
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .s4v-opt-body { flex: 1; min-width: 0; word-break: break-word; }
+      .s4v-opt-pos { font-size: 12px; color: var(--muted); font-weight: 600; margin-left: 5px; }
+      .s4v-wrap .opt-btn.quiz-opt.correct,
+      .s4v-wrap .quiz-opt.correct {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.16);
+        font-weight: 700;
+      }
+      .s4v-wrap .opt-btn.quiz-opt.correct .s4v-opt-key {
+        background: #10b981;
+        border-color: #10b981;
+        color: #fff;
+      }
+      .s4v-wrap .opt-btn.quiz-opt.wrong,
+      .s4v-wrap .quiz-opt.wrong {
+        border-color: #ef4444;
+        background: rgba(239, 68, 68, 0.15);
+      }
+      .s4v-wrap .opt-btn.quiz-opt.wrong .s4v-opt-key {
+        background: #ef4444;
+        border-color: #ef4444;
+        color: #fff;
+      }
+      .s4v-wrap .spell-input,
+      .s4v-wrap .text-input {
+        width: 100%;
+        padding: 13px 16px;
+        border-radius: 12px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: var(--border);
+        background: var(--box-sub, var(--bg, var(--card)));
+        color: var(--text);
+        font-size: 17px;
+        font-weight: 700;
+        outline: none;
+        margin: 12px 0 4px;
+        text-align: center;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .s4v-wrap .spell-input:focus,
+      .s4v-wrap .text-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
+      .s4v-listen-prompt {
+        text-align: center;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--muted);
+        padding: 9px 14px;
+        border-radius: 10px;
+        background: var(--box-sub, var(--bg, var(--card)));
+        border: 1px dashed var(--border);
+        margin-bottom: 12px;
+      }
       .s4v-match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
       .s4v-match-tile { padding: 12px 10px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg, var(--box-sub)); text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; min-height: 76px; display: flex; align-items: center; justify-content: center; user-select: none; }
       .s4v-match-tile.selected { border-color: var(--primary); background: rgba(37, 99, 235, 0.14); }
@@ -138,6 +241,7 @@
       .s4v-match-tile.error { border-color: #ef4444; background: rgba(239, 68, 68, 0.16); }
 
       .s4v-word-card { background: var(--card, var(--panel)); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+      .s4v-step-lbl { font-size: 11px; font-weight: 800; color: var(--primary); margin-left: 5px; letter-spacing: .2px; white-space: nowrap; }
       .s4v-badge-status { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700; background: rgba(16, 185, 129, 0.16); color: #10b981; }
       .s4v-badge-status.ign { background: rgba(245, 158, 11, 0.16); color: #f59e0b; }
       .s4v-finish-box { background: var(--card, var(--panel)); border-radius: 18px; border: 2px solid #10b981; padding: 32px 24px; text-align: center; }
@@ -148,6 +252,9 @@
         .s4v-mode-btn { padding: 6px 10px; font-size: 12px; flex-shrink: 0; }
         .s4v-card-box { padding: 14px 12px; border-radius: 13px; }
         .s4v-fc-word { font-size: 24px; }
+        .s4v-options-grid.is-cols-2 { grid-template-columns: 1fr; }
+        .s4v-wrap .opt-btn.quiz-opt,
+        .s4v-wrap .quiz-opt { padding: 12px 13px; font-size: 14px; gap: 9px; }
         .s4v-stats-grid { grid-template-columns: repeat(3, 1fr); }
         .s4v-srs-buttons { grid-template-columns: repeat(2, 1fr); }
         .s4v-match-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -187,6 +294,175 @@
   }
 
   function srsMap() { return cfg.getSrsMap() || {}; }
+  function getSessionKey() {
+    if (cfg.sessionKey) return cfg.sessionKey;
+    return String(cfg.srsKey || "s4_vocab").replace(/_srs.*$/, "") + "_vocab_session_v1";
+  }
+  function readSessionStore() {
+    const raw = loadJson(getSessionKey(), {});
+    const sessions = raw && raw.sessions && typeof raw.sessions === "object" && !Array.isArray(raw.sessions) ? raw.sessions : {};
+    const drafts = raw && raw.drafts && typeof raw.drafts === "object" && !Array.isArray(raw.drafts) ? raw.drafts : {};
+    return { sessions, drafts };
+  }
+  function writeSessionStore(store) {
+    try {
+      const sKeys = Object.keys(store.sessions || {});
+      if (sKeys.length > 60) {
+        sKeys.sort((a, b) => (store.sessions[b].savedAt || 0) - (store.sessions[a].savedAt || 0))
+          .slice(60).forEach(k => { delete store.sessions[k]; });
+      }
+      const dKeys = Object.keys(store.drafts || {});
+      if (dKeys.length > 500) {
+        dKeys.sort((a, b) => (store.drafts[b].updatedAt || 0) - (store.drafts[a].updatedAt || 0))
+          .slice(500).forEach(k => { delete store.drafts[k]; });
+      }
+      if (Object.keys(store.sessions).length || Object.keys(store.drafts).length) {
+        localStorage.setItem(getSessionKey(), JSON.stringify(store));
+      } else {
+        localStorage.removeItem(getSessionKey());
+      }
+    } catch (e) {}
+  }
+  function serializeQueueItem(w) {
+    return {
+      id: w.id,
+      _new: !!w._new,
+      _stage: typeof w._stage === "number" ? w._stage : (w._new ? 0 : 1),
+      _mistakes: w._mistakes || 0,
+      _resume: w._resume || null,
+      _relearn: !!w._relearn,
+      _lapsed: !!w._lapsed,
+      _relearned: !!w._relearned,
+      _rated: !!w._rated,
+      _hardRepeated: !!w._hardRepeated,
+      _task: w._task || null,
+      _lastTask: w._lastTask || null
+    };
+  }
+  function syncDraftsFromQueue(store, queue, now) {
+    if (extraPracticeMode || !Array.isArray(queue)) return;
+    queue.forEach(w => {
+      if (!w || !w.id) return;
+      const stage = typeof w._stage === "number" ? w._stage : (w._new ? 0 : 1);
+      const baseStage = w._new ? 0 : 1;
+      if (stage > baseStage || (w._mistakes || 0) > 0 || w._relearn || w._resume) {
+        store.drafts[w.id] = {
+          new: !!w._new,
+          stage: stage,
+          mistakes: w._mistakes || 0,
+          resume: w._resume || null,
+          relearn: !!w._relearn,
+          lastTask: w._lastTask || null,
+          updatedAt: now
+        };
+      }
+    });
+  }
+  function saveSessionState(removeWordIds) {
+    const store = readSessionStore();
+    const now = Date.now();
+    if (Array.isArray(removeWordIds)) {
+      removeWordIds.forEach(id => { if (id) delete store.drafts[id]; });
+    }
+    syncDraftsFromQueue(store, studyQueue, now);
+    if (currentLessonId) {
+      if (!studyQueue || !studyQueue.length) {
+        delete store.sessions[currentLessonId];
+      } else {
+        store.sessions[currentLessonId] = {
+          mode: currentMode,
+          extraPracticeMode: !!extraPracticeMode,
+          savedAt: now,
+          sessionTotal: sessionTotal,
+          sessionDone: sessionDone,
+          lastSmartWordId: lastSmartWordId || "",
+          smartTick: smartTick || 0,
+          queue: studyQueue.map(serializeQueueItem)
+        };
+      }
+    }
+    writeSessionStore(store);
+  }
+  function clearLessonSession(lessonId, dropWordIds) {
+    const store = readSessionStore();
+    if (lessonId) delete store.sessions[lessonId];
+    if (Array.isArray(dropWordIds)) {
+      dropWordIds.forEach(id => { if (id) delete store.drafts[id]; });
+    }
+    writeSessionStore(store);
+  }
+  function tryRestoreSession(lessonId, allowModeRestore) {
+    if (!lessonId || !words.length) return false;
+    const store = readSessionStore();
+    const raw = store.sessions[lessonId];
+    if (!raw || !Array.isArray(raw.queue) || !raw.queue.length) return false;
+
+    const map = srsMap();
+    const savedAt = Number(raw.savedAt || 0);
+    const list = [];
+    for (const item of raw.queue) {
+      if (!item || !item.id) continue;
+      const full = wordsById.get(item.id);
+      if (!full) continue;
+      const st = map[item.id];
+      if (st && st.ignored) continue;
+      if (!raw.extraPracticeMode && item._new && st && st.reps > 0 && !(item._lapsed || item._hardRepeated || item._rated)) continue;
+
+      const restored = Object.assign({}, full, {
+        _new: typeof item._new === "boolean" ? item._new : !isTouchedWord(full),
+        _stage: typeof item._stage === "number" ? item._stage : (item._new ? 0 : 1),
+        _mistakes: item._mistakes || 0,
+        _resume: item._resume || null,
+        _relearn: !!item._relearn,
+        _lapsed: !!item._lapsed,
+        _relearned: !!item._relearned,
+        _rated: !!item._rated,
+        _hardRepeated: !!item._hardRepeated,
+        _task: item._task || null,
+        _lastTask: item._lastTask || null
+      });
+      const d = store.drafts[item.id];
+      if (!raw.extraPracticeMode && d && Number(d.updatedAt || 0) > savedAt) {
+        if (typeof d.stage === "number" && d.stage !== item._stage) restored._task = null;
+        restored._stage = typeof d.stage === "number" ? d.stage : restored._stage;
+        restored._mistakes = d.mistakes || 0;
+        restored._resume = d.resume || null;
+        restored._relearn = !!d.relearn;
+        restored._lastTask = d.lastTask || restored._lastTask;
+      }
+      list.push(restored);
+    }
+
+    if (!list.length) {
+      clearLessonSession(lessonId);
+      return false;
+    }
+
+    extraPracticeMode = !!raw.extraPracticeMode;
+    if (allowModeRestore && raw.mode && raw.mode !== "list" && ["smart", "flashcard", "quiz", "listen", "match", "cloze"].includes(raw.mode)) {
+      currentMode = raw.mode;
+    }
+    studyQueue = list;
+    sessionTotal = Math.max(Number(raw.sessionTotal || 0), list.length + Number(raw.sessionDone || 0));
+    sessionDone = Number(raw.sessionDone || 0);
+    smartTick = Number(raw.smartTick || 0);
+    lastSmartWordId = raw.lastSmartWordId || (studyQueue[0] && studyQueue[0].id) || "";
+    isFlipped = false;
+    matchSelected = null;
+
+    for (let i = 0; i < studyQueue.length; i++) {
+      if (typeof studyQueue[i]._stage !== "number") {
+        studyQueue[i]._stage = studyQueue[i]._new ? 0 : 1;
+        studyQueue[i]._mistakes = 0;
+      }
+    }
+    if (currentMode === "smart" && studyQueue.length && !studyQueue[0]._task) {
+      pickNextSmartItem(true);
+    }
+    bumpCard();
+    return true;
+  }
+
   function saveState() {
     try {
       localStorage.setItem(cfg.daysKey, JSON.stringify(dayLog));
@@ -241,7 +517,9 @@
       st.reps = (st.reps || 0) + 1;
       st.ease = st.ease || 2.5;
       if (quality === 1) {
-        st.interval = st.interval < 1 ? 1 : Math.max(1, Math.round(st.interval * 0.6));
+        // "Khó": nhớ được nhưng yếu -> không tăng bậc ôn (reps giữ nguyên, tối thiểu 1) và chặn khoảng ôn tối đa 14 ngày
+        st.reps = Math.max(1, st.reps - 1);
+        st.interval = st.interval < 1 ? 1 : Math.min(14, Math.max(1, Math.round(st.interval * 0.5)));
         st.ease = Math.max(1.3, st.ease - 0.15);
       } else if (quality === 2) {
         st.interval = st.reps === 1 ? 1 : st.reps === 2 ? 3 : Math.max((st.interval || 1) + 1, Math.round((st.interval || 1) * st.ease));
@@ -289,7 +567,7 @@
     return out;
   }
 
-  function buildStudyQueue(forceReset) {
+  function buildStudyQueue(forceReset, skipDraftHydration) {
     const now = Date.now();
     const map = srsMap();
     let list = [];
@@ -302,24 +580,42 @@
       const due = words.filter(v => isDueWord(v, now))
         .sort((a, b) => (map[a.id].due || 0) - (map[b.id].due || 0))
         .slice(0, cap);
-      const quota = Math.max(10, getRemainingDailyNewQuota());
+      const quota = getRemainingDailyNewQuota();
       const fresh = words.filter(v => !isTouchedWord(v)).slice(0, quota);
       if (userSettings.queueOrder === "due_first") list = [...due, ...fresh];
       else if (userSettings.queueOrder === "new_first") list = [...fresh, ...due];
       else list = randomMerge(due, fresh);
-      if (!list.length && words.length) {
-        list = words.filter(v => !map[v.id] || !map[v.id].ignored).slice(0, 20);
-      }
     }
 
-    studyQueue = list.map(w => Object.assign({ _new: !isTouchedWord(w) }, w));
+    const drafts = (!skipDraftHydration && !extraPracticeMode) ? (readSessionStore().drafts || {}) : {};
+    studyQueue = list.map(w => {
+      const isNew = !isTouchedWord(w);
+      const item = Object.assign({ _new: isNew }, w);
+      const d = drafts[w.id];
+      if (d && (!isNew || d.new)) {
+        item._stage = typeof d.stage === "number" ? d.stage : (isNew ? 0 : 1);
+        item._mistakes = d.mistakes || 0;
+        item._resume = d.resume || null;
+        item._relearn = !!d.relearn;
+        item._lastTask = d.lastTask || null;
+      }
+      return item;
+    });
+    sessionTopicCleanupCheck(skipDraftHydration);
     sessionTotal = studyQueue.length;
     sessionDone = 0;
     smartTick = 0;
     lastSmartWordId = "";
     isFlipped = false;
     bumpCard();
-    if (currentMode === "smart" && studyQueue.length) pickNextSmartItem();
+    if (currentMode === "smart" && studyQueue.length) pickNextSmartItem(true);
+    saveSessionState();
+  }
+
+  function sessionTopicCleanupCheck(skipDraftHydration) {
+    if (skipDraftHydration && currentLessonId) {
+      clearLessonSession(currentLessonId);
+    }
   }
 
   function makeCloze(v) {
@@ -335,7 +631,7 @@
     return null;
   }
 
-  function pickNextSmartItem() {
+  function pickNextSmartItem(preserveFront) {
     if (!studyQueue.length) return;
     smartTick++;
     for (let i = 0; i < studyQueue.length; i++) {
@@ -345,12 +641,15 @@
         w._mistakes = 0;
       }
     }
-    const frontCount = Math.min(4, studyQueue.length);
-    const candidates = [];
-    for (let i = 0; i < frontCount; i++) {
-      if (studyQueue[i].id !== lastSmartWordId) candidates.push(i);
+    let pickIdx = 0;
+    if (!preserveFront) {
+      const frontCount = Math.min(4, studyQueue.length);
+      const candidates = [];
+      for (let i = 0; i < frontCount; i++) {
+        if (studyQueue[i].id !== lastSmartWordId) candidates.push(i);
+      }
+      pickIdx = candidates.length ? candidates[rint(0, candidates.length - 1)] : 0;
     }
-    const pickIdx = candidates.length ? candidates[rint(0, candidates.length - 1)] : 0;
     if (pickIdx > 0) {
       const picked = studyQueue.splice(pickIdx, 1)[0];
       studyQueue.unshift(picked);
@@ -393,6 +692,7 @@
       v._stage = 0;
       v._relearn = true;
     }
+    v._task = null;
 
     studyQueue.shift();
     const qLen = studyQueue.length;
@@ -412,6 +712,7 @@
 
     isFlipped = false;
     pickNextSmartItem();
+    saveSessionState();
     renderAll();
   }
 
@@ -429,6 +730,7 @@
     sessionDone++;
     isFlipped = false;
     if (studyQueue.length) pickNextSmartItem(); else bumpCard();
+    saveSessionState([v.id]);
     renderAll();
   }
 
@@ -436,6 +738,7 @@
     if (!studyQueue.length) return;
     const v = studyQueue.shift();
     const qLen = studyQueue.length;
+    let droppedId = null;
     if (q === 0) {
       if (!v._lapsed && !extraPracticeMode) { v._lapsed = true; v._rated = true; rateWordSRS(v.id, 0); }
       else v._lapsed = true;
@@ -450,9 +753,11 @@
     } else {
       rateOnce(v, q);
       sessionDone++;
+      droppedId = v.id;
     }
     isFlipped = false;
     bumpCard();
+    saveSessionState(droppedId ? [droppedId] : undefined);
     renderAll();
   }
 
@@ -464,7 +769,8 @@
   function playVocab(id, accent) {
     const v = wordsById.get(id);
     if (!v) return;
-    cfg.playWordAudio(v._raw || v, accent === "uk" ? "en-GB" : "en-US");
+    const langMap = { uk: "en-GB", au: "en-AU", us: "en-US" };
+    cfg.playWordAudio(v._raw || v, langMap[accent] || "en-US");
   }
 
   function autoPlayIfNeeded() {
@@ -580,18 +886,29 @@
     return (v._new ? '<span class="s4v-tag new">🆕 Từ mới</span>' : '<span class="s4v-tag rev">🔁 Ôn lại</span>') +
       `<span style="margin-left:8px;">${v.topic || currentTopicTitle}</span>`;
   }
+  const STEP_NAMES = ["Làm quen", "Nhận diện", "Nghe & Nhớ", "Ghi nhớ sâu"];
   function stepsHtml(v) {
     if (currentMode !== "smart" || typeof v._stage !== "number") return "";
-    return `<span class="s4v-steps">${[0, 1, 2, 3].map(i => `<i class="${i < v._stage ? "done" : i === v._stage ? "cur" : ""}"></i>`).join("")}</span>`;
+    const stepNum = Math.min(4, Math.max(1, v._stage + 1));
+    return `<span class="s4v-steps" title="Bước ${stepNum}/4: ${STEP_NAMES[stepNum - 1] || ""}">${[0, 1, 2, 3].map(i => `<i class="${i < v._stage ? "done" : i === v._stage ? "cur" : ""}"></i>`).join("")}<b class="s4v-step-lbl">Bước ${stepNum}/4</b></span>`;
   }
   function headerHtml(v, extra) {
     const safeId = v.id.replace(/'/g, "\\'");
     return `<div class="s4v-top-bar"><div>${tagHtml(v)}${stepsHtml(v)}</div>
-      <div style="display:flex;gap:8px;align-items:center;">${extra || ""}<button class="s4v-skip-btn" onclick="window.S4VocabEngine.ignoreCurrentWord()">⏭️ Đã biết</button></div></div>`;
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:100%;">${extra || ""}<button class="s4v-skip-btn" onclick="window.S4VocabEngine.ignoreCurrentWord()">⏭️ Đã biết</button></div></div>`;
+  }
+  function audioPillsHtml(safeId, pillStyle = "") {
+    const styleAttr = pillStyle ? ` style="${pillStyle}"` : "";
+    const accents = cfg && cfg.supportsAu
+      ? [["uk", "UK"], ["au", "AU"], ["us", "US"]]
+      : [["uk", "UK"], ["us", "US"]];
+    return accents
+      .map(([code, label]) => `<button class="s4v-audio-pill"${styleAttr} onclick="window.S4VocabEngine.playVocab('${safeId}','${code}')">🔊 ${label}</button>`)
+      .join("");
   }
   function audioRowHtml(v) {
     const safeId = v.id.replace(/'/g, "\\'");
-    return `<div class="s4v-audio-row"><button class="s4v-audio-pill" onclick="window.S4VocabEngine.playVocab('${safeId}','uk')">🔊 UK</button><button class="s4v-audio-pill" onclick="window.S4VocabEngine.playVocab('${safeId}','us')">🔊 US</button></div>`;
+    return `<div class="s4v-audio-row">${audioPillsHtml(safeId)}</div>`;
   }
   function backHtml(v) {
     return `<div class="s4v-fc-back"><div class="s4v-def-box"><b>Định nghĩa:</b><br>${(v.defRaw || "").replace(/\n/g, "<br>")}</div>
@@ -622,32 +939,64 @@
     return out;
   }
 
+  /** Filter out pronunciation drill / unit-origin tags from quiz choices & hints. */
+  function cleanQuizPos(pos) {
+    const p = String(pos || "").trim();
+    if (!p) return "";
+    if (/(\(âm\s|^âm\s|listen\s*&|part\s*[123]|speaking|expression|idiom\/expr|chủ đề|luyện\s*âm)/i.test(p)) return "";
+    return p;
+  }
+
+  function choiceGridHtml(choices, targetId, formatLabelFn, allowTwoCols) {
+    const twoCols = allowTwoCols && choices.every(c => String(c.word || "").length <= 34);
+    const items = choices.map((c, idx) => {
+      const label = formatLabelFn(c);
+      return `<button type="button" class="opt-btn quiz-opt" data-correct="${c.id === targetId}" onclick="window.S4VocabEngine.answerChoice(this)"><span class="s4v-opt-key">${idx + 1}</span><span class="s4v-opt-body">${label}</span></button>`;
+    }).join("");
+    return `<div class="s4v-options-grid${twoCols ? " is-cols-2" : ""}">${items}</div>`;
+  }
+
   function quizHtml(v, dir) {
     const q = cacheGet("quiz", () => ({
       enToVi: dir === "en2vi" || (dir === "mix" && Math.random() < 0.5),
       choices: shuffle([v, ...pickDistractors(v)])
     }));
     const safeId = v.id.replace(/'/g, "\\'");
+    const headerPos = cleanQuizPos(v.pos);
     const prompt = q.enToVi
-      ? `<div style="text-align:center;"><div class="s4v-fc-word">${v.word} <span class="s4v-fc-pos">${v.pos}</span></div>
+      ? `<div style="text-align:center;"><div class="s4v-fc-word">${v.word} ${headerPos ? `<span class="s4v-fc-pos">${headerPos}</span>` : ""}</div>
            <div class="s4v-fc-ipa">${v.ipa} <button class="s4v-audio-pill" onclick="window.S4VocabEngine.playVocab('${safeId}','uk')">🔊</button></div></div>`
       : `<div class="s4v-prompt-box"><b>Định nghĩa:</b><br>${(v.defRaw || "").replace(/\n/g, "<br>")}</div>`;
-    const opts = q.choices.map(c => {
-      const label = q.enToVi ? (c.defVi || c.defRaw) : `<b>${c.word}</b> ${c.pos}`;
-      return `<button class="opt-btn quiz-opt" data-correct="${c.id === v.id}" onclick="window.S4VocabEngine.answerChoice(this)">${label}</button>`;
-    }).join("");
+    const gridHtml = choiceGridHtml(
+      q.choices,
+      v.id,
+      c => {
+        if (q.enToVi) return (c.defVi || c.defRaw);
+        const pos = cleanQuizPos(c.pos);
+        return `<b>${c.word}</b>${pos ? `<span class="s4v-opt-pos">${pos}</span>` : ""}`;
+      },
+      !q.enToVi
+    );
     const dirBtns = currentMode === "quiz"
       ? ["en2vi:Anh ➔ Việt", "vi2en:Việt ➔ Anh", "mix:Trộn"].map(s => {
           const [k, l] = s.split(":");
           return `<button class="s4v-mode-btn ${quizDirection === k ? "active" : ""}" onclick="window.S4VocabEngine.setQuizDir('${k}')">${l}</button>`;
         }).join("")
       : "";
-    return `<div class="s4v-card-box">${headerHtml(v, dirBtns)}${prompt}<div class="s4v-options-grid">${opts}</div></div>`;
+    return `<div class="s4v-card-box">${headerHtml(v, dirBtns)}${prompt}${gridHtml}</div>`;
   }
 
   function normalizeAns(s) { return (s || "").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim(); }
 
   function showAnsToast(ok, rightAns) {
+    if (window.S4UI && typeof window.S4UI.toast === "function") {
+      window.S4UI.toast(
+        ok ? "success" : "error",
+        ok ? "✓ Chính xác" : "✗ Đáp án: " + rightAns,
+        { duration: ok ? 1300 : 2400 }
+      );
+      return;
+    }
     let t = document.getElementById("s4AnsToast");
     if (!t) {
       t = document.createElement("div");
@@ -675,28 +1024,41 @@
   function listenHtml(v, sub) {
     cardCache.answers = [normalizeAns(v.word)];
     const safeId = v.id.replace(/'/g, "\\'");
+    const cleanPos = cleanQuizPos(v.pos);
     let body;
+    let promptBar;
     if (sub === "choice") {
       const choices = cacheGet("listen", () => shuffle([v, ...pickDistractors(v)]));
-      body = `<div class="s4v-options-grid">${choices.map(c => `<button class="opt-btn quiz-opt" data-correct="${c.id === v.id}" onclick="window.S4VocabEngine.answerChoice(this)"><b>${c.word}</b> ${c.pos}</button>`).join("")}</div>`;
+      promptBar = `<div class="s4v-listen-prompt">🎧 Nghe phát âm và chọn từ / cụm từ chính xác</div>`;
+      body = choiceGridHtml(
+        choices,
+        v.id,
+        c => {
+          const cPos = cleanQuizPos(c.pos);
+          return `<b>${c.word}</b>${cPos ? `<span class="s4v-opt-pos">${cPos}</span>` : ""}`;
+        },
+        true
+      );
     } else {
-      body = `<div style="text-align:center;margin-top:14px;color:var(--muted);">Nghĩa: <b>${v.defVi || v.defRaw}</b> ${v.pos}</div>${textInputHtml("Gõ từ bạn nghe được...")}`;
+      promptBar = `<div class="s4v-listen-prompt">⌨️ Nghe phát âm và gõ lại từ / cụm từ chính xác</div>`;
+      body = `<div style="text-align:center;margin-top:10px;color:var(--muted);">Nghĩa: <b>${v.defVi || v.defRaw}</b> ${cleanPos}</div>${textInputHtml("Gõ từ bạn nghe được...")}`;
     }
     const subBtns = currentMode === "listen"
       ? `<button class="s4v-mode-btn ${sub === "choice" ? "active" : ""}" onclick="window.S4VocabEngine.setListenSub('choice')">Chọn từ</button><button class="s4v-mode-btn ${sub === "dictation" ? "active" : ""}" onclick="window.S4VocabEngine.setListenSub('dictation')">Chính tả</button>`
       : "";
-    return `<div class="s4v-card-box">${headerHtml(v, subBtns)}
-      <div class="s4v-audio-row" style="margin:14px 0;"><button class="s4v-audio-pill" style="font-size:15.5px;padding:10px 18px;" onclick="window.S4VocabEngine.playVocab('${safeId}','uk')">🔊 UK</button><button class="s4v-audio-pill" style="font-size:15.5px;padding:10px 18px;" onclick="window.S4VocabEngine.playVocab('${safeId}','us')">🔊 US</button></div>
+    return `<div class="s4v-card-box">${headerHtml(v, subBtns)}${promptBar}
+      <div class="s4v-audio-row" style="margin:12px 0;">${audioPillsHtml(safeId, "font-size:15.5px;padding:10px 18px;")}</div>
       ${body}</div>`;
   }
 
   function clozeHtml(v) {
     const c = makeCloze(v);
     cardCache.answers = c ? c.answers : [normalizeAns(v.word)];
+    const cleanPos = cleanQuizPos(v.pos);
     const hint = v.word ? `Gợi ý: <b>${v.word[0]}… (${v.word.length} ký tự)</b>` : "";
     return `<div class="s4v-card-box" style="text-align:center;">${headerHtml(v, `<span style="font-size:12.5px;color:var(--muted);">${hint}</span>`)}
       <div class="s4v-prompt-box" style="font-size:18px;margin:12px 0;text-align:left;">${c ? c.html : (v.defRaw || "").replace(/\n/g, "<br>")}</div>
-      <div style="color:var(--muted);">Nghĩa: <b>${v.defVi || v.defRaw}</b> ${v.pos}</div>
+      <div style="color:var(--muted);">Nghĩa: <b>${v.defVi || v.defRaw}</b> ${cleanPos}</div>
       ${textInputHtml("Nhập từ vựng...")}</div>`;
   }
 
@@ -752,8 +1114,7 @@
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span style="font-size:20px;font-weight:800;color:var(--primary);">${v.word}</span><span style="color:var(--muted);">${v.pos}</span>
           <span style="color:#ef4444;font-family:monospace;">${v.ipa}</span>
-          <button class="s4v-audio-pill" style="padding:3px 9px;font-size:12px;" onclick="window.S4VocabEngine.playVocab('${safeId}','uk')">🔊 UK</button>
-          <button class="s4v-audio-pill" style="padding:3px 9px;font-size:12px;" onclick="window.S4VocabEngine.playVocab('${safeId}','us')">🔊 US</button>${status}
+          ${audioPillsHtml(safeId, "padding:3px 9px;font-size:12px;")}${status}
         </div>
         <div style="margin-top:8px;line-height:1.5;">${(v.defRaw || "").replace(/\n/g, "<br>")}</div>
         ${v.examples && v.examples.length ? `<div style="margin-top:8px;font-size:14px;color:#10b981;line-height:1.55;">${exampleHtml(v.examples)}</div>` : ""}
@@ -864,6 +1225,7 @@
       injectStyles();
       mountContainerId = containerId;
       currentTopicTitle = topicTitle || "";
+      const allowModeRestore = !forceMode;
       if (forceMode) currentMode = forceMode;
 
       const normalized = (rawWords || []).map(w => {
@@ -900,7 +1262,10 @@
 
       if (lessonChanged || !studyQueue.length) {
         extraPracticeMode = false;
-        buildStudyQueue(true);
+        if (!tryRestoreSession(lessonId, allowModeRestore)) {
+          if (!forceMode) currentMode = "smart";
+          buildStudyQueue(true);
+        }
       }
       renderAll();
     },
@@ -910,8 +1275,9 @@
     setMode(m) {
       currentMode = m;
       isFlipped = false;
-      if (m === "smart" && studyQueue.length) { studyQueue[0]._task = null; pickNextSmartItem(); }
+      if (m === "smart" && studyQueue.length && !studyQueue[0]._task) { pickNextSmartItem(true); }
       else bumpCard();
+      if (m !== "list") saveSessionState();
       renderAll();
     },
 
@@ -948,9 +1314,14 @@
     },
     startFreePractice() { extraPracticeMode = true; buildStudyQueue(true); renderAll(); },
     exitPractice() { extraPracticeMode = false; buildStudyQueue(true); renderAll(); },
-    restartSession() {
-      if (!confirm("Bỏ tiến trình dở dang của phiên học này và tạo phiên mới?\n(Các từ đã học xong vẫn được giữ nguyên.)")) return;
-      buildStudyQueue(true);
+    async restartSession() {
+      const ok = window.S4UI && typeof window.S4UI.confirm === "function"
+        ? await window.S4UI.confirm("Bỏ tiến trình dở dang của phiên học này và tạo phiên mới?\n(Các từ đã học xong vẫn được giữ nguyên.)", { title: "Tạo phiên học mới", tone: "warn", confirmText: "Tạo phiên mới" })
+        : confirm("Bỏ tiến trình dở dang của phiên học này và tạo phiên mới?\n(Các từ đã học xong vẫn được giữ nguyên.)");
+      if (!ok) return;
+      const dropIds = studyQueue.map(w => w.id);
+      clearLessonSession(currentLessonId, dropIds);
+      buildStudyQueue(true, true);
       renderAll();
     },
 
@@ -975,18 +1346,21 @@
       isFlipped = false;
       bumpCard();
       if (currentMode === "smart" && studyQueue.length) pickNextSmartItem();
+      saveSessionState([v.id]);
       renderAll();
     },
     markKnown(id) {
       srsMap()[id] = { ignored: true, updatedAt: Date.now() };
       saveState();
       if (!studyQueue.length) buildStudyQueue(true);
+      else saveSessionState([id]);
       renderAll();
     },
     unignoreWord(id) {
       delete srsMap()[id];
       saveState();
       if (!studyQueue.length) buildStudyQueue(true);
+      else saveSessionState([id]);
       renderAll();
     },
 
@@ -1095,7 +1469,13 @@
         prev.classList.remove("selected");
         prev.classList.add("matched"); el.classList.add("matched");
         const idx = studyQueue.findIndex(x => x.id === el.dataset.pair);
-        if (idx !== -1) { rateOnce(studyQueue[idx], 2); studyQueue.splice(idx, 1); sessionDone++; }
+        if (idx !== -1) {
+          const matchedId = studyQueue[idx].id;
+          rateOnce(studyQueue[idx], 2);
+          studyQueue.splice(idx, 1);
+          sessionDone++;
+          saveSessionState([matchedId]);
+        }
         if (!document.querySelector("#s4vMatchGrid .s4v-match-tile:not(.matched)")) {
           const serial = cardSerial;
           setTimeout(() => { if (serial === cardSerial) { bumpCard(); renderAll(); } }, 450);

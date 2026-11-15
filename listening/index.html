@@ -2,11 +2,13 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="theme-color" id="metaThemeColor" content="#0d1813">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../manifest.json">
   <script>
   (function () {
     try {
@@ -14,7 +16,7 @@
       if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
       var d = localStorage.getItem("s4_vocab_dark");
       if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
-      var isDark = (d === "1");
+      var isDark = !(d === "0" || d === "false");
       var cl = document.documentElement.classList;
       if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
       if (isDark) cl.add("dark"); else cl.remove("dark");
@@ -35,7 +37,8 @@
         if (window.toggleDarkModeOnly) {
           window.toggleDarkModeOnly();
         } else {
-          var curDark = localStorage.getItem("s4_vocab_dark") !== "0";
+          var curD = localStorage.getItem("s4_vocab_dark");
+          var curDark = !(curD === "0" || curD === "false");
           var nextDark = !curDark;
           localStorage.setItem("s4_vocab_dark", nextDark ? "1" : "0");
           document.documentElement.classList.toggle("dark", nextDark);
@@ -114,7 +117,7 @@
     flex-shrink: 0;
     z-index: 20;
   }
-  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .topbar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; min-width: 0; }
   .back-btn {
     text-decoration: none;
     color: var(--text);
@@ -137,7 +140,13 @@
     border: 1px solid var(--border);
     gap: 4px;
     overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
+  .top-switch::-webkit-scrollbar { display: none; }
   .top-switch-btn {
     padding: 6px 10px;
     border-radius: 7px;
@@ -148,7 +157,15 @@
     color: var(--muted);
     cursor: pointer;
     white-space: nowrap;
+    flex-shrink: 0;
     transition: all 0.18s;
+  }
+  .topbar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  @media (max-width: 1520px) and (min-width: 769px) {
+    .topbar { padding: 6px 12px; gap: 6px 10px; }
+    .topbar-left { order: 1; }
+    .topbar-right { order: 2; margin-left: auto; }
+    .top-switch { order: 3; flex: 1 0 100%; width: 100%; }
   }
   .top-switch-btn.active {
     background: var(--primary);
@@ -529,7 +546,7 @@
   .quiz-opt { width: 100%; text-align: left; padding: 12px 15px; border-radius: 10px; background:var(--box-sub); border: 1px solid var(--border); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 9px; }
   .quiz-opt.correct { background: rgba(16, 185, 129, 0.22); border-color: #10b981; color: #6ee7b7; }
   .quiz-opt.wrong { background: rgba(239, 68, 68, 0.22); border-color: #ef4444; color: #fca5a5; }
-  .spell-input { width: 100%; padding: 13px 16px; border-radius: 11px; border: 2px solid var(--border); background:var(--box-sub); color: #fff; font-size: 18px; font-weight: 700; outline: none; margin: 12px 0; }
+  .spell-input { width: 100%; padding: 13px 16px; border-radius: 11px; border: 2px solid var(--border); background: var(--box-sub); color: var(--text, #0f172a); font-size: 18px; font-weight: 700; outline: none; margin: 12px 0; }
 
   .video-box { position: relative; width: 100%; padding-top: 56.25%; border-radius: 14px; overflow: hidden; background: #000; border: 1px solid var(--border); margin-bottom: 20px; }
   .video-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -559,7 +576,6 @@
     .close-sidebar-btn { display: block !important; }
     .topbar { padding: 8px 10px; gap: 6px; }
     .brand-title { font-size: 13.5px; }
-    .topbar-right { display: none; }
     .top-switch {
       max-width: 100%;
       order: 3;
@@ -611,18 +627,26 @@
     .reading-grid { grid-template-columns: 1fr; }
     .vocab-inspector { position: static; max-height: none; }
   }
+  @media (max-width: 640px) {
+    .brand-title { display: none !important; }
+  }
 
 </style>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=25">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
 </head>
 <body>
   <script>
     (function () {
       try {
         var s = localStorage.getItem("s4_theme_style") || "ghibli";
-        var isDark = (localStorage.getItem("s4_vocab_dark") !== "0");
-        if (s === "ghibli") document.body.classList.add("theme-ghibli");
-        if (isDark) document.body.classList.add("dark");
+        var d = localStorage.getItem("s4_vocab_dark");
+        var isDark = !(d === "0" || d === "false");
+        var cl = document.body.classList;
+        if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+        if (isDark) cl.add("dark"); else cl.remove("dark");
       } catch (e) {}
     })();
   </script>
@@ -632,6 +656,8 @@
   <div class="topbar-left">
     <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;" title="Thu gọn / Mở rộng danh sách bài bên trái"><span class="s4-desk-sb-lbl">◀ Ẩn mục lục</span><span class="s4-mob-sb-lbl">☰ Mục lục</span></button>
     <a href="../index.html#ielts" class="back-btn">← Khóa IELTS</a>
+    <button class="btn mini-btn dark-btn" id="topDarkBtn_listen" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;flex-shrink:0;">☀️</button>
+    <script>(function(){ try { var d = localStorage.getItem("s4_vocab_dark"); var isD = !(d === "0" || d === "false"); var b = document.getElementById("topDarkBtn_listen"); if (b) b.textContent = isD ? '☀️' : '🌙'; } catch(e){} })();</script>
     <div class="brand-title"><span>🎧 IELTS Intensive Listening</span></div>
   </div>
 
@@ -640,14 +666,14 @@
     <button class="top-switch-btn" id="topBtn_u_2" onclick="quickSwitchUnit('u_2')">✍️ Nghe từ vựng (4,632 từ)</button>
     <button class="top-switch-btn" id="topBtn_u_3" onclick="quickSwitchUnit('u_3')">🎧 Nghe theo Chủ đề (66 bài)</button>
     <button class="top-switch-btn" id="topBtn_u_4" onclick="quickSwitchUnit('u_4')">🏆 Đề thi IELTS (604 bài)</button>
-    <button class="top-switch-btn" id="topBtn_pz" onclick="activateListeningPzTab()">🎯 Practice Zone (169 đề)</button>
+    <button class="top-switch-btn" id="topBtn_pz" onclick="activateListeningPzTab()">🎯 Practice Zone (133 đề)</button>
     <button class="top-switch-btn" id="topBtn_u_1" onclick="quickSwitchUnit('u_1')">🎬 Chiến thuật (12 bài)</button>
     <button class="top-switch-btn" id="topBtn_u_6" onclick="quickSwitchUnit('u_6')">📝 Chữa đề (775 video)</button>
   </div>
 
   <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
-    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖 Ủng hộ</button>
-    <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;">☀️</button>
+    <button class="btn mini-btn" id="btnListeningHistory" onclick="window.S4PracticeZone && window.S4PracticeZone.openListeningHistoryModal ? window.S4PracticeZone.openListeningHistoryModal() : (window.S4UI ? window.S4UI.toast('info', 'Chưa có lịch sử làm bài') : alert('Chưa có lịch sử'))" style="border-color:#2563eb;color:#2563eb;font-weight:700;" title="Xem lại các bài thi thử Listening đã nộp & chấm điểm">📜 <span class="s4-hist-lbl">Lịch sử </span>(<span id="topListeningHistoryCount">0</span>)</button>
+    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖<span class="s4-donate-lbl"> Ủng hộ</span></button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
   </div>
 </header>
@@ -657,7 +683,13 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="search-row">
-        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Tìm chủ đề, đề Cam, bài giảng..." oninput="renderSidebar()">
+        <div class="s4-search-group is-compact">
+          <div class="s4-search-field">
+            <input type="text" id="searchInput" class="search-input s4-search-input" placeholder="Tìm chủ đề, đề Cam, bài giảng..." autocomplete="off">
+            <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+          </div>
+          <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+        </div>
         <button class="mini-btn" onclick="toggleAllFolders()" id="btnToggleAll">Thu gọn</button>
       </div>
     </div>
@@ -696,14 +728,9 @@
 </div>
 <audio id="ttsAudioPlayer" style="display:none;"></audio>
 <script src="data/listening_manifest.js"></script>
-<script src="../assets/s4-vocab-engine.js?v=16"></script>
+<script src="../assets/s4-ui.js?v=63"></script>
+<script src="../assets/s4-vocab-engine.js?v=67"></script>
 <script>
-(function() {
-  if (location.protocol === 'file:') {
-    location.href = 'http://localhost:8899/listening/index.html' + location.search + location.hash;
-  }
-})();
-
 document.querySelectorAll('#lessonContainer #globalPassAudio').forEach(el => el.remove());
 const MANIFEST = window.STUDY4_LISTENING_MANIFEST || { units: [] };
 const DATA = {
@@ -714,6 +741,7 @@ let POOLS = DATA.sharedWordPools;
 const DONE_KEY = 's4_listening_done';
 const LAST_KEY = 's4_listening_last_v2';
 const SRS_KEY = 's4_listening_srs_v1';
+const LESSON_POS_KEY = 's4_listening_lesson_pos_v1';
 
 let doneSet = new Set();
 try {
@@ -730,10 +758,48 @@ if (window.S4VocabEngine) {
     srsKey: SRS_KEY,
     daysKey: 's4_listening_days_v1',
     settingsKey: 's4_listening_settings_v1',
+    sessionKey: 's4_listening_vocab_session_v1',
     getSrsMap: () => srsMap,
     onSaveSrs: () => { saveSrs(); renderSidebar(); },
     playWordAudio: (v, lang) => playWordAudio(v, lang)
   });
+}
+
+function readListeningPosMap() {
+  try {
+    const m = JSON.parse(localStorage.getItem(LESSON_POS_KEY) || '{}');
+    return m && typeof m === 'object' && !Array.isArray(m) ? m : {};
+  } catch (e) { return {}; }
+}
+function getListeningLessonPos(lessonId) {
+  const rec = lessonId ? readListeningPosMap()[lessonId] : null;
+  return {
+    wordIdx: Math.max(0, Number(rec && rec.wordIdx) || 0),
+    subIdx: Math.max(0, Number(rec && rec.subIdx) || 0)
+  };
+}
+function saveListeningLessonPos(lessonId, patch) {
+  if (!lessonId) return;
+  try {
+    const map = readListeningPosMap();
+    const cur = map[lessonId] && typeof map[lessonId] === 'object' ? map[lessonId] : {};
+    const next = Object.assign({ wordIdx: 0, subIdx: 0 }, cur, patch || {}, { updatedAt: Date.now() });
+    if (!next.wordIdx && !next.subIdx && !map[lessonId]) return;
+    map[lessonId] = next;
+    const keys = Object.keys(map);
+    if (keys.length > 200) {
+      keys.sort((a, b) => (map[b] && map[b].updatedAt || 0) - (map[a] && map[a].updatedAt || 0))
+        .slice(200).forEach(k => { delete map[k]; });
+    }
+    localStorage.setItem(LESSON_POS_KEY, JSON.stringify(map));
+  } catch (e) {}
+}
+function applyListeningLessonPos(lesson) {
+  const pos = getListeningLessonPos(lesson && lesson.id);
+  const words = (lesson && lesson.problem && lesson.problem.poolKey && POOLS[lesson.problem.poolKey]) || [];
+  const subs = ((lesson && lesson.problem && lesson.problem.subs) || []).filter(s => s.en);
+  currentWordIdx = words.length ? Math.min(pos.wordIdx, words.length - 1) : pos.wordIdx;
+  currentSubIdx = subs.length ? Math.min(pos.subIdx, subs.length - 1) : pos.subIdx;
 }
 
 // Dictation states
@@ -752,19 +818,13 @@ let collapsedUnits = { u_5: false, u_2: true, u_3: true, u_4: true, u_1: true, u
 let collapsedBooks = {};
 let collapsedTests = {};
 
-// Smart Learn & Drill states
-let smartQueue = [];
-let smartCursor = 0;
-let smartLocked = false;
-let srsReviewQueue = [];
-let srsReviewIdx = 0;
-let fcFlipped = false;
-let quizIndex = 0;
-let quizScore = 0;
-let quizLocked = false;
-let spellIndex = 0;
-
 const loadedChunks = {};
+const chunkLoadWaiters = {};
+function finishChunkLoad(unitId, loaded) {
+  const waiters = chunkLoadWaiters[unitId] || [];
+  delete chunkLoadWaiters[unitId];
+  waiters.forEach(cb => { try { cb(loaded); } catch (e) { console.error(e); } });
+}
 function ensureChunkLoaded(unitId, cb) {
   if (window.__STUDY4_LISTEN_CHUNK && window.__STUDY4_LISTEN_CHUNK[unitId]) {
     const chunk = window.__STUDY4_LISTEN_CHUNK[unitId];
@@ -782,17 +842,12 @@ function ensureChunkLoaded(unitId, cb) {
         Object.assign(found, it, { unitId, unitName: targetUnit ? targetUnit.unitName : '' });
       }
     });
-    cb && cb();
+    cb && cb(true);
     return;
   }
 
+  if (cb) (chunkLoadWaiters[unitId] || (chunkLoadWaiters[unitId] = [])).push(cb);
   if (loadedChunks[unitId] === 'loading') {
-    const checkInt = setInterval(() => {
-      if (window.__STUDY4_LISTEN_CHUNK && window.__STUDY4_LISTEN_CHUNK[unitId]) {
-        clearInterval(checkInt);
-        ensureChunkLoaded(unitId, cb);
-      }
-    }, 30);
     return;
   }
 
@@ -800,13 +855,20 @@ function ensureChunkLoaded(unitId, cb) {
   const s = document.createElement('script');
   s.src = `data/listening_${unitId}.js`;
   s.onload = function() {
-    loadedChunks[unitId] = 'done';
-    ensureChunkLoaded(unitId, cb);
+    if (window.__STUDY4_LISTEN_CHUNK && window.__STUDY4_LISTEN_CHUNK[unitId]) {
+      loadedChunks[unitId] = 'done';
+      ensureChunkLoaded(unitId);
+      finishChunkLoad(unitId, true);
+    } else {
+      loadedChunks[unitId] = 'error';
+      console.error('Chunk loaded without data for ' + unitId);
+      finishChunkLoad(unitId, false);
+    }
   };
   s.onerror = function() {
     console.error('Failed to load chunk for ' + unitId);
     loadedChunks[unitId] = 'error';
-    cb && cb();
+    finishChunkLoad(unitId, false);
   };
   document.head.appendChild(s);
 }
@@ -822,7 +884,47 @@ function getAllLessons() {
 }
 
 const ALL_LESSONS = getAllLessons();
+window.ALL_LESSONS = ALL_LESSONS;
+window.__ALL_LESSONS = ALL_LESSONS;
 const TOTAL_COURSE_VOCAB = 2176;
+
+function saveCacheSafe(key, val, maxChars) {
+  try {
+    if (typeof val === 'string' && val.length <= maxChars) {
+      localStorage.setItem(key, val);
+    } else {
+      localStorage.removeItem(key);
+    }
+  } catch (e) {
+    try { localStorage.removeItem(key); } catch (_) {}
+  }
+}
+
+let listenSidebarSearchTimer = null;
+window.debouncedRenderSidebar = function() {
+  clearTimeout(listenSidebarSearchTimer);
+  listenSidebarSearchTimer = setTimeout(renderSidebar, 180);
+};
+window.clearListeningSidebarSearch = function() {
+  const inp = document.getElementById('searchInput');
+  if (inp) {
+    inp.value = '';
+    if (window.S4UI && typeof window.S4UI.syncSearchClear === 'function') window.S4UI.syncSearchClear(inp);
+    try { inp.focus({ preventScroll: true }); } catch (_) {}
+  }
+  renderSidebar();
+};
+if (window.S4UI && typeof window.S4UI.bindSearchBar === 'function') {
+  window.S4UI.bindSearchBar({
+    input: 'searchInput',
+    clearBtn: 'searchInput_clear',
+    searchBtn: 'searchInput_btn',
+    onSearch: function() {
+      clearTimeout(listenSidebarSearchTimer);
+      renderSidebar();
+    }
+  });
+}
 
 function getTopicLevelGroup(idxInUnit) {
   if (idxInUnit < 22) return '1. Cấp độ Cơ bản (Bài 1–22)';
@@ -834,18 +936,53 @@ function getBookName(str) {
   const s = str || '';
   let m = s.match(/(IELTS Collection \d+|Collection \d+)/i);
   if (m) return m[1].replace(/^Collection/i, 'IELTS Collection');
+  if (/(?:(?:BC|British\s*Council)\s*Asia|Official\s*Guide|Asia\s*Guide)/i.test(s)) return 'British Council Asia Guide';
+  if (/(?:\bBC\b|British\s*Council)\b.*Test/i.test(s)) return 'British Council (BC) Tests';
+  if (/Sample\s*Listening|Sample\s*Test/i.test(s)) return 'IELTS Sample Tests';
+  if (/Simulation/i.test(s)) return 'IELTS Simulation Tests';
   m = s.match(/(Practice Set \d+)/i);
   if (m) return m[1];
-  if (/Simulation/i.test(s)) return 'IELTS Simulation Tests';
-  if (/BC Test/i.test(s)) return 'British Council (BC) Tests';
-  if (/Sample Test/i.test(s)) return 'IELTS Sample Tests';
   return 'Chủ đề / Bộ đề khác';
 }
 
 function getTestName(str) {
   const s = str || '';
-  const m = s.match(/(Test \d+)/i);
-  return m ? m[1] : s.split('|')[0].trim();
+  let m = s.match(/(?:(?:BC|British\s*Council)\s*Asia(?:\s*Guide)?|Official\s*Guide|Asia\s*Guide).*?Test\s*(\d+)/i);
+  if (m) return `Asia Guide Test ${m[1]}`;
+  m = s.match(/(?:\bBC\b|British\s*Council)\b.*?Test\s*(\d+)/i);
+  if (m) return `BC Test ${m[1]}`;
+  m = s.match(/Sample\s*(?:Listening\s*)?Test\s*(\d+)/i);
+  if (m) return `Sample Test ${m[1]}`;
+  m = s.match(/(Test\s*\d+)/i);
+  return m ? m[1].replace(/test/i, 'Test') : s.split('|')[0].trim();
+}
+
+const S4_BOOK_SERIES_ORDER = [
+  { re: /^IELTS Collection\s*(\d+)/i, rank: 1 },
+  { re: /Simulation/i, rank: 2 },
+  { re: /British Council \(BC\)/i, rank: 3 },
+  { re: /Asia Guide/i, rank: 4 },
+  { re: /Sample Tests/i, rank: 5 },
+  { re: /^Practice Set\s*(\d+)/i, rank: 6 }
+];
+function getBookSortKey(name) {
+  for (const row of S4_BOOK_SERIES_ORDER) {
+    const m = name.match(row.re);
+    if (m) return [row.rank, m[1] ? parseInt(m[1], 10) : 0];
+  }
+  return [99, 0];
+}
+function sortBookKeys(keys) {
+  return [...keys].sort((a, b) => {
+    const ra = getBookSortKey(a), rb = getBookSortKey(b);
+    return ra[0] !== rb[0] ? ra[0] - rb[0] : ra[1] - rb[1];
+  });
+}
+function sortTestKeys(keys) {
+  return [...keys].sort((a, b) => {
+    const ma = a.match(/\bTest\s*(\d+)/i), mb = b.match(/\bTest\s*(\d+)/i);
+    return (ma && mb) ? parseInt(ma[1], 10) - parseInt(mb[1], 10) : 0;
+  });
 }
 
 function initDefaultCollapse() {
@@ -955,7 +1092,9 @@ window.activateListeningPzTab = function() {
   subPauseLock = false;
   const pa = document.getElementById('globalPassAudio');
   if (pa && !pa.paused) pa.pause();
-  if (window.S4PracticeZone) window.S4PracticeZone.setListeningHubOpen(true);
+  if (window.S4PracticeZone) {
+    window.S4PracticeZone.openListeningHub();
+  }
   ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
     const btn = document.getElementById('topBtn_' + id);
     if (btn) btn.classList.remove('active');
@@ -963,42 +1102,52 @@ window.activateListeningPzTab = function() {
   });
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.add('active');
-  if (window.S4PracticeZone) {
-    window.S4PracticeZone.ensureListeningPzLoaded(() => {
+  ensureChunkLoaded('u_6', function() {
+    if (window.S4PracticeZone) {
+      window.S4PracticeZone.ensureListeningPzLoaded(() => {
+        renderSidebar();
+        renderMain();
+      });
+    } else {
       renderSidebar();
       renderMain();
-    });
-  } else {
-    renderSidebar();
-    renderMain();
-  }
+    }
+  });
 };
 
 window.quickSwitchUnit = function(uid) {
   isListeningPzMode = false;
+  if (window.S4PracticeZone) {
+    window.S4PracticeZone.exitCbtExamMode();
+    if (window.S4PracticeZone.closeListeningLobby) window.S4PracticeZone.closeListeningLobby();
+  } else {
+    document.body.classList.remove('s4-cbt-mode');
+  }
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.remove('active');
-  let targetLesson = null;
-  try {
-    const byUnit = JSON.parse(localStorage.getItem('s4_listen_last_by_unit') || '{}');
-    if (byUnit[uid]) {
-      targetLesson = ALL_LESSONS.find(x => x.id === byUnit[uid] && x.unitId === uid);
+  ensureChunkLoaded(uid, function() {
+    let targetLesson = null;
+    try {
+      const byUnit = JSON.parse(localStorage.getItem('s4_listen_last_by_unit') || '{}');
+      if (byUnit[uid]) {
+        targetLesson = ALL_LESSONS.find(x => x.id === byUnit[uid] && x.unitId === uid);
+      }
+    } catch (e) {}
+    if (!targetLesson) {
+      targetLesson = ALL_LESSONS.find(x => x.unitId === uid);
     }
-  } catch (e) {}
-  if (!targetLesson) {
-    targetLesson = ALL_LESSONS.find(x => x.unitId === uid);
-  }
-  if (targetLesson) {
-    selectLesson(targetLesson.id);
-    scrollActiveLessonIntoView(true);
-  } else {
-    ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
-      const btn = document.getElementById('topBtn_' + id);
-      if (btn) btn.classList.toggle('active', id === uid);
-      collapsedUnits[id] = (id !== uid);
-    });
-    renderSidebar();
-  }
+    if (targetLesson) {
+      selectLesson(targetLesson.id);
+      scrollActiveLessonIntoView(true);
+    } else {
+      ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
+        const btn = document.getElementById('topBtn_' + id);
+        if (btn) btn.classList.toggle('active', id === uid);
+        collapsedUnits[id] = (id !== uid);
+      });
+      renderSidebar();
+    }
+  });
 };
 
 window.toggleUnitFolder = function(uid) {
@@ -1043,7 +1192,9 @@ window.renderSidebar = function() {
     if (!u) return;
     const items = (u.items || []).filter(it => {
       if (!q) return true;
-      return (it.title || '').toLowerCase().includes(q) || (it.group || '').toLowerCase().includes(q);
+      return (window.S4UI && typeof window.S4UI.matchesSearch === 'function')
+        ? window.S4UI.matchesSearch(`${it.title || ''} ${it.group || ''}`, q)
+        : ((it.title || '').toLowerCase().includes(q) || (it.group || '').toLowerCase().includes(q));
     });
     if (!items.length) return;
 
@@ -1140,7 +1291,7 @@ window.renderSidebar = function() {
         books[bName][tName].push(it);
       });
 
-      Object.keys(books).forEach(bName => {
+      sortBookKeys(Object.keys(books)).forEach(bName => {
         const bKey = 'u4_' + bName;
         const bTests = books[bName];
         const totalInBook = Object.values(bTests).reduce((acc, arr) => acc + arr.length, 0);
@@ -1153,7 +1304,7 @@ window.renderSidebar = function() {
               <span style="font-size:10.5px;color:var(--hl-gold);">${totalInBook} bài</span>
             </div>
             <div class="subfolder-body">
-              ${Object.keys(bTests).map(tName => {
+              ${sortTestKeys(Object.keys(bTests)).map(tName => {
                 const tKey = bKey + '_' + tName;
                 const tItems = bTests[tName];
                 const isTestCol = q ? false : !!collapsedTests[tKey];
@@ -1193,7 +1344,7 @@ window.renderSidebar = function() {
         books[bName][gName].push(it);
       });
 
-      Object.keys(books).forEach(bName => {
+      sortBookKeys(Object.keys(books)).forEach(bName => {
         const bKey = 'u6_' + bName;
         const bGroups = books[bName];
         const totalInBook = Object.values(bGroups).reduce((acc, arr) => acc + arr.length, 0);
@@ -1206,7 +1357,7 @@ window.renderSidebar = function() {
               <span style="font-size:10.5px;color:var(--hl-cyan);">${Object.keys(bGroups).length} đề (${totalInBook} video)</span>
             </div>
             <div class="subfolder-body">
-              ${Object.keys(bGroups).map(gName => {
+              ${sortTestKeys(Object.keys(bGroups)).map(gName => {
                 const tKey = bKey + '_' + bGroups[gName][0].group;
                 const tItems = bGroups[gName];
                 const isTestCol = q ? false : !!collapsedTests[tKey];
@@ -1240,10 +1391,14 @@ window.renderSidebar = function() {
     html += `</div></div>`;
   });
 
-  listEl.innerHTML = html || `<div style="padding:20px;text-align:center;color:var(--muted);">Không tìm thấy mục phù hợp.</div>`;
-  try {
-    if (!q) localStorage.setItem('s4_listen_last_sidebar_html', listEl.innerHTML);
-  } catch(e) {}
+  const safeQ = window.S4UI ? window.S4UI.escapeHtml(q) : q;
+  listEl.innerHTML = html || `<div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">
+    <div style="font-size:26px;">🔍</div>
+    <div style="font-size:13.5px;font-weight:800;color:var(--text);">Không tìm thấy mục Listening phù hợp</div>
+    ${q ? `<div style="font-size:12px;">Từ khóa "<strong>${safeQ}</strong>" không khớp mục nào.</div>` : ''}
+    <button type="button" class="s4-pz-clear-chip" onclick="window.clearListeningSidebarSearch()">✕ Xóa tìm kiếm</button>
+  </div>`;
+  if (!q) saveCacheSafe('s4_listen_last_sidebar_html', listEl.innerHTML, 100000);
 };
 
 function getActiveVocabList() {
@@ -1262,35 +1417,6 @@ function getActiveVocabList() {
     }));
   }
   return [];
-}
-
-function buildSmartLearnQueue() {
-  const vList = getActiveVocabList();
-  const unlearned = vList.filter(v => {
-    const s = srsMap[getWordKey(v)];
-    return !s || (!s.ignored && (!s.reps || s.reps === 0));
-  });
-  const source = unlearned.length > 0 ? unlearned : vList;
-  smartQueue = source.slice(0, 10).map(v => ({
-    wordObj: v,
-    key: getWordKey(v),
-    step: 0,
-    mistakes: 0
-  }));
-  smartCursor = 0;
-  smartLocked = false;
-}
-
-function buildSrsReviewQueue() {
-  const vList = getActiveVocabList();
-  const now = Date.now();
-  const due = vList.filter(v => {
-    const s = srsMap[getWordKey(v)];
-    return s && !s.ignored && s.reps > 0 && (!s.due || now >= s.due);
-  });
-  srsReviewQueue = due.length > 0 ? due : vList.slice(0, 20);
-  srsReviewIdx = 0;
-  fcFlipped = false;
 }
 
 
@@ -1314,12 +1440,34 @@ window.toggleMobileSidebar = function(force) {
 window.selectLesson = function(id) {
   const meta = ALL_LESSONS.find(x => x.id === id);
   if (!meta) return;
-  isListeningPzMode = false;
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.remove('active');
   localStorage.setItem(LAST_KEY, id);
   syncActiveUnitUI(meta);
   currentLesson = meta;
+  window.currentLesson = meta;
+
+  // Nếu đang ở Listening Practice Zone (ở Kho đề hoặc ở Sảnh), nhấp chọn đề ở Sidebar sẽ mở thẳng Sảnh của đề đó
+  // CHỈ KHI bài học được chọn thuộc Unit 4 (Đề thi IELTS 604 bài)!
+  if (isListeningPzMode && meta.unitId === 'u_4' && window.S4PracticeZone && window.S4PracticeZone.setActiveListeningTestForLesson) {
+    const hasMatchingTest = window.S4PracticeZone.setActiveListeningTestForLesson(meta);
+    if (hasMatchingTest) {
+      renderSidebar();
+      scrollActiveLessonIntoView(false);
+      renderMain();
+      return;
+    }
+  }
+
+  isListeningPzMode = false;
+  if (window.S4PracticeZone) {
+    window.S4PracticeZone.exitCbtExamMode();
+    if (window.S4PracticeZone.closeListeningLobby) window.S4PracticeZone.closeListeningLobby();
+    if (window.S4PracticeZone.setListeningHubOpen) window.S4PracticeZone.setListeningHubOpen(false);
+  } else {
+    document.body.classList.remove('s4-cbt-mode');
+  }
+
   renderSidebar();
   scrollActiveLessonIntoView(false);
 
@@ -1327,17 +1475,15 @@ window.selectLesson = function(id) {
     const found = ALL_LESSONS.find(x => x.id === id);
     if (!found) return;
     currentLesson = found;
+    window.currentLesson = found;
     try {
-      localStorage.setItem('s4_listen_last_lesson_cache', JSON.stringify(found));
+      saveCacheSafe('s4_listen_last_lesson_cache', JSON.stringify(found), 90000);
     } catch(e) {}
 
-    currentSubIdx = 0;
-    currentWordIdx = 0;
+    applyListeningLessonPos(found);
     const pType = found.problem ? found.problem.pType : 'video';
-        if (pType === 'topic_flashcards') {
+    if (pType === 'topic_flashcards') {
       currentMode = 'smart_learn';
-      buildSmartLearnQueue();
-      buildSrsReviewQueue();
     } else if (pType === 'listen_passage') {
       const validSubs = (found.problem.subs || []).filter(s => s.en);
       passageMode = validSubs.length > 0 ? 'dictation' : 'transcript';
@@ -1370,253 +1516,7 @@ window.toggleDoneCurrent = function() {
 
 window.setMode = function(m) {
   currentMode = m;
-  fcFlipped = false;
-  quizLocked = false;
-  smartLocked = false;
-  if (m === 'smart_learn' && smartQueue.length === 0) buildSmartLearnQueue();
-  if (m === 'srs_review') buildSrsReviewQueue();
   renderMain();
-};
-
-function renderSrsSummaryBanner(vList) {
-  const now = Date.now();
-  let learned = 0, due = 0, ignored = 0;
-  vList.forEach(v => {
-    const s = srsMap[getWordKey(v)];
-    if (!s) return;
-    if (s.ignored) ignored++;
-    else if (s.reps > 0) {
-      learned++;
-      if (!s.due || now >= s.due) due++;
-    }
-  });
-  const unlearned = Math.max(0, vList.length - learned - ignored);
-  const isAllTopics = currentLesson && currentLesson.id === 'listening_u5_all';
-
-  return `
-    <div class="srs-stats-bar">
-      <div class="srs-stat-card">
-        <span class="srs-stat-num" style="color:var(--hl-cyan);">${vList.length.toLocaleString()}</span>
-        <span class="srs-stat-label">${isAllTopics ? 'Tổng số từ vựng (10 chủ đề)' : `Từ của bài này (Toàn khóa: ${TOTAL_COURSE_VOCAB.toLocaleString()} từ)`}</span>
-        ${!isAllTopics ? `<div style="font-size:11px;color:#f59e0b;margin-top:4px;cursor:pointer;font-weight:700;" onclick="selectLesson('listening_u5_all')">🌟 Bấm xem trọn bộ ${TOTAL_COURSE_VOCAB.toLocaleString()} từ →</div>` : ''}
-      </div>
-      <div class="srs-stat-card">
-        <span class="srs-stat-num" style="color:#f59e0b;">${unlearned.toLocaleString()}</span>
-        <span class="srs-stat-label">Từ mới chưa học</span>
-      </div>
-      <div class="srs-stat-card">
-        <span class="srs-stat-num" style="color:var(--hl-green);">${learned.toLocaleString()}</span>
-        <span class="srs-stat-label">Đã học (${ignored} đã biết)</span>
-      </div>
-      <div class="srs-stat-card">
-        <span class="srs-stat-num" style="color:#f87171;">${due.toLocaleString()}</span>
-        <span class="srs-stat-label">Cần ôn tập hôm nay</span>
-      </div>
-    </div>
-  `;
-}
-
-function formatExampleHtml(exStr) {
-  return (exStr || '')
-    .replace(/\[([^\]]+)\]/g, '<strong style="color:var(--hl-gold);">$1</strong>')
-    .replace(/\(=Dịch:\s*([^)]+)\)/g, '<br><span style="color:var(--muted);font-size:12.5px;">🇻🇳 $1</span>');
-}
-
-function renderSmartLearnView(vList) {
-  if (!smartQueue.length) {
-    return `
-      <div class="smart-box" style="text-align:center;padding:36px;">
-        <div style="font-size:22px;font-weight:800;color:var(--hl-green);margin-bottom:10px;">🎉 Bạn đã hoàn thành lô 10 từ mới!</div>
-        <p style="color:var(--muted);margin-bottom:18px;">Toàn bộ các từ trong phiên vừa rồi đã được chấm điểm tự động và đưa vào lịch ôn tập lặp lại ngắt quãng (SRS).</p>
-        <div style="display:flex;justify-content:center;gap:12px;">
-          <button class="btn btn-primary" onclick="buildSmartLearnQueue(); renderMain();">🚀 Học tiếp 10 từ mới</button>
-          <button class="btn" onclick="setMode('srs_review')">🔄 Chuyển sang Ôn tập Flashcards</button>
-        </div>
-      </div>
-    `;
-  }
-
-  const item = smartQueue[smartCursor] || smartQueue[0];
-  const cur = item.wordObj;
-  const step = item.step;
-
-  const stepHeader = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px;color:var(--muted);">
-      <span>Lô học thông minh: <strong>Từ ${smartCursor + 1} / ${smartQueue.length}</strong></span>
-      <span style="color:var(--primary);font-weight:700;">Bước ${step + 1} / 4: ${['Làm quen từ mới', 'Trắc nghiệm nghĩa Việt', 'Nghe & Chọn từ', 'Gõ chính tả từ'][step]}</span>
-    </div>
-    <div class="step-dots">
-      ${[0,1,2,3].map(s => `<div class="step-pill ${s < step ? 'done' : (s === step ? 'active' : '')}"></div>`).join('')}
-    </div>
-  `;
-
-  if (step === 0) {
-    setTimeout(() => playWordAudio(cur, 'en-GB'), 80);
-    return `
-      <div class="smart-box">
-        ${stepHeader}
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:14px 0 10px;">
-          <div>
-            <span style="font-size:28px;font-weight:800;color:var(--hl-gold);">${cur.origin || cur.term}</span>
-            ${cur.pos ? `<span style="font-size:12px;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,0.1);margin-left:8px;">${cur.pos}</span>` : ''}
-            ${cur.ipa ? `<span style="color:var(--hl-cyan);font-size:15px;margin-left:8px;">${cur.ipa}</span>` : ''}
-          </div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-GB')">🔊 UK</button>
-            <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-US')">🔊 US</button>
-          </div>
-        </div>
-        <div style="font-size:18px;font-weight:800;color:var(--hl-green);margin-bottom:6px;">🇻🇳 ${cur.vi || ''}</div>
-        <div style="font-size:14px;color:var(--sub-text);line-height:1.55;">📘 ${cur.en || ''}</div>
-        ${(cur.examples && cur.examples.length) ? `
-          <div class="example-list">
-            <div style="font-size:11.5px;font-weight:800;color:var(--primary);text-transform:uppercase;">Ví dụ thực tế trong IELTS Listening:</div>
-            ${cur.examples.slice(0, 3).map(ex => `<div>• ${formatExampleHtml(ex)}</div>`).join('')}
-          </div>
-        ` : ''}
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px;">
-          <button class="btn" style="color:var(--muted);" onclick="smartIgnoreWord()">⏭️ Đã biết từ này (Bỏ qua)</button>
-          <button class="btn btn-primary" style="padding:10px 22px;font-size:14px;" onclick="smartAdvanceStep(true)">Đã hiểu ➔ Tiếp tục (Enter)</button>
-        </div>
-      </div>
-    `;
-  }
-
-  if (step === 1 || step === 2) {
-    const distractors = vList.filter(x => getWordKey(x) !== item.key).sort(() => Math.random() - 0.5).slice(0, 3);
-    const options = [cur, ...distractors].sort(() => Math.random() - 0.5);
-    if (step === 2) setTimeout(() => playWordAudio(cur, 'en-GB'), 80);
-    return `
-      <div class="smart-box">
-        ${stepHeader}
-        <div style="margin:14px 0 18px;">
-          <div style="font-size:25px;font-weight:800;color:var(--hl-cyan);display:flex;align-items:center;gap:10px;">
-            <span>${step === 1 ? (cur.origin || cur.term) : '🔊 Nghe & Chọn từ đúng'}</span>
-            <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-GB')">🔊 Nghe lại</button>
-          </div>
-          ${step === 2 ? `<div style="font-size:16px;font-weight:700;color:var(--hl-gold);margin-top:8px;">🇻🇳 ${cur.vi}</div>` : ''}
-        </div>
-        <div>
-          ${options.map(opt => `
-            <button class="quiz-opt" onclick="smartCheckOption(this, ${opt === cur})">
-              ${step === 1 ? opt.vi : `<strong>${opt.origin || opt.term}</strong> <span style="color:var(--muted);">${opt.ipa || ''}</span>`}
-            </button>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-
-  const target = (cur.origin || cur.term || '').trim();
-  const hint = target ? `${target[0]}${' _'.repeat(Math.max(1, target.length - 1))} (${target.length} ký tự)` : '';
-  return `
-    <div class="smart-box">
-      ${stepHeader}
-      <div style="margin:12px 0;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:20px;font-weight:800;color:var(--hl-gold);">🇻🇳 ${cur.vi || ''}</span>
-          <button class="btn" onclick="playWordAudio(smartQueue[${smartCursor}].wordObj, 'en-GB')">🔊 Nghe gợi ý</button>
-        </div>
-        <div style="font-size:13.5px;color:var(--sub-text);margin-top:6px;">📘 ${cur.en || ''}</div>
-        <div style="font-size:12.5px;color:var(--hl-cyan);margin-top:6px;">Gợi ý: <strong>${hint}</strong> (${cur.pos || ''})</div>
-        <input type="text" id="smartSpellInput" class="spell-input" placeholder="Gõ từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') smartCheckSpelling()">
-        <div id="smartSpellFeedback" style="min-height:22px;font-size:13.5px;font-weight:700;margin-bottom:8px;"></div>
-        <div style="display:flex;gap:10px;">
-          <button class="btn btn-primary" onclick="smartCheckSpelling()">✔️ Kiểm tra (Enter)</button>
-          <button class="btn" onclick="document.getElementById('smartSpellInput').value='${target.replace(/'/g, "\\'")}'; document.getElementById('smartSpellInput').focus();">💡 Hiện đáp án</button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-window.smartIgnoreWord = function() {
-  const item = smartQueue[smartCursor];
-  if (!item) return;
-  srsMap[item.key] = { ignored: true, updatedAt: Date.now() };
-  saveSrs();
-  smartQueue.splice(smartCursor, 1);
-  if (smartCursor >= smartQueue.length) smartCursor = 0;
-  renderMain();
-  renderSidebar();
-};
-
-window.smartAdvanceStep = function(isSuccess) {
-  const item = smartQueue[smartCursor];
-  if (!item) return;
-  if (isSuccess) {
-    item.step++;
-    if (item.step >= 4) {
-      const prev = srsMap[item.key] || { reps: 0, interval: 0, ease: 2.5 };
-      const quality = item.mistakes === 0 ? 5 : (item.mistakes === 1 ? 4 : 3);
-      const reps = (prev.reps || 0) + 1;
-      const interval = reps === 1 ? (quality === 5 ? 4 : 1) : Math.round((prev.interval || 1) * (prev.ease || 2.5));
-      srsMap[item.key] = { reps, interval, ease: 2.5, due: Date.now() + interval * 86400000, updatedAt: Date.now() };
-      saveSrs();
-      smartQueue.splice(smartCursor, 1);
-      if (smartCursor >= smartQueue.length) smartCursor = 0;
-      renderSidebar();
-    } else {
-      smartCursor = (smartCursor + 1) % smartQueue.length;
-    }
-  } else {
-    item.mistakes++;
-  }
-  renderMain();
-};
-
-window.smartCheckOption = function(btn, isCorrect) {
-  if (smartLocked) return;
-  smartLocked = true;
-  const item = smartQueue[smartCursor];
-  if (item) playWordAudio(item.wordObj, 'en-GB');
-  if (isCorrect) {
-    btn.classList.add('correct');
-    setTimeout(() => { smartLocked = false; smartAdvanceStep(true); }, 950);
-  } else {
-    btn.classList.add('wrong');
-    if (item) item.mistakes++;
-    setTimeout(() => { smartLocked = false; }, 650);
-  }
-};
-
-window.smartCheckSpelling = function() {
-  const inp = document.getElementById('smartSpellInput');
-  const fb = document.getElementById('smartSpellFeedback');
-  const item = smartQueue[smartCursor];
-  if (!inp || !item) return;
-  const cur = item.wordObj;
-  const target = (cur.origin || cur.term || '').trim().toLowerCase();
-  const val = inp.value.trim().toLowerCase();
-  inp.classList.remove('correct', 'wrong');
-  void inp.offsetWidth;
-  if (val === target) {
-    inp.classList.add('correct');
-    fb.style.color = '#34d399';
-    fb.textContent = `✓ Chính xác! Đã thuộc từ "${cur.origin || cur.term}"`;
-    playWordAudio(cur, 'en-GB');
-    setTimeout(() => { smartAdvanceStep(true); }, 1050);
-  } else {
-    inp.classList.add('wrong');
-    item.mistakes++;
-    fb.style.color = '#f87171';
-    fb.textContent = `✗ Chưa đúng, hãy kiểm tra lại chính tả!`;
-  }
-};
-
-window.rateSrsCard = function(grade) {
-  const cur = srsReviewQueue[srsReviewIdx];
-  if (!cur) return;
-  const key = getWordKey(cur);
-  const prev = srsMap[key] || { reps: 0, interval: 1, ease: 2.5 };
-  let interval = grade === 'Hard' ? 0 : (grade === 'Good' ? 1 : 4);
-  let dueOffsetMs = grade === 'Hard' ? 600000 : interval * 86400000;
-  srsMap[key] = { reps: (prev.reps || 0) + 1, interval, ease: 2.5, due: Date.now() + dueOffsetMs, updatedAt: Date.now() };
-  saveSrs();
-  fcFlipped = false;
-  srsReviewIdx = (srsReviewIdx + 1) % srsReviewQueue.length;
-  renderMain();
-  renderSidebar();
 };
 
 function fmtTime(ms) {
@@ -1834,6 +1734,7 @@ window.checkDictation = function() {
   if (allOk && currentSubIdx < subs.length - 1) {
     setTimeout(() => {
       currentSubIdx++;
+      if (currentLesson) saveListeningLessonPos(currentLesson.id, { subIdx: currentSubIdx });
       renderMain();
       playCurrentSub();
       setTimeout(focusCurrentDicInput, 100);
@@ -1866,6 +1767,7 @@ window.checkWordDictation = function() {
     playWordAudio(wObj, 'en-GB');
     setTimeout(() => {
       currentWordIdx = (currentWordIdx + 1) % words.length;
+      if (currentLesson) saveListeningLessonPos(currentLesson.id, { wordIdx: currentWordIdx });
       renderMain();
     }, 950);
   } else {
@@ -1901,6 +1803,9 @@ window.saveListeningNote = function(val) {
 
 function getMatchingExplainLessons(lesson) {
   if (!lesson || lesson.unitId !== 'u_4') return [];
+  if (window.S4PracticeZone && typeof window.S4PracticeZone.findExplainLessonsForListening === 'function') {
+    return window.S4PracticeZone.findExplainLessonsForListening(lesson.title, ALL_LESSONS);
+  }
   const bName = getBookName(lesson.title);
   const tName = getTestName(lesson.title);
   return ALL_LESSONS.filter(x => x.unitId === 'u_6' && getBookName(x.group) === bName && getTestName(x.group) === tName);
@@ -2078,9 +1983,39 @@ window.openListeningPzFromLesson = function() {
     renderMain();
   });
 };
+window.openListeningPzByKey = function(key) {
+  if (!key || !window.S4PracticeZone) return;
+  isListeningPzMode = true;
+  subPauseLock = false;
+  const pa = document.getElementById('globalPassAudio');
+  if (pa && !pa.paused) pa.pause();
+  ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
+    const btn = document.getElementById('topBtn_' + id);
+    if (btn) btn.classList.remove('active');
+  });
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.add('active');
+  window.S4PracticeZone.enterCbtExamMode(true);
+  window.S4PracticeZone.ensureListeningPzLoaded(() => {
+    const t = window.S4PracticeZone.findListeningPzTestByKey ? window.S4PracticeZone.findListeningPzTestByKey(key) : null;
+    if (t && window.S4PracticeZone.openListeningLobby) {
+      window.S4PracticeZone.openListeningLobby(t.id);
+    } else if (window.S4PracticeZone.openListeningHub) {
+      window.S4PracticeZone.openListeningHub();
+    }
+  });
+};
 window.exitListeningPzMode = function() {
   isListeningPzMode = false;
-  if (window.S4PracticeZone) window.S4PracticeZone.exitCbtExamMode();
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.remove('active');
+  if (window.S4PracticeZone) {
+    window.S4PracticeZone.exitCbtExamMode();
+    if (window.S4PracticeZone.closeListeningLobby) window.S4PracticeZone.closeListeningLobby();
+    if (window.S4PracticeZone.setListeningHubOpen) window.S4PracticeZone.setListeningHubOpen(false);
+  } else {
+    document.body.classList.remove('s4-cbt-mode');
+  }
   renderMain();
 };
 
@@ -2096,17 +2031,24 @@ function renderMain() {
 
   if (isListeningPzMode && window.S4PracticeZone) {
     if (!window.__STUDY4_LISTEN_PZ) {
-      container.innerHTML = '<div style="padding:36px;text-align:center;color:var(--muted);font-weight:700;">⏳ Đang nạp kho 169 Đề thi IELTS Listening Practice Zone...</div>';
+      container.innerHTML = '<div style="padding:36px;text-align:center;color:var(--muted);font-weight:700;">⏳ Đang nạp kho 133 Đề thi IELTS Listening Practice Zone...</div>';
       window.S4PracticeZone.ensureListeningPzLoaded(() => renderMain());
       return;
     }
-    if (window.S4PracticeZone.isListeningHubOpen()) {
+    if (window.S4PracticeZone.isListeningHubOpen && window.S4PracticeZone.isListeningHubOpen()) {
       container.innerHTML = window.S4PracticeZone.renderListeningHub();
+      if (window.applyThemeState) window.applyThemeState();
+      return;
+    }
+    if (window.S4PracticeZone.isListeningLobbyOpen && window.S4PracticeZone.isListeningLobbyOpen()) {
+      container.innerHTML = window.S4PracticeZone.renderListeningLobby(currentLesson, ALL_LESSONS);
+      if (window.applyThemeState) window.applyThemeState();
       return;
     }
     const activeTest = window.S4PracticeZone.getActiveListeningTest(currentLesson);
-    container.innerHTML = window.S4PracticeZone.renderListeningExamView(activeTest);
+    container.innerHTML = window.S4PracticeZone.renderListeningExamView(activeTest, ALL_LESSONS);
     window.S4PracticeZone.mountListeningDomEvents(activeTest);
+    if (window.applyThemeState) window.applyThemeState();
     return;
   }
 
@@ -2120,6 +2062,7 @@ function renderMain() {
     bodyHtml = '<div id="s4VocabMount"></div>';
   } else if (pType === 'dictation_words') {
     const words = POOLS[currentLesson.problem.poolKey] || [];
+    if (words.length && currentWordIdx >= words.length) currentWordIdx = 0;
     const wObj = words[currentWordIdx] || { term: '', definition: '', pronunciation: '', audio: '' };
     setTimeout(() => playWordAudio(wObj, 'en-GB'), 100);
     bodyHtml = `
@@ -2135,16 +2078,17 @@ function renderMain() {
         <input type="text" id="wordDicInput" class="spell-input" style="text-align:center;" placeholder="Gõ từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') checkWordDictation()">
         <div id="wordDicFeedback" style="min-height:22px;font-weight:700;margin-bottom:10px;"></div>
         <div style="display:flex;justify-content:center;gap:10px;">
-          <button class="btn" onclick="currentWordIdx=Math.max(0,currentWordIdx-1);renderMain();">← Từ trước</button>
+          <button class="btn" onclick="currentWordIdx=Math.max(0,currentWordIdx-1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{wordIdx:currentWordIdx});renderMain();">← Từ trước</button>
           <button class="btn btn-primary" onclick="checkWordDictation()">✔️ Kiểm tra (Enter)</button>
           <button class="btn" onclick="document.getElementById('wordDicInput').value='${(wObj.term || '').replace(/'/g, "\\'")}'">💡 Đáp án</button>
-          <button class="btn" onclick="currentWordIdx=(currentWordIdx+1)%${words.length || 1};renderMain();">Từ tiếp →</button>
+          <button class="btn" onclick="currentWordIdx=(currentWordIdx+1)%${words.length || 1};if(currentLesson)saveListeningLessonPos(currentLesson.id,{wordIdx:currentWordIdx});renderMain();">Từ tiếp →</button>
         </div>
       </div>
     `;
   } else if (pType === 'listen_passage') {
     const subs = (currentLesson.problem.subs || []).filter(s => s.en);
     const hasSubs = subs.length > 0;
+    if (subs.length && currentSubIdx >= subs.length) currentSubIdx = 0;
     const sub = subs[currentSubIdx] || { time: 0, en: '', vi: '' };
     let savedNote = '';
     try {
@@ -2152,6 +2096,23 @@ function renderMain() {
       savedNote = notes[currentLesson.id] || '';
     } catch (e) {}
     const relatedExplains = getMatchingExplainLessons(currentLesson);
+    const hasPzTest = currentLesson.unitId === 'u_4' && (
+      window.S4PracticeZone && typeof window.S4PracticeZone.hasListeningPzKey === 'function'
+        ? window.S4PracticeZone.hasListeningPzKey(currentLesson.title)
+        : true
+    );
+    const relatedExplainsHtml = relatedExplains.length ? `
+      <div class="dic-card" id="u4RelatedExplainsBox" style="margin-top:14px;">
+        <div style="font-size:13px;font-weight:800;color:var(--hl-cyan);margin-bottom:8px;">🎬 Video Chữa Đề Chi Tiết của bài thi này (${relatedExplains.length} phần):</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          ${relatedExplains.map(ex => `
+            <button class="btn" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${ex.id}')">
+              ▶️ ${ex.title}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
 
     bodyHtml = `
       <div class="audio-bar" id="audioSlot">
@@ -2167,7 +2128,7 @@ function renderMain() {
               <button class="btn ${passageMode === 'dictation' ? 'btn-primary' : ''}" onclick="passageMode='dictation';renderMain();">✍️ Chép chính tả</button>
               <button class="btn ${passageMode === 'transcript' ? 'btn-primary' : ''}" onclick="passageMode='transcript';renderMain();">📜 Transcript (${subs.length} câu)</button>
             ` : ''}
-            ${currentLesson.unitId === 'u_4' ? `
+            ${hasPzTest ? `
               <button class="btn" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);" onclick="openListeningPzFromLesson()">🎯 Làm đề & Chấm điểm</button>
             ` : ''}
           </div>
@@ -2184,9 +2145,9 @@ function renderMain() {
               <button class="mini-btn" onclick="dicLevel=(dicLevel==='word'?'word_hard':'word');renderMain();">🎯 Độ khó: ${dicLevel === 'word' ? 'Vừa' : 'Khó'}</button>
             </div>
             <div style="display:flex;gap:6px;">
-              <button class="btn" onclick="currentSubIdx=Math.max(0,currentSubIdx-1);renderMain();playCurrentSub();">◀ Câu trước</button>
+              <button class="btn" onclick="currentSubIdx=Math.max(0,currentSubIdx-1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">◀ Câu trước</button>
               <button class="btn btn-primary" onclick="playCurrentSub()">🔊 Nghe câu này (\\)</button>
-              <button class="btn" onclick="currentSubIdx=Math.min(${subs.length - 1},currentSubIdx+1);renderMain();playCurrentSub();">Câu sau ▶</button>
+              <button class="btn" onclick="currentSubIdx=Math.min(${subs.length - 1},currentSubIdx+1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">Câu sau ▶</button>
             </div>
           </div>
           ${(showViSub && sub.vi) ? `<div style="padding:9px 13px;background:var(--vi-bg);border-left:3px solid #38bdf8;border-radius:6px;font-size:13.5px;color:var(--vi-text);margin-bottom:10px;">🇻🇳 ${sub.vi}</div>` : ''}
@@ -2228,22 +2189,42 @@ function renderMain() {
             <button class="btn btn-primary" onclick="const a=document.getElementById('globalPassAudio'); if(a){if(a.paused)a.play();else a.pause();}">⏯️ Phát / Tạm dừng Audio</button>
           </div>
           <textarea class="spell-input" style="min-height:170px;font-size:15px;font-weight:500;line-height:1.65;resize:vertical;letter-spacing:normal;" placeholder="Gõ nội dung nghe chép chính tả hoặc ghi chú từ khóa (Note-taking) của bạn tại đây..." oninput="saveListeningNote(this.value)">${savedNote.replace(/</g, '&lt;')}</textarea>
-          ${relatedExplains.length ? `
-            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
-              <div style="font-size:13px;font-weight:800;color:var(--hl-cyan);margin-bottom:8px;">🎬 Video Chữa Đề Chi Tiết của bài thi này (${relatedExplains.length} phần):</div>
-              <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                ${relatedExplains.map(ex => `
-                  <button class="btn" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${ex.id}')">
-                    ▶️ ${ex.title}
-                  </button>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
         </div>
       `}
+      ${relatedExplainsHtml}
     `;
   } else {
+    const u6Sources = (currentLesson.unitId === 'u_6' && window.S4PracticeZone && window.S4PracticeZone.findListeningSourcesForExplain)
+      ? window.S4PracticeZone.findListeningSourcesForExplain(currentLesson, ALL_LESSONS)
+      : { ident: null, u4Lessons: [], hasPz: false };
+    const u6BackLinksHtml = (u6Sources.ident && (u6Sources.u4Lessons.length > 0 || u6Sources.hasPz)) ? `
+      <div class="dic-card" id="u6ReverseLinksBox" style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div>
+            <div style="font-size:13.5px;font-weight:800;color:var(--hl-cyan);">🔗 Luyện đề gốc: ${u6Sources.ident.label}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chuyển nhanh sang luyện Nghe & Chép chính tả từng Section hoặc làm Full Test chuẩn phòng thi máy.</div>
+          </div>
+          ${u6Sources.hasPz ? `
+            <button class="btn" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);font-weight:800;" onclick="openListeningPzByKey('${u6Sources.ident.key}')">
+              🚀 Làm đề Full Test (Practice Zone)
+            </button>
+          ` : ''}
+        </div>
+        ${u6Sources.u4Lessons.length ? `
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+            ${u6Sources.u4Lessons.map((u4, idx) => {
+              const sm = String(u4.title || '').match(/Section\s*(\d+)/i);
+              const secLabel = sm ? `Section ${sm[1]}` : `Phần ${idx + 1}`;
+              return `
+                <button class="btn" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${u4.id}')">
+                  🎧 Chép chính tả ${secLabel}
+                </button>
+              `;
+            }).join('')}
+          </div>
+        ` : ''}
+      </div>
+    ` : '';
     bodyHtml = `
       ${currentLesson.youtubeId ? `
         <div class="video-box">
@@ -2255,6 +2236,7 @@ function renderMain() {
           </a>
         </div>
       ` : ''}
+      ${u6BackLinksHtml}
       ${currentLesson.htmlContent ? `<div class="theory-card">${window.S4FormatTheoryHtml(currentLesson.htmlContent)}</div>` : ''}
     `;
   }
@@ -2276,11 +2258,11 @@ function renderMain() {
 
   if (pType === 'topic_flashcards' && window.S4VocabEngine) {
     const modeMap = { smart_learn: 'smart', srs_review: 'flashcard', flashcards: 'list', matching: 'match', spelling: 'cloze' };
-    window.S4VocabEngine.mount('s4VocabMount', currentLesson.id, getActiveVocabList(), currentLesson.title, modeMap[currentMode] || currentMode);
+    const mappedMode = modeMap[currentMode] || currentMode;
+    const forceVocabMode = (currentMode === 'smart_learn' || mappedMode === 'smart') ? null : mappedMode;
+    window.S4VocabEngine.mount('s4VocabMount', currentLesson.id, getActiveVocabList(), currentLesson.title, forceVocabMode);
   }
-  try {
-    localStorage.setItem('s4_listen_last_rendered_html', container.innerHTML);
-  } catch(e) {}
+  saveCacheSafe('s4_listen_last_rendered_html', container.innerHTML, 120000);
 
   if (pType === 'listen_passage') {
     const slot = document.getElementById('audioSlot');
@@ -2294,16 +2276,10 @@ function renderMain() {
       slot.appendChild(passAudio);
     }
   }
-  const focusEl = document.getElementById('smartSpellInput') || document.getElementById('wordDicInput') || document.querySelector('.dic-input');
+  const focusEl = document.getElementById('wordDicInput') || document.querySelector('.dic-input');
   if (focusEl) focusEl.focus();
+  if (window.applyThemeState) window.applyThemeState();
 }
-
-window.addEventListener('keydown', (e) => {
-  if (currentLesson?.problem?.pType === 'topic_flashcards' && currentMode === 'smart_learn' && smartQueue[smartCursor] && smartQueue[smartCursor].step === 0 && e.key === 'Enter') {
-    e.preventDefault();
-    smartAdvanceStep(true);
-  }
-});
 
 updateTopProgress();
 const lastId = localStorage.getItem(LAST_KEY);
@@ -2318,12 +2294,10 @@ try {
 
 if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   currentLesson = cachedLesson;
+  applyListeningLessonPos(currentLesson);
   syncActiveUnitUI(currentLesson);
   const pType = currentLesson.problem ? currentLesson.problem.pType : 'video';
-  if (pType === 'topic_flashcards') {
-    buildSmartLearnQueue();
-    buildSrsReviewQueue();
-  } else if (pType === 'listen_passage') {
+  if (pType === 'listen_passage') {
     const validSubs = (currentLesson.problem.subs || []).filter(s => s.en);
     passageMode = validSubs.length > 0 ? 'dictation' : 'transcript';
     if (currentLesson.problem.audioUrl) {
@@ -2339,6 +2313,7 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
     if (fresh) {
       const needReRender = (currentLesson.problem?.pType === 'dictation_words') || (!currentLesson.problem);
       currentLesson = fresh;
+      applyListeningLessonPos(currentLesson);
       if (needReRender) renderMain();
     }
     renderSidebar();
@@ -2361,8 +2336,35 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../assets/s4-practice-zone.js?v=30"></script>
-  <script src="../auth.js?v=29"></script>
-  <script src="../assets/ghibli/ghibli-theme.js?v=25"></script>
+  <script src="../assets/s4-practice-zone.js?v=64"></script>
+  <script src="../auth.js?v=30"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
+
+  <!-- MODAL LỊCH SỬ BÀI THI LISTENING TRÊN TOPBAR -->
+  <div class="w-modal-backdrop" id="listeningHistoryModal" style="display:none;" onclick="if(event.target===this)window.S4PracticeZone.closeListeningHistoryModal()">
+    <div class="w-history-modal-box">
+      <div class="w-history-modal-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">📜</span>
+          <div>
+            <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch Sử Làm Bài IELTS Listening</h3>
+            <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Danh sách các đề thi thử Listening bạn đã nộp và chấm điểm</p>
+          </div>
+        </div>
+        <button type="button" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;" onclick="window.S4PracticeZone.closeListeningHistoryModal()">✕</button>
+      </div>
+
+      <div class="w-history-filter-bar">
+        <button type="button" class="w-filter-pill l-filter-pill active" id="lFilter_all" onclick="window.S4PracticeZone.filterListeningHistoryModal('all')">Tất cả đề</button>
+        <button type="button" class="w-filter-pill l-filter-pill" id="lFilter_high" onclick="window.S4PracticeZone.filterListeningHistoryModal('high')">🏆 Band 7.0+ (Mục tiêu cao)</button>
+        <button type="button" class="w-filter-pill l-filter-pill" id="lFilter_low" onclick="window.S4PracticeZone.filterListeningHistoryModal('low')">⚡ Dưới Band 7.0 (Cần ôn lại)</button>
+      </div>
+
+      <div class="w-history-list modal-scroll" id="listeningModalHistoryList">
+        <!-- Render động từ s4-practice-zone.js -->
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

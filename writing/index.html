@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script>try { localStorage.setItem("linguapath_disclaimer_v2", "1"); } catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" href="../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../icon-192.png">
+  <title>IELTS Intensive Writing — LinguaPath</title>
+
+  <!-- Script khởi tạo Theme & Safe Area chuẩn LinguaPath -->
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        document.documentElement.style.setProperty("--s4-safe-top", (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function() { setTimeout(syncSafeTop, 80); });
+      window.toggleDark = function() {
+        if (window.toggleDarkModeOnly) {
+          window.toggleDarkModeOnly();
+        } else {
+          var curD = localStorage.getItem("s4_vocab_dark");
+          var nextDark = (curD === "0" || curD === "false");
+          localStorage.setItem("s4_vocab_dark", nextDark ? "1" : "0");
+          document.documentElement.classList.toggle("dark", nextDark);
+          if (document.body) document.body.classList.toggle("dark", nextDark);
+          const mt = document.getElementById("metaThemeColor");
+          if (mt) mt.setAttribute("content", nextDark ? "#0f172a" : "#f1f5f9");
+          document.querySelectorAll('.dark-btn').forEach(function(b) {
+            b.textContent = nextDark ? '☀️' : '🌙';
+            b.title = nextDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+          });
+        }
+      };
+    } catch (e) {}
+  })();
+  </script>
+
+  <!-- Ghibli Theme CSS chuẩn LinguaPath -->
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
+  <link rel="stylesheet" href="writing.css?v=8">
+</head>
+<body>
+
+  <!-- TOPBAR HEADER ĐỒNG BỘ CHUẨN LINGUAPATH -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="window.toggleWritingSidebar && window.toggleWritingSidebar()" title="Thu gọn / Mở rộng danh sách bài bên trái">
+        <span class="s4-desk-sb-lbl">◀ Ẩn mục lục</span>
+        <span class="s4-mob-sb-lbl">☰ Mục lục</span>
+      </button>
+      <a href="../index.html#ielts" class="back-btn">← Khóa IELTS</a>
+      <div class="brand-title"><span>✍️ <span class="w-brand-full">IELTS Intensive </span>Writing</span></div>
+    </div>
+
+    <!-- Thanh chuyển nhanh Top-switch đồng bộ Reading/Listening -->
+    <div class="top-switch" id="topSwitch">
+      <button class="top-switch-btn active" id="topBtn_u_3" onclick="window.switchWritingUnit('u_3')">📊 Task 1: Dạng câu hỏi<span class="w-pill-sub"> (80 bài)</span></button>
+      <button class="top-switch-btn" id="topBtn_u_4" onclick="window.switchWritingUnit('u_4')">💡 Task 2: Dạng câu hỏi<span class="w-pill-sub"> (34 bài)</span></button>
+      <button class="top-switch-btn" id="topBtn_u_5" onclick="window.switchWritingUnit('u_5')">🌐 Task 2: Chủ đề<span class="w-pill-sub"> (102 bài)</span></button>
+      <button class="top-switch-btn" id="topBtn_theory" onclick="window.switchWritingUnit('theory')">🎬 Video & Lý thuyết<span class="w-pill-sub"> (42 bài)</span></button>
+      <button class="top-switch-btn" id="topBtn_pz" onclick="window.switchWritingUnit('u_6')">🎯 Practice Zone<span class="w-pill-sub"> (1,183 đề)</span></button>
+    </div>
+
+    <!-- Cụm nút bên phải -->
+    <div class="topbar-right">
+      <button class="btn mini-btn" id="btnOpenHistoryModal" onclick="window.openWritingHistoryModal()" style="font-weight:700;font-size:11.5px;padding:5px 9px;border:1px solid var(--border);border-radius:8px;" title="Xem toàn bộ lịch sử bài đã làm & điểm số AI">
+        📂 <span class="s4-hist-lbl">Lịch sử </span>(<span id="topHistoryCount">0</span>)
+      </button>
+      <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖<span class="s4-donate-lbl"> Ủng hộ</span></button>
+      <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
+      <button class="btn mini-btn" onclick="window.toggleGhibliTheme && window.toggleGhibliTheme()" title="Bật/Tắt Ghibli Theme">🍃</button>
+      <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
+    </div>
+  </header>
+
+  <!-- WORKSPACE LAYOUT (SIDEBAR + MAIN AREA) -->
+  <div class="workspace" id="writingWorkspace">
+    <!-- Nền mờ Drawer trên Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.toggleWritingSidebar && window.toggleWritingSidebar()"></div>
+
+    <!-- CỘT DANH SÁCH BÀI HỌC (SIDEBAR MỤC LỤC BÊN TRÁI 355px) -->
+    <aside class="sidebar" id="writingSidebar">
+      <div class="sidebar-header">
+        <div class="search-row">
+          <div class="s4-search-group is-compact">
+            <div class="s4-search-field">
+              <input type="text" id="searchInput" class="search-input s4-search-input" placeholder="Tìm đề bài, dạng bài, chủ đề..." autocomplete="off">
+              <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+            </div>
+            <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+          </div>
+          <button class="mini-btn" id="btnToggleAll" onclick="window.toggleAllWritingFolders && window.toggleAllWritingFolders()">Thu gọn</button>
+        </div>
+      </div>
+      <div class="lesson-list" id="lessonList">
+        <!-- Render cây thư mục bài học -->
+      </div>
+    </aside>
+
+    <!-- KHU VỰC CHÍNH BÊN PHẢI (MAIN AREA) -->
+    <main class="main-area" id="mainArea">
+      <!-- 1. MÀN HÌNH LÀM BÀI: DESKTOP 2 BÊN CHUẨN THI MÁY - MOBILE ĐỀ BÀI TRÊN, VIẾT DƯỚI -->
+      <div class="w-studio-container" id="studioContainer">
+        <!-- Header bài học đang chọn -->
+        <div class="w-lesson-header">
+          <div>
+            <div class="w-lesson-unit-tag" id="studioUnitTag">TASK 1 • ACADEMIC WRITING</div>
+            <h1 class="w-lesson-title" id="studioLessonTitle">Essay 1: Sales of Fairtrade coffee and bananas [Table]</h1>
+          </div>
+          <div class="w-header-actions">
+            <div class="w-lesson-nav" id="writingLessonNav">
+              <button type="button" class="btn w-nav-step-btn" id="btnPrevWritingLesson" onclick="window.navigateWritingLesson(-1)" title="Bài trước">◀ Trước</button>
+              <button type="button" class="btn w-nav-step-btn" id="btnNextWritingLesson" onclick="window.navigateWritingLesson(1)" title="Bài tiếp theo">Tiếp ➜</button>
+            </div>
+            <!-- Timer -->
+            <div class="w-timer" id="studioTimer" title="Đồng hồ đếm thời gian">
+              <span>⏱️</span>
+              <span id="timerDisplay">20:00</span>
+              <button id="btnToggleTimer" style="background:none;border:none;cursor:pointer;font-size:12px;color:inherit;" title="Tạm dừng / Tiếp tục">⏸</button>
+            </div>
+            <button class="btn btn-primary" id="btnSubmitEssay">Nộp bài & Đối chiếu ➜</button>
+          </div>
+        </div>
+
+        <!-- BỐ CỤC DỌC TOÀN DIỆN: ĐỀ BÀI Ở TRÊN - PHẦN LÀM BÀI Ở NGAY BÊN DƯỚI -->
+        <div class="w-split-box" id="splitBox">
+          <!-- KHUNG TRÊN: Đề bài, Biểu đồ & Dàn ý -->
+          <div class="w-pane-left" id="studioLeftPane">
+            <!-- Render động từ writing.js -->
+          </div>
+
+          <!-- KHUNG DƯỚI: Các Chế Độ Học Tập & Bài Làm Rộng Rãi -->
+          <div class="w-pane-right" id="studioRightPane">
+            <!-- THANH ĐIỀU HƯỚNG 5 CHẾ ĐỘ HỌC TẬP (STUDY MODES) -->
+            <div class="w-mode-tabs" id="lessonModeTabs">
+              <button class="w-mode-btn active" id="modeBtn_sample" onclick="window.switchLessonMode('sample')">🏆 1. Bài mẫu & Song ngữ</button>
+              <button class="w-mode-btn" id="modeBtn_write" onclick="window.switchLessonMode('write')">✍️ 2. Luyện viết câu</button>
+              <button class="w-mode-btn" id="modeBtn_vocab" onclick="window.switchLessonMode('vocab')">💎 3. Luyện từ vựng</button>
+              <button class="w-mode-btn" id="modeBtn_grammar" onclick="window.switchLessonMode('grammar')">📖 4. Luyện tập ngữ pháp</button>
+              <button class="w-mode-btn" id="modeBtn_essay" onclick="window.switchLessonMode('essay')">📝 5. Phòng viết cả bài</button>
+            </div>
+            <!-- 1. MODE: BÀI MẪU & SONG NGỮ -->
+            <div class="w-mode-pane" id="paneModeSample">
+              <div class="w-pane-toolbar">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                  <button class="btn mini-btn active" id="btnToggleMeaning" onclick="window.toggleSampleMeaning()">🇻🇳 Bật nghĩa tiếng Việt</button>
+                  <button class="btn mini-btn" id="btnToggleRoles" onclick="window.toggleSampleRoles()">🏷️ Hiện vai trò câu</button>
+                </div>
+                <button class="btn mini-btn" onclick="window.copySampleEssay()">📋 Copy bài mẫu</button>
+              </div>
+              <div class="w-sample-content" id="sampleContentBox">
+                <!-- Render các đoạn văn có vocab words và nghĩa -->
+              </div>
+            </div>
+
+            <!-- 2. MODE: LUYỆN VIẾT CÂU (WORD UNRAMBLE) -->
+            <div class="w-mode-pane" id="paneModeWrite" style="display:none;">
+              <div class="w-write-card" id="writeExerciseBox">
+                <!-- Render bài tập viết câu -->
+              </div>
+            </div>
+
+            <!-- 3. MODE: LUYỆN TẬP TỪ VỰNG -->
+            <div class="w-mode-pane" id="paneModeVocab" style="display:none;">
+              <div class="w-vocab-card" id="vocabExerciseBox">
+                <!-- Render bảng từ vựng và bài tập -->
+              </div>
+            </div>
+
+            <!-- 4. MODE: LUYỆN TẬP NGỮ PHÁP (GRAMMAR PRACTICE) -->
+            <div class="w-mode-pane" id="paneModeGrammar" style="display:none;">
+              <div class="w-grammar-card">
+                <div class="w-grammar-toolbar">
+                  <span style="font-size:13px;font-weight:800;color:var(--primary);text-transform:uppercase;">
+                    📖 BÀI TẬP PHÁT HIỆN & SỬA LỖI NGỮ PHÁP HỌC THUẬT
+                  </span>
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <button class="btn btn-primary" onclick="window.checkGrammarAnswers()">✓ Kiểm tra</button>
+                    <button class="btn mini-btn" onclick="window.showGrammarAnswers()">💡 Xem đáp án</button>
+                    <button class="btn mini-btn" onclick="window.clearGrammarAnswers()">🔄 Xóa làm lại</button>
+                  </div>
+                </div>
+                <div class="w-grammar-text" id="grammarExerciseBox">
+                  <!-- Render bài tập ngữ pháp từ grammarHtml -->
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. MODE: PHÒNG VIẾT CẢ BÀI (FULL ESSAY STUDIO) -->
+            <div class="w-mode-pane" id="paneModeEssay" style="display:none;">
+              <div class="w-editor-header">
+                <div class="w-editor-lbl">✍️ KHUNG SOẠN THẢO BÀI VIẾT (YOUR RESPONSE)</div>
+                <div class="w-word-badge under" id="wordCountBadge">
+                  <span>📝</span>
+                  <span id="wordCountText">0 words</span>
+                  <span id="minWordTarget" style="font-size:11px;opacity:0.8;">(Mục tiêu: 150 từ)</span>
+                </div>
+              </div>
+
+              <div class="w-editor-box">
+                <textarea
+                  class="w-editor-textarea"
+                  id="essayEditor"
+                  placeholder="Type your IELTS response here... (Remember to organize your essay into clear paragraphs)"
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  autocorrect="off"
+                ></textarea>
+              </div>
+
+              <div class="w-editor-footer">
+                <div class="w-autosave-tag" id="autosaveStatus">
+                  <span>💾 Tự động lưu bản nháp</span>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                  <button class="btn mini-btn" id="btnClearEditor">Xóa viết lại</button>
+                  <button class="btn btn-primary" id="btnSubmitBottom">Nộp bài & Đối chiếu ➜</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2A. MÀN HÌNH SẢNH PHÒNG THI PRACTICE ZONE (EXAM CANDIDATE LOBBY & INSTRUCTIONS) -->
+      <div class="w-cbt-lobby" id="practiceZoneLobby" style="display:none;">
+        <div class="w-lobby-inner">
+          <!-- TOP HEADER CỦA SẢNH -->
+          <div class="w-lobby-header">
+            <div class="w-lobby-header-badge">
+              <span class="w-lobby-chip">🎯 IELTS PRACTICE ZONE</span>
+              <span class="w-lobby-chip cbt">INSPERA CBT SIMULATOR</span>
+            </div>
+            <h1 class="w-lobby-title" id="lobbyTestTitle">IELTS Academic Writing Test 1 (Cambridge 18)</h1>
+            <p class="w-lobby-subtitle">
+              Phòng thi thử mô phỏng 100% môi trường thi máy tính chính thức (Computer-Based Test). Vui lòng đọc kỹ hướng dẫn và tùy chỉnh cấu hình bài thi trước khi bắt đầu.
+            </p>
+          </div>
+
+          <!-- LOBBY CONTENT GRID 2 CỘT -->
+          <div class="w-lobby-grid">
+            <!-- CỘT TRÁI: HƯỚNG DẪN & QUY CHẾ THI -->
+            <div class="w-lobby-card w-lobby-guide-col">
+              <div class="w-lobby-card-head">
+                <span class="w-lobby-icon">📋</span>
+                <div>
+                  <h3>Cấu trúc bài thi & Hướng dẫn làm bài</h3>
+                  <p>Official IELTS Academic Writing Format</p>
+                </div>
+              </div>
+
+              <!-- Cấu trúc 2 Task -->
+              <div class="w-lobby-task-summary">
+                <div class="w-lobby-task-row">
+                  <div class="w-lobby-task-tag t1">TASK 1</div>
+                  <div class="w-lobby-task-info">
+                    <strong id="lobbyTask1Title">Task 1: Biểu đồ học thuật</strong>
+                    <div class="w-lobby-task-meta">
+                      <span>⏱️ 20 phút</span> • <span>📝 Tối thiểu 150 từ</span> • <span>📊 Trọng số 1/3 điểm</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="w-lobby-task-row">
+                  <div class="w-lobby-task-tag t2">TASK 2</div>
+                  <div class="w-lobby-task-info">
+                    <strong id="lobbyTask2Title">Task 2: Bài luận học thuật</strong>
+                    <div class="w-lobby-task-meta">
+                      <span>⏱️ 40 phút</span> • <span>💡 Tối thiểu 250 từ</span> • <span>📈 Trọng số 2/3 điểm</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lưu ý phòng thi CBT -->
+              <div class="w-lobby-rules">
+                <div class="w-lobby-rule-item">
+                  <span class="w-rule-icon">💾</span>
+                  <div>
+                    <strong>Tự động lưu bài làm (Real-time Autosave)</strong>
+                    <p>Mọi nội dung gõ vào khung bài làm được lưu tự động theo từng Task. Bạn có thể an tâm làm bài mà không sợ mất dữ liệu.</p>
+                  </div>
+                </div>
+                <div class="w-lobby-rule-item">
+                  <span class="w-rule-icon">📊</span>
+                  <div>
+                    <strong>Bộ đếm từ thông minh & Cảnh báo số từ</strong>
+                    <p>Hệ thống tự động cập nhật số từ bạn đã viết và cảnh báo màu xanh khi đã đạt độ dài tiêu chuẩn.</p>
+                  </div>
+                </div>
+                <div class="w-lobby-rule-item">
+                  <span class="w-rule-icon">🖥️</span>
+                  <div>
+                    <strong>Chia đôi màn hình & Tùy chỉnh thanh kéo</strong>
+                    <p>Màn hình hiển thị chia đôi chuẩn Inspera CBT. Bạn có thể kéo thả thanh ngăn cách ở giữa để thay đổi kích thước theo ý muốn.</p>
+                  </div>
+                </div>
+                <div class="w-lobby-rule-item">
+                  <span class="w-rule-icon">⛶</span>
+                  <div>
+                    <strong>Tự động chuyển Toàn màn hình (F11 Fullscreen)</strong>
+                    <p>Khi bấm bắt đầu, hệ thống sẽ tự động kích hoạt chế độ toàn màn hình để loại bỏ mọi xao nhãng và tạo không gian tập trung tối đa.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CỘT PHẢI: BẢNG ĐIỀU KHIỂN & CẤU HÌNH THI -->
+            <div class="w-lobby-card w-lobby-config-col">
+              <div class="w-lobby-card-head">
+                <span class="w-lobby-icon">⚙️</span>
+                <div>
+                  <h3>Cấu hình bài thi cá nhân</h3>
+                  <p>Tùy chỉnh chế độ & thời gian phù hợp mục tiêu</p>
+                </div>
+              </div>
+
+              <!-- Chọn chế độ thi -->
+              <div class="w-lobby-config-group">
+                <label class="w-config-label">1. Chế độ làm bài:</label>
+                <div class="w-config-options">
+                  <label class="w-config-radio">
+                    <input type="radio" name="lobbyWritingMode" value="both" checked onchange="window.updateLobbyMode(this.value)">
+                    <div class="w-radio-box">
+                      <span class="w-radio-title">🎯 Cả 2 Task (Chuẩn Full Exam)</span>
+                      <span class="w-radio-desc">Task 1 + Task 2 • Thời gian khuyến nghị 60 phút</span>
+                    </div>
+                  </label>
+                  <label class="w-config-radio">
+                    <input type="radio" name="lobbyWritingMode" value="task1" onchange="window.updateLobbyMode(this.value)">
+                    <div class="w-radio-box">
+                      <span class="w-radio-title">📊 Chỉ làm Task 1 (Report)</span>
+                      <span class="w-radio-desc">Thời gian khuyến nghị 20 phút • Tối thiểu 150 từ</span>
+                    </div>
+                  </label>
+                  <label class="w-config-radio">
+                    <input type="radio" name="lobbyWritingMode" value="task2" onchange="window.updateLobbyMode(this.value)">
+                    <div class="w-radio-box">
+                      <span class="w-radio-title">💡 Chỉ làm Task 2 (Essay)</span>
+                      <span class="w-radio-desc">Thời gian khuyến nghị 40 phút • Tối thiểu 250 từ</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Chọn thời gian làm bài -->
+              <div class="w-lobby-config-group">
+                <label class="w-config-label">2. Thời gian làm bài:</label>
+                <div class="w-time-presets" id="lobbyTimerPresets">
+                  <button type="button" class="w-time-btn active" data-time="60" onclick="window.setLobbyTimer(60)">⏱️ 60 phút</button>
+                  <button type="button" class="w-time-btn" data-time="40" onclick="window.setLobbyTimer(40)">⏱️ 40 phút</button>
+                  <button type="button" class="w-time-btn" data-time="20" onclick="window.setLobbyTimer(20)">⏱️ 20 phút</button>
+                  <button type="button" class="w-time-btn" data-time="0" onclick="window.setLobbyTimer(0)">⏳ Đếm xuôi</button>
+                </div>
+              </div>
+
+              <!-- Chọn cỡ chữ hiển thị -->
+              <div class="w-lobby-config-group">
+                <label class="w-config-label">3. Cỡ chữ trong phòng thi:</label>
+                <div class="w-font-presets">
+                  <button type="button" class="w-font-btn active" data-font="cbt-font-std" onclick="window.setLobbyFont('cbt-font-std')">A (Chuẩn)</button>
+                  <button type="button" class="w-font-btn" data-font="cbt-font-lg" onclick="window.setLobbyFont('cbt-font-lg')">A+ (Lớn)</button>
+                  <button type="button" class="w-font-btn" data-font="cbt-font-xl" onclick="window.setLobbyFont('cbt-font-xl')">A++ (Rất lớn)</button>
+                </div>
+              </div>
+
+              <!-- Chọn đề thi khác hoặc đề ngẫu nhiên -->
+              <div class="w-lobby-config-group">
+                <label class="w-config-label">4. Đổi đề thi:</label>
+                <div class="w-lobby-test-picker-bar">
+                  <button type="button" class="w-lobby-btn-sec" onclick="window.openWritingTestPicker()">
+                    📚 Kho đề (1,183+ đề)
+                  </button>
+                  <button type="button" class="w-lobby-btn-sec rnd" onclick="window.generateRandomWritingTest()">
+                    🎲 Bốc ngẫu nhiên
+                  </button>
+                </div>
+              </div>
+
+              <!-- NÚT BẮT ĐẦU LÀM BÀI LỚN -->
+              <div class="w-lobby-cta-zone">
+                <button type="button" class="w-lobby-start-btn" onclick="window.startWritingExamFromLobby()">
+                  <span>🚀 BẮT ĐẦU LÀM BÀI THI</span>
+                  <small>Tự động chuyển toàn màn hình & đếm ngược thời gian</small>
+                </button>
+                <button type="button" class="w-lobby-back-btn" onclick="window.exitPzToLesson()">
+                  ✕ Thoát về danh sách bài học
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- KHỐI LỊCH SỬ CÁC BÀI THI TỪNG LÀM (TEST SUBMISSIONS & AI FEEDBACK) -->
+          <div class="w-lobby-card w-lobby-history-section" id="lobbyHistoryCard">
+            <div class="w-lobby-card-head" style="justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="w-lobby-icon">📜</span>
+                <div>
+                  <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch Sử Các Bài Thi Từng Làm (Exam Submissions & AI Scores)</h3>
+                  <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Mã đề & thời gian bên trái • Điểm số Band bên phải • Bấm xem lại bài làm & AI sửa</p>
+                </div>
+              </div>
+              <span class="w-lobby-chip" id="lobbyHistoryBadgeCount">0 bài đã nộp</span>
+            </div>
+
+            <!-- Danh sách bài làm trong Sảnh -->
+            <div class="w-history-list" id="lobbyHistoryList">
+              <!-- Render động từ writing.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. MÀN HÌNH THI THỬ PRACTICE ZONE (FULL EXAM 60 PHÚT - CHUẨN INSPERA CBT FULLSCREEN ĐỒNG NHẤT 100% VỚI READING & LISTENING) -->
+      <div class="s4-cbt-shell s4-pz-unsubmitted" id="practiceZoneContainer" style="display:none !important;">
+        <!-- TOP EXAM HEADER BAR (INSPERA CBT STYLE - CO GIÃN THÔNG MINH KHÔNG TRÀN VIỀN) -->
+        <header class="s4-cbt-header">
+          <div class="s4-cbt-header-left">
+            <span class="s4-cbt-brand-badge" style="background:#2563eb;">IELTS WRITING</span>
+            <span class="s4-cbt-test-title" id="pzTestTitle" title="IELTS Academic Writing Test 1 (Cambridge 18)">Test 1 (Cam 18)</span>
+            <button type="button" class="s4-cbt-ctrl-btn active" id="pzTabBtn_task1" onclick="window.switchPzTask('task1')" title="Task 1: Biểu đồ (Gợi ý 20 phút - Tối thiểu 150 từ)">
+              📊 T1 (<span id="pzTask1SubWord">0/150</span>)
+            </button>
+            <button type="button" class="s4-cbt-ctrl-btn" id="pzTabBtn_task2" onclick="window.switchPzTask('task2')" title="Task 2: Bài luận (Gợi ý 40 phút - Tối thiểu 250 từ)">
+              💡 T2 (<span id="pzTask2SubWord">0/250</span>)
+            </button>
+          </div>
+
+          <div class="s4-cbt-header-center">
+            <div class="s4-cbt-timer-box" id="s4CbtTimerBox">
+              <span>⏱️</span>
+              <span id="pzTimerDisplay">60:00</span>
+              <select id="pzTimerSelect" style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.changePzTimer(Number(this.value))">
+                <option value="60">60p (Full)</option>
+                <option value="40">40p (T2)</option>
+                <option value="20">20p (T1)</option>
+                <option value="0">Đếm xuôi</option>
+              </select>
+            </div>
+            <span style="font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap;" id="pzTotalWordsBadge">
+              Tổng: <strong id="pzTotalWordCount" style="color:var(--hl-cyan, #06b6d4);">0 từ</strong>
+            </span>
+          </div>
+
+          <div class="s4-cbt-header-right">
+            <div class="s4-cbt-font-group" style="display:inline-flex;gap:3px;background:var(--box-sub);padding:2px;border-radius:8px;border:1px solid var(--border);" title="Chỉnh cỡ chữ bài thi (Standard / Large / Extra Large)">
+              <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn active" data-font="cbt-font-std" style="border:none;padding:4px 7px;" onclick="window.s4CbtSetWritingFont('cbt-font-std')">A</button>
+              <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn" data-font="cbt-font-lg" style="border:none;padding:4px 7px;font-size:13px;" onclick="window.s4CbtSetWritingFont('cbt-font-lg')">A+</button>
+              <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn" data-font="cbt-font-xl" style="border:none;padding:4px 7px;font-size:14.5px;" onclick="window.s4CbtSetWritingFont('cbt-font-xl')">A++</button>
+            </div>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.generateRandomWritingTest()" title="Bốc ngẫu nhiên 1 Task 1 và 1 Task 2 từ kho 340,942+ tổ hợp đề Study4" style="background:rgba(147, 51, 234, 0.15);border-color:#9333ea;color:var(--text);font-weight:800;">
+              🎲<span class="s4-cbt-hide-desk-narrow"> Đề ngẫu nhiên</span>
+            </button>
+            <button type="button" class="s4-cbt-ctrl-btn s4-cbt-fs-btn" id="s4CbtFsBtn" onclick="window.togglePzFullscreen()" title="Bật / Thoát chế độ toàn màn hình">
+              ⛶<span class="s4-cbt-hide-desk-narrow"> Toàn màn hình</span>
+            </button>
+            <button type="button" class="s4-cbt-submit-btn" onclick="window.submitPzExamAndReview()" title="Nộp bài thi cả 2 Task để xem bài mẫu Band 8.0+">
+              ✔ Nộp bài
+            </button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.openWritingTestPicker()" title="Đổi đề khác trong kho đề thi thử">
+              📚<span class="s4-cbt-hide-desk-narrow"> Đổi đề</span>
+            </button>
+            <button type="button" class="s4-cbt-ctrl-btn s4-cbt-exit-btn" onclick="window.exitPzToLesson()" title="Thoát chế độ phòng thi về giao diện luyện tập">
+              ✕ Thoát
+            </button>
+          </div>
+        </header>
+
+        <!-- PART INSTRUCTION BANNER -->
+        <div class="s4-cbt-part-banner">
+          <div id="pzPartBannerText">
+            <strong>Task 1: Academic Report (Biểu đồ):</strong> You should spend about <strong>20 minutes</strong> on this task. Write at least <strong>150 words</strong>.
+          </div>
+          <div class="s4-cbt-desktop-tip" style="font-size:12px;color:var(--muted);">
+            💡 <em>Mẹo phòng thi: Nắm kéo thanh ngăn <strong>⋮</strong> ở giữa để chỉnh độ rộng 2 khung • Hệ thống tự động đếm từ và lưu bài theo thời gian thực.</em>
+          </div>
+        </div>
+
+        <!-- MOBILE VIEW SWITCHER (CHUYỂN CHẾ ĐỘ XEM TRÊN MÀN HÌNH NHỎ <= 820px) -->
+        <div class="s4-cbt-mobile-switcher" id="pzMobileSwitcher">
+          <button type="button" class="s4-cbt-mob-tab active" data-mview="split" onclick="window.setPzMobileView('split')">⬒ Chia đôi 50/50</button>
+          <button type="button" class="s4-cbt-mob-tab" data-mview="left" onclick="window.setPzMobileView('left')">📖 Đề bài & Biểu đồ</button>
+          <button type="button" class="s4-cbt-mob-tab" data-mview="right" onclick="window.setPzMobileView('right')">✍️ Bài viết (<span id="pzMobWordCount">0 từ</span>)</button>
+        </div>
+
+        <!-- RESIZABLE 2-COLUMN SPLIT SCREEN (LEFT: QUESTION | RIGHT: ESSAY EDITOR) -->
+        <div class="s4-cbt-split-area cbt-font-std" id="s4CbtSplitArea" lang="en">
+          <!-- CỘT TRÁI: ĐỀ BÀI & HÌNH ẢNH BIỂU ĐỒ (CUỘN ĐỘC LẬP) -->
+          <div class="s4-cbt-pane-left" id="s4CbtLeftPane" style="--cbt-left-pct: 48%;">
+            <div class="syn-col-title" style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;margin-bottom:14px;border-bottom:1.5px solid var(--border);font-weight:800;font-size:12px;color:var(--primary);">
+              <span id="pzLeftColHeader">📖 ĐỀ BÀI & DỮ LIỆU BIỂU ĐỒ (QUESTION)</span>
+              <span style="font-size:11px;opacity:0.75;">Cuộn để đọc toàn bộ đề</span>
+            </div>
+            <div class="w-cbt-prompt-scroll" id="pzPromptPane">
+              <!-- Render động từ writing.js -->
+            </div>
+          </div>
+
+          <!-- THANH KÉO PHÂN CÁCH RESIZER CHUẨN INSPERA CBT -->
+          <div class="s4-cbt-resizer" id="s4CbtResizer" title="Nắm kéo sang trái/phải để tùy chỉnh độ rộng 2 khung màn hình">
+            <div class="s4-cbt-resizer-grip"></div>
+          </div>
+
+          <!-- CỘT PHẢI: KHUNG SOẠN THẢO BÀI LÀM (CUỘN ĐỘC LẬP) -->
+          <div class="s4-cbt-pane-right" id="s4CbtRightPane" style="flex:1;display:flex;flex-direction:column;height:100%;background:var(--bg);overflow:hidden;">
+            <div class="syn-col-title" style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--card);font-weight:800;font-size:12px;color:var(--primary);flex-shrink:0;">
+              <span id="pzEditorHeaderLbl">✍️ BÀI LÀM CỦA BẠN (YOUR RESPONSE)</span>
+              <div class="w-word-badge under" id="pzWordCountBadge">
+                <span>📝</span>
+                <span id="pzWordCountText">0 words</span>
+                <span id="pzMinWordTarget" style="font-size:11px;opacity:0.8;">(Mục tiêu: 150 từ)</span>
+              </div>
+            </div>
+
+            <div class="w-cbt-editor-wrapper" style="flex:1;display:flex;padding:14px 18px;overflow:hidden;background:var(--bg);">
+              <textarea
+                class="w-cbt-textarea"
+                id="pzEssayEditor"
+                placeholder="Type your IELTS response here... (Remember to organize your essay into clear paragraphs)"
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="off"
+                autocorrect="off"
+              ></textarea>
+            </div>
+
+            <div class="s4-cbt-part-banner" style="margin:0;border-top:1px solid var(--border);padding:8px 18px;background:var(--card);flex-shrink:0;">
+              <div class="w-autosave-tag" id="pzAutosaveStatus" style="font-size:12px;color:var(--muted);">
+                <span>💾 Tự động lưu bài làm riêng từng Task theo thời gian thực</span>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <button type="button" class="s4-cbt-ctrl-btn" id="btnClearPzEditor" onclick="window.clearCurrentPzTask()">Xóa viết lại Task này</button>
+                <button type="button" class="s4-cbt-submit-btn" onclick="window.submitPzExamAndReview()">Nộp bài thi ➜</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. MÀN HÌNH ĐỐI CHIẾU SONG SONG BÀI MẪU BAND 8.0+ & TỰ CHẤM 4 TIÊU CHÍ -->
+      <div class="w-review-container" id="reviewContainer" style="display:none;">
+        <div class="w-review-top">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="btn mini-btn" id="btnBackToStudio">← Quay lại chỉnh sửa bài</button>
+            <button class="btn mini-btn" id="btnExitReviewToLobby" onclick="window.exitReviewToLobby()" style="display:none;">← Quay lại Sảnh phòng thi</button>
+            <button class="btn mini-btn" onclick="window.openWritingHistoryModal()" style="border-color:#2563eb;color:#2563eb;font-weight:700;">📜 Lịch sử bài làm</button>
+            <button class="btn btn-primary" id="btnFinishAndNext">✓ Hoàn thành bài này</button>
+          </div>
+          <button class="btn mini-btn" id="btnCopyPromptAI" title="Sao chép bài viết và đề bài để gửi ChatGPT/Claude chấm">📋 Copy Prompt chấm AI</button>
+        </div>
+
+        <!-- Thanh chuyển Task khi xem kết quả Practice Zone -->
+        <div class="w-mode-tabs" id="reviewPzTabs" style="display:none;margin-bottom:16px;">
+          <button class="w-mode-btn active" id="revPzBtn_task1" onclick="window.switchReviewPzTask('task1')">📊 Đối chiếu Task 1</button>
+          <button class="w-mode-btn" id="revPzBtn_task2" onclick="window.switchReviewPzTask('task2')">💡 Đối chiếu Task 2</button>
+        </div>
+
+        <!-- KHUNG HIỂN THỊ ĐỀ BÀI & HÌNH ẢNH BIỂU ĐỒ (EXAM QUESTION PROMPT & CHART) -->
+        <div class="w-review-prompt-card" id="reviewPromptCard">
+          <div class="w-review-prompt-head">
+            <div class="w-review-prompt-lbl" id="reviewPromptTaskLbl">
+              📋 ĐỀ BÀI (EXAM QUESTION)
+            </div>
+            <div class="w-review-prompt-meta">
+              <span id="reviewPromptTaskType" class="w-review-prompt-tag">Task 1</span>
+              <button type="button" class="w-review-prompt-toggle" id="btnToggleReviewPrompt" onclick="window.toggleReviewPromptCollapse()" title="Bấm để thu gọn hoặc mở rộng đề bài">
+                ▲ Thu gọn đề bài
+              </button>
+            </div>
+          </div>
+          <div class="w-review-prompt-body" id="reviewPromptBody">
+            <div class="w-review-prompt-grid" id="reviewPromptGrid">
+              <div class="w-review-prompt-text-col">
+                <h2 class="w-review-prompt-title" id="reviewPromptTaskTitle">Đề bài</h2>
+                <div class="w-review-prompt-desc" id="reviewPromptText"></div>
+              </div>
+              <div class="w-review-prompt-chart-col" id="reviewChartWrap" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- So sánh song song -->
+        <div class="w-compare-grid">
+          <div class="w-compare-card">
+            <h3><span>✍️ Bài viết của bạn</span> <span class="prog-pill" id="reviewUserWordCount">0 từ</span></h3>
+            <div class="w-essay-body" id="reviewUserEssay"></div>
+          </div>
+          <div class="w-compare-card" style="border-color:var(--primary);">
+            <h3><span style="color:var(--primary);">🏆 Bài mẫu Band 8.0+ (Simon IELTS)</span> <span class="prog-pill" id="reviewSampleWordCount" style="background:var(--primary);color:#fff;">0 từ</span></h3>
+            <div class="w-essay-body" id="reviewSampleEssay"></div>
+          </div>
+        </div>
+
+        <!-- CARD ĐÁNH GIÁ & CHẤM ĐIỂM CỦA AI (AI EVALUATION & CORRECTIONS) -->
+        <div class="w-ai-eval-card" id="aiEvaluationCard">
+          <div class="w-ai-eval-head">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="w-ai-icon">🤖</span>
+              <div>
+                <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Đánh Giá & Chấm Điểm Của AI (AI Examiner Evaluation)</h3>
+                <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Ghi nhận điểm số chính thức và các chỉnh sửa, nâng cấp câu từ của AI cho bài thi này</p>
+              </div>
+            </div>
+            <div class="w-ai-band-badge" id="aiOverallBadge">
+              <span style="font-size:11px;opacity:0.85;text-transform:uppercase;font-weight:700;">OVERALL</span>
+              <strong id="aiOverallBadgeVal">Chưa chấm</strong>
+            </div>
+          </div>
+
+          <!-- Bảng điểm 5 ô: Overall + 4 tiêu chí -->
+          <div class="w-ai-scores-grid">
+            <div class="w-ai-score-box main">
+              <label for="aiScoreOverall">🏆 Band Overall</label>
+              <input type="number" id="aiScoreOverall" min="0" max="9" step="0.5" placeholder="7.0" oninput="window.updateAiScoreBadge()">
+            </div>
+            <div class="w-ai-score-box">
+              <label for="aiScoreTR">1. Task Response (TR)</label>
+              <input type="number" id="aiScoreTR" min="0" max="9" step="0.5" placeholder="7.0">
+            </div>
+            <div class="w-ai-score-box">
+              <label for="aiScoreCC">2. Coherence (CC)</label>
+              <input type="number" id="aiScoreCC" min="0" max="9" step="0.5" placeholder="6.5">
+            </div>
+            <div class="w-ai-score-box">
+              <label for="aiScoreLR">3. Lexical (LR)</label>
+              <input type="number" id="aiScoreLR" min="0" max="9" step="0.5" placeholder="7.5">
+            </div>
+            <div class="w-ai-score-box">
+              <label for="aiScoreGRA">4. Grammar (GRA)</label>
+              <input type="number" id="aiScoreGRA" min="0" max="9" step="0.5" placeholder="7.0">
+            </div>
+          </div>
+
+          <!-- 2 Textarea: Lời nhận xét & Chỉnh sửa chi tiết -->
+          <div class="w-ai-feedback-grid">
+            <div class="w-ai-feedback-col">
+              <div class="w-ai-field-label">
+                <span>💬 Lời nhận xét của AI (Strengths & Weaknesses):</span>
+                <small style="color:var(--muted);">Ưu điểm, lỗi logic, lập luận</small>
+              </div>
+              <textarea id="aiFeedbackText" class="w-ai-textarea" rows="4" placeholder="Ví dụ: Task 1 phân tích xu hướng tốt, có Overview rõ ràng. Task 2 lập luận đoạn Body 2 còn sơ sài, cần thêm ví dụ minh họa..."></textarea>
+            </div>
+            <div class="w-ai-feedback-col">
+              <div class="w-ai-field-label">
+                <span>✨ Chỉnh sửa & Nâng cấp câu văn (AI Corrections & Upgrades):</span>
+                <small style="color:var(--muted);">Câu văn sửa lỗi ngữ pháp, từ vựng Band 8.0+</small>
+              </div>
+              <textarea id="aiCorrectionsText" class="w-ai-textarea" rows="4" placeholder="Ví dụ: 
+• 'people has different opinions' ➔ 'opinions are divided on whether...'
+• Nâng cấp từ nối: 'On the other hand' ➔ 'Conversely, it is often argued that...'"></textarea>
+            </div>
+          </div>
+
+          <!-- Nút hành động lưu -->
+          <div class="w-ai-actions-bar">
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary" onclick="window.saveCurrentAiEvaluation()" style="padding:9px 18px;font-weight:800;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;box-shadow:0 3px 10px rgba(37,99,235,0.3);">
+                💾 Lưu Đánh Giá Của AI Vào Lịch Sử
+              </button>
+              <button type="button" class="btn mini-btn" onclick="window.pasteAiFeedbackFromClipboard()" title="Dán nhanh nội dung vừa copy từ ChatGPT/Claude">
+                📋 Dán từ Clipboard
+              </button>
+            </div>
+            <div class="w-ai-save-status" id="aiSaveStatus" style="font-size:12.5px;color:var(--muted);">
+              <span>💡 Đánh giá của AI sẽ được lưu trữ vĩnh viễn kèm theo bài làm này trong Lịch sử.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checklist 4 Tiêu chí IELTS -->
+        <div class="w-rubric-card">
+          <h3 style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:12px;">
+            📊 Bảng Tự Đánh Giá 4 Tiêu Chí IELTS (Official IELTS Band Descriptors Checklist)
+          </h3>
+          <div class="w-rubric-grid">
+            <div class="w-rubric-box">
+              <h4>1. Task Achievement / Response</h4>
+              <label class="w-rubric-check"><input type="checkbox"> Trả lời đầy đủ tất cả các yêu cầu của đề bài.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Có đoạn Overview rõ ràng (Task 1) / Lập trường nhất quán (Task 2).</label>
+              <label class="w-rubric-check"><input type="checkbox"> Dẫn chứng số liệu hoặc ví dụ minh họa xác đáng.</label>
+            </div>
+            <div class="w-rubric-box">
+              <h4>2. Coherence & Cohesion</h4>
+              <label class="w-rubric-check"><input type="checkbox"> Phân chia 4 đoạn văn cân đối, mạch lạc.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Sử dụng từ nối (Linking words) tự nhiên, uyển chuyển.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Ý tứ liên kết chặt chẽ giữa các câu văn.</label>
+            </div>
+            <div class="w-rubric-box">
+              <h4>3. Lexical Resource</h4>
+              <label class="w-rubric-check"><input type="checkbox"> Đa dạng từ vựng học thuật, hạn chế lặp từ.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Sử dụng các cụm Collocations và Idiomatic expressions tự nhiên.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Chính tả chuẩn xác, đúng ngữ cảnh bài thi.</label>
+            </div>
+            <div class="w-rubric-box">
+              <h4>4. Grammatical Range & Accuracy</h4>
+              <label class="w-rubric-check"><input type="checkbox"> Kết hợp nhuần nhuyễn câu đơn, câu ghép và câu phức.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Kiểm soát tốt thì động từ, câu bị động và so sánh.</label>
+              <label class="w-rubric-check"><input type="checkbox"> Rất ít lỗi sai ngữ pháp cơ bản hoặc mạo từ (a/an/the).</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL TRA CỨU TOÀN BỘ LỊCH SỬ BÀI LÀM (SUBMISSIONS MODAL) -->
+  <div class="w-modal-backdrop" id="writingHistoryModal" style="display:none;" onclick="if(event.target === this) window.closeWritingHistoryModal()">
+    <div class="w-history-modal-box">
+      <div class="w-history-modal-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">📂</span>
+          <div>
+            <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Kho Lưu Trữ & Lịch Sử Bài Làm (Submissions History)</h3>
+            <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Danh sách toàn bộ các đề thi và bài viết đã nộp cùng điểm số Band & nhận xét của AI</p>
+          </div>
+        </div>
+        <button class="btn mini-btn" onclick="window.closeWritingHistoryModal()" style="padding:4px 8px;font-size:13px;">✕ Đóng</button>
+      </div>
+
+      <div class="w-history-filter-bar">
+        <button class="w-filter-pill active" id="hFilter_all" onclick="window.filterHistoryModal('all')">Tất cả (<span id="hCountAll">0</span>)</button>
+        <button class="w-filter-pill" id="hFilter_graded" onclick="window.filterHistoryModal('graded')">🏆 Đã có điểm AI (<span id="hCountGraded">0</span>)</button>
+        <button class="w-filter-pill" id="hFilter_ungraded" onclick="window.filterHistoryModal('ungraded')">⏳ Chưa chấm (<span id="hCountUngraded">0</span>)</button>
+      </div>
+
+      <div class="w-history-list modal-scroll" id="modalHistoryList">
+        <!-- Render động từ writing.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX PHÓNG TO ẢNH BIỂU ĐỒ TASK 1 -->
+  <div class="w-lightbox" id="chartLightbox" onclick="window.closeLightbox && window.closeLightbox(event)">
+    <button class="w-lightbox-close" onclick="window.closeLightbox && window.closeLightbox(event)">✕</button>
+    <img src="" alt="Biểu đồ phóng to" class="w-lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- SCRIPTS DỮ LIỆU & ENGINE -->
+  <script src="writing_data.js?v=3"></script>
+  <script src="writing_parser.js?v=3"></script>
+  <script src="../assets/s4-ui.js?v=63"></script>
+  <script src="../auth.js?v=30"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
+  <script src="writing.js?v=8"></script>
+</body>
+</html>

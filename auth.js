@@ -1,5 +1,5 @@
-/* Study4 IELTS - Hệ thống tài khoản, Hồ sơ cá nhân & Quản trị viên v7
- * - Tài khoản, hồ sơ cá nhân (Avatar, Tên, Mục tiêu Band, Mật khẩu), mã kích hoạt VIP và tiến độ học đều đồng bộ qua Firebase Realtime Database.
+/* LinguaPath - Hệ thống tài khoản, Hồ sơ cá nhân & Quản trị viên
+ * - Tài khoản, hồ sơ cá nhân (Avatar, Tên, Mục tiêu Band, Mật khẩu) và tiến độ học đều đồng bộ qua Firebase Realtime Database.
  * - Hỗ trợ học Offline: dữ liệu lưu cục bộ và tự động đồng bộ lên Cloud khi có mạng.
  */
 (function () {
@@ -7,26 +7,35 @@
 
   const DB = "https://study4-app-default-rtdb.firebaseio.com";
   const K = { cfg: "s4_auth_config_v2", session: "s4_auth_session_v2", cache: "s4_auth_cache_v2" };
-  const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2";
+  const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2", P_VSES = "s4_vocab_active_session_v2";
   const P_GDONE = "s4_grammar_done", P_GLAST = "s4_grammar_last";
-  const P_LDONE = "s4_listening_done", P_LLAST = "s4_listening_last_v2", P_LSRS = "s4_listening_srs_v1", P_LDAYS = "s4_listening_days_v1", P_LSET = "s4_listening_settings_v1";
-  const P_RDONE = "s4_reading_done", P_RLAST = "s4_reading_last_v2", P_RSRS = "s4_reading_srs_v1", P_RDAYS = "s4_reading_days_v1", P_RSET = "s4_reading_settings_v1";
-  const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos";
+  const P_LDONE = "s4_listening_done", P_LLAST = "s4_listening_last_v2", P_LSRS = "s4_listening_srs_v1", P_LDAYS = "s4_listening_days_v1", P_LSET = "s4_listening_settings_v1", P_LSES = "s4_listening_vocab_session_v1", P_LPOS = "s4_listening_lesson_pos_v1", P_LNOTES = "s4_listening_notes_v1", P_LUNIT = "s4_listen_last_by_unit", P_LSUBS = "lp_listening_submissions_v1", P_LPZANS = "s4_pz_listen_answers_v1";
+  const P_RDONE = "s4_reading_done", P_RLAST = "s4_reading_last_v2", P_RSRS = "s4_reading_srs_v1", P_RDAYS = "s4_reading_days_v1", P_RSET = "s4_reading_settings_v1", P_RSES = "s4_reading_vocab_session_v1", P_RUNIT = "s4_read_last_by_unit", P_RSUBS = "lp_reading_submissions_v1", P_RPZANS = "s4_pz_read_answers_v1";
+  const P_PZFLAGS = "s4_pz_review_flags_v1";
+  const P_WDONE = "s4_writing_done", P_WLAST = "s4_writing_last_v1", P_WESSAYS = "s4_writing_essays_v1", P_WSUBS = "lp_submissions_history";
+  const P_SDONE = "lp_speaking_done_v1", P_SLAST = "lp_speaking_last_v1", P_SNOTES = "lp_speaking_notes_v1", P_SSUBS = "lp_speaking_submissions_v1", P_SPREFS = "lp_speaking_prefs_v1";
+  const P_SSRS = "lp_speaking_vocab_srs_v1", P_SDAYS = "lp_speaking_vocab_days_v1", P_SSET = "lp_speaking_vocab_settings_v1", P_SSES = "lp_speaking_vocab_session_v1";
+  const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos", P_TSUBVI = "s4_ted_show_vi";
   const PROGRESS_KEYS = [
-    P_SRS, P_DAYS, P_SET,
+    P_SRS, P_DAYS, P_SET, P_VSES,
     P_GDONE, P_GLAST,
-    P_LDONE, P_LLAST, P_LSRS, P_LDAYS, P_LSET,
-    P_RDONE, P_RLAST, P_RSRS, P_RDAYS, P_RSET,
-    P_TDONE, P_TLAST, P_TPOS
+    P_LDONE, P_LLAST, P_LSRS, P_LDAYS, P_LSET, P_LSES, P_LPOS, P_LNOTES, P_LUNIT, P_LSUBS, P_LPZANS,
+    P_RDONE, P_RLAST, P_RSRS, P_RDAYS, P_RSET, P_RSES, P_RUNIT, P_RSUBS, P_RPZANS,
+    P_PZFLAGS,
+    P_WDONE, P_WLAST, P_WESSAYS, P_WSUBS,
+    P_SDONE, P_SLAST, P_SNOTES, P_SSUBS, P_SPREFS, P_SSRS, P_SDAYS, P_SSET, P_SSES,
+    P_TDONE, P_TLAST, P_TPOS, P_TSUBVI
   ];
-  const P_SESSION = "s4_vocab_active_session_v2";   // phiên học từ vựng dở dang (chỉ lưu trên máy, không đồng bộ cloud)
   const TOTAL_VOCAB = 1827;
   const TOTAL_GRAMMAR = 120;
   const TOTAL_LISTENING_LESSONS = 1482;
   const TOTAL_LISTENING_VOCAB = 2176;
   const TOTAL_READING_LESSONS = 1220;
   const TOTAL_READING_VOCAB = 2969;
-  const TOTAL_TED_LESSONS = 40;
+  const TOTAL_WRITING_LESSONS = 261;
+  const TOTAL_SPEAKING_LESSONS = 2490;
+  const TOTAL_SPEAKING_VOCAB = 9214;
+  const TOTAL_TED_LESSONS = 202;
 
   const AVATAR_PRESETS = ["🎓", "🦊", "🐼", "🦁", "🐯", "🐨", "🦉", "🦄", "🐲", "🚀", "⚡", "🌟", "💎", "🔥", "🍀", "🎯"];
 
@@ -76,29 +85,13 @@
   };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  /* ---------- Tiện ích ngày tháng, thời hạn VIP & băm mật khẩu ---------- */
+  /* ---------- Tiện ích ngày tháng & băm mật khẩu ---------- */
   const ymd = d => d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
   const todayNum = () => ymd(new Date());
   function parseYmd(n) {
     const s = String(n || "");
     if (!/^\d{8}$/.test(s)) return null;
     return new Date(+s.slice(0, 4), +s.slice(4, 6) - 1, +s.slice(6, 8));
-  }
-  function addDaysYmd(base, days) {
-    if (days === "PERM" || days === "perm") return "PERM";
-    let d = new Date(); d.setHours(0, 0, 0, 0);
-    if (base && base !== "PERM") {
-      const b = parseYmd(base);
-      if (b && b > d) d = b;
-    }
-    d.setDate(d.getDate() + Number(days));
-    return String(ymd(d));
-  }
-  function fmtExpiry(e) {
-    if (!e || e === "PERM") return "Vĩnh viễn";
-    const s = String(e);
-    if (!/^\d{8}$/.test(s)) return "Vĩnh viễn";
-    return s.slice(6, 8) + "/" + s.slice(4, 6) + "/" + s.slice(0, 4);
   }
   // Trả về: Infinity nếu vĩnh viễn, số nguyên >= 0 nếu còn hạn, số âm nếu đã quá hạn
   function daysRemaining(expiresAt) {
@@ -109,17 +102,6 @@
     now.setHours(0, 0, 0, 0);
     expDate.setHours(0, 0, 0, 0);
     return Math.round((expDate.getTime() - now.getTime()) / 86400000);
-  }
-  function vipRemainingBadgeHtml(u) {
-    if (!u) return "";
-    if (u.role === "admin") return `<span class="s4-vip-Remain s4-vr-perm">🛡️ Quản trị viên (Vĩnh viễn)</span>`;
-    if (u.role !== "vip") return `<span class="s4-vip-Remain s4-vr-basic">🌱 Gói Cơ Bản (Chưa kích hoạt VIP)</span>`;
-    const rem = daysRemaining(u.expiresAt);
-    if (!Number.isFinite(rem)) return `<span class="s4-vip-Remain s4-vr-perm">♾️ VIP Vĩnh viễn</span>`;
-    if (rem < 0) return `<span class="s4-vip-Remain s4-vr-exp">⚠️ Đã hết hạn (${fmtExpiry(u.expiresAt)})</span>`;
-    if (rem === 0) return `<span class="s4-vip-Remain s4-vr-warn">⏳ Hết hạn hôm nay (${fmtExpiry(u.expiresAt)})</span>`;
-    const cls = rem <= 7 ? "s4-vr-warn" : "s4-vr-ok";
-    return `<span class="s4-vip-Remain ${cls}">⏳ Còn <b>${rem}</b> ngày (đến ${fmtExpiry(u.expiresAt)})</span>`;
   }
   function fmtRelativeTime(iso) {
     if (!iso) return "Chưa rõ";
@@ -270,22 +252,159 @@
     mergedIds.forEach(id => { outObj[id] = true; });
     return JSON.stringify(outObj);
   }
+  function mergeDraftMaps(aDrafts, bDrafts) {
+    const a = aDrafts && typeof aDrafts === "object" && !Array.isArray(aDrafts) ? aDrafts : {};
+    const b = bDrafts && typeof bDrafts === "object" && !Array.isArray(bDrafts) ? bDrafts : {};
+    const out = {};
+    new Set(Object.keys(a).concat(Object.keys(b))).forEach(id => {
+      const da = a[id], dbItem = b[id];
+      if (!da && !dbItem) return;
+      if (!da) { out[id] = dbItem; return; }
+      if (!dbItem) { out[id] = da; return; }
+      const ta = Number(da.updatedAt || 0), tb = Number(dbItem.updatedAt || 0);
+      if (tb > ta) out[id] = dbItem;
+      else if (ta > tb) out[id] = da;
+      else out[id] = Number(dbItem.stage || 0) >= Number(da.stage || 0) ? dbItem : da;
+    });
+    const keys = Object.keys(out);
+    if (keys.length > 500) {
+      keys.sort((x, y) => Number(out[y] && out[y].updatedAt || 0) - Number(out[x] && out[x].updatedAt || 0))
+        .slice(500).forEach(k => { delete out[k]; });
+    }
+    return out;
+  }
+  function mergeVocabActiveSession(aStr, bStr) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const out = {};
+    const topics = new Set(Object.keys(a).concat(Object.keys(b)).filter(k => k !== "__drafts"));
+    topics.forEach(t => {
+      const sa = a[t], sb = b[t];
+      const va = sa && Array.isArray(sa.queue) && sa.queue.length ? sa : null;
+      const vb = sb && Array.isArray(sb.queue) && sb.queue.length ? sb : null;
+      if (!va && !vb) return;
+      if (!va) { out[t] = vb; return; }
+      if (!vb) { out[t] = va; return; }
+      out[t] = Number(vb.savedAt || 0) >= Number(va.savedAt || 0) ? vb : va;
+    });
+    const tKeys = Object.keys(out);
+    if (tKeys.length > 60) {
+      tKeys.sort((x, y) => Number(out[y] && out[y].savedAt || 0) - Number(out[x] && out[x].savedAt || 0))
+        .slice(60).forEach(k => { delete out[k]; });
+    }
+    const drafts = mergeDraftMaps(a.__drafts, b.__drafts);
+    if (Object.keys(drafts).length) out.__drafts = drafts;
+    return JSON.stringify(out);
+  }
+  function mergeEngineSessionStore(aStr, bStr) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const saMap = a && a.sessions && typeof a.sessions === "object" ? a.sessions : {};
+    const sbMap = b && b.sessions && typeof b.sessions === "object" ? b.sessions : {};
+    const sessions = {};
+    new Set(Object.keys(saMap).concat(Object.keys(sbMap))).forEach(id => {
+      const sa = saMap[id], sb = sbMap[id];
+      const va = sa && Array.isArray(sa.queue) && sa.queue.length ? sa : null;
+      const vb = sb && Array.isArray(sb.queue) && sb.queue.length ? sb : null;
+      if (!va && !vb) return;
+      if (!va) { sessions[id] = vb; return; }
+      if (!vb) { sessions[id] = va; return; }
+      sessions[id] = Number(vb.savedAt || 0) >= Number(va.savedAt || 0) ? vb : va;
+    });
+    const sKeys = Object.keys(sessions);
+    if (sKeys.length > 60) {
+      sKeys.sort((x, y) => Number(sessions[y] && sessions[y].savedAt || 0) - Number(sessions[x] && sessions[x].savedAt || 0))
+        .slice(60).forEach(k => { delete sessions[k]; });
+    }
+    const drafts = mergeDraftMaps(a && a.drafts, b && b.drafts);
+    return JSON.stringify({ sessions, drafts });
+  }
+  function mergeLessonPosMap(aStr, bStr) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const out = {};
+    new Set(Object.keys(a).concat(Object.keys(b))).forEach(id => {
+      const pa = a[id], pb = b[id];
+      const va = pa && typeof pa === "object" ? pa : null;
+      const vb = pb && typeof pb === "object" ? pb : null;
+      if (!va && !vb) return;
+      if (!va) { out[id] = vb; return; }
+      if (!vb) { out[id] = va; return; }
+      out[id] = Number(vb.updatedAt || 0) >= Number(va.updatedAt || 0) ? vb : va;
+    });
+    const keys = Object.keys(out);
+    if (keys.length > 200) {
+      keys.sort((x, y) => Number(out[y] && out[y].updatedAt || 0) - Number(out[x] && out[x].updatedAt || 0))
+        .slice(200).forEach(k => { delete out[k]; });
+    }
+    return JSON.stringify(out);
+  }
+  /**
+   * Merge two submission history arrays (Speaking, Writing, Reading/Listening PZ) deduplicated by id.
+   */
+  const submissionStamp = it => Math.max(
+    Number(it && it.timestamp || 0),
+    Number(it && it.createdAt || 0),
+    Number(it && it.aiEvaluation && it.aiEvaluation.updatedAt || 0)
+  );
+  function mergeSubmissionHistory(aStr, bStr, maxKeep) {
+    const a = parseJ(aStr, []), b = parseJ(bStr, []);
+    const map = {};
+    [].concat(Array.isArray(a) ? a : [], Array.isArray(b) ? b : []).forEach(it => {
+      if (!it || typeof it !== "object" || !it.id) return;
+      const prev = map[it.id];
+      if (!prev || submissionStamp(it) >= submissionStamp(prev)) map[it.id] = it;
+    });
+    const list = Object.values(map).sort((x, y) => submissionStamp(y) - submissionStamp(x));
+    return JSON.stringify(list.slice(0, maxKeep || 80));
+  }
+  /**
+   * Merge per-lesson text notes so non-empty local notes override empty remote entries.
+   */
+  function mergeNotesMap(localStr, remoteStr) {
+    const rNotes = parseJ(remoteStr, {}), lNotes = parseJ(localStr, {});
+    const out = Object.assign({}, rNotes);
+    Object.keys(lNotes).forEach(id => {
+      if (lNotes[id] || out[id] === undefined) out[id] = lNotes[id];
+    });
+    return JSON.stringify(out);
+  }
+  /**
+   * Merge two key-value maps (answers, flags, prefs) preserving non-empty local entries on conflict.
+   */
+  function mergeKeyMap(localStr, remoteStr) {
+    const r = parseJ(remoteStr, {}), l = parseJ(localStr, {});
+    const out = Object.assign({}, r);
+    Object.keys(l).forEach(k => {
+      if (l[k] !== undefined && (l[k] !== "" || out[k] === undefined)) out[k] = l[k];
+    });
+    return JSON.stringify(out);
+  }
   function mergeProgress(local, remote) {
     const out = {};
-    // 1. SRS Maps (Vocab, Listening, Reading)
-    [P_SRS, P_LSRS, P_RSRS].forEach(k => {
+    // 1. SRS Maps (Vocab, Listening, Reading, Speaking)
+    [P_SRS, P_LSRS, P_RSRS, P_SSRS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSrsMap(local[k], remote[k]);
     });
-    // 2. Study Days Maps (Vocab, Listening, Reading)
-    [P_DAYS, P_LDAYS, P_RDAYS].forEach(k => {
+    // 2. Study Days Maps (Vocab, Listening, Reading, Speaking)
+    [P_DAYS, P_LDAYS, P_RDAYS, P_SDAYS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDaysMap(local[k], remote[k]);
     });
-    // 3. Done Maps / Lists (Grammar & TED as Object maps; Listening & Reading as Arrays)
+    // 3. Done Maps / Lists (Grammar & TED as Object maps; Listening, Reading, Writing & Speaking as Arrays)
     [P_GDONE, P_TDONE].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], false);
     });
-    [P_LDONE, P_RDONE].forEach(k => {
+    [P_LDONE, P_RDONE, P_WDONE, P_SDONE].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], true);
+    });
+    if (local[P_WESSAYS] !== undefined || remote[P_WESSAYS] !== undefined) {
+      out[P_WESSAYS] = mergeKeyMap(local[P_WESSAYS], remote[P_WESSAYS]);
+    }
+    [P_SNOTES, P_LNOTES].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeNotesMap(local[k], remote[k]);
+    });
+    [P_SPREFS, P_RPZANS, P_LPZANS, P_PZFLAGS, P_LUNIT, P_RUNIT].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeKeyMap(local[k], remote[k]);
+    });
+    [P_SSUBS, P_WSUBS, P_RSUBS, P_LSUBS].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSubmissionHistory(local[k], remote[k], 80);
     });
     // 4. TED Subtitle Position Map (keep max subtitle index per video)
     if (local[P_TPOS] !== undefined || remote[P_TPOS] !== undefined) {
@@ -295,10 +414,20 @@
       out[P_TPOS] = JSON.stringify(m);
     }
     // 5. Last Lesson & Settings keys
-    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_TLAST].forEach(k => {
+    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_WLAST, P_SLAST, P_SSET, P_TLAST, P_TSUBVI].forEach(k => {
       const v = remote[k] !== undefined ? remote[k] : local[k];
       if (v !== undefined) out[k] = v;
     });
+    // 6. Active Vocab Sessions, Per-Word Step Drafts & Listening Lesson Positions
+    if (local[P_VSES] !== undefined || remote[P_VSES] !== undefined) {
+      out[P_VSES] = mergeVocabActiveSession(local[P_VSES], remote[P_VSES]);
+    }
+    [P_LSES, P_RSES, P_SSES].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeEngineSessionStore(local[k], remote[k]);
+    });
+    if (local[P_LPOS] !== undefined || remote[P_LPOS] !== undefined) {
+      out[P_LPOS] = mergeLessonPosMap(local[P_LPOS], remote[P_LPOS]);
+    }
     return out;
   }
 
@@ -346,33 +475,39 @@
     const grammarDone = countDoneEntries(map[P_GDONE]);
     const listeningDone = countDoneEntries(map[P_LDONE]);
     const readingDone = countDoneEntries(map[P_RDONE]);
+    const writingDone = countDoneEntries(map[P_WDONE]);
+    const speakingDone = countDoneEntries(map[P_SDONE]);
     const tedDone = countDoneEntries(map[P_TDONE]);
 
     const lisSrsStat = countSrsEntries(map[P_LSRS]);
     const readSrsStat = countSrsEntries(map[P_RSRS]);
+    const speakSrsStat = countSrsEntries(map[P_SSRS]);
     const listeningWords = lisSrsStat.totalDone;
     const readingWords = readSrsStat.totalDone;
+    const speakingWords = speakSrsStat.totalDone;
 
-    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords;
-    const totalLessonsAll = grammarDone + listeningDone + readingDone + tedDone;
-    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due;
+    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords + speakingWords;
+    const totalLessonsAll = grammarDone + listeningDone + readingDone + writingDone + speakingDone + tedDone;
+    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due + speakSrsStat.due;
 
     const vocabPct = Math.min(100, Math.round(((vocabLearned + vocabIgnored) / TOTAL_VOCAB) * 100));
     const grammarPct = Math.min(100, Math.round((grammarDone / TOTAL_GRAMMAR) * 100));
     const overallPct = Math.min(100, Math.round(
-      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_TED_LESSONS)) * 100
+      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_SPEAKING_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_WRITING_LESSONS + TOTAL_SPEAKING_LESSONS + TOTAL_TED_LESSONS)) * 100
     ));
 
-    // Merge study days across Vocab, Listening, Reading for accurate streak
+    // Merge study days across Vocab, Listening, Reading, Speaking for accurate streak
     const daysV = parseJ(map[P_DAYS], {});
     const daysL = parseJ(map[P_LDAYS], {});
     const daysR = parseJ(map[P_RDAYS], {});
+    const daysS = parseJ(map[P_SDAYS], {});
     const days = {};
-    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR))).forEach(d => {
+    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR), Object.keys(daysS))).forEach(d => {
       days[d] = Array.from(new Set([].concat(
         Array.isArray(daysV[d]) ? daysV[d] : [],
         Array.isArray(daysL[d]) ? daysL[d] : [],
-        Array.isArray(daysR[d]) ? daysR[d] : []
+        Array.isArray(daysR[d]) ? daysR[d] : [],
+        Array.isArray(daysS[d]) ? daysS[d] : []
       )));
     });
 
@@ -408,6 +543,9 @@
       listeningWords,
       readingDone,
       readingWords,
+      writingDone,
+      speakingDone,
+      speakingWords,
       tedDone,
       totalWordsAll,
       totalLessonsAll,
@@ -420,7 +558,7 @@
   }
   function hasProgress(map) {
     const s = progressStats(map);
-    return s.totalWordsAll > 0 || s.totalLessonsAll > 0;
+    return s.totalWordsAll > 0 || s.totalLessonsAll > 0 || !!(map && (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_LPOS]));
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
@@ -466,6 +604,9 @@
       listeningWords: st.listeningWords,
       readingDone: st.readingDone,
       readingWords: st.readingWords,
+      writingDone: st.writingDone,
+      speakingDone: st.speakingDone,
+      speakingWords: st.speakingWords,
       tedDone: st.tedDone,
       totalWordsAll: st.totalWordsAll,
       totalLessonsAll: st.totalLessonsAll,
@@ -577,7 +718,6 @@
       try { rawSet("s4_auth_profile_" + cur.username, JSON.stringify(readProgress())); } catch (e) {}
       hookSuspended = true;
       PROGRESS_KEYS.forEach(k => rawRemove(k));
-      rawRemove(P_SESSION);
       hookSuspended = false;
     }
     session = null;
@@ -647,40 +787,8 @@
     return { ok: true };
   }
 
-  async function peekCode(code, uname) {
-    const c = String(code || "").trim().toUpperCase().replace(/\s+/g, "");
-    if (!/^[A-Z0-9-]{6,40}$/.test(c)) return { ok: false, msg: "Mã kích hoạt không hợp lệ." };
-    let rec;
-    try { rec = await db(`study4_codes/${c}`); } catch (e) { return { ok: false, msg: "Không kết nối được máy chủ để kiểm tra mã. Hãy bật mạng." }; }
-    if (!rec) return { ok: false, msg: "Mã kích hoạt không tồn tại." };
-    if (rec.usedBy) return { ok: false, msg: "Mã này đã được sử dụng." };
-    if (rec.forUser && rec.forUser !== uname) return { ok: false, msg: `Mã này chỉ dành riêng cho tài khoản "${rec.forUser}".` };
-    return { ok: true, code: c, rec: rec };
-  }
-  async function redeemCode(code, uname) {
-    const p = await peekCode(code, uname);
-    if (!p.ok) return p;
-    try {
-      await db(`study4_codes/${p.code}`, "PATCH", { usedBy: uname, usedAt: new Date().toISOString() });
-      const check = await db(`study4_codes/${p.code}`);
-      if (!check || check.usedBy !== uname) return { ok: false, msg: "Mã này vừa được người khác sử dụng." };
-      const rec = await db(`study4_users/${uname}`);
-      const days = Number(p.rec.days) || 0;
-      let exp = "PERM";
-      if (days > 0) {
-        const cur = rec && rec.role === "vip" ? rec.expiresAt : null;
-        exp = cur === "PERM" ? "PERM" : addDaysYmd(cur && cur !== "PERM" ? cur : null, days);
-      }
-      await db(`study4_users/${uname}`, "PATCH", { role: "vip", expiresAt: exp });
-      if (cache[uname]) { cache[uname].role = "vip"; cache[uname].expiresAt = exp; saveCache(); }
-      return { ok: true, expiresAt: exp };
-    } catch (e) {
-      return { ok: false, msg: "Có lỗi kết nối khi kích hoạt, vui lòng thử lại." };
-    }
-  }
-
   /* ---------- Giao diện & CSS ---------- */
-  function getLogoPath() { return isHomePage() ? "icon-192.png?v=pink" : "../icon-192.png?v=pink"; }
+  function getLogoPath() { return isHomePage() ? "icon-192.png" : "../icon-192.png"; }
 
   function updateSafeAreaVar() {
     try {
@@ -724,7 +832,8 @@
       .s4-role-vip { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
       .s4-role-basic { background: #e2e8f0; color: #475569; }
       html.dark .s4-role-basic, body.dark .s4-role-basic { background: #334155; color: #cbd5e1; }
-      .s4-role-free { background: #0d9488; color: #fff; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 1; }
+      .s4-role-free { background: #0d9488; color: #fff; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 0; }
+      .s4-free-compact { display: none; }
       .s4-top-btn { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.15s; white-space: nowrap; font-family: inherit; flex-shrink: 0; }
       html.dark .s4-top-btn, body.dark .s4-top-btn { background: #0f172a; color: #f8fafc; border-color: #334155; }
       .s4-top-btn:hover { border-color: #2563eb; }
@@ -752,10 +861,12 @@
       .s4-modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.78); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: calc(12px + var(--s4-top-inset, 0px)) calc(12px + env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px)); overscroll-behavior: contain; touch-action: none; box-sizing: border-box; }
       .s4-modal { background: #ffffff; color: #0f172a; width: 100%; max-width: 520px; border-radius: 18px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); max-height: calc(100dvh - var(--s4-top-inset, 0px) - env(safe-area-inset-bottom, 0px) - 24px); overflow-y: auto; overflow-x: hidden; border: 1px solid #e2e8f0; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; box-sizing: border-box; }
       @media (max-width: 500px) {
-        .s4-user-bar { padding: calc(6px + var(--s4-top-inset, 0px)) calc(10px + env(safe-area-inset-right, 0px)) 6px calc(10px + env(safe-area-inset-left, 0px)); gap: 5px; }
+        .s4-user-bar { padding: calc(6px + var(--s4-top-inset, 0px)) calc(8px + env(safe-area-inset-right, 0px)) 6px calc(8px + env(safe-area-inset-left, 0px)); gap: 4px; }
         .s4-hide-sm { display: none !important; }
-        .s4-top-btn { padding: 5px 9px; font-size: 11.5px; }
-        .s4-role-badge { padding: 2px 6px; font-size: 10.5px; }
+        .s4-free-full { display: none; }
+        .s4-free-compact { display: inline; }
+        .s4-top-btn { padding: 5px 7px; font-size: 11px; }
+        .s4-role-badge { padding: 3px 7px; font-size: 10.5px; flex-shrink: 0; }
       }
       .s4-modal.wide { max-width: 860px; }
       .s4-donate-grid { display: grid; grid-template-columns: minmax(185px, 220px) minmax(0, 1fr); gap: 14px; align-items: center; background: var(--panel, #f8fafc); border: 1px solid var(--border, #e2e8f0); border-radius: 14px; padding: 14px; box-sizing: border-box; }
@@ -832,7 +943,7 @@
       bar.innerHTML = `
         <div class="s4-user-left">
           ${logoImg}
-          <span class="s4-role-badge s4-role-free">🌿 Mở miễn phí 100%</span>
+          <span class="s4-role-badge s4-role-free"><span class="s4-free-full">🌿 Mở miễn phí 100%</span><span class="s4-free-compact">🌿 Miễn phí</span></span>
         </div>
         <div class="s4-user-right">
           <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ</button>
@@ -906,7 +1017,7 @@
     document.body.classList.remove("s4-modal-lock");
   }
 
-  /* ---------- TRANG CÁ NHÂN (HỒ SƠ, TIẾN ĐỘ, HẠN VIP, ĐỔI TÊN/AVT/MẬT KHẨU) ---------- */
+  /* ---------- TRANG CÁ NHÂN (HỒ SƠ, TIẾN ĐỘ, ĐỔI TÊN/AVT/MẬT KHẨU) ---------- */
   function resizeImageToDataUrl(file, maxSize) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -1096,8 +1207,6 @@
       if (cTop) cTop.onclick = closeModals;
       const cBottom = box.querySelector("#s4CloseBottom");
       if (cBottom) cBottom.onclick = closeModals;
-      const cb = box.querySelector("#s4CloseBottom");
-      if (cb) cb.onclick = closeModals;
       if (typeof setupPassToggles === "function") setupPassToggles(box);
       box.querySelectorAll("[data-t]").forEach(b => {
         b.onclick = () => { tab = b.dataset.t; msg = ""; err = ""; render(); };
@@ -1269,18 +1378,30 @@
       if (reqAdminBtn) {
         reqAdminBtn.onclick = async () => {
           const uInp = (box.querySelector("#inpForgotUser").value || "").trim().toLowerCase();
-          if (!uInp) return alert("Vui lòng nhập tên đăng nhập trước.");
+          if (!uInp) {
+            return window.S4UI ? window.S4UI.alert("Vui lòng nhập tên đăng nhập trước.", { title: "Thiếu tên đăng nhập", tone: "warn" }) : alert("Vui lòng nhập tên đăng nhập trước.");
+          }
           try {
             const userRec = await db("study4_users/" + uInp);
-            if (!userRec) return alert("Không tìm thấy tài khoản @" + uInp);
+            if (!userRec) {
+              return window.S4UI ? window.S4UI.alert("Không tìm thấy tài khoản @" + uInp, { title: "Không tìm thấy tài khoản", tone: "warn" }) : alert("Không tìm thấy tài khoản @" + uInp);
+            }
             await db("study4_reset_requests/" + uInp, "PUT", {
               username: uInp,
               displayName: userRec.displayName || uInp,
               requestedAt: new Date().toISOString()
             });
-            alert("Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ đặt lại mật khẩu cho tài khoản @" + uInp);
+            if (window.S4UI) {
+              await window.S4UI.alert("Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ đặt lại mật khẩu cho tài khoản @" + uInp, { title: "Đã gửi yêu cầu", tone: "success" });
+            } else {
+              alert("Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ đặt lại mật khẩu cho tài khoản @" + uInp);
+            }
           } catch(e) {
-            alert("Lỗi kết nối máy chủ. Hãy thử lại khi có mạng.");
+            if (window.S4UI) {
+              window.S4UI.alert("Lỗi kết nối máy chủ. Hãy thử lại khi có mạng.", { title: "Lỗi kết nối", tone: "error" });
+            } else {
+              alert("Lỗi kết nối máy chủ. Hãy thử lại khi có mạng.");
+            }
           }
         };
       }
@@ -1451,7 +1572,11 @@
             btn.textContent = "✓ Đã chép";
             setTimeout(() => { btn.textContent = orig; }, 1500);
           } catch (e) {
-            prompt("Sao chép:", val);
+            if (window.S4UI && typeof window.S4UI.prompt === "function") {
+              await window.S4UI.prompt("Sao chép nội dung bên dưới:", val, { title: "Sao chép thủ công", readOnly: true, confirmText: "Đóng" });
+            } else {
+              prompt("Sao chép:", val);
+            }
           }
         };
       });
@@ -1459,17 +1584,7 @@
 
     renderContent();
   }
-  const openActivateModal = openDonateModal;
-
   /* ---------- BẢNG QUẢN TRỊ ADMIN NÂNG CAO ---------- */
-  const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  function randomCode() {
-    const arr = new Uint32Array(12);
-    (window.crypto || window.msCrypto).getRandomValues(arr);
-    const s = Array.from(arr).map(n => CODE_ALPHABET[n % CODE_ALPHABET.length]).join("");
-    return `S4-${s.slice(0, 4)}-${s.slice(4, 8)}-${s.slice(8, 12)}`;
-  }
-  const daysLabel = d => (Number(d) > 0 ? d + " ngày" : "Vĩnh viễn");
 
   function openAdminModal(startTab) {
     if (!isAdmin()) return;
@@ -1502,6 +1617,9 @@
       const lisWords = Number(u.listeningWords) || 0;
       const readDone = Number(u.readingDone) || 0;
       const readWords = Number(u.readingWords) || 0;
+      const writingDone = Number(u.writingDone) || 0;
+      const speakingDone = Number(u.speakingDone) || 0;
+      const speakingWords = Number(u.speakingWords) || 0;
       const tedDone = Number(u.tedDone) || 0;
 
       const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
@@ -1542,6 +1660,14 @@
             <div style="padding:8px 10px;background:rgba(124,58,237,0.08);border-radius:8px;">
               <div style="font-size:11px;color:#64748b;">Reading</div>
               <div style="font-size:14.5px;font-weight:800;color:#7c3aed;">${readDone} bài • ${readWords} từ</div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(147,51,234,0.08);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">Writing</div>
+              <div style="font-size:14.5px;font-weight:800;color:#9333ea;">${writingDone} / ${TOTAL_WRITING_LESSONS} bài</div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(225,29,72,0.08);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">Speaking</div>
+              <div style="font-size:14.5px;font-weight:800;color:#e11d48;">${speakingDone} bài • ${speakingWords} từ</div>
             </div>
             <div style="padding:8px 10px;background:rgba(225,29,72,0.08);border-radius:8px;">
               <div style="font-size:11px;color:#64748b;">TED Talks</div>
@@ -1678,7 +1804,7 @@
           </div>
           <div>
             <label style="font-size:12px;font-weight:700;">Nội dung chuyển khoản gợi ý:</label>
-            <input class="s4-input" id="admTransferMemo" value="${esc(config.transferMemo || 'UNG HO LINGUAPATH')}" placeholder="VD: UNG HO STUDY4">
+            <input class="s4-input" id="admTransferMemo" value="${esc(config.transferMemo || 'UNG HO LINGUAPATH')}" placeholder="VD: UNG HO LINGUAPATH">
           </div>
         </div>
 
@@ -1754,7 +1880,8 @@
             Object.assign(users[v], {
               vocabLearned: st.vocabLearned, vocabIgnored: st.vocabIgnored, vocabMastered: st.vocabMastered, vocabDue: st.vocabDue,
               grammarDone: st.grammarDone, listeningDone: st.listeningDone, listeningWords: st.listeningWords,
-              readingDone: st.readingDone, readingWords: st.readingWords, tedDone: st.tedDone,
+              readingDone: st.readingDone, readingWords: st.readingWords, writingDone: st.writingDone,
+              speakingDone: st.speakingDone, speakingWords: st.speakingWords, tedDone: st.tedDone,
               overallPct: st.overallPct, streakDays: st.streakDays, totalStudyDays: st.totalStudyDays
             });
             render();
@@ -1774,7 +1901,13 @@
       }
 
       if (act === "resetpw") {
-        const np = prompt("Nhập mật khẩu MỚI cho tài khoản \"" + v + "\" (từ 6 ký tự):");
+        const np = (window.S4UI && typeof window.S4UI.prompt === "function")
+          ? await window.S4UI.prompt("Nhập mật khẩu MỚI cho tài khoản \"" + v + "\" (từ 6 ký tự):", "", {
+              title: "Đặt lại mật khẩu",
+              placeholder: "Ít nhất 6 ký tự...",
+              confirmText: "Đặt lại"
+            })
+          : prompt("Nhập mật khẩu MỚI cho tài khoản \"" + v + "\" (từ 6 ký tự):");
         if (!np) return;
         if (np.length < 6) { msg = "Mật khẩu phải từ 6 ký tự."; return render(); }
         if (await guard(async () => {
@@ -1783,12 +1916,27 @@
           await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
           if (resetRequests) delete resetRequests[v];
           if (session && session.username === v) { session.ph = ph; saveSession(); if (cache[v]) { cache[v].passwordHash = ph; saveCache(); } }
-        })) { msg = ""; alert("Đã đặt lại mật khẩu cho @" + v + " thành công!"); render(); }
+        })) {
+          msg = "";
+          if (window.S4UI) {
+            await window.S4UI.alert("Đã đặt lại mật khẩu cho @" + v + " thành công!", { title: "Thành công", tone: "success" });
+          } else {
+            alert("Đã đặt lại mật khẩu cho @" + v + " thành công!");
+          }
+          render();
+        }
         return;
       }
 
       if (act === "deluser") {
-        if (!confirm("Xóa tài khoản " + v + " và toàn bộ tiến độ học của họ?")) return;
+        const okDel = (window.S4UI && typeof window.S4UI.confirm === "function")
+          ? await window.S4UI.confirm("Xóa tài khoản " + v + " và toàn bộ tiến độ học của họ?", {
+              title: "Xóa tài khoản",
+              tone: "danger",
+              confirmText: "Xóa tài khoản"
+            })
+          : confirm("Xóa tài khoản " + v + " và toàn bộ tiến độ học của họ?");
+        if (!okDel) return;
         if (await guard(async () => {
           await db("study4_users/" + v, "DELETE");
           await db("study4_progress/" + v, "DELETE");
@@ -1827,7 +1975,11 @@
             if (cache.admin) { cache.admin.passwordHash = ph; saveCache(); }
           }
         })) {
-          alert("Đã lưu cấu hình hệ thống & thông tin QR Donate thành công!");
+          if (window.S4UI) {
+            await window.S4UI.alert("Đã lưu cấu hình hệ thống & thông tin QR Donate thành công!", { title: "Đã lưu cấu hình", tone: "success" });
+          } else {
+            alert("Đã lưu cấu hình hệ thống & thông tin QR Donate thành công!");
+          }
           render();
         }
         return;
@@ -1884,7 +2036,6 @@
       else rawRemove("s4_auth_sync_" + cur.username);
       hookSuspended = true;
       PROGRESS_KEYS.forEach(k => rawRemove(k));
-      rawRemove(P_SESSION);
       hookSuspended = false;
     }
     session = null;
@@ -1895,7 +2046,7 @@
   window.S4Auth = {
     getCurrentUser, isFullAccess, isAdmin, daysRemaining,
     canAccessVocabTopic, canAccessGrammarSection,
-    openLoginModal, openProfileModal, openActivateModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
+    openLoginModal, openProfileModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
     logout, syncNow: () => syncProgress(false)
   };
 

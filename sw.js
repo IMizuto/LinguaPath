@@ -1,12 +1,14 @@
-const CACHE_NAME = "linguapath-cache-v39";
+const CACHE_NAME = "linguapath-cache-v77";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./auth.js?v=29",
-  "./assets/s4-vocab-engine.js?v=16",
-  "./assets/s4-practice-zone.js?v=30",
-  "./assets/ghibli/ghibli-theme.css?v=25",
-  "./assets/ghibli/ghibli-theme.js?v=25",
+  "./assets/s4-ui.css?v=64",
+  "./assets/s4-ui.js?v=63",
+  "./auth.js?v=30",
+  "./assets/s4-vocab-engine.js?v=67",
+  "./assets/s4-practice-zone.js?v=64",
+  "./assets/ghibli/ghibli-theme.css?v=29",
+  "./assets/ghibli/ghibli-theme.js?v=26",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
@@ -18,6 +20,18 @@ const CORE_ASSETS = [
   "./listening/data/listening_manifest.js",
   "./reading/index.html",
   "./reading/data/reading_manifest.js",
+  "./writing/index.html",
+  "./writing/writing.css?v=8",
+  "./writing/writing.js?v=8",
+  "./writing/writing_parser.js?v=3",
+  "./writing/writing_data.js?v=3",
+  "./writing/data/writing_practice_zone.js?v=1",
+  "./speaking/",
+  "./speaking/index.html",
+  "./speaking/speaking.css?v=5",
+  "./speaking/speaking.js?v=7",
+  "./speaking/speaking_parser.js?v=5",
+  "./speaking/speaking_data.js?v=2",
   "./tedtalks/index.html",
   "./tedtalks/tedtalks_data.js"
 ];
@@ -48,7 +62,7 @@ self.addEventListener("fetch", (event) => {
   const isMedia = /\.(mp3|jpg|jpeg|png|gif|pdf|svg)$/i.test(url.pathname);
   if (isMedia) {
     event.respondWith(
-      caches.match(event.request).then((cached) => {
+      caches.match(event.request, { ignoreSearch: true }).then((cached) => {
         if (cached) return cached;
         return fetch(event.request).then((resp) => {
           const clone = resp.clone();
@@ -59,13 +73,15 @@ self.addEventListener("fetch", (event) => {
     );
   } else {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request.url, { cache: "no-cache", redirect: "follow" })
         .then((resp) => {
-          const clone = resp.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          if (resp && resp.ok) {
+            const clone = resp.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
           return resp;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match(event.request, { ignoreSearch: true }))
     );
   }
 });
