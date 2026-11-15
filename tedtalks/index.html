@@ -629,6 +629,7 @@
     }
 
     function selectLesson(id, autoPlayPodcast) {
+      if (typeof stopShadowRecording === "function") stopShadowRecording(false);
       activeId = id;
       localStorage.setItem(STORAGE_LAST, id);
       const it = getActiveItem();
@@ -673,6 +674,7 @@
     }
 
     function switchMode(m) {
+      if (m !== currentMode && typeof stopShadowRecording === "function") stopShadowRecording(false);
       currentMode = m;
       segmentEndSec = null;
       document.querySelectorAll(".mode-pill").forEach(b => {
@@ -1360,6 +1362,45 @@
     let shadSilenceTimer = null;
     let pendingAutoRecordAfterListen = false;
     let lastShadowEval = null; // { transcript, pct, matched, total }
+    let isShadowRecording = false;
+    let shadowSessionGen = 0;
+    let shadowVoiceLang = (() => {
+      try { return localStorage.getItem("lp_ted_shadow_lang") || "en-US"; } catch (e) { return "en-US"; }
+    })();
+
+    const TED_STT_MESSAGES = {
+      "not-supported": "⚠️ Trình duyệt/WebView này chưa hỗ trợ nhận diện giọng nói tự động (STT). App vẫn thu âm giọng thật để bạn bấm nghe lại đối chiếu.",
+      "network": "⚠️ Không kết nối được máy chủ nhận diện giọng nói (lỗi mạng/VPN hoặc trình duyệt chặn Web Speech). Vẫn đang thu âm giọng bạn để nghe lại sau khi dừng.",
+      "not-allowed": "⚠️ Trình duyệt đang chặn quyền Microphone. Hãy bấm biểu tượng ổ khóa trên thanh địa chỉ → Cho phép Micro rồi thử lại.",
+      "service-not-allowed": "⚠️ Dịch vụ nhận diện giọng nói bị chặn bởi chính sách trình duyệt/ứng dụng (cần Chrome/Edge trên HTTPS/localhost). Bạn vẫn có thể thu âm để nghe lại.",
+      "audio-capture": "⚠️ Không thu được tín hiệu từ Micro (chưa cắm mic, micro bị app khác chiếm hoặc xung đột tai nghe Bluetooth Hands-Free).",
+      "language-not-supported": "⚠️ Trình duyệt không hỗ trợ gói ngôn ngữ giọng đọc này (thử đổi UK/US ở thanh điều khiển).",
+      "aborted": "⚠️ Phiên nhận diện giọng nói bị ngắt đột ngột do xung đột âm thanh. Bạn có thể bấm Dừng để nghe lại hoặc thử nói lại.",
+      "no-speech": "⚠️ Không nghe thấy giọng nói. Hãy kiểm tra Micro và bấm nói lại."
+    };
+
+    function describeTedMediaError(err) {
+      const name = err && err.name ? String(err.name) : "";
+      if (name === "NotAllowedError" || name === "PermissionDeniedError") return TED_STT_MESSAGES["not-allowed"];
+      if (name === "NotFoundError" || name === "DevicesNotFoundError") return "⚠️ Không tìm thấy thiết bị Micro trên máy/điện thoại.";
+      if (name === "NotReadableError" || name === "TrackStartError") return "⚠️ Micro đang bị ứng dụng khác chiếm quyền. Hãy đóng app khác rồi thử lại.";
+      if (name === "SecurityError") return "⚠️ Trình duyệt yêu cầu kết nối HTTPS hoặc localhost để mở Microphone.";
+      return "⚠️ Không truy cập được Microphone (" + (err && err.message ? err.message : (name || "Permission denied")) + ").";
+    }
+
+    function setTedShadowStatus(msg, color) {
+      const resEl = document.getElementById("shadResultText");
+      if (!resEl) return;
+      resEl.style.color = color || "var(--muted)";
+      resEl.textContent = msg;
+    }
+
+    window.toggleTedShadowLang = function() {
+      stopShadowRecording(false);
+      shadowVoiceLang = shadowVoiceLang === "en-GB" ? "en-US" : "en-GB";
+      try { localStorage.setItem("lp_ted_shadow_lang", shadowVoiceLang); } catch (e) {}
+      renderModeContent();
+    };
 
     const CONTRACTION_MAP = {
       "im": ["i", "am"],
@@ -1437,7 +1478,7 @@
       if (!clean || !("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(clean);
-      u.lang = "en-US";
+      u.lang = shadowVoiceLang;
       u.rate = 0.92;
       window.speechSynthesis.speak(u);
     };
@@ -1477,6 +1518,7 @@
             <span style="font-weight:800;font-size:14px;">🗣️ Shadowing (Câu ${currentSubIdx + 1}/${it.subs.length})</span>
             <button class="ctrl-btn" onclick="toggleViSub()">${showViSub ? "🇻🇳 Nghĩa Việt: Bật" : "🇻🇳 Nghĩa Việt: Tắt"}</button>
             <button class="ctrl-btn" onclick="autoPauseSentence=!autoPauseSentence;renderModeContent()">${autoPauseSentence ? "⏸️ Dừng từng câu: Bật" : "▶️ Chạy liên tục"}</button>
+            <button class="ctrl-btn" onclick="toggleTedShadowLang()" title="Đổi giọng nhận diện & phát âm">${shadowVoiceLang === "en-GB" ? "🇬🇧 UK" : "🇺🇸 US"}</button>
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button class="ctrl-btn" onclick="stepSub(-1)">◀ Câu trước</button>
@@ -1542,17 +1584,26 @@
       return lastShadowEval;
     }
 
-    function stopShadowRecording(finalizeScore = true) {
+    function stopShadowRecording(finalizeScore = true, keepStatusText = false) {
+      shadowSessionGen++;
       pendingAutoRecordAfterListen = false;
+      const wasRecording = isShadowRecording;
+      isShadowRecording = false;
       if (shadSilenceTimer) {
         clearTimeout(shadSilenceTimer);
         shadSilenceTimer = null;
       }
       if (activeRec) {
-        try { activeRec.onend = null; activeRec.stop(); } catch (e) {}
+        try {
+          activeRec.onresult = null;
+          activeRec.onerror = null;
+          activeRec.onend = null;
+          activeRec.stop();
+        } catch (e) {}
         activeRec = null;
       }
-      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      const hasRecordedAudio = !!(mediaRecorder && mediaRecorder.state !== "inactive");
+      if (hasRecordedAudio) {
         try { mediaRecorder.stop(); } catch (e) {}
       }
       if (mediaStream) {
@@ -1567,22 +1618,24 @@
       if (finalizeScore && shadAccumFinal.trim()) {
         const res = evaluateShadowTranscript(shadAccumFinal.trim(), true);
         showToast(res.pct >= 70, `Độ khớp phát âm: ${res.pct}% (${res.matched}/${res.total} từ)`);
+      } else if (wasRecording && !keepStatusText && hasRecordedAudio) {
+        setTedShadowStatus("🎧 Đã lưu bản ghi âm của bạn! Bấm \"▶️ Nghe lại giọng bạn vừa thu\" ở trên để tự đối chiếu.", "var(--primary)");
       }
     }
 
     async function toggleShadowRecord() {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const canMedia = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
       const btn = document.getElementById("btnStartShadow");
-      const resEl = document.getElementById("shadResultText");
 
-      if (!SR) {
-        if (resEl) resEl.textContent = "Trình duyệt hiện tại chưa hỗ trợ nhận diện giọng nói trực tiếp (Hãy dùng Chrome hoặc Edge).";
+      // Nếu đang thu âm (hoặc chỉ thu audio fallback) -> Bấm lần nữa để Dừng
+      if (isShadowRecording || activeRec) {
+        stopShadowRecording(true);
         return;
       }
 
-      // Nếu đang thu âm -> Bấm lần nữa để Dừng & Chấm điểm
-      if (activeRec) {
-        stopShadowRecording(true);
+      if (!SR && !canMedia) {
+        setTedShadowStatus("⚠️ Trình duyệt hiện tại không hỗ trợ Microphone hoặc nhận diện giọng nói.", "var(--danger)");
         return;
       }
 
@@ -1600,10 +1653,17 @@
       shadAccumFinal = "";
       lastShadowEval = null;
 
+      const sessId = ++shadowSessionGen;
+
       // Khởi tạo MediaRecorder để thu âm giọng thật của người học (cho phép nghe lại giọng mình)
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      if (canMedia) {
         try {
-          mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          if (sessId !== shadowSessionGen) {
+            try { stream.getTracks().forEach(t => t.stop()); } catch (e) {}
+            return;
+          }
+          mediaStream = stream;
           recordedChunks = [];
           mediaRecorder = new MediaRecorder(mediaStream);
           mediaRecorder.ondataavailable = (e) => {
@@ -1622,13 +1682,33 @@
           };
           mediaRecorder.start();
         } catch (err) {
-          // Nếu người dùng từ chối quyền mic hoặc không có mic
+          mediaRecorder = null;
+          mediaStream = null;
+          const errMsg = describeTedMediaError(err);
+          const fatalMic = err && (err.name === "NotAllowedError" || err.name === "PermissionDeniedError" || err.name === "NotFoundError" || err.name === "NotReadableError" || err.name === "SecurityError");
+          if (!SR || fatalMic) {
+            setTedShadowStatus(errMsg, "var(--danger)");
+            return;
+          }
         }
+      }
+
+      isShadowRecording = true;
+
+      // Fallback chỉ thu âm bằng MediaRecorder khi trình duyệt/WebView thiếu SpeechRecognition
+      if (!SR) {
+        if (btn) {
+          btn.classList.add("recording");
+          btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
+        }
+        setTedShadowStatus(TED_STT_MESSAGES["not-supported"], "#f59e0b");
+        return;
       }
 
       const rec = new SR();
       activeRec = rec;
-      rec.lang = "en-US";
+      let sttErrored = false;
+      rec.lang = shadowVoiceLang;
       rec.continuous = true;
       rec.interimResults = true;
       rec.maxAlternatives = 3;
@@ -1637,12 +1717,10 @@
         btn.classList.add("recording");
         btn.textContent = "⏹️ Đang nghe... (Bấm để dừng & chấm)";
       }
-      if (resEl) {
-        resEl.style.color = "var(--primary)";
-        resEl.textContent = "🎙️ Hãy đọc to câu tiếng Anh ở trên... (Từ đọc đúng sẽ sáng màu xanh ngay khi bạn nói)";
-      }
+      setTedShadowStatus("🎙️ Hãy đọc to câu tiếng Anh ở trên... (Từ đọc đúng sẽ sáng màu xanh ngay khi bạn nói)", "var(--primary)");
 
       rec.onresult = (ev) => {
+        if (sessId !== shadowSessionGen) return;
         let finalPart = "";
         let interimPart = "";
         for (let i = 0; i < ev.results.length; i++) {
@@ -1672,32 +1750,50 @@
       };
 
       rec.onerror = (ev) => {
+        if (sessId !== shadowSessionGen) return;
+        sttErrored = true;
         const errCode = ev && ev.error ? ev.error : "";
-        if (errCode === "not-allowed" || errCode === "service-not-allowed") {
-          if (resEl) {
-            resEl.style.color = "var(--danger)";
-            resEl.textContent = "⚠️ Trình duyệt đang chặn quyền Microphone. Hãy bấm biểu tượng ổ khóa trên thanh địa chỉ để Cho phép (Allow) Microphone.";
-          }
-          stopShadowRecording(false);
-        } else if (errCode === "no-speech" && !shadAccumFinal.trim()) {
-          if (resEl) {
-            resEl.style.color = "var(--danger)";
-            resEl.textContent = "⚠️ Không nghe thấy giọng nói. Hãy kiểm tra Micro và bấm nói lại.";
-          }
-          stopShadowRecording(false);
+        const friendly = TED_STT_MESSAGES[errCode] || ("⚠️ Lỗi nhận diện giọng nói (" + (errCode || "unknown") + ").");
+        const canKeepMedia = !!(mediaRecorder && mediaRecorder.state === "recording") &&
+          (errCode === "network" || errCode === "service-not-allowed" || errCode === "language-not-supported" || errCode === "aborted");
+
+        if (errCode === "no-speech" && shadAccumFinal.trim()) {
+          sttErrored = false;
+          return;
         }
+        if (canKeepMedia) {
+          activeRec = null;
+          if (btn) btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
+          setTedShadowStatus(friendly, "#f59e0b");
+          return;
+        }
+        setTedShadowStatus(friendly, "var(--danger)");
+        stopShadowRecording(false, true);
       };
 
       rec.onend = () => {
-        if (activeRec) {
-          stopShadowRecording(true);
+        if (sessId !== shadowSessionGen || sttErrored) return;
+        if (activeRec === rec && isShadowRecording) {
+          if (shadAccumFinal.trim()) {
+            stopShadowRecording(true);
+          } else {
+            setTedShadowStatus(TED_STT_MESSAGES["no-speech"], "var(--danger)");
+            stopShadowRecording(false, true);
+          }
         }
       };
 
       try {
         rec.start();
       } catch (e) {
-        stopShadowRecording(false);
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+          activeRec = null;
+          if (btn) btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
+          setTedShadowStatus(TED_STT_MESSAGES["aborted"], "#f59e0b");
+        } else {
+          setTedShadowStatus(TED_STT_MESSAGES["aborted"], "var(--danger)");
+          stopShadowRecording(false, true);
+        }
       }
     }
 
