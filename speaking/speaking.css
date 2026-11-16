@@ -2826,3 +2826,33 @@ html:not(.dark) .sp-exam-shell .s4-cbt-exit-btn {
     grid-template-columns: 1fr;
   }
 }
+
+.sp-env-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.sp-env-banner-close {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.sp-env-banner-close:hover {
+  color: var(--text);
+}

@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v79";
+const CACHE_NAME = "linguapath-cache-v82";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -28,8 +28,8 @@ const CORE_ASSETS = [
   "./writing/data/writing_practice_zone.js?v=1",
   "./speaking/",
   "./speaking/index.html",
-  "./speaking/speaking.css?v=7",
-  "./speaking/speaking.js?v=9",
+  "./speaking/speaking.css?v=8",
+  "./speaking/speaking.js?v=12",
   "./speaking/speaking_parser.js?v=6",
   "./speaking/speaking_data.js?v=2",
   "./tedtalks/index.html",
