@@ -53,6 +53,121 @@
     return String(qStr || '').replace(/^\d+\.\s*/, '').replace(/\s+/g, ' ').trim();
   }
 
+  /**
+   * Tạo câu diễn đạt lại (rephraseQ) tự nhiên theo văn phong giám khảo IELTS
+   * mà tuyệt đối giữ nguyên câu hỏi gốc (qText) trong bộ đề.
+   */
+  function lowerFirstClause(str) {
+    var s = String(str || '').trim();
+    if (!s) return '';
+    if (/^(I|I'm|I've|I'd|TV|IT|AI|UK|US|USA|IELTS)\b/.test(s)) return s;
+    return s.charAt(0).toLowerCase() + s.slice(1);
+  }
+
+  var REPHRASE_RULES = [
+    {
+      re: /^what (?:kind|kinds|type|types|sort|sorts) of\s+(.+?)\s+(?:do|did|would)\s+you\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'In other words, when it comes to ' + lowerFirstClause(m[1]) + ', which particular examples or styles come to mind for you?';
+      }
+    },
+    {
+      re: /^what (?:kind|kinds|type|types|sort|sorts) of\s+(.+?)\s+(is|are)\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'To put it another way, can you think of some specific examples of ' + lowerFirstClause(m[1]) + ' that ' + m[2].toLowerCase() + ' ' + m[3].trim() + '?';
+      }
+    },
+    {
+      re: /^(?:do you think|would you say|do you believe|do you agree)(?:\s+that)?\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'From your own perspective, what is your honest view on whether ' + lowerFirstClause(m[1]) + '?';
+      }
+    },
+    {
+      re: /^why do (?:you think )?people\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'In your opinion, what are the main reasons why people ' + lowerFirstClause(m[1]) + '?';
+      }
+    },
+    {
+      re: /^how often do you\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'About how regularly in your daily routine do you ' + lowerFirstClause(m[1]) + '?';
+      }
+    },
+    {
+      re: /^do you (?:ever |often |usually )?(like|enjoy|love|prefer|dislike|hate)\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'How do you generally feel about ' + lowerFirstClause(m[2]) + ', and what makes you feel that way?';
+      }
+    },
+    {
+      re: /^what (?:is|are) your favou?rite\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'Out of all the possibilities for ' + lowerFirstClause(m[1]) + ', which one stands out most to you and why?';
+      }
+    },
+    {
+      re: /^how do you like\s+(.+?)\??$/i,
+      build: function (m) {
+        return 'In other words, what is your honest impression of ' + lowerFirstClause(m[1]) + '?';
+      }
+    },
+    {
+      re: /^how (?:has|have)\s+(.+?)\s+changed(?:\s+(.*))?\??$/i,
+      build: function (m) {
+        var tail = m[2] ? (' ' + m[2].trim()) : '';
+        return 'If you compare the past with today, what differences have you noticed regarding ' + lowerFirstClause(m[1]) + tail + '?';
+      }
+    }
+  ];
+
+  function extractShortTopicLabel(rawTopic) {
+    var topic = String(rawTopic || '')
+      .replace(/^Let'?s talk about\s*/i, '')
+      .replace(/^Describe\s+(?:a|an|the)?\s*/i, '')
+      .replace(/[.?!]+$/, '')
+      .trim();
+    if (!topic) return '';
+    var lower = topic.toLowerCase();
+    if (lower === 'part 1 interview' || lower === 'everyday' || lower.indexOf('describe ') === 0) return '';
+    if (topic.split(/\s+/).length > 4) return '';
+    return topic;
+  }
+
+  function buildQuestionRephrase(qText, opts) {
+    var raw = cleanQuestionText(qText);
+    if (!raw) return '';
+    var o = opts || {};
+    var topic = extractShortTopicLabel(o.topicTitle);
+    var hasFollowWhy = /\?\s*(why(?:\s+or\s+why\s+not)?|why\s+not)\s*\??$/i.test(raw);
+    var core = raw.replace(/\?\s*(why(?:\s+or\s+why\s+not)?|why\s+not)\s*\??$/i, '?').trim();
+    var cleanBody = core.replace(/[?.!]+$/, '').trim();
+
+    for (var i = 0; i < REPHRASE_RULES.length; i++) {
+      var m = REPHRASE_RULES[i].re.exec(core);
+      if (m) {
+        var res = REPHRASE_RULES[i].build(m);
+        if (hasFollowWhy && !/\bwhy\b|\breasons?\b/i.test(res)) {
+          res = res.replace(/\?$/, ', and what are your reasons for that?');
+        }
+        return res;
+      }
+    }
+
+    var isPart3 = String(o.partTag || '').toLowerCase().indexOf('3') !== -1;
+    var topicLead = topic ? ('Regarding ' + lowerFirstClause(topic) + ', ') : '';
+    var suffixWhy = hasFollowWhy ? ', and what are your reasons for that?' : '?';
+    if (isPart3) {
+      return topicLead
+        ? (topicLead + 'what is your broader view on this: ' + lowerFirstClause(cleanBody) + suffixWhy)
+        : ('To put it another way, from a broader perspective: ' + lowerFirstClause(cleanBody) + suffixWhy);
+    }
+    return topicLead
+      ? (topicLead + 'just from your everyday experience: ' + lowerFirstClause(cleanBody) + suffixWhy)
+      : ('I just mean in everyday life — ' + lowerFirstClause(cleanBody) + suffixWhy);
+  }
+
   function hashCode(str) {
     var h =  FN_OFFSET(2166136261);
     var s = String(str || '');
@@ -685,6 +800,7 @@
       var qCount = Math.max(rawQs.length, parsedParas.length);
       if (qCount === 0) qCount = 1;
 
+      var p1CleanTopic = p1.topic || stripNumberPrefix(p1.title);
       for (var qi = 0; qi < qCount; qi++) {
         var qRaw = rawQs[qi];
         var pObj = parsedParas[qi] || (rawQs.length > 0 && parsedParas.length === 1 && qi === 0 ? parsedParas[0] : null);
@@ -694,6 +810,7 @@
 
         builtQs.push({
           q: qClean,
+          rephraseQ: qRaw ? buildQuestionRephrase(qClean, { partTag: 'Part 1', topicTitle: p1CleanTopic }) : '',
           formula: p1.quarter ? ('Forecast ' + p1.quarter) : 'Core Part 1',
           sampleEn: pObj ? pObj.en : '',
           sampleVi: '',
@@ -709,7 +826,6 @@
         return acc.concat(q.vocabTips || []);
       }, []));
 
-      var p1CleanTopic = p1.topic || stripNumberPrefix(p1.title);
       var p1GroupName = p1.quarter
         ? classifyPart1Group(p1.quarter)
         : classifyPart1CoreGroup(p1CleanTopic);
@@ -849,10 +965,12 @@
         for (var qi3 = 0; qi3 < p3QCount; qi3++) {
           var qStr3 = p3ExplicitQs[qi3];
           var p3Obj = parsedParas3[qi3] || (p3ExplicitQs.length > 0 && parsedParas3.length === 1 && qi3 === 0 ? parsedParas3[0] : null);
+          var cleanP3Text = qStr3
+            ? cleanQuestionText(qStr3)
+            : ('Thảo luận Part 3: ' + cleanTopic + (p3QCount > 1 ? ' — Ý ' + (qi3 + 1) : ''));
           p3BuiltQs.push({
-            q: qStr3
-              ? cleanQuestionText(qStr3)
-              : ('Thảo luận Part 3: ' + cleanTopic + (p3QCount > 1 ? ' — Ý ' + (qi3 + 1) : '')),
+            q: cleanP3Text,
+            rephraseQ: qStr3 ? buildQuestionRephrase(cleanP3Text, { partTag: 'Part 3', topicTitle: cleanTopic }) : '',
             formula: item.quarter ? ('Forecast ' + item.quarter) : 'Part 3 Analysis',
             sampleEn: p3Obj ? p3Obj.en : '',
             sampleVi: '',
@@ -875,8 +993,10 @@
         }
       } else {
         p3ExplicitQs.forEach(function (qText) {
+          var cleanP3Fallback = cleanQuestionText(qText);
           p3BuiltQs.push({
-            q: cleanQuestionText(qText),
+            q: cleanP3Fallback,
+            rephraseQ: buildQuestionRephrase(cleanP3Fallback, { partTag: 'Part 3', topicTitle: cleanTopic }),
             formula: 'Part 3 Analysis',
             sampleEn: '',
             sampleVi: '',
@@ -967,12 +1087,24 @@
 
     pzFullRaw.forEach(function (ft, idx) {
       var persona = personas[idx % personas.length];
+      var p1TopicTitle = (ft.part1 && ft.part1.leadIn) ? ft.part1.leadIn.replace(/^Let'?s talk about\s*/i, '').replace(/\.$/, '') : 'Part 1 Interview';
       var p1Qs = (ft.part1 && Array.isArray(ft.part1.questions) ? ft.part1.questions : []).map(function (qText) {
-        return { q: cleanQuestionText(qText), vocabTips: [] };
+        var cleanQ = cleanQuestionText(qText);
+        return {
+          q: cleanQ,
+          rephraseQ: buildQuestionRephrase(cleanQ, { partTag: 'Part 1', topicTitle: p1TopicTitle }),
+          vocabTips: []
+        };
       });
       var cc2 = (ft.part23 && ft.part23.cueCard) || {};
+      var p3TopicTitle = cc2.prompt || ft.title;
       var p3Qs = (ft.part23 && Array.isArray(ft.part23.questions) ? ft.part23.questions : []).map(function (qText) {
-        return { q: cleanQuestionText(qText), vocabTips: [] };
+        var cleanQ = cleanQuestionText(qText);
+        return {
+          q: cleanQ,
+          rephraseQ: buildQuestionRephrase(cleanQ, { partTag: 'Part 3', topicTitle: p3TopicTitle }),
+          vocabTips: []
+        };
       });
       var isActual = ft.family === 'Recent Actual Test';
 
@@ -1033,7 +1165,12 @@
       var persona = personas[(pzFullRaw.length + idx) % personas.length];
       var isP1Only = tp.partKind === 'Part 1';
       var qObjs = (tp.questions || []).map(function (qText) {
-        return { q: cleanQuestionText(qText), vocabTips: [] };
+        var cleanQ = cleanQuestionText(qText);
+        return {
+          q: cleanQ,
+          rephraseQ: buildQuestionRephrase(cleanQ, { partTag: isP1Only ? 'Part 1' : 'Part 3', topicTitle: tp.title }),
+          vocabTips: []
+        };
       });
       var cc = tp.cueCard || null;
 
@@ -1581,6 +1718,7 @@
     buildCollocationDrills: buildCollocationDrills,
     buildRandomFullTest: buildRandomFullTest,
     pairTopicWithRandomComplement: pairTopicWithRandomComplement,
+    buildQuestionRephrase: buildQuestionRephrase,
     splitSentences: splitSentences,
     resolveMediaUrl: resolveMediaUrl
   };

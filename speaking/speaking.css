@@ -2429,7 +2429,7 @@ html:not(.dark) .sp-exam-shell .s4-cbt-exit-btn {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1020px) {
   .sp-exam-shell .s4-cbt-header {
     flex-wrap: wrap;
     height: auto !important;
@@ -2442,7 +2442,9 @@ html:not(.dark) .sp-exam-shell .s4-cbt-exit-btn {
     width: 100%;
     justify-content: space-between;
   }
+}
 
+@media (max-width: 860px) {
   .sp-picker-grid,
   .sp-quiz-options,
   .sp-drill-options {
@@ -2595,4 +2597,232 @@ html:not(.dark) .sp-exam-shell .s4-cbt-exit-btn {
   max-width: 100%;
   height: auto;
   line-height: 1.38;
+}
+
+/* Unit 6 Practice Zone: Luồng Hội thoại 2 phía & Điều khiển Rảnh tay (Step 3) */
+.sp-dialogue-feed-wrap {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--box-sub, var(--bg));
+  overflow: hidden;
+}
+
+.sp-dialogue-feed-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sub-text);
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.sp-dialogue-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  max-height: 195px;
+  overflow-y: auto;
+}
+
+.sp-chat-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 88%;
+}
+
+.sp-chat-row.is-examiner {
+  align-self: flex-start;
+}
+
+.sp-chat-row.is-candidate {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.sp-chat-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.sp-chat-kind-tag {
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  background: rgba(16, 185, 129, 0.14);
+  color: var(--hl-green, #10b981);
+}
+
+.sp-chat-row.is-candidate .sp-chat-kind-tag {
+  background: rgba(56, 189, 248, 0.14);
+  color: #38bdf8;
+}
+
+.sp-chat-bubble {
+  padding: 8px 11px;
+  border-radius: 11px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  word-break: break-word;
+}
+
+.sp-chat-row.is-examiner .sp-chat-bubble {
+  border-left: 3px solid var(--hl-green, #10b981);
+}
+
+.sp-chat-row.is-candidate .sp-chat-bubble {
+  border-right: 3px solid #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.sp-chat-masked {
+  font-style: italic;
+  color: var(--muted);
+}
+
+.sp-clarify-box {
+  padding: 9px 13px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.36);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sp-handsfree-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 11px;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+  background: var(--box-sub, var(--bg));
+}
+
+.sp-handsfree-pill {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sp-handsfree-pill.is-active {
+  border-color: rgba(16, 185, 129, 0.65);
+  background: rgba(16, 185, 129, 0.16);
+  color: var(--hl-green, #10b981);
+}
+
+.sp-voice-cmd-tip {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 540px) {
+  .sp-chat-row {
+    max-width: 96%;
+  }
+
+  .sp-dialogue-feed-list {
+    max-height: 160px;
+  }
+}
+
+/* ==========================================================================
+   9. AUTO-GRADING & STRUCTURED FEEDBACK PANEL (STEP 4D)
+   ========================================================================== */
+.sp-autograde-panel {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--box-sub, var(--card));
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp-autograde-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sp-autograde-criteria {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sp-autograde-crit-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--sub-text);
+}
+
+.sp-autograde-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sp-autograde-box {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.sp-autograde-list {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text);
+}
+
+.sp-upgrade-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: var(--box-sub);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+}
+
+@media (max-width: 640px) {
+  .sp-autograde-criteria,
+  .sp-autograde-cols {
+    grid-template-columns: 1fr;
+  }
 }

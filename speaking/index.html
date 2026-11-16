@@ -65,7 +65,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
-  <link rel="stylesheet" href="speaking.css?v=6">
+  <link rel="stylesheet" href="speaking.css?v=7">
 </head>
 <body>
 
@@ -370,10 +370,55 @@
                   </select>
                 </div>
 
+                <div class="sp-setting-row">
+                  <label for="pzDialogueModeSelect"><strong>Chế độ Giao tiếp Giám khảo (2 Phía)</strong></label>
+                  <select id="pzDialogueModeSelect" class="sp-select">
+                    <option value="offline">⚡ Chuẩn 2 chiều Cục bộ (Offline NLU — Miễn phí 100%, 0ms)</option>
+                    <option value="gemini_hybrid">🤖 AI Examiner Thực thụ (Gemini Free Key + Tự lùi Offline)</option>
+                  </select>
+                </div>
+
+                <div class="sp-setting-row">
+                  <label for="pzExaminerStyleSelect"><strong>Phong cách &amp; Kịch bản Giám khảo</strong></label>
+                  <select id="pzExaminerStyleSelect" class="sp-select">
+                    <option value="adaptive">🎲 Đa dạng tự động — Tự đổi kịch bản mỗi lần thi</option>
+                    <option value="friendly">😊 Thân thiện &amp; Khích lệ (Warm · Gần gũi)</option>
+                    <option value="strict_bc">🎓 Chuẩn Hội đồng Thi (Formal BC/IDP · Nghiêm túc)</option>
+                    <option value="probing">🧠 Hỏi xoáy &amp; Phản biện Sâu (Band 7.5+ · Challenge)</option>
+                    <option value="casual_coach">💬 Tự nhiên Đời thường (Conversational · Biến hóa)</option>
+                  </select>
+                </div>
+
+                <div class="sp-mic-preflight" id="pzGeminiByokBox" style="display:none;flex-direction:column;gap:8px;align-items:stretch;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <strong style="font-size:12.5px;">🔑 Gemini API Key cá nhân (Lưu cục bộ trên trình duyệt)</strong>
+                    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;font-weight:700;color:var(--accent);">Lấy Key miễn phí ↗</a>
+                  </div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <input type="password" id="pzGeminiKeyInput" class="sp-select" style="flex:1;min-width:170px;" placeholder="Dán Gemini API Key (AIza...)..." autocomplete="off">
+                    <button type="button" class="btn mini-btn" id="btnToggleGeminiKeyVis" onclick="window.togglePzGeminiKeyVisibility && window.togglePzGeminiKeyVisibility()" title="Hiện/ẩn tạm thời API Key">👁️</button>
+                    <button type="button" class="btn mini-btn" id="btnClearGeminiKey" onclick="window.clearPzGeminiKey && window.clearPzGeminiKey()" title="Xoá API Key khỏi máy">🗑️</button>
+                  </div>
+                  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                    <select id="pzGeminiModelSelect" class="sp-select" style="flex:1;min-width:160px;" aria-label="Chọn model Gemini miễn phí">
+                      <option value="gemini-4-hydrogen">gemini-4-hydrogen · Gemini 4 Hydrogen (Free Tier)</option>
+                    </select>
+                    <button type="button" class="btn mini-btn" id="btnTestGeminiConn" onclick="window.testPzGeminiConnection && window.testPzGeminiConnection()">🔌 Thử kết nối AI</button>
+                  </div>
+                  <div id="pzGeminiTestStatus" style="font-size:12px;font-weight:600;color:var(--muted);">💡 Nếu mất mạng, chưa nhập Key hoặc hết quota, phòng thi tự lùi về Tầng 1 Offline tức thì.</div>
+                </div>
+
                 <div class="sp-setting-row sp-check-row">
                   <label class="sp-check-label">
                     <input type="checkbox" id="pzStrictTimersCheck" checked>
                     <span>⏱️ Khóa đồng hồ thi thật (60s nháp Part 2 + tự ngắt ở 02:00)</span>
+                  </label>
+                </div>
+
+                <div class="sp-setting-row sp-check-row">
+                  <label class="sp-check-label">
+                    <input type="checkbox" id="pzAutoMicCheck">
+                    <span>🎙️ Chế độ Rảnh tay: Tự bật Micro sau khi Giám khảo dứt lời</span>
                   </label>
                 </div>
 
@@ -517,11 +562,11 @@
 
   <!-- SCRIPTS DỮ LIỆU & ENGINE (THỨ TỰ CHUẨN LINGUAPATH) -->
   <script src="speaking_data.js?v=2"></script>
-  <script src="speaking_parser.js?v=5"></script>
+  <script src="speaking_parser.js?v=6"></script>
   <script src="../assets/s4-ui.js?v=63"></script>
   <script src="../assets/s4-vocab-engine.js?v=67"></script>
   <script src="../auth.js?v=30"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
-  <script src="speaking.js?v=8"></script>
+  <script src="speaking.js?v=9"></script>
 </body>
 </html>

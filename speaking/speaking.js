@@ -14,6 +14,7 @@
   var STORAGE_NOTES = 'lp_speaking_notes_v1';
   var STORAGE_SUBMISSIONS = 'lp_speaking_submissions_v1';
   var STORAGE_PREFS = 'lp_speaking_prefs_v1';
+  var STORAGE_GEMINI_KEY = 'lp_speaking_gemini_key_v1';
   var VOCAB_SRS_KEY = 'lp_speaking_vocab_srs_v1';
   var VOCAB_DAYS_KEY = 'lp_speaking_vocab_days_v1';
   var VOCAB_SETTINGS_KEY = 'lp_speaking_vocab_settings_v1';
@@ -88,6 +89,10 @@
     shadowSpeed: 0.95,
     pzStrictness: 'strict',
     pzStrictTimers: true,
+    pzAutoMic: false,
+    pzDialogueMode: 'offline',
+    pzExaminerStyle: 'adaptive',
+    pzGeminiModel: 'gemini-4-hydrogen',
     showVi: true,
     showRoles: true
   };
@@ -118,7 +123,12 @@
     recAudioUrl: '',
     scores: { fc: 6.5, lr: 6.5, gra: 6.5, pr: 6.5 },
     aiFeedback: '',
-    aiBandOverride: ''
+    aiFeedbackAuto: false,
+    aiBandOverride: '',
+    autoGrade: null,
+    scoreSource: '',
+    gradingBusy: false,
+    lastGradedKey: ''
   };
 
   var historyFilter = 'all';
@@ -137,20 +147,45 @@
     peekVisible: false,
     phase: 'warmup',        // 'warmup' | 'part1' | 'part2_prep' | 'part2_talk' | 'part2_round' | 'part3' | 'report'
     subStage: 'ready',      // 'ready' | 'examiner_speaking' | 'candidate_recording' | 'stopped_notice'
+    warmupStep: 0,          // 0: Hỏi tên & ID | 1: Chào theo tên & hỏi quê quán/công việc
+    candidateName: '',
     stepIndex: 0,           // Index trong Part 1 (0..7) hoặc Part 3 (0..3)
     p2PrepLeft: 60,
     p2TalkElapsed: 0,
     rephraseShown: false,
+    activeRephraseText: '',
+    activeFollowUpQ: '',
+    lastExaminerReaction: '',
+    lastFollowUpBridge: '',
+    clarifyShown: false,
+    clarifyText: '',
+    clarifyCount: 0,
     rephraseCount: 0,
     repeatCount: 0,
+    followUpCount: 0,
+    aiThinking: false,
+    autoMic: false,
+    feedCollapsed: false,
+    dialogueMode: 'offline',
+    examinerStyle: 'adaptive',
+    resolvedStyle: 'friendly',
+    styleSeed: 0,
+    usedTemplates: [],
+    lastReactionSource: '',
     examinerSpeaking: false,
     timerId: null,
     turnElapsedSec: 0,
     startedAt: 0,
     prepNote: '',
-    responses: [],          // [{ key, phase, label, question, transcript, durationSec, wpm, audioId, audioUrl, usedRephrase, usedRepeat }]
+    dialogueHistory: [],    // [{ role, kind, phase, text, tag, ts }]
+    responses: [],          // [{ key, phase, label, question, transcript, durationSec, wpm, audioId, audioUrl, usedRephrase, usedRepeat, followUpAsked, followUpQ, followUpTranscript, followUpDurationSec, followUpAudioUrl, followUpAudioId, nudgeUsed, examinerReaction }]
     reportScores: { fc: 6.5, lr: 6.5, gra: 6.5, pr: 6.5 },
     reportFeedback: '',
+    reportFeedbackAuto: false,
+    autoGrade: null,
+    scoreSource: '',
+    gradingBusy: false,
+    autoGeminiTriggered: false,
     savedToHistory: false
   };
 
@@ -289,11 +324,36 @@
 
   function loadPrefs() {
     var saved = loadJson(STORAGE_PREFS, null);
-    if (saved) prefs = Object.assign({}, prefs, saved);
+    if (saved) {
+      prefs = Object.assign({}, prefs, saved);
+      var changed = false;
+      if (prefs.pzGeminiModel !== 'gemini-4-hydrogen') {
+        prefs.pzGeminiModel = 'gemini-4-hydrogen';
+        changed = true;
+      }
+      var normStyle = PzDialogueEngine.normalizeStyle(prefs.pzExaminerStyle);
+      if (prefs.pzExaminerStyle !== normStyle) {
+        prefs.pzExaminerStyle = normStyle;
+        changed = true;
+      }
+      if (changed) savePrefs();
+    }
   }
 
   function savePrefs() {
     saveJson(STORAGE_PREFS, prefs);
+  }
+
+  function getStoredGeminiKey() {
+    try { return String(localStorage.getItem(STORAGE_GEMINI_KEY) || '').trim(); } catch (e) { return ''; }
+  }
+
+  function setStoredGeminiKey(val) {
+    try {
+      var clean = String(val || '').trim();
+      if (clean) localStorage.setItem(STORAGE_GEMINI_KEY, clean);
+      else localStorage.removeItem(STORAGE_GEMINI_KEY);
+    } catch (e) {}
   }
 
   // =========================================================================
@@ -2071,7 +2131,12 @@
       prepNoteText: notes[lesson.id] || '',
       scores: { fc: 6.5, lr: 6.5, gra: 6.5, pr: 6.5 },
       aiFeedback: '',
-      aiBandOverride: ''
+      aiFeedbackAuto: false,
+      aiBandOverride: '',
+      autoGrade: null,
+      scoreSource: '',
+      gradingBusy: false,
+      lastGradedKey: ''
     };
   }
 
@@ -3026,9 +3091,138 @@
     }).join('') + '</div>';
   }
 
+  function getScoreSourceLabelHtml(scoreSource, gradeSource) {
+    if (scoreSource === 'manual') {
+      return '<span class="sp-tag-pill" style="background:rgba(245,158,11,0.16);color:var(--hl-gold);">✏️ Đã chỉnh tay (ưu tiên điểm bạn chọn)</span>';
+    }
+    if (gradeSource === 'gemini') {
+      return '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm AI Examiner (gemini-4-hydrogen)</span>';
+    }
+    if (gradeSource === 'offline_fallback') {
+      return '<span class="sp-tag-pill">⚡ Tự chấm Offline (AI dự phòng)</span>';
+    }
+    return '<span class="sp-tag-pill">⚡ Tự chấm Offline tức thì (0ms)</span>';
+  }
+
+  function renderAutoGradePanelHtml(opts) {
+    var o = opts || {};
+    var grade = o.grade;
+    if (!grade) return '';
+    var hasKey = Boolean(getStoredGeminiKey());
+    var cf = grade.criteriaFeedback || {};
+    var strengthsHtml = (grade.strengths || []).map(function (s) {
+      return '<li>' + escHtml(s) + '</li>';
+    }).join('');
+    var imprHtml = (grade.improvements || []).map(function (s) {
+      return '<li>' + escHtml(s) + '</li>';
+    }).join('');
+
+    var upgradesHtml = (grade.vocabUpgrades || []).length
+      ? '<div class="sp-autograde-box"><strong>💎 Nâng cấp Từ vựng (Band 7.0–8.5)</strong><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">'
+        + grade.vocabUpgrades.map(function (v) {
+          return '<div class="sp-upgrade-row"><div><span style="color:var(--muted);">' + escHtml(v.from || 'Gợi ý') + '</span> ➜ <b style="color:var(--hl-green);">' + escHtml(v.upgrade) + '</b></div>'
+            + (v.meaningVi ? '<div style="font-size:11.5px;color:var(--muted);">' + escHtml(v.meaningVi) + '</div>' : '')
+            + '</div>';
+        }).join('')
+        + '</div></div>'
+      : '';
+
+    var grammarHtml = (grade.grammarFixes || []).length
+      ? '<div class="sp-autograde-box"><strong>🔧 Sửa &amp; Nâng cấp Ngữ pháp</strong><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">'
+        + grade.grammarFixes.map(function (g) {
+          return '<div class="sp-upgrade-row"><div><span style="color:var(--sp-accent-rose,#f43f5e);">' + escHtml(g.original) + '</span> ➜ <b style="color:var(--hl-green);">' + escHtml(g.corrected) + '</b></div>'
+            + (g.noteVi ? '<div style="font-size:11.5px;color:var(--muted);">' + escHtml(g.noteVi) + '</div>' : '')
+            + '</div>';
+        }).join('')
+        + '</div></div>'
+      : '';
+
+    var quickKeyRow = !hasKey
+      ? '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:8px 10px;border-radius:8px;background:var(--card);border:1px dashed var(--border);">'
+        + '  <span style="font-size:12px;color:var(--muted);flex:1;min-width:180px;">🔑 Chưa có Gemini Key — dán API Key cá nhân (Free Tier) nếu muốn chấm sâu bằng <b>gemini-4-hydrogen</b>:</span>'
+        + '  <input type="password" class="sp-select" style="max-width:210px;font-size:12px;" placeholder="Dán Gemini API Key..." oninput="window._spSaveQuickGeminiKey && window._spSaveQuickGeminiKey(this.value)">'
+        + '</div>'
+      : '';
+
+    var aiBtnLabel = o.busy
+      ? '⏳ Đang chấm sâu với Gemini 4 Hydrogen...'
+      : '🤖 Chấm sâu với AI (gemini-4-hydrogen)';
+
+    return '<div class="sp-autograde-panel" id="' + escHtml(o.panelId || 'spAutoGradePanel') + '">'
+      + '  <div class="sp-autograde-head">'
+      + '    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
+      + '      <strong>🎯 Đánh giá Tự động (4 Tiêu chí IELTS)</strong>'
+      + getScoreSourceLabelHtml(o.scoreSource, grade.source)
+      + '    </div>'
+      + '    <div style="display:flex;gap:6px;flex-wrap:wrap;">'
+      + '      <button type="button" class="btn mini-btn" onclick="window.' + o.onRegradeOfflineFn + '()"' + (o.busy ? ' disabled' : '') + '>⚡ Chấm lại Offline</button>'
+      + '      <button type="button" class="btn mini-btn" onclick="window.' + o.onRunAiFn + '()"' + ((o.busy || !grade.hasTranscript) ? ' disabled' : '') + '>' + aiBtnLabel + '</button>'
+      + '    </div>'
+      + '  </div>'
+      + quickKeyRow
+      + '  <div class="sp-tip-callout" style="margin:0;"><b>Nhận xét tổng quan:</b> ' + escHtml(grade.summaryVi || '') + '</div>'
+      + '  <div class="sp-autograde-criteria">'
+      + '    <div class="sp-autograde-crit-item"><b>FC (' + Number(grade.scores.fc).toFixed(1) + '):</b> ' + escHtml(cf.fc || '') + '</div>'
+      + '    <div class="sp-autograde-crit-item"><b>LR (' + Number(grade.scores.lr).toFixed(1) + '):</b> ' + escHtml(cf.lr || '') + '</div>'
+      + '    <div class="sp-autograde-crit-item"><b>GRA (' + Number(grade.scores.gra).toFixed(1) + '):</b> ' + escHtml(cf.gra || '') + '</div>'
+      + '    <div class="sp-autograde-crit-item"><b>PR (' + Number(grade.scores.pr).toFixed(1) + '):</b> ' + escHtml(cf.pr || '') + '</div>'
+      + '  </div>'
+      + '  <div class="sp-autograde-cols">'
+      + '    <div class="sp-autograde-box"><strong>✓ Điểm mạnh</strong><ul class="sp-autograde-list">' + strengthsHtml + '</ul></div>'
+      + '    <div class="sp-autograde-box"><strong>🎯 Cần cải thiện</strong><ul class="sp-autograde-list">' + imprHtml + '</ul></div>'
+      + '  </div>'
+      + ((upgradesHtml || grammarHtml) ? '<div class="sp-autograde-cols">' + upgradesHtml + grammarHtml + '</div>' : '')
+      + (grade.prEstimatedNote ? '<div style="font-size:11.5px;color:var(--muted);">ℹ️ ' + escHtml(grade.prEstimatedNote) + '</div>' : '')
+      + '</div>';
+  }
+
+  function buildCompactGradeMeta(grade, scoreSource) {
+    if (!grade) return { scoreSource: scoreSource || 'manual' };
+    return {
+      scoreSource: scoreSource || (grade.source === 'gemini' ? 'auto_gemini' : 'auto_offline'),
+      gradeModel: grade.model || '',
+      autoGradeSummary: grade.summaryVi || '',
+      criteriaFeedback: Object.assign({}, grade.criteriaFeedback || {}),
+      vocabUpgrades: (grade.vocabUpgrades || []).slice(0, 5),
+      grammarFixes: (grade.grammarFixes || []).slice(0, 4)
+    };
+  }
+
+  function buildStudioGradePayload(lesson) {
+    var ctx = getActivePromptContext(lesson);
+    return {
+      kind: 'studio',
+      lesson: lesson,
+      questionText: ctx ? ctx.promptText : '',
+      transcript: studioState.recTranscript || '',
+      durationSec: studioState.recordingSec || 30
+    };
+  }
+
+  global._spSaveQuickGeminiKey = function (val) {
+    setStoredGeminiKey(val);
+    var lobbyInp = document.getElementById('pzGeminiKeyInput');
+    if (lobbyInp && lobbyInp.value !== val) lobbyInp.value = String(val || '').trim();
+  };
+
   function renderModeReview(lesson) {
     var box = document.getElementById('reviewStudioBox');
     if (!box) return;
+
+    var curKey = (lesson ? lesson.id : '') + '|' + (studioState.recTranscript || '') + '|' + (studioState.recordingSec || 0);
+    if (!studioState.autoGrade || studioState.lastGradedKey !== curKey) {
+      var offGrade = SpeakingGrader.evaluateOffline(buildStudioGradePayload(lesson));
+      studioState.autoGrade = offGrade;
+      studioState.lastGradedKey = curKey;
+      if (studioState.scoreSource !== 'manual' && studioState.scoreSource !== 'auto_gemini') {
+        studioState.scores = Object.assign({}, offGrade.scores);
+        studioState.scoreSource = 'auto_offline';
+      }
+      if (!studioState.aiFeedback || studioState.aiFeedbackAuto) {
+        studioState.aiFeedback = SpeakingGrader.formatFeedbackText(offGrade);
+        studioState.aiFeedbackAuto = true;
+      }
+    }
 
     var targets = collectTargetLexis(lesson);
     var metrics = analyzeTranscriptMetrics(studioState.recTranscript, studioState.recordingSec || 30, targets);
@@ -3047,13 +3241,23 @@
       ? metrics.usedTargets.map(function (w) { return '<span class="sp-tag-pill">✓ ' + escHtml(w) + '</span>'; }).join(' ')
       : '<span style="font-size:12.5px;color:var(--muted);">Chưa phát hiện cụm từ mục tiêu nào trong transcript.</span>';
 
+    var overallLbl = studioState.scoreSource === 'manual' ? 'Band tự chấm' : 'Band dự kiến';
+
     box.innerHTML = ''
       + '<div class="sp-metrics-grid">'
       + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Từ đã nói</span><span class="sp-metric-val">' + metrics.wordCount + '</span></div>'
       + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Tốc độ (WPM)</span><span class="sp-metric-val">' + metrics.wpm + '</span></div>'
       + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Target Lexis</span><span class="sp-metric-val">' + metrics.usedTargets.length + '/' + metrics.targetTotal + '</span></div>'
-      + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Band tự chấm</span><span class="sp-metric-val" style="color:var(--hl-green);">' + overall.toFixed(1) + '</span></div>'
+      + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">' + overallLbl + '</span><span class="sp-metric-val" style="color:var(--hl-green);">' + overall.toFixed(1) + '</span></div>'
       + '</div>'
+      + renderAutoGradePanelHtml({
+        panelId: 'studioAutoGradePanel',
+        grade: studioState.autoGrade,
+        busy: studioState.gradingBusy,
+        scoreSource: studioState.scoreSource,
+        onRunAiFn: '_spRunStudioAiGrade',
+        onRegradeOfflineFn: '_spRunStudioOfflineGrade'
+      })
       + '<div class="sp-tip-callout">⚡ <b>Nhận xét tốc độ & mạch nói:</b> ' + escHtml(metrics.wpmDiagnosis) + ' • Từ nối phát hiện: <b>' + metrics.connectorsUsed.length + '</b> • Từ ngập ngừng (fillers): <b>' + metrics.fillerCount + '</b>.<div style="margin-top:6px;">🎯 <b>Cụm từ đắt giá đã dùng:</b> ' + targetHitBadges + '</div></div>'
       + '<div class="sp-rubric-grid">'
       + criteriaDefs.map(function (c) {
@@ -3070,7 +3274,7 @@
       + '    <button type="button" class="mini-btn" onclick="window._spCopyAiPrompt()">📋 Copy Prompt Examiner</button>'
       + '  </div>'
       + '  <textarea id="studioAiPromptText" class="sp-notepad-textarea" rows="5" readonly>' + escHtml(promptStr) + '</textarea>'
-      + '  <textarea id="studioAiFeedbackInput" class="sp-notepad-textarea" rows="3" placeholder="Dán nhận xét hoặc điểm từ ChatGPT/Claude vào đây (nếu có)..." oninput="window._spUpdateStudioFeedback(this.value)">' + escHtml(studioState.aiFeedback) + '</textarea>'
+      + '  <textarea id="studioAiFeedbackInput" class="sp-notepad-textarea" rows="3" placeholder="Nhận xét tự động hoặc dán điểm từ ChatGPT/Claude tại đây..." oninput="window._spUpdateStudioFeedback(this.value)">' + escHtml(studioState.aiFeedback) + '</textarea>'
       + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
       + '    <button type="button" class="btn mini-btn" onclick="window.switchSpeakingMode(\'record\')">← Quay lại sửa/ghi âm lại</button>'
       + '    <button type="button" class="btn btn-primary" onclick="window._spSaveStudioSubmission()">💾 Lưu Bài nói & Kết quả vào Lịch sử</button>'
@@ -3079,12 +3283,63 @@
   }
 
   global._spSetStudioCriterion = function (key, val) {
+    studioState.scoreSource = 'manual';
     studioState.scores[key] = Number(val);
     renderModeReview(activeLesson);
   };
 
   global._spUpdateStudioFeedback = function (val) {
+    studioState.aiFeedbackAuto = false;
     studioState.aiFeedback = val;
+  };
+
+  global._spRunStudioOfflineGrade = function () {
+    if (!activeLesson) return;
+    var offGrade = SpeakingGrader.evaluateOffline(buildStudioGradePayload(activeLesson));
+    studioState.autoGrade = offGrade;
+    studioState.scores = Object.assign({}, offGrade.scores);
+    studioState.scoreSource = 'auto_offline';
+    if (!studioState.aiFeedback || studioState.aiFeedbackAuto) {
+      studioState.aiFeedback = SpeakingGrader.formatFeedbackText(offGrade);
+      studioState.aiFeedbackAuto = true;
+    }
+    renderModeReview(activeLesson);
+    showToast('Đã chấm lại theo bộ tiêu chí Offline (Band ' + offGrade.overallBand.toFixed(1) + ').', 'info');
+  };
+
+  global._spRunStudioAiGrade = function () {
+    if (!activeLesson || studioState.gradingBusy) return;
+    var apiKey = getStoredGeminiKey();
+    if (!apiKey) {
+      showToast('Hãy dán Gemini API Key cá nhân (Free Tier) vào ô trên để chấm bằng gemini-4-hydrogen.', 'warn', 4200);
+      return;
+    }
+    var targetLessonId = activeLesson.id;
+    studioState.gradingBusy = true;
+    renderModeReview(activeLesson);
+
+    SpeakingGrader.evaluateWithGemini(buildStudioGradePayload(activeLesson), {
+      apiKey: apiKey,
+      model: prefs.pzGeminiModel
+    }).then(function (res) {
+      studioState.gradingBusy = false;
+      if (!activeLesson || activeLesson.id !== targetLessonId) return;
+      studioState.autoGrade = res;
+      if (studioState.scoreSource !== 'manual') {
+        studioState.scores = Object.assign({}, res.scores);
+        studioState.scoreSource = res.source === 'gemini' ? 'auto_gemini' : 'auto_offline';
+      }
+      if (!studioState.aiFeedback || studioState.aiFeedbackAuto) {
+        studioState.aiFeedback = SpeakingGrader.formatFeedbackText(res);
+        studioState.aiFeedbackAuto = true;
+      }
+      renderModeReview(activeLesson);
+      if (res.source === 'gemini') {
+        showToast('AI Examiner (gemini-4-hydrogen) đã chấm xong — Overall Band ' + res.overallBand.toFixed(1) + '!', 'success');
+      } else {
+        showToast('AI phản hồi chậm — đã dùng kết quả chấm Offline dự phòng.', 'warn', 3500);
+      }
+    });
   };
 
   global._spCopyAiPrompt = function () {
@@ -3104,8 +3359,9 @@
     var avg = (studioState.scores.fc + studioState.scores.lr + studioState.scores.gra + studioState.scores.pr) / 4;
     var overall = roundIeltsBand(avg);
     var ctx = getActivePromptContext(activeLesson);
+    var gradeMeta = buildCompactGradeMeta(studioState.autoGrade, studioState.scoreSource);
 
-    var record = {
+    var record = Object.assign({
       id: 'sub_studio_' + Date.now(),
       kind: 'studio',
       lessonId: activeLesson.id,
@@ -3122,7 +3378,7 @@
       aiFeedback: studioState.aiFeedback,
       audioId: studioState.recAudioId || null,
       createdAt: Date.now()
-    };
+    }, gradeMeta);
 
     saveSubmissionRecord(record);
     if (!isLessonDone(activeLesson.id)) {
@@ -3131,6 +3387,1811 @@
     }
     showToast('Đã lưu kết quả Studio (Band ' + overall.toFixed(1) + ') vào Lịch sử!', 'success');
   };
+
+  // =========================================================================
+  // 9B. ĐỘNG CƠ HỘI THOẠI 2 PHÍA CỤC BỘ (TIER 1 — OFFLINE NLU EXAMINER)
+  // =========================================================================
+  var PzDialogueEngine = (function () {
+    var NAME_STOP_WORDS = {
+      my: 1, name: 1, full: 1, is: 1, am: 1, im: 1, i: 1, you: 1, can: 1, call: 1,
+      me: 1, please: 1, good: 1, morning: 1, afternoon: 1, evening: 1, day: 1,
+      hello: 1, hi: 1, hey: 1, fine: 1, thank: 1, thanks: 1, yes: 1, yeah: 1, sure: 1,
+      here: 1, id: 1, card: 1, passport: 1, today: 1, examiner: 1, sir: 1, madam: 1,
+      ok: 1, okay: 1, ready: 1, check: 1, document: 1, identification: 1, uh: 1, um: 1
+    };
+
+    var ANSWER_THEMES = [
+      {
+        id: 'cost_money',
+        label: 'the financial side',
+        rx: /\b(cost\w*|pric\w+|expensive|cheap\w*|afford\w*|budget\w*|money|salar\w+|income\w*|pay\w*|earn\w*|fee\w*|saving\w*)\b/i
+      },
+      {
+        id: 'time_routine',
+        label: 'time and daily routines',
+        rx: /\b(bus(?:y|ier|iest)|time|schedule\w*|hectic|deadline\w*|rush\w*|hours?|weekends?|free time|daily|every day|routine\w*)\b/i
+      },
+      {
+        id: 'family_friends',
+        label: 'family and personal relationships',
+        rx: /\b(famil\w+|parents?|mother|father|mom|dad|sister\w*|brother\w*|friend\w*|relatives?|children|kids?|colleagues?)\b/i
+      },
+      {
+        id: 'tech_digital',
+        label: 'modern technology',
+        rx: /\b(internet|online|phones?|smartphones?|apps?|social media|technolog\w+|tech|digital|computers?|laptops?|screens?)\b/i
+      },
+      {
+        id: 'health_wellbeing',
+        label: 'health and wellbeing',
+        rx: /\b(health\w*|unhealthy|exercise\w*|sports?|stress\w*|relax\w*|sleep\w*|mental|fit|fitness)\b/i
+      },
+      {
+        id: 'work_study',
+        label: 'work and study',
+        rx: /\b(jobs?|work\w*|careers?|stud(?:y|ies|ying|ied)|students?|schools?|universit\w+|colleges?|major\w*|exams?|offices?)\b/i
+      },
+      {
+        id: 'culture_place',
+        label: 'local culture and places',
+        rx: /\b(cultur\w+|tradition\w*|travel\w*|countr(?:y|ies)|cit(?:y|ies)|hometown\w*|local\w*|foreign\w*|visit\w*|weather|climate)\b/i
+      },
+      {
+        id: 'past_change',
+        label: 'how things have changed over time',
+        rx: /\b(used to|childhood|in the past|years ago|nowadays|chang(?:e|ed|es|ing)|modern|younger)\b/i
+      },
+      {
+        id: 'future_plan',
+        label: 'future plans',
+        rx: /\b(future|plans?|planning|hope\w*|dream\w*|would like to|next year|someday|career goal)\b/i
+      },
+      {
+        id: 'environment',
+        label: 'environmental impact',
+        rx: /\b(environment\w*|pollut\w+|nature|natural|green|plastic|public transport|traffic)\b/i
+      }
+    ];
+
+    var REASON_RX = /\b(because|since|as\s+(?:a|the|it|they|this|that)|due\s+to|owing\s+to|the\s+reason\s+is|that'?s\s+why|so\s+that|in\s+order\s+to|helps?\s+(?:me|us|people))\b/i;
+    var EXAMPLE_RX = /\b(for\s+example|for\s+instance|such\s+as|like\s+when|take\s+.+\s+as\s+an?\s+example)\b/i;
+    var CONTRAST_RX = /\b(however|although|even\s+though|though|on\s+the\s+other\s+hand|it\s+depends|whereas|while|compared\s+to)\b/i;
+
+    function normText(txt) {
+      return String(txt || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function wordsOf(txt) {
+      var clean = normText(txt);
+      return clean ? clean.split(' ').filter(Boolean) : [];
+    }
+
+    /**
+     * Trích xuất tên gọi thân thiện của thí sinh từ câu trả lời Warm-up (ví dụ "My name is Minh Anh" -> "Minh Anh").
+     */
+    function extractCandidateName(transcript) {
+      var text = normText(transcript);
+      if (!text) return '';
+
+      var candidateRaw = '';
+      var patterns = [
+        /(?:you\s+can\s+)?call\s+me\s+([a-zA-ZÀ-ỹ' -]{2,32})/i,
+        /my\s+(?:full\s+|first\s+|given\s+)?name(?:'s|\s+is)\s+([a-zA-ZÀ-ỹ' -]{2,36})/i,
+        /(?:^|[,.!?]\s*)(?:i\s+am|i'm)\s+([a-zA-ZÀ-ỹ' -]{2,30})/i
+      ];
+      for (var i = 0; i < patterns.length; i++) {
+        var m = patterns[i].exec(text);
+        if (m && m[1]) {
+          candidateRaw = m[1].split(/[,.!?;]|and\s+here|here\s+is|this\s+is/i)[0].trim();
+          break;
+        }
+      }
+      if (!candidateRaw && wordsOf(text).length <= 4) {
+        candidateRaw = text.replace(/[.!?,]+/g, ' ').trim();
+      }
+      if (!candidateRaw) return '';
+
+      var tokens = candidateRaw
+        .replace(/[^a-zA-ZÀ-ỹ'\s-]/g, ' ')
+        .trim()
+        .split(/\s+/)
+        .filter(function (w) {
+          var low = w.toLowerCase().replace(/^'+|'+$/g, '');
+          return low && low.length >= 2 && !NAME_STOP_WORDS[low];
+        });
+
+      if (!tokens.length || tokens.length > 3) return '';
+      var picked = tokens.length > 2 ? tokens.slice(-2) : tokens;
+      return picked.map(function (w) {
+        return w.charAt(0).toUpperCase() + w.slice(1);
+      }).join(' ');
+    }
+
+    function detectAnswerThemes(transcript) {
+      var text = normText(transcript);
+      if (!text) return [];
+      var found = [];
+      for (var i = 0; i < ANSWER_THEMES.length; i++) {
+        if (ANSWER_THEMES[i].rx.test(text)) {
+          found.push(ANSWER_THEMES[i]);
+          if (found.length >= 2) break;
+        }
+      }
+      return found;
+    }
+
+    /**
+     * Nhận diện ý định giao tiếp của thí sinh (xin nhắc lại, diễn đạt lại, chưa nghĩ ra, hay trả lời nội dung).
+     */
+    function detectCandidateIntent(transcript) {
+      var text = normText(transcript);
+      var wCount = wordsOf(text).length;
+      if (!wCount) return 'empty';
+
+      var explicitRepeat = /\b(could you repeat|can you repeat|please repeat|repeat (?:that|the question)|say (?:that|it) again|didn'?t (?:catch|hear)|missed (?:that|the question)|one more time|come again)\b/i;
+      var shortExcuse = /^(?:sorry|pardon|excuse me|what|huh)[.?!,\s]*$/i;
+      if ((explicitRepeat.test(text) && wCount <= 16) || shortExcuse.test(text)) {
+        return 'repeat';
+      }
+
+      var explicitRephrase = /\b(rephrase|paraphrase|put (?:that|it) another way|in simpler words|what do you mean|what does (?:that|it|\w+) mean|explain (?:that|the question|what you mean)|don'?t (?:really )?understand(?: the question| what you mean)?)\b/i;
+      if (explicitRephrase.test(text) && wCount <= 18) {
+        return 'rephrase';
+      }
+
+      var dontKnowRx = /\b(i don'?t know|i have no idea|no idea|not sure|never (?:really )?thought about|hard to say|can'?t think of)\b/i;
+      if (dontKnowRx.test(text) && wCount <= 18 && !REASON_RX.test(text)) {
+        return 'dont_know';
+      }
+
+      return 'answer';
+    }
+
+    function detectStance(text) {
+      if (/\b(it depends|both|on the one hand|mixed feelings?)\b/i.test(text)) return 'balanced';
+      if (/^(?:no|nope|not really|never|rarely|hardly|i don'?t|i dislike|i hate|not at all)\b/i.test(text)) return 'negative';
+      if (/^(?:yes|yeah|yep|definitely|absolutely|of course|sure|certainly|i love|i really like|i enjoy|totally)\b/i.test(text)) return 'positive';
+      return 'neutral';
+    }
+
+    function analyzeTurn(transcript, ctx) {
+      var text = normText(transcript);
+      var wCount = wordsOf(text).length;
+      var phase = (ctx && ctx.phase) || 'part1';
+      var intent = detectCandidateIntent(text);
+      var hasReason = REASON_RX.test(text);
+      var hasExample = EXAMPLE_RX.test(text);
+      var hasContrast = CONTRAST_RX.test(text);
+      var stance = detectStance(text);
+      var isBareYesNo = /^(?:yes|yeah|yep|no|nope|not really|maybe|sometimes|of course|definitely)(?:\s*[,.!]?\s*(?:i\s+(?:do|don'?t|am|not|like|don'?t like|think so)))?[.!?]*$/i.test(text)
+        || ((stance === 'positive' || stance === 'negative') && wCount <= 9 && !hasReason);
+      var isTooShort = phase === 'part3' ? (wCount > 0 && wCount < 18) : (wCount > 0 && wCount < 11);
+
+      return {
+        text: text,
+        wordCount: wCount,
+        intent: intent,
+        hasReason: hasReason,
+        hasExample: hasExample,
+        hasContrast: hasContrast,
+        stance: stance,
+        isBareYesNo: isBareYesNo,
+        isTooShort: isTooShort,
+        themes: detectAnswerThemes(text)
+      };
+    }
+
+    var STYLE_CYCLE_KEY = 'lp_sp_pz_style_cycle';
+    var CONCRETE_STYLE_ORDER = ['friendly', 'probing', 'strict_bc', 'casual_coach'];
+    var STYLE_PROFILES = {
+      friendly: {
+        id: 'friendly',
+        labelVi: '😊 Thân thiện & Khích lệ',
+        shortTag: '😊 Thân thiện',
+        temperature: 0.70,
+        promptBrief: 'Warm, approachable, empathetic IELTS examiner. Acknowledge personal anecdotes genuinely, use encouraging natural language, and ask gentle personal follow-ups.'
+      },
+      strict_bc: {
+        id: 'strict_bc',
+        labelVi: '🎓 Chuẩn Hội đồng Thi (BC/IDP)',
+        shortTag: '🎓 Chuẩn BC/IDP',
+        temperature: 0.42,
+        promptBrief: 'Formal British Council / IDP examiner. Stay polite, brisk, neutral, and composed. Keep examinerReaction brief (4-12 words) with minimal emotion or chatter, and stay strictly focused on assessment.'
+      },
+      probing: {
+        id: 'probing',
+        labelVi: '🧠 Hỏi xoáy & Phản biện Sâu',
+        shortTag: '🧠 Hỏi xoáy 7.5+',
+        temperature: 0.72,
+        promptBrief: 'Analytical Band 7.5+ IELTS examiner. Challenge brief or one-sided viewpoints respectfully, ask incisive follow-ups (counter-examples, different generations, trade-offs, hypothetical "what if"), especially in Part 3.'
+      },
+      casual_coach: {
+        id: 'casual_coach',
+        labelVi: '💬 Tự nhiên Đời thường',
+        shortTag: '💬 Tự nhiên',
+        temperature: 0.78,
+        promptBrief: 'Relaxed, conversational human interlocutor. Vary sentence openings organically, react directly to a vivid detail the candidate said, avoid textbook phrasing, and transition smoothly.'
+      }
+    };
+
+    var PHASE_SCRIPT_POOLS = {
+      warmup_id: {
+        friendly: [
+          'Good morning! Welcome to the Speaking test. My name is {name}. Could you tell me your full name and show me your ID, please?',
+          'Hello there, nice to see you today. I am {name}, your examiner. May I have your full name and check your identification please?',
+          'Hi and welcome! My name is {name}. Before we begin, could you tell me your full name and show your ID card or passport?'
+        ],
+        strict_bc: [
+          'Good day. My name is {name}. Could you tell me your full name please, and may I see your identification?',
+          'Good morning. My name is {name}. For the recording, could you state your full name and hold up your identification document, please?',
+          'Hello. I am {name}, your IELTS Speaking examiner today. Please state your full name and show your ID.'
+        ],
+        probing: [
+          'Good day, welcome in. I am {name}. Let us get started right away — could you tell me your full name and show your identification, please?',
+          'Hello, my name is {name}. First, please tell me your full name clearly and let me check your ID document.'
+        ],
+        casual_coach: [
+          'Hi! I am {name}, and I will be speaking with you today. First off, what is your full name, and could I see your ID quickly?',
+          'Hello there! My name is {name}. Just to check us in — could you give me your full name and show your ID, please?'
+        ]
+      },
+      warmup_beat2: {
+        friendly: [
+          'Where is your hometown, and are you working or studying at the moment?',
+          'How are you feeling today? Also, could you tell me where you are from and whether you work or study?',
+          'Where did you come from today, and what are you currently doing — work or study?'
+        ],
+        strict_bc: [
+          'Where are you from, and do you currently work or study?',
+          'Could you tell me where you live at the moment, and whether you are working or studying?',
+          'Where is your home area, and are you a student or in full-time work?'
+        ],
+        probing: [
+          'Tell me briefly where you are based and what keeps you busy right now — work or study?',
+          'Where did you grow up, and what field are you working or studying in these days?'
+        ],
+        casual_coach: [
+          'So, where abouts do you live, and what does a typical weekday look like for you — work or study?',
+          'How is your day going so far? And tell me briefly, where are you from and do you work or study?'
+        ]
+      },
+      part1_intro_topic: {
+        friendly: [
+          'Lovely, let us begin Part 1 by chatting a little about {topic}.',
+          'Great — in this first part of the test, I would like to ask you a few relaxed questions about {topic}.'
+        ],
+        strict_bc: [
+          'Now, in this first part, I would like to ask you some questions about {topic}.',
+          'Let us move into Part 1. First, let us talk about {topic}.'
+        ],
+        probing: [
+          'Alright, let us get straight into Part 1 and explore your thoughts on {topic}.',
+          'Now for Part 1, I want to start by asking you specifically about {topic}.'
+        ],
+        casual_coach: [
+          'Cool — let us kick off Part 1 with an everyday topic: {topic}.',
+          'So, jumping into Part 1, let us have a quick chat about {topic}.'
+        ]
+      },
+      part1_intro_generic: {
+        friendly: [
+          'Alright, let us start Part 1 with a couple of everyday topics about your life.',
+          'Now in this first part, let us chat about some familiar everyday subjects.'
+        ],
+        strict_bc: [
+          'Now, in this first part, I would like to ask you some general questions about yourself and everyday topics.',
+          'Let us begin Part 1. I am going to ask you a few questions on everyday themes.'
+        ],
+        probing: [
+          'Let us begin Part 1 now with a few everyday questions to hear your perspective.',
+          'Now, in Part 1, I will ask you about some familiar routines and preferences.'
+        ],
+        casual_coach: [
+          'Alright, let us get rolling with Part 1 and talk through a few everyday things.',
+          'Great, let us dive into Part 1 with a couple of everyday topics.'
+        ]
+      },
+      part1_transition: {
+        friendly: [
+          'Thank you — now let us switch gears a little and talk about {topic}.',
+          'Great, I would love to ask you about one more topic now: {topic}.'
+        ],
+        strict_bc: [
+          'Thank you. Let us move on now to talk about {topic}.',
+          'Alright. Next, I would like to ask you a few questions about {topic}.'
+        ],
+        probing: [
+          'Okay, shifting focus for the rest of Part 1 — let us discuss {topic}.',
+          'Right, moving on from that — let us look at {topic}.'
+        ],
+        casual_coach: [
+          'Nice — switching topics slightly, let us chat about {topic}.',
+          'Alright, moving right along, how about we talk about {topic}?'
+        ]
+      },
+      part2_intro: {
+        friendly: [
+          'Now I am going to give you a topic card and ask you to speak for one to two minutes. You have one full minute to make notes first — take your time.',
+          'Wonderful, we are ready for Part 2. Here is your cue card. Have a look, use your one minute to jot down key ideas, and talk for up to two minutes.'
+        ],
+        strict_bc: [
+          'Now I am going to give you a topic and I would like you to talk about it for one to two minutes. Before you talk, you will have one minute to think about what you are going to say. Here is your cue card.',
+          'Now we move on to Part 2. You have one minute to prepare notes on this topic, and then speak for one to two minutes. Here is your task.'
+        ],
+        probing: [
+          'Alright, let us move to the Part 2 long turn. Look closely at every point on this card — you have sixty seconds to structure a clear story before speaking for up to two minutes.',
+          'Now for Part 2. Take one minute to organize your main examples and details; then you will talk for one to two minutes.'
+        ],
+        casual_coach: [
+          'Awesome, here comes Part 2. You have got a minute to sketch a few quick keywords on your cue card, and then talk me through it for up to two minutes.',
+          'Alright, next up is your cue card. Take sixty seconds to gather your thoughts, and then feel free to talk naturally for one to two minutes.'
+        ]
+      },
+      part2_prep_end: {
+        friendly: [
+          'Okay, your preparation time is up. Remember you have one to two minutes — please start speaking whenever you are ready.',
+          'All right, that is one minute. Whenever you are ready, please go ahead and speak for one to two minutes.'
+        ],
+        strict_bc: [
+          'All right? Remember you have one to two minutes for this, so do not worry if I stop you. Can you start speaking now, please?',
+          'Your one minute is up. Please begin speaking now.'
+        ],
+        probing: [
+          'Time is up for preparation. Aim to develop your points with clear detail for up to two minutes — please start now.',
+          'Okay, sixty seconds are up. Go ahead and present your answer clearly now.'
+        ],
+        casual_coach: [
+          'Alright, time is up! Tell me all about it — go ahead whenever you are ready.',
+          'Okay, your minute is up. Jump right in and take up to two minutes.'
+        ]
+      },
+      part2_stop: {
+        friendly: [
+          'Thank you very much — I will stop you there. You shared plenty of helpful detail.',
+          'Thank you, that is two minutes, so I will pause you right there.'
+        ],
+        strict_bc: [
+          'Thank you very much. I will stop you there.',
+          'Thank you. Two minutes is up — I will stop you there.'
+        ],
+        probing: [
+          'Thank you, I will stop you at two minutes right there.',
+          'Okay, thank you very much — our time for Part 2 is up.'
+        ],
+        casual_coach: [
+          'Alright, great — let me stop you there because two minutes just flew by!',
+          'Thank you very much, I will step in and stop you there.'
+        ]
+      },
+      part3_intro_topic: {
+        friendly: [
+          'We have been talking about {topic}, and now I would like to explore some broader questions related to it.',
+          'Thanks for that story about {topic}. In Part 3, let us discuss some wider ideas around the same theme.'
+        ],
+        strict_bc: [
+          'We have been talking about {topic}, and now I would like to discuss with you some more general questions related to this.',
+          'In Part 3, let us examine some wider social questions connected to {topic}.'
+        ],
+        probing: [
+          'Moving into Part 3 now — let us step back from personal examples about {topic} and analyze the bigger picture.',
+          'Now let us push deeper in Part 3 and debate some broader questions linked to {topic}.'
+        ],
+        casual_coach: [
+          'That wraps up Part 2 on {topic}. Now let us zoom out a bit for Part 3 and trade views on the wider topic.',
+          'Nice transition into Part 3 — building on {topic}, let us talk more broadly about how people in society see this.'
+        ]
+      },
+      part3_intro_generic: {
+        friendly: [
+          'Now in Part 3, let us talk together about some broader, more abstract questions connected to that theme.',
+          'Let us move into Part 3 and look at a few bigger-picture questions around this topic.'
+        ],
+        strict_bc: [
+          'We have been talking about that topic, and now I would like to discuss with you one or two more general questions related to it.',
+          'Now let us move on to Part 3 for some broader discussion questions.'
+        ],
+        probing: [
+          'Let us step into Part 3 now — I am looking for clear analysis and wider examples on these discussion questions.',
+          'Moving to Part 3: let us examine the broader social and future angles behind this topic.'
+        ],
+        casual_coach: [
+          'Alright, onto Part 3! Let us zoom out and look at the bigger picture behind what you just described.',
+          'Now for Part 3 — let us unpack some wider ideas together.'
+        ]
+      },
+      exam_closing: {
+        friendly: [
+          'Thank you very much — you handled that smoothly. That is the end of the Speaking test.',
+          'Wonderful, thank you for your time today. That concludes our Speaking mock test!'
+        ],
+        strict_bc: [
+          'Thank you very much. That is the end of the Speaking test.',
+          'Thank you. We have reached the end of the IELTS Speaking test.'
+        ],
+        probing: [
+          'Thank you for sharing those arguments today. That marks the end of your Speaking test.',
+          'Thank you very much — that is the end of the Speaking examination.'
+        ],
+        casual_coach: [
+          'Awesome job wrapping that up! Thank you very much — that brings us to the end of the Speaking test.',
+          'Thanks a lot for chatting with me today. That completes your Speaking test!'
+        ]
+      },
+      rephrase_lead: {
+        friendly: ['Of course — let me put that another way for you.', 'No problem at all, here is an easier way to think about it.'],
+        strict_bc: ['Of course, let me rephrase the question.', 'Certainly. Let me put that another way.'],
+        probing: ['Sure — let me frame that question slightly differently.', 'Allow me to clarify what I am asking there.'],
+        casual_coach: ['Sure thing — let me say that in simpler words.', 'No worries, basically what I am asking is this.']
+      },
+      repeat_lead: {
+        friendly: ['Of course, let me repeat that for you.', 'Certainly, here is the question again.'],
+        strict_bc: ['Sure, let me repeat the question.', 'Yes, I will repeat that once more.'],
+        probing: ['Certainly — listen carefully to the question again.', 'Of course, let me state that question again.'],
+        casual_coach: ['Sure thing, here it is one more time.', 'No problem, let me say that again.']
+      }
+    };
+
+    function normalizeStyle(styleKey) {
+      var s = String(styleKey || '').trim();
+      if (s === 'adaptive' || STYLE_PROFILES[s]) return s;
+      return 'adaptive';
+    }
+
+    function resolveSessionStyle(styleKey, seedNum, opts) {
+      var o = opts || {};
+      var key = normalizeStyle(styleKey);
+      if (STYLE_PROFILES[key]) return key;
+      if (o.advanceCycle && typeof localStorage !== 'undefined') {
+        try {
+          var rawIdx = parseInt(localStorage.getItem(STYLE_CYCLE_KEY) || '0', 10);
+          var idx = isNaN(rawIdx) ? 0 : Math.abs(rawIdx);
+          localStorage.setItem(STYLE_CYCLE_KEY, String((idx + 1) % CONCRETE_STYLE_ORDER.length));
+          return CONCRETE_STYLE_ORDER[idx % CONCRETE_STYLE_ORDER.length];
+        } catch (e) {}
+      }
+      if (typeof seedNum === 'number' && seedNum > 0) {
+        return CONCRETE_STYLE_ORDER[Math.abs(seedNum) % CONCRETE_STYLE_ORDER.length];
+      }
+      return 'friendly';
+    }
+
+    function getStyleProfile(styleKey, seedNum, opts) {
+      var concreteId = resolveSessionStyle(styleKey, seedNum, opts);
+      return STYLE_PROFILES[concreteId] || STYLE_PROFILES.friendly;
+    }
+
+    function pickFreshVariant(list, usedTemplates, seedNum) {
+      if (!list || !list.length) return '';
+      var used = Array.isArray(usedTemplates) ? usedTemplates : null;
+      var avail = used
+        ? list.filter(function (item) { return used.indexOf(item) === -1; })
+        : list;
+      if (!avail.length) avail = list;
+      var pick = avail[Math.abs(seedNum || 0) % avail.length];
+      if (used && pick) {
+        used.push(pick);
+        if (used.length > 48) used.splice(0, used.length - 48);
+      }
+      return pick;
+    }
+
+    function cleanTopicLabel(topicTitle) {
+      var raw = String(topicTitle || '')
+        .replace(/^Part\s+\d+\s*[•·\-]\s*Topic\s+[AB]:\s*/i, '')
+        .replace(/^Let'?s talk about\s*/i, '')
+        .replace(/^Describe\s+(?:a|an|the)?\s*/i, '')
+        .replace(/[.?!]+$/, '')
+        .trim();
+      if (!raw) return '';
+      if (/\b(actual\s+test|ielts\s+speaking|cambridge|practice\s+zone|full\s+test|mock\s+test|part\s+1\s+interview|random\s+full\s+exam|sample\s+speaking\s+test|forecast)\b/i.test(raw)) {
+        return '';
+      }
+      if (raw.split(/\s+/).length > 8) return '';
+      return raw.charAt(0).toLowerCase() + raw.slice(1);
+    }
+
+    function getPhaseScript(kind, ctx) {
+      var o = ctx || {};
+      var styleId = resolveSessionStyle(o.style, o.seed);
+      var used = o.usedTemplates || null;
+      var seed = (o.seed || 0) + String(o.topicTitle || o.examinerName || '').length;
+      var topic = cleanTopicLabel(o.topicTitle || '');
+      var actualKind = kind;
+      if (kind === 'part1_intro') actualKind = topic ? 'part1_intro_topic' : 'part1_intro_generic';
+      if (kind === 'part3_intro') actualKind = topic ? 'part3_intro_topic' : 'part3_intro_generic';
+
+      var byKind = PHASE_SCRIPT_POOLS[actualKind] || {};
+      var pool = byKind[styleId] || byKind.friendly || [];
+      var chosen = pickFreshVariant(pool, used, seed);
+      if (!chosen) return o.fallback || '';
+
+      var exName = String(o.examinerName || 'Eleanor').replace(/^Examiner\s+/i, '').trim() || 'Eleanor';
+      return chosen
+        .replace(/\{name\}/g, exName)
+        .replace(/\{topic\}/g, topic || 'everyday topics');
+    }
+
+    function buildFollowUpProbe(qText, analysis, phase, seedNum, styleKey, usedTemplates) {
+      var qLower = String(qText || '').toLowerCase();
+      var isP3 = phase === 'part3';
+      var styleId = resolveSessionStyle(styleKey, seedNum);
+
+      if (analysis.stance === 'balanced') {
+        var balPool = styleId === 'probing'
+          ? (isP3
+            ? ['You say it depends — what decisive factor tips the balance for most people?', 'On balance, which side carries greater weight in modern society?']
+            : ['You mentioned it depends — which situation happens more often for you personally?', 'What usually determines which way you lean on that?'])
+          : (isP3
+            ? ['You mentioned it depends — what main factor decides which way it goes?', 'Which factor tends to matter most in your view?']
+            : ['You said it depends — what kind of situation makes you choose one over the other?', 'And which way do you tend to lean most days?']);
+        return pickFreshVariant(balPool, usedTemplates, seedNum);
+      }
+
+      if (analysis.isBareYesNo && analysis.stance === 'negative') {
+        var negPool = styleId === 'strict_bc'
+          ? (isP3 ? ['Why do you feel that way?', 'What is the main reason behind that view?'] : ['Why not?', 'What makes you prefer not to?'])
+          : styleId === 'probing'
+            ? (isP3 ? ['Is there any circumstance where the opposite might actually be true?', 'What is the main drawback that puts people off, do you think?'] : ['Could anything make you change your mind about that?', 'What specifically puts you off about it?'])
+            : (isP3 ? ['Why do you feel that way? What is the main reason?', 'What causes people to hold that negative view, in your opinion?'] : ['Oh, why not? What puts you off about that?', 'Have you always felt that way, or did something put you off?']);
+        return pickFreshVariant(negPool, usedTemplates, seedNum);
+      }
+
+      if (analysis.isBareYesNo && analysis.stance === 'positive') {
+        var posPool = styleId === 'strict_bc'
+          ? (isP3 ? ['Why do you think so?', 'Could you explain your main reason?'] : ['Why do you enjoy that?', 'What do you like most about it?'])
+          : styleId === 'probing'
+            ? (isP3 ? ['What is the strongest argument for that, and is there any downside?', 'Does that positive impact apply to everyone equally, or only certain groups?'] : ['What is one specific thing about it that keeps you interested?', 'How would you explain why that appeals to you so much?'])
+            : (isP3 ? ['What makes you feel so strongly about that?', 'Could you explain one key benefit behind that view?'] : ['Interesting — what makes you enjoy that most?', 'When did you first start enjoying that?']);
+        return pickFreshVariant(posPool, usedTemplates, seedNum);
+      }
+
+      if (isP3 && analysis.hasReason && !analysis.hasExample) {
+        return pickFreshVariant([
+          'Could you give a specific example from your country or everyday life?',
+          'Can you illustrate that point with a real-life example?',
+          'How does that show up in practice where you live?'
+        ], usedTemplates, seedNum);
+      }
+
+      if (/\bhow often|usually|regularly\b/.test(qLower)) {
+        return pickFreshVariant([
+          'And has that habit changed compared to a few years ago?',
+          'Do you do that more on weekdays or at weekends, and why?',
+          'What usually determines whether you keep up that routine?'
+        ], usedTemplates, seedNum);
+      }
+
+      if (/\bprefer|better|favorite|favourite|kind of|type of\b/.test(qLower)) {
+        return pickFreshVariant([
+          'What is it about that option that appeals to you most?',
+          'How does that compare with other choices people around you make?',
+          'Was that always your preference, or did your taste change over time?'
+        ], usedTemplates, seedNum);
+      }
+
+      if (isP3) {
+        var p3Pool = styleId === 'probing'
+          ? [
+            'How might older generations or people in rural areas view that differently?',
+            'Could there be any unintended negative consequences to that trend?',
+            'What would need to change for people to behave differently in the future?',
+            'Why is that issue more complex than it first appears?'
+          ]
+          : styleId === 'strict_bc'
+            ? [
+              'Why do many people feel that way nowadays?',
+              'How does that affect different age groups, in your view?',
+              'Could you explain why that happens in a bit more detail?'
+            ]
+            : [
+              'Why do you think many people feel that way nowadays?',
+              'How does that play out for younger versus older people in your country?',
+              'Do you expect that trend to continue over the next decade?',
+              'Could you back that idea up with a short example?'
+            ];
+        return pickFreshVariant(p3Pool, usedTemplates, seedNum);
+      }
+
+      var p1Pool = styleId === 'strict_bc'
+        ? [
+          'Could you tell me a little more about why?',
+          'Can you give me a quick example of that?',
+          'How important is that in your routine?'
+        ]
+        : styleId === 'probing'
+          ? [
+            'What specific detail makes the biggest difference to you there?',
+            'Would you say that has changed much over the last few years?',
+            'Why do you choose to do it that way instead of another approach?'
+          ]
+          : [
+            'Could you tell me a little bit more about why?',
+            'How does that fit into your typical day-to-day life?',
+            'Can you give me a quick personal example of that?',
+            'Has that always been the case for you?'
+          ];
+      return pickFreshVariant(p1Pool, usedTemplates, seedNum);
+    }
+
+    function buildContextualBridge(analysis, ctx) {
+      var o = ctx || {};
+      var seed = (o.stepIndex || 0) + analysis.wordCount + (o.sessionSeed || 0);
+      var styleId = resolveSessionStyle(o.style, seed);
+      var used = o.usedTemplates || null;
+      var nameTail = o.candidateName && ((o.stepIndex || 0) % 3 === 1) ? (', ' + o.candidateName) : '';
+
+      if (analysis.intent === 'empty') {
+        return pickFreshVariant([
+          'Right' + nameTail + ', let us continue.',
+          'Okay' + nameTail + ', let us move on to the next question.'
+        ], used, seed);
+      }
+      if (analysis.intent === 'dont_know') {
+        return pickFreshVariant([
+          'No problem at all' + nameTail + ' — let us try the next one.',
+          'That is quite alright' + nameTail + ', let us move forward.'
+        ], used, seed);
+      }
+      if (analysis.themes.length > 0) {
+        var tLabel = analysis.themes[0].label;
+        if (analysis.hasContrast) {
+          return pickFreshVariant([
+            'I see what you mean about balancing ' + tLabel + nameTail + '.',
+            'Interesting contrast regarding ' + tLabel + nameTail + '.'
+          ], used, seed);
+        }
+        var themePool = styleId === 'strict_bc'
+          ? [
+            'Thank you — noted regarding ' + tLabel + nameTail + '.',
+            'I see, that clarifies your view on ' + tLabel + nameTail + '.',
+            'Right, thank you for explaining the aspect of ' + tLabel + nameTail + '.'
+          ]
+          : styleId === 'probing'
+            ? [
+              'That is an interesting angle on ' + tLabel + nameTail + '.',
+              'Fair point about ' + tLabel + ' — let us see how that connects next' + nameTail + '.',
+              'Right, looking at ' + tLabel + ' brings up an important dimension' + nameTail + '.'
+            ]
+            : styleId === 'casual_coach'
+              ? [
+                'Totally makes sense thinking about ' + tLabel + nameTail + '.',
+                'Oh nice, framing it around ' + tLabel + ' is really clear' + nameTail + '.',
+                'Got it — ' + tLabel + ' clearly plays a big part there' + nameTail + '.'
+              ]
+              : [
+                'That is a really clear point about ' + tLabel + nameTail + '.',
+                'Right, so ' + tLabel + ' plays quite a role for you' + nameTail + '.',
+                'I see — thinking about ' + tLabel + ' makes a lot of sense' + nameTail + '.'
+              ];
+        return pickFreshVariant(themePool, used, seed);
+      }
+      if (analysis.hasExample) {
+        return pickFreshVariant([
+          'That is a helpful example' + nameTail + '.',
+          'Good real-life illustration' + nameTail + '.',
+          'Right, that concrete example explains your view nicely' + nameTail + '.'
+        ], used, seed);
+      }
+      if (analysis.hasContrast) {
+        return pickFreshVariant([
+          'Fair enough — looking at both sides makes sense' + nameTail + '.',
+          'I appreciate seeing both angles there' + nameTail + '.',
+          'That is a balanced way to look at it' + nameTail + '.'
+        ], used, seed);
+      }
+      if (analysis.stance === 'positive') {
+        return pickFreshVariant([
+          'Okay, I see you are quite enthusiastic about that' + nameTail + '.',
+          'Great, thank you for explaining why you enjoy that' + nameTail + '.',
+          'Sounds like a genuinely positive experience for you' + nameTail + '.'
+        ], used, seed);
+      }
+      if (analysis.stance === 'negative') {
+        return pickFreshVariant([
+          'Right, I understand why that does not appeal to you' + nameTail + '.',
+          'Okay, fair point' + nameTail + '.',
+          'Got it — I see why you avoid that' + nameTail + '.'
+        ], used, seed);
+      }
+
+      var genericPool = styleId === 'strict_bc'
+        ? ['Thank you' + nameTail + '.', 'I see, thank you' + nameTail + '.', 'Alright, moving on' + nameTail + '.']
+        : styleId === 'probing'
+          ? ['Interesting perspective' + nameTail + '.', 'Right, I follow your reasoning' + nameTail + '.', 'Okay, let us build on that thought' + nameTail + '.']
+          : styleId === 'casual_coach'
+            ? ['Nice, thanks for sharing that' + nameTail + '.', 'Got you — that makes sense' + nameTail + '.', 'Awesome, let us keep going' + nameTail + '.']
+            : ['Thank you' + nameTail + ', that is interesting.', 'Right, I understand' + nameTail + '.', 'Okay, thank you for sharing that' + nameTail + '.'];
+      return pickFreshVariant(genericPool, used, seed);
+    }
+
+    function buildRephraseFallback(qText, ctx) {
+      if (global.SpeakingParser && typeof global.SpeakingParser.buildQuestionRephrase === 'function') {
+        return global.SpeakingParser.buildQuestionRephrase(qText, ctx);
+      }
+      return qText ? ('In other words — ' + qText) : '';
+    }
+
+    /**
+     * Quyết định bước phản hồi kế tiếp của Giám khảo theo phong cách đã chọn
+     * mà vẫn bảo toàn 100% các câu hỏi gốc của đề.
+     */
+    function decideTurn(input) {
+      var opts = input || {};
+      var phase = opts.phase || 'part1';
+      var stepIndex = opts.stepIndex || 0;
+      var warmupStep = opts.warmupStep || 0;
+      var candidateName = opts.candidateName || '';
+      var meta = opts.meta || {};
+      var slot = opts.slot || {};
+      var activeFollowUpQ = opts.activeFollowUpQ || '';
+      var usedTemplates = opts.usedTemplates || null;
+      var sessionSeed = opts.sessionSeed || 0;
+      var explicitStyle = opts.style || '';
+      var resolvedStyle = explicitStyle ? resolveSessionStyle(explicitStyle, sessionSeed) : 'friendly';
+      var transcript = normText(opts.transcript);
+      var analysis = analyzeTurn(transcript, { phase: phase });
+
+      // 1. Warm-up 2 nhịp tương tác: Hỏi tên + ID -> Chào bằng tên & mở câu Warm-up đa dạng theo phong cách
+      if (phase === 'warmup') {
+        if (analysis.intent === 'repeat' && warmupStep === 0) {
+          var repeatId = meta.qText || 'Good day. Could you tell me your full name and show your ID, please?';
+          var repLead = getPhaseScript('repeat_lead', { style: resolvedStyle, seed: sessionSeed, usedTemplates: usedTemplates }) || 'Of course, let me say that again.';
+          return {
+            action: 'repeat',
+            intent: 'repeat',
+            candidateName: candidateName,
+            nextWarmupStep: 0,
+            examinerReaction: repLead,
+            spokenLines: [repLead, repeatId],
+            followUpQuestion: '',
+            rephraseText: '',
+            preserveOriginalQ: true,
+            analysis: analysis
+          };
+        }
+
+        if (warmupStep === 0) {
+          var detectedName = extractCandidateName(transcript) || candidateName;
+          var greetPool = resolvedStyle === 'strict_bc'
+            ? [detectedName ? ('Thank you, ' + detectedName + '.') : 'Thank you.', detectedName ? ('Very good, thank you ' + detectedName + '.') : 'Very good, thank you.']
+            : resolvedStyle === 'casual_coach'
+              ? [detectedName ? ('Great to meet you, ' + detectedName + '!') : 'Great to meet you!', detectedName ? ('Lovely — nice to chat with you, ' + detectedName + '.') : 'Lovely — nice to chat with you.']
+              : [detectedName ? ('Thank you, ' + detectedName + '. Nice to meet you!') : 'Thank you. Nice to meet you!', detectedName ? ('Welcome to the room, ' + detectedName + '.') : 'Welcome to the room.'];
+          var greeting = pickFreshVariant(greetPool, usedTemplates, sessionSeed + analysis.wordCount);
+          var followGreeting = getPhaseScript('warmup_beat2', {
+            style: resolvedStyle,
+            seed: sessionSeed + detectedName.length,
+            usedTemplates: usedTemplates
+          }) || 'Where are you from, and do you currently work or study?';
+          return {
+            action: 'warmup_next',
+            intent: analysis.intent,
+            candidateName: detectedName,
+            nextWarmupStep: 1,
+            examinerReaction: greeting,
+            followUpQuestion: followGreeting,
+            spokenLines: [greeting, followGreeting],
+            rephraseText: '',
+            preserveOriginalQ: true,
+            analysis: analysis
+          };
+        }
+
+        var nameSuffix = candidateName ? (', ' + candidateName) : '';
+        var ackWarmup = resolvedStyle === 'strict_bc'
+          ? ('Thank you' + nameSuffix + '.')
+          : ('Lovely, thank you' + nameSuffix + '.');
+        if (/\b(work|working|job|company|office|engineer|teacher|developer|business|manager|freelanc\w+)\b/i.test(transcript)) {
+          ackWarmup = pickFreshVariant([
+            'Interesting career path' + nameSuffix + ' — good to hear.',
+            'Sounds like a busy line of work' + nameSuffix + ', thank you.'
+          ], usedTemplates, sessionSeed + 3);
+        } else if (/\b(study|studying|student|university|college|school|major|graduat\w+)\b/i.test(transcript)) {
+          ackWarmup = pickFreshVariant([
+            'Great, wishing you the best with your studies' + nameSuffix + '.',
+            'Sounds like an interesting major' + nameSuffix + ' — thank you.'
+          ], usedTemplates, sessionSeed + 5);
+        } else if (/\b(hanoi|saigon|ho chi minh|danang|city|town|province|countryside|village|hometown|feeling|great|fine|good)\b/i.test(transcript)) {
+          ackWarmup = pickFreshVariant([
+            'Nice to hear a bit about your background' + nameSuffix + '.',
+            'Thank you for sharing that' + nameSuffix + ' — glad you are settled in.'
+          ], usedTemplates, sessionSeed + 7);
+        }
+        return {
+          action: 'advance',
+          intent: analysis.intent,
+          candidateName: candidateName,
+          nextWarmupStep: 2,
+          examinerReaction: ackWarmup,
+          followUpQuestion: '',
+          spokenLines: [ackWarmup],
+          rephraseText: '',
+          preserveOriginalQ: true,
+          analysis: analysis
+        };
+      }
+
+      // 2. Xử lý các yêu cầu giao tiếp trực tiếp của thí sinh (Repeat / Rephrase / Clarify)
+      var qText = meta.qText || '';
+      var rephraseText = meta.rephraseText || buildRephraseFallback(qText, { partTag: phase, topicTitle: opts.topicTitle || '' });
+
+      if (analysis.intent === 'repeat') {
+        var repeatLead = getPhaseScript('repeat_lead', {
+          style: resolvedStyle,
+          seed: sessionSeed + stepIndex,
+          usedTemplates: usedTemplates
+        }) || 'Sure, let me repeat that question for you.';
+        return {
+          action: 'repeat',
+          intent: 'repeat',
+          candidateName: candidateName,
+          examinerReaction: repeatLead,
+          spokenLines: [repeatLead, qText],
+          followUpQuestion: '',
+          rephraseText: rephraseText,
+          preserveOriginalQ: true,
+          analysis: analysis
+        };
+      }
+
+      if (analysis.intent === 'rephrase' && rephraseText) {
+        var repLead = getPhaseScript('rephrase_lead', {
+          style: resolvedStyle,
+          seed: sessionSeed + stepIndex,
+          usedTemplates: usedTemplates
+        }) || 'Of course, let me put that another way.';
+        return {
+          action: 'rephrase',
+          intent: 'rephrase',
+          candidateName: candidateName,
+          examinerReaction: repLead,
+          spokenLines: [repLead, rephraseText],
+          followUpQuestion: '',
+          rephraseText: rephraseText,
+          preserveOriginalQ: true,
+          analysis: analysis
+        };
+      }
+
+      if (analysis.intent === 'dont_know' && !slot.nudgeUsed && !activeFollowUpQ) {
+        var nudgeLine = 'Take your time — you can just share an example from everyday life. ' + (rephraseText || qText);
+        return {
+          action: 'clarify_nudge',
+          intent: 'dont_know',
+          candidateName: candidateName,
+          examinerReaction: 'That is completely fine, take a second.',
+          spokenLines: [nudgeLine],
+          followUpQuestion: rephraseText || qText,
+          rephraseText: rephraseText,
+          preserveOriginalQ: true,
+          analysis: analysis
+        };
+      }
+
+      // 3. Nếu đang trả lời cho lượt Follow-up hoặc câu hỏi chính đã đủ ý -> ghi nhận ngữ cảnh & chuyển câu gốc kế tiếp
+      var isProbingExplicit = explicitStyle === 'probing';
+      var shouldFollowUp = !activeFollowUpQ
+        && !slot.followUpAsked
+        && (phase === 'part1' || phase === 'part2_round' || phase === 'part3')
+        && analysis.wordCount >= 1
+        && (
+          analysis.isBareYesNo
+          || analysis.isTooShort
+          || (phase === 'part3' && !analysis.hasReason && !analysis.hasExample && analysis.wordCount < 24)
+          || (isProbingExplicit && phase === 'part3' && !analysis.hasContrast && analysis.wordCount < 28)
+        );
+
+      if (shouldFollowUp) {
+        var probe = buildFollowUpProbe(qText, analysis, phase, stepIndex + analysis.wordCount + sessionSeed, resolvedStyle, usedTemplates);
+        var ackPool = resolvedStyle === 'strict_bc'
+          ? ['I see.', 'Right.', 'Okay.']
+          : (analysis.stance === 'positive'
+            ? ['Oh, interesting.', 'Nice to hear that.', 'Sounds good —']
+            : (analysis.stance === 'negative' ? ['I see.', 'Fair enough.', 'Oh really?'] : ['Right, thank you.', 'Interesting —', 'Got it —']));
+        var leadAck = pickFreshVariant(ackPool, usedTemplates, stepIndex + sessionSeed);
+        return {
+          action: 'followup',
+          intent: analysis.intent,
+          candidateName: candidateName,
+          examinerReaction: leadAck,
+          followUpQuestion: probe,
+          spokenLines: [leadAck + ' ' + probe],
+          rephraseText: rephraseText,
+          preserveOriginalQ: true,
+          analysis: analysis
+        };
+      }
+
+      var bridge = buildContextualBridge(analysis, {
+        phase: phase,
+        stepIndex: stepIndex,
+        candidateName: candidateName,
+        questionText: qText,
+        style: resolvedStyle,
+        sessionSeed: sessionSeed,
+        usedTemplates: usedTemplates
+      });
+
+      return {
+        action: 'advance',
+        intent: analysis.intent,
+        candidateName: candidateName,
+        examinerReaction: bridge,
+        followUpQuestion: '',
+        spokenLines: bridge ? [bridge] : [],
+        rephraseText: rephraseText,
+        preserveOriginalQ: true,
+        analysis: analysis
+      };
+    }
+
+    function buildPart2StopReaction(input) {
+      var o = input || {};
+      var transcript = normText(o.transcript);
+      var styleId = resolveSessionStyle(o.style, o.seed);
+      var stopLine = o.stopScript || getPhaseScript('part2_stop', { style: styleId, seed: o.seed || 0, usedTemplates: o.usedTemplates });
+      var roundingOffQ = o.roundingOffQ || 'Do you still think about this topic in daily life?';
+      var nameTail = o.candidateName ? (', ' + o.candidateName) : '';
+      var themes = detectAnswerThemes(transcript);
+      if (wordsOf(transcript).length >= 12 && themes.length > 0) {
+        var bridgeTpl = pickFreshVariant([
+          'You raised some nice points about ' + themes[0].label + nameTail + '.',
+          'Thank you — I especially liked how you covered ' + themes[0].label + nameTail + '.',
+          'Good detail on ' + themes[0].label + nameTail + '.'
+        ], o.usedTemplates, (o.seed || 0) + transcript.length);
+        return {
+          stopLines: [stopLine],
+          roundingIntro: bridgeTpl + ' ' + roundingOffQ
+        };
+      }
+      return {
+        stopLines: [stopLine],
+        roundingIntro: roundingOffQ
+      };
+    }
+
+    function buildClarificationHint(qText, phase, topicTitle, styleKey) {
+      var q = String(qText || '').toLowerCase();
+      var cleanTopic = cleanTopicLabel(topicTitle) || 'this topic';
+      var isP3 = phase === 'part3';
+      var styleId = resolveSessionStyle(styleKey, q.length);
+      if (/\badvantage|disadvantage|benefit|drawback|problem|positive|negative\b/.test(q)) {
+        return styleId === 'probing'
+          ? 'Try weighing one clear upside against an unintended side effect for different groups of people.'
+          : 'Sure — you could compare one clear benefit and one possible downside for everyday people.';
+      }
+      if (/\bchange|past|future|nowadays|used to|modern\b/.test(q)) {
+        return 'In simpler terms, try comparing how things were in the past with today, or how things might change next.';
+      }
+      if (/\bprefer|better|favou?rite|important|often\b/.test(q)) {
+        return 'You can pick whichever option feels more practical to you and explain one personal reason why.';
+      }
+      if (isP3) {
+        return styleId === 'probing'
+          ? 'Look at society as a whole — contrast two viewpoints or mention an age-group difference with one sharp example.'
+          : 'Think about people in general or your country — you can share one main reason and a short real-life example.';
+      }
+      return 'Just share your own everyday experience regarding ' + cleanTopic + ', and give one quick reason why.';
+    }
+
+    return {
+      STYLE_PROFILES: STYLE_PROFILES,
+      CONCRETE_STYLE_ORDER: CONCRETE_STYLE_ORDER,
+      normalizeStyle: normalizeStyle,
+      resolveSessionStyle: resolveSessionStyle,
+      getStyleProfile: getStyleProfile,
+      getPhaseScript: getPhaseScript,
+      extractCandidateName: extractCandidateName,
+      detectAnswerThemes: detectAnswerThemes,
+      detectCandidateIntent: detectCandidateIntent,
+      analyzeTurn: analyzeTurn,
+      decideTurn: decideTurn,
+      buildPart2StopReaction: buildPart2StopReaction,
+      buildClarificationHint: buildClarificationHint
+    };
+  })();
+
+  global.PzDialogueEngine = PzDialogueEngine;
+
+  // =========================================================================
+  // 9C. BỘ CHUYỂN ĐỔI AI EXAMINER (TIER 2 — BYOK GEMINI + FALLBACK TẦNG 1)
+  // =========================================================================
+  var PzAiExaminer = (function () {
+    var API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/models/';
+    var TIMEOUT_MS = 5500;
+    var ALLOWED_MODELS = ['gemini-4-hydrogen'];
+    var THINKING_LEVELS = { minimal: 1, low: 1, medium: 1, high: 1, xhigh: 1 };
+
+    function normalizeModel(model) {
+      var m = String(model || '').trim();
+      return ALLOWED_MODELS.indexOf(m) !== -1 ? m : ALLOWED_MODELS[0];
+    }
+
+    function stripCodeFenceJson(rawText) {
+      var s = String(rawText || '').trim();
+      s = s.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+      var firstBrace = s.indexOf('{');
+      var lastBrace = s.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace > firstBrace) {
+        return s.slice(firstBrace, lastBrace + 1);
+      }
+      return s;
+    }
+
+    function getNextCanonicalQuestion(lesson, phase, stepIndex, warmupStep) {
+      if (!lesson) return '';
+      if (phase === 'warmup') {
+        if (warmupStep === 0) return 'Warm-up chat: hometown & work/study';
+        var firstP1 = getCurrentPzP1Questions(lesson)[0];
+        return firstP1 ? firstP1.q : ((lesson.part2 && lesson.part2.prompt) || '');
+      }
+      if (phase === 'part1') {
+        var p1 = getCurrentPzP1Questions(lesson);
+        if (stepIndex + 1 < p1.length) return p1[stepIndex + 1].q;
+        return (lesson.part2 && lesson.part2.prompt) ? ('Part 2 Cue Card: ' + lesson.part2.prompt) : 'End of test';
+      }
+      if (phase === 'part2_round') {
+        var firstP3 = (lesson.part3 && lesson.part3.questions && lesson.part3.questions[0]) || null;
+        return firstP3 ? firstP3.q : 'End of test';
+      }
+      if (phase === 'part3') {
+        var p3 = (lesson.part3 && lesson.part3.questions) || [];
+        if (stepIndex + 1 < p3.length) return p3[stepIndex + 1].q;
+        return 'End of test';
+      }
+      return '';
+    }
+
+    function callGeminiJson(opts) {
+      var apiKey = String(opts.apiKey || '').trim();
+      if (!apiKey || typeof fetch !== 'function') {
+        return Promise.reject(new Error('Missing API key or fetch'));
+      }
+      var model = normalizeModel(opts.model);
+      var url = API_ROOT + encodeURIComponent(model) + ':generateContent?key=' + encodeURIComponent(apiKey);
+      var timeoutMs = opts.timeoutMs || TIMEOUT_MS;
+      var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      var timerId = setTimeout(function () {
+        if (ctrl) ctrl.abort();
+      }, timeoutMs);
+
+      var genConfig = {
+        temperature: typeof opts.temperature === 'number' ? opts.temperature : 0.45,
+        maxOutputTokens: opts.maxOutputTokens || 450,
+        thinkingConfig: {
+          thinkingLevel: (opts.thinkingLevel && THINKING_LEVELS[opts.thinkingLevel]) ? opts.thinkingLevel : 'low'
+        }
+      };
+      if (opts.jsonMode !== false) {
+        genConfig.responseMimeType = 'application/json';
+      }
+
+      var payload = {
+        systemInstruction: { parts: [{ text: opts.systemPrompt }] },
+        contents: [{ role: 'user', parts: [{ text: opts.userPrompt }] }],
+        generationConfig: genConfig
+      };
+
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function (resp) {
+        if (!resp.ok) {
+          throw new Error('HTTP ' + resp.status);
+        }
+        return resp.json();
+      }).then(function (data) {
+        var parts = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+        var raw = Array.isArray(parts)
+          ? parts.map(function (p) { return (p && p.text && !p.thought) ? p.text : ''; }).join(' ').trim()
+          : '';
+        if (!raw) throw new Error('Empty AI response');
+        return raw;
+      }).finally(function () {
+        clearTimeout(timerId);
+      });
+    }
+
+    function parseAndValidateAiDecision(rawText, input, offlineDecision) {
+      var parsed = JSON.parse(stripCodeFenceJson(rawText));
+      if (!parsed || typeof parsed !== 'object') {
+        throw new Error('Invalid JSON structure');
+      }
+
+      var reaction = String(parsed.examinerReaction || '').replace(/\s+/g, ' ').trim();
+      if (!reaction) {
+        throw new Error('Missing examinerReaction');
+      }
+      // Giữ phản hồi gọn tự nhiên chuẩn phòng thi (tối đa ~45 từ)
+      var reactionWords = reaction.split(' ').filter(Boolean);
+      if (reactionWords.length > 48) {
+        reaction = reactionWords.slice(0, 48).join(' ').replace(/[,:;]+$/, '') + '.';
+      }
+
+      if (input.phase === 'warmup' && input.warmupStep === 0) {
+        var aiName = PzDialogueEngine.extractCandidateName(parsed.detectedName || '') || offlineDecision.candidateName;
+        var followGreeting = String(parsed.followUpQuestion || '').replace(/\s+/g, ' ').trim()
+          || offlineDecision.followUpQuestion;
+        return Object.assign({}, offlineDecision, {
+          candidateName: aiName,
+          examinerReaction: reaction,
+          followUpQuestion: followGreeting,
+          spokenLines: [reaction, followGreeting],
+          source: 'gemini'
+        });
+      }
+
+      var rawAction = String(parsed.action || 'advance').toLowerCase().trim();
+      var validAction = (rawAction === 'followup' || rawAction === 'rephrase' || rawAction === 'advance')
+        ? rawAction
+        : 'advance';
+
+      if (validAction === 'followup' && !input.canFollowUp) {
+        validAction = 'advance';
+      }
+
+      var followUpQ = String(parsed.followUpQuestion || '').replace(/\s+/g, ' ').trim();
+      var rephraseQ = String(parsed.rephraseText || '').replace(/\s+/g, ' ').trim();
+
+      if (validAction === 'followup' && !followUpQ) {
+        validAction = 'advance';
+      }
+      if (validAction === 'rephrase' && !rephraseQ) {
+        rephraseQ = offlineDecision.rephraseText;
+      }
+      if (validAction === 'rephrase' && !rephraseQ) {
+        validAction = 'advance';
+      }
+
+      var spokenLines = [reaction];
+      if (validAction === 'followup') spokenLines.push(followUpQ);
+      else if (validAction === 'rephrase') spokenLines.push(rephraseQ);
+
+      return Object.assign({}, offlineDecision, {
+        action: validAction,
+        examinerReaction: reaction,
+        followUpQuestion: validAction === 'followup' ? followUpQ : '',
+        rephraseText: validAction === 'rephrase' ? rephraseQ : offlineDecision.rephraseText,
+        spokenLines: spokenLines,
+        preserveOriginalQ: true,
+        source: 'gemini'
+      });
+    }
+
+    function collectAvoidOpeners(dialogueHistory) {
+      var list = Array.isArray(dialogueHistory) ? dialogueHistory : [];
+      var out = [];
+      for (var i = list.length - 1; i >= 0 && out.length < 6; i--) {
+        var h = list[i];
+        if (h && h.role === 'examiner' && (h.kind === 'reaction' || h.kind === 'followup' || h.kind === 'clarify')) {
+          var snippet = String(h.text || '').replace(/\s+/g, ' ').trim();
+          if (snippet) out.unshift(snippet.slice(0, 72));
+        }
+      }
+      return out;
+    }
+
+    function decideTurnHybrid(input, offlineDecision) {
+      var o = input || {};
+      var baseOffline = Object.assign({}, offlineDecision, { source: 'offline' });
+      var transcript = String(o.transcript || '').trim();
+
+      if (
+        o.mode !== 'gemini_hybrid'
+        || !o.apiKey
+        || typeof fetch !== 'function'
+        || offlineDecision.intent === 'repeat'
+        || (!transcript && o.phase !== 'warmup')
+      ) {
+        return Promise.resolve(baseOffline);
+      }
+
+      var styleProfile = PzDialogueEngine.getStyleProfile(o.style || 'adaptive', o.sessionSeed || 0);
+      var persona = o.examinerPersona || { name: 'Examiner', accent: 'UK' };
+      var avoidOpeners = collectAvoidOpeners(o.dialogueHistory);
+
+      var canFollowUp = Boolean(
+        (o.phase === 'part1' || o.phase === 'part2_round' || o.phase === 'part3')
+        && !o.activeFollowUpQ
+        && !(o.slot && o.slot.followUpAsked)
+        && transcript
+      );
+      var recentHistory = (o.dialogueHistory || []).slice(-5).map(function (h) {
+        return (h.role === 'examiner' ? 'Examiner: ' : 'Candidate: ') + h.text;
+      }).join('\n');
+      var nextCanonicalQ = getNextCanonicalQuestion(o.lesson, o.phase, o.stepIndex || 0, o.warmupStep || 0);
+
+      var reactionLimitRule = styleProfile.id === 'strict_bc'
+        ? 'Keep examinerReaction crisp and formal (4-14 words, understated British Council style).'
+        : 'Keep examinerReaction vivid, varied, and concise (1 natural spoken sentence, max 25 words) reacting directly to a specific idea or word in what the candidate just said.';
+
+      var followUpGuidance = styleProfile.id === 'probing'
+        ? 'If canFollowUp is true AND the answer is brief, one-sided, lacks an example, or mentions an interesting claim (especially in Part 3), set action="followup" and ask 1 sharp analytical follow-up (e.g., trade-off, opposite view, age-group difference, or "why").'
+        : 'If canFollowUp is true AND the answer is brief, unclear, Yes/No without explanation, or opens an interesting angle, set action="followup" and ask 1 short natural IELTS follow-up probe matching your examiner persona.';
+
+      var systemPrompt = [
+        'You are ' + persona.name + ' (' + (persona.accent || 'UK') + '), conducting a live two-way IELTS Speaking conversation.',
+        'ACTIVE EXAMINER STYLE (' + styleProfile.id + '): ' + styleProfile.promptBrief,
+        'STRICT EXAM INTEGRITY RULE: The official test questions are fixed and handled by the exam runner. NEVER skip, replace, alter, or invent main test questions, and NEVER include nextOfficialQuestionLockedByRunner inside your response.',
+        reactionLimitRule,
+        'ANTI-REPETITION RULE: Vary your phrasing naturally across every turn. NEVER repeat sentence openings, templates, or exact wording listed in avoidOpeners.',
+        'If phase==="warmup" and warmupStep===0, acknowledge their name warmly/formally per your style, extract detectedName, and set followUpQuestion to a fresh natural IELTS warm-up question (e.g., hometown, neighborhood, work/studies, daily routine, or comfort check) matching your persona.',
+        followUpGuidance,
+        'If candidate explicitly asks to explain or rephrase the question, set action="rephrase" and rewrite ONLY the current question in simpler everyday English.',
+        'Otherwise set action="advance" so the exam runner seamlessly delivers the next official question after your examinerReaction.',
+        'Return strict JSON with keys: detectedName, action, examinerReaction, followUpQuestion, rephraseText.'
+      ].join(' ');
+
+      var userPrompt = JSON.stringify({
+        phase: o.phase,
+        warmupStep: o.warmupStep || 0,
+        examinerStyle: styleProfile.id,
+        candidateName: o.candidateName || '',
+        currentQuestion: (o.activeFollowUpQ || (o.meta && o.meta.qText) || ''),
+        candidateReply: transcript || '[Candidate remained silent / clicked next]',
+        canFollowUp: canFollowUp,
+        nextOfficialQuestionLockedByRunner: nextCanonicalQ,
+        avoidOpeners: avoidOpeners,
+        recentDialogue: recentHistory
+      });
+
+      return callGeminiJson({
+        apiKey: o.apiKey,
+        model: o.model,
+        systemPrompt: systemPrompt,
+        userPrompt: userPrompt,
+        temperature: typeof o.temperature === 'number' ? o.temperature : styleProfile.temperature,
+        timeoutMs: o.timeoutMs || TIMEOUT_MS
+      }).then(function (rawText) {
+        return parseAndValidateAiDecision(rawText, {
+          phase: o.phase,
+          warmupStep: o.warmupStep || 0,
+          canFollowUp: canFollowUp
+        }, offlineDecision);
+      }).catch(function (err) {
+        return Object.assign({}, offlineDecision, {
+          source: 'offline_fallback',
+          fallbackReason: err && err.message ? err.message : 'fallback'
+        });
+      });
+    }
+
+    function buildPart2StopReactionHybrid(input, offlinePart2) {
+      var o = input || {};
+      var wordLen = String(o.transcript || '').trim().split(/\s+/).filter(Boolean).length;
+      if (o.mode !== 'gemini_hybrid' || !o.apiKey || typeof fetch !== 'function' || wordLen < 12) {
+        return Promise.resolve(Object.assign({}, offlinePart2, { source: 'offline' }));
+      }
+      var styleProfile = PzDialogueEngine.getStyleProfile(o.style || 'adaptive', o.sessionSeed || 0);
+      var stopLine = o.stopScript || PzDialogueEngine.getPhaseScript('part2_stop', { style: styleProfile.id, seed: o.sessionSeed || 0 });
+      var roundingOffQ = o.roundingOffQ || 'Do you still think about this topic in daily life?';
+      var systemPrompt = 'You are an IELTS Examiner (' + styleProfile.id + ' style: ' + styleProfile.promptBrief + ') transitioning from a candidate Part 2 long turn to a rounding-off question. Return JSON {"bridge":"1 short natural sentence (max 18 words) reacting specifically to what the candidate spoke about"}. Do NOT ask any new question.';
+      var userPrompt = JSON.stringify({
+        candidateName: o.candidateName || '',
+        cueCardPrompt: o.prompt || '',
+        candidatePart2Speech: String(o.transcript || '').slice(0, 1200)
+      });
+
+      return callGeminiJson({
+        apiKey: o.apiKey,
+        model: o.model,
+        systemPrompt: systemPrompt,
+        userPrompt: userPrompt,
+        maxOutputTokens: 320,
+        thinkingLevel: 'low',
+        temperature: styleProfile.temperature,
+        timeoutMs: o.timeoutMs || TIMEOUT_MS
+      }).then(function (raw) {
+        var obj = JSON.parse(stripCodeFenceJson(raw));
+        var bridge = String((obj && obj.bridge) || '').replace(/\s+/g, ' ').trim();
+        if (!bridge) throw new Error('Empty Part 2 bridge');
+        return {
+          stopLines: [stopLine],
+          roundingIntro: bridge + ' ' + roundingOffQ,
+          source: 'gemini'
+        };
+      }).catch(function () {
+        return Object.assign({}, offlinePart2, { source: 'offline_fallback' });
+      });
+    }
+
+    function testConnection(opts) {
+      var o = opts || {};
+      var cleanKey = String(o.apiKey || '').trim();
+      if (!cleanKey) return Promise.resolve({ ok: false, error: 'Chưa nhập Gemini API Key.' });
+      return callGeminiJson({
+        apiKey: cleanKey,
+        model: o.model,
+        systemPrompt: 'Reply concisely.',
+        userPrompt: 'Reply with exact word: READY',
+        jsonMode: false,
+        maxOutputTokens: 128,
+        thinkingLevel: 'low',
+        temperature: 0,
+        timeoutMs: 8000
+      }).then(function (reply) {
+        return { ok: true, model: normalizeModel(o.model), reply: reply };
+      }).catch(function (err) {
+        return { ok: false, error: (err && err.message) || 'Kết nối thất bại' };
+      });
+    }
+
+    function buildClarificationHybrid(input, offlineHint) {
+      var o = input || {};
+      if (o.mode !== 'gemini_hybrid' || !o.apiKey || typeof fetch !== 'function') {
+        return Promise.resolve({ hint: offlineHint, source: 'offline' });
+      }
+      var styleProfile = PzDialogueEngine.getStyleProfile(o.style || 'adaptive', o.sessionSeed || 0);
+      return callGeminiJson({
+        apiKey: o.apiKey,
+        model: o.model,
+        systemPrompt: 'You are an IELTS Examiner clarifying a question without giving away sample answers (' + styleProfile.promptBrief + '). Return JSON {"hint":"1 concise, practical sentence explaining an angle the candidate can talk about"}.',
+        userPrompt: JSON.stringify({ phase: o.phase, question: o.questionText || '', topic: o.topicTitle || '' }),
+        maxOutputTokens: 320,
+        thinkingLevel: 'low',
+        temperature: styleProfile.temperature,
+        timeoutMs: o.timeoutMs || TIMEOUT_MS
+      }).then(function (raw) {
+        var obj = JSON.parse(stripCodeFenceJson(raw));
+        var hint = String((obj && obj.hint) || '').replace(/\s+/g, ' ').trim();
+        if (!hint) throw new Error('Empty hint');
+        return { hint: hint, source: 'gemini' };
+      }).catch(function () {
+        return { hint: offlineHint, source: 'offline_fallback' };
+      });
+    }
+
+    return {
+      decideTurnHybrid: decideTurnHybrid,
+      buildPart2StopReactionHybrid: buildPart2StopReactionHybrid,
+      buildClarificationHybrid: buildClarificationHybrid,
+      testConnection: testConnection,
+      callGeminiJson: callGeminiJson,
+      stripCodeFenceJson: stripCodeFenceJson,
+      normalizeModel: normalizeModel,
+      parseAndValidateAiDecision: parseAndValidateAiDecision,
+      getNextCanonicalQuestion: getNextCanonicalQuestion
+    };
+  })();
+
+  global.PzAiExaminer = PzAiExaminer;
+
+  // =========================================================================
+  // 9D. BỘ TỰ CHẤM ĐIỂM & NHẬN XÉT 2 TẦNG (SPEAKING GRADER — OFFLINE + HYDROGEN)
+  // =========================================================================
+  var SpeakingGrader = (function () {
+    var UPGRADE_BANK = [
+      { rx: /\bvery good\b|\breally good\b|\bso good\b/i, from: 'very good / really good', upgrade: 'rewarding / exceptional / worthwhile', meaningVi: 'đáng giá / xuất sắc / bổ ích' },
+      { rx: /\bvery bad\b|\breally bad\b/i, from: 'very bad / really bad', upgrade: 'detrimental / counterproductive / adverse', meaningVi: 'gây hại / phản tác dụng' },
+      { rx: /\bvery important\b|\breally important\b/i, from: 'very important', upgrade: 'crucial / indispensable / paramount', meaningVi: 'then chốt / không thể thiếu' },
+      { rx: /\bvery busy\b|\bso busy\b/i, from: 'very busy', upgrade: 'hectic / snowed under / pressed for time', meaningVi: 'bận rộn ngập đầu / eo hẹp thời gian' },
+      { rx: /\ba lot of\b|\blots of\b/i, from: 'a lot of / lots of', upgrade: 'a wide array of / countless / a wealth of', meaningVi: 'rất nhiều / phong phú' },
+      { rx: /\bvery happy\b|\breally happy\b/i, from: 'very happy', upgrade: 'over the moon / genuinely fulfilled / delighted', meaningVi: 'vui sướng / mãn nguyện' },
+      { rx: /\bvery tired\b|\breally tired\b/i, from: 'very tired', upgrade: 'exhausted / drained / burnt out', meaningVi: 'kiệt sức / uể oải' },
+      { rx: /\binteresting\b/i, from: 'interesting', upgrade: 'fascinating / thought-provoking / captivating', meaningVi: 'hấp dẫn / gợi suy ngẫm' }
+    ];
+
+    var SPOKEN_GRAMMAR_CHECKS = [
+      { rx: /\b(peoples|childrens|informations|advices|equipments|knowledges)\b/i, noteVi: 'Danh từ không đếm được hoặc bất quy tắc — bỏ "-s" (people, children, information, advice, equipment, knowledge).', fix: function (m) { return m.replace(/s$/i, ''); } },
+      { rx: /\bmore\s+(better|easier|cheaper|faster|harder|worse|bigger|smaller|older|younger)\b/i, noteVi: 'Tránh dùng "more" kèm tính từ so sánh ngắn — dùng trực tiếp "better / easier / cheaper...".', fix: function (m) { return m.replace(/^more\s+/i, ''); } },
+      { rx: /\bi\s+am\s+agree\b|\bi'm\s+agree\b/i, noteVi: 'Động từ "agree" không đi sau "to be" — sửa thành "I agree" hoặc "I completely agree".', fix: function () { return 'I agree'; } },
+      { rx: /\bdiscuss\s+about\b/i, noteVi: '"Discuss" là ngoại động từ, không dùng "about" theo sau ("discuss this topic").', fix: function () { return 'discuss'; } },
+      { rx: /\bdepend\s+of\b|\bdepends\s+of\b/i, noteVi: 'Cụm đúng là "depend on / depends on".', fix: function (m) { return m.replace(/\bof$/i, 'on'); } },
+      { rx: /\bthere\s+have\b/i, noteVi: 'Khi diễn tả sự tồn tại, dùng "there is / there are" thay cho "there have".', fix: function () { return 'there are'; } },
+      { rx: /\bpeople\s+is\b/i, noteVi: '"People" luôn chia động từ số nhiều ("people are...").', fix: function () { return 'people are'; } }
+    ];
+
+    var ADV_LEXIS_RX = /\b(nowadays|crucial|significant\w*|drawback\w*|perspective\w*|sustainab\w*|cultivat\w*|overwhelm\w*|reward\w*|authentic\w*|enrich\w*|downside\w*|trade-off\w*|inevitabl\w*|beneficial|practical\w*|fulfill\w*|memorable|flexib\w*|productive|environment\w*|priorit\w*|experience\w*|communit\w*)\b/gi;
+
+    function clampIeltsBand(val, fallback) {
+      var n = Number(val);
+      if (!isFinite(n) || n <= 0) n = Number(fallback) || 6.0;
+      n = Math.max(4.0, Math.min(9.0, n));
+      return roundIeltsBand(n);
+    }
+
+    function countUniqueWords(tokens) {
+      var set = new Set();
+      tokens.forEach(function (t) {
+        if (t && t.length >= 2) set.add(t);
+      });
+      return set.size;
+    }
+
+    function detectRepeatedContentWords(tokens) {
+      var stop = {
+        the: 1, and: 1, that: 1, for: 1, with: 1, you: 1, this: 1, are: 1, have: 1, was: 1,
+        were: 1, they: 1, not: 1, but: 1, from: 1, about: 1, can: 1, will: 1, just: 1, very: 1,
+        really: 1, think: 1, like: 1, some: 1, more: 1, when: 1, what: 1, also: 1, because: 1,
+        there: 1, their: 1, would: 1, could: 1, much: 1, many: 1, time: 1, people: 1, things: 1
+      };
+      var freq = {};
+      tokens.forEach(function (t) {
+        if (t.length >= 4 && !stop[t]) freq[t] = (freq[t] || 0) + 1;
+      });
+      return Object.keys(freq)
+        .filter(function (k) { return freq[k] >= 4; })
+        .sort(function (a, b) { return freq[b] - freq[a]; })
+        .slice(0, 3);
+    }
+
+    function detectGrammarSignals(text) {
+      var s = String(text || '');
+      var subCount = (s.match(/\b(because|since|although|even though|whereas|while|unless|provided that|so that|whenever|even if)\b/gi) || []).length;
+      var relCount = (s.match(/\b(which|who|whom|whose|where)\b|\bthat\s+(?:is|are|was|were|has|have|can|will|helps?|makes?)\b/gi) || []).length;
+      var condCount = (s.match(/\b(would|could|might|if\s+[^,.!?]{2,40}\b(?:will|would|could|might|were)\b|used to)\b/gi) || []).length;
+      var perfPassCount = (s.match(/\b(?:has|have|had|is|are|was|were|been)\s+[a-z]+(?:ed|en)\b/gi) || []).length;
+
+      var fixes = [];
+      for (var i = 0; i < SPOKEN_GRAMMAR_CHECKS.length && fixes.length < 4; i++) {
+        var chk = SPOKEN_GRAMMAR_CHECKS[i];
+        var m = chk.rx.exec(s);
+        if (m) {
+          fixes.push({
+            original: m[0],
+            corrected: chk.fix(m[0]),
+            noteVi: chk.noteVi
+          });
+        }
+      }
+      return {
+        subCount: subCount,
+        relCount: relCount,
+        condCount: condCount,
+        perfPassCount: perfPassCount,
+        fixes: fixes
+      };
+    }
+
+    function buildCombinedExamTranscript(payload) {
+      var p = payload || {};
+      if (p.transcript && String(p.transcript).trim()) return String(p.transcript).trim();
+      var turns = Array.isArray(p.turns) ? p.turns : [];
+      return turns.map(function (t) {
+        return [t && t.transcript, t && t.followUpTranscript].filter(Boolean).join(' ').trim();
+      }).filter(Boolean).join(' ').trim();
+    }
+
+    /**
+     * Tầng 1: Tự chấm điểm & nhận xét Offline (0ms) dựa trên transcript, WPM, từ nối,
+     * độ đa dạng từ vựng (Guiraud index), cấu trúc ngữ pháp và telemetry phòng thi.
+     */
+    function evaluateOffline(payload) {
+      var p = payload || {};
+      var transcript = buildCombinedExamTranscript(p);
+      var targets = Array.isArray(p.targetWords)
+        ? p.targetWords
+        : (p.lesson ? collectTargetLexis(p.lesson) : []);
+      var isFullExam = p.kind === 'pz' && (!p.turns || p.turns.length >= 4);
+      var durationSec = Number(p.durationSec) || (isFullExam ? 120 : 30);
+      var metrics = analyzeTranscriptMetrics(transcript, durationSec, targets);
+      var wc = metrics.wordCount;
+
+      if (wc < 3) {
+        var emptyFb = {
+          fc: 'Chưa đủ dữ liệu lời nói để đánh giá độ trôi chảy.',
+          lr: 'Chưa ghi nhận đủ từ vựng trong transcript.',
+          gra: 'Chưa có câu hoàn chỉnh để phân tích cấu trúc ngữ pháp.',
+          pr: 'Hãy bật Micro hoặc nhập/dán transcript để hệ thống ước lượng nhịp độ phát âm.'
+        };
+        return {
+          source: 'offline',
+          model: 'offline-rubric-v1',
+          hasTranscript: false,
+          metrics: metrics,
+          scores: { fc: 4.0, lr: 4.0, gra: 4.0, pr: 4.0 },
+          overallBand: 4.0,
+          summaryVi: 'Chưa có đủ transcript văn bản để chấm tự động. Nếu bạn vừa thu âm không có STT, hãy thử AI/Micro hỗ trợ STT hoặc gõ tóm tắt câu trả lời vào ô transcript.',
+          criteriaFeedback: emptyFb,
+          strengths: ['Đã hoàn thành thao tác phòng thi trên hệ thống.'],
+          improvements: ['Bật Micro có nhận diện giọng nói (Chrome/Edge) hoặc nhập transcript trước khi chấm để nhận phân tích chi tiết.'],
+          vocabUpgrades: [],
+          grammarFixes: [],
+          prEstimatedNote: 'Ước lượng Pronunciation cần có transcript + thời lượng nói để tính WPM và độ rõ nhận diện.',
+          gradedAt: Date.now()
+        };
+      }
+
+      var telemetry = p.telemetry || {};
+      var rawTokens = transcript.toLowerCase().replace(/[^a-z'\s-]/g, ' ').split(/\s+/).filter(Boolean);
+      var uniqueCnt = countUniqueWords(rawTokens);
+      var guiraud = wc > 0 ? (uniqueCnt / Math.sqrt(wc)) : 0;
+      var advHits = (transcript.match(ADV_LEXIS_RX) || []).length;
+      var repeatedWords = detectRepeatedContentWords(rawTokens);
+      var gramSig = detectGrammarSignals(transcript);
+
+      // 1. Fluency & Coherence (chuẩn hóa thang từ theo Full Exam vs Studio 1 câu)
+      var targetWc = isFullExam ? 260 : 120;
+      var volRatio = Math.min(1.2, wc / targetWc);
+      var fcRaw = 4.3 + volRatio * 1.85;
+      if (metrics.wpm >= 95 && metrics.wpm <= 160) fcRaw += 0.85;
+      else if (metrics.wpm >= 75 && metrics.wpm <= 178) fcRaw += 0.45;
+      else fcRaw += 0.1;
+      fcRaw += Math.min(0.95, metrics.connectorsUsed.length * 0.24);
+      var fillerRatio = wc ? (metrics.fillerCount / wc) : 0;
+      if (fillerRatio > 0.06) fcRaw -= 0.5;
+      else if (fillerRatio > 0.03) fcRaw -= 0.25;
+      if ((telemetry.repeatCount || 0) + (telemetry.rephraseCount || 0) >= 4) fcRaw -= 0.25;
+      if (wc < (isFullExam ? 40 : 18)) fcRaw = Math.min(fcRaw, 5.0);
+      var fcScore = clampIeltsBand(fcRaw, 5.5);
+
+      // 2. Lexical Resource
+      var lrRaw = 4.2;
+      if (guiraud >= 7.2) lrRaw += 1.9;
+      else if (guiraud >= 5.8) lrRaw += 1.45;
+      else if (guiraud >= 4.5) lrRaw += 0.95;
+      else lrRaw += 0.45;
+      lrRaw += Math.min(0.9, metrics.usedTargets.length * 0.3);
+      lrRaw += Math.min(0.85, advHits * 0.22);
+      if (repeatedWords.length >= 2 && wc < 180) lrRaw -= 0.25;
+      if (wc < (isFullExam ? 35 : 15)) lrRaw = Math.min(lrRaw, 5.0);
+      var lrScore = clampIeltsBand(lrRaw, 5.5);
+
+      // 3. Grammatical Range & Accuracy
+      var structDiversity =
+        (gramSig.subCount > 0 ? 1 : 0)
+        + (gramSig.relCount > 0 ? 1 : 0)
+        + (gramSig.condCount > 0 ? 1 : 0)
+        + (gramSig.perfPassCount > 0 ? 1 : 0);
+      var totalComplex = gramSig.subCount + gramSig.relCount + gramSig.condCount + gramSig.perfPassCount;
+      var graRaw = 4.3 + Math.min(1.6, structDiversity * 0.4) + Math.min(1.1, totalComplex * 0.18);
+      if (wc >= (isFullExam ? 140 : 60)) graRaw += 0.35;
+      graRaw -= Math.min(0.75, gramSig.fixes.length * 0.35);
+      if (wc < (isFullExam ? 35 : 15)) graRaw = Math.min(graRaw, 5.0);
+      var graScore = clampIeltsBand(graRaw, 5.5);
+
+      // 4. Pronunciation (ước lượng từ WPM & độ nhận diện rõ của STT)
+      var prRaw = fcScore * 0.55 + lrScore * 0.45;
+      if (metrics.wpm >= 98 && metrics.wpm <= 152 && fillerRatio <= 0.035) prRaw += 0.2;
+      else if (metrics.wpm > 0 && (metrics.wpm < 75 || metrics.wpm > 185)) prRaw -= 0.35;
+      var prScore = clampIeltsBand(prRaw, fcScore);
+
+      var overallBand = roundIeltsBand((fcScore + lrScore + graScore + prScore) / 4);
+
+      // Xây dựng nâng cấp từ vựng & gợi ý cụ thể
+      var vocabUpgrades = [];
+      for (var u = 0; u < UPGRADE_BANK.length && vocabUpgrades.length < 4; u++) {
+        if (UPGRADE_BANK[u].rx.test(transcript)) {
+          vocabUpgrades.push({
+            from: UPGRADE_BANK[u].from,
+            upgrade: UPGRADE_BANK[u].upgrade,
+            meaningVi: UPGRADE_BANK[u].meaningVi
+          });
+        }
+      }
+      var unusedTargets = targets.filter(function (tw) {
+        return metrics.usedTargets.indexOf(tw) === -1;
+      });
+      for (var ut = 0; ut < unusedTargets.length && vocabUpgrades.length < 5; ut++) {
+        vocabUpgrades.push({
+          from: '(Chưa dùng trong bài)',
+          upgrade: unusedTargets[ut],
+          meaningVi: 'Từ vựng mục tiêu Band 7.0+ của bài này'
+        });
+      }
+
+      var grammarFixes = gramSig.fixes.slice();
+      if (!grammarFixes.length && gramSig.condCount === 0) {
+        grammarFixes.push({
+          original: '(Thiếu câu điều kiện / giả định)',
+          corrected: 'If I had more time, I would definitely explore ... / Were that to happen, people might ...',
+          noteVi: 'Bổ sung 1–2 câu điều kiện loại 2 hoặc cấu trúc giả định giúp tiêu chí GRA dễ chạm Band 7.0+.'
+        });
+      }
+
+      var strengths = [];
+      if (metrics.wpm >= 95 && metrics.wpm <= 160) strengths.push('Tốc độ nói ổn định (~' + metrics.wpm + ' WPM), giữ được nhịp giao tiếp tự nhiên.');
+      if (metrics.connectorsUsed.length >= 2) strengths.push('Sử dụng hợp lý các từ nối mạch lạc (' + metrics.connectorsUsed.slice(0, 4).join(', ') + ').');
+      if (metrics.usedTargets.length > 0) strengths.push('Vận dụng được ' + metrics.usedTargets.length + ' cụm từ mục tiêu của chủ đề (' + metrics.usedTargets.slice(0, 3).join(', ') + ').');
+      if (totalComplex >= 3) strengths.push('Có kết hợp câu phức (mệnh đề nguyên nhân/quan hệ/điều kiện).');
+      if (!strengths.length) strengths.push('Đã hoàn thành trả lời bằng tiếng Anh với ' + wc + ' từ được ghi nhận.');
+
+      var improvements = [];
+      if (wc < (isFullExam ? 140 : 55)) improvements.push('Kéo dài câu trả lời thêm ý giải thích và 1 ví dụ cụ thể (hiện mới ghi nhận ' + wc + ' từ).');
+      if (fillerRatio > 0.03) improvements.push('Giảm từ ngập ngừng ("like / um / uh", hiện có ' + metrics.fillerCount + ' lần); thay bằng "Well / To be honest".');
+      if (repeatedWords.length) improvements.push('Tránh lặp lại nhiều lần các từ: ' + repeatedWords.map(function (w) { return '"' + w + '"'; }).join(', ') + ' — hãy paraphrase bằng từ đồng nghĩa.');
+      if (structDiversity < 2) improvements.push('Tăng độ đa dạng ngữ pháp bằng cách thêm mệnh đề nhượng bộ (although / whereas) hoặc câu điều kiện (if... would).');
+      if (!improvements.length) improvements.push('Duy trì độ ổn định này và nâng cấp thêm 1–2 collocation/idiom đắt giá cho Part 2 & Part 3.');
+
+      var summaryVi = 'Band ước lượng Offline: ' + overallBand.toFixed(1)
+        + ' (' + wc + ' từ • ~' + metrics.wpm + ' WPM). '
+        + (overallBand >= 7.0
+          ? 'Nội dung triển khai tốt, mạch nối và vốn từ khá chắc; tối ưu thêm collocation C1 sẽ tiến tới 7.5–8.0.'
+          : (overallBand >= 6.0
+            ? 'Đáp ứng được giao tiếp cơ bản đến khá; cần mở rộng ví dụ, giảm lặp từ và thêm câu phức để vượt ngưỡng 6.5–7.0.'
+            : 'Câu trả lời còn ngắn hoặc thiếu liên kết; ưu tiên trả lời trọn 2–3 câu mỗi hỏi kèm lý do + ví dụ.'));
+
+      return {
+        source: 'offline',
+        model: 'offline-rubric-v1',
+        hasTranscript: true,
+        metrics: metrics,
+        scores: { fc: fcScore, lr: lrScore, gra: graScore, pr: prScore },
+        overallBand: overallBand,
+        summaryVi: summaryVi,
+        criteriaFeedback: {
+          fc: 'Ghi nhận ' + wc + ' từ (~' + metrics.wpm + ' WPM), ' + metrics.connectorsUsed.length + ' từ nối, ' + metrics.fillerCount + ' từ đệm.',
+          lr: 'Độ đa dạng từ gốc ~' + uniqueCnt + ' từ (chỉ số Guiraud ' + guiraud.toFixed(1) + '), dùng ' + metrics.usedTargets.length + '/' + metrics.targetTotal + ' từ vựng mục tiêu.',
+          gra: 'Phát hiện ' + totalComplex + ' cấu trúc phức/mở rộng (' + gramSig.subCount + ' phụ thuộc, ' + gramSig.relCount + ' quan hệ, ' + gramSig.condCount + ' điều kiện/modal).' + (gramSig.fixes.length ? ' Cần rà soát ' + gramSig.fixes.length + ' lỗi diễn đạt.' : ''),
+          pr: 'Ước lượng gián tiếp qua WPM (' + metrics.wpm + ') và độ rõ nhận diện STT (nếu cần điểm chuẩn, hãy nghe lại bản ghi âm).'
+        },
+        strengths: strengths.slice(0, 3),
+        improvements: improvements.slice(0, 4),
+        vocabUpgrades: vocabUpgrades,
+        grammarFixes: grammarFixes,
+        prEstimatedNote: 'Lưu ý: Chấm Offline ước lượng tiêu chí Pronunciation gián tiếp qua nhịp nói WPM & khả năng nhận diện văn bản (STT).',
+        gradedAt: Date.now()
+      };
+    }
+
+    function sanitizeStringArray(arr, maxLen, fallback) {
+      var list = Array.isArray(arr)
+        ? arr.map(function (x) { return String(x || '').replace(/\s+/g, ' ').trim(); }).filter(Boolean)
+        : [];
+      return (list.length ? list : (fallback || [])).slice(0, maxLen);
+    }
+
+    function parseGeminiGrade(rawText, offlineResult) {
+      var parsed = JSON.parse(PzAiExaminer.stripCodeFenceJson(rawText));
+      if (!parsed || typeof parsed !== 'object' || !parsed.scores) {
+        throw new Error('Invalid grading JSON payload');
+      }
+      var s = parsed.scores || {};
+      var offS = offlineResult.scores;
+      var fc = clampIeltsBand(s.fc, offS.fc);
+      var lr = clampIeltsBand(s.lr, offS.lr);
+      var gra = clampIeltsBand(s.gra, offS.gra);
+      var pr = clampIeltsBand(s.pr, offS.pr);
+      var overallBand = roundIeltsBand((fc + lr + gra + pr) / 4);
+
+      var cf = parsed.criteriaFeedback || {};
+      var offCf = offlineResult.criteriaFeedback;
+      var vocabUpgrades = Array.isArray(parsed.vocabUpgrades)
+        ? parsed.vocabUpgrades.filter(function (v) { return v && (v.upgrade || v.from); }).slice(0, 5).map(function (v) {
+          return {
+            from: String(v.from || '').trim(),
+            upgrade: String(v.upgrade || '').trim(),
+            meaningVi: String(v.meaningVi || '').trim()
+          };
+        })
+        : offlineResult.vocabUpgrades;
+
+      var grammarFixes = Array.isArray(parsed.grammarFixes)
+        ? parsed.grammarFixes.filter(function (g) { return g && (g.original || g.corrected); }).slice(0, 4).map(function (g) {
+          return {
+            original: String(g.original || '').trim(),
+            corrected: String(g.corrected || '').trim(),
+            noteVi: String(g.noteVi || '').trim()
+          };
+        })
+        : offlineResult.grammarFixes;
+
+      return {
+        source: 'gemini',
+        model: PzAiExaminer.normalizeModel(parsed.model || 'gemini-4-hydrogen'),
+        hasTranscript: offlineResult.hasTranscript,
+        metrics: offlineResult.metrics,
+        scores: { fc: fc, lr: lr, gra: gra, pr: pr },
+        overallBand: overallBand,
+        summaryVi: String(parsed.summaryVi || offlineResult.summaryVi).replace(/\s+/g, ' ').trim(),
+        criteriaFeedback: {
+          fc: String(cf.fc || offCf.fc).trim(),
+          lr: String(cf.lr || offCf.lr).trim(),
+          gra: String(cf.gra || offCf.gra).trim(),
+          pr: String(cf.pr || offCf.pr).trim()
+        },
+        strengths: sanitizeStringArray(parsed.strengths, 3, offlineResult.strengths),
+        improvements: sanitizeStringArray(parsed.improvements, 4, offlineResult.improvements),
+        vocabUpgrades: vocabUpgrades,
+        grammarFixes: grammarFixes,
+        prEstimatedNote: String(parsed.prEstimatedNote || offlineResult.prEstimatedNote).trim(),
+        gradedAt: Date.now()
+      };
+    }
+
+    /**
+     * Tầng 2: Chấm điểm & nhận xét chuyên sâu qua gemini-4-hydrogen (thinkingLevel: 'medium').
+     * Luôn trả fallback về Offline an toàn nếu thiếu API Key, mất mạng hoặc lỗi API.
+     */
+    function evaluateWithGemini(payload, opts) {
+      var o = opts || {};
+      var offlineResult = evaluateOffline(payload);
+      var apiKey = String(o.apiKey || '').trim();
+      if (!offlineResult.hasTranscript || !apiKey || typeof fetch !== 'function') {
+        return Promise.resolve(offlineResult);
+      }
+
+      var p = payload || {};
+      var model = PzAiExaminer.normalizeModel(o.model);
+      var turnsCompact = Array.isArray(p.turns)
+        ? p.turns.slice(0, 14).map(function (t) {
+          return {
+            label: t.label || '',
+            question: String(t.question || '').slice(0, 240),
+            answer: String(t.transcript || '').slice(0, 700),
+            followUpQ: t.followUpQ ? String(t.followUpQ).slice(0, 200) : '',
+            followUpAnswer: t.followUpTranscript ? String(t.followUpTranscript).slice(0, 450) : ''
+          };
+        })
+        : [{ label: p.kind || 'Speaking Practice', question: String(p.questionText || '').slice(0, 300), answer: buildCombinedExamTranscript(p).slice(0, 1800) }];
+
+      var systemPrompt = [
+        'You are a Senior Certified IELTS Speaking Examiner grading a candidate transcript fairly and strictly against the official IELTS 4-criteria rubric (FC, LR, GRA, PR) from 4.0 to 9.0 in 0.5 steps.',
+        'Do NOT inflate scores: brief undeveloped replies cannot earn 7.0+ in FC/LR; do NOT penalize missing capitalization/punctuation artifacts from speech-to-text.',
+        'Because you evaluate transcript + WPM without raw audio, state honestly in criteriaFeedback.pr & prEstimatedNote that PR is an estimate inferred from pacing and speech recognition clarity.',
+        'Respond in strict JSON with exact keys:',
+        '{"scores":{"fc":6.5,"lr":6.5,"gra":6.5,"pr":6.5},"summaryVi":"2-3 concise Vietnamese sentences","criteriaFeedback":{"fc":"Vietnamese feedback","lr":"Vietnamese feedback","gra":"Vietnamese feedback","pr":"Vietnamese feedback"},"strengths":["..."],"improvements":["..."],"vocabUpgrades":[{"from":"...","upgrade":"...","meaningVi":"..."}],"grammarFixes":[{"original":"...","corrected":"...","noteVi":"..."}],"prEstimatedNote":"..."}'
+      ].join(' ');
+
+      var userPrompt = JSON.stringify({
+        testTitle: (p.lesson && p.lesson.title) || p.title || 'IELTS Speaking',
+        mode: p.kind || 'pz',
+        metrics: {
+          wordCount: offlineResult.metrics.wordCount,
+          wpm: offlineResult.metrics.wpm,
+          fillers: offlineResult.metrics.fillerCount,
+          usedTargetLexis: offlineResult.metrics.usedTargets.slice(0, 10)
+        },
+        targetSuggestions: (p.lesson ? collectTargetLexis(p.lesson) : (p.targetWords || [])).slice(0, 10),
+        responses: turnsCompact
+      });
+
+      return PzAiExaminer.callGeminiJson({
+        apiKey: apiKey,
+        model: model,
+        systemPrompt: systemPrompt,
+        userPrompt: userPrompt,
+        thinkingLevel: 'medium',
+        maxOutputTokens: 2048,
+        temperature: 0.35,
+        timeoutMs: o.timeoutMs || 16000
+      }).then(function (rawText) {
+        return parseGeminiGrade(rawText, offlineResult);
+      }).catch(function (err) {
+        return Object.assign({}, offlineResult, {
+          source: 'offline_fallback',
+          fallbackReason: (err && err.message) ? err.message : 'fallback'
+        });
+      });
+    }
+
+    function formatFeedbackText(report) {
+      if (!report) return '';
+      var lines = [];
+      var tag = report.source === 'gemini' ? '🤖 AI Examiner (gemini-4-hydrogen)' : '⚡ Tự chấm Offline';
+      lines.push('[' + tag + ' · Overall ' + Number(report.overallBand || 0).toFixed(1) + ']');
+      if (report.summaryVi) lines.push(report.summaryVi);
+      if (report.strengths && report.strengths.length) {
+        lines.push('✓ Điểm mạnh: ' + report.strengths.join(' | '));
+      }
+      if (report.improvements && report.improvements.length) {
+        lines.push('➜ Cần cải thiện: ' + report.improvements.join(' | '));
+      }
+      if (report.vocabUpgrades && report.vocabUpgrades.length) {
+        lines.push('💎 Nâng cấp từ vựng: ' + report.vocabUpgrades.slice(0, 3).map(function (v) {
+          return (v.from ? v.from + ' → ' : '') + v.upgrade + (v.meaningVi ? ' (' + v.meaningVi + ')' : '');
+        }).join('; '));
+      }
+      if (report.grammarFixes && report.grammarFixes.length) {
+        lines.push('🔧 Gợi ý ngữ pháp: ' + report.grammarFixes.slice(0, 2).map(function (g) {
+          return g.original + ' → ' + g.corrected;
+        }).join('; '));
+      }
+      return lines.join('\n');
+    }
+
+    return {
+      clampIeltsBand: clampIeltsBand,
+      evaluateOffline: evaluateOffline,
+      evaluateWithGemini: evaluateWithGemini,
+      parseGeminiGrade: parseGeminiGrade,
+      formatFeedbackText: formatFeedbackText
+    };
+  })();
+
+  global.SpeakingGrader = SpeakingGrader;
 
   // =========================================================================
   // 10. UNIT 6: PRACTICE ZONE SẢNH CHỜ & PHÒNG THI THẬT FULLSCREEN
@@ -3188,9 +5249,88 @@
     if (strictSel) strictSel.value = prefs.pzStrictness || 'strict';
     if (voiceSel) voiceSel.value = prefs.voiceAccent || lesson.examinerDefaultVoice || 'en-GB';
     if (timerChk) timerChk.checked = prefs.pzStrictTimers !== false;
+    syncPzLobbyDialogueUi();
 
     renderLobbyHistory();
   }
+
+  function syncPzLobbyDialogueUi() {
+    var modeSel = document.getElementById('pzDialogueModeSelect');
+    var styleSel = document.getElementById('pzExaminerStyleSelect');
+    var modelSel = document.getElementById('pzGeminiModelSelect');
+    var keyInput = document.getElementById('pzGeminiKeyInput');
+    var autoMicChk = document.getElementById('pzAutoMicCheck');
+    var byokBox = document.getElementById('pzGeminiByokBox');
+    var statusEl = document.getElementById('pzGeminiTestStatus');
+
+    var mode = prefs.pzDialogueMode || 'offline';
+    if (modeSel) modeSel.value = mode;
+    prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(prefs.pzExaminerStyle);
+    if (styleSel) styleSel.value = prefs.pzExaminerStyle;
+    prefs.pzGeminiModel = PzAiExaminer.normalizeModel(prefs.pzGeminiModel);
+    if (modelSel) modelSel.value = prefs.pzGeminiModel;
+    if (autoMicChk) autoMicChk.checked = Boolean(prefs.pzAutoMic);
+    var storedKey = getStoredGeminiKey();
+    if (keyInput && document.activeElement !== keyInput) {
+      keyInput.value = storedKey;
+    }
+    if (byokBox) {
+      byokBox.style.display = mode === 'gemini_hybrid' ? 'flex' : 'none';
+    }
+    if (statusEl && mode === 'gemini_hybrid' && !statusEl.dataset.tested) {
+      statusEl.textContent = storedKey
+        ? '🔑 Đã lưu API Key cục bộ trên máy. Có thể bấm "Thử kết nối AI" hoặc vào thi ngay.'
+        : '⚠️ Chưa có API Key — nếu vào thi ngay, phòng thi sẽ tự chạy bằng Tầng 1 Offline.';
+    }
+  }
+
+  global.togglePzGeminiKeyVisibility = function () {
+    var inp = document.getElementById('pzGeminiKeyInput');
+    var btn = document.getElementById('btnToggleGeminiKeyVis');
+    if (!inp) return;
+    var show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    if (btn) btn.textContent = show ? '🙈' : '👁️';
+  };
+
+  global.clearPzGeminiKey = function () {
+    setStoredGeminiKey('');
+    var inp = document.getElementById('pzGeminiKeyInput');
+    var statusEl = document.getElementById('pzGeminiTestStatus');
+    if (inp) inp.value = '';
+    if (statusEl) {
+      delete statusEl.dataset.tested;
+      statusEl.style.color = 'var(--muted)';
+      statusEl.textContent = '🗑️ Đã xoá API Key khỏi trình duyệt.';
+    }
+    showToast('Đã xoá Gemini API Key khỏi máy.', 'info');
+  };
+
+  global.testPzGeminiConnection = function () {
+    var inp = document.getElementById('pzGeminiKeyInput');
+    var modelSel = document.getElementById('pzGeminiModelSelect');
+    var statusEl = document.getElementById('pzGeminiTestStatus');
+    var rawKey = (inp ? inp.value : getStoredGeminiKey()).trim();
+    if (inp && rawKey) setStoredGeminiKey(rawKey);
+    var model = PzAiExaminer.normalizeModel(modelSel ? modelSel.value : prefs.pzGeminiModel);
+
+    if (statusEl) {
+      statusEl.dataset.tested = '1';
+      statusEl.style.color = 'var(--muted)';
+      statusEl.textContent = '⏳ Đang kiểm tra kết nối Gemini (' + model + ')...';
+    }
+    PzAiExaminer.testConnection({ apiKey: rawKey, model: model }).then(function (res) {
+      if (!statusEl) return;
+      if (res.ok) {
+        statusEl.style.color = 'var(--hl-green)';
+        statusEl.textContent = '✅ Kết nối Gemini thành công (' + res.model + ')! Sẵn sàng đối đáp AI 2 phía.';
+        showToast('Kết nối Gemini API thành công!', 'success');
+      } else {
+        statusEl.style.color = 'var(--sp-accent-rose)';
+        statusEl.textContent = '⚠️ Chưa kết nối được (' + res.error + ') — phòng thi vẫn chạy mượt ở Tầng 1 Offline.';
+      }
+    });
+  };
 
   global.pairAndStartFullPzExam = function () {
     var target = (activeLesson && activeLesson.type === 'practice_full')
@@ -3340,11 +5480,24 @@
     var strictSel = document.getElementById('pzStrictnessSelect');
     var voiceSel = document.getElementById('pzVoiceSelect');
     var timerChk = document.getElementById('pzStrictTimersCheck');
+    var autoMicChk = document.getElementById('pzAutoMicCheck');
+    var dModeSel = document.getElementById('pzDialogueModeSelect');
+    var styleSel = document.getElementById('pzExaminerStyleSelect');
+    var gModelSel = document.getElementById('pzGeminiModelSelect');
+    var gKeyInp = document.getElementById('pzGeminiKeyInput');
 
     prefs.pzStrictness = strictSel ? strictSel.value : prefs.pzStrictness;
     prefs.voiceAccent = voiceSel ? voiceSel.value : (lesson.examinerDefaultVoice || prefs.voiceAccent);
     prefs.pzStrictTimers = timerChk ? timerChk.checked : true;
+    prefs.pzAutoMic = autoMicChk ? autoMicChk.checked : Boolean(prefs.pzAutoMic);
+    prefs.pzDialogueMode = dModeSel ? dModeSel.value : (prefs.pzDialogueMode || 'offline');
+    prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(styleSel ? styleSel.value : prefs.pzExaminerStyle);
+    prefs.pzGeminiModel = PzAiExaminer.normalizeModel(gModelSel ? gModelSel.value : prefs.pzGeminiModel);
+    if (gKeyInp && gKeyInp.value.trim()) setStoredGeminiKey(gKeyInp.value.trim());
     savePrefs();
+
+    var sessionSeed = Date.now() % 9973;
+    var resolvedStyle = PzDialogueEngine.resolveSessionStyle(prefs.pzExaminerStyle, sessionSeed, { advanceCycle: true });
 
     pzExam = {
       active: true,
@@ -3355,20 +5508,46 @@
       peekVisible: prefs.pzStrictness === 'guided',
       phase: 'warmup',
       subStage: 'ready',
+      warmupStep: 0,
+      candidateName: '',
       stepIndex: 0,
       p2PrepLeft: 60,
       p2TalkElapsed: 0,
       rephraseShown: false,
+      activeRephraseText: '',
+      activeFollowUpQ: '',
+      activeWarmupIdPrompt: '',
+      lastExaminerReaction: '',
+      lastFollowUpBridge: '',
+      clarifyShown: false,
+      clarifyText: '',
+      clarifyCount: 0,
       rephraseCount: 0,
       repeatCount: 0,
+      followUpCount: 0,
+      aiThinking: false,
+      autoMic: Boolean(prefs.pzAutoMic),
+      feedCollapsed: false,
+      dialogueMode: prefs.pzDialogueMode || 'offline',
+      examinerStyle: prefs.pzExaminerStyle,
+      resolvedStyle: resolvedStyle,
+      styleSeed: sessionSeed,
+      usedTemplates: [],
+      lastReactionSource: '',
       examinerSpeaking: false,
       timerId: null,
       turnElapsedSec: 0,
       startedAt: Date.now(),
       prepNote: '',
+      dialogueHistory: [],
       responses: [],
       reportScores: { fc: 6.5, lr: 6.5, gra: 6.5, pr: 6.5 },
       reportFeedback: '',
+      reportFeedbackAuto: false,
+      autoGrade: null,
+      scoreSource: '',
+      gradingBusy: false,
+      autoGeminiTriggered: false,
       savedToHistory: false
     };
 
@@ -3409,64 +5588,154 @@
     });
   };
 
+  function exLine(text, kind, tag, source) {
+    if (!text) return null;
+    return { text: String(text), kind: kind || 'speech', tag: tag || '', source: source || '' };
+  }
+
+  function isAnswerableDialoguePhase(phase) {
+    return phase === 'warmup' || phase === 'part1' || phase === 'part2_round' || phase === 'part3';
+  }
+
+  function recordPzDialogueEntry(role, kind, text, tag, meta) {
+    var clean = String(text || '').trim();
+    if (!clean) return;
+    var m = meta || {};
+    pzExam.dialogueHistory.push({
+      role: role,
+      kind: kind || 'turn',
+      phase: pzExam.phase,
+      text: clean,
+      tag: tag || '',
+      source: m.source || '',
+      hideInStrict: Boolean(role === 'examiner' && pzExam.phase !== 'warmup'),
+      ts: Date.now()
+    });
+    if (pzExam.dialogueHistory.length > 140) {
+      pzExam.dialogueHistory = pzExam.dialogueHistory.slice(-140);
+    }
+  }
+
   function speakExaminerLines(lines, onComplete) {
+    var cleanLines = (lines || []).filter(Boolean);
+    var sessionStamp = pzExam.startedAt;
+    cleanLines.forEach(function (ln) {
+      if (typeof ln === 'object') {
+        recordPzDialogueEntry('examiner', ln.kind || 'speech', ln.text, ln.tag || '', { source: ln.source || '' });
+      } else {
+        recordPzDialogueEntry('examiner', 'speech', ln);
+      }
+    });
     pzExam.examinerSpeaking = true;
     renderPzStage();
-    TtsEngine.speakSequence(lines, {
+    TtsEngine.speakSequence(cleanLines, {
       lang: pzExam.voiceLang,
       rate: 0.96,
       onEnd: function () {
-        if (!pzExam.active) return;
+        if (!pzExam.active || pzExam.startedAt !== sessionStamp) return;
         pzExam.examinerSpeaking = false;
         renderPzStage();
-        if (onComplete) onComplete();
+        if (onComplete) {
+          onComplete();
+          return;
+        }
+        if (pzExam.autoMic && !pzExam.aiThinking && isAnswerableDialoguePhase(pzExam.phase) && !MicEngine.isActive()) {
+          setTimeout(function () {
+            if (
+              pzExam.active
+              && pzExam.startedAt === sessionStamp
+              && pzExam.autoMic
+              && !pzExam.examinerSpeaking
+              && !pzExam.aiThinking
+              && !MicEngine.isActive()
+              && isAnswerableDialoguePhase(pzExam.phase)
+            ) {
+              global._spPzToggleTurnMic(true);
+            }
+          }, 240);
+        }
       }
     });
   }
 
-  function enterPzPhase(phase, stepIndex) {
+  function enterPzPhase(phase, stepIndex, opts) {
     clearPzTimer();
+    var o = opts || {};
     pzExam.phase = phase;
     pzExam.stepIndex = stepIndex || 0;
     pzExam.subStage = 'ready';
     pzExam.turnElapsedSec = 0;
     pzExam.rephraseShown = false;
+    pzExam.activeRephraseText = '';
+    pzExam.activeFollowUpQ = '';
+    pzExam.clarifyShown = false;
+    pzExam.clarifyText = '';
+    pzExam.lastExaminerReaction = o.bridgeLine || '';
+    pzExam.lastReactionSource = o.reactionSource || '';
+    if (phase === 'warmup' && !o.keepWarmupStep) {
+      pzExam.warmupStep = 0;
+    }
     updatePzHeaderChrome();
 
     var L = pzExam.lesson;
     if (!L) return;
+    var bridgeTag = o.reactionSource === 'gemini' ? '🤖 Phản hồi AI' : '⚡ Phản hồi';
+    var scriptCtx = {
+      style: pzExam.resolvedStyle,
+      seed: (pzExam.styleSeed || 0) + (pzExam.stepIndex || 0),
+      usedTemplates: pzExam.usedTemplates,
+      examinerName: (L.examinerPersona && L.examinerPersona.name) || ''
+    };
 
     if (phase === 'warmup') {
       setPzTimerText('ID Check');
       var w = L.warmup || {};
-      speakExaminerLines([
-        w.idCheckScript || 'Good day. Can you tell me your full name please? Could I see your ID?',
-        w.callNameScript || 'And what should I call you?'
-      ]);
+      var idPrompt = PzDialogueEngine.getPhaseScript('warmup_id', Object.assign({}, scriptCtx, {
+        fallback: w.idCheckScript || 'Good day. Can you tell me your full name please? Could I see your ID?'
+      }));
+      pzExam.activeWarmupIdPrompt = idPrompt;
+      speakExaminerLines([exLine(idPrompt, 'question', 'ID Check')]);
     } else if (phase === 'part1') {
       var p1Qs = getCurrentPzP1Questions(L);
       var q = p1Qs[pzExam.stepIndex];
       if (!q) {
-        if (L.part2 && L.part2.prompt) enterPzPhase('part2_prep', 0);
+        if (L.part2 && L.part2.prompt) enterPzPhase('part2_prep', 0, o);
         else finishPzExamToReport();
         return;
       }
       setPzTimerText('P1 · ' + (pzExam.stepIndex + 1) + '/' + p1Qs.length);
       var lines = [];
-      if (pzExam.stepIndex === 0) lines.push((L.part1 && L.part1.intro) || 'Now in this first part, let us talk about some everyday topics.');
-      else if (q.isFirstOfTopicB && L.part1 && L.part1.transition) lines.push(L.part1.transition);
-      lines.push(q.q);
+      if (o.bridgeLine) lines.push(exLine(o.bridgeLine, 'reaction', bridgeTag, o.reactionSource));
+      if (pzExam.stepIndex === 0) {
+        var p1Intro = PzDialogueEngine.getPhaseScript('part1_intro', Object.assign({}, scriptCtx, {
+          topicTitle: (L.part1 && L.part1.topic1Title) || '',
+          fallback: (L.part1 && L.part1.intro) || 'Now in this first part, let us talk about some everyday topics.'
+        }));
+        lines.push(exLine(p1Intro, 'intro', 'Dẫn nhập'));
+      } else if (q.isFirstOfTopicB && L.part1) {
+        var p1Trans = PzDialogueEngine.getPhaseScript('part1_transition', Object.assign({}, scriptCtx, {
+          topicTitle: L.part1.topic2Title || '',
+          fallback: L.part1.transition || 'Thank you. Let us move on to another topic.'
+        }));
+        lines.push(exLine(p1Trans, 'intro', 'Chuyển chủ đề'));
+      }
+      lines.push(exLine(q.q, 'question', 'Câu hỏi Part 1'));
       speakExaminerLines(lines);
     } else if (phase === 'part2_prep') {
       if (!L.part2 || !L.part2.prompt) {
-        if (L.part3 && Array.isArray(L.part3.questions) && L.part3.questions.length) enterPzPhase('part3', 0);
+        if (L.part3 && Array.isArray(L.part3.questions) && L.part3.questions.length) enterPzPhase('part3', 0, o);
         else finishPzExamToReport();
         return;
       }
       pzExam.p2PrepLeft = (L.part2 && L.part2.prepSeconds) || 60;
       setPzTimerText(formatSec(pzExam.p2PrepLeft), 'warn');
-      var introP2 = (L.part2 && L.part2.intro) || 'Now I am going to give you a topic and you have one minute to prepare.';
-      speakExaminerLines([introP2], function () {
+      var introP2 = PzDialogueEngine.getPhaseScript('part2_intro', Object.assign({}, scriptCtx, {
+        fallback: (L.part2 && L.part2.intro) || 'Now I am going to give you a topic and you have one minute to prepare.'
+      }));
+      var p2Lines = [];
+      if (o.bridgeLine) p2Lines.push(exLine(o.bridgeLine, 'reaction', bridgeTag, o.reactionSource));
+      p2Lines.push(exLine(introP2, 'intro', 'Part 2 Cue Card'));
+      speakExaminerLines(p2Lines, function () {
         if (pzExam.phase !== 'part2_prep') return;
         startP2PrepCountdown();
       });
@@ -3475,23 +5744,32 @@
       setPzTimerText('00:00 / 02:00');
       pzExam.subStage = 'examiner_speaking';
       renderPzStage();
-      var cueScript = (L.part2 && L.part2.prepEndScript) || 'All right? Remember you have one to two minutes for this. Can you start speaking now, please?';
-      speakExaminerLines([cueScript], function () {
+      var cueScript = PzDialogueEngine.getPhaseScript('part2_prep_end', Object.assign({}, scriptCtx, {
+        fallback: (L.part2 && L.part2.prepEndScript) || 'All right? Remember you have one to two minutes for this. Can you start speaking now, please?'
+      }));
+      speakExaminerLines([exLine(cueScript, 'intro', 'Bắt đầu Part 2')], function () {
         if (pzExam.phase !== 'part2_talk') return;
         startP2TalkRecording();
       });
     } else if (phase === 'part2_round') {
       setPzTimerText('Rounding');
-      var roQ = (L.part2 && L.part2.roundingOffQ) || 'Do you still think about this experience today?';
-      speakExaminerLines([roQ]);
+      var roQ = o.roundingIntro || (L.part2 && L.part2.roundingOffQ) || 'Do you still think about this experience today?';
+      speakExaminerLines([exLine(roQ, 'question', 'Rounding-off', o.reactionSource)]);
     } else if (phase === 'part3') {
       var p3Qs = (L.part3 && L.part3.questions) || [];
       var p3q = p3Qs[pzExam.stepIndex];
       if (!p3q) { finishPzExamToReport(); return; }
       setPzTimerText('P3 · ' + (pzExam.stepIndex + 1) + '/' + p3Qs.length);
       var p3Lines = [];
-      if (pzExam.stepIndex === 0) p3Lines.push((L.part3 && L.part3.intro) || 'Now let us discuss some more general questions.');
-      p3Lines.push(p3q.q);
+      if (o.bridgeLine) p3Lines.push(exLine(o.bridgeLine, 'reaction', bridgeTag, o.reactionSource));
+      if (pzExam.stepIndex === 0) {
+        var p3Intro = PzDialogueEngine.getPhaseScript('part3_intro', Object.assign({}, scriptCtx, {
+          topicTitle: (L.part3 && L.part3.topicTitle) || (L.part2 && L.part2.cueTitle) || '',
+          fallback: (L.part3 && L.part3.intro) || 'Now let us discuss some more general questions.'
+        }));
+        p3Lines.push(exLine(p3Intro, 'intro', 'Dẫn nhập Part 3'));
+      }
+      p3Lines.push(exLine(p3q.q, 'question', 'Câu hỏi Part 3'));
       speakExaminerLines(p3Lines);
     } else if (phase === 'report') {
       setPzTimerText('Hoàn tất');
@@ -3578,19 +5856,75 @@
     clearPzTimer();
     pzExam.subStage = 'stopped_notice';
     MicEngine.stop().then(function () {
-      var stopLine = (pzExam.lesson.part2 && pzExam.lesson.part2.stopScript) || 'Thank you very much. I will stop you there.';
+      if (!pzExam.active) return;
+      var stopLine = PzDialogueEngine.getPhaseScript('part2_stop', {
+        style: pzExam.resolvedStyle,
+        seed: pzExam.styleSeed || 0,
+        usedTemplates: pzExam.usedTemplates,
+        fallback: (pzExam.lesson.part2 && pzExam.lesson.part2.stopScript) || 'Thank you very much. I will stop you there.'
+      });
+      pzExam.lastStopLine = stopLine;
+      var p2Slot = ensurePzResponseSlot('part2_long', 'Part 2 Long Turn', (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '');
+      var offlinePart2 = PzDialogueEngine.buildPart2StopReaction({
+        transcript: p2Slot.transcript,
+        stopScript: stopLine,
+        roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
+        candidateName: pzExam.candidateName,
+        style: pzExam.resolvedStyle,
+        seed: pzExam.styleSeed || 0,
+        usedTemplates: pzExam.usedTemplates
+      });
+      var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(getStoredGeminiKey());
+      var reactionPromise = hasHybridAi
+        ? PzAiExaminer.buildPart2StopReactionHybrid({
+          mode: pzExam.dialogueMode,
+          apiKey: getStoredGeminiKey(),
+          model: prefs.pzGeminiModel,
+          style: pzExam.resolvedStyle,
+          sessionSeed: pzExam.styleSeed || 0,
+          transcript: p2Slot.transcript,
+          prompt: (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '',
+          stopScript: stopLine,
+          roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
+          candidateName: pzExam.candidateName
+        }, offlinePart2)
+        : Promise.resolve(Object.assign({}, offlinePart2, { source: 'offline' }));
+
       setPzTimerText('Thank you', 'warn');
-      speakExaminerLines([stopLine], function () {
+      if (hasHybridAi) {
+        pzExam.aiThinking = true;
+        renderPzStage();
+      }
+      reactionPromise.then(function (reaction) {
+        pzExam.aiThinking = false;
         if (!pzExam.active) return;
-        enterPzPhase('part2_round', 0);
+        speakExaminerLines(tagSpokenLines(reaction.stopLines, 'transition', 'Chuyển Part 2', reaction.source || 'offline'), function () {
+          if (!pzExam.active) return;
+          enterPzPhase('part2_round', 0, {
+            roundingIntro: reaction.roundingIntro,
+            reactionSource: reaction.source || 'offline'
+          });
+        });
       });
     });
   }
 
-  function finishPzExamToReport() {
+  function finishPzExamToReport(closingBridge) {
+    if (pzExam.subStage === 'finishing_report') return;
+    pzExam.subStage = 'finishing_report';
     clearPzTimer();
-    var closeLine = (pzExam.lesson.part3 && pzExam.lesson.part3.closingScript) || 'Thank you very much. That is the end of the Speaking test.';
-    speakExaminerLines([closeLine], function () {
+    var closeLine = PzDialogueEngine.getPhaseScript('exam_closing', {
+      style: pzExam.resolvedStyle,
+      seed: pzExam.styleSeed || 0,
+      usedTemplates: pzExam.usedTemplates,
+      fallback: (pzExam.lesson.part3 && pzExam.lesson.part3.closingScript) || 'Thank you very much. That is the end of the Speaking test.'
+    });
+    var src = pzExam.lastReactionSource || 'offline';
+    var reactTag = src === 'gemini' ? '🤖 Phản hồi' : '⚡ Phản hồi';
+    var lines = [];
+    if (closingBridge) lines.push(exLine(closingBridge, 'reaction', reactTag, src));
+    lines.push(exLine(closeLine, 'closing', 'Kết thúc', src));
+    speakExaminerLines(lines, function () {
       if (!pzExam.active) return;
       enterPzPhase('report', 0);
     });
@@ -3610,20 +5944,57 @@
       audioId: null,
       audioUrl: '',
       usedRephrase: false,
-      usedRepeat: false
+      usedRepeat: false,
+      usedClarify: false,
+      followUpAsked: false,
+      followUpQ: '',
+      followUpTranscript: '',
+      followUpDurationSec: 0,
+      followUpWpm: 0,
+      followUpAudioId: null,
+      followUpAudioUrl: '',
+      nudgeUsed: false,
+      examinerReaction: ''
     };
     pzExam.responses.push(slot);
     return slot;
+  }
+
+  function getPzActiveTurnFields(slot) {
+    var isFu = Boolean(pzExam.activeFollowUpQ && pzExam.phase !== 'warmup' && pzExam.phase !== 'part2_talk');
+    return {
+      isFollowUp: isFu,
+      getTranscript: function () { return isFu ? (slot.followUpTranscript || '') : (slot.transcript || ''); },
+      setTranscript: function (v) { if (isFu) slot.followUpTranscript = v; else slot.transcript = v; },
+      setMetrics: function (sec, wpm) {
+        if (isFu) { slot.followUpDurationSec = sec; slot.followUpWpm = wpm; }
+        else { slot.durationSec = sec; slot.wpm = wpm; }
+      },
+      getDuration: function () { return isFu ? (slot.followUpDurationSec || 0) : (slot.durationSec || 0); },
+      setAudio: function (id, url) {
+        if (isFu) { slot.followUpAudioId = id; slot.followUpAudioUrl = url; }
+        else { slot.audioId = id; slot.audioUrl = url; }
+      },
+      getAudioUrl: function () { return isFu ? (slot.followUpAudioUrl || '') : (slot.audioUrl || ''); }
+    };
   }
 
   function getActivePzQuestionMeta() {
     var L = pzExam.lesson;
     if (!L) return null;
     if (pzExam.phase === 'warmup') {
+      if (pzExam.warmupStep >= 1) {
+        return {
+          key: 'warmup_chat',
+          label: 'Warm-up · Personal Chat',
+          qText: pzExam.activeFollowUpQ || 'Where are you from, and do you currently work or study?',
+          rephraseText: ''
+        };
+      }
       return {
         key: 'warmup_id',
         label: 'Warm-up ID Check',
-        qText: (L.warmup && L.warmup.idCheckScript) || 'Can you tell me your full name and show your ID?',
+        qText: pzExam.activeWarmupIdPrompt || (L.warmup && L.warmup.idCheckScript) || 'Can you tell me your full name and show your ID?',
         rephraseText: ''
       };
     }
@@ -3633,8 +6004,9 @@
       return q1 ? {
         key: 'p1_' + pzExam.stepIndex,
         label: q1.qNumLabel,
+        topicTitle: (q1.partLabel || '').replace(/^Part\s+\d+\s*[•·\-]\s*Topic\s+[AB]:\s*/i, '').trim(),
         qText: q1.q,
-        rephraseText: ''
+        rephraseText: q1.rephraseQ || ''
       } : null;
     }
     if (pzExam.phase === 'part2_round') {
@@ -3651,6 +6023,7 @@
       return q3 ? {
         key: 'p3_' + pzExam.stepIndex,
         label: 'Part 3 · Question ' + (pzExam.stepIndex + 1) + '/' + p3.length,
+        topicTitle: (L.part3 && L.part3.topicTitle) || (L.part2 && L.part2.title) || '',
         qText: q3.q,
         rephraseText: q3.rephraseQ || ''
       } : null;
@@ -3660,15 +6033,42 @@
 
   function renderExaminerHeaderPanel(phaseTag, badgeCls, statusMsg) {
     var persona = (pzExam.lesson && pzExam.lesson.examinerPersona) || { name: 'Examiner', accent: 'UK' };
+    var styleProf = PzDialogueEngine.getStyleProfile(pzExam.resolvedStyle, pzExam.styleSeed || 0);
+    var stylePill = '<span class="sp-tag-pill" style="margin-left:6px;">' + escHtml(styleProf.shortTag) + '</span>';
     return '<div class="sp-examiner-panel">'
       + '  <div class="sp-examiner-id">'
       + '    <div class="sp-examiner-avatar' + (pzExam.examinerSpeaking ? ' is-speaking' : '') + '">🎙️</div>'
       + '    <div>'
-      + '      <strong>' + escHtml(persona.name) + ' · ' + escHtml(persona.accent) + ' IELTS Examiner</strong>'
+      + '      <strong>' + escHtml(persona.name) + ' · ' + escHtml(persona.accent) + ' IELTS Examiner' + stylePill + '</strong>'
       + '      <div style="font-size:12.5px;color:var(--muted);">' + (pzExam.examinerSpeaking ? '🔊 Giám khảo đang nói câu hỏi...' : escHtml(statusMsg)) + '</div>'
       + '    </div>'
       + '  </div>'
       + '  <span class="sp-phase-badge ' + badgeCls + '">' + escHtml(phaseTag) + '</span>'
+      + '</div>';
+  }
+
+  function renderPzDialogueFeedHtml(showText) {
+    var list = pzExam.dialogueHistory || [];
+    if (!list.length) return '';
+    var rowsHtml = list.map(function (entry) {
+      var isEx = entry.role === 'examiner';
+      var who = isEx ? '🎙️ Examiner' : ('🗣️ ' + (pzExam.candidateName || 'Bạn'));
+      var masked = isEx && entry.hideInStrict && !showText;
+      var bodyHtml = masked
+        ? '<span class="sp-chat-masked">🎧 [Lượt nói Giám khảo đang ẩn ở chế độ Thi thật — bấm "👁️ Hiện chữ" để xem]</span>'
+        : escHtml(entry.text);
+      return '<div class="sp-chat-row ' + (isEx ? 'is-examiner' : 'is-candidate') + '">'
+        + '  <div class="sp-chat-meta"><strong>' + escHtml(who) + '</strong>' + (entry.tag ? '<span class="sp-chat-kind-tag">' + escHtml(entry.tag) + '</span>' : '') + '</div>'
+        + '  <div class="sp-chat-bubble">' + bodyHtml + '</div>'
+        + '</div>';
+    }).join('');
+
+    return '<div class="sp-dialogue-feed-wrap">'
+      + '  <div class="sp-dialogue-feed-head">'
+      + '    <span>💬 Nhật ký Hội thoại 2 Phía (' + list.length + ' lượt)</span>'
+      + '    <button type="button" class="mini-btn" style="padding:2px 8px;font-size:11px;" onclick="window._spPzToggleDialogueFeed()">' + (pzExam.feedCollapsed ? '▼ Mở rộng' : '▲ Thu gọn') + '</button>'
+      + '  </div>'
+      + (pzExam.feedCollapsed ? '' : '<div id="pzDialogueFeedList" class="sp-dialogue-feed-list">' + rowsHtml + '</div>')
       + '</div>';
   }
 
@@ -3691,55 +6091,106 @@
     var meta = getActivePzQuestionMeta();
     if (!meta) return;
     var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
+    var activeTurn = getPzActiveTurnFields(slot);
+    var activeTranscript = activeTurn.getTranscript();
+    var activeAudioUrl = activeTurn.getAudioUrl();
+    var activeQPrompt = activeTurn.isFollowUp ? pzExam.activeFollowUpQ : meta.qText;
     var micBusy = MicEngine.isActive();
 
     var showText = pzExam.strictness === 'guided' || pzExam.peekVisible || pzExam.phase === 'warmup';
     var badgeCls = pzExam.phase === 'warmup' ? 'is-warmup' : (pzExam.phase === 'part1' ? 'is-p1' : (pzExam.phase === 'part2_round' ? 'is-p2' : 'is-p3'));
 
     var curtainContent = showText
-      ? '<div style="font-size:18px;font-weight:800;color:var(--text);line-height:1.45;">' + escHtml(meta.qText) + '</div>'
-      : '<div class="sp-curtain-blurred" aria-hidden="true">' + escHtml(meta.qText) + '</div><div style="font-size:13px;font-weight:700;color:var(--muted);">🎧 Chế độ Thi Thật đang ẩn câu hỏi — Lắng nghe Giám khảo hoặc dùng nút Repeat / Hiện chữ ở góc trên</div>';
+      ? '<div style="font-size:18px;font-weight:800;color:var(--text);line-height:1.45;">'
+        + (activeTurn.isFollowUp ? '<div style="font-size:11.5px;font-weight:800;color:#059669;margin-bottom:4px;text-transform:uppercase;">💬 Giám khảo hỏi đào sâu (Follow-up)</div>' : '')
+        + escHtml(activeQPrompt)
+        + '</div>'
+      : '<div class="sp-curtain-blurred" aria-hidden="true">' + escHtml(activeQPrompt) + '</div><div style="font-size:13px;font-weight:700;color:var(--muted);">🎧 Chế độ Thi Thật đang ẩn câu hỏi — Lắng nghe Giám khảo hoặc dùng nút Repeat / Hiện chữ ở góc trên</div>';
+
+    var reactionBanner = '';
+    if (pzExam.lastExaminerReaction) {
+      var srcBadge = pzExam.lastReactionSource === 'gemini'
+        ? '<span class="sp-tag-pill" style="margin-left:6px;background:rgba(16,185,129,0.16);color:#10b981;">🤖 AI Examiner</span>'
+        : '<span class="sp-tag-pill" style="margin-left:6px;">⚡ Offline 2 chiều</span>';
+      reactionBanner = showText
+        ? '<div class="sp-rephrase-box" style="border-color:rgba(16,185,129,0.35);">🎙️ <b>Phản hồi của Giám khảo:</b> ' + escHtml(pzExam.lastExaminerReaction) + srcBadge + '</div>'
+        : '<div class="sp-rephrase-box" style="border-color:rgba(16,185,129,0.35);">🎙️ Giám khảo vừa phản hồi trực tiếp nội dung bạn nói (bấm Hiện chữ nếu muốn xem text).' + srcBadge + '</div>';
+    }
 
     var rephraseBanner = '';
-    if (pzExam.phase === 'part3' && meta.rephraseText) {
-      if (pzExam.rephraseShown && showText) {
-        rephraseBanner = '<div class="sp-rephrase-box">🔄 <b>Giám khảo diễn đạt lại:</b> ' + escHtml(meta.rephraseText) + '</div>';
-      } else if (pzExam.rephraseShown) {
+    var shownRephrase = pzExam.activeRephraseText || meta.rephraseText;
+    if (meta.rephraseText && pzExam.rephraseShown) {
+      if (showText && shownRephrase) {
+        rephraseBanner = '<div class="sp-rephrase-box">🔄 <b>Giám khảo diễn đạt lại:</b> ' + escHtml(shownRephrase) + '</div>';
+      } else {
         rephraseBanner = '<div class="sp-rephrase-box">🔄 Giám khảo đang đọc câu diễn đạt lại bằng âm thanh...</div>';
       }
     }
 
-    var p3RephraseBtn = (pzExam.phase === 'part3' && meta.rephraseText)
+    var clarifyBanner = '';
+    if (pzExam.clarifyShown && pzExam.clarifyText) {
+      clarifyBanner = showText
+        ? '<div class="sp-clarify-box">💡 <b>Giám khảo làm rõ / Gợi ý góc nhìn:</b> ' + escHtml(pzExam.clarifyText) + '</div>'
+        : '<div class="sp-clarify-box">💡 Giám khảo đang giải thích góc nhìn trả lời bằng âm thanh...</div>';
+    }
+
+    var isInterviewPhase = pzExam.phase === 'part1' || pzExam.phase === 'part3';
+    var rephraseBtn = (isInterviewPhase && meta.rephraseText)
       ? '<button type="button" class="btn mini-btn" onclick="window._spPzRephrase()">🔄 "Could you rephrase that?"</button>'
+      : '';
+    var clarifyBtn = isInterviewPhase
+      ? '<button type="button" class="btn mini-btn" onclick="window._spPzClarify()"' + (pzExam.aiThinking ? ' disabled' : '') + '>💡 "Could you clarify?"</button>'
       : '';
 
     var nextLabel = pzExam.phase === 'warmup'
-      ? '✓ Xác nhận xong ID Check ➜ Vào Part 1'
-      : (pzExam.phase === 'part2_round' ? '➜ Chuyển sang Part 3' : '✓ Nói xong — Câu tiếp theo ➜');
+      ? (pzExam.warmupStep === 0 ? '✓ Trả lời xong tên/ID ➜ Tiếp tục chào hỏi' : '✓ Xác nhận xong Warm-up ➜ Vào Part 1')
+      : (activeTurn.isFollowUp
+        ? '✓ Trả lời xong câu hỏi nối — Tiếp tục ➜'
+        : (pzExam.phase === 'part2_round' ? '✓ Nói xong — Phản hồi & sang Part 3 ➜' : '✓ Nói xong — Giám khảo phản hồi ➜'));
+
+    var stageStatus = pzExam.aiThinking
+      ? '🤖 AI Examiner đang lắng nghe & phản hồi câu trả lời của bạn...'
+      : (micBusy ? '🎙️ Đang ghi âm câu trả lời của bạn...' : 'Nhấn Micro để trả lời trực tiếp, hoặc nói/nhấn Repeat / Rephrase / Clarify');
+
+    var advBusy = pzExam.aiThinking || pzExam.subStage === 'finishing_report';
+    var advLabel = pzExam.aiThinking
+      ? '🤖 Đang chờ AI phản hồi...'
+      : (pzExam.subStage === 'finishing_report' ? '🏁 Đang tổng kết bài thi...' : nextLabel);
 
     stage.innerHTML = ''
       + '<div class="sp-exam-chamber">'
-      + renderExaminerHeaderPanel(meta.label, badgeCls, micBusy ? '🎙️ Đang ghi âm câu trả lời của bạn...' : 'Nhấn Micro để trả lời hoặc nhấn Repeat nếu nghe chưa rõ')
+      + renderExaminerHeaderPanel(meta.label, badgeCls, stageStatus)
+      + reactionBanner
       + '  <div class="sp-audio-curtain">'
       + curtainContent
       + '    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px;">'
       + '      <button type="button" class="btn mini-btn" onclick="window._spPzRepeatQuestion()">🔁 Repeat Question</button>'
-      + p3RephraseBtn
+      + rephraseBtn
+      + clarifyBtn
       + '    </div>'
       + '  </div>'
       + rephraseBanner
+      + clarifyBanner
       + '  <div class="sp-mic-stage">'
       + '    <button type="button" class="s4-mic-btn' + (micBusy ? ' is-recording' : '') + '" onclick="window._spPzToggleTurnMic()">' + (micBusy ? '⏹' : '🎙️') + '</button>'
-      + '    <strong>' + (micBusy ? 'Đang thu âm (' + formatSec(pzExam.turnElapsedSec) + ') — Nhấn để dừng khi xong' : 'Bấm Micro để trả lời câu hỏi này') + '</strong>'
+      + '    <strong>' + (micBusy ? 'Đang thu âm (' + formatSec(pzExam.turnElapsedSec) + ') — Nhấn để dừng khi xong' : (activeTurn.isFollowUp ? 'Bấm Micro để trả lời câu hỏi vặn thêm của Giám khảo' : 'Bấm Micro để trả lời câu hỏi này')) + '</strong>'
       + '    <div id="pzExamWaveRow" class="sp-wave-bars" style="display:' + (micBusy ? 'flex' : 'none') + ';">' + buildWaveBarsHtml(18) + '</div>'
       + '  </div>'
-      + (slot.audioUrl ? '<div class="sp-saved-audio-bar"><span>🎧 Đã ghi âm lượt này:</span><audio controls src="' + slot.audioUrl + '" style="flex:1;height:34px;"></audio></div>' : '')
-      + '  <textarea id="pzCandidateTranscriptInput" class="sp-transcript-fallback" rows="3" placeholder="Transcript câu trả lời hiện trực tiếp tại đây (hoặc gõ/dán nội dung nếu không dùng Mic)..." oninput="window._spPzUpdateTranscript(this.value)">' + escHtml(slot.transcript) + '</textarea>'
-      + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
-      + '    <span style="font-size:12px;color:var(--muted);">' + countWords(slot.transcript) + ' từ • ~' + computeWpm(slot.transcript, slot.durationSec || 20) + ' WPM</span>'
-      + '    <button type="button" class="btn btn-primary" onclick="window._spPzAdvanceTurn()">' + nextLabel + '</button>'
+      + '  <div class="sp-handsfree-bar">'
+      + '    <button type="button" class="sp-handsfree-pill' + (pzExam.autoMic ? ' is-active' : '') + '" onclick="window._spPzToggleAutoMic()">' + (pzExam.autoMic ? '⚡ Auto-Mic Rảnh tay: ĐANG BẬT' : '🎙️ Bật Auto-Mic Rảnh tay') + '</button>'
+      + '    <span class="sp-voice-cmd-tip">🗣️ Lệnh thoại tự nhiên: nói <em>"Could you repeat/rephrase that?"</em> ngay trong Mic</span>'
       + '  </div>'
+      + (activeAudioUrl ? '<div class="sp-saved-audio-bar"><span>🎧 Đã ghi âm lượt này:</span><audio controls src="' + activeAudioUrl + '" style="flex:1;height:34px;"></audio></div>' : '')
+      + '  <textarea id="pzCandidateTranscriptInput" class="sp-transcript-fallback" rows="3" placeholder="Transcript câu trả lời hiện trực tiếp tại đây (hoặc gõ/dán nội dung nếu không dùng Mic)..." oninput="window._spPzUpdateTranscript(this.value)">' + escHtml(activeTranscript) + '</textarea>'
+      + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
+      + '    <span style="font-size:12px;color:var(--muted);">' + countWords(activeTranscript) + ' từ • ~' + computeWpm(activeTranscript, activeTurn.getDuration() || 20) + ' WPM</span>'
+      + '    <button type="button" class="btn btn-primary" onclick="window._spPzAdvanceTurn()"' + (advBusy ? ' disabled' : '') + '>' + advLabel + '</button>'
+      + '  </div>'
+      + renderPzDialogueFeedHtml(showText)
       + '</div>';
+
+    var feedList = document.getElementById('pzDialogueFeedList');
+    if (feedList) feedList.scrollTop = feedList.scrollHeight;
   }
 
   function renderPzPart2Chamber(stage, L) {
@@ -3750,7 +6201,7 @@
     var bulletsHtml = (p2.bullets || []).map(function (b) { return '<li>' + escHtml(b) + '</li>'; }).join('');
 
     var thankYouHtml = isStopped
-      ? '<div class="sp-thankyou-banner">🛑 Hết 2 phút — Giám khảo đã ngắt: <em>"' + escHtml(p2.stopScript || 'Thank you very much. I will stop you there.') + '"</em>. Đang chuyển sang câu hỏi Rounding-off...</div>'
+      ? '<div class="sp-thankyou-banner">🛑 Hết 2 phút — Giám khảo đã ngắt: <em>"' + escHtml(pzExam.lastStopLine || p2.stopScript || 'Thank you very much. I will stop you there.') + '"</em>. Đang chuyển sang câu hỏi Rounding-off...</div>'
       : '';
 
     var rightPanelHtml = '';
@@ -3813,17 +6264,93 @@
     pzExam.repeatCount++;
     var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
     slot.usedRepeat = true;
-    speakExaminerLines([meta.qText]);
+    var activeQ = (pzExam.activeFollowUpQ && pzExam.phase !== 'warmup') ? pzExam.activeFollowUpQ : meta.qText;
+    speakExaminerLines([exLine(activeQ, 'repeat', 'Nhắc lại', 'offline')]);
   };
 
   global._spPzRephrase = function () {
     var meta = getActivePzQuestionMeta();
     if (!meta || !meta.rephraseText) return;
     pzExam.rephraseShown = true;
+    pzExam.activeRephraseText = meta.rephraseText;
     pzExam.rephraseCount++;
     var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
     slot.usedRephrase = true;
-    speakExaminerLines([meta.rephraseText]);
+    var lead = PzDialogueEngine.getPhaseScript('rephrase_lead', {
+      style: pzExam.resolvedStyle,
+      seed: (pzExam.styleSeed || 0) + (pzExam.rephraseCount || 0),
+      usedTemplates: pzExam.usedTemplates,
+      fallback: 'Of course, let me put that another way.'
+    });
+    speakExaminerLines([
+      exLine(lead, 'reaction', 'Phản hồi', 'offline'),
+      exLine(meta.rephraseText, 'rephrase', 'Diễn đạt lại', 'offline')
+    ]);
+  };
+
+  global._spPzClarify = function () {
+    if (!pzExam.active || pzExam.aiThinking) return;
+    var meta = getActivePzQuestionMeta();
+    if (!meta) return;
+    var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
+    var activeQ = (pzExam.activeFollowUpQ && pzExam.phase !== 'warmup') ? pzExam.activeFollowUpQ : meta.qText;
+    var topicTitle = meta.topicTitle || '';
+    var offlineHint = PzDialogueEngine.buildClarificationHint(activeQ, pzExam.phase, topicTitle, pzExam.resolvedStyle);
+    pzExam.clarifyCount++;
+    slot.usedClarify = true;
+
+    var apiKey = getStoredGeminiKey();
+    var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(apiKey);
+    var sessionStartedAt = pzExam.startedAt;
+
+    if (!useHybridAi) {
+      pzExam.clarifyShown = true;
+      pzExam.clarifyText = offlineHint;
+      pzExam.lastReactionSource = 'offline';
+      speakExaminerLines([exLine(offlineHint, 'clarify', 'Gợi ý / Clarify', 'offline')]);
+      return;
+    }
+
+    pzExam.aiThinking = true;
+    renderPzStage();
+
+    PzAiExaminer.buildClarificationHybrid({
+      mode: pzExam.dialogueMode,
+      apiKey: apiKey,
+      model: prefs.pzGeminiModel,
+      style: pzExam.resolvedStyle,
+      sessionSeed: pzExam.styleSeed || 0,
+      phase: pzExam.phase,
+      questionText: activeQ,
+      topicTitle: topicTitle
+    }, offlineHint).then(function (res) {
+      pzExam.aiThinking = false;
+      if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+      var hint = (res && res.hint) || offlineHint;
+      var src = (res && res.source) || 'offline';
+      if (src === 'offline_fallback') {
+        showToast('AI phản hồi chậm — dùng gợi ý Clarify Offline.', 'warn', 3200);
+      }
+      pzExam.clarifyShown = true;
+      pzExam.clarifyText = hint;
+      pzExam.lastReactionSource = src;
+      speakExaminerLines([exLine(hint, 'clarify', 'Gợi ý / Clarify', src)]);
+    });
+  };
+
+  global._spPzToggleAutoMic = function () {
+    pzExam.autoMic = !pzExam.autoMic;
+    prefs.pzAutoMic = pzExam.autoMic;
+    savePrefs();
+    var chk = document.getElementById('pzAutoMicCheck');
+    if (chk) chk.checked = pzExam.autoMic;
+    showToast(pzExam.autoMic ? 'Đã bật Auto-Mic rảnh tay sau khi Giám khảo nói.' : 'Đã tắt Auto-Mic rảnh tay.', 'info', 2500);
+    renderPzStage();
+  };
+
+  global._spPzToggleDialogueFeed = function () {
+    pzExam.feedCollapsed = !pzExam.feedCollapsed;
+    renderPzStage();
   };
 
   global._spPzUpdateTranscript = function (val) {
@@ -3836,18 +6363,21 @@
     var meta = getActivePzQuestionMeta();
     if (!meta) return;
     var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
-    slot.transcript = val;
-    slot.wpm = computeWpm(val, slot.durationSec || pzExam.turnElapsedSec || 20);
+    var activeTurn = getPzActiveTurnFields(slot);
+    activeTurn.setTranscript(val);
+    activeTurn.setMetrics(activeTurn.getDuration(), computeWpm(val, activeTurn.getDuration() || pzExam.turnElapsedSec || 20));
   };
 
-  global._spPzToggleTurnMic = function () {
+  global._spPzToggleTurnMic = function (isAutoTriggered) {
     if (MicEngine.isActive()) {
       MicEngine.stop();
       return;
     }
+    if (pzExam.aiThinking) return;
     var meta = getActivePzQuestionMeta();
     if (!meta) return;
     var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
+    var activeTurn = getPzActiveTurnFields(slot);
     pzExam.turnElapsedSec = 0;
 
     MicEngine.start({
@@ -3861,67 +6391,275 @@
         if (sEl) sEl.textContent = 'Đang thu âm (' + formatSec(sec) + ') — Nhấn để dừng khi xong';
       },
       onTranscript: function (txt, sec) {
-        slot.transcript = txt;
-        slot.durationSec = sec;
-        slot.wpm = computeWpm(txt, sec);
+        activeTurn.setTranscript(txt);
+        activeTurn.setMetrics(sec, computeWpm(txt, sec));
         var inp = document.getElementById('pzCandidateTranscriptInput');
         if (inp) inp.value = txt;
       },
       onUnsupported: function (msg) {
+        if (isAutoTriggered) {
+          pzExam.autoMic = false;
+          prefs.pzAutoMic = false;
+          savePrefs();
+          var chk = document.getElementById('pzAutoMicCheck');
+          if (chk) chk.checked = false;
+          renderPzStage();
+          return;
+        }
         showToast(msg, 'warn', 5500);
       },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
         if (res) {
-          if (res.transcript) slot.transcript = res.transcript;
-          slot.durationSec = res.durationSec || pzExam.turnElapsedSec;
-          slot.wpm = computeWpm(slot.transcript, slot.durationSec);
-          slot.audioId = res.id;
-          slot.audioUrl = res.url;
+          if (res.transcript) activeTurn.setTranscript(res.transcript);
+          var dur = res.durationSec || pzExam.turnElapsedSec;
+          activeTurn.setMetrics(dur, computeWpm(activeTurn.getTranscript(), dur));
+          activeTurn.setAudio(res.id, res.url);
         }
         renderPzStage();
       }
     });
   };
 
+  function advancePzToNextCanonicalPhase(L, bridgeLine, reactionSource) {
+    var opts = {};
+    if (bridgeLine) opts.bridgeLine = bridgeLine;
+    if (reactionSource) opts.reactionSource = reactionSource;
+    if (pzExam.phase === 'warmup') {
+      if (getCurrentPzP1Questions(L).length) enterPzPhase('part1', 0, opts);
+      else if (L.part2 && L.part2.prompt) enterPzPhase('part2_prep', 0, opts);
+      else enterPzPhase('part3', 0, opts);
+    } else if (pzExam.phase === 'part1') {
+      var p1 = getCurrentPzP1Questions(L);
+      if (pzExam.stepIndex + 1 < p1.length) {
+        enterPzPhase('part1', pzExam.stepIndex + 1, opts);
+      } else if (L.part2 && L.part2.prompt) {
+        enterPzPhase('part2_prep', 0, opts);
+      } else {
+        finishPzExamToReport(bridgeLine);
+      }
+    } else if (pzExam.phase === 'part2_round') {
+      var p3List = (L.part3 && L.part3.questions) || [];
+      if (p3List.length) enterPzPhase('part3', 0, opts);
+      else finishPzExamToReport(bridgeLine);
+    } else if (pzExam.phase === 'part3') {
+      var p3 = (L.part3 && L.part3.questions) || [];
+      if (pzExam.stepIndex + 1 < p3.length) {
+        enterPzPhase('part3', pzExam.stepIndex + 1, opts);
+      } else {
+        finishPzExamToReport(bridgeLine);
+      }
+    }
+  }
+
+  function tagSpokenLines(lines, tailKind, tailTag, source) {
+    var arr = (lines || []).filter(Boolean);
+    var src = source || 'offline';
+    var reactTag = src === 'gemini' ? '🤖 Phản hồi' : '⚡ Phản hồi';
+    return arr.map(function (ln, idx) {
+      if (typeof ln === 'object') return ln;
+      var isReactionLead = arr.length > 1 && idx === 0;
+      return exLine(
+        ln,
+        isReactionLead ? 'reaction' : tailKind,
+        isReactionLead ? reactTag : tailTag,
+        src
+      );
+    });
+  }
+
+  function applyPzTurnDecision(decision, L, slot, activeTurn, meta) {
+    if (decision.candidateName) pzExam.candidateName = decision.candidateName;
+    var src = decision.source || 'offline';
+    pzExam.lastReactionSource = src;
+
+    if (src === 'offline_fallback') {
+      showToast('AI phản hồi chậm/gián đoạn — tự chuyển sang Tầng 1 Offline.', 'warn', 3500);
+    }
+
+    if (decision.action === 'repeat') {
+      pzExam.repeatCount++;
+      if (slot) slot.usedRepeat = true;
+      if (activeTurn) activeTurn.setTranscript('');
+      pzExam.lastExaminerReaction = decision.examinerReaction;
+      speakExaminerLines(tagSpokenLines(decision.spokenLines, 'repeat', 'Nhắc lại', src));
+      return;
+    }
+
+    if (decision.action === 'rephrase') {
+      pzExam.rephraseShown = true;
+      pzExam.activeRephraseText = decision.rephraseText || (meta && meta.rephraseText) || '';
+      pzExam.rephraseCount++;
+      if (slot) slot.usedRephrase = true;
+      if (activeTurn) activeTurn.setTranscript('');
+      pzExam.lastExaminerReaction = decision.examinerReaction;
+      speakExaminerLines(tagSpokenLines(decision.spokenLines, 'rephrase', 'Diễn đạt lại', src));
+      return;
+    }
+
+    if (decision.action === 'clarify_nudge') {
+      if (slot) slot.nudgeUsed = true;
+      if (activeTurn) activeTurn.setTranscript('');
+      pzExam.lastExaminerReaction = decision.examinerReaction;
+      speakExaminerLines(tagSpokenLines(decision.spokenLines, 'clarify', 'Gợi ý / Clarify', src));
+      return;
+    }
+
+    if (decision.action === 'warmup_next') {
+      pzExam.warmupStep = 1;
+      pzExam.clarifyShown = false;
+      pzExam.clarifyText = '';
+      pzExam.rephraseShown = false;
+      pzExam.activeFollowUpQ = decision.followUpQuestion;
+      pzExam.lastExaminerReaction = decision.examinerReaction;
+      speakExaminerLines(tagSpokenLines(decision.spokenLines, 'question', 'Warm-up', src));
+      return;
+    }
+
+    if (decision.action === 'followup') {
+      if (slot) {
+        slot.followUpAsked = true;
+        slot.followUpQ = decision.followUpQuestion;
+        slot.examinerReaction = decision.examinerReaction;
+      }
+      pzExam.clarifyShown = false;
+      pzExam.clarifyText = '';
+      pzExam.rephraseShown = false;
+      pzExam.activeFollowUpQ = decision.followUpQuestion;
+      pzExam.lastExaminerReaction = decision.examinerReaction;
+      pzExam.followUpCount++;
+      speakExaminerLines(tagSpokenLines(decision.spokenLines, 'followup', 'Follow-up', src));
+      return;
+    }
+
+    if (slot && decision.examinerReaction) {
+      slot.examinerReaction = decision.examinerReaction;
+    }
+    advancePzToNextCanonicalPhase(L, decision.examinerReaction || '', src);
+  }
+
   global._spPzAdvanceTurn = function () {
+    if (pzExam.aiThinking || pzExam.subStage === 'finishing_report' || pzExam.subStage === 'stopped_notice') return;
+    var sessionStartedAt = pzExam.startedAt;
     var finishPromise = MicEngine.isActive() ? MicEngine.stop() : Promise.resolve(null);
     finishPromise.then(function () {
       var L = pzExam.lesson;
-      if (!L || !pzExam.active) return;
+      if (!L || !pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
 
-      if (pzExam.phase === 'warmup') {
-        if (getCurrentPzP1Questions(L).length) enterPzPhase('part1', 0);
-        else if (L.part2 && L.part2.prompt) enterPzPhase('part2_prep', 0);
-        else enterPzPhase('part3', 0);
-      } else if (pzExam.phase === 'part1') {
-        var p1 = getCurrentPzP1Questions(L);
-        if (pzExam.stepIndex + 1 < p1.length) {
-          enterPzPhase('part1', pzExam.stepIndex + 1);
-        } else if (L.part2 && L.part2.prompt) {
-          enterPzPhase('part2_prep', 0);
-        } else {
-          finishPzExamToReport();
-        }
-      } else if (pzExam.phase === 'part2_round') {
-        var p3List = (L.part3 && L.part3.questions) || [];
-        if (p3List.length) enterPzPhase('part3', 0);
-        else finishPzExamToReport();
-      } else if (pzExam.phase === 'part3') {
-        var p3 = (L.part3 && L.part3.questions) || [];
-        if (pzExam.stepIndex + 1 < p3.length) {
-          enterPzPhase('part3', pzExam.stepIndex + 1);
-        } else {
-          finishPzExamToReport();
-        }
+      var meta = getActivePzQuestionMeta();
+      var slot = meta ? ensurePzResponseSlot(meta.key, meta.label, meta.qText) : null;
+      var activeTurn = slot ? getPzActiveTurnFields(slot) : null;
+      var curTranscript = activeTurn ? activeTurn.getTranscript() : '';
+      if (curTranscript) {
+        recordPzDialogueEntry('candidate', activeTurn && activeTurn.isFollowUp ? 'followup_answer' : 'answer', curTranscript, meta ? meta.label : '');
       }
+
+      var turnCtx = {
+        phase: pzExam.phase,
+        stepIndex: pzExam.stepIndex,
+        warmupStep: pzExam.warmupStep,
+        candidateName: pzExam.candidateName,
+        transcript: curTranscript,
+        meta: meta,
+        slot: slot,
+        activeFollowUpQ: pzExam.activeFollowUpQ,
+        topicTitle: L.cleanTitle || L.title,
+        style: pzExam.resolvedStyle,
+        sessionSeed: pzExam.styleSeed || 0,
+        usedTemplates: pzExam.usedTemplates,
+        examinerPersona: L.examinerPersona
+      };
+      var offlineDecision = PzDialogueEngine.decideTurn(turnCtx);
+      var apiKey = getStoredGeminiKey();
+      var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid'
+        && Boolean(apiKey)
+        && offlineDecision.intent !== 'repeat'
+        && (Boolean(String(curTranscript || '').trim()) || pzExam.phase === 'warmup');
+
+      if (!useHybridAi) {
+        applyPzTurnDecision(Object.assign({}, offlineDecision, { source: 'offline' }), L, slot, activeTurn, meta);
+        return;
+      }
+
+      pzExam.aiThinking = true;
+      renderPzStage();
+
+      PzAiExaminer.decideTurnHybrid(Object.assign({}, turnCtx, {
+        mode: pzExam.dialogueMode,
+        apiKey: apiKey,
+        model: prefs.pzGeminiModel,
+        lesson: L,
+        dialogueHistory: pzExam.dialogueHistory
+      }), offlineDecision).then(function (finalDecision) {
+        pzExam.aiThinking = false;
+        if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+        applyPzTurnDecision(finalDecision, L, slot, activeTurn, meta);
+      });
     });
   };
 
+  function collectSlotTranscript(r) {
+    if (!r) return '';
+    return [r.transcript, r.followUpTranscript].filter(Boolean).join(' ').trim();
+  }
+
+  function collectSlotDuration(r) {
+    if (!r) return 0;
+    return (r.durationSec || 0) + (r.followUpDurationSec || 0);
+  }
+
+  function buildPzGradePayload(L) {
+    var combinedTranscript = pzExam.responses.map(collectSlotTranscript).filter(Boolean).join(' ');
+    var totalDur = pzExam.responses.reduce(function (acc, r) { return acc + collectSlotDuration(r); }, 0);
+    return {
+      kind: 'pz',
+      lesson: L,
+      title: L ? L.title : 'Practice Zone Mock Exam',
+      transcript: combinedTranscript,
+      durationSec: totalDur || 120,
+      turns: pzExam.responses,
+      telemetry: {
+        followUpCount: pzExam.followUpCount || 0,
+        repeatCount: pzExam.repeatCount || 0,
+        rephraseCount: pzExam.rephraseCount || 0,
+        clarifyCount: pzExam.clarifyCount || 0
+      }
+    };
+  }
+
   // --- Final Practice Zone Examiner Report ---
   function renderPzReport(stage, L) {
-    var combinedTranscript = pzExam.responses.map(function (r) { return r.transcript; }).filter(Boolean).join(' ');
-    var totalDur = pzExam.responses.reduce(function (acc, r) { return acc + (r.durationSec || 0); }, 0);
+    if (!pzExam.autoGrade) {
+      var initGrade = SpeakingGrader.evaluateOffline(buildPzGradePayload(L));
+      pzExam.autoGrade = initGrade;
+      if (pzExam.scoreSource !== 'manual' && pzExam.scoreSource !== 'auto_gemini') {
+        pzExam.reportScores = Object.assign({}, initGrade.scores);
+        pzExam.scoreSource = 'auto_offline';
+      }
+      if (!pzExam.reportFeedback || pzExam.reportFeedbackAuto) {
+        pzExam.reportFeedback = SpeakingGrader.formatFeedbackText(initGrade);
+        pzExam.reportFeedbackAuto = true;
+      }
+    }
+
+    if (
+      pzExam.dialogueMode === 'gemini_hybrid'
+      && getStoredGeminiKey()
+      && pzExam.autoGrade.hasTranscript
+      && !pzExam.autoGeminiTriggered
+      && !pzExam.gradingBusy
+    ) {
+      pzExam.autoGeminiTriggered = true;
+      var stamp = pzExam.startedAt;
+      setTimeout(function () {
+        if (pzExam.active && pzExam.phase === 'report' && pzExam.startedAt === stamp) {
+          global._spRunPzAiGrade(true);
+        }
+      }, 30);
+    }
+
+    var combinedTranscript = pzExam.responses.map(collectSlotTranscript).filter(Boolean).join(' ');
+    var totalDur = pzExam.responses.reduce(function (acc, r) { return acc + collectSlotDuration(r); }, 0);
     var lexTargets = collectTargetLexis(L);
     var metrics = analyzeTranscriptMetrics(combinedTranscript, totalDur || 120, lexTargets);
     var avg = (pzExam.reportScores.fc + pzExam.reportScores.lr + pzExam.reportScores.gra + pzExam.reportScores.pr) / 4;
@@ -3930,26 +6668,82 @@
     var aiPrompt = [
       'You are a Senior IELTS Speaking Examiner. Grade this complete Mock Exam (Warm-up + Part 1 + Part 2 + Part 3).',
       'Test Title: ' + L.title,
-      'Total Words Spoken: ' + metrics.wordCount + ' | Avg Pace: ~' + metrics.wpm + ' WPM | Repeat clicks: ' + pzExam.repeatCount + ' | Part 3 Rephrase clicks: ' + pzExam.rephraseCount,
+      'Total Words Spoken: ' + metrics.wordCount + ' | Avg Pace: ~' + metrics.wpm + ' WPM | Follow-up Probes: ' + (pzExam.followUpCount || 0) + ' | Repeat clicks: ' + pzExam.repeatCount + ' | Rephrase clicks: ' + pzExam.rephraseCount + ' | Clarify clicks: ' + (pzExam.clarifyCount || 0),
       '',
       pzExam.responses.map(function (r) {
-        return '[' + r.label + ']\nQ: ' + r.question + '\nA (' + formatSec(r.durationSec) + '): ' + (r.transcript || '[Audio only / No transcript]');
+        var block = '[' + r.label + ']\nQ: ' + r.question + '\nA (' + formatSec(r.durationSec) + '): ' + (r.transcript || '[Audio only / No transcript]');
+        if (r.followUpQ) {
+          block += '\nExaminer Follow-up: ' + r.followUpQ + '\nA2 (' + formatSec(r.followUpDurationSec || 0) + '): ' + (r.followUpTranscript || '[Audio only / No transcript]');
+        }
+        return block;
       }).join('\n\n'),
       '',
       'Please return Band scores (FC, LR, GRA, PR, Overall), top 5 vocabulary upgrades, grammar fixes, and concise Vietnamese examiner advice.'
     ].join('\n');
 
     var turnsHtml = pzExam.responses.map(function (r) {
+      var durSum = collectSlotDuration(r);
+      var combinedTurnText = collectSlotTranscript(r);
+      var turnWpm = computeWpm(combinedTurnText, durSum || 20) || r.wpm || 0;
+      var followUpHtml = r.followUpQ
+        ? '<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);">'
+          + '  <div style="font-size:12.5px;color:#059669;"><b>↳ Follow-up:</b> ' + escHtml(r.followUpQ) + '</div>'
+          + (r.followUpAudioUrl ? '<audio controls src="' + r.followUpAudioUrl + '" style="width:100%;height:34px;margin-top:6px;"></audio>' : '')
+          + '  <div style="font-size:13px;color:var(--text);margin-top:6px;background:var(--card);padding:8px 10px;border-radius:8px;border:1px solid var(--border);">' + escHtml(r.followUpTranscript || '(Chưa có transcript câu follow-up)') + '</div>'
+          + '</div>'
+        : '';
+
       return '<div class="sp-report-part-card">'
         + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
         + '    <strong>' + escHtml(r.label) + '</strong>'
-        + '    <span class="sp-tag-pill">' + formatSec(r.durationSec) + ' • ~' + (r.wpm || 0) + ' WPM' + (r.usedRephrase ? ' • Đã nhờ Rephrase' : '') + '</span>'
+        + '    <span class="sp-tag-pill">' + formatSec(durSum) + ' • ~' + turnWpm + ' WPM' + (r.usedRepeat ? ' • Repeat' : '') + (r.usedRephrase ? ' • Rephrase' : '') + (r.usedClarify ? ' • Clarify' : '') + (r.followUpQ ? ' • Có Follow-up' : '') + '</span>'
         + '  </div>'
         + '  <div style="font-size:13px;color:var(--sub-text);margin-top:4px;"><b>Q:</b> ' + escHtml(r.question) + '</div>'
         + (r.audioUrl ? '<audio controls src="' + r.audioUrl + '" style="width:100%;height:34px;margin-top:6px;"></audio>' : '')
         + '  <div style="font-size:13px;color:var(--text);margin-top:6px;background:var(--card);padding:8px 10px;border-radius:8px;border:1px solid var(--border);">' + escHtml(r.transcript || '(Chưa có transcript văn bản)') + '</div>'
+        + followUpHtml
         + '</div>';
     }).join('');
+
+    var phaseShortLabels = {
+      warmup: 'Warm-up',
+      part1: 'Part 1',
+      part2_prep: 'Part 2 Prep',
+      part2_talk: 'Part 2 Talk',
+      part2_round: 'Part 2 Round',
+      part3: 'Part 3',
+      report: 'Report'
+    };
+    var historyList = pzExam.dialogueHistory || [];
+    var modeBadge = pzExam.dialogueMode === 'gemini_hybrid' ? '🤖 Hybrid Gemini' : '⚡ Offline NLU';
+    var interactionBarHtml = ''
+      + '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
+      + '  <span class="sp-tag-pill">💬 Lượt hội thoại: <b>' + historyList.length + '</b></span>'
+      + '  <span class="sp-tag-pill">↳ Follow-up: <b>' + (pzExam.followUpCount || 0) + '</b></span>'
+      + '  <span class="sp-tag-pill">🔁/🔄/💡 Trợ giúp: <b>' + (pzExam.repeatCount || 0) + ' / ' + (pzExam.rephraseCount || 0) + ' / ' + (pzExam.clarifyCount || 0) + '</b></span>'
+      + '  <span class="sp-tag-pill">' + modeBadge + '</span>'
+      + '</div>';
+
+    var dialogueTimelineHtml = historyList.length
+      ? '<details id="pzReportDialogueDetails" class="sp-report-part-card">'
+        + '  <summary style="cursor:pointer;font-weight:700;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
+        + '    <span>💬 Xem toàn bộ Nhật ký Hội thoại 2 Phía (' + historyList.length + ' lượt)</span>'
+        + '    <span class="sp-tag-pill">' + modeBadge + '</span>'
+        + '  </summary>'
+        + '  <div class="sp-dialogue-feed-list" style="margin-top:10px;max-height:320px;">'
+        + historyList.map(function (entry) {
+          var isEx = entry.role === 'examiner';
+          var who = isEx ? '🎙️ Examiner' : ('🗣️ ' + (pzExam.candidateName || 'Bạn'));
+          var phLabel = phaseShortLabels[entry.phase] || entry.phase || '';
+          var metaText = who + (phLabel ? ' • ' + phLabel : '');
+          return '<div class="sp-chat-row ' + (isEx ? 'is-examiner' : 'is-candidate') + '">'
+            + '  <div class="sp-chat-meta"><strong>' + escHtml(metaText) + '</strong>' + (entry.tag ? '<span class="sp-chat-kind-tag">' + escHtml(entry.tag) + '</span>' : '') + '</div>'
+            + '  <div class="sp-chat-bubble">' + escHtml(entry.text || '') + '</div>'
+            + '</div>';
+        }).join('')
+        + '  </div>'
+        + '</details>'
+      : '';
 
     stage.innerHTML = ''
       + '<div class="sp-exam-chamber sp-exam-report">'
@@ -3958,8 +6752,17 @@
       + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Tổng từ đã nói</span><span class="sp-metric-val">' + metrics.wordCount + '</span></div>'
       + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Nhịp độ TB (WPM)</span><span class="sp-metric-val">' + metrics.wpm + '</span></div>'
       + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Target Lexis</span><span class="sp-metric-val">' + metrics.usedTargets.length + '/' + metrics.targetTotal + '</span></div>'
-      + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Overall Band</span><span class="sp-metric-val" style="color:var(--hl-green);">' + overall.toFixed(1) + '</span></div>'
+      + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">' + (pzExam.scoreSource === 'manual' ? 'Band tự chấm' : 'Overall Band') + '</span><span class="sp-metric-val" style="color:var(--hl-green);">' + overall.toFixed(1) + '</span></div>'
       + '  </div>'
+      + interactionBarHtml
+      + renderAutoGradePanelHtml({
+        panelId: 'pzAutoGradePanel',
+        grade: pzExam.autoGrade,
+        busy: pzExam.gradingBusy,
+        scoreSource: pzExam.scoreSource,
+        onRunAiFn: '_spRunPzAiGrade',
+        onRegradeOfflineFn: '_spRunPzOfflineGrade'
+      })
       + '  <div class="sp-rubric-grid">'
       + ['fc', 'lr', 'gra', 'pr'].map(function (k) {
         var names = { fc: 'Fluency & Coherence', lr: 'Lexical Resource', gra: 'Grammatical Range', pr: 'Pronunciation' };
@@ -3972,7 +6775,7 @@
       + '      <button type="button" class="mini-btn" onclick="window._spCopyPzAiPrompt()">📋 Copy Prompt toàn bộ đề</button>'
       + '    </div>'
       + '    <textarea id="pzAiPromptBox" class="sp-notepad-textarea" rows="5" readonly>' + escHtml(aiPrompt) + '</textarea>'
-      + '    <textarea class="sp-notepad-textarea" rows="2" placeholder="Ghi chú tự đánh giá hoặc dán nhận xét AI..." oninput="window._spSetPzReportFeedback(this.value)">' + escHtml(pzExam.reportFeedback) + '</textarea>'
+      + '    <textarea class="sp-notepad-textarea" rows="3" placeholder="Nhận xét tự chấm hoặc dán nhận xét AI..." oninput="window._spSetPzReportFeedback(this.value)">' + escHtml(pzExam.reportFeedback) + '</textarea>'
       + '    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
       + '      <button type="button" class="btn mini-btn" onclick="window.exitPzExamToLobby()">🚪 Về Sảnh Practice Zone</button>'
       + '      <div style="display:flex;gap:8px;flex-wrap:wrap;">'
@@ -3981,15 +6784,69 @@
       + '      </div>'
       + '    </div>'
       + '  </div>'
+      + dialogueTimelineHtml
       + '  <div style="display:flex;flex-direction:column;gap:8px;"><strong>🎙️ Chi tiết toàn bộ lượt trả lời (Part 1 → Part 3)</strong>' + turnsHtml + '</div>'
       + '</div>';
   }
 
   global._spSetPzReportScore = function (key, val) {
+    pzExam.scoreSource = 'manual';
     pzExam.reportScores[key] = Number(val);
     renderPzStage();
   };
-  global._spSetPzReportFeedback = function (val) { pzExam.reportFeedback = val; };
+  global._spSetPzReportFeedback = function (val) {
+    pzExam.reportFeedbackAuto = false;
+    pzExam.reportFeedback = val;
+  };
+  global._spRunPzOfflineGrade = function () {
+    if (!pzExam.lesson) return;
+    var offGrade = SpeakingGrader.evaluateOffline(buildPzGradePayload(pzExam.lesson));
+    pzExam.autoGrade = offGrade;
+    pzExam.reportScores = Object.assign({}, offGrade.scores);
+    pzExam.scoreSource = 'auto_offline';
+    if (!pzExam.reportFeedback || pzExam.reportFeedbackAuto) {
+      pzExam.reportFeedback = SpeakingGrader.formatFeedbackText(offGrade);
+      pzExam.reportFeedbackAuto = true;
+    }
+    renderPzStage();
+    showToast('Đã chấm lại báo cáo theo bộ tiêu chí Offline (Band ' + offGrade.overallBand.toFixed(1) + ').', 'info');
+  };
+  global._spRunPzAiGrade = function (isBackgroundAuto) {
+    if (!pzExam.lesson || pzExam.gradingBusy) return;
+    var apiKey = getStoredGeminiKey();
+    if (!apiKey) {
+      if (!isBackgroundAuto) {
+        showToast('Hãy dán Gemini API Key cá nhân (Free Tier) vào ô trên để chấm bằng gemini-4-hydrogen.', 'warn', 4200);
+      }
+      return;
+    }
+    var sessionStamp = pzExam.startedAt;
+    pzExam.gradingBusy = true;
+    renderPzStage();
+
+    SpeakingGrader.evaluateWithGemini(buildPzGradePayload(pzExam.lesson), {
+      apiKey: apiKey,
+      model: prefs.pzGeminiModel
+    }).then(function (res) {
+      pzExam.gradingBusy = false;
+      if (!pzExam.active || pzExam.startedAt !== sessionStamp || pzExam.phase !== 'report') return;
+      pzExam.autoGrade = res;
+      if (pzExam.scoreSource !== 'manual') {
+        pzExam.reportScores = Object.assign({}, res.scores);
+        pzExam.scoreSource = res.source === 'gemini' ? 'auto_gemini' : 'auto_offline';
+      }
+      if (!pzExam.reportFeedback || pzExam.reportFeedbackAuto) {
+        pzExam.reportFeedback = SpeakingGrader.formatFeedbackText(res);
+        pzExam.reportFeedbackAuto = true;
+      }
+      renderPzStage();
+      if (res.source === 'gemini') {
+        showToast('AI Examiner (gemini-4-hydrogen) đã hoàn tất chấm điểm — Band ' + res.overallBand.toFixed(1) + '!', 'success');
+      } else if (!isBackgroundAuto) {
+        showToast('AI phản hồi chậm — giữ nguyên kết quả chấm Offline dự phòng.', 'warn', 3500);
+      }
+    });
+  };
   global._spCopyPzAiPrompt = function () {
     var el = document.getElementById('pzAiPromptBox');
     if (el && navigator.clipboard && navigator.clipboard.writeText) {
@@ -4001,20 +6858,50 @@
   global._spSavePzReport = function () {
     if (!pzExam.lesson) return;
     var L = pzExam.lesson;
-    var combined = pzExam.responses.map(function (r) { return r.transcript; }).filter(Boolean).join(' ');
-    var totalDur = pzExam.responses.reduce(function (a, r) { return a + (r.durationSec || 0); }, 0);
+    var combined = pzExam.responses.map(collectSlotTranscript).filter(Boolean).join(' ');
+    var totalDur = pzExam.responses.reduce(function (a, r) { return a + collectSlotDuration(r); }, 0);
     var metrics = analyzeTranscriptMetrics(combined, totalDur || 120, collectTargetLexis(L));
     var overall = roundIeltsBand((pzExam.reportScores.fc + pzExam.reportScores.lr + pzExam.reportScores.gra + pzExam.reportScores.pr) / 4);
+    var gradeMeta = buildCompactGradeMeta(pzExam.autoGrade, pzExam.scoreSource);
 
-    saveSubmissionRecord({
+    saveSubmissionRecord(Object.assign({
       id: 'sub_mock_' + Date.now(),
       kind: 'mock',
       lessonId: L.id,
       title: L.title,
       unitId: 'u_6',
+      dialogueMode: pzExam.dialogueMode || 'offline',
+      followUpCount: pzExam.followUpCount || 0,
+      repeatCount: pzExam.repeatCount || 0,
+      rephraseCount: pzExam.rephraseCount || 0,
+      clarifyCount: pzExam.clarifyCount || 0,
       transcript: combined,
       turns: pzExam.responses.map(function (r) {
-        return { label: r.label, question: r.question, transcript: r.transcript, durationSec: r.durationSec, wpm: r.wpm, audioId: r.audioId };
+        return {
+          label: r.label,
+          question: r.question,
+          transcript: r.transcript,
+          durationSec: r.durationSec,
+          wpm: r.wpm,
+          audioId: r.audioId,
+          usedRepeat: Boolean(r.usedRepeat),
+          usedRephrase: Boolean(r.usedRephrase),
+          usedClarify: Boolean(r.usedClarify),
+          followUpQ: r.followUpQ || '',
+          followUpTranscript: r.followUpTranscript || '',
+          followUpDurationSec: r.followUpDurationSec || 0,
+          followUpAudioId: r.followUpAudioId || null
+        };
+      }),
+      dialogueHistory: (pzExam.dialogueHistory || []).map(function (d) {
+        return {
+          role: d.role,
+          kind: d.kind,
+          phase: d.phase,
+          text: d.text,
+          tag: d.tag,
+          source: d.source || ''
+        };
       }),
       durationSec: totalDur,
       wpm: metrics.wpm,
@@ -4024,7 +6911,7 @@
       overallBand: overall,
       aiFeedback: pzExam.reportFeedback,
       createdAt: Date.now()
-    });
+    }, gradeMeta));
     if (!L.isDynamicRandom && !isLessonDone(L.id)) {
       markLessonDone(L.id, true);
       renderSidebar();
@@ -4122,10 +7009,33 @@
       });
     }
 
+    var srcBadgeHtml = rec.scoreSource === 'manual'
+      ? '<span class="sp-tag-pill">✏️ Điểm chỉnh tay</span>'
+      : (rec.scoreSource === 'auto_gemini'
+        ? '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm gemini-4-hydrogen</span>'
+        : (rec.scoreSource === 'auto_offline' ? '<span class="sp-tag-pill">⚡ Tự chấm Offline</span>' : ''));
+
+    var extraAdviceHtml = '';
+    if ((Array.isArray(rec.vocabUpgrades) && rec.vocabUpgrades.length) || (Array.isArray(rec.grammarFixes) && rec.grammarFixes.length)) {
+      var upHtml = (rec.vocabUpgrades || []).slice(0, 4).map(function (v) {
+        return '<li><span style="color:var(--muted);">' + escHtml(v.from || 'Gợi ý') + '</span> ➜ <b>' + escHtml(v.upgrade) + '</b></li>';
+      }).join('');
+      var grHtml = (rec.grammarFixes || []).slice(0, 3).map(function (g) {
+        return '<li><span style="color:var(--sp-accent-rose,#f43f5e);">' + escHtml(g.original) + '</span> ➜ <b>' + escHtml(g.corrected) + '</b></li>';
+      }).join('');
+      extraAdviceHtml = '<div class="sp-autograde-cols" style="margin-top:8px;">'
+        + (upHtml ? '<div class="sp-autograde-box"><strong>💎 Nâng cấp Từ vựng</strong><ul class="sp-autograde-list">' + upHtml + '</ul></div>' : '')
+        + (grHtml ? '<div class="sp-autograde-box"><strong>🔧 Sửa Ngữ pháp</strong><ul class="sp-autograde-list">' + grHtml + '</ul></div>' : '')
+        + '</div>';
+    }
+
     body.innerHTML = ''
       + '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
       + '  <button type="button" class="mini-btn" onclick="window._spBackHistoryList()">← Quay lại danh sách</button>'
-      + '  <span class="sp-lobby-chip is-exam">Overall Band: ' + Number(rec.overallBand || 6.5).toFixed(1) + '</span>'
+      + '  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
+      + srcBadgeHtml
+      + '    <span class="sp-lobby-chip is-exam">Overall Band: ' + Number(rec.overallBand || 6.5).toFixed(1) + '</span>'
+      + '  </div>'
       + '</div>'
       + '<div class="sp-modal-detail">'
       + '  <h4 style="margin-bottom:6px;">' + escHtml(rec.title) + '</h4>'
@@ -4135,7 +7045,8 @@
         ? rec.turns.map(function (t) { return '【' + escHtml(t.label) + '】\nQ: ' + escHtml(t.question) + '\nA: ' + escHtml(t.transcript || '(Không có transcript)'); }).join('\n\n')
         : escHtml(rec.transcript || '(Không có transcript văn bản)'))
       + '  </div>'
-      + (rec.aiFeedback ? '<div class="sp-tip-callout">🤖 <b>Phản hồi AI:</b> ' + escHtml(rec.aiFeedback) + '</div>' : '')
+      + (rec.aiFeedback ? '<div class="sp-tip-callout" style="white-space:pre-line;">🤖 <b>Phản hồi chấm điểm:</b>\n' + escHtml(rec.aiFeedback) + '</div>' : '')
+      + extraAdviceHtml
       + '</div>';
 
     var mounts = document.getElementById('histAudioMounts');
@@ -4354,9 +7265,19 @@
     var sSel = document.getElementById('pzStrictnessSelect');
     var vSel = document.getElementById('pzVoiceSelect');
     var tChk = document.getElementById('pzStrictTimersCheck');
+    var aChk = document.getElementById('pzAutoMicCheck');
+    var dSel = document.getElementById('pzDialogueModeSelect');
+    var esSel = document.getElementById('pzExaminerStyleSelect');
+    var mSel = document.getElementById('pzGeminiModelSelect');
+    var kInp = document.getElementById('pzGeminiKeyInput');
     if (sSel) sSel.addEventListener('change', function () { prefs.pzStrictness = sSel.value; savePrefs(); });
     if (vSel) vSel.addEventListener('change', function () { global.setSpeakingVoiceAccent(vSel.value); });
     if (tChk) tChk.addEventListener('change', function () { prefs.pzStrictTimers = tChk.checked; savePrefs(); });
+    if (aChk) aChk.addEventListener('change', function () { prefs.pzAutoMic = aChk.checked; savePrefs(); });
+    if (dSel) dSel.addEventListener('change', function () { prefs.pzDialogueMode = dSel.value; savePrefs(); syncPzLobbyDialogueUi(); });
+    if (esSel) esSel.addEventListener('change', function () { prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(esSel.value); savePrefs(); });
+    if (mSel) mSel.addEventListener('change', function () { prefs.pzGeminiModel = mSel.value; savePrefs(); });
+    if (kInp) kInp.addEventListener('input', function () { setStoredGeminiKey(kInp.value); });
 
     document.addEventListener('keydown', function (ev) {
       if (ev.key === 'Escape') {
