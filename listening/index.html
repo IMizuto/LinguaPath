@@ -1025,22 +1025,34 @@ function updateTopProgress() {
   if (el) el.textContent = `Đã hoàn thành: ${doneSet.size} bài • Đã thuộc: ${learnedWords} từ`;
 }
 
+let wordAudioToken = 0;
 function playWordAudio(v, lang = 'en-GB') {
   if (!v) return;
+  const token = ++wordAudioToken;
   const wordText = v.origin || v.word || v.term || '';
   const url = lang === 'en-US' ? (v.usAudio || v.ukAudio || v.audio) : (v.ukAudio || v.audio || v.usAudio);
   const isPrivateTts = url && (url.includes('/ai_services/tts') || url.includes('study4.com/login'));
-  if (url && !isPrivateTts) {
+  if ('speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+  }
+  const player = document.getElementById('ttsAudioPlayer');
+  if (player) {
+    try { player.pause(); } catch (e) {}
+  }
+  if (url && !isPrivateTts && player) {
     const fullUrl = url.startsWith('http') ? url : 'https://study4.com' + url;
-    const player = document.getElementById('ttsAudioPlayer');
     player.src = fullUrl;
-    player.play().catch(() => speakWordFallback(wordText, lang));
+    player.play().catch(() => {
+      if (token !== wordAudioToken) return;
+      speakWordFallback(wordText, lang, token);
+    });
   } else {
-    speakWordFallback(wordText, lang);
+    speakWordFallback(wordText, lang, token);
   }
 }
 
-function speakWordFallback(text, lang = 'en-GB') {
+function speakWordFallback(text, lang = 'en-GB', token = wordAudioToken) {
+  if (token !== wordAudioToken) return;
   if (!('speechSynthesis' in window) || !text) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
@@ -1086,12 +1098,21 @@ function scrollActiveLessonIntoView(smooth) {
   }, 60);
 }
 
+window.stopGlobalPassAudio = function(reset = true) {
+  const a = document.getElementById('globalPassAudio');
+  if (a) {
+    try { a.pause(); } catch (e) {}
+    if (reset) {
+      try { a.currentTime = 0; } catch (e) {}
+    }
+  }
+  subPauseLock = false;
+};
+
 let isListeningPzMode = false;
 window.activateListeningPzTab = function() {
   isListeningPzMode = true;
-  subPauseLock = false;
-  const pa = document.getElementById('globalPassAudio');
-  if (pa && !pa.paused) pa.pause();
+  window.stopGlobalPassAudio(true);
   if (window.S4PracticeZone) {
     window.S4PracticeZone.openListeningHub();
   }
@@ -1117,6 +1138,7 @@ window.activateListeningPzTab = function() {
 
 window.quickSwitchUnit = function(uid) {
   isListeningPzMode = false;
+  window.stopGlobalPassAudio(true);
   if (window.S4PracticeZone) {
     window.S4PracticeZone.exitCbtExamMode();
     if (window.S4PracticeZone.closeListeningLobby) window.S4PracticeZone.closeListeningLobby();
@@ -1440,6 +1462,7 @@ window.toggleMobileSidebar = function(force) {
 window.selectLesson = function(id) {
   const meta = ALL_LESSONS.find(x => x.id === id);
   if (!meta) return;
+  window.stopGlobalPassAudio(true);
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.remove('active');
   localStorage.setItem(LAST_KEY, id);
@@ -1972,9 +1995,7 @@ window.S4FormatTheoryHtml = function(rawHtml) {
 window.openListeningPzFromLesson = function() {
   if (!currentLesson || !window.S4PracticeZone) return;
   isListeningPzMode = true;
-  subPauseLock = false;
-  const pa = document.getElementById('globalPassAudio');
-  if (pa && !pa.paused) pa.pause();
+  window.stopGlobalPassAudio(true);
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.add('active');
   window.S4PracticeZone.enterCbtExamMode(true);
@@ -1986,9 +2007,7 @@ window.openListeningPzFromLesson = function() {
 window.openListeningPzByKey = function(key) {
   if (!key || !window.S4PracticeZone) return;
   isListeningPzMode = true;
-  subPauseLock = false;
-  const pa = document.getElementById('globalPassAudio');
-  if (pa && !pa.paused) pa.pause();
+  window.stopGlobalPassAudio(true);
   ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
     const btn = document.getElementById('topBtn_' + id);
     if (btn) btn.classList.remove('active');
@@ -2007,6 +2026,7 @@ window.openListeningPzByKey = function(key) {
 };
 window.exitListeningPzMode = function() {
   isListeningPzMode = false;
+  window.stopGlobalPassAudio(true);
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.remove('active');
   if (window.S4PracticeZone) {
@@ -2336,8 +2356,8 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../assets/s4-practice-zone.js?v=64"></script>
-  <script src="../auth.js?v=30"></script>
+  <script src="../assets/s4-practice-zone.js?v=65"></script>
+  <script src="../auth.js?v=31"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 
   <!-- MODAL LỊCH SỬ BÀI THI LISTENING TRÊN TOPBAR -->

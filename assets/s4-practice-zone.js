@@ -194,6 +194,19 @@
     if (window.applyThemeState) window.applyThemeState();
   }
 
+  function stopListeningPassAudio(reset = true) {
+    if (typeof window.stopGlobalPassAudio === 'function') {
+      window.stopGlobalPassAudio(reset);
+      return;
+    }
+    const a = document.getElementById('globalPassAudio');
+    if (!a) return;
+    try { a.pause(); } catch (e) {}
+    if (reset) {
+      try { a.currentTime = 0; } catch (e) {}
+    }
+  }
+
   function exitCbtExamMode() {
     document.body.classList.remove('s4-cbt-mode');
     try {
@@ -1590,7 +1603,15 @@
     if (pzBtn) pzBtn.classList.remove('active');
     if (typeof window.setMode === 'function') window.setMode(m);
   };
-  window.s4CbtExitReadingToExplain = function (lessonId) {
+  window.s4CbtExitReadingToExplain = async function (lessonId) {
+    const hasMarks = Boolean(document.querySelector('.s4-cbt-user-hl, .s4-cbt-user-note'));
+    if (hasMarks) {
+      const msg = 'Bạn đang có đoạn highlight hoặc ghi chú trong phiên Reading này. Khi chuyển sang Video Giải Chi Tiết, các highlight/ghi chú tạm thời sẽ được xóa (không ảnh hưởng kết quả đã nộp). Bạn có muốn tiếp tục?';
+      const ok = (window.S4UI && typeof window.S4UI.confirm === 'function')
+        ? await window.S4UI.confirm(msg, { title: 'Lưu ý highlight tạm thời', confirmText: 'Vẫn xem Video Giải', cancelText: 'Ở lại bài thi' })
+        : window.confirm(msg);
+      if (!ok) return;
+    }
     exitCbtExamMode();
     readLobbyOpen = false;
     readHubOpen = false;
@@ -2961,6 +2982,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   };
 
   window.s4PzExitListeningExamToLobby = function () {
+    stopListeningPassAudio(true);
     exitCbtExamMode();
     listenLobbyOpen = true;
     listenHubOpen = false;
@@ -2968,6 +2990,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   };
 
   window.s4CbtExitListeningToExplain = function (lessonId) {
+    stopListeningPassAudio(true);
     exitCbtExamMode();
     listenLobbyOpen = false;
     listenHubOpen = false;
@@ -3554,6 +3577,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
   }
 
   window.s4CbtExitListeningToLesson = function () {
+    stopListeningPassAudio(true);
     exitCbtExamMode();
     const targetKey = activeListenLobbyTest ? parseIeltsTestIdentity(activeListenLobbyTest.title, { skill: 'listening' })?.key : null;
     const allL = window.ALL_LESSONS || window.__ALL_LESSONS || [];
@@ -3722,6 +3746,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     isListeningLobbyOpen: () => listenLobbyOpen,
     renderListeningLobby,
     openListeningLobby: function (testId) {
+      stopListeningPassAudio(true);
       exitCbtExamMode();
       listenLobbyOpen = true;
       listenHubOpen = false;
@@ -3775,6 +3800,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
       return true;
     },
     openListeningHub: function () {
+      stopListeningPassAudio(true);
       exitCbtExamMode();
       listenLobbyOpen = false;
       listenHubOpen = true;

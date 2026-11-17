@@ -337,7 +337,7 @@
 
   <audio id="audioPlayer"></audio>
   <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../auth.js?v=30"></script>
+  <script src="../auth.js?v=31"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -946,14 +946,28 @@
     }
 
     /* ---------- Âm thanh ---------- */
+    let audioPlayToken = 0;
     function playAudio(src, word, lang) {
-      if (src) {
-        const p = $("audioPlayer");
+      const token = ++audioPlayToken;
+      const p = $("audioPlayer");
+      if ("speechSynthesis" in window) {
+        try { speechSynthesis.cancel(); } catch (e) {}
+      }
+      if (p) {
+        try { p.pause(); } catch (e) {}
+      }
+      if (src && p) {
         p.src = src;
-        p.play().catch(() => speak(word, lang));
-      } else speak(word, lang);
+        p.play().catch(() => {
+          if (token !== audioPlayToken) return;
+          speak(word, lang, token);
+        });
+      } else {
+        speak(word, lang, token);
+      }
     }
-    function speak(text, lang) {
+    function speak(text, lang, token = audioPlayToken) {
+      if (token !== audioPlayToken) return;
       if ("speechSynthesis" in window && text) {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text);

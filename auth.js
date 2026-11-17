@@ -377,8 +377,9 @@
     });
     return JSON.stringify(out);
   }
-  function mergeProgress(local, remote) {
+  function mergeProgress(local, remote, sync, rts) {
     const out = {};
+    const preferLocalScalar = Boolean(sync && sync.dirty && Number(sync.localTs || 0) >= Number(rts || 0));
     // 1. SRS Maps (Vocab, Listening, Reading, Speaking)
     [P_SRS, P_LSRS, P_RSRS, P_SSRS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSrsMap(local[k], remote[k]);
@@ -415,7 +416,9 @@
     }
     // 5. Last Lesson & Settings keys
     [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_WLAST, P_SLAST, P_SSET, P_TLAST, P_TSUBVI].forEach(k => {
-      const v = remote[k] !== undefined ? remote[k] : local[k];
+      const v = preferLocalScalar
+        ? (local[k] !== undefined ? local[k] : remote[k])
+        : (remote[k] !== undefined ? remote[k] : local[k]);
       if (v !== undefined) out[k] = v;
     });
     // 6. Active Vocab Sessions, Per-Word Step Drafts & Listening Lesson Positions
@@ -562,13 +565,13 @@
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
-  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false }, getSync(u) || {}, patch)));
+  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0 }, getSync(u) || {}, patch)));
 
   let changeCounter = 0, pushTimer = null;
   function onProgressChanged() {
     if (!session) return;
     changeCounter++;
-    setSync(session.username, { dirty: true });
+    setSync(session.username, { dirty: true, localTs: Date.now() });
     clearTimeout(pushTimer);
     pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, 3500);
   }
@@ -644,12 +647,12 @@
     if (!remote) {
       if (hasProgress(local)) needPush = true;
     } else if (forceMerge || !sync) {
-      target = mergeProgress(local, rdata);
+      target = mergeProgress(local, rdata, sync, rts);
       needPush = !sameProgress(target, rdata);
     } else if (!sync.dirty) {
       if (rts > (sync.base || 0)) target = rdata;
     } else if (rts > (sync.base || 0)) {
-      target = mergeProgress(local, rdata);
+      target = mergeProgress(local, rdata, sync, rts);
       needPush = true;
     } else {
       needPush = true;
@@ -754,7 +757,7 @@
       writeProgress(mergeProgress(readProgress(), prof));
       rawRemove("s4_auth_profile_" + rec.username);
     }
-    try { await syncProgress(true); } catch (e) { setSync(rec.username, { dirty: true }); }
+    try { await syncProgress(true); } catch (e) { setSync(rec.username, { dirty: true, localTs: Date.now() }); }
   }
 
   async function doLogin(uname, pass) {
@@ -2047,7 +2050,8 @@
     getCurrentUser, isFullAccess, isAdmin, daysRemaining,
     canAccessVocabTopic, canAccessGrammarSection,
     openLoginModal, openProfileModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
-    logout, syncNow: () => syncProgress(false)
+    logout, syncNow: () => syncProgress(false),
+    mergeProgress: mergeProgress
   };
 
   /* ---------- Khởi động ---------- */

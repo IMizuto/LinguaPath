@@ -3,6 +3,7 @@
 
 let pipelinePromise = null;
 let taskQueue = Promise.resolve();
+let latestTranscribeReqId = 0;
 
 function cleanWhisperTranscript(rawText) {
   let s = String(rawText || '');
@@ -16,14 +17,26 @@ function cleanWhisperTranscript(rawText) {
   return s;
 }
 
+async function loadTransformersModule() {
+  try {
+    return await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js');
+  } catch (primaryErr) {
+    return await import('https://unpkg.com/@xenova/transformers@2.17.2/dist/transformers.min.js');
+  }
+}
+
 function getTranscriber() {
   if (pipelinePromise) return pipelinePromise;
   pipelinePromise = (async () => {
-    const mod = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js');
+    const mod = await loadTransformersModule();
     const { pipeline, env } = mod;
     if (env) {
       env.allowLocalModels = false;
       env.useBrowserCache = true;
+      if (env.backends && env.backends.onnx && env.backends.onnx.wasm) {
+        env.backends.onnx.wasm.numThreads = 1;
+        env.backends.onnx.wasm.proxy = false;
+      }
     }
     return await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en', {
       quantized: true,
@@ -77,18 +90,31 @@ self.addEventListener('message', (event) => {
 
   if (msg.type === 'transcribe') {
     const audio = msg.audio;
+    latestTranscribeReqId = reqId;
     enqueueWork(async () => {
       try {
+        if (reqId !== latestTranscribeReqId) {
+          self.postMessage({ type: 'result', reqId, ok: false, transcript: '', cancelled: true });
+          return;
+        }
         if (!(audio instanceof Float32Array) || audio.length === 0) {
           self.postMessage({ type: 'result', reqId, ok: false, transcript: '', error: 'Invalid PCM audio buffer' });
           return;
         }
         const transcriber = await getTranscriber();
+        if (reqId !== latestTranscribeReqId) {
+          self.postMessage({ type: 'result', reqId, ok: false, transcript: '', cancelled: true });
+          return;
+        }
         const out = await transcriber(audio, {
-          chunk_length_s: 30,
-          stride_length_s: 5,
+          chunk_length_s: 15,
+          stride_length_s: 3,
           return_timestamps: false
         });
+        if (reqId !== latestTranscribeReqId) {
+          self.postMessage({ type: 'result', reqId, ok: false, transcript: '', cancelled: true });
+          return;
+        }
         const rawText = (out && typeof out.text === 'string')
           ? out.text
           : (Array.isArray(out) && out[0] && out[0].text ? out[0].text : '');
@@ -100,6 +126,10 @@ self.addEventListener('message', (event) => {
           transcript: transcript
         });
       } catch (err) {
+        if (reqId !== latestTranscribeReqId) {
+          self.postMessage({ type: 'result', reqId, ok: false, transcript: '', cancelled: true });
+          return;
+        }
         self.postMessage({
           type: 'result',
           reqId,

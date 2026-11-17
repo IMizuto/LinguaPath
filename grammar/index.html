@@ -212,7 +212,7 @@
   </div>
 
   <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../auth.js?v=30"></script>
+  <script src="../auth.js?v=31"></script>
   <script src="grammar_data.js"></script>
   <script>
     (function () {
@@ -378,17 +378,31 @@
 
     window.toggleDone = function(id) {
       completedMap[id] = !completedMap[id];
+      if (!completedMap[id]) delete completedMap[id];
       localStorage.setItem("s4_grammar_done", JSON.stringify(completedMap));
+      const gKey = "g_" + id;
       if (completedMap[id]) {
         try {
           const now = new Date();
           const today = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
           const days = JSON.parse(localStorage.getItem("s4_vocab_days_v2") || "{}");
           const arr = Array.isArray(days[today]) ? days[today] : [];
-          const gKey = "g_" + id;
           if (!arr.includes(gKey)) arr.push(gKey);
           days[today] = arr;
           localStorage.setItem("s4_vocab_days_v2", JSON.stringify(days));
+        } catch (e) {}
+      } else {
+        try {
+          const days = JSON.parse(localStorage.getItem("s4_vocab_days_v2") || "{}");
+          let changed = false;
+          Object.keys(days).forEach((dateKey) => {
+            if (Array.isArray(days[dateKey]) && days[dateKey].includes(gKey)) {
+              days[dateKey] = days[dateKey].filter((x) => x !== gKey);
+              if (days[dateKey].length === 0) delete days[dateKey];
+              changed = true;
+            }
+          });
+          if (changed) localStorage.setItem("s4_vocab_days_v2", JSON.stringify(days));
         } catch (e) {}
       }
       selectItem(id, false);

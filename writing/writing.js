@@ -239,12 +239,27 @@
     }
   }
 
-  function getSavedEssays() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY_ESSAYS) || '{}');
-    } catch (e) {
-      return {};
+  const memoryEssayDrafts = {};
+  const memoryPzDrafts = {};
+  let lastQuotaWarnTs = 0;
+
+  function warnQuotaOnce() {
+    const now = Date.now();
+    if (now - lastQuotaWarnTs < 10000) return;
+    lastQuotaWarnTs = now;
+    if (window.S4UI && typeof window.S4UI.toast === 'function') {
+      window.S4UI.toast('warn', 'Bộ nhớ trình duyệt sắp đầy — bản nháp đang được giữ an toàn trên RAM.', 4000);
     }
+  }
+
+  function getSavedEssays() {
+    let stored = {};
+    try {
+      stored = JSON.parse(localStorage.getItem(STORAGE_KEY_ESSAYS) || '{}');
+    } catch (e) {
+      stored = {};
+    }
+    return Object.assign({}, stored, memoryEssayDrafts);
   }
 
   // Quản lý Lịch sử Bài Nộp (Submissions History) & Đánh giá AI
@@ -1402,9 +1417,9 @@
   }
 
   function saveDraft(text, wordCount) {
-    if (!activeLesson) return;
+    if (!activeLesson) return true;
     const essays = getSavedEssays();
-    essays[activeLesson.id] = {
+    const draftObj = {
       lessonId: activeLesson.id,
       title: activeLesson.title,
       category: activeLesson.category,
@@ -1412,13 +1427,27 @@
       wordCount: wordCount,
       updatedAt: new Date().toISOString()
     };
-    localStorage.setItem(STORAGE_KEY_ESSAYS, JSON.stringify(essays));
+    essays[activeLesson.id] = draftObj;
+    let persisted = true;
+    try {
+      localStorage.setItem(STORAGE_KEY_ESSAYS, JSON.stringify(essays));
+      delete memoryEssayDrafts[activeLesson.id];
+    } catch (e) {
+      persisted = false;
+      memoryEssayDrafts[activeLesson.id] = draftObj;
+      warnQuotaOnce();
+    }
 
     const statusEl = document.getElementById('autosaveStatus');
     if (statusEl) {
       const now = new Date();
-      statusEl.innerHTML = `<span style="color:var(--primary);">✓ Đã lưu (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span>`;
+      if (persisted) {
+        statusEl.innerHTML = `<span style="color:var(--primary);">✓ Đã lưu (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span>`;
+      } else {
+        statusEl.innerHTML = `<span style="color:#f59e0b;">⚠️ Đầy bộ nhớ — đang giữ trên RAM (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span>`;
+      }
     }
+    return persisted;
   }
 
   // =========================================================================
@@ -2726,19 +2755,39 @@
     return `lp_pz_draft_${testId}_${taskKey}`;
   }
 
+  function readPzDraft(testId, taskKey) {
+    const key = getPzDraftKey(testId, taskKey);
+    if (Object.prototype.hasOwnProperty.call(memoryPzDrafts, key)) {
+      return memoryPzDrafts[key];
+    }
+    try {
+      return localStorage.getItem(key) || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
   function saveCurrentPzTaskDraft() {
-    if (!activeLesson || activeLesson.type !== 'practice_full') return;
+    if (!activeLesson || activeLesson.type !== 'practice_full') return true;
     const editor = document.getElementById('pzEssayEditor');
-    if (!editor) return;
+    if (!editor) return true;
     const text = editor.value;
     const key = getPzDraftKey(activeLesson.id, currentPzTask);
-    localStorage.setItem(key, text);
+    memoryPzDrafts[key] = text;
+    let persisted = true;
+    try {
+      localStorage.setItem(key, text);
+    } catch (e) {
+      persisted = false;
+      warnQuotaOnce();
+    }
     updatePzSubWordCounts(activeLesson);
+    return persisted;
   }
 
   function updatePzSubWordCounts(lesson) {
-    const t1Text = localStorage.getItem(getPzDraftKey(lesson.id, 'task1')) || '';
-    const t2Text = localStorage.getItem(getPzDraftKey(lesson.id, 'task2')) || '';
+    const t1Text = readPzDraft(lesson.id, 'task1');
+    const t2Text = readPzDraft(lesson.id, 'task2');
     const t1Words = countWords(t1Text);
     const t2Words = countWords(t2Text);
     const includeT1 = (lobbySelectedMode !== 'task2');
@@ -2823,7 +2872,7 @@
       `;
     }
 
-    const saved = localStorage.getItem(getPzDraftKey(lesson.id, taskKey)) || '';
+    const saved = readPzDraft(lesson.id, taskKey);
     if (editor) {
       editor.value = saved;
       handlePzEditorInput();
@@ -2849,12 +2898,16 @@
       badge.classList.add('under');
     }
 
-    saveCurrentPzTaskDraft();
+    const persisted = saveCurrentPzTaskDraft();
 
     const statusEl = document.getElementById('pzAutosaveStatus');
     if (statusEl) {
       const now = new Date();
-      statusEl.innerHTML = `<span style="color:var(--primary);">✓ Đã lưu tự động (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span>`;
+      if (persisted) {
+        statusEl.innerHTML = `<span style="color:var(--primary);">✓ Đã lưu tự động (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span>`;
+      } else {
+        statusEl.innerHTML = `<span style="color:#f59e0b;">⚠️ Đầy bộ nhớ — đang giữ trên RAM (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span>`;
+      }
     }
   }
 
@@ -2885,8 +2938,8 @@
     const includeT2 = (lobbySelectedMode !== 'task1');
     const isDualMode = includeT1 && includeT2;
 
-    const t1Text = localStorage.getItem(getPzDraftKey(activeLesson.id, 'task1')) || '';
-    const t2Text = localStorage.getItem(getPzDraftKey(activeLesson.id, 'task2')) || '';
+    const t1Text = readPzDraft(activeLesson.id, 'task1');
+    const t2Text = readPzDraft(activeLesson.id, 'task2');
     const t1Words = countWords(t1Text);
     const t2Words = countWords(t2Text);
 
@@ -3022,7 +3075,7 @@
     if (taskData.userText && typeof taskData.userText === 'string' && taskData.userText.trim().length > 0) {
       userText = taskData.userText;
     } else {
-      userText = localStorage.getItem(getPzDraftKey(activeLesson.id, taskKey)) || (activeLesson.userText || '');
+      userText = readPzDraft(activeLesson.id, taskKey) || (activeLesson.userText || '');
     }
 
     const userWords = countWords(userText);
@@ -3122,8 +3175,8 @@
       const spec = activeLesson.fullTestSpec;
       const includeT1 = lobbySelectedMode !== 'task2';
       const includeT2 = lobbySelectedMode !== 'task1';
-      const t1User = (spec.task1 && spec.task1.userText) ? spec.task1.userText : (localStorage.getItem(getPzDraftKey(activeLesson.id, 'task1')) || '');
-      const t2User = (spec.task2 && spec.task2.userText) ? spec.task2.userText : (localStorage.getItem(getPzDraftKey(activeLesson.id, 'task2')) || '');
+      const t1User = (spec.task1 && spec.task1.userText) ? spec.task1.userText : readPzDraft(activeLesson.id, 'task1');
+      const t2User = (spec.task2 && spec.task2.userText) ? spec.task2.userText : readPzDraft(activeLesson.id, 'task2');
 
       const sections = [];
       if (includeT1 && spec.task1) {

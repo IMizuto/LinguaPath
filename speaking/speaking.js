@@ -15,6 +15,7 @@
   var STORAGE_SUBMISSIONS = 'lp_speaking_submissions_v1';
   var STORAGE_PREFS = 'lp_speaking_prefs_v1';
   var STORAGE_GEMINI_KEY = 'lp_speaking_gemini_key_v1';
+  var STORAGE_AI_BASE = 'lp_ai_base_url_v1';
   var VOCAB_SRS_KEY = 'lp_speaking_vocab_srs_v1';
   var VOCAB_DAYS_KEY = 'lp_speaking_vocab_days_v1';
   var VOCAB_SETTINGS_KEY = 'lp_speaking_vocab_settings_v1';
@@ -92,7 +93,7 @@
     pzAutoMic: false,
     pzDialogueMode: 'offline',
     pzExaminerStyle: 'adaptive',
-    pzGeminiModel: 'gemini-4-hydrogen',
+    pzGeminiModel: 'gemini-2.5-flash',
     showVi: true,
     showRoles: true
   };
@@ -357,8 +358,9 @@
     if (saved) {
       prefs = Object.assign({}, prefs, saved);
       var changed = false;
-      if (prefs.pzGeminiModel !== 'gemini-4-hydrogen') {
-        prefs.pzGeminiModel = 'gemini-4-hydrogen';
+      var normModel = PzAiExaminer.normalizeModel(prefs.pzGeminiModel);
+      if (prefs.pzGeminiModel !== normModel) {
+        prefs.pzGeminiModel = normModel;
         changed = true;
       }
       var normStyle = PzDialogueEngine.normalizeStyle(prefs.pzExaminerStyle);
@@ -378,12 +380,37 @@
     try { return String(localStorage.getItem(STORAGE_GEMINI_KEY) || '').trim(); } catch (e) { return ''; }
   }
 
+  function getStoredAiBaseUrl() {
+    try { return String(localStorage.getItem(STORAGE_AI_BASE) || '').trim().replace(/\/+$/, ''); } catch (e) { return ''; }
+  }
+
+  function syncWhisperCloudConfig() {
+    if (global.S4Whisper && typeof global.S4Whisper.setCloudConfig === 'function') {
+      try {
+        global.S4Whisper.setCloudConfig({
+          apiKey: getStoredGeminiKey(),
+          baseUrl: getStoredAiBaseUrl()
+        });
+      } catch (e) {}
+    }
+  }
+
   function setStoredGeminiKey(val) {
     try {
       var clean = String(val || '').trim();
       if (clean) localStorage.setItem(STORAGE_GEMINI_KEY, clean);
       else localStorage.removeItem(STORAGE_GEMINI_KEY);
     } catch (e) {}
+    syncWhisperCloudConfig();
+  }
+
+  function setStoredAiBaseUrl(val) {
+    try {
+      var clean = String(val || '').trim().replace(/\/+$/, '').replace(/\/chat\/completions$/i, '').replace(/\/audio\/transcriptions$/i, '');
+      if (clean) localStorage.setItem(STORAGE_AI_BASE, clean);
+      else localStorage.removeItem(STORAGE_AI_BASE);
+    } catch (e) {}
+    syncWhisperCloudConfig();
   }
 
   // =========================================================================
@@ -854,6 +881,8 @@
     var recognition = null;
     var analyser = null;
     var audioCtx = null;
+    var sourceNode = null;
+    var warmIdleTimer = null;
     var rafId = null;
     var secTimerId = null;
     var sttTimerId = null;
@@ -867,8 +896,141 @@
     var hasSpeechResult = false;
     var emptyRestartCount = 0;
     var lastWarnedCode = '';
+    var mutedSinceTs = 0;
+    var consecutiveSilentCount = 0;
+    var micStartGen = 0;
+    var MUTE_GRACE_MS = 2500;
     var currentCallbacks = null;
     var onAutoStopCb = null;
+
+    function isIosSafariLike() {
+      try {
+        var ua = String((typeof navigator !== 'undefined' && navigator.userAgent) || '');
+        var maxTouch = (typeof navigator !== 'undefined' && navigator.maxTouchPoints) || 0;
+        var isIosUa = /iPad|iPhone|iPod/i.test(ua);
+        var isIpadOs = /Macintosh/i.test(ua) && maxTouch > 1;
+        return isIosUa || isIpadOs;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function isWarmStreamHealthy(s) {
+      return Boolean(
+        s
+        && s.active
+        && typeof s.getAudioTracks === 'function'
+        && s.getAudioTracks().some(function (t) { return t.readyState === 'live' && t.enabled !== false; })
+      );
+    }
+
+    function attachTrackMuteListeners(s) {
+      if (!s || typeof s.getAudioTracks !== 'function') return;
+      s.getAudioTracks().forEach(function (t) {
+        if (!t || t._lpMuteBound) return;
+        t._lpMuteBound = true;
+        var onMute = function () {
+          if (!mutedSinceTs) mutedSinceTs = Date.now();
+        };
+        var onUnmute = function () {
+          mutedSinceTs = 0;
+        };
+        if (typeof t.addEventListener === 'function') {
+          t.addEventListener('mute', onMute);
+          t.addEventListener('unmute', onUnmute);
+          t.addEventListener('ended', onMute);
+        } else {
+          t.onmute = onMute;
+          t.onunmute = onUnmute;
+          t.onended = onMute;
+        }
+        t._lpUnbindMute = function () {
+          if (typeof t.removeEventListener === 'function') {
+            t.removeEventListener('mute', onMute);
+            t.removeEventListener('unmute', onUnmute);
+            t.removeEventListener('ended', onMute);
+          } else {
+            if (t.onmute === onMute) t.onmute = null;
+            if (t.onunmute === onUnmute) t.onunmute = null;
+            if (t.onended === onMute) t.onended = null;
+          }
+          delete t._lpMuteBound;
+        };
+        if (t.muted === true) {
+          onMute();
+        }
+      });
+    }
+
+    function shouldReacquireWarmStream(s) {
+      if (!isWarmStreamHealthy(s)) return true;
+      if (consecutiveSilentCount >= 2) return true;
+      var tracks = (typeof s.getAudioTracks === 'function') ? s.getAudioTracks() : [];
+      var allMuted = tracks.length > 0 && tracks.every(function (t) { return t && t.muted === true; });
+      if (allMuted && mutedSinceTs && (Date.now() - mutedSinceTs >= MUTE_GRACE_MS)) {
+        return true;
+      }
+      if (!allMuted && mutedSinceTs) {
+        mutedSinceTs = 0;
+      }
+      return false;
+    }
+
+    function reportSilentResult() {
+      consecutiveSilentCount += 1;
+    }
+
+    function resetSilentCount() {
+      consecutiveSilentCount = 0;
+    }
+
+    function releaseWarmStream() {
+      mutedSinceTs = 0;
+      if (warmIdleTimer) {
+        clearTimeout(warmIdleTimer);
+        warmIdleTimer = null;
+      }
+      if (sourceNode) {
+        try { sourceNode.disconnect(); } catch (e) {}
+        sourceNode = null;
+      }
+      if (stream) {
+        try {
+          stream.getTracks().forEach(function (t) {
+            if (t && typeof t._lpUnbindMute === 'function') t._lpUnbindMute();
+            t.stop();
+          });
+        } catch (e) {}
+        stream = null;
+      }
+    }
+
+    function scheduleWarmIdleRelease() {
+      if (warmIdleTimer) clearTimeout(warmIdleTimer);
+      warmIdleTimer = setTimeout(function () {
+        warmIdleTimer = null;
+        if (!isRecording) {
+          releaseWarmStream();
+        }
+      }, 180000);
+    }
+
+    if (typeof global.addEventListener === 'function') {
+      global.addEventListener('pagehide', function () {
+        micStartGen++;
+        if (isRecording) cancel();
+        releaseWarmStream();
+      });
+    }
+    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          micStartGen++;
+          if (isRecording) cancel();
+          releaseWarmStream();
+        }
+      });
+    }
 
     try {
       if (global.sessionStorage) {
@@ -932,7 +1094,7 @@
       }
     }
 
-    function stopResources() {
+    function stopResources(fullRelease) {
       isRecording = false;
       sttFatal = false;
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
@@ -947,16 +1109,15 @@
         } catch (e) {}
         recognition = null;
       }
-      if (audioCtx) {
-        try { audioCtx.close(); } catch (e) {}
-        audioCtx = null;
-        analyser = null;
+      if (sourceNode) {
+        try { sourceNode.disconnect(); } catch (e) {}
+        sourceNode = null;
       }
-      if (stream) {
-        try {
-          stream.getTracks().forEach(function (t) { t.stop(); });
-        } catch (e) {}
-        stream = null;
+      analyser = null;
+      if (fullRelease) {
+        releaseWarmStream();
+      } else if (stream) {
+        scheduleWarmIdleRelease();
       }
     }
 
@@ -998,6 +1159,11 @@
       lastWarnedCode = '';
       startTs = Date.now();
 
+      // Unlock shared AudioContext synchronously inside user click handler (iOS Safari fix)
+      if (global.S4Whisper && typeof global.S4Whisper.getSharedAudioContext === 'function') {
+        try { global.S4Whisper.getSharedAudioContext(); } catch (e) {}
+      }
+
       var canMedia = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
       var SttCtor = getSttConstructor();
 
@@ -1006,12 +1172,32 @@
         return Promise.resolve(false);
       }
 
-      var streamPromise = canMedia
-        ? navigator.mediaDevices.getUserMedia({ audio: true })
-        : Promise.resolve(null);
+      var streamPromise;
+      if (!shouldReacquireWarmStream(stream)) {
+        scheduleWarmIdleRelease();
+        attachTrackMuteListeners(stream);
+        streamPromise = Promise.resolve(stream);
+      } else {
+        releaseWarmStream();
+        consecutiveSilentCount = 0;
+        streamPromise = canMedia
+          ? navigator.mediaDevices.getUserMedia({ audio: true })
+          : Promise.resolve(null);
+      }
+      var myStartGen = ++micStartGen;
 
       return streamPromise.then(function (mediaStream) {
+        if (myStartGen !== micStartGen) {
+          if (mediaStream && mediaStream !== stream) {
+            try { mediaStream.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
+          }
+          return false;
+        }
         stream = mediaStream;
+        if (stream) {
+          attachTrackMuteListeners(stream);
+          scheduleWarmIdleRelease();
+        }
         isRecording = true;
         startTs = Date.now();
 
@@ -1029,16 +1215,27 @@
 
         if (stream) {
           try {
-            var AC = global.AudioContext || global.webkitAudioContext;
-            if (AC) {
-              audioCtx = new AC();
-              if (audioCtx.state === 'suspended' && typeof audioCtx.resume === 'function') {
+            var sharedAc = (global.S4Whisper && typeof global.S4Whisper.getSharedAudioContext === 'function')
+              ? global.S4Whisper.getSharedAudioContext()
+              : null;
+            if (!sharedAc) {
+              var AC = global.AudioContext || global.webkitAudioContext;
+              if (AC) {
+                sharedAc = (audioCtx && audioCtx.state !== 'closed') ? audioCtx : new AC();
+              }
+            }
+            audioCtx = sharedAc;
+            if (audioCtx) {
+              if ((audioCtx.state === 'suspended' || audioCtx.state === 'interrupted') && typeof audioCtx.resume === 'function') {
                 audioCtx.resume().catch(function () {});
               }
-              var src = audioCtx.createMediaStreamSource(stream);
+              if (sourceNode) {
+                try { sourceNode.disconnect(); } catch (e) {}
+              }
+              sourceNode = audioCtx.createMediaStreamSource(stream);
               analyser = audioCtx.createAnalyser();
               analyser.fftSize = 64;
-              src.connect(analyser);
+              sourceNode.connect(analyser);
               startWaveLoop(o.waveSelector || '.sp-wave-bar');
             }
           } catch (e) {}
@@ -1072,7 +1269,9 @@
               var code = (err && err.error) ? String(err.error) : 'no-speech';
               if (STT_FATAL_CODES[code]) {
                 sttFatal = true;
-                if (mediaRecorder && isRecording && code !== 'not-allowed') {
+                var hasActiveRecorder = Boolean(mediaRecorder && isRecording);
+                var isLateStartNotAllowed = (code === 'not-allowed' && hasActiveRecorder && (audioChunks.length > 0 || (Date.now() - startTs) > 800 || isIosSafariLike()));
+                if (hasActiveRecorder && (code !== 'not-allowed' || isLateStartNotAllowed)) {
                   return;
                 }
                 emitSttWarning(code);
@@ -1097,6 +1296,17 @@
               interimTranscript = '';
               if (!isRecording || !recognition || sttFatal) return;
 
+              if (isIosSafariLike()) {
+                sttFatal = true;
+                try {
+                  recognition.onresult = null;
+                  recognition.onend = null;
+                  recognition.onerror = null;
+                } catch (e) {}
+                recognition = null;
+                return;
+              }
+
               if (!hasSpeechResult) {
                 emptyRestartCount++;
                 if (emptyRestartCount >= 3) {
@@ -1119,6 +1329,7 @@
                   recognition.start();
                 } catch (e) {
                   sttFatal = true;
+                  if (mediaRecorder && isRecording) return;
                   emitSttWarning('aborted');
                 }
               }, 160);
@@ -1127,7 +1338,9 @@
           } catch (e) {
             recognition = null;
             sttFatal = true;
-            emitSttWarning('aborted');
+            if (!(mediaRecorder && isRecording)) {
+              emitSttWarning('aborted');
+            }
           }
         }
 
@@ -1142,11 +1355,13 @@
 
         if (o.onStart) o.onStart();
         if (!SttCtor) {
-          emitSttWarning('not-supported');
+          sttFatal = true;
+          if (!mediaRecorder) emitSttWarning('not-supported');
         }
         return true;
       }).catch(function (err) {
-        stopResources();
+        if (myStartGen !== micStartGen) return false;
+        stopResources(true);
         if (o.onUnsupported) {
           o.onUnsupported(describeMediaError(err));
         }
@@ -1156,8 +1371,10 @@
 
     function stop() {
       if (!isRecording) return Promise.resolve(null);
+      var stopGen = micStartGen;
       var elapsed = Math.max(1, Math.round((Date.now() - startTs) / 1000));
       var transcript = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
+      var hadSttError = Boolean(sttFatal);
       var recorderRef = mediaRecorder;
       var chunksRef = audioChunks.slice();
       var finishCb = onAutoStopCb;
@@ -1167,8 +1384,16 @@
       currentCallbacks = null;
 
       return new Promise(function (resolve) {
+        var settled = false;
+        var stopFallbackTimer = null;
         var finalizeBlob = function (blob) {
-          stopResources();
+          if (settled) return;
+          settled = true;
+          if (stopFallbackTimer) {
+            clearTimeout(stopFallbackTimer);
+            stopFallbackTimer = null;
+          }
+          if (stopGen === micStartGen) stopResources(false);
           var id = blob ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
           var saveProm = (blob && id) ? AudioVault.saveBlob(id, blob) : Promise.resolve('');
           saveProm.then(function (url) {
@@ -1179,15 +1404,21 @@
               mimeType: (blob && blob.type) ? blob.type : '',
               durationSec: elapsed,
               transcript: transcript,
+              sttErrored: hadSttError,
+              turnGen: stopGen,
               wpm: computeWpm(transcript, elapsed)
             };
-            if (finishCb) finishCb(payload);
+            if (finishCb && stopGen === micStartGen) finishCb(payload);
             resolve(payload);
           });
         };
 
         if (recorderRef && recorderRef.state !== 'inactive') {
           try {
+            stopFallbackTimer = setTimeout(function () {
+              var fallbackBlob = chunksRef.length ? new Blob(chunksRef, { type: recorderRef.mimeType || 'audio/webm' }) : null;
+              finalizeBlob(fallbackBlob);
+            }, 1200);
             recorderRef.onstop = function () {
               var blob = chunksRef.length ? new Blob(chunksRef, { type: recorderRef.mimeType || 'audio/webm' }) : null;
               finalizeBlob(blob);
@@ -1195,6 +1426,11 @@
             recorderRef.ondataavailable = function (ev) {
               if (ev.data && ev.data.size > 0) chunksRef.push(ev.data);
             };
+            try {
+              if (recorderRef.state === 'recording' && typeof recorderRef.requestData === 'function') {
+                recorderRef.requestData();
+              }
+            } catch (e) {}
             recorderRef.stop();
             return;
           } catch (e) {}
@@ -1204,6 +1440,7 @@
     }
 
     function cancel() {
+      micStartGen++;
       onAutoStopCb = null;
       currentCallbacks = null;
       var recorderRef = mediaRecorder;
@@ -1216,16 +1453,21 @@
           recorderRef.stop();
         } catch (e) {}
       }
-      stopResources();
+      stopResources(false);
     }
 
     return {
       start: start,
       stop: stop,
       cancel: cancel,
+      releaseWarmStream: releaseWarmStream,
+      reportSilentResult: reportSilentResult,
+      resetSilentCount: resetSilentCount,
       isActive: function () { return isRecording; },
+      isWarmStreamActive: function () { return isWarmStreamHealthy(stream); },
       isSttStickyBroken: function () { return false; },
       resetSticky: function () {},
+      getGeneration: function () { return micStartGen; },
       getEnvironment: function () { return {}; }
     };
   })();
@@ -2779,6 +3021,14 @@
       ? '<div class="sp-saved-audio-bar sp-shadow-playback"><span>🎧 <b>Giọng bạn vừa thu (' + formatSec(studioState.shadowDurationSec || 1) + '):</b></span><audio controls src="' + escHtml(studioState.shadowAudioUrl) + '"></audio></div>'
       : '';
 
+    if (global.S4Whisper && typeof global.S4Whisper.preload === 'function' && !global.S4Whisper.isReady()) {
+      setTimeout(function () {
+        if (studioState.mode === 'shadowing' && global.S4Whisper && !global.S4Whisper.isReady()) {
+          global.S4Whisper.preload().catch(function () {});
+        }
+      }, 600);
+    }
+
     box.innerHTML = ''
       + renderSttEnvBannerHtml()
       + '<div class="sp-shadow-head-row">'
@@ -2930,14 +3180,23 @@
           studioState.shadowAudioUrl = res.url;
           studioState.shadowDurationSec = res.durationSec || 0;
         }
-        var canFallbackTx = Boolean(!studioState.shadowSpokenText.trim() && res && res.blob && ((global.S4Whisper && global.S4Whisper.isSupported()) || getStoredGeminiKey()));
         studioState.shadowResult = matchShadowSentence(cur.text, studioState.shadowSpokenText);
-        if (sessionWarning) {
+        var incompleteShadow = !studioState.shadowSpokenText.trim()
+          || (studioState.shadowResult && studioState.shadowResult.accuracy < 65)
+          || (global.S4Whisper && global.S4Whisper.isTranscriptIncomplete && global.S4Whisper.isTranscriptIncomplete(studioState.shadowSpokenText, {
+            targetText: cur.text,
+            durationSec: studioState.shadowDurationSec || 1,
+            sttErrored: Boolean(res && res.sttErrored)
+          }));
+        var canFallbackTx = Boolean(incompleteShadow && res && res.blob && ((global.S4Whisper && global.S4Whisper.isSupported()) || getStoredGeminiKey()));
+        if (sessionWarning && !canFallbackTx) {
           studioState.shadowStatusKind = 'warn';
           studioState.shadowStatusMsg = sessionWarning;
         } else if (canFallbackTx) {
           studioState.shadowStatusKind = 'ready';
-          studioState.shadowStatusMsg = '🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)';
+          studioState.shadowStatusMsg = studioState.shadowSpokenText.trim()
+            ? '🤖 Đang kiểm tra & bổ sung bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)'
+            : '🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)';
         } else if (!studioState.shadowSpokenText.trim() && studioState.shadowAudioUrl) {
           studioState.shadowStatusKind = 'ready';
           studioState.shadowStatusMsg = '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
@@ -2955,6 +3214,9 @@
               studioState.shadowResult = matchShadowSentence(cur.text, txt);
               studioState.shadowStatusKind = 'live';
               studioState.shadowStatusMsg = '🤖 Whisper AI đã nhận diện & chấm độ khớp: ' + studioState.shadowResult.accuracy + '%!';
+            } else if (studioState.shadowSpokenText.trim()) {
+              studioState.shadowStatusKind = '';
+              studioState.shadowStatusMsg = '';
             } else if (wRes && wRes.reason === 'silent_audio') {
               studioState.shadowStatusKind = 'warn';
               studioState.shadowStatusMsg = '🎧 Đã lưu bản thu âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc nghe lại bên dưới.';
@@ -2964,10 +3226,15 @@
             }
             renderModeShadowing(activeLesson);
           }, {
+            allowUpgrade: incompleteShadow,
+            targetText: cur.text,
             contextHint: cur.text,
+            pickBetterFn: function (oldTx, newTx) {
+              return matchShadowSentence(cur.text, newTx).accuracy >= matchShadowSentence(cur.text, oldTx).accuracy ? newTx : oldTx;
+            },
             onProgress: function (info) {
               if (!activeLesson || activeLesson.id !== lessonIdSnap || studioState.shadowIdx !== idxSnap) return;
-              if (info && info.status === 'progress' && typeof info.progress === 'number') {
+              if (info && info.status === 'progress' && typeof info.progress === 'number' && !studioState.shadowSpokenText.trim()) {
                 setShadowBanner('ready', '⏬ Đang tải bộ nhận diện giọng nói Whisper Offline lần đầu (' + Math.round(info.progress) + '%)... Bạn vẫn nghe lại giọng bên dưới được ngay.');
               }
             }
@@ -3196,14 +3463,33 @@
           studioState.recAudioUrl = res.url;
         }
         renderModeRecord(activeLesson);
-        if (!String(studioState.recTranscript || '').trim() && res && res.blob) {
-          autoTranscribeRecordingIfEmpty(res, function (txt) {
-            if (!txt || !activeLesson || activeLesson.id !== lessonIdSnap) return;
-            studioState.recTranscript = txt;
-            studioState.recWpm = computeWpm(txt, studioState.recordingSec);
-            renderModeRecord(activeLesson);
-            showToast('🤖 Whisper đã tự chép lời từ bản ghi âm của bạn!', 'success');
+        var defaultStudioPh = 'Bài nói của bạn sẽ tự động xuất hiện tại đây khi bật Mic (hoặc gõ/dán transcript để chấm 4 tiêu chí & tạo prompt AI)...';
+        var needStudioFallback = Boolean(
+          res && res.blob && (
+            !String(studioState.recTranscript || '').trim()
+            || (global.S4Whisper && global.S4Whisper.isTranscriptIncomplete && global.S4Whisper.isTranscriptIncomplete(studioState.recTranscript, {
+              durationSec: studioState.recordingSec,
+              sttErrored: Boolean(res.sttErrored)
+            }))
+          )
+        );
+        if (needStudioFallback) {
+          autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
+            if (!activeLesson || activeLesson.id !== lessonIdSnap) return;
+            if (txt) {
+              studioState.recTranscript = txt;
+              studioState.recWpm = computeWpm(txt, studioState.recordingSec);
+              renderModeRecord(activeLesson);
+              showToast('🤖 Whisper đã tự chép lời từ bản ghi âm của bạn!', 'success');
+              return;
+            }
+            var inp = document.getElementById('studioTranscriptInput');
+            if (inp) inp.placeholder = defaultStudioPh;
+            if (wRes && wRes.reason === 'silent_audio' && !String(studioState.recTranscript || '').trim()) {
+              showToast('🎧 Đã lưu bản ghi âm (chưa phát hiện giọng nói rõ ràng, hãy nói to hơn hoặc nghe lại bên dưới).', 'warn', 4200);
+            }
           }, {
+            allowUpgrade: needStudioFallback,
             contextHint: ctxPrompt ? ctxPrompt.promptText : '',
             onStart: function () {
               var inp = document.getElementById('studioTranscriptInput');
@@ -3379,44 +3665,103 @@
     };
   }
 
+  var autoTranscribeSeq = 0;
+
   function autoTranscribeRecordingIfEmpty(res, applyFn, opts) {
     if (!res || res._transcribeDone) return Promise.resolve((res && res.transcript) || '');
     if (res._transcribePromise) return res._transcribePromise;
+    var seq = ++autoTranscribeSeq;
+    var resTurnGen = res.turnGen || 0;
+    var isStaleTurn = function () {
+      return seq !== autoTranscribeSeq
+        || (resTurnGen && MicEngine && typeof MicEngine.getGeneration === 'function' && resTurnGen !== MicEngine.getGeneration());
+    };
+    var o = opts || {};
     var existing = String(res.transcript || '').trim();
-    if (existing) {
+    var allowUpgrade = Boolean(
+      o.allowUpgrade
+      || !existing
+      || (global.S4Whisper && typeof global.S4Whisper.isTranscriptIncomplete === 'function' && global.S4Whisper.isTranscriptIncomplete(existing, {
+        targetText: o.targetText || '',
+        durationSec: res.durationSec || 0,
+        sttErrored: Boolean(res.sttErrored)
+      }))
+    );
+    if (existing && !allowUpgrade) {
       res._transcribeDone = true;
       return Promise.resolve(existing);
     }
     if (!res.blob) {
       res._transcribeDone = true;
-      return Promise.resolve('');
+      return Promise.resolve(existing || '');
     }
-    var o = opts || {};
     var canWhisper = Boolean(global.S4Whisper && global.S4Whisper.isSupported());
     var apiKey = getStoredGeminiKey();
     if (!canWhisper && !apiKey) {
       res._transcribeDone = true;
-      return Promise.resolve('');
+      return Promise.resolve(existing || '');
     }
-    if (o.onStart) o.onStart();
-    var prom = canWhisper
-      ? global.S4Whisper.transcribeBlob(res.blob, {
-        onProgress: o.onProgress,
-        onStatus: o.onStatus
-      })
-      : PzAiExaminer.transcribeAudioWithGemini(res.blob, {
+    if (o.onStart && !isStaleTurn()) o.onStart();
+    var prom;
+    if (canWhisper) {
+      prom = global.S4Whisper.transcribeBlob(res.blob, {
+        onProgress: typeof o.onProgress === 'function' ? function (info) {
+          if (isStaleTurn()) return;
+          o.onProgress(info);
+        } : undefined,
+        onStatus: typeof o.onStatus === 'function' ? function (msg) {
+          if (isStaleTurn()) return;
+          o.onStatus(msg);
+        } : undefined
+      }).then(function (wRes) {
+        if (isStaleTurn()) {
+          return { ok: false, transcript: '', cancelled: true, reason: 'cancelled' };
+        }
+        if (wRes && wRes.ok && wRes.transcript) {
+          if (MicEngine && typeof MicEngine.resetSilentCount === 'function') MicEngine.resetSilentCount();
+          return wRes;
+        }
+        if (wRes && wRes.reason === 'silent_audio') {
+          if (MicEngine && typeof MicEngine.reportSilentResult === 'function') MicEngine.reportSilentResult();
+          return wRes;
+        }
+        if (wRes && (wRes.cancelled || wRes.reason === 'cancelled')) {
+          return wRes;
+        }
+        if (apiKey && /^(AIza|AQ\.)/i.test(apiKey) && PzAiExaminer && typeof PzAiExaminer.transcribeAudioWithGemini === 'function') {
+          return PzAiExaminer.transcribeAudioWithGemini(res.blob, {
+            apiKey: apiKey,
+            model: prefs.pzGeminiModel,
+            contextHint: o.contextHint || ''
+          });
+        }
+        return wRes;
+      });
+    } else {
+      prom = PzAiExaminer.transcribeAudioWithGemini(res.blob, {
         apiKey: apiKey,
         model: prefs.pzGeminiModel,
         contextHint: o.contextHint || ''
       });
+    }
     res._transcribePromise = prom.then(function (tr) {
       res._transcribeDone = true;
-      var txt = (tr && tr.ok && tr.transcript) ? String(tr.transcript).trim() : '';
-      if (txt) res.transcript = txt;
-      if (applyFn) applyFn(txt, res, tr);
-      return txt;
+      if (isStaleTurn() || (tr && (tr.cancelled || tr.reason === 'cancelled'))) {
+        return existing || '';
+      }
+      var rawTxt = (tr && tr.ok && tr.transcript) ? String(tr.transcript).trim() : '';
+      var outTxt = rawTxt;
+      if (rawTxt && existing) {
+        outTxt = o.pickBetterFn
+          ? o.pickBetterFn(existing, rawTxt)
+          : (countWords(rawTxt) >= countWords(existing) ? rawTxt : existing);
+      }
+      if (outTxt) res.transcript = outTxt;
+      if (applyFn) applyFn(outTxt, res, tr);
+      return outTxt;
     }).catch(function () {
       res._transcribeDone = true;
+      if (isStaleTurn()) return '';
       if (applyFn) applyFn('', res, { ok: false, transcript: '' });
       return '';
     });
@@ -4644,12 +4989,85 @@
   var PzAiExaminer = (function () {
     var API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/models/';
     var TIMEOUT_MS = 12000;
-    var ALLOWED_MODELS = ['gemini-4-hydrogen'];
+    var GOOGLE_FALLBACK_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-4-hydrogen'];
+    var ALLOWED_MODELS = [
+      'gemini-2.5-flash',
+      'gemini-2.0-flash',
+      'gemini-1.5-flash',
+      'gemini-4-hydrogen',
+      'gpt-6-sol',
+      'gpt-6.1-sol',
+      'gpt-6-luna'
+    ];
     var THINKING_LEVELS = { low: 1, medium: 1, high: 1, xhigh: 1 };
 
     function normalizeModel(model) {
       var m = String(model || '').trim();
       return ALLOWED_MODELS.indexOf(m) !== -1 ? m : ALLOWED_MODELS[0];
+    }
+
+    function isGoogleModelName(model) {
+      return /^gemini-/i.test(String(model || '').trim());
+    }
+
+    function isOpenAiStyleKey(key) {
+      var k = String(key || '').trim();
+      if (!k) return false;
+      if (/^(AIza|AQ\.)/i.test(k)) return false;
+      return /^(sk-|gsk_)/i.test(k) || Boolean(getStoredAiBaseUrl());
+    }
+
+    function resolveOpenAiEndpoint(apiKey, customBase) {
+      var base = String(customBase || '').trim().replace(/\/+$/, '').replace(/\/chat\/completions$/i, '');
+      if (base) return base;
+      if (/^gsk_/i.test(apiKey)) return 'https://api.groq.com/openai/v1';
+      if (/^sk-or-/i.test(apiKey)) return 'https://openrouter.ai/api/v1';
+      return 'https://api.openai.com/v1';
+    }
+
+    function buildOpenAiCandidates(chosenModel, baseUrl) {
+      var list = [];
+      var pushUnique = function (m) {
+        if (m && list.indexOf(m) === -1) list.push(m);
+      };
+      if (/api\.groq\.com/i.test(baseUrl)) {
+        if (chosenModel && !isGoogleModelName(chosenModel) && !/^gpt-/i.test(chosenModel)) pushUnique(chosenModel);
+        pushUnique('llama-3.3-70b-versatile');
+        pushUnique('llama-3.1-8b-instant');
+        return list;
+      }
+      if (/fosta\.app/i.test(baseUrl)) {
+        if (chosenModel && !isGoogleModelName(chosenModel)) pushUnique(chosenModel);
+        pushUnique('gpt-6-sol');
+        pushUnique('gpt-6.1-sol');
+        pushUnique('gpt-6-luna');
+        return list;
+      }
+      if (/openrouter\.ai/i.test(baseUrl)) {
+        if (chosenModel && !isGoogleModelName(chosenModel)) pushUnique(chosenModel);
+        pushUnique('google/gemini-2.0-flash-exp:free');
+        pushUnique('meta-llama/llama-3.3-70b-instruct:free');
+        return list;
+      }
+      if (chosenModel && !isGoogleModelName(chosenModel)) pushUnique(chosenModel);
+      pushUnique('gpt-4o-mini');
+      return list;
+    }
+
+    function buildGoogleCandidates(chosenModel) {
+      var list = [];
+      var pushUnique = function (m) {
+        if (m && isGoogleModelName(m) && list.indexOf(m) === -1) list.push(m);
+      };
+      pushUnique(normalizeModel(chosenModel));
+      GOOGLE_FALLBACK_CHAIN.forEach(pushUnique);
+      return list;
+    }
+
+    function shouldRetryGoogleStatus(status, errMsg) {
+      var msg = String(errMsg || '');
+      if (/API key not valid|API_KEY_INVALID|permission_denied/i.test(msg)) return false;
+      return status === 503 || status === 429 || status === 404 || status === 400 || status >= 500;
     }
 
     function stripCodeFenceJson(rawText) {
@@ -4753,80 +5171,181 @@
       }).catch(function () { return ''; });
     }
 
+    function callOpenAiCompatibleJson(opts, apiKey, customBase) {
+      var baseUrl = resolveOpenAiEndpoint(apiKey, customBase);
+      var url = baseUrl + '/chat/completions';
+      var candidates = buildOpenAiCandidates(opts.model, baseUrl);
+      var timeoutMs = opts.timeoutMs || TIMEOUT_MS;
+
+      function tryCandidate(idx) {
+        var model = candidates[idx];
+        var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+        var timedOut = false;
+        var timerId = setTimeout(function () {
+          timedOut = true;
+          if (ctrl) {
+            try { ctrl.abort('timeout'); } catch (e) { ctrl.abort(); }
+          }
+        }, timeoutMs);
+
+        var bodyObj = {
+          model: model,
+          messages: [
+            { role: 'system', content: String(opts.systemPrompt || '') },
+            { role: 'user', content: String(opts.userPrompt || '') }
+          ],
+          temperature: typeof opts.temperature === 'number' ? opts.temperature : 0.45,
+          max_tokens: opts.maxOutputTokens || 1024
+        };
+        if (opts.jsonMode !== false) {
+          bodyObj.response_format = { type: 'json_object' };
+        }
+
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+          },
+          body: JSON.stringify(bodyObj),
+          signal: ctrl ? ctrl.signal : undefined
+        }).then(function (resp) {
+          if (!resp.ok) {
+            return readGoogleErrorDetail(resp).then(function (detail) {
+              var err = new Error('HTTP ' + resp.status + (detail ? (' — ' + detail) : ''));
+              err.httpStatus = resp.status;
+              throw err;
+            });
+          }
+          return resp.json();
+        }).then(function (data) {
+          var choice = data && data.choices && data.choices[0];
+          var msg = choice && choice.message;
+          var raw = String((msg && msg.content) || '').trim();
+          if (!raw) throw new Error('Empty AI response');
+          if (typeof opts._onResolvedModel === 'function') {
+            try { opts._onResolvedModel(model); } catch (e) {}
+          }
+          return raw;
+        }).catch(function (err) {
+          clearTimeout(timerId);
+          var errMsg = String((err && err.message) || err || '');
+          if (!timedOut && (err instanceof TypeError || /failed to fetch|networkerror|load failed/i.test(errMsg))) {
+            throw new Error('Máy chủ API (' + baseUrl + ') chặn gọi trực tiếp từ trình duyệt (CORS Preflight). Hãy dùng Google Gemini Key (AIza...) hoặc Groq Key (gsk_...) hoặc qua CORS Proxy.');
+          }
+          var st = err && err.httpStatus ? err.httpStatus : 0;
+          if (!timedOut && idx + 1 < candidates.length && (st === 404 || st === 429 || st === 503 || st >= 500 || (st === 400 && !/invalid_api_key|incorrect api key/i.test(errMsg)))) {
+            return tryCandidate(idx + 1);
+          }
+          if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
+            throw new Error('Hết thời gian chờ (' + Math.round(timeoutMs / 1000) + 's), mạng chậm hoặc AI phản hồi lâu');
+          }
+          throw (err instanceof Error ? err : new Error(errMsg || 'Lỗi kết nối OpenAI/Proxy API'));
+        }).finally(function () {
+          clearTimeout(timerId);
+        });
+      }
+
+      return tryCandidate(0);
+    }
+
     function callGeminiJson(opts) {
       var apiKey = String(opts.apiKey || '').trim();
       if (!apiKey || typeof fetch !== 'function') {
         return Promise.reject(new Error('Thiếu API Key hoặc trình duyệt không hỗ trợ fetch'));
       }
-      var model = normalizeModel(opts.model);
-      var url = API_ROOT + encodeURIComponent(model) + ':generateContent?key=' + encodeURIComponent(apiKey);
-      var timeoutMs = opts.timeoutMs || TIMEOUT_MS;
-      var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
-      var timedOut = false;
-      var timerId = setTimeout(function () {
-        timedOut = true;
-        if (ctrl) {
-          try { ctrl.abort('timeout'); } catch (e) { ctrl.abort(); }
-        }
-      }, timeoutMs);
-
-      var genConfig = {
-        temperature: typeof opts.temperature === 'number' ? opts.temperature : 0.45,
-        maxOutputTokens: opts.maxOutputTokens || 1024,
-        thinkingConfig: {
-          thinkingLevel: (opts.thinkingLevel && THINKING_LEVELS[opts.thinkingLevel]) ? opts.thinkingLevel : 'low'
-        }
-      };
-      if (opts.jsonMode !== false) {
-        genConfig.responseMimeType = 'application/json';
+      var customBase = String(opts.baseUrl !== undefined ? opts.baseUrl : getStoredAiBaseUrl()).trim();
+      if (isOpenAiStyleKey(apiKey) || (!/^(AIza|AQ\.)/i.test(apiKey) && customBase)) {
+        return callOpenAiCompatibleJson(opts, apiKey, customBase);
       }
 
-      var userParts = [{ text: opts.userPrompt }];
-      if (Array.isArray(opts.extraParts)) {
-        opts.extraParts.forEach(function (ep) {
-          if (ep) userParts.push(ep);
+      var candidates = buildGoogleCandidates(opts.model);
+      var timeoutMs = opts.timeoutMs || TIMEOUT_MS;
+
+      function tryGoogleCandidate(idx) {
+        var model = candidates[idx];
+        var url = API_ROOT + encodeURIComponent(model) + ':generateContent?key=' + encodeURIComponent(apiKey);
+        var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+        var timedOut = false;
+        var timerId = setTimeout(function () {
+          timedOut = true;
+          if (ctrl) {
+            try { ctrl.abort('timeout'); } catch (e) { ctrl.abort(); }
+          }
+        }, timeoutMs);
+
+        var genConfig = {
+          temperature: typeof opts.temperature === 'number' ? opts.temperature : 0.45,
+          maxOutputTokens: opts.maxOutputTokens || 1024
+        };
+        if (model === 'gemini-4-hydrogen') {
+          genConfig.thinkingConfig = {
+            thinkingLevel: (opts.thinkingLevel && THINKING_LEVELS[opts.thinkingLevel]) ? opts.thinkingLevel : 'low'
+          };
+        }
+        if (opts.jsonMode !== false) {
+          genConfig.responseMimeType = 'application/json';
+        }
+
+        var userParts = [{ text: opts.userPrompt }];
+        if (Array.isArray(opts.extraParts)) {
+          opts.extraParts.forEach(function (ep) {
+            if (ep) userParts.push(ep);
+          });
+        }
+
+        var payload = {
+          systemInstruction: { parts: [{ text: opts.systemPrompt }] },
+          contents: [{ role: 'user', parts: userParts }],
+          generationConfig: genConfig
+        };
+
+        return fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: ctrl ? ctrl.signal : undefined
+        }).then(function (resp) {
+          if (!resp.ok) {
+            return readGoogleErrorDetail(resp).then(function (detail) {
+              var err = new Error('HTTP ' + resp.status + (detail ? (' — ' + detail) : ''));
+              err.httpStatus = resp.status;
+              throw err;
+            });
+          }
+          return resp.json();
+        }).then(function (data) {
+          var cand = data && data.candidates && data.candidates[0];
+          var parts = cand && cand.content && cand.content.parts;
+          var raw = Array.isArray(parts)
+            ? parts.map(function (p) { return (p && p.text && !p.thought) ? p.text : ''; }).join(' ').trim()
+            : '';
+          if (!raw) {
+            var blockReason = (data && data.promptFeedback && data.promptFeedback.blockReason)
+              || (cand && cand.finishReason && cand.finishReason !== 'STOP' ? cand.finishReason : '');
+            throw new Error('Empty AI response' + (blockReason ? (' (' + blockReason + ')') : ''));
+          }
+          if (typeof opts._onResolvedModel === 'function') {
+            try { opts._onResolvedModel(model); } catch (e) {}
+          }
+          return raw;
+        }).catch(function (err) {
+          clearTimeout(timerId);
+          var errMsg = String((err && err.message) || err || '');
+          var st = err && err.httpStatus ? err.httpStatus : 0;
+          if (!timedOut && idx + 1 < candidates.length && shouldRetryGoogleStatus(st, errMsg)) {
+            return tryGoogleCandidate(idx + 1);
+          }
+          if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
+            throw new Error('Hết thời gian chờ (' + Math.round(timeoutMs / 1000) + 's), mạng chậm hoặc Gemini phản hồi lâu');
+          }
+          throw (err instanceof Error ? err : new Error(errMsg || 'Lỗi kết nối Gemini API'));
+        }).finally(function () {
+          clearTimeout(timerId);
         });
       }
 
-      var payload = {
-        systemInstruction: { parts: [{ text: opts.systemPrompt }] },
-        contents: [{ role: 'user', parts: userParts }],
-        generationConfig: genConfig
-      };
-
-      return fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl ? ctrl.signal : undefined
-      }).then(function (resp) {
-        if (!resp.ok) {
-          return readGoogleErrorDetail(resp).then(function (detail) {
-            throw new Error('HTTP ' + resp.status + (detail ? (' — ' + detail) : ''));
-          });
-        }
-        return resp.json();
-      }).then(function (data) {
-        var cand = data && data.candidates && data.candidates[0];
-        var parts = cand && cand.content && cand.content.parts;
-        var raw = Array.isArray(parts)
-          ? parts.map(function (p) { return (p && p.text && !p.thought) ? p.text : ''; }).join(' ').trim()
-          : '';
-        if (!raw) {
-          var blockReason = (data && data.promptFeedback && data.promptFeedback.blockReason)
-            || (cand && cand.finishReason && cand.finishReason !== 'STOP' ? cand.finishReason : '');
-          throw new Error('Empty AI response' + (blockReason ? (' (' + blockReason + ')') : ''));
-        }
-        return raw;
-      }).catch(function (err) {
-        var errMsg = String((err && err.message) || err || '');
-        if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
-          throw new Error('Hết thời gian chờ (' + Math.round(timeoutMs / 1000) + 's), mạng chậm hoặc Gemini phản hồi lâu');
-        }
-        throw (err instanceof Error ? err : new Error(errMsg || 'Lỗi kết nối Gemini API'));
-      }).finally(function () {
-        clearTimeout(timerId);
-      });
+      return tryGoogleCandidate(0);
     }
 
     function parseAndValidateAiDecision(rawText, input, offlineDecision) {
@@ -5035,9 +5554,11 @@
     function testConnection(opts) {
       var o = opts || {};
       var cleanKey = String(o.apiKey || '').trim();
-      if (!cleanKey) return Promise.resolve({ ok: false, error: 'Chưa nhập Gemini API Key.' });
+      if (!cleanKey) return Promise.resolve({ ok: false, error: 'Chưa nhập API Key.' });
+      var resolvedModel = normalizeModel(o.model);
       return callGeminiJson({
         apiKey: cleanKey,
+        baseUrl: o.baseUrl,
         model: o.model,
         systemPrompt: 'Reply concisely.',
         userPrompt: 'Reply with exact word: READY',
@@ -5045,9 +5566,12 @@
         maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: 0,
-        timeoutMs: o.timeoutMs || 25000
+        timeoutMs: o.timeoutMs || 25000,
+        _onResolvedModel: function (m) {
+          if (m) resolvedModel = m;
+        }
       }).then(function (reply) {
-        return { ok: true, model: normalizeModel(o.model), reply: reply };
+        return { ok: true, model: resolvedModel, reply: reply };
       }).catch(function (err) {
         return { ok: false, error: (err && err.message) || 'Kết nối thất bại' };
       });
@@ -5083,6 +5607,28 @@
       var apiKey = String(o.apiKey || getStoredGeminiKey() || '').trim();
       if (!apiKey || !blob || typeof fetch !== 'function') {
         return Promise.resolve({ ok: false, transcript: '', source: 'none' });
+      }
+      if (!/^(AIza|AQ\.)/i.test(apiKey)) {
+        if (!global.S4Whisper || typeof global.S4Whisper.transcribeBlob !== 'function') {
+          return Promise.resolve({ ok: false, transcript: '', source: 'unsupported' });
+        }
+        var storedKey = String(getStoredGeminiKey() || '').trim();
+        var hasCustomBase = Object.prototype.hasOwnProperty.call(o, 'baseUrl');
+        var rawBase = hasCustomBase
+          ? String(o.baseUrl || '').trim()
+          : ((apiKey === storedKey && typeof getStoredAiBaseUrl === 'function') ? getStoredAiBaseUrl() : '');
+        var resolvedBase = resolveOpenAiEndpoint(apiKey, rawBase);
+        var isOpenRouter = /^sk-or-/i.test(apiKey) || /openrouter\.ai/i.test(resolvedBase);
+        return global.S4Whisper.transcribeBlob(blob, {
+          apiKey: apiKey,
+          baseUrl: isOpenRouter ? '' : resolvedBase,
+          sttModel: o.sttModel,
+          useCloudStt: !isOpenRouter,
+          forceLocal: isOpenRouter,
+          cloudOnly: !isOpenRouter && o.cloudOnly === true,
+          timeoutMs: o.timeoutMs || 30000,
+          lang: o.lang || 'en'
+        });
       }
       return blobToAudioInlineData(blob).then(function (inlinePart) {
         if (!inlinePart) return { ok: false, transcript: '', source: 'oversize_or_empty' };
@@ -5807,6 +6353,7 @@
     var styleSel = document.getElementById('pzExaminerStyleSelect');
     var modelSel = document.getElementById('pzGeminiModelSelect');
     var keyInput = document.getElementById('pzGeminiKeyInput');
+    var baseInput = document.getElementById('pzAiBaseUrlInput');
     var autoMicChk = document.getElementById('pzAutoMicCheck');
     var byokBox = document.getElementById('pzGeminiByokBox');
     var statusEl = document.getElementById('pzGeminiTestStatus');
@@ -5819,8 +6366,12 @@
     if (modelSel) modelSel.value = prefs.pzGeminiModel;
     if (autoMicChk) autoMicChk.checked = Boolean(prefs.pzAutoMic);
     var storedKey = getStoredGeminiKey();
+    var storedBase = getStoredAiBaseUrl();
     if (keyInput && document.activeElement !== keyInput) {
       keyInput.value = storedKey;
+    }
+    if (baseInput && document.activeElement !== baseInput) {
+      baseInput.value = storedBase;
     }
     if (byokBox) {
       byokBox.style.display = mode === 'gemini_hybrid' ? 'flex' : 'none';
@@ -5843,36 +6394,43 @@
 
   global.clearPzGeminiKey = function () {
     setStoredGeminiKey('');
+    setStoredAiBaseUrl('');
     var inp = document.getElementById('pzGeminiKeyInput');
+    var baseInp = document.getElementById('pzAiBaseUrlInput');
     var statusEl = document.getElementById('pzGeminiTestStatus');
     if (inp) inp.value = '';
+    if (baseInp) baseInp.value = '';
     if (statusEl) {
       delete statusEl.dataset.tested;
       statusEl.style.color = 'var(--muted)';
       statusEl.textContent = '🗑️ Đã xoá API Key khỏi trình duyệt.';
     }
-    showToast('Đã xoá Gemini API Key khỏi máy.', 'info');
+    showToast('Đã xoá API Key khỏi máy.', 'info');
   };
 
   global.testPzGeminiConnection = function () {
     var inp = document.getElementById('pzGeminiKeyInput');
+    var baseInp = document.getElementById('pzAiBaseUrlInput');
     var modelSel = document.getElementById('pzGeminiModelSelect');
     var statusEl = document.getElementById('pzGeminiTestStatus');
     var rawKey = (inp ? inp.value : getStoredGeminiKey()).trim();
-    if (inp && rawKey) setStoredGeminiKey(rawKey);
+    var rawBase = (baseInp ? baseInp.value : getStoredAiBaseUrl()).trim();
+    if (inp) setStoredGeminiKey(rawKey);
+    if (baseInp) setStoredAiBaseUrl(rawBase);
     var model = PzAiExaminer.normalizeModel(modelSel ? modelSel.value : prefs.pzGeminiModel);
 
     if (statusEl) {
       statusEl.dataset.tested = '1';
       statusEl.style.color = 'var(--muted)';
-      statusEl.textContent = '⏳ Đang kiểm tra kết nối Gemini (' + model + ')...';
+      statusEl.textContent = '⏳ Đang kiểm tra kết nối AI (' + model + ')...';
     }
-    PzAiExaminer.testConnection({ apiKey: rawKey, model: model }).then(function (res) {
+    PzAiExaminer.testConnection({ apiKey: rawKey, baseUrl: getStoredAiBaseUrl(), model: model }).then(function (res) {
       if (!statusEl) return;
       if (res.ok) {
         statusEl.style.color = 'var(--hl-green)';
-        statusEl.textContent = '✅ Kết nối Gemini thành công (' + res.model + ')! Sẵn sàng đối đáp AI 2 phía.';
-        showToast('Kết nối Gemini API thành công!', 'success');
+        var fallbackNote = (res.model && res.model !== model) ? (' (tự chuyển từ ' + model + ')') : '';
+        statusEl.textContent = '✅ Kết nối AI thành công (' + res.model + fallbackNote + ')! Sẵn sàng đối đáp 2 phía.';
+        showToast('Kết nối AI API thành công!', 'success');
       } else {
         statusEl.style.color = 'var(--sp-accent-rose)';
         statusEl.textContent = '⚠️ Chưa kết nối được (' + res.error + ') — phòng thi vẫn chạy mượt ở Tầng 1 Offline.';
@@ -6036,6 +6594,7 @@
     var styleSel = document.getElementById('pzExaminerStyleSelect');
     var gModelSel = document.getElementById('pzGeminiModelSelect');
     var gKeyInp = document.getElementById('pzGeminiKeyInput');
+    var gBaseInp = document.getElementById('pzAiBaseUrlInput');
 
     prefs.pzStrictness = strictSel ? strictSel.value : prefs.pzStrictness;
     prefs.voiceAccent = voiceSel ? voiceSel.value : (lesson.examinerDefaultVoice || prefs.voiceAccent);
@@ -6045,6 +6604,7 @@
     prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(styleSel ? styleSel.value : prefs.pzExaminerStyle);
     prefs.pzGeminiModel = PzAiExaminer.normalizeModel(gModelSel ? gModelSel.value : prefs.pzGeminiModel);
     if (gKeyInp && gKeyInp.value.trim()) setStoredGeminiKey(gKeyInp.value.trim());
+    if (gBaseInp) setStoredAiBaseUrl(gBaseInp.value);
     savePrefs();
 
     var sessionSeed = Date.now() % 9973;
@@ -6998,28 +7558,47 @@
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
         var stamp = pzExam.startedAt;
+        var needPzFallback = false;
+        var dur = pzExam.turnElapsedSec;
         if (res) {
           slot._lastMicRes = res;
           if (res.transcript) activeTurn.setTranscript(res.transcript);
-          var dur = res.durationSec || pzExam.turnElapsedSec;
+          dur = res.durationSec || pzExam.turnElapsedSec;
           activeTurn.setMetrics(dur, computeWpm(activeTurn.getTranscript(), dur));
           activeTurn.setAudio(res.id, res.url);
-          if (!String(activeTurn.getTranscript() || '').trim() && res.blob) {
-            autoTranscribeRecordingIfEmpty(res, function (txt) {
-              if (!txt || !pzExam.active || pzExam.startedAt !== stamp) return;
-              activeTurn.setTranscript(txt);
-              activeTurn.setMetrics(dur, computeWpm(txt, dur));
-              renderPzStage();
-            }, {
-              contextHint: meta.qText,
-              onStart: function () {
-                var inp = document.getElementById('pzCandidateTranscriptInput');
-                if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
-              }
-            });
-          }
+          var curPzTxt = String(activeTurn.getTranscript() || '').trim();
+          needPzFallback = Boolean(
+            res.blob && (
+              !curPzTxt
+              || (global.S4Whisper && global.S4Whisper.isTranscriptIncomplete && global.S4Whisper.isTranscriptIncomplete(curPzTxt, {
+                durationSec: dur,
+                sttErrored: Boolean(res.sttErrored)
+              }))
+            )
+          );
         }
         renderPzStage();
+        if (res && needPzFallback) {
+          autoTranscribeRecordingIfEmpty(res, function (txt) {
+            if (!pzExam.active || pzExam.startedAt !== stamp) return;
+            if (txt) {
+              activeTurn.setTranscript(txt);
+              activeTurn.setMetrics(dur, computeWpm(txt, dur));
+            }
+            renderPzStage();
+            var inp2 = document.getElementById('pzCandidateTranscriptInput');
+            if (inp2 && !inp2.value.trim()) {
+              inp2.placeholder = 'Transcript câu trả lời hiện trực tiếp tại đây (hoặc gõ/dán nội dung nếu không dùng Mic)...';
+            }
+          }, {
+            allowUpgrade: needPzFallback,
+            contextHint: meta.qText,
+            onStart: function () {
+              var inp = document.getElementById('pzCandidateTranscriptInput');
+              if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
+            }
+          });
+        }
       }
     });
   };
@@ -7943,6 +8522,7 @@
     var esSel = document.getElementById('pzExaminerStyleSelect');
     var mSel = document.getElementById('pzGeminiModelSelect');
     var kInp = document.getElementById('pzGeminiKeyInput');
+    var bInp = document.getElementById('pzAiBaseUrlInput');
     if (sSel) sSel.addEventListener('change', function () { prefs.pzStrictness = sSel.value; savePrefs(); });
     if (vSel) vSel.addEventListener('change', function () { global.setSpeakingVoiceAccent(vSel.value); });
     if (tChk) tChk.addEventListener('change', function () { prefs.pzStrictTimers = tChk.checked; savePrefs(); });
@@ -7951,6 +8531,7 @@
     if (esSel) esSel.addEventListener('change', function () { prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(esSel.value); savePrefs(); });
     if (mSel) mSel.addEventListener('change', function () { prefs.pzGeminiModel = mSel.value; savePrefs(); });
     if (kInp) kInp.addEventListener('input', function () { setStoredGeminiKey(kInp.value); });
+    if (bInp) bInp.addEventListener('input', function () { setStoredAiBaseUrl(bInp.value); });
 
     document.addEventListener('keydown', function (ev) {
       if (ev.key === 'Escape') {
@@ -7963,6 +8544,7 @@
   function initApp() {
     if (!global.SpeakingParser || !global.STUDY4_SPEAKING_DATA) return;
     loadPrefs();
+    syncWhisperCloudConfig();
 
     var parsed = global.SpeakingParser.init(global.STUDY4_SPEAKING_DATA);
     allLessons = (parsed && parsed.lessons) || global.SpeakingParser.getAllLessons();

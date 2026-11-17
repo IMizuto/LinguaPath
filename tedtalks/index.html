@@ -472,7 +472,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
   <!-- YouTube API lazy-loaded on demand when user switches to YouTube engine -->
   <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../assets/s4-whisper.js?v=1"></script>
+  <script src="../assets/s4-whisper.js?v=4"></script>
   <script>
     const ITEMS = window.STUDY4_TED_DATA || [];
     const STORAGE_DONE = "s4_ted_done";
@@ -631,6 +631,11 @@
 
     function selectLesson(id, autoPlayPodcast) {
       if (typeof stopShadowRecording === "function") stopShadowRecording(false);
+      if (id !== activeId) {
+        if (typeof destroyPodcastStream === "function") destroyPodcastStream();
+        if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
+        tedVidLoadedUrl = "";
+      }
       activeId = id;
       localStorage.setItem(STORAGE_LAST, id);
       const it = getActiveItem();
@@ -676,7 +681,18 @@
 
     function switchMode(m) {
       if (m !== currentMode && typeof stopShadowRecording === "function") stopShadowRecording(false);
+      if (m !== "shadowing" && typeof releaseWarmMicStream === "function") {
+        if (typeof warmAcquireGen === "number") warmAcquireGen++;
+        releaseWarmMicStream();
+      }
       currentMode = m;
+      if (m === "shadowing") {
+        setTimeout(() => {
+          if (currentMode === "shadowing" && window.S4Whisper && typeof window.S4Whisper.preload === "function" && !window.S4Whisper.isReady()) {
+            window.S4Whisper.preload().catch(() => {});
+          }
+        }, 600);
+      }
       segmentEndSec = null;
       document.querySelectorAll(".mode-pill").forEach(b => {
         b.classList.toggle("active", b.getAttribute("data-mode") === m);
@@ -696,6 +712,7 @@
         if (podWrap) podWrap.style.display = "block";
         loadPodcastStream(getActiveItem(), true);
       } else {
+        if (typeof podcastLoadGen === "number") podcastLoadGen++;
         if (bgAudio && !bgAudio.paused) {
           try { bgAudio.pause(); } catch (e) {}
         }
@@ -1360,12 +1377,154 @@
     let recordedChunks = [];
     let recordedBlobUrl = "";
     let shadAccumFinal = "";
+    let shadCommittedFinal = "";
     let shadSilenceTimer = null;
+    let shadRecRestartTimer = null;
     let pendingAutoRecordAfterListen = false;
     let lastShadowEval = null; // { transcript, pct, matched, total }
     let isShadowRecording = false;
     let shadowSessionGen = 0;
     let pendingWhisperTranscribe = false;
+    let shadSttErrored = false;
+    let shadStartTs = 0;
+    let warmMicIdleTimer = null;
+    let warmMuteSinceTs = 0;
+    let consecutiveSilentCount = 0;
+    let warmAcquireGen = 0;
+    const MUTE_GRACE_MS = 2500;
+
+    function isIosSafariLike() {
+      try {
+        const ua = String((typeof navigator !== "undefined" && navigator.userAgent) || "");
+        const maxTouch = (typeof navigator !== "undefined" && navigator.maxTouchPoints) || 0;
+        return /iPad|iPhone|iPod/i.test(ua) || (/Macintosh/i.test(ua) && maxTouch > 1);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function isWarmStreamHealthy(s) {
+      return Boolean(
+        s
+        && s.active
+        && typeof s.getAudioTracks === "function"
+        && s.getAudioTracks().some(t => t.readyState === "live" && t.enabled !== false)
+      );
+    }
+
+    function attachTedTrackMuteListeners(s) {
+      if (!s || typeof s.getAudioTracks !== "function") return;
+      s.getAudioTracks().forEach((t) => {
+        if (!t || t._lpTedMuteBound) return;
+        t._lpTedMuteBound = true;
+        const onMute = () => {
+          if (!warmMuteSinceTs) warmMuteSinceTs = Date.now();
+        };
+        const onUnmute = () => {
+          warmMuteSinceTs = 0;
+        };
+        if (typeof t.addEventListener === "function") {
+          t.addEventListener("mute", onMute);
+          t.addEventListener("unmute", onUnmute);
+          t.addEventListener("ended", onMute);
+        } else {
+          t.onmute = onMute;
+          t.onunmute = onUnmute;
+          t.onended = onMute;
+        }
+        t._lpTedUnbindMute = () => {
+          if (typeof t.removeEventListener === "function") {
+            t.removeEventListener("mute", onMute);
+            t.removeEventListener("unmute", onUnmute);
+            t.removeEventListener("ended", onMute);
+          } else {
+            if (t.onmute === onMute) t.onmute = null;
+            if (t.onunmute === onUnmute) t.onunmute = null;
+            if (t.onended === onMute) t.onended = null;
+          }
+          delete t._lpTedMuteBound;
+        };
+        if (t.muted === true) {
+          onMute();
+        }
+      });
+    }
+
+    function shouldReacquireTedWarmStream(s) {
+      if (!isWarmStreamHealthy(s)) return true;
+      if (consecutiveSilentCount >= 2) return true;
+      const tracks = typeof s.getAudioTracks === "function" ? s.getAudioTracks() : [];
+      const allMuted = tracks.length > 0 && tracks.every(t => t && t.muted === true);
+      if (allMuted && warmMuteSinceTs && (Date.now() - warmMuteSinceTs >= MUTE_GRACE_MS)) {
+        return true;
+      }
+      if (!allMuted && warmMuteSinceTs) {
+        warmMuteSinceTs = 0;
+      }
+      return false;
+    }
+
+    function releaseWarmMicStream() {
+      warmMuteSinceTs = 0;
+      if (warmMicIdleTimer) {
+        clearTimeout(warmMicIdleTimer);
+        warmMicIdleTimer = null;
+      }
+      if (mediaStream) {
+        try {
+          mediaStream.getTracks().forEach(t => {
+            if (t && typeof t._lpTedUnbindMute === "function") t._lpTedUnbindMute();
+            t.stop();
+          });
+        } catch (e) {}
+        mediaStream = null;
+      }
+    }
+
+    function scheduleWarmMicIdleRelease() {
+      if (warmMicIdleTimer) clearTimeout(warmMicIdleTimer);
+      warmMicIdleTimer = setTimeout(() => {
+        warmMicIdleTimer = null;
+        if (!isShadowRecording) {
+          releaseWarmMicStream();
+        }
+      }, 180000);
+    }
+
+    async function ensureWarmMicStream() {
+      if (!shouldReacquireTedWarmStream(mediaStream)) {
+        attachTedTrackMuteListeners(mediaStream);
+        scheduleWarmMicIdleRelease();
+        return mediaStream;
+      }
+      releaseWarmMicStream();
+      consecutiveSilentCount = 0;
+      const myGen = ++warmAcquireGen;
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      if (myGen !== warmAcquireGen) {
+        try { if (s) s.getTracks().forEach(t => t.stop()); } catch (e) {}
+        return null;
+      }
+      mediaStream = s;
+      attachTedTrackMuteListeners(mediaStream);
+      scheduleWarmMicIdleRelease();
+      return s;
+    }
+
+    window.addEventListener("pagehide", () => {
+      warmAcquireGen++;
+      if (typeof stopShadowRecording === "function") stopShadowRecording(false);
+      releaseWarmMicStream();
+      if (typeof destroyPodcastStream === "function") destroyPodcastStream();
+      if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        warmAcquireGen++;
+        if (typeof stopShadowRecording === "function") stopShadowRecording(false);
+        releaseWarmMicStream();
+      }
+    });
     let shadowVoiceLang = (() => {
       try { return localStorage.getItem("lp_ted_shadow_lang") || "en-US"; } catch (e) { return "en-US"; }
     })();
@@ -1587,6 +1746,17 @@
       return lastShadowEval;
     }
 
+    function countShadowMatchesForTranscript(transcript) {
+      const spans = [...document.querySelectorAll("#shadWordsHost .shad-word")];
+      if (!spans.length || !transcript) return 0;
+      const spokenSet = buildSpokenLookupSet(transcript);
+      let matched = 0;
+      spans.forEach(sp => {
+        if (isShadowWordMatched(sp.getAttribute("data-w"), spokenSet)) matched++;
+      });
+      return matched;
+    }
+
     function stopShadowRecording(finalizeScore = true, keepStatusText = false) {
       shadowSessionGen++;
       pendingAutoRecordAfterListen = false;
@@ -1595,6 +1765,10 @@
       if (shadSilenceTimer) {
         clearTimeout(shadSilenceTimer);
         shadSilenceTimer = null;
+      }
+      if (shadRecRestartTimer) {
+        clearTimeout(shadRecRestartTimer);
+        shadRecRestartTimer = null;
       }
       if (activeRec) {
         try {
@@ -1608,31 +1782,49 @@
       const recorderRef = mediaRecorder;
       mediaRecorder = null;
       const hasRecordedAudio = !!(recorderRef && recorderRef.state !== "inactive");
+      const it = getActiveItem();
+      const sub = (it && it.subs && it.subs[currentSubIdx]) || null;
+      const targetEn = sub ? (sub.en || "") : "";
+      const recDurSec = shadStartTs ? Math.max(0.5, (Date.now() - shadStartTs) / 1000) : 0;
+      const liveEval = (finalizeScore && shadAccumFinal.trim()) ? evaluateShadowTranscript(shadAccumFinal.trim(), true) : null;
+      const incompleteStt = !shadAccumFinal.trim()
+        || (liveEval && liveEval.pct < 65)
+        || (window.S4Whisper && window.S4Whisper.isTranscriptIncomplete && window.S4Whisper.isTranscriptIncomplete(shadAccumFinal, {
+          targetText: targetEn,
+          durationSec: recDurSec,
+          sttErrored: shadSttErrored
+        }));
+
       pendingWhisperTranscribe = Boolean(
         finalizeScore
         && wasRecording
-        && !shadAccumFinal.trim()
+        && incompleteStt
         && hasRecordedAudio
         && window.S4Whisper
         && window.S4Whisper.isSupported()
       );
+      if (recorderRef) {
+        recorderRef._pendingWhisper = pendingWhisperTranscribe;
+      }
       if (hasRecordedAudio) {
         try { recorderRef.stop(); } catch (e) {}
       }
+      // Keep Warm Mic Stream alive across consecutive sentences to prevent iOS turn-2 freeze
       if (mediaStream) {
-        try { mediaStream.getTracks().forEach(t => t.stop()); } catch (e) {}
-        mediaStream = null;
+        scheduleWarmMicIdleRelease();
       }
       const btn = document.getElementById("btnStartShadow");
       if (btn) {
         btn.classList.remove("recording");
         btn.textContent = "🎙️ Bấm để nói lại";
       }
-      if (finalizeScore && shadAccumFinal.trim()) {
-        const res = evaluateShadowTranscript(shadAccumFinal.trim(), true);
+      if (finalizeScore && shadAccumFinal.trim() && !pendingWhisperTranscribe) {
+        const res = liveEval || evaluateShadowTranscript(shadAccumFinal.trim(), true);
         showToast(res.pct >= 70, `Độ khớp phát âm: ${res.pct}% (${res.matched}/${res.total} từ)`);
       } else if (pendingWhisperTranscribe) {
-        setTedShadowStatus('🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn đã có thể bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên)', "var(--primary)");
+        if (!shadAccumFinal.trim()) {
+          setTedShadowStatus('🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn đã có thể bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên)', "var(--primary)");
+        }
       } else if (wasRecording && !keepStatusText && hasRecordedAudio) {
         setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
       }
@@ -1654,6 +1846,11 @@
         return;
       }
 
+      // Unlock shared AudioContext synchronously on user tap (iOS Safari requirement)
+      if (window.S4Whisper && typeof window.S4Whisper.getSharedAudioContext === "function") {
+        try { window.S4Whisper.getSharedAudioContext(); } catch (e) {}
+      }
+
       // Tạm dừng YouTube / Podcast để tránh tiếng video lọt vào mic
       if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
         try { ytPlayer.pauseVideo(); } catch (e) {}
@@ -1663,31 +1860,37 @@
         try { bgAudio.pause(); } catch (e) {}
       }
 
+      if (shadRecRestartTimer) {
+        clearTimeout(shadRecRestartTimer);
+        shadRecRestartTimer = null;
+      }
+
       // Xoá trạng thái xanh/đỏ cũ trên các từ
       document.querySelectorAll("#shadWordsHost .shad-word").forEach(sp => sp.classList.remove("ok", "miss"));
       shadAccumFinal = "";
+      shadCommittedFinal = "";
       lastShadowEval = null;
       pendingWhisperTranscribe = false;
+      shadSttErrored = false;
+      shadStartTs = Date.now();
 
       const sessId = ++shadowSessionGen;
 
-      // Khởi tạo MediaRecorder để thu âm giọng thật của người học (cho phép nghe lại giọng mình & fallback Whisper)
+      // Khởi tạo / tái sử dụng Warm Mic Stream cho MediaRecorder (cho phép nghe lại giọng mình & hybrid STT)
       if (canMedia) {
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          if (sessId !== shadowSessionGen) {
-            try { stream.getTracks().forEach(t => t.stop()); } catch (e) {}
+          const activeStream = await ensureWarmMicStream();
+          if (!activeStream || sessId !== shadowSessionGen) {
             return;
           }
-          mediaStream = stream;
           recordedChunks = [];
-          const mr = new MediaRecorder(mediaStream);
+          const mr = new MediaRecorder(activeStream);
           mediaRecorder = mr;
           mr.ondataavailable = (e) => {
             if (e.data && e.data.size > 0) recordedChunks.push(e.data);
           };
           mr.onstop = () => {
-            const shouldWhisper = pendingWhisperTranscribe;
+            const shouldWhisper = Boolean(mr._pendingWhisper || pendingWhisperTranscribe);
             pendingWhisperTranscribe = false;
             const stopGen = shadowSessionGen;
             const stopActiveId = activeId;
@@ -1698,27 +1901,48 @@
               recordedBlobUrl = URL.createObjectURL(blob);
               const userAud = document.getElementById("shadUserAudio");
               const replayBtn = document.getElementById("btnReplayUserVoice");
-              if (userAud) userAud.src = recordedBlobUrl;
+              if (userAud) {
+                userAud.src = recordedBlobUrl;
+                try { userAud.load(); } catch (e) {}
+              }
               if (replayBtn) replayBtn.style.display = "inline-flex";
 
-              if (shouldWhisper && !shadAccumFinal.trim() && window.S4Whisper) {
+              if (shouldWhisper && window.S4Whisper) {
                 window.S4Whisper.transcribeBlob(blob, {
                   onProgress: (info) => {
                     if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
-                    if (info && info.status === "progress" && typeof info.progress === "number") {
+                    if (info && info.status === "progress" && typeof info.progress === "number" && !shadAccumFinal.trim()) {
                       setTedShadowStatus("⏬ Đang tải bộ nhận diện giọng nói Whisper Offline lần đầu (" + Math.round(info.progress) + "%)... Bạn vẫn bấm Nghe lại ở trên được ngay.", "var(--primary)");
                     }
                   }
                 }).then((wRes) => {
+                  if (wRes && wRes.ok && wRes.transcript) {
+                    consecutiveSilentCount = 0;
+                  } else if (wRes && wRes.reason === "silent_audio") {
+                    consecutiveSilentCount += 1;
+                  }
                   if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
                   if (wRes && wRes.ok && wRes.transcript) {
-                    shadAccumFinal = wRes.transcript;
-                    const res = evaluateShadowTranscript(wRes.transcript, true);
+                    const wOnly = String(wRes.transcript).trim();
+                    const prevTx = shadAccumFinal.trim();
+                    let bestTx = wOnly;
+                    if (prevTx) {
+                      const merged = (prevTx + " " + wOnly).replace(/\s+/g, " ").trim();
+                      const wScore = countShadowMatchesForTranscript(wOnly);
+                      const pScore = countShadowMatchesForTranscript(prevTx);
+                      const mScore = countShadowMatchesForTranscript(merged);
+                      if (pScore > wScore && pScore >= mScore) bestTx = prevTx;
+                      else if (mScore > wScore) bestTx = merged;
+                    }
+                    shadAccumFinal = bestTx;
+                    const res = evaluateShadowTranscript(bestTx, true);
                     showToast(res.pct >= 70, "🤖 Whisper đã chấm phát âm: " + res.pct + "% (" + res.matched + "/" + res.total + " từ)");
-                  } else if (wRes && wRes.reason === "silent_audio") {
-                    setTedShadowStatus('🎧 Đã lưu bản ghi âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên.', "#f59e0b");
-                  } else {
-                    setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
+                  } else if (!shadAccumFinal.trim() && !(wRes && (wRes.cancelled || wRes.reason === "cancelled"))) {
+                    if (wRes && wRes.reason === "silent_audio") {
+                      setTedShadowStatus('🎧 Đã lưu bản ghi âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên.', "#f59e0b");
+                    } else {
+                      setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
+                    }
                   }
                 });
               }
@@ -1727,7 +1951,7 @@
           mr.start(250);
         } catch (err) {
           mediaRecorder = null;
-          mediaStream = null;
+          releaseWarmMicStream();
           const errMsg = describeTedMediaError(err);
           const fatalMic = err && (err.name === "NotAllowedError" || err.name === "PermissionDeniedError" || err.name === "NotFoundError" || err.name === "NotReadableError" || err.name === "SecurityError");
           if (!SR || fatalMic) {
@@ -1751,7 +1975,9 @@
 
       const rec = new SR();
       activeRec = rec;
+      rec._sessionFinal = "";
       let sttErrored = false;
+      let emptyRestartCount = 0;
       rec.lang = shadowVoiceLang;
       rec.continuous = true;
       rec.interimResults = true;
@@ -1772,8 +1998,10 @@
           if (ev.results[i].isFinal) finalPart += t + " ";
           else interimPart += t + " ";
         }
-        const combined = (finalPart + " " + interimPart).replace(/\s+/g, " ").trim();
+        rec._sessionFinal = finalPart.trim();
+        const combined = [shadCommittedFinal, rec._sessionFinal, interimPart.trim()].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
         if (combined) {
+          emptyRestartCount = 0;
           shadAccumFinal = combined;
           const evRes = evaluateShadowTranscript(combined, false);
 
@@ -1783,27 +2011,33 @@
             return;
           }
 
-          // Nếu người học dừng nói 2.2 giây sau khi đã đọc được ít nhất 65% câu -> tự động chốt điểm
+          // Chỉ tự chốt khi đã khớp ít nhất 65% câu và dừng nói 2.2 giây
           if (shadSilenceTimer) clearTimeout(shadSilenceTimer);
-          shadSilenceTimer = setTimeout(() => {
-            if (activeRec && shadAccumFinal.trim()) {
-              stopShadowRecording(true);
-            }
-          }, 2200);
+          if (evRes.pct >= 65) {
+            shadSilenceTimer = setTimeout(() => {
+              if (activeRec && shadAccumFinal.trim()) {
+                stopShadowRecording(true);
+              }
+            }, 2200);
+          }
         }
       };
 
       rec.onerror = (ev) => {
         if (sessId !== shadowSessionGen) return;
         sttErrored = true;
+        shadSttErrored = true;
         const errCode = ev && ev.error ? ev.error : "";
         const friendly = TED_STT_MESSAGES[errCode] || ("⚠️ Lỗi nhận diện giọng nói (" + (errCode || "unknown") + ").");
 
         if (errCode === "no-speech" && shadAccumFinal.trim()) {
           sttErrored = false;
+          shadSttErrored = false;
           return;
         }
-        if (mediaRecorder && mediaRecorder.state === "recording" && errCode !== "not-allowed") {
+        const hasActiveMr = Boolean(mediaRecorder && mediaRecorder.state === "recording");
+        const isLateNotAllowed = (errCode === "not-allowed" && hasActiveMr && (recordedChunks.length > 0 || (Date.now() - shadStartTs) > 800 || isIosSafariLike()));
+        if (hasActiveMr && (errCode !== "not-allowed" || isLateNotAllowed)) {
           activeRec = null;
           if (btn) btn.textContent = "⏹️ Đang thu âm... (Bấm để dừng & chấm)";
           return;
@@ -1813,11 +2047,48 @@
       };
 
       rec.onend = () => {
-        if (sessId !== shadowSessionGen || sttErrored) return;
+        if (rec._sessionFinal) {
+          shadCommittedFinal = [shadCommittedFinal, rec._sessionFinal].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+          shadAccumFinal = shadCommittedFinal;
+          rec._sessionFinal = "";
+        }
+        if (sessId !== shadowSessionGen || sttErrored || shadSttErrored) return;
+        if (isIosSafariLike()) {
+          shadSttErrored = true;
+          try {
+            rec.onresult = null;
+            rec.onerror = null;
+            rec.onend = null;
+          } catch (e) {}
+          if (activeRec === rec) activeRec = null;
+          return;
+        }
         if (activeRec === rec && isShadowRecording) {
-          if (shadAccumFinal.trim()) {
+          if (lastShadowEval && lastShadowEval.pct >= 85) {
             stopShadowRecording(true);
-          } else if (mediaRecorder && mediaRecorder.state === "recording") {
+            return;
+          }
+          if (emptyRestartCount < 4) {
+            emptyRestartCount++;
+            if (shadRecRestartTimer) clearTimeout(shadRecRestartTimer);
+            shadRecRestartTimer = setTimeout(() => {
+              if (sessId !== shadowSessionGen || !isShadowRecording || activeRec !== rec || shadSttErrored) return;
+              try {
+                rec.start();
+              } catch (e) {
+                shadSttErrored = true;
+                if (mediaRecorder && mediaRecorder.state === "recording") {
+                  activeRec = null;
+                } else {
+                  setTedShadowStatus(TED_STT_MESSAGES["aborted"], "var(--danger)");
+                  stopShadowRecording(false, true);
+                }
+              }
+            }, 150);
+            return;
+          }
+          shadSttErrored = true;
+          if (mediaRecorder && mediaRecorder.state === "recording") {
             activeRec = null;
           } else {
             setTedShadowStatus(TED_STT_MESSAGES["no-speech"], "var(--danger)");
@@ -1829,6 +2100,7 @@
       try {
         rec.start();
       } catch (e) {
+        shadSttErrored = true;
         if (mediaRecorder && mediaRecorder.state === "recording") {
           activeRec = null;
           if (btn) btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
@@ -1843,7 +2115,25 @@
     /* ---------- Chế độ 4: Podcast Chạy Nền (Background Play + MediaSession) ---------- */
     let hlsInstance = null;
     let podcastLoadedId = null;
+    let podcastLoadGen = 0;
     let podcastAutoNext = true;
+
+    function destroyPodcastStream() {
+      podcastLoadGen++;
+      podcastLoadedId = null;
+      if (hlsInstance) {
+        try { hlsInstance.destroy(); } catch (e) {}
+        hlsInstance = null;
+      }
+      const bgAudio = document.getElementById("bgPodcastAudio");
+      if (bgAudio) {
+        try { bgAudio.pause(); } catch (e) {}
+        try {
+          bgAudio.removeAttribute("src");
+          bgAudio.load();
+        } catch (e) {}
+      }
+    }
 
     function setupPodcastEvents() {
       const bgAudio = document.getElementById("bgPodcastAudio");
@@ -1966,14 +2256,17 @@
       if (thumbEl) thumbEl.src = `https://i.ytimg.com/vi/${it.youtubeId}/hqdefault.jpg`;
       updateMediaSessionMeta(it);
 
-      if (podcastLoadedId === it.id && bgAudio.src) {
-        if (autoPlay && bgAudio.paused) bgAudio.play().catch(() => {});
+      if (podcastLoadedId === it.id && (bgAudio.getAttribute("src") || bgAudio.src)) {
+        if (autoPlay && currentMode === "podcast" && activeId === it.id && bgAudio.paused) {
+          bgAudio.play().catch(() => {});
+        }
         return;
       }
+      const loadGen = ++podcastLoadGen;
       podcastLoadedId = it.id;
 
       if (hlsInstance) {
-        hlsInstance.destroy();
+        try { hlsInstance.destroy(); } catch (e) {}
         hlsInstance = null;
       }
 
@@ -1983,18 +2276,26 @@
       if (it.mp4) {
         bgAudio.src = it.mp4;
         bgAudio.playbackRate = rate;
-        if (autoPlay) bgAudio.play().catch(() => {});
+        if (autoPlay && currentMode === "podcast" && activeId === it.id) bgAudio.play().catch(() => {});
       } else if (it.audioHls || it.hls) {
         const streamUrl = it.audioHls || it.hls;
         if (bgAudio.canPlayType("application/vnd.apple.mpegurl")) {
           bgAudio.src = streamUrl;
           bgAudio.playbackRate = rate;
-          if (autoPlay) bgAudio.play().catch(() => {});
+          if (autoPlay && currentMode === "podcast" && activeId === it.id) bgAudio.play().catch(() => {});
         } else if (window.Hls && Hls.isSupported()) {
-          hlsInstance = new Hls();
-          hlsInstance.loadSource(streamUrl);
-          hlsInstance.attachMedia(bgAudio);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+          const hls = new Hls();
+          hlsInstance = hls;
+          hls.loadSource(streamUrl);
+          hls.attachMedia(bgAudio);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            if (loadGen !== podcastLoadGen || currentMode !== "podcast" || activeId !== it.id) {
+              if (activeId !== it.id && hlsInstance === hls) {
+                try { hls.destroy(); } catch (e) {}
+                hlsInstance = null;
+              }
+              return;
+            }
             bgAudio.playbackRate = rate;
             if (autoPlay) bgAudio.play().catch(() => {});
           });
@@ -2089,7 +2390,7 @@
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=30"></script>
+  <script src="../auth.js?v=31"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>
 </html>

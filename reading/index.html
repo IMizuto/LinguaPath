@@ -1360,22 +1360,35 @@ function updateTopProgress() {
   if (el) el.textContent = `Đã hoàn thành: ${doneSet.size} bài • Đã thuộc: ${learnedWords} từ`;
 }
 
+let wordAudioToken = 0;
 function playWordAudio(v, lang = 'en-GB') {
+  if (!v) return;
+  const token = ++wordAudioToken;
   const wordText = v.origin || v.word || v.term || '';
   const url = lang === 'en-US' ? (v.usAudio || v.ukAudio) : (v.ukAudio || v.usAudio);
   const isPrivateTts = url && (url.includes('/ai_services/tts') || url.includes('study4.com/login'));
-  if (url && !isPrivateTts) {
+  if ('speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+  }
+  const player = document.getElementById('ttsAudioPlayer');
+  if (player) {
+    try { player.pause(); } catch (e) {}
+  }
+  if (url && !isPrivateTts && player) {
     const fullUrl = url.startsWith('http') ? url : 'https://study4.com' + url;
-    const player = document.getElementById('ttsAudioPlayer');
     player.src = fullUrl;
-    player.play().catch(() => speakWordFallback(wordText, lang));
+    player.play().catch(() => {
+      if (token !== wordAudioToken) return;
+      speakWordFallback(wordText, lang, token);
+    });
   } else {
-    speakWordFallback(wordText, lang);
+    speakWordFallback(wordText, lang, token);
   }
 }
 
-function speakWordFallback(text, lang = 'en-GB') {
-  if (!('speechSynthesis' in window)) return;
+function speakWordFallback(text, lang = 'en-GB', token = wordAudioToken) {
+  if (token !== wordAudioToken) return;
+  if (!('speechSynthesis' in window) || !text) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = lang;
@@ -2697,8 +2710,8 @@ setTimeout(function() {
   loadNext();
 }, 1200);
 </script>
-  <script src="../assets/s4-practice-zone.js?v=64"></script>
-  <script src="../auth.js?v=30"></script>
+  <script src="../assets/s4-practice-zone.js?v=65"></script>
+  <script src="../auth.js?v=31"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 
   <!-- MODAL LỊCH SỬ BÀI THI READING TRÊN TOPBAR -->
