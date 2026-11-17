@@ -1,9 +1,11 @@
-const CACHE_NAME = "linguapath-cache-v85";
+const CACHE_NAME = "linguapath-cache-v86";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./assets/s4-ui.css?v=64",
   "./assets/s4-ui.js?v=63",
+  "./assets/s4-whisper.js?v=1",
+  "./assets/s4-whisper-worker.js",
   "./auth.js?v=30",
   "./assets/s4-vocab-engine.js?v=67",
   "./assets/s4-practice-zone.js?v=64",
@@ -29,7 +31,7 @@ const CORE_ASSETS = [
   "./speaking/",
   "./speaking/index.html",
   "./speaking/speaking.css?v=8",
-  "./speaking/speaking.js?v=14",
+  "./speaking/speaking.js?v=15",
   "./speaking/speaking_parser.js?v=6",
   "./speaking/speaking_data.js?v=2",
   "./tedtalks/index.html",
@@ -46,7 +48,11 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+      Promise.all(
+        keys
+          .filter((k) => k !== CACHE_NAME && k !== "transformers-cache" && !k.startsWith("lp-whisper-"))
+          .map((k) => caches.delete(k))
+      )
     )
   );
   self.clients.claim();

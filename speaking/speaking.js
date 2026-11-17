@@ -1072,10 +1072,16 @@
               var code = (err && err.error) ? String(err.error) : 'no-speech';
               if (STT_FATAL_CODES[code]) {
                 sttFatal = true;
+                if (mediaRecorder && isRecording && code !== 'not-allowed') {
+                  return;
+                }
                 emitSttWarning(code);
                 if (!mediaRecorder && isRecording) {
                   stop();
                 }
+                return;
+              }
+              if (mediaRecorder && isRecording) {
                 return;
               }
               if (!finalTranscript && !interimTranscript) {
@@ -1095,6 +1101,9 @@
                 emptyRestartCount++;
                 if (emptyRestartCount >= 3) {
                   sttFatal = true;
+                  if (mediaRecorder && isRecording) {
+                    return;
+                  }
                   emitSttWarning('no-speech');
                   return;
                 }
@@ -2161,11 +2170,21 @@
       onUnsupported: function (msg) { showToast(msg, 'warn', 5500); },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
+        var lessonIdSnap = activeLesson ? activeLesson.id : '';
         var spoken = (res && res.transcript) || '';
         var m = matchShadowSentence(target, spoken);
         studioState.pronDrillTarget = target;
         studioState.pronDrillScore = { accuracy: m.accuracy, spoken: spoken };
         renderTheoryView(activeLesson);
+        if (!String(spoken).trim() && res && res.blob) {
+          autoTranscribeRecordingIfEmpty(res, function (txt) {
+            if (!txt || !activeLesson || activeLesson.id !== lessonIdSnap || activeLesson.type !== 'theory') return;
+            var m2 = matchShadowSentence(target, txt);
+            studioState.pronDrillTarget = target;
+            studioState.pronDrillScore = { accuracy: m2.accuracy, spoken: txt };
+            renderTheoryView(activeLesson);
+          }, { contextHint: target });
+        }
       }
     });
   };
@@ -2904,15 +2923,21 @@
         setShadowBanner('warn', msg);
       },
       onFinish: function (res) {
+        var lessonIdSnap = activeLesson ? activeLesson.id : '';
+        var idxSnap = studioState.shadowIdx;
         if (res && res.transcript) studioState.shadowSpokenText = res.transcript;
         if (res && res.url) {
           studioState.shadowAudioUrl = res.url;
           studioState.shadowDurationSec = res.durationSec || 0;
         }
+        var canFallbackTx = Boolean(!studioState.shadowSpokenText.trim() && res && res.blob && ((global.S4Whisper && global.S4Whisper.isSupported()) || getStoredGeminiKey()));
         studioState.shadowResult = matchShadowSentence(cur.text, studioState.shadowSpokenText);
         if (sessionWarning) {
           studioState.shadowStatusKind = 'warn';
           studioState.shadowStatusMsg = sessionWarning;
+        } else if (canFallbackTx) {
+          studioState.shadowStatusKind = 'ready';
+          studioState.shadowStatusMsg = '🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)';
         } else if (!studioState.shadowSpokenText.trim() && studioState.shadowAudioUrl) {
           studioState.shadowStatusKind = 'ready';
           studioState.shadowStatusMsg = '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
@@ -2921,6 +2946,33 @@
           studioState.shadowStatusMsg = '';
         }
         renderModeShadowing(activeLesson);
+
+        if (canFallbackTx) {
+          autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
+            if (!activeLesson || activeLesson.id !== lessonIdSnap || studioState.shadowIdx !== idxSnap) return;
+            if (txt) {
+              studioState.shadowSpokenText = txt;
+              studioState.shadowResult = matchShadowSentence(cur.text, txt);
+              studioState.shadowStatusKind = 'live';
+              studioState.shadowStatusMsg = '🤖 Whisper AI đã nhận diện & chấm độ khớp: ' + studioState.shadowResult.accuracy + '%!';
+            } else if (wRes && wRes.reason === 'silent_audio') {
+              studioState.shadowStatusKind = 'warn';
+              studioState.shadowStatusMsg = '🎧 Đã lưu bản thu âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc nghe lại bên dưới.';
+            } else {
+              studioState.shadowStatusKind = 'ready';
+              studioState.shadowStatusMsg = '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
+            }
+            renderModeShadowing(activeLesson);
+          }, {
+            contextHint: cur.text,
+            onProgress: function (info) {
+              if (!activeLesson || activeLesson.id !== lessonIdSnap || studioState.shadowIdx !== idxSnap) return;
+              if (info && info.status === 'progress' && typeof info.progress === 'number') {
+                setShadowBanner('ready', '⏬ Đang tải bộ nhận diện giọng nói Whisper Offline lần đầu (' + Math.round(info.progress) + '%)... Bạn vẫn nghe lại giọng bên dưới được ngay.');
+              }
+            }
+          });
+        }
       }
     });
   };
@@ -3134,6 +3186,8 @@
       },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
+        var lessonIdSnap = activeLesson ? activeLesson.id : '';
+        var ctxPrompt = getActivePromptContext(activeLesson);
         if (res) {
           if (res.transcript) studioState.recTranscript = res.transcript;
           studioState.recordingSec = res.durationSec || studioState.recordingSec;
@@ -3142,6 +3196,21 @@
           studioState.recAudioUrl = res.url;
         }
         renderModeRecord(activeLesson);
+        if (!String(studioState.recTranscript || '').trim() && res && res.blob) {
+          autoTranscribeRecordingIfEmpty(res, function (txt) {
+            if (!txt || !activeLesson || activeLesson.id !== lessonIdSnap) return;
+            studioState.recTranscript = txt;
+            studioState.recWpm = computeWpm(txt, studioState.recordingSec);
+            renderModeRecord(activeLesson);
+            showToast('🤖 Whisper đã tự chép lời từ bản ghi âm của bạn!', 'success');
+          }, {
+            contextHint: ctxPrompt ? ctxPrompt.promptText : '',
+            onStart: function () {
+              var inp = document.getElementById('studioTranscriptInput');
+              if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
+            }
+          });
+        }
       }
     });
   };
@@ -3318,23 +3387,38 @@
       res._transcribeDone = true;
       return Promise.resolve(existing);
     }
-    var apiKey = getStoredGeminiKey();
-    if (!res.blob || !apiKey) {
+    if (!res.blob) {
       res._transcribeDone = true;
       return Promise.resolve('');
     }
     var o = opts || {};
-    if (o.onStart) o.onStart();
-    res._transcribePromise = PzAiExaminer.transcribeAudioWithGemini(res.blob, {
-      apiKey: apiKey,
-      model: prefs.pzGeminiModel,
-      contextHint: o.contextHint || ''
-    }).then(function (tr) {
+    var canWhisper = Boolean(global.S4Whisper && global.S4Whisper.isSupported());
+    var apiKey = getStoredGeminiKey();
+    if (!canWhisper && !apiKey) {
       res._transcribeDone = true;
-      var txt = (tr && tr.ok && tr.transcript) ? tr.transcript : '';
+      return Promise.resolve('');
+    }
+    if (o.onStart) o.onStart();
+    var prom = canWhisper
+      ? global.S4Whisper.transcribeBlob(res.blob, {
+        onProgress: o.onProgress,
+        onStatus: o.onStatus
+      })
+      : PzAiExaminer.transcribeAudioWithGemini(res.blob, {
+        apiKey: apiKey,
+        model: prefs.pzGeminiModel,
+        contextHint: o.contextHint || ''
+      });
+    res._transcribePromise = prom.then(function (tr) {
+      res._transcribeDone = true;
+      var txt = (tr && tr.ok && tr.transcript) ? String(tr.transcript).trim() : '';
       if (txt) res.transcript = txt;
-      if (applyFn) applyFn(txt, res);
+      if (applyFn) applyFn(txt, res, tr);
       return txt;
+    }).catch(function () {
+      res._transcribeDone = true;
+      if (applyFn) applyFn('', res, { ok: false, transcript: '' });
+      return '';
     });
     return res._transcribePromise;
   }
@@ -6308,11 +6392,20 @@
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
         if (res) {
+          recordSlot._lastMicRes = res;
           if (res.transcript) recordSlot.transcript = res.transcript;
           recordSlot.durationSec = res.durationSec || pzExam.p2TalkElapsed;
           recordSlot.wpm = computeWpm(recordSlot.transcript, recordSlot.durationSec);
           recordSlot.audioId = res.id;
           recordSlot.audioUrl = res.url;
+          if (!String(recordSlot.transcript || '').trim() && res.blob) {
+            autoTranscribeRecordingIfEmpty(res, function (txt) {
+              if (!txt || !pzExam.active) return;
+              recordSlot.transcript = txt;
+              recordSlot.wpm = computeWpm(txt, recordSlot.durationSec);
+              if (pzExam.phase === 'part2_talk') renderPzStage();
+            }, { contextHint: recordSlot.question });
+          }
         }
       }
     });
@@ -6323,56 +6416,79 @@
     clearPzTimer();
     pzExam.subStage = 'stopped_notice';
     var sessionStartedAt = pzExam.startedAt;
-    MicEngine.stop().then(function () {
+    MicEngine.stop().then(function (res) {
       if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-      var stopLine = PzDialogueEngine.getPhaseScript('part2_stop', {
-        style: pzExam.resolvedStyle,
-        seed: pzExam.styleSeed || 0,
-        usedTemplates: pzExam.usedTemplates,
-        fallback: (pzExam.lesson.part2 && pzExam.lesson.part2.stopScript) || 'Thank you very much. I will stop you there.'
-      });
-      pzExam.lastStopLine = stopLine;
       var p2Slot = ensurePzResponseSlot('part2_long', 'Part 2 Long Turn', (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '');
-      var offlinePart2 = PzDialogueEngine.buildPart2StopReaction({
-        transcript: p2Slot.transcript,
-        stopScript: stopLine,
-        roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
-        candidateName: pzExam.candidateName,
-        style: pzExam.resolvedStyle,
-        seed: pzExam.styleSeed || 0,
-        usedTemplates: pzExam.usedTemplates
-      });
-      var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(getStoredGeminiKey());
-      var reactionPromise = hasHybridAi
-        ? PzAiExaminer.buildPart2StopReactionHybrid({
-          mode: pzExam.dialogueMode,
-          apiKey: getStoredGeminiKey(),
-          model: prefs.pzGeminiModel,
-          style: pzExam.resolvedStyle,
-          sessionSeed: pzExam.styleSeed || 0,
-          transcript: p2Slot.transcript,
-          prompt: (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '',
-          stopScript: stopLine,
-          roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
-          candidateName: pzExam.candidateName
-        }, offlinePart2)
-        : Promise.resolve(Object.assign({}, offlinePart2, { source: 'offline' }));
-
-      setPzTimerText('Thank you', 'warn');
-      if (hasHybridAi) {
+      var targetRes = res || p2Slot._lastMicRes;
+      var needTranscribe = Boolean(
+        targetRes
+        && !String(p2Slot.transcript || targetRes.transcript || '').trim()
+        && targetRes.blob
+        && ((global.S4Whisper && global.S4Whisper.isSupported()) || getStoredGeminiKey())
+      );
+      if (needTranscribe) {
         pzExam.aiThinking = true;
         renderPzStage();
-      } else {
-        pzExam.aiThinking = false;
       }
-      reactionPromise.then(function (reaction) {
-        pzExam.aiThinking = false;
+      var trProm = needTranscribe
+        ? autoTranscribeRecordingIfEmpty(targetRes, function (txt) {
+          if (txt) {
+            p2Slot.transcript = txt;
+            p2Slot.wpm = computeWpm(txt, p2Slot.durationSec || pzExam.p2TalkElapsed);
+          }
+        }, { contextHint: p2Slot.question })
+        : Promise.resolve(p2Slot.transcript);
+
+      trProm.then(function () {
         if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-        speakExaminerLines(tagSpokenLines(reaction.stopLines, 'transition', 'Chuyển Part 2', reaction.source || 'offline'), function () {
+        var stopLine = PzDialogueEngine.getPhaseScript('part2_stop', {
+          style: pzExam.resolvedStyle,
+          seed: pzExam.styleSeed || 0,
+          usedTemplates: pzExam.usedTemplates,
+          fallback: (pzExam.lesson.part2 && pzExam.lesson.part2.stopScript) || 'Thank you very much. I will stop you there.'
+        });
+        pzExam.lastStopLine = stopLine;
+        var offlinePart2 = PzDialogueEngine.buildPart2StopReaction({
+          transcript: p2Slot.transcript,
+          stopScript: stopLine,
+          roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
+          candidateName: pzExam.candidateName,
+          style: pzExam.resolvedStyle,
+          seed: pzExam.styleSeed || 0,
+          usedTemplates: pzExam.usedTemplates
+        });
+        var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(getStoredGeminiKey());
+        var reactionPromise = hasHybridAi
+          ? PzAiExaminer.buildPart2StopReactionHybrid({
+            mode: pzExam.dialogueMode,
+            apiKey: getStoredGeminiKey(),
+            model: prefs.pzGeminiModel,
+            style: pzExam.resolvedStyle,
+            sessionSeed: pzExam.styleSeed || 0,
+            transcript: p2Slot.transcript,
+            prompt: (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '',
+            stopScript: stopLine,
+            roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
+            candidateName: pzExam.candidateName
+          }, offlinePart2)
+          : Promise.resolve(Object.assign({}, offlinePart2, { source: 'offline' }));
+
+        setPzTimerText('Thank you', 'warn');
+        if (hasHybridAi) {
+          pzExam.aiThinking = true;
+          renderPzStage();
+        } else {
+          pzExam.aiThinking = false;
+        }
+        reactionPromise.then(function (reaction) {
+          pzExam.aiThinking = false;
           if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-          enterPzPhase('part2_round', 0, {
-            roundingIntro: reaction.roundingIntro,
-            reactionSource: reaction.source || 'offline'
+          speakExaminerLines(tagSpokenLines(reaction.stopLines, 'transition', 'Chuyển Part 2', reaction.source || 'offline'), function () {
+            if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+            enterPzPhase('part2_round', 0, {
+              roundingIntro: reaction.roundingIntro,
+              reactionSource: reaction.source || 'offline'
+            });
           });
         });
       });
@@ -6881,11 +6997,27 @@
       },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
+        var stamp = pzExam.startedAt;
         if (res) {
+          slot._lastMicRes = res;
           if (res.transcript) activeTurn.setTranscript(res.transcript);
           var dur = res.durationSec || pzExam.turnElapsedSec;
           activeTurn.setMetrics(dur, computeWpm(activeTurn.getTranscript(), dur));
           activeTurn.setAudio(res.id, res.url);
+          if (!String(activeTurn.getTranscript() || '').trim() && res.blob) {
+            autoTranscribeRecordingIfEmpty(res, function (txt) {
+              if (!txt || !pzExam.active || pzExam.startedAt !== stamp) return;
+              activeTurn.setTranscript(txt);
+              activeTurn.setMetrics(dur, computeWpm(txt, dur));
+              renderPzStage();
+            }, {
+              contextHint: meta.qText,
+              onStart: function () {
+                var inp = document.getElementById('pzCandidateTranscriptInput');
+                if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
+              }
+            });
+          }
         }
         renderPzStage();
       }
@@ -7013,59 +7145,84 @@
     if (pzExam.aiThinking || pzExam.subStage === 'finishing_report' || pzExam.subStage === 'stopped_notice') return;
     var sessionStartedAt = pzExam.startedAt;
     var finishPromise = MicEngine.isActive() ? MicEngine.stop() : Promise.resolve(null);
-    finishPromise.then(function () {
+    finishPromise.then(function (micRes) {
       var L = pzExam.lesson;
       if (!L || !pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
 
       var meta = getActivePzQuestionMeta();
       var slot = meta ? ensurePzResponseSlot(meta.key, meta.label, meta.qText) : null;
       var activeTurn = slot ? getPzActiveTurnFields(slot) : null;
-      var curTranscript = activeTurn ? activeTurn.getTranscript() : '';
-      if (curTranscript) {
-        recordPzDialogueEntry('candidate', activeTurn && activeTurn.isFollowUp ? 'followup_answer' : 'answer', curTranscript, meta ? meta.label : '');
+      var curBefore = activeTurn ? activeTurn.getTranscript() : '';
+      var targetRes = micRes || (slot && slot._lastMicRes);
+
+      var needAudioStt = Boolean(
+        targetRes
+        && !String(curBefore || '').trim()
+        && targetRes.blob
+        && ((global.S4Whisper && global.S4Whisper.isSupported()) || getStoredGeminiKey())
+      );
+      if (needAudioStt) {
+        pzExam.aiThinking = true;
+        renderPzStage();
       }
+      var ensureTx = needAudioStt
+        ? autoTranscribeRecordingIfEmpty(targetRes, function (txt) {
+          if (txt && activeTurn) {
+            activeTurn.setTranscript(txt);
+            activeTurn.setMetrics(targetRes.durationSec || pzExam.turnElapsedSec, computeWpm(txt, targetRes.durationSec || pzExam.turnElapsedSec));
+          }
+        }, { contextHint: meta ? meta.qText : '' })
+        : Promise.resolve(curBefore);
 
-      var turnCtx = {
-        phase: pzExam.phase,
-        stepIndex: pzExam.stepIndex,
-        warmupStep: pzExam.warmupStep,
-        candidateName: pzExam.candidateName,
-        transcript: curTranscript,
-        meta: meta,
-        slot: slot,
-        activeFollowUpQ: pzExam.activeFollowUpQ,
-        topicTitle: L.cleanTitle || L.title,
-        style: pzExam.resolvedStyle,
-        sessionSeed: pzExam.styleSeed || 0,
-        usedTemplates: pzExam.usedTemplates,
-        examinerPersona: L.examinerPersona
-      };
-      var offlineDecision = PzDialogueEngine.decideTurn(turnCtx);
-      var apiKey = getStoredGeminiKey();
-      var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid'
-        && Boolean(apiKey)
-        && offlineDecision.intent !== 'repeat'
-        && (Boolean(String(curTranscript || '').trim()) || pzExam.phase === 'warmup');
-
-      if (!useHybridAi) {
-        pzExam.aiThinking = false;
-        applyPzTurnDecision(Object.assign({}, offlineDecision, { source: 'offline' }), L, slot, activeTurn, meta);
-        return;
-      }
-
-      pzExam.aiThinking = true;
-      renderPzStage();
-
-      PzAiExaminer.decideTurnHybrid(Object.assign({}, turnCtx, {
-        mode: pzExam.dialogueMode,
-        apiKey: apiKey,
-        model: prefs.pzGeminiModel,
-        lesson: L,
-        dialogueHistory: pzExam.dialogueHistory
-      }), offlineDecision).then(function (finalDecision) {
-        pzExam.aiThinking = false;
+      ensureTx.then(function () {
         if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-        applyPzTurnDecision(finalDecision, L, slot, activeTurn, meta);
+        var curTranscript = activeTurn ? activeTurn.getTranscript() : '';
+        if (curTranscript) {
+          recordPzDialogueEntry('candidate', activeTurn && activeTurn.isFollowUp ? 'followup_answer' : 'answer', curTranscript, meta ? meta.label : '');
+        }
+
+        var turnCtx = {
+          phase: pzExam.phase,
+          stepIndex: pzExam.stepIndex,
+          warmupStep: pzExam.warmupStep,
+          candidateName: pzExam.candidateName,
+          transcript: curTranscript,
+          meta: meta,
+          slot: slot,
+          activeFollowUpQ: pzExam.activeFollowUpQ,
+          topicTitle: L.cleanTitle || L.title,
+          style: pzExam.resolvedStyle,
+          sessionSeed: pzExam.styleSeed || 0,
+          usedTemplates: pzExam.usedTemplates,
+          examinerPersona: L.examinerPersona
+        };
+        var offlineDecision = PzDialogueEngine.decideTurn(turnCtx);
+        var apiKey = getStoredGeminiKey();
+        var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid'
+          && Boolean(apiKey)
+          && offlineDecision.intent !== 'repeat'
+          && (Boolean(String(curTranscript || '').trim()) || pzExam.phase === 'warmup');
+
+        if (!useHybridAi) {
+          pzExam.aiThinking = false;
+          applyPzTurnDecision(Object.assign({}, offlineDecision, { source: 'offline' }), L, slot, activeTurn, meta);
+          return;
+        }
+
+        pzExam.aiThinking = true;
+        renderPzStage();
+
+        PzAiExaminer.decideTurnHybrid(Object.assign({}, turnCtx, {
+          mode: pzExam.dialogueMode,
+          apiKey: apiKey,
+          model: prefs.pzGeminiModel,
+          lesson: L,
+          dialogueHistory: pzExam.dialogueHistory
+        }), offlineDecision).then(function (finalDecision) {
+          pzExam.aiThinking = false;
+          if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+          applyPzTurnDecision(finalDecision, L, slot, activeTurn, meta);
+        });
       });
     });
   };

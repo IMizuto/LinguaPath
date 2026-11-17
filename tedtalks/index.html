@@ -472,6 +472,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
   <!-- YouTube API lazy-loaded on demand when user switches to YouTube engine -->
   <script src="../assets/s4-ui.js?v=63"></script>
+  <script src="../assets/s4-whisper.js?v=1"></script>
   <script>
     const ITEMS = window.STUDY4_TED_DATA || [];
     const STORAGE_DONE = "s4_ted_done";
@@ -1364,6 +1365,7 @@
     let lastShadowEval = null; // { transcript, pct, matched, total }
     let isShadowRecording = false;
     let shadowSessionGen = 0;
+    let pendingWhisperTranscribe = false;
     let shadowVoiceLang = (() => {
       try { return localStorage.getItem("lp_ted_shadow_lang") || "en-US"; } catch (e) { return "en-US"; }
     })();
@@ -1603,9 +1605,19 @@
         } catch (e) {}
         activeRec = null;
       }
-      const hasRecordedAudio = !!(mediaRecorder && mediaRecorder.state !== "inactive");
+      const recorderRef = mediaRecorder;
+      mediaRecorder = null;
+      const hasRecordedAudio = !!(recorderRef && recorderRef.state !== "inactive");
+      pendingWhisperTranscribe = Boolean(
+        finalizeScore
+        && wasRecording
+        && !shadAccumFinal.trim()
+        && hasRecordedAudio
+        && window.S4Whisper
+        && window.S4Whisper.isSupported()
+      );
       if (hasRecordedAudio) {
-        try { mediaRecorder.stop(); } catch (e) {}
+        try { recorderRef.stop(); } catch (e) {}
       }
       if (mediaStream) {
         try { mediaStream.getTracks().forEach(t => t.stop()); } catch (e) {}
@@ -1619,8 +1631,10 @@
       if (finalizeScore && shadAccumFinal.trim()) {
         const res = evaluateShadowTranscript(shadAccumFinal.trim(), true);
         showToast(res.pct >= 70, `Độ khớp phát âm: ${res.pct}% (${res.matched}/${res.total} từ)`);
+      } else if (pendingWhisperTranscribe) {
+        setTedShadowStatus('🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn đã có thể bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên)', "var(--primary)");
       } else if (wasRecording && !keepStatusText && hasRecordedAudio) {
-        setTedShadowStatus("🎧 Đã lưu bản ghi âm của bạn! Bấm \"▶️ Nghe lại giọng bạn vừa thu\" ở trên để tự đối chiếu.", "var(--primary)");
+        setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
       }
     }
 
@@ -1653,10 +1667,11 @@
       document.querySelectorAll("#shadWordsHost .shad-word").forEach(sp => sp.classList.remove("ok", "miss"));
       shadAccumFinal = "";
       lastShadowEval = null;
+      pendingWhisperTranscribe = false;
 
       const sessId = ++shadowSessionGen;
 
-      // Khởi tạo MediaRecorder để thu âm giọng thật của người học (cho phép nghe lại giọng mình)
+      // Khởi tạo MediaRecorder để thu âm giọng thật của người học (cho phép nghe lại giọng mình & fallback Whisper)
       if (canMedia) {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1666,22 +1681,50 @@
           }
           mediaStream = stream;
           recordedChunks = [];
-          mediaRecorder = new MediaRecorder(mediaStream);
-          mediaRecorder.ondataavailable = (e) => {
+          const mr = new MediaRecorder(mediaStream);
+          mediaRecorder = mr;
+          mr.ondataavailable = (e) => {
             if (e.data && e.data.size > 0) recordedChunks.push(e.data);
           };
-          mediaRecorder.onstop = () => {
+          mr.onstop = () => {
+            const shouldWhisper = pendingWhisperTranscribe;
+            pendingWhisperTranscribe = false;
+            const stopGen = shadowSessionGen;
+            const stopActiveId = activeId;
+            const stopSubIdx = currentSubIdx;
             if (recordedChunks.length > 0) {
               if (recordedBlobUrl) URL.revokeObjectURL(recordedBlobUrl);
-              const blob = new Blob(recordedChunks, { type: "audio/webm" });
+              const blob = new Blob(recordedChunks, { type: (mr && mr.mimeType) || "audio/webm" });
               recordedBlobUrl = URL.createObjectURL(blob);
               const userAud = document.getElementById("shadUserAudio");
               const replayBtn = document.getElementById("btnReplayUserVoice");
               if (userAud) userAud.src = recordedBlobUrl;
               if (replayBtn) replayBtn.style.display = "inline-flex";
+
+              if (shouldWhisper && !shadAccumFinal.trim() && window.S4Whisper) {
+                window.S4Whisper.transcribeBlob(blob, {
+                  onProgress: (info) => {
+                    if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
+                    if (info && info.status === "progress" && typeof info.progress === "number") {
+                      setTedShadowStatus("⏬ Đang tải bộ nhận diện giọng nói Whisper Offline lần đầu (" + Math.round(info.progress) + "%)... Bạn vẫn bấm Nghe lại ở trên được ngay.", "var(--primary)");
+                    }
+                  }
+                }).then((wRes) => {
+                  if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
+                  if (wRes && wRes.ok && wRes.transcript) {
+                    shadAccumFinal = wRes.transcript;
+                    const res = evaluateShadowTranscript(wRes.transcript, true);
+                    showToast(res.pct >= 70, "🤖 Whisper đã chấm phát âm: " + res.pct + "% (" + res.matched + "/" + res.total + " từ)");
+                  } else if (wRes && wRes.reason === "silent_audio") {
+                    setTedShadowStatus('🎧 Đã lưu bản ghi âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên.', "#f59e0b");
+                  } else {
+                    setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
+                  }
+                });
+              }
             }
           };
-          mediaRecorder.start();
+          mr.start(250);
         } catch (err) {
           mediaRecorder = null;
           mediaStream = null;
@@ -1755,17 +1798,14 @@
         sttErrored = true;
         const errCode = ev && ev.error ? ev.error : "";
         const friendly = TED_STT_MESSAGES[errCode] || ("⚠️ Lỗi nhận diện giọng nói (" + (errCode || "unknown") + ").");
-        const canKeepMedia = !!(mediaRecorder && mediaRecorder.state === "recording") &&
-          (errCode === "network" || errCode === "service-not-allowed" || errCode === "language-not-supported" || errCode === "aborted");
 
         if (errCode === "no-speech" && shadAccumFinal.trim()) {
           sttErrored = false;
           return;
         }
-        if (canKeepMedia) {
+        if (mediaRecorder && mediaRecorder.state === "recording" && errCode !== "not-allowed") {
           activeRec = null;
-          if (btn) btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
-          setTedShadowStatus(friendly, "#f59e0b");
+          if (btn) btn.textContent = "⏹️ Đang thu âm... (Bấm để dừng & chấm)";
           return;
         }
         setTedShadowStatus(friendly, "var(--danger)");
@@ -1777,6 +1817,8 @@
         if (activeRec === rec && isShadowRecording) {
           if (shadAccumFinal.trim()) {
             stopShadowRecording(true);
+          } else if (mediaRecorder && mediaRecorder.state === "recording") {
+            activeRec = null;
           } else {
             setTedShadowStatus(TED_STT_MESSAGES["no-speech"], "var(--danger)");
             stopShadowRecording(false, true);
