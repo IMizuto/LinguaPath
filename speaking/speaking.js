@@ -859,6 +859,9 @@
     var sttTimerId = null;
     var sttWatchdogId = null;
     var pulseTimerId = null;
+    var activePermStatus = null;
+    var activePermHandler = null;
+    var STT_WATCHDOG_MS = 8000;
     var isRecording = false;
     var isStopping = false;
     var startTs = 0;
@@ -879,18 +882,59 @@
     var activeEnv = null;
     var pendingStopResolve = null;
     var activeStopPromise = null;
-    var STT_STICKY_KEY = 'lp_sp_stt_broken_v1';
-    var sttStickyBroken = (function () {
-      try { return Boolean(global.sessionStorage && global.sessionStorage.getItem(STT_STICKY_KEY) === '1'); } catch (e) { return false; }
+    var STT_STICKY_KEY = 'lp_sp_stt_broken_v2';
+    var STT_STICKY_TTL_MS = 120 * 1000;
+    var sttStickyState = (function () {
+      try {
+        if (global.sessionStorage) {
+          global.sessionStorage.removeItem('lp_sp_stt_broken_v1');
+          var raw = global.sessionStorage.getItem(STT_STICKY_KEY);
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+              return { fails: Number(parsed.fails) || 0, until: Number(parsed.until) || 0 };
+            }
+          }
+        }
+      } catch (e) {}
+      return { fails: 0, until: 0 };
     })();
 
-    function setSttStickyBroken(flag) {
-      sttStickyBroken = Boolean(flag);
+    function saveSttStickyState() {
       try {
         if (!global.sessionStorage) return;
-        if (sttStickyBroken) global.sessionStorage.setItem(STT_STICKY_KEY, '1');
-        else global.sessionStorage.removeItem(STT_STICKY_KEY);
+        if (sttStickyState.fails > 0 || sttStickyState.until > Date.now()) {
+          global.sessionStorage.setItem(STT_STICKY_KEY, JSON.stringify(sttStickyState));
+        } else {
+          global.sessionStorage.removeItem(STT_STICKY_KEY);
+        }
       } catch (e) {}
+    }
+
+    function isSttStickyBroken() {
+      if (!sttStickyState.until) return false;
+      if (Date.now() >= sttStickyState.until) {
+        sttStickyState.until = 0;
+        sttStickyState.fails = 0;
+        saveSttStickyState();
+        return false;
+      }
+      return true;
+    }
+
+    function recordSttHardFailure() {
+      sttStickyState.fails = (sttStickyState.fails || 0) + 1;
+      if (sttStickyState.fails >= 2) {
+        sttStickyState.until = Date.now() + STT_STICKY_TTL_MS;
+      }
+      saveSttStickyState();
+    }
+
+    function resetSttSticky() {
+      sttStickyState.fails = 0;
+      sttStickyState.until = 0;
+      saveSttStickyState();
+      try { if (global.sessionStorage) global.sessionStorage.removeItem('lp_sp_env_banner_dismissed'); } catch (e) {}
     }
 
     var STT_HARD_FATAL_CODES = {
@@ -954,7 +998,7 @@
         'language-not-supported': 'Thiết bị chưa bật gói nhận diện tiếng Anh cho Google Speech Service (thử đổi giọng UK/US hoặc bật nhận diện giọng nói trong Cài đặt Google trên điện thoại).',
         'aborted': 'Phiên nhận diện giọng nói bị ngắt tạm thời. Bạn vẫn có thể tiếp tục thu âm hoặc bấm thu lại.',
         'no-speech': 'Chưa nghe thấy giọng nói rõ ràng — hãy đưa micro gần hơn, hệ thống vẫn đang lắng nghe (hoặc gõ văn bản trực tiếp nếu cần).',
-        'stt-silent-timeout': 'Nhận diện giọng nói (STT) trên thiết bị không phản hồi (thường gặp trên PWA Android / trình duyệt không phải Chrome). Đang chuyển sang thu âm giọng nói trực tiếp.'
+        'stt-silent-timeout': 'Nhận diện giọng nói (STT) chưa phản hồi ở lượt này — đang chuyển sang thu âm Audio để bạn nghe lại (lượt sau vẫn tự thử lại STT).'
       };
       return map[code] || ('Lỗi nhận diện giọng nói (' + (code || 'unknown') + '). Bạn vẫn có thể thu âm nghe lại hoặc nhập văn bản để chấm.');
     }
@@ -1027,9 +1071,93 @@
       currentCallbacks.onTranscript(combined, Math.max(1, Math.round((Date.now() - startTs) / 1000)));
     }
 
+    function clearMicPermWatcher() {
+      if (activePermStatus && activePermHandler) {
+        try {
+          if (typeof activePermStatus.removeEventListener === 'function') {
+            activePermStatus.removeEventListener('change', activePermHandler);
+          } else if (activePermStatus.onchange === activePermHandler) {
+            activePermStatus.onchange = null;
+          }
+        } catch (e) {}
+      }
+      activePermStatus = null;
+      activePermHandler = null;
+    }
+
     function clearSttTimers() {
       if (sttTimerId) { clearTimeout(sttTimerId); sttTimerId = null; }
       if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
+      clearMicPermWatcher();
+    }
+
+    function handleMicNotAllowed(env) {
+      if (!mediaRecorder && !stream && currentCallbacks && typeof currentCallbacks.onUnsupported === 'function') {
+        var msg = describeSttError('not-allowed', env);
+        var cbUnsup = currentCallbacks.onUnsupported;
+        stopResources();
+        cbUnsup(msg);
+        return;
+      }
+      fallbackToMediaRecorder('not-allowed');
+    }
+
+    function scheduleWatchdogTimer(rec, env) {
+      if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
+      if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
+      sttWatchdogId = setTimeout(function () {
+        if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
+        if (!mediaRecorder && env.canMedia) {
+          fallbackToMediaRecorder('stt-silent-timeout');
+        } else if (!finalTranscript && !interimTranscript) {
+          recordSttHardFailure();
+          emitSttWarning('stt-silent-timeout');
+        }
+      }, STT_WATCHDOG_MS);
+    }
+
+    function armSttWatchdog(rec, env) {
+      clearMicPermWatcher();
+      if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
+      if (mediaRecorder || stream) {
+        scheduleWatchdogTimer(rec, env);
+        return;
+      }
+      var nav = global.navigator;
+      if (!nav || !nav.permissions || typeof nav.permissions.query !== 'function') {
+        scheduleWatchdogTimer(rec, env);
+        return;
+      }
+      try {
+        nav.permissions.query({ name: 'microphone' }).then(function (status) {
+          if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
+          if (!status || status.state !== 'prompt') {
+            scheduleWatchdogTimer(rec, env);
+            return;
+          }
+          // Đợi user bấm "Cho phép Micro" trên hộp thoại hệ thống rồi mới bắt đầu đếm ngược 8s
+          activePermStatus = status;
+          activePermHandler = function () {
+            if (!status || status.state === 'prompt') return;
+            clearMicPermWatcher();
+            if (recognition !== rec || !isRecording || isStopping || sttFatal) return;
+            if (status.state === 'granted') {
+              scheduleWatchdogTimer(rec, env);
+            } else if (status.state === 'denied') {
+              handleMicNotAllowed(env);
+            }
+          };
+          if (typeof status.addEventListener === 'function') {
+            status.addEventListener('change', activePermHandler);
+          } else {
+            status.onchange = activePermHandler;
+          }
+        }).catch(function () {
+          scheduleWatchdogTimer(rec, env);
+        });
+      } catch (e) {
+        scheduleWatchdogTimer(rec, env);
+      }
     }
 
     function stopRecognitionInstance() {
@@ -1038,6 +1166,7 @@
         try {
           recognition.onresult = null;
           recognition.onaudiostart = null;
+          recognition.onsoundstart = null;
           recognition.onspeechstart = null;
           recognition.onend = null;
           recognition.onerror = null;
@@ -1143,7 +1272,7 @@
       sttFatal = true;
       stopRecognitionInstance();
       if (reasonCode && reasonCode !== 'not-allowed') {
-        setSttStickyBroken(true);
+        recordSttHardFailure();
       }
       emitSttWarning(reasonCode);
 
@@ -1179,11 +1308,19 @@
 
         rec.onaudiostart = function () {
           hasHardwareSignal = true;
+          clearMicPermWatcher();
+          if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
+        };
+        rec.onsoundstart = function () {
+          hasHardwareSignal = true;
+          lastSpeechPulseTs = Date.now();
+          clearMicPermWatcher();
           if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
         };
         rec.onspeechstart = function () {
           hasHardwareSignal = true;
           lastSpeechPulseTs = Date.now();
+          clearMicPermWatcher();
           if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
         };
 
@@ -1193,7 +1330,13 @@
           hasHardwareSignal = true;
           emptyRestartCount = 0;
           transientErrCount = 0;
+          if (sttStickyState.fails || sttStickyState.until) {
+            sttStickyState.fails = 0;
+            sttStickyState.until = 0;
+            saveSttStickyState();
+          }
           lastSpeechPulseTs = Date.now();
+          clearMicPermWatcher();
           if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
 
           var finals = '';
@@ -1214,11 +1357,8 @@
           if (recognition !== rec) return;
           var code = (err && err.error) ? String(err.error) : 'no-speech';
           if (STT_HARD_FATAL_CODES[code]) {
-            if (code === 'not-allowed' && !mediaRecorder && !stream && currentCallbacks && typeof currentCallbacks.onUnsupported === 'function') {
-              var msg = describeSttError('not-allowed', env);
-              var cbUnsup = currentCallbacks.onUnsupported;
-              stopResources();
-              cbUnsup(msg);
+            if (code === 'not-allowed') {
+              handleMicNotAllowed(env);
               return;
             }
             fallbackToMediaRecorder(code);
@@ -1280,17 +1420,9 @@
           }, delayMs);
         };
 
-        // Watchdog cho Android PWA standalone: nếu 3.2s không nhận được bất kỳ event nào → tự fallback thu audio
+        // Watchdog 8s chỉ chạy sau khi quyền Micro đã cấp (tránh đếm ngược lúc hộp thoại xin quyền đang mở)
         if (!hasHardwareSignal && !hasSpeechResult) {
-          sttWatchdogId = setTimeout(function () {
-            if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
-            if (!mediaRecorder && env.canMedia) {
-              fallbackToMediaRecorder('stt-silent-timeout');
-            } else if (!finalTranscript && !interimTranscript) {
-              setSttStickyBroken(true);
-              emitSttWarning('stt-silent-timeout');
-            }
-          }, 3200);
+          armSttWatchdog(rec, env);
         }
 
         rec.start();
@@ -1342,8 +1474,8 @@
         return Promise.resolve(false);
       }
 
-      // Nếu phiên này đã xác định Web Speech bị OS/PWA chặn & có getUserMedia → vào thẳng MediaRecorder từ giây 0
-      var directAudioFallback = Boolean(sttStickyBroken && canMedia);
+      // Tạm chuyển MediaRecorder từ giây 0 tối đa 2 phút chỉ khi STT hỏng >= 2 lượt liên tiếp
+      var directAudioFallback = Boolean(isSttStickyBroken() && canMedia && !o.forceSttRetry);
       // Trên Android/Mobile có SpeechRecognition: ưu tiên STT-First (tránh mở getUserMedia tranh mic phần cứng làm STT câm nín).
       var sttFirstMobile = Boolean(env.isMobile && SttCtor && !o.forceMediaRecorder && !directAudioFallback);
 
@@ -1491,8 +1623,8 @@
       stop: stop,
       cancel: cancel,
       isActive: function () { return isRecording; },
-      isSttStickyBroken: function () { return sttStickyBroken; },
-      resetSticky: function () { setSttStickyBroken(false); },
+      isSttStickyBroken: isSttStickyBroken,
+      resetSticky: resetSttSticky,
       getEnvironment: getSttEnv
     };
   })();
@@ -1512,7 +1644,7 @@
         ? '🍎 <b>Thiết bị iOS / Safari:</b> Chưa hỗ trợ nhận chữ trực tiếp qua Web Speech. App vẫn thu âm giọng nói để bạn nghe lại đối chiếu hoặc gõ chữ chấm điểm.'
         : '🌐 <b>Trình duyệt này chưa hỗ trợ nhận chữ Google Web Speech:</b> App vẫn ghi âm giọng thật để bạn nghe lại; hãy mở bằng <b>Google Chrome / Edge</b> nếu muốn chữ hiện tự động khi nói.';
     } else if (MicEngine.isSttStickyBroken()) {
-      msg = '🎙️ <b>Đã tự chuyển sang Thu âm Audio trong phiên này:</b> Web Speech trên ' + (env.isStandalone ? 'app màn hình chính (PWA)' : 'thiết bị') + ' không phản hồi, nên các lượt sau sẽ thu âm ngay không cần chờ. Bạn vẫn nghe lại giọng mình hoặc thử kiểm tra lại ở Sảnh Practice Zone.';
+      msg = '🎙️ <b>Đang tạm chuyển sang Thu âm Audio (tối đa 2 phút):</b> Web Speech trên ' + (env.isStandalone ? 'app màn hình chính (PWA)' : 'thiết bị') + ' vừa không phản hồi 2 lượt liên tiếp. Hệ thống sẽ tự thử lại sau ít phút hoặc bạn bấm: <button type="button" class="mini-btn" style="margin-left:4px;padding:2px 8px;font-size:11.5px;" onclick="window._spRetryStt && window._spRetryStt()">🔄 Thử lại STT</button>';
     }
     if (!msg) return '';
     return '<div class="sp-env-banner" role="status">'
@@ -1520,6 +1652,13 @@
       + '  <button type="button" class="sp-env-banner-close" title="Ẩn thông báo này" onclick="window._spDismissSttBanner && window._spDismissSttBanner()">✕</button>'
       + '</div>';
   }
+
+  global._spRetryStt = function () {
+    MicEngine.resetSticky();
+    document.querySelectorAll('.sp-env-banner').forEach(function (el) { el.remove(); });
+    syncPzLobbyEnvBanner();
+    showToast('Đã bật lại nhận diện giọng nói (STT) cho lượt thu tiếp theo.', 'info');
+  };
 
   global._spDismissSttBanner = function () {
     try { if (global.sessionStorage) global.sessionStorage.setItem('lp_sp_env_banner_dismissed', '1'); } catch (e) {}
@@ -3829,7 +3968,7 @@
       if (res.source === 'gemini') {
         showToast('AI Examiner (gemini-4-hydrogen) đã chấm xong — Overall Band ' + res.overallBand.toFixed(1) + '!', 'success');
       } else {
-        showToast('AI phản hồi chậm — đã dùng kết quả chấm Offline dự phòng.', 'warn', 3500);
+        showToast('Chưa chấm được qua Gemini' + (res.fallbackReason ? (' (' + res.fallbackReason + ')') : '') + ' — đã dùng kết quả Offline dự phòng.', 'warn', 4500);
       }
     });
   };
@@ -4889,9 +5028,9 @@
   // =========================================================================
   var PzAiExaminer = (function () {
     var API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/models/';
-    var TIMEOUT_MS = 5500;
+    var TIMEOUT_MS = 12000;
     var ALLOWED_MODELS = ['gemini-4-hydrogen'];
-    var THINKING_LEVELS = { minimal: 1, low: 1, medium: 1, high: 1, xhigh: 1 };
+    var THINKING_LEVELS = { low: 1, medium: 1, high: 1, xhigh: 1 };
 
     function normalizeModel(model) {
       var m = String(model || '').trim();
@@ -4982,22 +5121,43 @@
       return Promise.resolve(null);
     }
 
+    function readGoogleErrorDetail(resp) {
+      if (!resp || typeof resp.text !== 'function') {
+        return Promise.resolve('');
+      }
+      return resp.text().then(function (rawErrText) {
+        var detail = '';
+        try {
+          var obj = rawErrText ? JSON.parse(rawErrText) : null;
+          detail = (obj && obj.error && obj.error.message) ? String(obj.error.message) : '';
+        } catch (e) {}
+        if (!detail && rawErrText) {
+          detail = String(rawErrText).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+        return detail.length > 150 ? (detail.slice(0, 150) + '…') : detail;
+      }).catch(function () { return ''; });
+    }
+
     function callGeminiJson(opts) {
       var apiKey = String(opts.apiKey || '').trim();
       if (!apiKey || typeof fetch !== 'function') {
-        return Promise.reject(new Error('Missing API key or fetch'));
+        return Promise.reject(new Error('Thiếu API Key hoặc trình duyệt không hỗ trợ fetch'));
       }
       var model = normalizeModel(opts.model);
       var url = API_ROOT + encodeURIComponent(model) + ':generateContent?key=' + encodeURIComponent(apiKey);
       var timeoutMs = opts.timeoutMs || TIMEOUT_MS;
       var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      var timedOut = false;
       var timerId = setTimeout(function () {
-        if (ctrl) ctrl.abort();
+        timedOut = true;
+        if (ctrl) {
+          try { ctrl.abort('timeout'); } catch (e) { ctrl.abort(); }
+        }
       }, timeoutMs);
 
       var genConfig = {
         temperature: typeof opts.temperature === 'number' ? opts.temperature : 0.45,
-        maxOutputTokens: opts.maxOutputTokens || 450,
+        maxOutputTokens: opts.maxOutputTokens || 1024,
         thinkingConfig: {
           thinkingLevel: (opts.thinkingLevel && THINKING_LEVELS[opts.thinkingLevel]) ? opts.thinkingLevel : 'low'
         }
@@ -5026,16 +5186,29 @@
         signal: ctrl ? ctrl.signal : undefined
       }).then(function (resp) {
         if (!resp.ok) {
-          throw new Error('HTTP ' + resp.status);
+          return readGoogleErrorDetail(resp).then(function (detail) {
+            throw new Error('HTTP ' + resp.status + (detail ? (' — ' + detail) : ''));
+          });
         }
         return resp.json();
       }).then(function (data) {
-        var parts = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
+        var cand = data && data.candidates && data.candidates[0];
+        var parts = cand && cand.content && cand.content.parts;
         var raw = Array.isArray(parts)
           ? parts.map(function (p) { return (p && p.text && !p.thought) ? p.text : ''; }).join(' ').trim()
           : '';
-        if (!raw) throw new Error('Empty AI response');
+        if (!raw) {
+          var blockReason = (data && data.promptFeedback && data.promptFeedback.blockReason)
+            || (cand && cand.finishReason && cand.finishReason !== 'STOP' ? cand.finishReason : '');
+          throw new Error('Empty AI response' + (blockReason ? (' (' + blockReason + ')') : ''));
+        }
         return raw;
+      }).catch(function (err) {
+        var errMsg = String((err && err.message) || err || '');
+        if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
+          throw new Error('Hết thời gian chờ (' + Math.round(timeoutMs / 1000) + 's), mạng chậm hoặc Gemini phản hồi lâu');
+        }
+        throw (err instanceof Error ? err : new Error(errMsg || 'Lỗi kết nối Gemini API'));
       }).finally(function () {
         clearTimeout(timerId);
       });
@@ -5226,7 +5399,7 @@
         model: o.model,
         systemPrompt: systemPrompt,
         userPrompt: userPrompt,
-        maxOutputTokens: 320,
+        maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: styleProfile.temperature,
         timeoutMs: o.timeoutMs || TIMEOUT_MS
@@ -5254,10 +5427,10 @@
         systemPrompt: 'Reply concisely.',
         userPrompt: 'Reply with exact word: READY',
         jsonMode: false,
-        maxOutputTokens: 128,
+        maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: 0,
-        timeoutMs: 8000
+        timeoutMs: o.timeoutMs || 25000
       }).then(function (reply) {
         return { ok: true, model: normalizeModel(o.model), reply: reply };
       }).catch(function (err) {
@@ -5276,7 +5449,7 @@
         model: o.model,
         systemPrompt: 'You are an IELTS Examiner clarifying a question without giving away sample answers (' + styleProfile.promptBrief + '). Return JSON {"hint":"1 concise, practical sentence explaining an angle the candidate can talk about"}.',
         userPrompt: JSON.stringify({ phase: o.phase, question: o.questionText || '', topic: o.topicTitle || '' }),
-        maxOutputTokens: 320,
+        maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: styleProfile.temperature,
         timeoutMs: o.timeoutMs || TIMEOUT_MS
@@ -5305,16 +5478,16 @@
           systemPrompt: 'You are an accurate English speech-to-text transcriber. Listen carefully to the attached audio and transcribe ONLY what the speaker actually says in English (verbatim, keeping natural contractions). If audio is silent or unintelligible noise, return empty transcript "". Do not hallucinate missing words. Return strict JSON: {"transcript":"...","hasSpeech":true}',
           userPrompt: ctxHint + 'Transcribe the spoken English audio verbatim now.',
           extraParts: [inlinePart],
-          thinkingLevel: 'minimal',
-          maxOutputTokens: 550,
+          thinkingLevel: 'low',
+          maxOutputTokens: 2048,
           temperature: 0.1,
-          timeoutMs: o.timeoutMs || 15000
+          timeoutMs: o.timeoutMs || 30000
         }).then(function (rawText) {
           var parsed = JSON.parse(stripCodeFenceJson(rawText));
           var tx = String((parsed && parsed.transcript) || '').replace(/\s+/g, ' ').trim();
           return { ok: Boolean(tx), transcript: tx, source: tx ? 'gemini_audio' : 'empty_audio' };
-        }).catch(function () {
-          return { ok: false, transcript: '', source: 'fallback' };
+        }).catch(function (err) {
+          return { ok: false, transcript: '', source: 'fallback', error: (err && err.message) ? err.message : '' };
         });
       });
     }
@@ -5900,7 +6073,7 @@
           thinkingLevel: 'medium',
           maxOutputTokens: 2048,
           temperature: 0.35,
-          timeoutMs: o.timeoutMs || (hasRealAudio ? 22000 : 16000)
+          timeoutMs: o.timeoutMs || 30000
         }).then(function (rawText) {
           return parseGeminiGrade(rawText, offlineResult, { hasRealAudio: hasRealAudio });
         });
@@ -7701,7 +7874,7 @@
       if (res.source === 'gemini') {
         showToast('AI Examiner (gemini-4-hydrogen) đã hoàn tất chấm điểm — Band ' + res.overallBand.toFixed(1) + '!', 'success');
       } else if (!isBackgroundAuto) {
-        showToast('AI phản hồi chậm — giữ nguyên kết quả chấm Offline dự phòng.', 'warn', 3500);
+        showToast('Chưa chấm được qua Gemini' + (res.fallbackReason ? (' (' + res.fallbackReason + ')') : '') + ' — giữ nguyên kết quả Offline dự phòng.', 'warn', 4500);
       }
     });
   };

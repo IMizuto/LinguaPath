@@ -1367,6 +1367,9 @@
     let shadSilenceTimer = null;
     let shadRestartTimer = null;
     let shadWatchdogTimer = null;
+    let shadPermStatus = null;
+    let shadPermHandler = null;
+    const TED_STT_WATCHDOG_MS = 8000;
     let pendingAutoRecordAfterListen = false;
     let lastShadowEval = null; // { transcript, pct, matched, total }
     let isShadowRecording = false;
@@ -1415,14 +1418,40 @@
       return Promise.resolve(null);
     }
 
+    let lastTedGeminiErr = "";
+
+    async function readTedGoogleErrorDetail(resp) {
+      if (!resp || typeof resp.text !== "function") return "";
+      try {
+        const txt = await resp.text();
+        let detail = "";
+        try {
+          const obj = txt ? JSON.parse(txt) : null;
+          detail = (obj && obj.error && obj.error.message) ? String(obj.error.message) : "";
+        } catch (e) {}
+        if (!detail && txt) detail = String(txt).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+        return detail.length > 140 ? (detail.slice(0, 140) + "…") : detail;
+      } catch (e) {
+        return "";
+      }
+    }
+
     async function transcribeTedAudioWithGemini(blob, expectedSentence) {
+      lastTedGeminiErr = "";
       const apiKey = getTedGeminiKey();
       if (!apiKey || typeof fetch !== "function") return "";
       const audioPart = await tedBlobToAudioPart(blob);
       if (!audioPart) return "";
       const model = "gemini-4-hydrogen";
+      const timeoutMs = 30000;
       const ctrl = typeof AbortController === "function" ? new AbortController() : null;
-      const timerId = setTimeout(() => { if (ctrl) ctrl.abort(); }, 15000);
+      let timedOut = false;
+      const timerId = setTimeout(() => {
+        timedOut = true;
+        if (ctrl) {
+          try { ctrl.abort("timeout"); } catch (e) { ctrl.abort(); }
+        }
+      }, timeoutMs);
       try {
         const resp = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`,
@@ -1433,11 +1462,15 @@
             body: JSON.stringify({
               systemInstruction: { parts: [{ text: 'Transcribe spoken English in this audio verbatim. Return strict JSON: {"transcript":"..."}' }] },
               contents: [{ role: "user", parts: [{ text: expectedSentence ? `Reference sentence: "${expectedSentence}". Transcribe accurately what the user spoke:` : "Transcribe the English speech verbatim:" }, audioPart] }],
-              generationConfig: { temperature: 0.1, maxOutputTokens: 320, responseMimeType: "application/json", thinkingConfig: { thinkingLevel: "minimal" } }
+              generationConfig: { temperature: 0.1, maxOutputTokens: 1024, responseMimeType: "application/json", thinkingConfig: { thinkingLevel: "low" } }
             })
           }
         );
-        if (!resp.ok) return "";
+        if (!resp.ok) {
+          const detail = await readTedGoogleErrorDetail(resp);
+          lastTedGeminiErr = `HTTP ${resp.status}${detail ? (" — " + detail) : ""}`;
+          return "";
+        }
         const data = await resp.json();
         const parts = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
         const raw = Array.isArray(parts) ? parts.map((p) => (p && p.text && !p.thought ? p.text : "")).join(" ").trim() : "";
@@ -1445,24 +1478,69 @@
         const parsed = JSON.parse(clean);
         return String((parsed && parsed.transcript) || "").replace(/\s+/g, " ").trim();
       } catch (e) {
+        const msg = String((e && e.message) || e || "");
+        if (timedOut || (e && e.name === "AbortError") || /aborted/i.test(msg)) {
+          lastTedGeminiErr = "Hết thời gian chờ (30s), mạng chậm hoặc Gemini phản hồi lâu";
+        } else if (!lastTedGeminiErr && msg) {
+          lastTedGeminiErr = msg;
+        }
         return "";
       } finally {
         clearTimeout(timerId);
       }
     }
 
-    const TED_STICKY_KEY = "lp_ted_stt_broken_v1";
-    let tedSttStickyBroken = (() => {
-      try { return Boolean(window.sessionStorage && window.sessionStorage.getItem(TED_STICKY_KEY) === "1"); } catch (e) { return false; }
+    const TED_STICKY_KEY = "lp_ted_stt_broken_v2";
+    const TED_STICKY_TTL_MS = 120 * 1000;
+    const tedSttStickyState = (() => {
+      try {
+        if (window.sessionStorage) {
+          window.sessionStorage.removeItem("lp_ted_stt_broken_v1");
+          const raw = window.sessionStorage.getItem(TED_STICKY_KEY);
+          if (raw) {
+            const p = JSON.parse(raw);
+            if (p && typeof p === "object") return { fails: Number(p.fails) || 0, until: Number(p.until) || 0 };
+          }
+        }
+      } catch (e) {}
+      return { fails: 0, until: 0 };
     })();
 
-    function setTedSttStickyBroken(flag) {
-      tedSttStickyBroken = Boolean(flag);
+    function saveTedSttStickyState() {
       try {
         if (!window.sessionStorage) return;
-        if (tedSttStickyBroken) window.sessionStorage.setItem(TED_STICKY_KEY, "1");
-        else window.sessionStorage.removeItem(TED_STICKY_KEY);
+        if (tedSttStickyState.fails > 0 || tedSttStickyState.until > Date.now()) {
+          window.sessionStorage.setItem(TED_STICKY_KEY, JSON.stringify(tedSttStickyState));
+        } else {
+          window.sessionStorage.removeItem(TED_STICKY_KEY);
+        }
       } catch (e) {}
+    }
+
+    function isTedSttStickyBroken() {
+      if (!tedSttStickyState.until) return false;
+      if (Date.now() >= tedSttStickyState.until) {
+        tedSttStickyState.until = 0;
+        tedSttStickyState.fails = 0;
+        saveTedSttStickyState();
+        return false;
+      }
+      return true;
+    }
+
+    function recordTedSttFailure() {
+      tedSttStickyState.fails = (tedSttStickyState.fails || 0) + 1;
+      if (tedSttStickyState.fails >= 2) {
+        tedSttStickyState.until = Date.now() + TED_STICKY_TTL_MS;
+      }
+      saveTedSttStickyState();
+    }
+
+    function resetTedSttSticky() {
+      tedSttStickyState.fails = 0;
+      tedSttStickyState.until = 0;
+      saveTedSttStickyState();
+      try { if (window.sessionStorage) window.sessionStorage.removeItem("lp_ted_env_banner_dismissed"); } catch (e) {}
     }
 
     function getTedSttEnv() {
@@ -1496,8 +1574,8 @@
         msg = env.isIOS
           ? "🍎 <b>Thiết bị iOS / Safari:</b> Chưa hỗ trợ nhận chữ Web Speech — app vẫn thu âm giọng bạn để bấm nghe lại đối chiếu."
           : "🌐 <b>Trình duyệt này chưa hỗ trợ nhận diện giọng nói tự động:</b> Hãy dùng <b>Google Chrome / Edge</b> để chấm khớp từng từ (hiện tại app vẫn thu âm để nghe lại).";
-      } else if (tedSttStickyBroken) {
-        msg = "🎙️ <b>Đã tự chuyển sang Thu âm giọng thật trong phiên này</b> vì thiết bị/PWA không phản hồi Web Speech (bấm <i>Nghe lại giọng bạn vừa thu</i> để đối chiếu).";
+      } else if (isTedSttStickyBroken()) {
+        msg = "🎙️ <b>Đang tạm chuyển sang Thu âm giọng thật (tối đa 2 phút)</b> vì Web Speech vừa không phản hồi 2 lượt liên tiếp. Hệ thống sẽ tự thử lại hoặc bạn bấm: <button type=\"button\" class=\"ctrl-btn\" style=\"padding:2px 8px;font-size:11.5px;margin-left:4px;\" onclick=\"window._tedRetryStt && window._tedRetryStt()\">🔄 Thử lại STT</button>";
       }
       if (!msg) return "";
       return `<div class="ted-env-banner" id="tedEnvBanner" role="status"><span>${msg}</span><button type="button" class="ted-env-banner-close" title="Ẩn thông báo" onclick="window._tedDismissEnvBanner && window._tedDismissEnvBanner()">✕</button></div>`;
@@ -1507,6 +1585,13 @@
       try { if (window.sessionStorage) window.sessionStorage.setItem("lp_ted_env_banner_dismissed", "1"); } catch (e) {}
       const el = document.getElementById("tedEnvBanner");
       if (el) el.remove();
+    };
+
+    window._tedRetryStt = function () {
+      resetTedSttSticky();
+      const el = document.getElementById("tedEnvBanner");
+      if (el) el.remove();
+      setTedShadowStatus("🔄 Đã bật lại nhận diện giọng nói (STT). Bấm micro để thử nói lại!", "var(--primary)");
     };
 
     function mergeTedSttFragments(prevText, nextText) {
@@ -1553,7 +1638,7 @@
         "language-not-supported": "⚠️ Thiết bị thiếu gói ngôn ngữ giọng đọc này (thử đổi UK/US hoặc bật giọng nói Google trên điện thoại).",
         "aborted": "⚠️ Phiên nhận diện giọng nói bị ngắt tạm thời. Bạn có thể nói tiếp hoặc bấm Dừng để nghe lại.",
         "no-speech": "⚠️ Chưa nghe thấy giọng nói rõ ràng. Hãy đưa micro gần hơn — hệ thống vẫn đang lắng nghe.",
-        "stt-silent-timeout": "⚠️ Nhận diện giọng nói (STT) trên thiết bị không phản hồi (thường gặp trên PWA Android / trình duyệt ngoài Chrome). Đang chuyển sang thu âm giọng thật để bạn nghe lại."
+        "stt-silent-timeout": "⚠️ Nhận diện giọng nói (STT) chưa phản hồi ở lượt này — đang chuyển sang thu âm giọng thật để bạn nghe lại (lượt sau vẫn tự thử lại STT)."
       };
     }
 
@@ -1765,10 +1850,25 @@
       return lastShadowEval;
     }
 
+    function clearTedPermWatcher() {
+      if (shadPermStatus && shadPermHandler) {
+        try {
+          if (typeof shadPermStatus.removeEventListener === "function") {
+            shadPermStatus.removeEventListener("change", shadPermHandler);
+          } else if (shadPermStatus.onchange === shadPermHandler) {
+            shadPermStatus.onchange = null;
+          }
+        } catch (e) {}
+      }
+      shadPermStatus = null;
+      shadPermHandler = null;
+    }
+
     function clearTedSttTimers() {
       if (shadSilenceTimer) { clearTimeout(shadSilenceTimer); shadSilenceTimer = null; }
       if (shadRestartTimer) { clearTimeout(shadRestartTimer); shadRestartTimer = null; }
       if (shadWatchdogTimer) { clearTimeout(shadWatchdogTimer); shadWatchdogTimer = null; }
+      clearTedPermWatcher();
     }
 
     function getActiveTedSentenceText() {
@@ -1788,6 +1888,7 @@
         try {
           activeRec.onresult = null;
           activeRec.onaudiostart = null;
+          activeRec.onsoundstart = null;
           activeRec.onspeechstart = null;
           activeRec.onerror = null;
           activeRec.onend = null;
@@ -1860,7 +1961,12 @@
                   const res = evaluateShadowTranscript(tx, true);
                   showToast(res.pct >= 70, `🤖 Gemini đã nghe & chấm: ${res.pct}% (${res.matched}/${res.total} từ)`);
                 } else {
-                  setTedShadowStatus("🎧 Đã lưu bản ghi âm! Bấm \"▶️ Nghe lại giọng bạn vừa thu\" ở trên để tự đối chiếu.", "var(--primary)");
+                  setTedShadowStatus(
+                    lastTedGeminiErr
+                      ? ("⚠️ Đã lưu bản thu, chưa chép lời qua AI (" + lastTedGeminiErr + "). Bấm \"▶️ Nghe lại giọng bạn vừa thu\" ở trên để tự đối chiếu.")
+                      : "🎧 Đã lưu bản ghi âm! Bấm \"▶️ Nghe lại giọng bạn vừa thu\" ở trên để tự đối chiếu.",
+                    lastTedGeminiErr ? "#f59e0b" : "var(--primary)"
+                  );
                 }
               });
             }
@@ -1912,8 +2018,8 @@
       const sessId = ++shadowSessionGen;
       isShadowRecording = true;
 
-      // Nếu phiên này đã xác định Web Speech bị PWA/thiết bị khóa → nhảy thẳng thu âm từ giây 0
-      const directAudioFallback = Boolean(tedSttStickyBroken && canMedia);
+      // Tạm chuyển MediaRecorder từ giây 0 tối đa 2 phút chỉ khi STT hỏng >= 2 lượt liên tiếp
+      const directAudioFallback = Boolean(isTedSttStickyBroken() && canMedia);
       // Trên Android/Mobile có SpeechRecognition: ưu tiên STT-First (tránh mở getUserMedia tranh micro của Google Speech Service).
       const sttFirstMobile = Boolean(env.isMobile && SR && !directAudioFallback);
 
@@ -1958,6 +2064,7 @@
           try {
             activeRec.onresult = null;
             activeRec.onaudiostart = null;
+            activeRec.onsoundstart = null;
             activeRec.onspeechstart = null;
             activeRec.onerror = null;
             activeRec.onend = null;
@@ -1971,7 +2078,7 @@
           stopShadowRecording(false, true);
           return;
         }
-        setTedSttStickyBroken(true);
+        recordTedSttFailure();
         if (!mediaRecorder && canMedia) {
           const mrRes = await startTedMediaRecorderOnly(sessId);
           if (sessId !== shadowSessionGen || !isShadowRecording) return;
@@ -2002,10 +2109,17 @@
 
         rec.onaudiostart = () => {
           hasHardwareSig = true;
+          clearTedPermWatcher();
+          if (shadWatchdogTimer) { clearTimeout(shadWatchdogTimer); shadWatchdogTimer = null; }
+        };
+        rec.onsoundstart = () => {
+          hasHardwareSig = true;
+          clearTedPermWatcher();
           if (shadWatchdogTimer) { clearTimeout(shadWatchdogTimer); shadWatchdogTimer = null; }
         };
         rec.onspeechstart = () => {
           hasHardwareSig = true;
+          clearTedPermWatcher();
           if (shadWatchdogTimer) { clearTimeout(shadWatchdogTimer); shadWatchdogTimer = null; }
         };
 
@@ -2015,6 +2129,10 @@
           hasHardwareSig = true;
           transientErrs = 0;
           emptyRestarts = 0;
+          if (tedSttStickyState.fails || tedSttStickyState.until) {
+            resetTedSttSticky();
+          }
+          clearTedPermWatcher();
           if (shadWatchdogTimer) { clearTimeout(shadWatchdogTimer); shadWatchdogTimer = null; }
 
           let finalPart = "";
@@ -2095,12 +2213,48 @@
           }, waitMs);
         };
 
-        if (!hasHardwareSig && !hasResultSig) {
+        const scheduleTedWatchdog = () => {
+          if (shadWatchdogTimer) { clearTimeout(shadWatchdogTimer); shadWatchdogTimer = null; }
+          if (sessId !== shadowSessionGen || !isShadowRecording || hasHardwareSig || hasResultSig || activeRec !== rec) return;
           shadWatchdogTimer = setTimeout(() => {
             if (sessId !== shadowSessionGen || !isShadowRecording || hasHardwareSig || hasResultSig || activeRec !== rec) return;
             recEndedHard = true;
             switchToAudioFallback("stt-silent-timeout");
-          }, 3200);
+          }, TED_STT_WATCHDOG_MS);
+        };
+
+        if (!hasHardwareSig && !hasResultSig) {
+          clearTedPermWatcher();
+          const hasPermApi = Boolean(navigator && navigator.permissions && typeof navigator.permissions.query === "function");
+          if (mediaRecorder || !hasPermApi) {
+            scheduleTedWatchdog();
+          } else {
+            try {
+              navigator.permissions.query({ name: "microphone" }).then((status) => {
+                if (sessId !== shadowSessionGen || !isShadowRecording || hasHardwareSig || hasResultSig || activeRec !== rec) return;
+                if (!status || status.state !== "prompt") {
+                  scheduleTedWatchdog();
+                  return;
+                }
+                shadPermStatus = status;
+                shadPermHandler = () => {
+                  if (!status || status.state === "prompt") return;
+                  clearTedPermWatcher();
+                  if (sessId !== shadowSessionGen || !isShadowRecording || activeRec !== rec) return;
+                  if (status.state === "granted") {
+                    scheduleTedWatchdog();
+                  } else if (status.state === "denied") {
+                    recEndedHard = true;
+                    switchToAudioFallback("not-allowed");
+                  }
+                };
+                if (typeof status.addEventListener === "function") status.addEventListener("change", shadPermHandler);
+                else status.onchange = shadPermHandler;
+              }).catch(scheduleTedWatchdog);
+            } catch (e) {
+              scheduleTedWatchdog();
+            }
+          }
         }
 
         try {
