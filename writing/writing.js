@@ -2139,6 +2139,10 @@
     const titleEl = document.getElementById('pzTestTitle');
     if (titleEl) titleEl.textContent = activeLesson.title;
     window.s4CbtSetWritingFont(lobbySelectedFont);
+    const splitEl = document.getElementById('s4CbtSplitArea');
+    if (splitEl && !splitEl.classList.contains('mob-view-split') && !splitEl.classList.contains('mob-view-left') && !splitEl.classList.contains('mob-view-right')) {
+      window.setPzMobileView('split');
+    }
 
     // 4. Cài đặt Task khởi đầu theo Mode đã chọn & hiển thị tab tương ứng
     const t1Tab = document.getElementById('pzTabBtn_task1');
@@ -2664,6 +2668,10 @@
   function loadPracticeZone(lesson) {
     const titleEl = document.getElementById('pzTestTitle');
     if (titleEl) titleEl.textContent = lesson.title;
+    const splitEl = document.getElementById('s4CbtSplitArea');
+    if (splitEl && !splitEl.classList.contains('mob-view-split') && !splitEl.classList.contains('mob-view-left') && !splitEl.classList.contains('mob-view-right')) {
+      window.setPzMobileView('split');
+    }
 
     startPzTimer(3600);
     currentPzTask = 'task1';

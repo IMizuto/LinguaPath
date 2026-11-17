@@ -1963,6 +1963,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   min-width: 320px !important;
   height: 100% !important;
   min-height: 0 !important;
+  padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
@@ -1997,6 +1998,186 @@ body.s4-cbt-mode #practiceZoneContainer {
   outline: none !important;
   box-sizing: border-box !important;
   overflow-y: auto !important;
+}
+
+@media (max-width: 540px), (max-width: 860px) and (orientation: portrait) {
+  #practiceZoneContainer .s4-cbt-header {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: calc(6px + var(--s4-top-inset, 0px)) 8px 6px !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    overflow: visible !important;
+  }
+  #practiceZoneContainer .s4-cbt-header-left {
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 5px !important;
+  }
+  #practiceZoneContainer .s4-cbt-brand-badge,
+  #practiceZoneContainer #pzTotalWordsBadge,
+  #practiceZoneContainer .s4-cbt-header button[onclick*="generateRandomWritingTest"],
+  #practiceZoneContainer .s4-cbt-header button[onclick*="openWritingTestPicker"],
+  #practiceZoneContainer .s4-cbt-fs-btn {
+    display: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-test-title {
+    max-width: none !important;
+    flex: 1 1 80px !important;
+    min-width: 0 !important;
+    font-size: 12.5px !important;
+  }
+  #practiceZoneContainer .s4-cbt-header-center {
+    gap: 5px !important;
+  }
+  #practiceZoneContainer .s4-cbt-header-right {
+    gap: 4px !important;
+    margin-left: auto !important;
+  }
+  #practiceZoneContainer > .s4-cbt-part-banner,
+  #s4CbtLeftPane > .syn-col-title {
+    display: none !important;
+  }
+  #s4CbtRightPane > .syn-col-title {
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+  }
+  #practiceZoneContainer .w-cbt-editor-wrapper {
+    padding: 8px 10px !important;
+  }
+  #s4CbtRightPane > .s4-cbt-part-banner {
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+    gap: 8px !important;
+  }
+  #s4CbtRightPane > .s4-cbt-part-banner .w-autosave-tag {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 11px !important;
+  }
+  #s4CbtRightPane > .s4-cbt-part-banner .s4-cbt-submit-btn {
+    display: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area {
+    flex-direction: column !important;
+    height: auto !important;
+    max-height: none !important;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+  }
+  #practiceZoneContainer .s4-cbt-resizer {
+    display: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-pane-left {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 10px 12px 16px !important;
+  }
+  #practiceZoneContainer .s4-cbt-pane-right {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area.mob-view-split .s4-cbt-pane-left {
+    display: flex !important;
+    height: 44% !important;
+    flex: 0 0 44% !important;
+    border-right: none !important;
+    border-bottom: 2px solid var(--primary) !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area.mob-view-split .s4-cbt-pane-right {
+    display: flex !important;
+    height: 56% !important;
+    flex: 1 1 56% !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area.mob-view-left .s4-cbt-pane-left {
+    display: flex !important;
+    height: 100% !important;
+    flex: 1 1 100% !important;
+    border-right: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area.mob-view-left .s4-cbt-pane-right {
+    display: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area.mob-view-right .s4-cbt-pane-left {
+    display: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area.mob-view-right .s4-cbt-pane-right {
+    display: flex !important;
+    height: 100% !important;
+    flex: 1 1 100% !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  #practiceZoneContainer .s4-cbt-header {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    padding: 0 calc(10px + env(safe-area-inset-right, 0px)) 0 calc(10px + env(safe-area-inset-left, 0px)) !important;
+    gap: 6px !important;
+  }
+  #practiceZoneContainer .s4-cbt-brand-badge,
+  #practiceZoneContainer #pzTotalWordsBadge,
+  #practiceZoneContainer .s4-cbt-header button[onclick*="generateRandomWritingTest"],
+  #practiceZoneContainer .s4-cbt-header button[onclick*="openWritingTestPicker"],
+  #practiceZoneContainer .s4-cbt-fs-btn,
+  #practiceZoneContainer .s4-cbt-font-btn[data-font="cbt-font-xl"] {
+    display: none !important;
+  }
+  #practiceZoneContainer > .s4-cbt-part-banner,
+  #s4CbtLeftPane > .syn-col-title {
+    display: none !important;
+  }
+  #practiceZoneContainer .s4-cbt-split-area {
+    height: calc(100vh - 40px) !important;
+    max-height: calc(100vh - 40px) !important;
+  }
+  #practiceZoneContainer .s4-cbt-pane-left {
+    min-width: 180px !important;
+    padding: 10px 12px 16px calc(12px + env(safe-area-inset-left, 0px)) !important;
+  }
+  #practiceZoneContainer .s4-cbt-pane-right {
+    min-width: 180px !important;
+    padding: 0 !important;
+  }
+  #s4CbtRightPane > .syn-col-title {
+    padding: 5px 12px !important;
+    font-size: 11px !important;
+  }
+  #practiceZoneContainer .w-cbt-editor-wrapper {
+    padding: 6px 10px !important;
+  }
+  #practiceZoneContainer .w-cbt-textarea {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+  #s4CbtRightPane > .s4-cbt-part-banner {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+    gap: 8px !important;
+  }
+  #s4CbtRightPane > .s4-cbt-part-banner .w-autosave-tag {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 11px !important;
+  }
+  #s4CbtRightPane > .s4-cbt-part-banner .s4-cbt-submit-btn {
+    display: none !important;
+  }
 }
 
 /* =========================================================================
@@ -2378,11 +2559,38 @@ body.s4-cbt-mode #practiceZoneContainer {
   .w-lobby-grid {
     grid-template-columns: 1fr;
   }
+  .w-cbt-lobby {
+    padding: 14px 10px 40px;
+  }
+}
+
+@media (max-width: 600px) {
   .w-config-options {
     grid-template-columns: 1fr;
   }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
   .w-cbt-lobby {
-    padding: 14px 10px 40px;
+    padding: 10px 14px 36px;
+  }
+  .w-lobby-header {
+    margin-bottom: 10px;
+  }
+  .w-lobby-title {
+    font-size: 18px;
+  }
+  .w-config-options .w-radio-title {
+    white-space: normal;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) and (min-width: 700px) {
+  .w-lobby-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 12px;
   }
 }
 
@@ -2811,7 +3019,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   flex: 1;
   overflow-y: auto;
   padding: 14px 2px 4px;
-  min-height: 220px;
+  min-height: 0;
 }
 
 @media (max-width: 860px) {
@@ -2927,7 +3135,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   flex: 1;
   overflow-y: auto;
   padding: 12px 2px 4px;
-  min-height: 260px;
+  min-height: 0;
 }
 
 .w-picker-random-box {
@@ -3052,4 +3260,25 @@ body.s4-cbt-mode #practiceZoneContainer {
   margin-top: 14px;
   padding-top: 10px;
   border-top: 1px solid var(--border);
+}
+
+@media (max-width: 640px), (orientation: landscape) and (max-height: 560px) {
+  .w-modal-backdrop {
+    padding: 8px;
+  }
+  .w-history-modal-box {
+    padding: 12px 14px;
+    max-height: 92vh !important;
+  }
+  .w-history-modal-head {
+    padding-bottom: 8px;
+  }
+  .w-picker-controls {
+    padding: 8px 0;
+    gap: 6px;
+  }
+  .w-picker-random-box {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
 }

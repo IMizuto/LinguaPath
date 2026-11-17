@@ -857,158 +857,59 @@
     var rafId = null;
     var secTimerId = null;
     var sttTimerId = null;
-    var sttWatchdogId = null;
-    var pulseTimerId = null;
-    var activePermStatus = null;
-    var activePermHandler = null;
-    var STT_WATCHDOG_MS = 8000;
     var isRecording = false;
-    var isStopping = false;
     var startTs = 0;
-    var lastSpeechPulseTs = 0;
     var committedTranscript = '';
     var sessionFinalTranscript = '';
     var finalTranscript = '';
     var interimTranscript = '';
     var sttFatal = false;
     var hasSpeechResult = false;
-    var hasHardwareSignal = false;
     var emptyRestartCount = 0;
-    var transientErrCount = 0;
     var lastWarnedCode = '';
     var currentCallbacks = null;
-    var currentOpts = null;
     var onAutoStopCb = null;
-    var activeEnv = null;
-    var pendingStopResolve = null;
-    var activeStopPromise = null;
-    var STT_STICKY_KEY = 'lp_sp_stt_broken_v2';
-    var STT_STICKY_TTL_MS = 120 * 1000;
-    var sttStickyState = (function () {
-      try {
-        if (global.sessionStorage) {
-          global.sessionStorage.removeItem('lp_sp_stt_broken_v1');
-          var raw = global.sessionStorage.getItem(STT_STICKY_KEY);
-          if (raw) {
-            var parsed = JSON.parse(raw);
-            if (parsed && typeof parsed === 'object') {
-              return { fails: Number(parsed.fails) || 0, until: Number(parsed.until) || 0 };
-            }
-          }
-        }
-      } catch (e) {}
-      return { fails: 0, until: 0 };
-    })();
 
-    function saveSttStickyState() {
-      try {
-        if (!global.sessionStorage) return;
-        if (sttStickyState.fails > 0 || sttStickyState.until > Date.now()) {
-          global.sessionStorage.setItem(STT_STICKY_KEY, JSON.stringify(sttStickyState));
-        } else {
-          global.sessionStorage.removeItem(STT_STICKY_KEY);
-        }
-      } catch (e) {}
-    }
-
-    function isSttStickyBroken() {
-      if (!sttStickyState.until) return false;
-      if (Date.now() >= sttStickyState.until) {
-        sttStickyState.until = 0;
-        sttStickyState.fails = 0;
-        saveSttStickyState();
-        return false;
+    try {
+      if (global.sessionStorage) {
+        global.sessionStorage.removeItem('lp_sp_stt_broken_v1');
+        global.sessionStorage.removeItem('lp_sp_stt_broken_v2');
+        global.sessionStorage.removeItem('lp_sp_env_banner_dismissed');
       }
-      return true;
-    }
+    } catch (e) {}
 
-    function recordSttHardFailure() {
-      sttStickyState.fails = (sttStickyState.fails || 0) + 1;
-      if (sttStickyState.fails >= 2) {
-        sttStickyState.until = Date.now() + STT_STICKY_TTL_MS;
-      }
-      saveSttStickyState();
-    }
-
-    function resetSttSticky() {
-      sttStickyState.fails = 0;
-      sttStickyState.until = 0;
-      saveSttStickyState();
-      try { if (global.sessionStorage) global.sessionStorage.removeItem('lp_sp_env_banner_dismissed'); } catch (e) {}
-    }
-
-    var STT_HARD_FATAL_CODES = {
+    var STT_FATAL_CODES = {
       'not-allowed': true,
       'service-not-allowed': true,
       'audio-capture': true,
-      'language-not-supported': true
+      'language-not-supported': true,
+      'network': true
     };
 
-    var STT_RETRYABLE_CODES = {
-      'network': true,
-      'aborted': true
+    var STT_ERROR_MESSAGES = {
+      'not-supported': 'Trình duyệt/WebView này chưa hỗ trợ nhận diện giọng nói tự động (STT). App vẫn ghi âm để bạn nghe lại và gõ/dán văn bản so khớp.',
+      'network': 'Không kết nối được máy chủ nhận diện giọng nói (lỗi mạng/VPN hoặc trình duyệt chặn Web Speech). Vẫn đang thu âm để bạn nghe lại hoặc nhập tay để chấm.',
+      'not-allowed': 'Trình duyệt đang chặn quyền Microphone. Hãy bấm biểu tượng ổ khóa trên thanh địa chỉ → Cho phép Micro rồi thử lại.',
+      'service-not-allowed': 'Dịch vụ nhận diện giọng nói bị chặn bởi chính sách trình duyệt/ứng dụng (cần Chrome/Edge trên HTTPS hoặc localhost).',
+      'audio-capture': 'Không thu được tín hiệu từ Micro (chưa cắm mic, micro bị app khác chiếm hoặc xung đột tai nghe Bluetooth Hands-Free).',
+      'language-not-supported': 'Trình duyệt không hỗ trợ gói ngôn ngữ giọng đọc đang chọn (hãy thử đổi UK/US hoặc dùng Chrome/Edge mới nhất).',
+      'aborted': 'Phiên nhận diện giọng nói bị ngắt đột ngột do xung đột âm thanh. Bạn vẫn có thể tiếp tục thu âm hoặc bấm thu lại.',
+      'no-speech': 'Chưa nghe thấy giọng nói rõ ràng. Hãy đưa micro lại gần hơn hoặc gõ trực tiếp văn bản nếu đang dùng thiết bị không có mic.'
     };
 
     function getSttConstructor() {
       return global.SpeechRecognition || global.webkitSpeechRecognition || null;
     }
 
-    function getSttEnv() {
-      var nav = global.navigator || {};
-      var ua = String(nav.userAgent || '');
-      var isAndroid = /Android/i.test(ua);
-      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (ua.indexOf('Macintosh') !== -1 && Number(nav.maxTouchPoints || 0) > 1);
-      var isMobile = isAndroid || isIOS || /Mobile|Tablet/i.test(ua);
-      var isStandalone = false;
-      try {
-        isStandalone = Boolean(
-          (global.matchMedia && (global.matchMedia('(display-mode: standalone)').matches || global.matchMedia('(display-mode: fullscreen)').matches))
-          || nav.standalone === true
-        );
-      } catch (e) {}
-      var isInAppWebView = /(FBAN|FBAV|Zalo|Instagram|Line\/|TikTok|;\s*wv\))/i.test(ua);
-      var isBrave = Boolean(nav.brave);
-      var isUnsupportedBrowser = isBrave || /Firefox|FxiOS|CocCoc|coc_coc_browser|UCBrowser|SamsungBrowser|OPR\/|YaBrowser/i.test(ua);
-      return {
-        ua: ua,
-        isAndroid: isAndroid,
-        isIOS: isIOS,
-        isMobile: isMobile,
-        isStandalone: isStandalone,
-        isInAppWebView: isInAppWebView,
-        isUnsupportedBrowser: isUnsupportedBrowser,
-        hasStt: Boolean(getSttConstructor()),
-        canMedia: Boolean(nav.mediaDevices && nav.mediaDevices.getUserMedia)
-      };
+    function describeSttError(code) {
+      return STT_ERROR_MESSAGES[code] || ('Lỗi nhận diện giọng nói (' + (code || 'unknown') + '). Bạn vẫn có thể thu âm nghe lại hoặc nhập văn bản để chấm.');
     }
 
-    function describeSttError(code, env) {
-      var e = env || getSttEnv();
-      var permHint = e.isStandalone
-        ? 'Ứng dụng cài trên Màn hình chính (PWA) chưa có quyền Micro. Hãy vào Cài đặt điện thoại → Ứng dụng → LinguaPath (hoặc Chrome) → Quyền → Micro → Cho phép, hoặc mở lại bằng trình duyệt Chrome.'
-        : 'Trình duyệt đang chặn quyền Microphone. Hãy bấm biểu tượng ổ khóa trên thanh địa chỉ → Cho phép Micro rồi thử lại.';
-      var map = {
-        'not-supported': 'Trình duyệt/WebView này chưa hỗ trợ nhận diện giọng nói tự động (STT). App vẫn ghi âm để bạn nghe lại và gõ/dán văn bản so khớp.',
-        'network': 'Không kết nối được máy chủ nhận diện giọng nói Google Speech (lỗi mạng/VPN hoặc trình duyệt không cấp API Speech). App đang chuyển sang thu âm Audio để bạn nghe lại hoặc nhập/dán transcript.',
-        'not-allowed': permHint,
-        'service-not-allowed': e.isStandalone
-          ? 'Dịch vụ nhận diện giọng nói của Google bị tắt hoặc chặn trong chế độ App màn hình chính (PWA). App tự chuyển sang thu âm Audio để bạn nghe lại hoặc dùng AI chấm.'
-          : 'Dịch vụ nhận diện giọng nói bị chặn bởi chính sách trình duyệt/ứng dụng (cần Chrome/Edge trên HTTPS hoặc localhost).',
-        'audio-capture': 'Không thu được tín hiệu từ Micro (micro bị app khác chiếm, tai nghe Bluetooth Hands-Free xung đột, hoặc Android khóa chia sẻ mic).',
-        'language-not-supported': 'Thiết bị chưa bật gói nhận diện tiếng Anh cho Google Speech Service (thử đổi giọng UK/US hoặc bật nhận diện giọng nói trong Cài đặt Google trên điện thoại).',
-        'aborted': 'Phiên nhận diện giọng nói bị ngắt tạm thời. Bạn vẫn có thể tiếp tục thu âm hoặc bấm thu lại.',
-        'no-speech': 'Chưa nghe thấy giọng nói rõ ràng — hãy đưa micro gần hơn, hệ thống vẫn đang lắng nghe (hoặc gõ văn bản trực tiếp nếu cần).',
-        'stt-silent-timeout': 'Nhận diện giọng nói (STT) chưa phản hồi ở lượt này — đang chuyển sang thu âm Audio để bạn nghe lại (lượt sau vẫn tự thử lại STT).'
-      };
-      return map[code] || ('Lỗi nhận diện giọng nói (' + (code || 'unknown') + '). Bạn vẫn có thể thu âm nghe lại hoặc nhập văn bản để chấm.');
-    }
-
-    function describeMediaError(err, env) {
-      var e = env || getSttEnv();
+    function describeMediaError(err) {
       var name = err && err.name ? String(err.name) : '';
       var rawMsg = err && err.message ? String(err.message) : '';
       if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
-        return describeSttError('not-allowed', e);
+        return STT_ERROR_MESSAGES['not-allowed'];
       }
       if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
         return 'Không tìm thấy thiết bị Micro trên máy/điện thoại. Hãy cắm micro hoặc gõ trực tiếp văn bản để so khớp & chấm điểm.';
@@ -1022,170 +923,30 @@
       return 'Không truy cập được micro (' + (rawMsg || name || 'Permission denied') + '). Bạn vẫn có thể gõ hoặc dán bài nói để phân tích & chấm điểm!';
     }
 
-    // Gộp kết quả STT qua các lần restart (tránh Android Chrome nhân đôi 1-6 từ nối giữa 2 phiên)
-    function mergeSttFragments(prevText, nextText) {
-      var prev = String(prevText || '').replace(/\s+/g, ' ').trim();
-      var next = String(nextText || '').replace(/\s+/g, ' ').trim();
-      if (!next) return prev;
-      if (!prev) return next;
-      var norm = function (w) { return w.toLowerCase().replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, ''); };
-      var pw = prev.split(/\s+/);
-      var nw = next.split(/\s+/);
-      if (pw.length >= nw.length) {
-        var tailMatch = pw.slice(pw.length - nw.length).every(function (w, idx) {
-          return norm(w) === norm(nw[idx]);
-        });
-        if (tailMatch) return prev;
-      }
-      var maxK = Math.min(pw.length, nw.length, 6);
-      var overlap = 0;
-      for (var k = maxK; k >= 1; k--) {
-        var ok = true;
-        for (var i = 0; i < k; i++) {
-          if (norm(pw[pw.length - k + i]) !== norm(nw[i])) {
-            ok = false;
-            break;
-          }
-        }
-        if (ok) {
-          overlap = k;
-          break;
-        }
-      }
-      var tail = nw.slice(overlap).join(' ');
-      return tail ? (prev + ' ' + tail) : prev;
-    }
-
     function emitSttWarning(code) {
       var normalized = String(code || 'unknown');
       if (normalized === lastWarnedCode) return;
       lastWarnedCode = normalized;
       if (currentCallbacks && typeof currentCallbacks.onSttWarning === 'function') {
-        currentCallbacks.onSttWarning(normalized, describeSttError(normalized, activeEnv));
+        currentCallbacks.onSttWarning(normalized, describeSttError(normalized));
       }
     }
 
-    function emitTranscriptUpdate() {
-      if (!currentCallbacks || typeof currentCallbacks.onTranscript !== 'function') return;
-      var combined = mergeSttFragments(finalTranscript, interimTranscript);
-      currentCallbacks.onTranscript(combined, Math.max(1, Math.round((Date.now() - startTs) / 1000)));
-    }
-
-    function clearMicPermWatcher() {
-      if (activePermStatus && activePermHandler) {
-        try {
-          if (typeof activePermStatus.removeEventListener === 'function') {
-            activePermStatus.removeEventListener('change', activePermHandler);
-          } else if (activePermStatus.onchange === activePermHandler) {
-            activePermStatus.onchange = null;
-          }
-        } catch (e) {}
-      }
-      activePermStatus = null;
-      activePermHandler = null;
-    }
-
-    function clearSttTimers() {
+    function stopResources() {
+      isRecording = false;
+      sttFatal = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (secTimerId) { clearInterval(secTimerId); secTimerId = null; }
       if (sttTimerId) { clearTimeout(sttTimerId); sttTimerId = null; }
-      if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
-      clearMicPermWatcher();
-    }
-
-    function handleMicNotAllowed(env) {
-      if (!mediaRecorder && !stream && currentCallbacks && typeof currentCallbacks.onUnsupported === 'function') {
-        var msg = describeSttError('not-allowed', env);
-        var cbUnsup = currentCallbacks.onUnsupported;
-        stopResources();
-        cbUnsup(msg);
-        return;
-      }
-      fallbackToMediaRecorder('not-allowed');
-    }
-
-    function scheduleWatchdogTimer(rec, env) {
-      if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
-      if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
-      sttWatchdogId = setTimeout(function () {
-        if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
-        if (!mediaRecorder && env.canMedia) {
-          fallbackToMediaRecorder('stt-silent-timeout');
-        } else if (!finalTranscript && !interimTranscript) {
-          recordSttHardFailure();
-          emitSttWarning('stt-silent-timeout');
-        }
-      }, STT_WATCHDOG_MS);
-    }
-
-    function armSttWatchdog(rec, env) {
-      clearMicPermWatcher();
-      if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
-      if (mediaRecorder || stream) {
-        scheduleWatchdogTimer(rec, env);
-        return;
-      }
-      var nav = global.navigator;
-      if (!nav || !nav.permissions || typeof nav.permissions.query !== 'function') {
-        scheduleWatchdogTimer(rec, env);
-        return;
-      }
-      try {
-        nav.permissions.query({ name: 'microphone' }).then(function (status) {
-          if (!isRecording || isStopping || sttFatal || hasHardwareSignal || hasSpeechResult || recognition !== rec) return;
-          if (!status || status.state !== 'prompt') {
-            scheduleWatchdogTimer(rec, env);
-            return;
-          }
-          // Đợi user bấm "Cho phép Micro" trên hộp thoại hệ thống rồi mới bắt đầu đếm ngược 8s
-          activePermStatus = status;
-          activePermHandler = function () {
-            if (!status || status.state === 'prompt') return;
-            clearMicPermWatcher();
-            if (recognition !== rec || !isRecording || isStopping || sttFatal) return;
-            if (status.state === 'granted') {
-              scheduleWatchdogTimer(rec, env);
-            } else if (status.state === 'denied') {
-              handleMicNotAllowed(env);
-            }
-          };
-          if (typeof status.addEventListener === 'function') {
-            status.addEventListener('change', activePermHandler);
-          } else {
-            status.onchange = activePermHandler;
-          }
-        }).catch(function () {
-          scheduleWatchdogTimer(rec, env);
-        });
-      } catch (e) {
-        scheduleWatchdogTimer(rec, env);
-      }
-    }
-
-    function stopRecognitionInstance() {
-      clearSttTimers();
       if (recognition) {
         try {
           recognition.onresult = null;
-          recognition.onaudiostart = null;
-          recognition.onsoundstart = null;
-          recognition.onspeechstart = null;
           recognition.onend = null;
           recognition.onerror = null;
           recognition.stop();
         } catch (e) {}
         recognition = null;
       }
-    }
-
-    function stopResources() {
-      isRecording = false;
-      isStopping = false;
-      sttFatal = false;
-      pendingStopResolve = null;
-      activeStopPromise = null;
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-      if (secTimerId) { clearInterval(secTimerId); secTimerId = null; }
-      if (pulseTimerId) { clearInterval(pulseTimerId); pulseTimerId = null; }
-      stopRecognitionInstance();
       if (audioCtx) {
         try { audioCtx.close(); } catch (e) {}
         audioCtx = null;
@@ -1219,234 +980,11 @@
       rafId = requestAnimationFrame(tick);
     }
 
-    function startPulseWaveLoop(barSelector) {
-      if (pulseTimerId || analyser) return;
-      var phase = 0;
-      pulseTimerId = setInterval(function () {
-        if (!isRecording || analyser) return;
-        phase++;
-        var bars = document.querySelectorAll(barSelector);
-        if (!bars || !bars.length) return;
-        var activeBoost = (Date.now() - lastSpeechPulseTs) < 1200 ? 18 : 6;
-        for (var i = 0; i < bars.length; i++) {
-          var wave = Math.abs(Math.sin((phase + i * 0.7) * 0.65));
-          var h = Math.max(6, Math.round(6 + wave * activeBoost));
-          bars[i].style.height = h + 'px';
-        }
-      }, 140);
-    }
-
-    function attachMediaStream(mediaStream, waveSelector) {
-      stream = mediaStream;
-      if (stream && typeof global.MediaRecorder === 'function') {
-        try {
-          mediaRecorder = new global.MediaRecorder(stream);
-          mediaRecorder.ondataavailable = function (ev) {
-            if (ev.data && ev.data.size > 0) audioChunks.push(ev.data);
-          };
-          mediaRecorder.start(250);
-        } catch (e) {
-          mediaRecorder = null;
-        }
-      }
-      if (stream) {
-        try {
-          var AC = global.AudioContext || global.webkitAudioContext;
-          if (AC) {
-            audioCtx = new AC();
-            if (audioCtx.state === 'suspended' && typeof audioCtx.resume === 'function') {
-              audioCtx.resume().catch(function () {});
-            }
-            var src = audioCtx.createMediaStreamSource(stream);
-            analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 64;
-            src.connect(analyser);
-            if (pulseTimerId) { clearInterval(pulseTimerId); pulseTimerId = null; }
-            startWaveLoop(waveSelector || '.sp-wave-bar');
-          }
-        } catch (e) {}
-      }
-    }
-
-    function fallbackToMediaRecorder(reasonCode) {
-      sttFatal = true;
-      stopRecognitionInstance();
-      if (reasonCode && reasonCode !== 'not-allowed') {
-        recordSttHardFailure();
-      }
-      emitSttWarning(reasonCode);
-
-      if (!isRecording || mediaRecorder || !activeEnv || !activeEnv.canMedia) {
-        return;
-      }
-      if (reasonCode === 'not-allowed') {
-        stop();
-        return;
-      }
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (ms) {
-        if (!isRecording) {
-          try { ms.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
-          return;
-        }
-        attachMediaStream(ms, currentOpts && currentOpts.waveSelector);
-      }).catch(function () {
-        // Giữ phiên timer chạy để người học vẫn nhập transcript tay nếu muốn
-      });
-    }
-
-    function startRecognitionSession(SttCtor, o, env) {
-      if (!isRecording || sttFatal || isStopping) return;
-      clearSttTimers();
-      try {
-        var rec = new SttCtor();
-        recognition = rec;
-        rec.lang = o.lang || prefs.voiceAccent || 'en-GB';
-        // Trên Android, continuous=false + nối phiên nhanh ổn định hơn và không bị nhân đôi chữ như continuous=true
-        rec.continuous = !env.isAndroid;
-        rec.interimResults = true;
-        rec.maxAlternatives = 1;
-
-        rec.onaudiostart = function () {
-          hasHardwareSignal = true;
-          clearMicPermWatcher();
-          if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
-        };
-        rec.onsoundstart = function () {
-          hasHardwareSignal = true;
-          lastSpeechPulseTs = Date.now();
-          clearMicPermWatcher();
-          if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
-        };
-        rec.onspeechstart = function () {
-          hasHardwareSignal = true;
-          lastSpeechPulseTs = Date.now();
-          clearMicPermWatcher();
-          if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
-        };
-
-        rec.onresult = function (ev) {
-          if (recognition !== rec) return;
-          hasSpeechResult = true;
-          hasHardwareSignal = true;
-          emptyRestartCount = 0;
-          transientErrCount = 0;
-          if (sttStickyState.fails || sttStickyState.until) {
-            sttStickyState.fails = 0;
-            sttStickyState.until = 0;
-            saveSttStickyState();
-          }
-          lastSpeechPulseTs = Date.now();
-          clearMicPermWatcher();
-          if (sttWatchdogId) { clearTimeout(sttWatchdogId); sttWatchdogId = null; }
-
-          var finals = '';
-          var interims = '';
-          for (var i = 0; i < ev.results.length; i++) {
-            var r = ev.results[i];
-            var txt = String((r && r[0] && r[0].transcript) || '');
-            if (r && r.isFinal) finals = mergeSttFragments(finals, txt);
-            else interims = mergeSttFragments(interims, txt);
-          }
-          sessionFinalTranscript = finals;
-          finalTranscript = mergeSttFragments(committedTranscript, sessionFinalTranscript);
-          interimTranscript = interims;
-          emitTranscriptUpdate();
-        };
-
-        rec.onerror = function (err) {
-          if (recognition !== rec) return;
-          var code = (err && err.error) ? String(err.error) : 'no-speech';
-          if (STT_HARD_FATAL_CODES[code]) {
-            if (code === 'not-allowed') {
-              handleMicNotAllowed(env);
-              return;
-            }
-            fallbackToMediaRecorder(code);
-            return;
-          }
-          if (STT_RETRYABLE_CODES[code]) {
-            transientErrCount++;
-            if (transientErrCount > 2) {
-              fallbackToMediaRecorder(code);
-              return;
-            }
-            return;
-          }
-          if (code === 'no-speech') {
-            if (!finalTranscript && !interimTranscript && emptyRestartCount >= 2) {
-              emitSttWarning('no-speech');
-            }
-            return;
-          }
-          if (!finalTranscript && !interimTranscript) {
-            emitSttWarning(code);
-          }
-        };
-
-        rec.onend = function () {
-          if (recognition !== rec) return;
-          if (sessionFinalTranscript) {
-            committedTranscript = mergeSttFragments(committedTranscript, sessionFinalTranscript);
-            finalTranscript = committedTranscript;
-            sessionFinalTranscript = '';
-          }
-          if (isStopping) {
-            recognition = null;
-            if (pendingStopResolve) {
-              var resolveFn = pendingStopResolve;
-              pendingStopResolve = null;
-              resolveFn();
-            }
-            return;
-          }
-          interimTranscript = '';
-          if (!isRecording || sttFatal) return;
-
-          if (!hasSpeechResult) {
-            emptyRestartCount++;
-            if (emptyRestartCount === 3 && !finalTranscript) {
-              emitSttWarning('no-speech');
-            }
-          } else {
-            hasSpeechResult = false;
-            emptyRestartCount = 0;
-          }
-
-          // Không bao giờ tắt hẳn STT vì im lặng — tự nối phiên liên tục tới khi user bấm dừng
-          var delayMs = transientErrCount > 0 ? (380 * transientErrCount) : (env.isAndroid ? 95 : 160);
-          sttTimerId = setTimeout(function () {
-            if (!isRecording || sttFatal || isStopping) return;
-            startRecognitionSession(SttCtor, o, env);
-          }, delayMs);
-        };
-
-        // Watchdog 8s chỉ chạy sau khi quyền Micro đã cấp (tránh đếm ngược lúc hộp thoại xin quyền đang mở)
-        if (!hasHardwareSignal && !hasSpeechResult) {
-          armSttWatchdog(rec, env);
-        }
-
-        rec.start();
-      } catch (e) {
-        recognition = null;
-        transientErrCount++;
-        if (transientErrCount <= 2 && isRecording && !isStopping) {
-          sttTimerId = setTimeout(function () {
-            startRecognitionSession(SttCtor, o, env);
-          }, 320);
-        } else {
-          fallbackToMediaRecorder('aborted');
-        }
-      }
-    }
-
     function start(opts) {
       var o = opts || {};
       if (isRecording) return Promise.resolve(false);
       TtsEngine.stop();
 
-      var env = getSttEnv();
-      activeEnv = env;
-      currentOpts = o;
       currentCallbacks = o;
       onAutoStopCb = o.onFinish || null;
       committedTranscript = '';
@@ -1455,18 +993,12 @@
       interimTranscript = '';
       audioChunks = [];
       sttFatal = false;
-      isStopping = false;
       hasSpeechResult = false;
-      hasHardwareSignal = false;
       emptyRestartCount = 0;
-      transientErrCount = 0;
       lastWarnedCode = '';
-      lastSpeechPulseTs = Date.now();
       startTs = Date.now();
-      pendingStopResolve = null;
-      activeStopPromise = null;
 
-      var canMedia = env.canMedia;
+      var canMedia = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
       var SttCtor = getSttConstructor();
 
       if (!canMedia && !SttCtor) {
@@ -1474,34 +1006,124 @@
         return Promise.resolve(false);
       }
 
-      // Tạm chuyển MediaRecorder từ giây 0 tối đa 2 phút chỉ khi STT hỏng >= 2 lượt liên tiếp
-      var directAudioFallback = Boolean(isSttStickyBroken() && canMedia && !o.forceSttRetry);
-      // Trên Android/Mobile có SpeechRecognition: ưu tiên STT-First (tránh mở getUserMedia tranh mic phần cứng làm STT câm nín).
-      var sttFirstMobile = Boolean(env.isMobile && SttCtor && !o.forceMediaRecorder && !directAudioFallback);
-
-      var prepPromise = (canMedia && !sttFirstMobile)
+      var streamPromise = canMedia
         ? navigator.mediaDevices.getUserMedia({ audio: true })
         : Promise.resolve(null);
 
-      return prepPromise.then(function (mediaStream) {
+      return streamPromise.then(function (mediaStream) {
+        stream = mediaStream;
         isRecording = true;
         startTs = Date.now();
 
-        if (mediaStream) {
-          attachMediaStream(mediaStream, o.waveSelector || '.sp-wave-bar');
-        } else {
-          startPulseWaveLoop(o.waveSelector || '.sp-wave-bar');
+        if (stream && typeof global.MediaRecorder === 'function') {
+          try {
+            mediaRecorder = new global.MediaRecorder(stream);
+            mediaRecorder.ondataavailable = function (ev) {
+              if (ev.data && ev.data.size > 0) audioChunks.push(ev.data);
+            };
+            mediaRecorder.start(250);
+          } catch (e) {
+            mediaRecorder = null;
+          }
         }
 
-        if (SttCtor && !directAudioFallback) {
-          startRecognitionSession(SttCtor, o, env);
-        } else if (directAudioFallback) {
-          sttFatal = true;
-          emitSttWarning('stt-silent-timeout');
+        if (stream) {
+          try {
+            var AC = global.AudioContext || global.webkitAudioContext;
+            if (AC) {
+              audioCtx = new AC();
+              if (audioCtx.state === 'suspended' && typeof audioCtx.resume === 'function') {
+                audioCtx.resume().catch(function () {});
+              }
+              var src = audioCtx.createMediaStreamSource(stream);
+              analyser = audioCtx.createAnalyser();
+              analyser.fftSize = 64;
+              src.connect(analyser);
+              startWaveLoop(o.waveSelector || '.sp-wave-bar');
+            }
+          } catch (e) {}
+        }
+
+        if (SttCtor) {
+          try {
+            recognition = new SttCtor();
+            recognition.lang = o.lang || prefs.voiceAccent || 'en-GB';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.onresult = function (ev) {
+              hasSpeechResult = true;
+              emptyRestartCount = 0;
+              var finals = '';
+              var interims = '';
+              for (var i = 0; i < ev.results.length; i++) {
+                var r = ev.results[i];
+                if (r.isFinal) finals += r[0].transcript + ' ';
+                else interims += r[0].transcript + ' ';
+              }
+              sessionFinalTranscript = finals.trim();
+              finalTranscript = [committedTranscript, sessionFinalTranscript].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+              interimTranscript = interims.trim();
+              if (currentCallbacks && currentCallbacks.onTranscript) {
+                var combined = [finalTranscript, interimTranscript].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+                currentCallbacks.onTranscript(combined, Math.max(1, Math.round((Date.now() - startTs) / 1000)));
+              }
+            };
+            recognition.onerror = function (err) {
+              var code = (err && err.error) ? String(err.error) : 'no-speech';
+              if (STT_FATAL_CODES[code]) {
+                sttFatal = true;
+                emitSttWarning(code);
+                if (!mediaRecorder && isRecording) {
+                  stop();
+                }
+                return;
+              }
+              if (!finalTranscript && !interimTranscript) {
+                emitSttWarning(code);
+              }
+            };
+            recognition.onend = function () {
+              if (sessionFinalTranscript) {
+                committedTranscript = [committedTranscript, sessionFinalTranscript].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+                finalTranscript = committedTranscript;
+                sessionFinalTranscript = '';
+              }
+              interimTranscript = '';
+              if (!isRecording || !recognition || sttFatal) return;
+
+              if (!hasSpeechResult) {
+                emptyRestartCount++;
+                if (emptyRestartCount >= 3) {
+                  sttFatal = true;
+                  emitSttWarning('no-speech');
+                  return;
+                }
+              } else {
+                hasSpeechResult = false;
+              }
+
+              // Nghỉ nhẹ 160ms trước khi nối phiên mới để tránh xung đột phần cứng
+              if (sttTimerId) clearTimeout(sttTimerId);
+              sttTimerId = setTimeout(function () {
+                if (!isRecording || !recognition || sttFatal) return;
+                try {
+                  recognition.start();
+                } catch (e) {
+                  sttFatal = true;
+                  emitSttWarning('aborted');
+                }
+              }, 160);
+            };
+            recognition.start();
+          } catch (e) {
+            recognition = null;
+            sttFatal = true;
+            emitSttWarning('aborted');
+          }
         }
 
         secTimerId = setInterval(function () {
-          if (!isRecording || isStopping) return;
+          if (!isRecording) return;
           var sec = Math.max(1, Math.round((Date.now() - startTs) / 1000));
           if (currentCallbacks && currentCallbacks.onTick) currentCallbacks.onTick(sec);
           if (o.maxSeconds && sec >= o.maxSeconds) {
@@ -1517,94 +1139,64 @@
       }).catch(function (err) {
         stopResources();
         if (o.onUnsupported) {
-          o.onUnsupported(describeMediaError(err, env));
+          o.onUnsupported(describeMediaError(err));
         }
         return false;
       });
     }
 
     function stop() {
-      if (activeStopPromise) return activeStopPromise;
       if (!isRecording) return Promise.resolve(null);
-      isStopping = true;
-
       var elapsed = Math.max(1, Math.round((Date.now() - startTs) / 1000));
+      var transcript = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
       var recorderRef = mediaRecorder;
       var chunksRef = audioChunks.slice();
       var finishCb = onAutoStopCb;
       mediaRecorder = null;
       audioChunks = [];
       onAutoStopCb = null;
+      currentCallbacks = null;
 
-      // Cho SpeechRecognition tối đa 550ms để trả nốt gói isFinal cuối trước khi chốt transcript
-      var flushPromise = new Promise(function (resolve) {
-        if (!recognition) {
-          resolve();
-          return;
-        }
-        var settled = false;
-        var done = function () {
-          if (settled) return;
-          settled = true;
-          pendingStopResolve = null;
-          resolve();
+      return new Promise(function (resolve) {
+        var finalizeBlob = function (blob) {
+          stopResources();
+          var id = blob ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
+          var saveProm = (blob && id) ? AudioVault.saveBlob(id, blob) : Promise.resolve('');
+          saveProm.then(function (url) {
+            var payload = {
+              id: id,
+              url: url || '',
+              blob: blob || null,
+              mimeType: (blob && blob.type) ? blob.type : '',
+              durationSec: elapsed,
+              transcript: transcript,
+              wpm: computeWpm(transcript, elapsed)
+            };
+            if (finishCb) finishCb(payload);
+            resolve(payload);
+          });
         };
-        pendingStopResolve = done;
-        setTimeout(done, 550);
-        try {
-          recognition.stop();
-        } catch (e) {
-          done();
+
+        if (recorderRef && recorderRef.state !== 'inactive') {
+          try {
+            recorderRef.onstop = function () {
+              var blob = chunksRef.length ? new Blob(chunksRef, { type: recorderRef.mimeType || 'audio/webm' }) : null;
+              finalizeBlob(blob);
+            };
+            recorderRef.ondataavailable = function (ev) {
+              if (ev.data && ev.data.size > 0) chunksRef.push(ev.data);
+            };
+            recorderRef.stop();
+            return;
+          } catch (e) {}
         }
+        finalizeBlob(null);
       });
-
-      activeStopPromise = flushPromise.then(function () {
-        var transcript = mergeSttFragments(finalTranscript, interimTranscript);
-        currentCallbacks = null;
-        return new Promise(function (resolve) {
-          var finalizeBlob = function (blob) {
-            stopResources();
-            var id = blob ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
-            var saveProm = (blob && id) ? AudioVault.saveBlob(id, blob) : Promise.resolve('');
-            saveProm.then(function (url) {
-              var payload = {
-                id: id,
-                url: url || '',
-                blob: blob || null,
-                mimeType: (blob && blob.type) ? blob.type : '',
-                durationSec: elapsed,
-                transcript: transcript,
-                wpm: computeWpm(transcript, elapsed)
-              };
-              if (finishCb) finishCb(payload);
-              resolve(payload);
-            });
-          };
-
-          if (recorderRef && recorderRef.state !== 'inactive') {
-            try {
-              recorderRef.onstop = function () {
-                var blob = chunksRef.length ? new Blob(chunksRef, { type: recorderRef.mimeType || 'audio/webm' }) : null;
-                finalizeBlob(blob);
-              };
-              recorderRef.ondataavailable = function (ev) {
-                if (ev.data && ev.data.size > 0) chunksRef.push(ev.data);
-              };
-              recorderRef.stop();
-              return;
-            } catch (e) {}
-          }
-          finalizeBlob(null);
-        });
-      });
-
-      return activeStopPromise;
     }
 
     function cancel() {
       onAutoStopCb = null;
       currentCallbacks = null;
-      currentOpts = null;
       var recorderRef = mediaRecorder;
       mediaRecorder = null;
       audioChunks = [];
@@ -1623,52 +1215,19 @@
       stop: stop,
       cancel: cancel,
       isActive: function () { return isRecording; },
-      isSttStickyBroken: isSttStickyBroken,
-      resetSticky: resetSttSticky,
-      getEnvironment: getSttEnv
+      isSttStickyBroken: function () { return false; },
+      resetSticky: function () {},
+      getEnvironment: function () { return {}; }
     };
   })();
 
   global.MicEngine = MicEngine;
 
   function renderSttEnvBannerHtml() {
-    try {
-      if (global.sessionStorage && global.sessionStorage.getItem('lp_sp_env_banner_dismissed') === '1') return '';
-    } catch (e) {}
-    var env = MicEngine.getEnvironment();
-    var msg = '';
-    if (env.isInAppWebView) {
-      msg = '📱 <b>Đang mở trong trình duyệt tích hợp (Zalo/Facebook/TikTok):</b> Micro & nhận diện giọng nói thường bị chặn. Hãy bấm biểu tượng <b>⋮</b> (hoặc Chia sẻ) chọn <b>Mở bằng Chrome / Safari</b> để luyện nói ổn định nhất.';
-    } else if (env.isUnsupportedBrowser || !env.hasStt) {
-      msg = env.isIOS
-        ? '🍎 <b>Thiết bị iOS / Safari:</b> Chưa hỗ trợ nhận chữ trực tiếp qua Web Speech. App vẫn thu âm giọng nói để bạn nghe lại đối chiếu hoặc gõ chữ chấm điểm.'
-        : '🌐 <b>Trình duyệt này chưa hỗ trợ nhận chữ Google Web Speech:</b> App vẫn ghi âm giọng thật để bạn nghe lại; hãy mở bằng <b>Google Chrome / Edge</b> nếu muốn chữ hiện tự động khi nói.';
-    } else if (MicEngine.isSttStickyBroken()) {
-      msg = '🎙️ <b>Đang tạm chuyển sang Thu âm Audio (tối đa 2 phút):</b> Web Speech trên ' + (env.isStandalone ? 'app màn hình chính (PWA)' : 'thiết bị') + ' vừa không phản hồi 2 lượt liên tiếp. Hệ thống sẽ tự thử lại sau ít phút hoặc bạn bấm: <button type="button" class="mini-btn" style="margin-left:4px;padding:2px 8px;font-size:11.5px;" onclick="window._spRetryStt && window._spRetryStt()">🔄 Thử lại STT</button>';
-    }
-    if (!msg) return '';
-    return '<div class="sp-env-banner" role="status">'
-      + '  <span>' + msg + '</span>'
-      + '  <button type="button" class="sp-env-banner-close" title="Ẩn thông báo này" onclick="window._spDismissSttBanner && window._spDismissSttBanner()">✕</button>'
-      + '</div>';
+    return '';
   }
 
-  global._spRetryStt = function () {
-    MicEngine.resetSticky();
-    document.querySelectorAll('.sp-env-banner').forEach(function (el) { el.remove(); });
-    syncPzLobbyEnvBanner();
-    showToast('Đã bật lại nhận diện giọng nói (STT) cho lượt thu tiếp theo.', 'info');
-  };
-
-  global._spDismissSttBanner = function () {
-    try { if (global.sessionStorage) global.sessionStorage.setItem('lp_sp_env_banner_dismissed', '1'); } catch (e) {}
-    document.querySelectorAll('.sp-env-banner').forEach(function (el) { el.remove(); });
-  };
-
-  function syncPzLobbyEnvBanner() {
-    var host = document.getElementById('pzEnvBannerHost');
-    if (host) host.innerHTML = renderSttEnvBannerHtml();
-  }
+  function syncPzLobbyEnvBanner() {}
 
   // =========================================================================
   // 5. THUẬT TOÁN SO KHỚP SHADOWING & PHÂN TÍCH TỪ VỰNG / 4 TIÊU CHÍ
@@ -3345,8 +2904,6 @@
         setShadowBanner('warn', msg);
       },
       onFinish: function (res) {
-        var lessonIdSnap = activeLesson ? activeLesson.id : '';
-        var idxSnap = studioState.shadowIdx;
         if (res && res.transcript) studioState.shadowSpokenText = res.transcript;
         if (res && res.url) {
           studioState.shadowAudioUrl = res.url;
@@ -3358,23 +2915,12 @@
           studioState.shadowStatusMsg = sessionWarning;
         } else if (!studioState.shadowSpokenText.trim() && studioState.shadowAudioUrl) {
           studioState.shadowStatusKind = 'ready';
-          studioState.shadowStatusMsg = getStoredGeminiKey()
-            ? '🤖 Web Speech không trả chữ — đang nhờ Gemini nghe bản thu để chấm độ khớp...'
-            : '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
+          studioState.shadowStatusMsg = '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
         } else {
           studioState.shadowStatusKind = '';
           studioState.shadowStatusMsg = '';
         }
         renderModeShadowing(activeLesson);
-
-        autoTranscribeRecordingIfEmpty(res, function (txt) {
-          if (!txt || !activeLesson || activeLesson.id !== lessonIdSnap || studioState.shadowIdx !== idxSnap) return;
-          studioState.shadowSpokenText = txt;
-          studioState.shadowResult = matchShadowSentence(cur.text, txt);
-          studioState.shadowStatusKind = 'live';
-          studioState.shadowStatusMsg = '🤖 Gemini đã nghe bản thu & chấm độ khớp: ' + studioState.shadowResult.accuracy + '%!';
-          renderModeShadowing(activeLesson);
-        }, { contextHint: cur.text });
       }
     });
   };
@@ -3588,8 +3134,6 @@
       },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
-        var lessonIdSnap = activeLesson ? activeLesson.id : '';
-        var ctxPrompt = getActivePromptContext(activeLesson);
         if (res) {
           if (res.transcript) studioState.recTranscript = res.transcript;
           studioState.recordingSec = res.durationSec || studioState.recordingSec;
@@ -3598,19 +3142,6 @@
           studioState.recAudioUrl = res.url;
         }
         renderModeRecord(activeLesson);
-        autoTranscribeRecordingIfEmpty(res, function (txt) {
-          if (!txt || !activeLesson || activeLesson.id !== lessonIdSnap) return;
-          studioState.recTranscript = txt;
-          studioState.recWpm = computeWpm(txt, studioState.recordingSec);
-          renderModeRecord(activeLesson);
-          showToast('🤖 Gemini đã tự chép lời từ bản ghi âm của bạn!', 'success');
-        }, {
-          contextHint: ctxPrompt ? ctxPrompt.promptText : '',
-          onStart: function () {
-            var inp = document.getElementById('studioTranscriptInput');
-            if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhờ Gemini nghe bản thu và chép lời tự động...';
-          }
-        });
       }
     });
   };
@@ -6782,12 +6313,6 @@
           recordSlot.wpm = computeWpm(recordSlot.transcript, recordSlot.durationSec);
           recordSlot.audioId = res.id;
           recordSlot.audioUrl = res.url;
-          autoTranscribeRecordingIfEmpty(res, function (txt) {
-            if (!txt || !pzExam.active) return;
-            recordSlot.transcript = txt;
-            recordSlot.wpm = computeWpm(txt, recordSlot.durationSec);
-            if (pzExam.phase === 'part2_talk') renderPzStage();
-          }, { contextHint: recordSlot.question });
         }
       }
     });
@@ -6798,73 +6323,56 @@
     clearPzTimer();
     pzExam.subStage = 'stopped_notice';
     var sessionStartedAt = pzExam.startedAt;
-    MicEngine.stop().then(function (res) {
+    MicEngine.stop().then(function () {
       if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+      var stopLine = PzDialogueEngine.getPhaseScript('part2_stop', {
+        style: pzExam.resolvedStyle,
+        seed: pzExam.styleSeed || 0,
+        usedTemplates: pzExam.usedTemplates,
+        fallback: (pzExam.lesson.part2 && pzExam.lesson.part2.stopScript) || 'Thank you very much. I will stop you there.'
+      });
+      pzExam.lastStopLine = stopLine;
       var p2Slot = ensurePzResponseSlot('part2_long', 'Part 2 Long Turn', (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '');
-      var needTranscribe = Boolean(res && !String(p2Slot.transcript || res.transcript || '').trim() && res.blob && getStoredGeminiKey());
-      if (needTranscribe) {
-        pzExam.aiThinking = true;
-        renderPzStage();
-      }
-      var trProm = needTranscribe
-        ? autoTranscribeRecordingIfEmpty(res, function (txt) {
-          if (txt) {
-            p2Slot.transcript = txt;
-            p2Slot.wpm = computeWpm(txt, p2Slot.durationSec || pzExam.p2TalkElapsed);
-          }
-        }, { contextHint: p2Slot.question })
-        : Promise.resolve(p2Slot.transcript);
-
-      trProm.then(function () {
-        if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-        var stopLine = PzDialogueEngine.getPhaseScript('part2_stop', {
+      var offlinePart2 = PzDialogueEngine.buildPart2StopReaction({
+        transcript: p2Slot.transcript,
+        stopScript: stopLine,
+        roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
+        candidateName: pzExam.candidateName,
+        style: pzExam.resolvedStyle,
+        seed: pzExam.styleSeed || 0,
+        usedTemplates: pzExam.usedTemplates
+      });
+      var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(getStoredGeminiKey());
+      var reactionPromise = hasHybridAi
+        ? PzAiExaminer.buildPart2StopReactionHybrid({
+          mode: pzExam.dialogueMode,
+          apiKey: getStoredGeminiKey(),
+          model: prefs.pzGeminiModel,
           style: pzExam.resolvedStyle,
-          seed: pzExam.styleSeed || 0,
-          usedTemplates: pzExam.usedTemplates,
-          fallback: (pzExam.lesson.part2 && pzExam.lesson.part2.stopScript) || 'Thank you very much. I will stop you there.'
-        });
-        pzExam.lastStopLine = stopLine;
-        var offlinePart2 = PzDialogueEngine.buildPart2StopReaction({
+          sessionSeed: pzExam.styleSeed || 0,
           transcript: p2Slot.transcript,
+          prompt: (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '',
           stopScript: stopLine,
           roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
-          candidateName: pzExam.candidateName,
-          style: pzExam.resolvedStyle,
-          seed: pzExam.styleSeed || 0,
-          usedTemplates: pzExam.usedTemplates
-        });
-        var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(getStoredGeminiKey());
-        var reactionPromise = hasHybridAi
-          ? PzAiExaminer.buildPart2StopReactionHybrid({
-            mode: pzExam.dialogueMode,
-            apiKey: getStoredGeminiKey(),
-            model: prefs.pzGeminiModel,
-            style: pzExam.resolvedStyle,
-            sessionSeed: pzExam.styleSeed || 0,
-            transcript: p2Slot.transcript,
-            prompt: (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '',
-            stopScript: stopLine,
-            roundingOffQ: pzExam.lesson.part2 && pzExam.lesson.part2.roundingOffQ,
-            candidateName: pzExam.candidateName
-          }, offlinePart2)
-          : Promise.resolve(Object.assign({}, offlinePart2, { source: 'offline' }));
+          candidateName: pzExam.candidateName
+        }, offlinePart2)
+        : Promise.resolve(Object.assign({}, offlinePart2, { source: 'offline' }));
 
-        setPzTimerText('Thank you', 'warn');
-        if (hasHybridAi) {
-          pzExam.aiThinking = true;
-          renderPzStage();
-        } else {
-          pzExam.aiThinking = false;
-        }
-        reactionPromise.then(function (reaction) {
-          pzExam.aiThinking = false;
+      setPzTimerText('Thank you', 'warn');
+      if (hasHybridAi) {
+        pzExam.aiThinking = true;
+        renderPzStage();
+      } else {
+        pzExam.aiThinking = false;
+      }
+      reactionPromise.then(function (reaction) {
+        pzExam.aiThinking = false;
+        if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+        speakExaminerLines(tagSpokenLines(reaction.stopLines, 'transition', 'Chuyển Part 2', reaction.source || 'offline'), function () {
           if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-          speakExaminerLines(tagSpokenLines(reaction.stopLines, 'transition', 'Chuyển Part 2', reaction.source || 'offline'), function () {
-            if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-            enterPzPhase('part2_round', 0, {
-              roundingIntro: reaction.roundingIntro,
-              reactionSource: reaction.source || 'offline'
-            });
+          enterPzPhase('part2_round', 0, {
+            roundingIntro: reaction.roundingIntro,
+            reactionSource: reaction.source || 'offline'
           });
         });
       });
@@ -7373,18 +6881,11 @@
       },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
-        var stamp = pzExam.startedAt;
         if (res) {
           if (res.transcript) activeTurn.setTranscript(res.transcript);
           var dur = res.durationSec || pzExam.turnElapsedSec;
           activeTurn.setMetrics(dur, computeWpm(activeTurn.getTranscript(), dur));
           activeTurn.setAudio(res.id, res.url);
-          autoTranscribeRecordingIfEmpty(res, function (txt) {
-            if (!txt || !pzExam.active || pzExam.startedAt !== stamp) return;
-            activeTurn.setTranscript(txt);
-            activeTurn.setMetrics(dur, computeWpm(txt, dur));
-            renderPzStage();
-          }, { contextHint: meta.qText });
         }
         renderPzStage();
       }
@@ -7512,78 +7013,59 @@
     if (pzExam.aiThinking || pzExam.subStage === 'finishing_report' || pzExam.subStage === 'stopped_notice') return;
     var sessionStartedAt = pzExam.startedAt;
     var finishPromise = MicEngine.isActive() ? MicEngine.stop() : Promise.resolve(null);
-    finishPromise.then(function (micRes) {
+    finishPromise.then(function () {
       var L = pzExam.lesson;
       if (!L || !pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
 
       var meta = getActivePzQuestionMeta();
       var slot = meta ? ensurePzResponseSlot(meta.key, meta.label, meta.qText) : null;
       var activeTurn = slot ? getPzActiveTurnFields(slot) : null;
-      var curBefore = activeTurn ? activeTurn.getTranscript() : '';
-
-      var needAudioStt = Boolean(micRes && !String(curBefore || '').trim() && micRes.blob && getStoredGeminiKey());
-      if (needAudioStt) {
-        pzExam.aiThinking = true;
-        renderPzStage();
+      var curTranscript = activeTurn ? activeTurn.getTranscript() : '';
+      if (curTranscript) {
+        recordPzDialogueEntry('candidate', activeTurn && activeTurn.isFollowUp ? 'followup_answer' : 'answer', curTranscript, meta ? meta.label : '');
       }
-      var ensureTx = needAudioStt
-        ? autoTranscribeRecordingIfEmpty(micRes, function (txt) {
-          if (txt && activeTurn) {
-            activeTurn.setTranscript(txt);
-            activeTurn.setMetrics(micRes.durationSec || pzExam.turnElapsedSec, computeWpm(txt, micRes.durationSec || pzExam.turnElapsedSec));
-          }
-        }, { contextHint: meta ? meta.qText : '' })
-        : Promise.resolve(curBefore);
 
-      ensureTx.then(function () {
+      var turnCtx = {
+        phase: pzExam.phase,
+        stepIndex: pzExam.stepIndex,
+        warmupStep: pzExam.warmupStep,
+        candidateName: pzExam.candidateName,
+        transcript: curTranscript,
+        meta: meta,
+        slot: slot,
+        activeFollowUpQ: pzExam.activeFollowUpQ,
+        topicTitle: L.cleanTitle || L.title,
+        style: pzExam.resolvedStyle,
+        sessionSeed: pzExam.styleSeed || 0,
+        usedTemplates: pzExam.usedTemplates,
+        examinerPersona: L.examinerPersona
+      };
+      var offlineDecision = PzDialogueEngine.decideTurn(turnCtx);
+      var apiKey = getStoredGeminiKey();
+      var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid'
+        && Boolean(apiKey)
+        && offlineDecision.intent !== 'repeat'
+        && (Boolean(String(curTranscript || '').trim()) || pzExam.phase === 'warmup');
+
+      if (!useHybridAi) {
+        pzExam.aiThinking = false;
+        applyPzTurnDecision(Object.assign({}, offlineDecision, { source: 'offline' }), L, slot, activeTurn, meta);
+        return;
+      }
+
+      pzExam.aiThinking = true;
+      renderPzStage();
+
+      PzAiExaminer.decideTurnHybrid(Object.assign({}, turnCtx, {
+        mode: pzExam.dialogueMode,
+        apiKey: apiKey,
+        model: prefs.pzGeminiModel,
+        lesson: L,
+        dialogueHistory: pzExam.dialogueHistory
+      }), offlineDecision).then(function (finalDecision) {
+        pzExam.aiThinking = false;
         if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-        var curTranscript = activeTurn ? activeTurn.getTranscript() : '';
-        if (curTranscript) {
-          recordPzDialogueEntry('candidate', activeTurn && activeTurn.isFollowUp ? 'followup_answer' : 'answer', curTranscript, meta ? meta.label : '');
-        }
-
-        var turnCtx = {
-          phase: pzExam.phase,
-          stepIndex: pzExam.stepIndex,
-          warmupStep: pzExam.warmupStep,
-          candidateName: pzExam.candidateName,
-          transcript: curTranscript,
-          meta: meta,
-          slot: slot,
-          activeFollowUpQ: pzExam.activeFollowUpQ,
-          topicTitle: L.cleanTitle || L.title,
-          style: pzExam.resolvedStyle,
-          sessionSeed: pzExam.styleSeed || 0,
-          usedTemplates: pzExam.usedTemplates,
-          examinerPersona: L.examinerPersona
-        };
-        var offlineDecision = PzDialogueEngine.decideTurn(turnCtx);
-        var apiKey = getStoredGeminiKey();
-        var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid'
-          && Boolean(apiKey)
-          && offlineDecision.intent !== 'repeat'
-          && (Boolean(String(curTranscript || '').trim()) || pzExam.phase === 'warmup');
-
-        if (!useHybridAi) {
-          pzExam.aiThinking = false;
-          applyPzTurnDecision(Object.assign({}, offlineDecision, { source: 'offline' }), L, slot, activeTurn, meta);
-          return;
-        }
-
-        pzExam.aiThinking = true;
-        renderPzStage();
-
-        PzAiExaminer.decideTurnHybrid(Object.assign({}, turnCtx, {
-          mode: pzExam.dialogueMode,
-          apiKey: apiKey,
-          model: prefs.pzGeminiModel,
-          lesson: L,
-          dialogueHistory: pzExam.dialogueHistory
-        }), offlineDecision).then(function (finalDecision) {
-          pzExam.aiThinking = false;
-          if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
-          applyPzTurnDecision(finalDecision, L, slot, activeTurn, meta);
-        });
+        applyPzTurnDecision(finalDecision, L, slot, activeTurn, meta);
       });
     });
   };
