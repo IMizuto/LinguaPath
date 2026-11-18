@@ -2343,18 +2343,6 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   selectLesson(initialLesson.id);
 }
 
-// Quiet background preload of remaining chunks during idle time
-setTimeout(function() {
-  const remainingUnits = ['u_5', 'u_3', 'u_1', 'u_2', 'u_4', 'u_6'].filter(u => !window.__STUDY4_LISTEN_CHUNK || !window.__STUDY4_LISTEN_CHUNK[u]);
-  let idx = 0;
-  function loadNext() {
-    if (idx >= remainingUnits.length) return;
-    ensureChunkLoaded(remainingUnits[idx++], function() {
-      setTimeout(loadNext, 400);
-    });
-  }
-  loadNext();
-}, 1200);
 </script>
   <script src="../assets/s4-practice-zone.js?v=65"></script>
   <script src="../auth.js?v=31"></script>

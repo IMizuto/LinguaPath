@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v89";
+const CACHE_NAME = "linguapath-cache-v90";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -17,7 +17,6 @@ const CORE_ASSETS = [
   "./vocab/index.html",
   "./vocab/vocab_data.js",
   "./grammar/index.html",
-  "./grammar/grammar_data.js",
   "./listening/index.html",
   "./listening/data/listening_manifest.js",
   "./reading/index.html",
@@ -26,16 +25,12 @@ const CORE_ASSETS = [
   "./writing/writing.css?v=9",
   "./writing/writing.js?v=10",
   "./writing/writing_parser.js?v=3",
-  "./writing/writing_data.js?v=3",
-  "./writing/data/writing_practice_zone.js?v=1",
   "./speaking/",
   "./speaking/index.html",
   "./speaking/speaking.css?v=8",
   "./speaking/speaking.js?v=18",
   "./speaking/speaking_parser.js?v=6",
-  "./speaking/speaking_data.js?v=2",
-  "./tedtalks/index.html",
-  "./tedtalks/tedtalks_data.js"
+  "./tedtalks/index.html"
 ];
 
 self.addEventListener("install", (event) => {
@@ -66,15 +61,21 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  // Request Range (phát audio/video, tua) để trình duyệt tự xử lý, không trả bản 200 đầy đủ từ cache
+  if (event.request.headers && typeof event.request.headers.get === "function" && event.request.headers.get("range")) return;
 
-  const isMedia = /\.(mp3|jpg|jpeg|png|gif|pdf|svg)$/i.test(url.pathname);
+  const isMedia = /\.(mp3|m4a|mp4|webm|jpg|jpeg|png|gif|webp|pdf|svg)$/i.test(url.pathname);
   if (isMedia) {
     event.respondWith(
       caches.match(event.request, { ignoreSearch: true }).then((cached) => {
         if (cached) return cached;
         return fetch(event.request).then((resp) => {
-          const clone = resp.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          if (resp && resp.ok && resp.status === 200) {
+            const clone = resp.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, clone))
+              .catch(() => {});
+          }
           return resp;
         });
       })
@@ -83,9 +84,11 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request.url, { cache: "no-cache", redirect: "follow" })
         .then((resp) => {
-          if (resp && resp.ok) {
+          if (resp && resp.ok && resp.status === 200) {
             const clone = resp.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, clone))
+              .catch(() => {});
           }
           return resp;
         })

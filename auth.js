@@ -8,6 +8,7 @@
   const DB = "https://study4-app-default-rtdb.firebaseio.com";
   const K = { cfg: "s4_auth_config_v2", session: "s4_auth_session_v2", cache: "s4_auth_cache_v2" };
   const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2", P_VSES = "s4_vocab_active_session_v2";
+  const VOCAB_SCOPE_KEYS = [P_SRS, P_DAYS, P_SET, P_VSES];
   const P_GDONE = "s4_grammar_done", P_GLAST = "s4_grammar_last";
   const P_LDONE = "s4_listening_done", P_LLAST = "s4_listening_last_v2", P_LSRS = "s4_listening_srs_v1", P_LDAYS = "s4_listening_days_v1", P_LSET = "s4_listening_settings_v1", P_LSES = "s4_listening_vocab_session_v1", P_LPOS = "s4_listening_lesson_pos_v1", P_LNOTES = "s4_listening_notes_v1", P_LUNIT = "s4_listen_last_by_unit", P_LSUBS = "lp_listening_submissions_v1", P_LPZANS = "s4_pz_listen_answers_v1";
   const P_RDONE = "s4_reading_done", P_RLAST = "s4_reading_last_v2", P_RSRS = "s4_reading_srs_v1", P_RDAYS = "s4_reading_days_v1", P_RSET = "s4_reading_settings_v1", P_RSES = "s4_reading_vocab_session_v1", P_RUNIT = "s4_read_last_by_unit", P_RSUBS = "lp_reading_submissions_v1", P_RPZANS = "s4_pz_read_answers_v1";
@@ -491,6 +492,13 @@
     if (parsed && typeof parsed === "object") return Object.values(parsed).filter(Boolean).length;
     return 0;
   }
+  function countWritingDoneEntries(raw) {
+    const parsed = parseJ(raw, null);
+    const ids = Array.isArray(parsed)
+      ? parsed.filter(Boolean)
+      : (parsed && typeof parsed === "object" ? Object.keys(parsed).filter(k => parsed[k]) : []);
+    return ids.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_[1-3]$/.test(String(id))).length;
+  }
 
   function countSrsEntries(raw) {
     const srs = parseJ(raw, {});
@@ -525,7 +533,7 @@
     const grammarDone = countDoneEntries(map[P_GDONE]);
     const listeningDone = countDoneEntries(map[P_LDONE]);
     const readingDone = countDoneEntries(map[P_RDONE]);
-    const writingDone = countDoneEntries(map[P_WDONE]);
+    const writingDone = countWritingDoneEntries(map[P_WDONE]);
     const speakingDone = countDoneEntries(map[P_SDONE]);
     const tedDone = countDoneEntries(map[P_TDONE]);
 
@@ -606,52 +614,8 @@
       recent7
     };
   }
-  function hasProgress(map) {
-    const s = progressStats(map);
-    return s.totalWordsAll > 0 || s.totalLessonsAll > 0 || !!(map && (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_LPOS]));
-  }
-
-  const getSync = u => loadObj("s4_auth_sync_" + u, null);
-  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0 }, getSync(u) || {}, patch)));
-
-  let changeCounter = 0, pushTimer = null;
-  function onProgressChanged() {
-    if (!session) return;
-    changeCounter++;
-    setSync(session.username, { dirty: true, localTs: Date.now() });
-    clearTimeout(pushTimer);
-    pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, 3500);
-  }
-  Storage.prototype.setItem = function (k, v) {
-    _setItem.call(this, k, v);
-    if (!hookSuspended && this === localStorage && PROGRESS_KEYS.indexOf(k) >= 0) onProgressChanged();
-  };
-  Storage.prototype.removeItem = function (k) {
-    _removeItem.call(this, k);
-    if (!hookSuspended && this === localStorage && PROGRESS_KEYS.indexOf(k) >= 0) onProgressChanged();
-  };
-
-  async function pushProgress(opts) {
-    if (!session) return false;
-    const uname = session.username;
-    const mark = changeCounter;
-    const ts = Date.now();
-    let data = readProgress();
-
-try {
-  const remote = await db(`study4_progress/${uname}`);
-  const rdata = (remote && remote.data) || {};
-  if (hasProgress(rdata)) {
-    const merged = mergeProgress(data, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
-    if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
-  }
-} catch (e) { /* Không đọc được Cloud: vẫn đẩy bản local hiện có */ }
-    const body = { data: data, updatedAt: ts };
-    const small = JSON.stringify(body).length < 60000;
-    await db(`study4_progress/${uname}`, "PUT", body, { keepalive: !!(opts && opts.keepalive && small) });
-    setSync(uname, { base: ts, dirty: changeCounter !== mark });
-    const st = progressStats(data);
-    db(`study4_users/${uname}`, "PATCH", {
+  function buildProgressStatsPatch(st) {
+    return {
       vocabLearned: st.vocabLearned,
       vocabIgnored: st.vocabIgnored,
       vocabMastered: st.vocabMastered,
@@ -673,7 +637,138 @@ try {
       streakDays: st.streakDays,
       totalStudyDays: st.totalStudyDays,
       lastActive: new Date().toISOString()
-    }).catch(() => {});
+    };
+  }
+  function hasProgress(map) {
+    const s = progressStats(map);
+    return s.totalWordsAll > 0 || s.totalLessonsAll > 0 || !!(map && (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_LPOS]));
+  }
+
+  const getSync = u => loadObj("s4_auth_sync_" + u, null);
+  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0, resetAt: 0, vocabResetAt: 0, pendingOverwrite: null }, getSync(u) || {}, patch)));
+
+  let changeCounter = 0, pushTimer = null, pendingOverwriteMem = null;
+  function allowOverwriteOnce(scope) {
+    const normScope = scope === "vocab" ? "vocab" : "all";
+    const now = Date.now();
+    if (!session || !session.username) return;
+    const ow = { scope: normScope, ts: now, expiresAt: now + 86400000, user: session.username };
+    pendingOverwriteMem = ow;
+    {
+      setSync(session.username, { dirty: true, localTs: now, pendingOverwrite: ow });
+      clearTimeout(pushTimer);
+      pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, 250);
+    }
+  }
+  function onProgressChanged() {
+    if (!session) return;
+    changeCounter++;
+    const now = Date.now();
+    setSync(session.username, { dirty: true, localTs: now });
+    const hasOw = Boolean(pendingOverwriteMem && pendingOverwriteMem.expiresAt > now && (!pendingOverwriteMem.user || pendingOverwriteMem.user === session.username));
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, hasOw ? 250 : 3500);
+  }
+  Storage.prototype.setItem = function (k, v) {
+    _setItem.call(this, k, v);
+    if (!hookSuspended && this === localStorage && PROGRESS_KEYS.indexOf(k) >= 0) onProgressChanged();
+  };
+  Storage.prototype.removeItem = function (k) {
+    _removeItem.call(this, k);
+    if (!hookSuspended && this === localStorage && PROGRESS_KEYS.indexOf(k) >= 0) onProgressChanged();
+  };
+
+  async function pushProgress(opts) {
+    if (!session) return false;
+    const uname = session.username;
+    const mark = changeCounter;
+    const ts = Date.now();
+    let data = readProgress();
+    const rawSync = getSync(uname);
+    const sync = rawSync || {};
+    const memOw = (pendingOverwriteMem && pendingOverwriteMem.expiresAt > ts && (!pendingOverwriteMem.user || pendingOverwriteMem.user === uname))
+      ? pendingOverwriteMem
+      : null;
+    const ow = (sync.pendingOverwrite && sync.pendingOverwrite.expiresAt > ts)
+      ? sync.pendingOverwrite
+      : memOw;
+    let nextResetAt = Number(sync.resetAt || 0);
+    let nextVocabResetAt = Number(sync.vocabResetAt || 0);
+    let remoteReadOk = false;
+
+    try {
+      const remote = await db(`study4_progress/${uname}`);
+      remoteReadOk = true;
+      const rdata = (remote && remote.data) || {};
+      const rResetAt = Number((remote && remote.resetAt) || 0);
+      const rVocabResetAt = Number((remote && remote.vocabResetAt) || 0);
+
+      if (ow && ow.scope === "all") {
+        nextResetAt = Math.max(ts, rResetAt + 1);
+        nextVocabResetAt = Math.max(ts, rVocabResetAt + 1);
+      } else if (ow && ow.scope === "vocab") {
+        if (hasProgress(rdata)) {
+          const rNonVocab = Object.assign({}, rdata);
+          VOCAB_SCOPE_KEYS.forEach(k => delete rNonVocab[k]);
+          const merged = mergeProgress(data, rNonVocab, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
+          VOCAB_SCOPE_KEYS.forEach(k => {
+            if (data[k] !== undefined) merged[k] = data[k];
+            else delete merged[k];
+          });
+          if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
+        }
+        nextResetAt = Math.max(nextResetAt, rResetAt);
+        nextVocabResetAt = Math.max(ts, rVocabResetAt + 1);
+      } else if (rawSync && remote && rResetAt > nextResetAt) {
+        data = Object.assign({}, rdata);
+        writeProgress(data);
+        nextResetAt = rResetAt;
+        nextVocabResetAt = Math.max(nextVocabResetAt, rVocabResetAt);
+      } else if (rawSync && remote && rVocabResetAt > nextVocabResetAt) {
+        const lWithoutVocab = Object.assign({}, data);
+        VOCAB_SCOPE_KEYS.forEach(k => delete lWithoutVocab[k]);
+        const merged = mergeProgress(lWithoutVocab, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
+        VOCAB_SCOPE_KEYS.forEach(k => {
+          if (rdata[k] !== undefined) merged[k] = rdata[k];
+          else delete merged[k];
+        });
+        if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
+        nextResetAt = Math.max(nextResetAt, rResetAt);
+        nextVocabResetAt = rVocabResetAt;
+      } else {
+        if (hasProgress(rdata)) {
+          const merged = mergeProgress(data, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
+          if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
+        }
+        nextResetAt = Math.max(nextResetAt, rResetAt);
+        nextVocabResetAt = Math.max(nextVocabResetAt, rVocabResetAt);
+      }
+    } catch (e) { /* Không đọc được Cloud: vẫn đẩy bản local hiện có */ }
+
+    if (!remoteReadOk && ow) {
+      if (ow.scope === "all") {
+        nextResetAt = Math.max(ts, nextResetAt + 1);
+        nextVocabResetAt = Math.max(ts, nextVocabResetAt + 1);
+      } else if (ow.scope === "vocab") {
+        nextVocabResetAt = Math.max(ts, nextVocabResetAt + 1);
+      }
+    }
+
+    const body = { data: data, updatedAt: ts };
+    if (nextResetAt > 0) body.resetAt = nextResetAt;
+    if (nextVocabResetAt > 0) body.vocabResetAt = nextVocabResetAt;
+    const small = JSON.stringify(body).length < 60000;
+    await db(`study4_progress/${uname}`, "PUT", body, { keepalive: !!(opts && opts.keepalive && small) });
+    pendingOverwriteMem = null;
+    setSync(uname, {
+      base: ts,
+      dirty: changeCounter !== mark,
+      resetAt: nextResetAt,
+      vocabResetAt: nextVocabResetAt,
+      pendingOverwrite: null
+    });
+    const st = progressStats(data);
+    db(`study4_users/${uname}`, "PATCH", buildProgressStatsPatch(st)).catch(() => {});
     return true;
   }
 
@@ -693,15 +788,44 @@ try {
   async function syncProgress(forceMerge) {
     if (!session) return;
     const uname = session.username;
+    const sync = getSync(uname);
+    const now = Date.now();
+    const hasPendingOw = Boolean(
+      (sync && sync.pendingOverwrite && sync.pendingOverwrite.expiresAt > now) ||
+      (pendingOverwriteMem && pendingOverwriteMem.expiresAt > now && (!pendingOverwriteMem.user || pendingOverwriteMem.user === uname))
+    );
+    if (hasPendingOw) {
+      await pushProgress();
+      return;
+    }
     const remote = await db(`study4_progress/${uname}`);
     const local = readProgress();
-    const sync = getSync(uname);
     const rdata = (remote && remote.data) || {};
     const rts = (remote && remote.updatedAt) || 0;
+    const rResetAt = Number((remote && remote.resetAt) || 0);
+    const rVocabResetAt = Number((remote && remote.vocabResetAt) || 0);
+    const lResetAt = Number((sync && sync.resetAt) || 0);
+    const lVocabResetAt = Number((sync && sync.vocabResetAt) || 0);
     let target = null, needPush = false;
 
     if (!remote) {
       if (hasProgress(local)) needPush = true;
+    } else if (sync && rResetAt > lResetAt) {
+      target = Object.assign({}, rdata);
+      needPush = false;
+    } else if (sync && rVocabResetAt > lVocabResetAt) {
+      if (!sync.dirty) {
+        target = Object.assign({}, rdata);
+      } else {
+        const lWithoutVocab = Object.assign({}, local);
+        VOCAB_SCOPE_KEYS.forEach(k => delete lWithoutVocab[k]);
+        target = mergeProgress(lWithoutVocab, rdata, sync, rts);
+        VOCAB_SCOPE_KEYS.forEach(k => {
+          if (rdata[k] !== undefined) target[k] = rdata[k];
+          else delete target[k];
+        });
+        needPush = !sameProgress(target, rdata);
+      }
     } else if (forceMerge || !sync) {
       target = mergeProgress(local, rdata, sync, rts);
       needPush = !sameProgress(target, rdata);
@@ -716,23 +840,21 @@ try {
 
     let changedLocal = false;
     if (target && !sameProgress(target, local)) { writeProgress(target); changedLocal = true; }
-    if (needPush) await pushProgress();
-    else {
-      setSync(uname, { base: remote ? rts : 0, dirty: false });
+    if (needPush) {
+      setSync(uname, {
+        resetAt: Math.max(lResetAt, rResetAt),
+        vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt)
+      });
+      await pushProgress();
+    } else {
+      setSync(uname, {
+        base: remote ? rts : 0,
+        dirty: false,
+        resetAt: Math.max(lResetAt, rResetAt),
+        vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt)
+      });
       const st = progressStats(readProgress());
-      db(`study4_users/${uname}`, "PATCH", {
-        vocabLearned: st.vocabLearned,
-        vocabIgnored: st.vocabIgnored,
-        vocabMastered: st.vocabMastered,
-        vocabDue: st.vocabDue,
-        vocabPct: st.vocabPct,
-        grammarDone: st.grammarDone,
-        grammarPct: st.grammarPct,
-        overallPct: st.overallPct,
-        streakDays: st.streakDays,
-        totalStudyDays: st.totalStudyDays,
-        lastActive: new Date().toISOString()
-      }).catch(() => {});
+      db(`study4_users/${uname}`, "PATCH", buildProgressStatsPatch(st)).catch(() => {});
     }
     if (changedLocal) refreshAfterDataChange("progress");
   }
@@ -773,6 +895,7 @@ try {
   /* ---------- Kiểm tra phiên đăng nhập với cloud ---------- */
   async function forceLogout(msg) {
     const cur = session;
+    pendingOverwriteMem = null;
     if (cur) {
       try { rawSet("s4_auth_profile_" + cur.username, JSON.stringify(readProgress())); } catch (e) {}
       hookSuspended = true;
@@ -2097,6 +2220,7 @@ try {
       PROGRESS_KEYS.forEach(k => rawRemove(k));
       hookSuspended = false;
     }
+    pendingOverwriteMem = null;
     session = null;
     saveSession();
     location.reload();
@@ -2107,7 +2231,8 @@ try {
     canAccessVocabTopic, canAccessGrammarSection,
     openLoginModal, openProfileModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
     logout, syncNow: () => syncProgress(false),
-    mergeProgress: mergeProgress
+    mergeProgress: mergeProgress,
+    allowOverwriteOnce: allowOverwriteOnce
   };
 
   /* ---------- Khởi động ---------- */

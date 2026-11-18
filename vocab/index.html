@@ -358,11 +358,14 @@
 
     // Dọn dữ liệu rác từ bản thử nghiệm cũ và đồng bộ lịch học theo ngày địa phương
     (function sanitizeStorageOnBoot() {
+      if (!Array.isArray(VOCAB) || VOCAB.length < 1827 || VOCAB_BY_ID.size < 1827) return;
+      const prevSrsJson = JSON.stringify(srsData);
+      const prevDaysJson = JSON.stringify(dayLog);
       const nowD = new Date();
       const todayKey = nowD.getFullYear() + "-" + String(nowD.getMonth() + 1).padStart(2, "0") + "-" + String(nowD.getDate()).padStart(2, "0");
       Object.keys(srsData).forEach(k => {
         const st = srsData[k];
-        if (!VOCAB_BY_ID.has(k) || !st || typeof st !== "object") {
+        if (!VOCAB_BY_ID.has(k) || !st || typeof st !== "object" || Array.isArray(st)) {
           delete srsData[k];
           return;
         }
@@ -370,7 +373,7 @@
           st.firstLearnedDate = todayKey;
         }
         if (!st.ignored && st.firstLearnedDate) {
-          const arr = dayLog[st.firstLearnedDate] || (dayLog[st.firstLearnedDate] = []);
+          const arr = Array.isArray(dayLog[st.firstLearnedDate]) ? dayLog[st.firstLearnedDate] : (dayLog[st.firstLearnedDate] = []);
           if (!arr.includes(k)) arr.push(k);
         }
       });
@@ -378,8 +381,10 @@
         if (!Array.isArray(dayLog[d])) delete dayLog[d];
         else dayLog[d] = Array.from(new Set(dayLog[d].filter(id => VOCAB_BY_ID.has(id) || String(id).startsWith("g_"))));
       });
-      localStorage.setItem(KEYS.srs, JSON.stringify(srsData));
-      localStorage.setItem(KEYS.days, JSON.stringify(dayLog));
+      const nextSrsJson = JSON.stringify(srsData);
+      const nextDaysJson = JSON.stringify(dayLog);
+      if (nextSrsJson !== prevSrsJson) localStorage.setItem(KEYS.srs, nextSrsJson);
+      if (nextDaysJson !== prevDaysJson) localStorage.setItem(KEYS.days, nextDaysJson);
     })();
 
     const TOPICS = Array.from(new Set(VOCAB.map(v => v.topic)));
@@ -1755,6 +1760,7 @@
           saveState();
           buildStudyQueue();
           renderAll();
+          if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("vocab");
           if (window.S4UI && typeof window.S4UI.toast === "function") {
             window.S4UI.toast("success", "✅ Đã khôi phục tiến độ từ vựng.");
           } else {
@@ -1787,6 +1793,7 @@
       extraPracticeMode = false;
       buildStudyQueue(true);
       renderAll();
+      if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("vocab");
       if (window.S4UI && typeof window.S4UI.toast === "function") {
         window.S4UI.toast("info", "Đã xóa toàn bộ tiến độ từ vựng.");
       }

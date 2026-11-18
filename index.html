@@ -410,16 +410,7 @@
     function updateDashboardStats() {
       try {
         const srs = JSON.parse(localStorage.getItem("s4_vocab_srs_v1") || "{}");
-        let dirty = false;
-        Object.keys(srs).forEach(k => {
-          if (!/^w_\d+$/.test(k) || Number(k.slice(2)) >= 1827 || !srs[k] || typeof srs[k] !== "object") {
-            delete srs[k];
-            dirty = true;
-          }
-        });
-        if (dirty) localStorage.setItem("s4_vocab_srs_v1", JSON.stringify(srs));
-
-        const allKeys = Object.keys(srs);
+        const allKeys = Object.keys(srs).filter(k => /^w_(0|[1-9]\d*)$/.test(k) && Number(k.slice(2)) < 1827 && srs[k] && typeof srs[k] === "object" && !Array.isArray(srs[k]));
         const activeLearnedKeys = allKeys.filter(k => srs[k] && !srs[k].ignored);
         const ignoredKeys = allKeys.filter(k => srs[k] && srs[k].ignored);
         const now = Date.now();
@@ -459,7 +450,10 @@
         if (readFillEl) readFillEl.style.width = readPct + "%";
 
         const writingDoneRaw = JSON.parse(localStorage.getItem("s4_writing_done") || "[]");
-        const writingCount = Array.isArray(writingDoneRaw) ? writingDoneRaw.length : Object.values(writingDoneRaw).filter(Boolean).length;
+        const writingDoneIds = Array.isArray(writingDoneRaw)
+          ? writingDoneRaw.filter(Boolean)
+          : Object.keys(writingDoneRaw || {}).filter(k => writingDoneRaw[k]);
+        const writingCount = writingDoneIds.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_[1-3]$/.test(String(id))).length;
         const writingPct = Math.min(100, Math.round((writingCount / 261) * 100));
         const writingTextEl = document.getElementById("writingPctText");
         const writingFillEl = document.getElementById("writingProgFill");
@@ -542,6 +536,7 @@
           const doRestore = () => {
             appKeys().forEach(k => localStorage.removeItem(k));
             Object.keys(obj.items).forEach(k => { if (isAppProgressKey(k)) localStorage.setItem(k, obj.items[k]); });
+            if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
             updateDashboardStats();
             if (window.S4UI) window.S4UI.toast("success", "✅ Đã khôi phục tiến độ.");
           };
@@ -564,6 +559,7 @@
     function resetAll() {
       const doReset = () => {
         appKeys().forEach(k => localStorage.removeItem(k));
+        if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
         updateDashboardStats();
         if (window.S4UI) window.S4UI.toast("success", "Đã xóa toàn bộ tiến độ trên thiết bị.");
       };

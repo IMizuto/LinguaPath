@@ -6375,7 +6375,7 @@
       keyInput.value = storedKey;
     }
     if (baseInput && document.activeElement !== baseInput) {
-      baseInput.value = storedBase || DEFAULT_FOSTA_BASE_URL;
+      baseInput.value = storedBase;
     }
     if (byokBox) {
       byokBox.style.display = mode === 'gemini_hybrid' ? 'flex' : 'none';

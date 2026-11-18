@@ -438,9 +438,10 @@
 
   function updateTopProgress() {
     const doneList = getCompletedLessons();
+    const courseDoneCount = doneList.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_[1-3]$/.test(String(id))).length;
     const pill = document.getElementById('topProgText');
     if (pill) {
-      pill.textContent = `Đã học: ${doneList.length} / ${allLessons.length} bài`;
+      pill.textContent = `Đã học: ${courseDoneCount} / ${allLessons.length} bài`;
     }
   }
 
