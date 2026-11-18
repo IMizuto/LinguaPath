@@ -252,14 +252,49 @@
     mergedIds.forEach(id => { outObj[id] = true; });
     return JSON.stringify(outObj);
   }
-  function mergeDraftMaps(aDrafts, bDrafts) {
+  function isDraftDoneInSrs(id, draft, srsObj, now) {
+    if (!draft || typeof draft !== "object") return true;
+    const st = srsObj && srsObj[id];
+    if (!st || typeof st !== "object") return false;
+    if (st.ignored) return true;
+    const reviewedAt = Number(st.lastReview || st.updatedAt || 0);
+    return reviewedAt >= Number(draft.updatedAt || 0) && Number(st.due || 0) > now;
+  }
+  function isSessionItemDoneInSrs(item, sessSavedAt, sessMode, srsObj, now) {
+    if (!item || !item.id) return true;
+    const st = srsObj && srsObj[item.id];
+    if (!st || typeof st !== "object") return false;
+    if (st.ignored) return true;
+    const reviewedAt = Number(st.lastReview || st.updatedAt || 0);
+    const inFlightRepeat = (item._lapsed && !item._relearned) || (item._hardRepeated && sessMode === "flashcard");
+    const reviewedAfterSave = inFlightRepeat ? (reviewedAt > Number(sessSavedAt || 0)) : (reviewedAt >= Number(sessSavedAt || 0));
+    if (reviewedAfterSave && Number(st.due || 0) > now) return true;
+    if (item._new && Number(st.due || 0) > now && (sessMode === "smart" || !(item._lapsed || item._hardRepeated || item._rated))) return true;
+    return false;
+  }
+  function filterSessionRecord(sess, srsObj, now, skipIfExtra) {
+    if (!sess || !Array.isArray(sess.queue) || !sess.queue.length) return null;
+    if ((skipIfExtra && sess.extraPracticeMode) || !srsObj) return sess;
+    const nextQueue = sess.queue.filter(it => !isSessionItemDoneInSrs(it, sess.savedAt, sess.mode, srsObj, now));
+    if (!nextQueue.length) return null;
+    if (nextQueue.length === sess.queue.length) return sess;
+    return Object.assign({}, sess, { queue: nextQueue });
+  }
+  function mergeDraftMaps(aDrafts, bDrafts, srsMap, preferLocal) {
     const a = aDrafts && typeof aDrafts === "object" && !Array.isArray(aDrafts) ? aDrafts : {};
     const b = bDrafts && typeof bDrafts === "object" && !Array.isArray(bDrafts) ? bDrafts : {};
+    const srsObj = typeof srsMap === "string" ? parseJ(srsMap, null) : (srsMap && typeof srsMap === "object" ? srsMap : null);
+    const now = Date.now();
     const out = {};
     new Set(Object.keys(a).concat(Object.keys(b))).forEach(id => {
-      const da = a[id], dbItem = b[id];
+      const rawA = a[id], rawB = b[id];
+      const da = rawA && !isDraftDoneInSrs(id, rawA, srsObj, now) ? rawA : null;
+      const dbItem = rawB && !isDraftDoneInSrs(id, rawB, srsObj, now) ? rawB : null;
       if (!da && !dbItem) return;
-      if (!da) { out[id] = dbItem; return; }
+      if (!da) {
+        if (!preferLocal) out[id] = dbItem;
+        return;
+      }
       if (!dbItem) { out[id] = da; return; }
       const ta = Number(da.updatedAt || 0), tb = Number(dbItem.updatedAt || 0);
       if (tb > ta) out[id] = dbItem;
@@ -273,16 +308,20 @@
     }
     return out;
   }
-  function mergeVocabActiveSession(aStr, bStr) {
+  function mergeVocabActiveSession(aStr, bStr, srsStr, preferLocal) {
     const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const srsObj = srsStr ? parseJ(srsStr, null) : null;
+    const now = Date.now();
     const out = {};
     const topics = new Set(Object.keys(a).concat(Object.keys(b)).filter(k => k !== "__drafts"));
     topics.forEach(t => {
-      const sa = a[t], sb = b[t];
-      const va = sa && Array.isArray(sa.queue) && sa.queue.length ? sa : null;
-      const vb = sb && Array.isArray(sb.queue) && sb.queue.length ? sb : null;
+      const va = filterSessionRecord(a[t], srsObj, now, false);
+      const vb = filterSessionRecord(b[t], srsObj, now, false);
       if (!va && !vb) return;
-      if (!va) { out[t] = vb; return; }
+      if (!va) {
+        if (!preferLocal) out[t] = vb;
+        return;
+      }
       if (!vb) { out[t] = va; return; }
       out[t] = Number(vb.savedAt || 0) >= Number(va.savedAt || 0) ? vb : va;
     });
@@ -291,21 +330,25 @@
       tKeys.sort((x, y) => Number(out[y] && out[y].savedAt || 0) - Number(out[x] && out[x].savedAt || 0))
         .slice(60).forEach(k => { delete out[k]; });
     }
-    const drafts = mergeDraftMaps(a.__drafts, b.__drafts);
+    const drafts = mergeDraftMaps(a.__drafts, b.__drafts, srsObj, preferLocal);
     if (Object.keys(drafts).length) out.__drafts = drafts;
-    return JSON.stringify(out);
+    return Object.keys(out).length ? JSON.stringify(out) : undefined;
   }
-  function mergeEngineSessionStore(aStr, bStr) {
+  function mergeEngineSessionStore(aStr, bStr, srsStr, preferLocal) {
     const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const srsObj = srsStr ? parseJ(srsStr, null) : null;
+    const now = Date.now();
     const saMap = a && a.sessions && typeof a.sessions === "object" ? a.sessions : {};
     const sbMap = b && b.sessions && typeof b.sessions === "object" ? b.sessions : {};
     const sessions = {};
     new Set(Object.keys(saMap).concat(Object.keys(sbMap))).forEach(id => {
-      const sa = saMap[id], sb = sbMap[id];
-      const va = sa && Array.isArray(sa.queue) && sa.queue.length ? sa : null;
-      const vb = sb && Array.isArray(sb.queue) && sb.queue.length ? sb : null;
+      const va = filterSessionRecord(saMap[id], srsObj, now, true);
+      const vb = filterSessionRecord(sbMap[id], srsObj, now, true);
       if (!va && !vb) return;
-      if (!va) { sessions[id] = vb; return; }
+      if (!va) {
+        if (!preferLocal) sessions[id] = vb;
+        return;
+      }
       if (!vb) { sessions[id] = va; return; }
       sessions[id] = Number(vb.savedAt || 0) >= Number(va.savedAt || 0) ? vb : va;
     });
@@ -314,8 +357,8 @@
       sKeys.sort((x, y) => Number(sessions[y] && sessions[y].savedAt || 0) - Number(sessions[x] && sessions[x].savedAt || 0))
         .slice(60).forEach(k => { delete sessions[k]; });
     }
-    const drafts = mergeDraftMaps(a && a.drafts, b && b.drafts);
-    return JSON.stringify({ sessions, drafts });
+    const drafts = mergeDraftMaps(a && a.drafts, b && b.drafts, srsObj, preferLocal);
+    return (Object.keys(sessions).length || Object.keys(drafts).length) ? JSON.stringify({ sessions, drafts }) : undefined;
   }
   function mergeLessonPosMap(aStr, bStr) {
     const a = parseJ(aStr, {}), b = parseJ(bStr, {});
@@ -423,10 +466,14 @@
     });
     // 6. Active Vocab Sessions, Per-Word Step Drafts & Listening Lesson Positions
     if (local[P_VSES] !== undefined || remote[P_VSES] !== undefined) {
-      out[P_VSES] = mergeVocabActiveSession(local[P_VSES], remote[P_VSES]);
+      const mergedVses = mergeVocabActiveSession(local[P_VSES], remote[P_VSES], out[P_SRS], preferLocalScalar);
+      if (mergedVses !== undefined) out[P_VSES] = mergedVses;
     }
-    [P_LSES, P_RSES, P_SSES].forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeEngineSessionStore(local[k], remote[k]);
+    [[P_LSES, P_LSRS], [P_RSES, P_RSRS], [P_SSES, P_SSRS]].forEach(([k, srsKey]) => {
+      if (local[k] !== undefined || remote[k] !== undefined) {
+        const mergedEses = mergeEngineSessionStore(local[k], remote[k], out[srsKey], preferLocalScalar);
+        if (mergedEses !== undefined) out[k] = mergedEses;
+      }
     });
     if (local[P_LPOS] !== undefined || remote[P_LPOS] !== undefined) {
       out[P_LPOS] = mergeLessonPosMap(local[P_LPOS], remote[P_LPOS]);
@@ -595,7 +642,7 @@ try {
   const remote = await db(`study4_progress/${uname}`);
   const rdata = (remote && remote.data) || {};
   if (hasProgress(rdata)) {
-    const merged = mergeProgress(data, rdata, null, 0);
+    const merged = mergeProgress(data, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
     if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
   }
 } catch (e) { /* Không đọc được Cloud: vẫn đẩy bản local hiện có */ }

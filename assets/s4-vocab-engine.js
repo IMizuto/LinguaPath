@@ -398,6 +398,7 @@
     if (!raw || !Array.isArray(raw.queue) || !raw.queue.length) return false;
 
     const map = srsMap();
+    const now = Date.now();
     const savedAt = Number(raw.savedAt || 0);
     const list = [];
     for (const item of raw.queue) {
@@ -406,6 +407,12 @@
       if (!full) continue;
       const st = map[item.id];
       if (st && st.ignored) continue;
+      if (!raw.extraPracticeMode && st) {
+        const reviewedAt = Number(st.lastReview || st.updatedAt || 0);
+        const inFlightRepeat = (item._lapsed && !item._relearned) || (item._hardRepeated && raw.mode === "flashcard");
+        if ((inFlightRepeat ? reviewedAt > savedAt : reviewedAt >= savedAt) && Number(st.due || 0) > now) continue;
+        if (item._new && st.reps > 0 && Number(st.due || 0) > now && (raw.mode === "smart" || !(item._lapsed || item._hardRepeated || item._rated))) continue;
+      }
       if (!raw.extraPracticeMode && item._new && st && st.reps > 0 && !(item._lapsed || item._hardRepeated || item._rated)) continue;
 
       const restored = Object.assign({}, full, {
@@ -422,7 +429,7 @@
         _lastTask: item._lastTask || null
       });
       const d = store.drafts[item.id];
-      if (!raw.extraPracticeMode && d && Number(d.updatedAt || 0) > savedAt) {
+      if (!raw.extraPracticeMode && d && Number(d.updatedAt || 0) > savedAt && !(st && Number(st.lastReview || st.updatedAt || 0) >= Number(d.updatedAt || 0) && Number(st.due || 0) > now)) {
         if (typeof d.stage === "number" && d.stage !== item._stage) restored._task = null;
         restored._stage = typeof d.stage === "number" ? d.stage : restored._stage;
         restored._mistakes = d.mistakes || 0;
@@ -1126,12 +1133,15 @@
 
   function finishHtml() {
     const map = srsMap();
+    const now = Date.now();
+    const dueInScope = words.filter(v => isDueWord(v, now)).length;
     const unseen = words.filter(v => !isTouchedWord(v)).length;
     const hasLearned = words.some(v => map[v.id] && !map[v.id].ignored && map[v.id].reps > 0);
     return `<div class="s4v-finish-box"><div style="font-size:46px;">🎉</div>
       <h2 style="margin:8px 0 0 0;color:#10b981;">${extraPracticeMode ? "Xong lượt ôn luyện!" : "Hoàn thành phiên học!"}</h2>
       ${sessionDone ? `<p style="color:var(--muted);margin:8px 0 0 0;">Đã xử lý ${sessionDone} từ</p>` : ""}
       <div class="s4v-finish-actions">
+        ${!extraPracticeMode && dueInScope > 0 ? `<button class="s4v-btn-action" style="background:#dc2626;color:#fff;" onclick="window.S4VocabEngine.startDueReview()">🔔 Ôn ngay ${dueInScope} từ đến hạn</button>` : ""}
         ${extraPracticeMode ? `<button class="s4v-btn-action" style="background:var(--primary);color:#fff;" onclick="window.S4VocabEngine.exitPractice()">Quay lại học chính</button>` : ""}
         ${!extraPracticeMode && unseen > 0 ? `<button class="s4v-btn-action" style="background:var(--primary);color:#fff;" onclick="window.S4VocabEngine.addBonusNewWords(10)">➕ Học thêm 10 từ mới</button>` : ""}
         ${hasLearned ? `<button class="s4v-btn-action" style="background:#16a34a;color:#fff;" onclick="window.S4VocabEngine.startFreePractice()">🔄 Ôn luyện thêm</button>` : ""}
@@ -1314,6 +1324,11 @@
     },
     startFreePractice() { extraPracticeMode = true; buildStudyQueue(true); renderAll(); },
     exitPractice() { extraPracticeMode = false; buildStudyQueue(true); renderAll(); },
+    startDueReview() {
+      extraPracticeMode = false;
+      buildStudyQueue(true, true);
+      renderAll();
+    },
     async restartSession() {
       const ok = window.S4UI && typeof window.S4UI.confirm === "function"
         ? await window.S4UI.confirm("Bỏ tiến trình dở dang của phiên học này và tạo phiên mới?\n(Các từ đã học xong vẫn được giữ nguyên.)", { title: "Tạo phiên học mới", tone: "warn", confirmText: "Tạo phiên mới" })

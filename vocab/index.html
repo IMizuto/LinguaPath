@@ -549,6 +549,7 @@
       const raw = map[currentTopic];
       if (!raw || !Array.isArray(raw.queue) || !raw.queue.length) return false;
 
+      const now = Date.now();
       const savedAt = Number(raw.savedAt || 0);
       const drafts = map.__drafts && typeof map.__drafts === "object" ? map.__drafts : {};
       const list = [];
@@ -558,10 +559,16 @@
         if (!full) continue;
         const st = srsData[item.id];
         if (st && st.ignored) continue;       // đã đánh dấu "đã biết" ở nơi khác
+        if (st) {
+          const reviewedAt = Number(st.lastReview || st.updatedAt || 0);
+          const inFlightRepeat = (item._lapsed && !item._relearned) || (item._hardRepeated && raw.mode === "flashcard");
+          if ((inFlightRepeat ? reviewedAt > savedAt : reviewedAt >= savedAt) && Number(st.due || 0) > now) continue;
+        }
+        if (item._new && st && Number(st.due || 0) > now && (raw.mode === "smart" || !(item._lapsed || item._hardRepeated || item._rated))) continue;
         if (item._new && st && !(item._lapsed || item._hardRepeated || item._rated)) continue;        // từ mới đã được học xong/chấm điểm ở nơi khác (đồng bộ thiết bị)
         const restored = Object.assign({}, full, item);
         const d = drafts[item.id];
-        if (d && Number(d.updatedAt || 0) > savedAt) {
+        if (d && Number(d.updatedAt || 0) > savedAt && !(st && Number(st.lastReview || st.updatedAt || 0) >= Number(d.updatedAt || 0) && Number(st.due || 0) > now)) {
           if (typeof d.stage === "number" && d.stage !== item._stage) restored._task = null;
           restored._stage = typeof d.stage === "number" ? d.stage : restored._stage;
           restored._mistakes = d.mistakes || 0;
@@ -635,6 +642,23 @@
     }
     function startFreePractice() { extraPracticeMode = true; buildStudyQueue(); renderAll(); }
     function exitPractice() { extraPracticeMode = false; buildStudyQueue(); renderAll(); }
+    function startDueReview() {
+      extraPracticeMode = false;
+      const now = Date.now();
+      const hasDueInScope = getScopeWords().some(v => isDueWord(v, now));
+      if (!hasDueInScope) {
+        const inp = $("searchWordInput");
+        if (inp && inp.value) {
+          inp.value = "";
+          if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+        }
+        currentTopic = "ALL_DUE";
+        userSettings.lastTopic = "ALL_DUE";
+        saveState();
+      }
+      buildStudyQueue(true, true);
+      renderAll();
+    }
 
     /* ---------- Thuật toán lặp lại ngắt quãng (SM-2 cải tiến) ---------- */
     function dueAt(days) {
@@ -1593,12 +1617,16 @@
           <button type="button" class="btn-action" style="background:var(--primary);color:#fff;" onclick="clearVocabSearch()">✕ Xóa tìm kiếm</button>
         </div>`;
       }
+      const now = Date.now();
+      const dueInScope = words.filter(v => isDueWord(v, now)).length;
+      const totalDue = lastStats ? lastStats.due : dueInScope;
       const unseen = currentTopic === "ALL_DUE" ? 0 : words.filter(v => !srsData[v.id]).length;
       const hasLearned = words.some(v => srsData[v.id] && !srsData[v.id].ignored);
       return `<div class="finish-box"><div style="font-size:46px;">🎉</div>
         <h2 style="margin:8px 0 0 0;color:var(--success);">${extraPracticeMode ? "Xong lượt ôn luyện!" : "Hoàn thành phiên học!"}</h2>
         ${sessionDone ? `<p style="color:var(--muted);margin:8px 0 0 0;">Đã xử lý ${sessionDone} từ</p>` : ""}
         <div class="finish-actions">
+          ${!extraPracticeMode && (dueInScope > 0 || totalDue > 0) ? `<button class="btn-action" style="background:var(--danger);color:#fff;" onclick="startDueReview()">🔔 Ôn ngay ${dueInScope || totalDue} từ đến hạn</button>` : ""}
           ${extraPracticeMode ? `<button class="btn-action" style="background:var(--primary);color:#fff;" onclick="exitPractice()">Quay lại học chính</button>` : ""}
           ${!extraPracticeMode && unseen > 0 ? `<button class="btn-action" style="background:var(--primary);color:#fff;" onclick="addBonusNewWords(10)">➕ Học thêm 10 từ mới</button>` : ""}
           ${hasLearned ? `<button class="btn-action" style="background:var(--success);color:#fff;" onclick="startFreePractice()">🔄 Ôn luyện thêm</button>` : ""}
