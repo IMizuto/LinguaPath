@@ -589,7 +589,16 @@
     const uname = session.username;
     const mark = changeCounter;
     const ts = Date.now();
-    const data = readProgress();
+    let data = readProgress();
+
+try {
+  const remote = await db(`study4_progress/${uname}`);
+  const rdata = (remote && remote.data) || {};
+  if (hasProgress(rdata)) {
+    const merged = mergeProgress(data, rdata, null, 0);
+    if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
+  }
+} catch (e) { /* Không đọc được Cloud: vẫn đẩy bản local hiện có */ }
     const body = { data: data, updatedAt: ts };
     const small = JSON.stringify(body).length < 60000;
     await db(`study4_progress/${uname}`, "PUT", body, { keepalive: !!(opts && opts.keepalive && small) });
