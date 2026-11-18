@@ -2054,6 +2054,28 @@
     mergeProgress: mergeProgress
   };
 
+  // Hiện cập nhật ở cuối màn hình, tránh thay phiên bản giữa lúc đang làm bài.
+  function showUpdateBanner(reg) {
+    if (document.getElementById("s4UpdateBanner")) return;
+    const bar = document.createElement("div");
+    bar.id = "s4UpdateBanner";
+    bar.setAttribute("role", "status");
+    bar.style.cssText = "position:fixed;z-index:2147483647;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid rgba(15,23,42,.15);border-radius:14px;background:#0f172a;color:#fff;box-shadow:0 8px 30px rgba(0,0,0,.25);font:600 13px/1.35 system-ui,sans-serif";
+    const text = document.createElement("span");
+    text.textContent = "LinguaPath có bản cập nhật mới.";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "Cập nhật";
+    button.style.cssText = "border:0;border-radius:9px;padding:8px 12px;background:#fb7185;color:#fff;font-weight:800;cursor:pointer;white-space:nowrap";
+    button.addEventListener("click", () => {
+      button.disabled = true;
+      button.textContent = "Đang cập nhật…";
+      if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    });
+    bar.append(text, button);
+    document.body.appendChild(bar);
+  }
+
   /* ---------- Khởi động ---------- */
   async function boot() {
 
@@ -2072,7 +2094,24 @@
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       const swPath = isHomePage() ? "./sw.js" : "../sw.js";
-      navigator.serviceWorker.register(swPath).then(reg => reg.update()).catch(() => {});
+      navigator.serviceWorker.register(swPath).then(reg => {
+        reg.update().catch(() => {});
+        if (reg.waiting) showUpdateBanner(reg);
+        reg.addEventListener("updatefound", () => {
+          const worker = reg.installing;
+          if (!worker) return;
+          worker.addEventListener("statechange", () => {
+            if (worker.state === "installed" && navigator.serviceWorker.controller) showUpdateBanner(reg);
+          });
+        });
+      }).catch(() => {});
+
+      let reloadedForUpdate = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (reloadedForUpdate) return;
+        reloadedForUpdate = true;
+        window.location.reload();
+      });
     }
 
     if (hadCachedConfig) {

@@ -479,8 +479,9 @@
     const STORAGE_LAST = "s4_ted_last";
     const STORAGE_POS = "s4_ted_pos";
 
-    let doneMap = JSON.parse(localStorage.getItem(STORAGE_DONE) || "{}");
-    let posMap = JSON.parse(localStorage.getItem(STORAGE_POS) || "{}");
+    function readTedJson(key, fallback) { try { const v = JSON.parse(localStorage.getItem(key) || ''); return v == null ? fallback : v; } catch (e) { return fallback; } }
+    let doneMap = readTedJson(STORAGE_DONE, {});
+    let posMap = readTedJson(STORAGE_POS, {});
     let activeId = localStorage.getItem(STORAGE_LAST) || (ITEMS[0] && ITEMS[0].id);
     let unitFilter = "ALL";
     let currentMode = "dictation"; // 'dictation' | 'transcript' | 'shadowing' | 'podcast'
