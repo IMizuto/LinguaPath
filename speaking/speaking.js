@@ -380,6 +380,10 @@
     try { return String(localStorage.getItem(STORAGE_GEMINI_KEY) || '').trim(); } catch (e) { return ''; }
   }
 
+  // Fosta's OpenAI-compatible endpoint. It can be replaced with another
+  // provider or a CORS proxy in the settings field.
+  var DEFAULT_FOSTA_BASE_URL = 'https://codex.fosta.app/v1';
+
   function getStoredAiBaseUrl() {
     try { return String(localStorage.getItem(STORAGE_AI_BASE) || '').trim().replace(/\/+$/, ''); } catch (e) { return ''; }
   }
@@ -5231,7 +5235,7 @@
           clearTimeout(timerId);
           var errMsg = String((err && err.message) || err || '');
           if (!timedOut && (err instanceof TypeError || /failed to fetch|networkerror|load failed/i.test(errMsg))) {
-            throw new Error('Máy chủ API (' + baseUrl + ') chặn gọi trực tiếp từ trình duyệt (CORS Preflight). Hãy dùng Google Gemini Key (AIza...) hoặc Groq Key (gsk_...) hoặc qua CORS Proxy.');
+            throw new Error('Không gọi được API ' + baseUrl + ' từ trình duyệt. Máy chủ có thể chưa bật CORS cho Origin của website (preflight OPTIONS), hoặc URL/API đang không truy cập được.');
           }
           var st = err && err.httpStatus ? err.httpStatus : 0;
           if (!timedOut && idx + 1 < candidates.length && (st === 404 || st === 429 || st === 503 || st >= 500 || (st === 400 && !/invalid_api_key|incorrect api key/i.test(errMsg)))) {
@@ -6371,7 +6375,7 @@
       keyInput.value = storedKey;
     }
     if (baseInput && document.activeElement !== baseInput) {
-      baseInput.value = storedBase;
+      baseInput.value = storedBase || DEFAULT_FOSTA_BASE_URL;
     }
     if (byokBox) {
       byokBox.style.display = mode === 'gemini_hybrid' ? 'flex' : 'none';
