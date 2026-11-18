@@ -239,7 +239,7 @@
     const contentEl = document.getElementById("lessonContent");
     const searchInput = document.getElementById("searchInput");
     const sidebarEl = document.getElementById("sidebar");
-    let completedMap = (() => { try { const v = JSON.parse(localStorage.getItem("s4_grammar_done") || ''); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } })();
+    let completedMap = JSON.parse(localStorage.getItem("s4_grammar_done") || "{}");
     let activeId = localStorage.getItem("s4_grammar_last") || ITEMS[0]?.id;
     if (!ITEMS.some(x => x.id === activeId)) activeId = ITEMS[0]?.id;
     let activeProbIdx = 0;

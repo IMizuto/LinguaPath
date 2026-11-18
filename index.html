@@ -407,16 +407,9 @@
 
     window.addEventListener("hashchange", applyViewFromHash);
 
-    function readLocalJson(key, fallback) {
-      try {
-        const value = JSON.parse(localStorage.getItem(key) || '');
-        return value === null || value === undefined ? fallback : value;
-      } catch (e) { return fallback; }
-    }
-
     function updateDashboardStats() {
       try {
-        const srs = readLocalJson("s4_vocab_srs_v1", {});
+        const srs = JSON.parse(localStorage.getItem("s4_vocab_srs_v1") || "{}");
         let dirty = false;
         Object.keys(srs).forEach(k => {
           if (!/^w_\d+$/.test(k) || Number(k.slice(2)) >= 1827 || !srs[k] || typeof srs[k] !== "object") {
@@ -437,15 +430,15 @@
         document.getElementById("vocabPctText").textContent = "Tiến độ: " + vPct + "% (" + activeLearnedKeys.length + " đã học, " + ignoredKeys.length + " đã biết)";
         document.getElementById("vocabProgFill").style.width = vPct + "%";
 
-        const gDone = readLocalJson("s4_grammar_done", {});
+        const gDone = JSON.parse(localStorage.getItem("s4_grammar_done") || "{}");
         const gCount = Object.values(gDone).filter(Boolean).length;
         const gPct = Math.min(100, Math.round((gCount / 120) * 100));
         document.getElementById("grammarPctText").textContent = "Tiến độ: " + gPct + "% (" + gCount + " bài)";
         document.getElementById("grammarProgFill").style.width = gPct + "%";
 
-        const lisDoneRaw = readLocalJson("s4_listening_done", []);
+        const lisDoneRaw = JSON.parse(localStorage.getItem("s4_listening_done") || "[]");
         const lisCount = Array.isArray(lisDoneRaw) ? lisDoneRaw.length : Object.values(lisDoneRaw).filter(Boolean).length;
-        const lisSrs = readLocalJson("s4_listening_srs_v1", {});
+        const lisSrs = JSON.parse(localStorage.getItem("s4_listening_srs_v1") || "{}");
         const lisWords = Object.keys(lisSrs).filter(k => lisSrs[k] && (lisSrs[k].reps > 0 || lisSrs[k].ignored || lisSrs[k].due)).length;
         const lisDue = Object.keys(lisSrs).filter(k => lisSrs[k] && !lisSrs[k].ignored && (lisSrs[k].reps > 0 || lisSrs[k].due) && now >= Number(lisSrs[k].due || 0)).length;
         const lisPct = Math.min(100, Math.round(((lisCount + lisWords) / (1482 + 2176)) * 100));
@@ -454,9 +447,9 @@
         if (lisTextEl) lisTextEl.textContent = "Đã học: " + lisCount + "/1,482 bài • " + lisWords + "/2,176 từ SRS";
         if (lisFillEl) lisFillEl.style.width = lisPct + "%";
 
-        const readDoneRaw = readLocalJson("s4_reading_done", []);
+        const readDoneRaw = JSON.parse(localStorage.getItem("s4_reading_done") || "[]");
         const readCount = Array.isArray(readDoneRaw) ? readDoneRaw.length : Object.values(readDoneRaw).filter(Boolean).length;
-        const readSrs = readLocalJson("s4_reading_srs_v1", {});
+        const readSrs = JSON.parse(localStorage.getItem("s4_reading_srs_v1") || "{}");
         const readWords = Object.keys(readSrs).filter(k => readSrs[k] && (readSrs[k].reps > 0 || readSrs[k].ignored || readSrs[k].due)).length;
         const readDue = Object.keys(readSrs).filter(k => readSrs[k] && !readSrs[k].ignored && (readSrs[k].reps > 0 || readSrs[k].due) && now >= Number(readSrs[k].due || 0)).length;
         const readPct = Math.min(100, Math.round(((readCount + readWords) / (1220 + 2969)) * 100));
@@ -465,7 +458,7 @@
         if (readTextEl) readTextEl.textContent = "Đã học: " + readCount + "/1,220 bài • " + readWords + "/2,969 từ SRS";
         if (readFillEl) readFillEl.style.width = readPct + "%";
 
-        const writingDoneRaw = readLocalJson("s4_writing_done", []);
+        const writingDoneRaw = JSON.parse(localStorage.getItem("s4_writing_done") || "[]");
         const writingCount = Array.isArray(writingDoneRaw) ? writingDoneRaw.length : Object.values(writingDoneRaw).filter(Boolean).length;
         const writingPct = Math.min(100, Math.round((writingCount / 261) * 100));
         const writingTextEl = document.getElementById("writingPctText");
@@ -473,9 +466,9 @@
         if (writingTextEl) writingTextEl.textContent = "Đã làm: " + writingCount + "/261 bài (" + writingPct + "%)";
         if (writingFillEl) writingFillEl.style.width = writingPct + "%";
 
-        const speakDoneRaw = readLocalJson("lp_speaking_done_v1", []);
+        const speakDoneRaw = JSON.parse(localStorage.getItem("lp_speaking_done_v1") || "[]");
         const speakCount = Array.isArray(speakDoneRaw) ? speakDoneRaw.length : Object.values(speakDoneRaw).filter(Boolean).length;
-        const speakSrs = readLocalJson("lp_speaking_vocab_srs_v1", {});
+        const speakSrs = JSON.parse(localStorage.getItem("lp_speaking_vocab_srs_v1") || "{}");
         const speakWords = Object.keys(speakSrs).filter(k => speakSrs[k] && (speakSrs[k].reps > 0 || speakSrs[k].ignored || speakSrs[k].due)).length;
         const speakDue = Object.keys(speakSrs).filter(k => speakSrs[k] && !speakSrs[k].ignored && (speakSrs[k].reps > 0 || speakSrs[k].due) && now >= Number(speakSrs[k].due || 0)).length;
         const speakPct = Math.min(100, Math.round(((speakCount + speakWords) / (2490 + 9214)) * 100));

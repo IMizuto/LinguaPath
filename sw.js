@@ -1,6 +1,4 @@
-// Tăng phiên bản khi thay đổi danh sách asset lõi hoặc chiến lược cache.
-// Service Worker mới sẽ chờ người dùng xác nhận trước khi thay thế bản đang chạy.
-const CACHE_NAME = "linguapath-cache-v91";
+const CACHE_NAME = "linguapath-cache-v89";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -46,7 +44,7 @@ self.addEventListener("install", (event) => {
       Promise.allSettled(CORE_ASSETS.map((url) => cache.add(url)))
     ).catch(() => {})
   );
-  // Không tự thay thế phiên bản đang chạy giữa lúc người dùng đang học.
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -62,10 +60,6 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
-});
-
 // Chiến lược Network-First cho HTML/JS (để khi Admin cập nhật trên GitHub, máy người dùng tự nhận bản mới ngay),
 // và rơi về Cache Offline khi mất mạng; Cache-First cho Media (Ảnh/Audio/PDF) để tải siêu nhanh & học Offline!
 self.addEventListener("fetch", (event) => {
@@ -75,22 +69,16 @@ self.addEventListener("fetch", (event) => {
 
   const isMedia = /\.(mp3|jpg|jpeg|png|gif|pdf|svg)$/i.test(url.pathname);
   if (isMedia) {
-    event.respondWith((async () => {
-      const cached = await caches.match(event.request, { ignoreSearch: true });
-      const refresh = fetch(event.request).then((resp) => {
-        if (resp && resp.ok) {
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resp.clone()));
-        }
-        return resp;
-      }).catch(() => null);
-      // Trả cache ngay để học offline/nhanh; âm thầm cập nhật media cho lần sau.
-      if (cached) {
-        event.waitUntil(refresh);
-        return cached;
-      }
-      const fresh = await refresh;
-      return fresh || Response.error();
-    })());
+    event.respondWith(
+      caches.match(event.request, { ignoreSearch: true }).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((resp) => {
+          const clone = resp.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          return resp;
+        });
+      })
+    );
   } else {
     event.respondWith(
       fetch(event.request.url, { cache: "no-cache", redirect: "follow" })

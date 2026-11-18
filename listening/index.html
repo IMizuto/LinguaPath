@@ -733,10 +733,6 @@
 <script>
 document.querySelectorAll('#lessonContainer #globalPassAudio').forEach(el => el.remove());
 const MANIFEST = window.STUDY4_LISTENING_MANIFEST || { units: [] };
-function readListeningJson(key, fallback) {
-  try { const value = JSON.parse(localStorage.getItem(key) || ''); return value == null ? fallback : value; }
-  catch (e) { return fallback; }
-}
 const DATA = {
   units: MANIFEST.units || [],
   sharedWordPools: {}
@@ -754,7 +750,7 @@ try {
   else if (rawDone && typeof rawDone === 'object') doneSet = new Set(Object.keys(rawDone).filter(k => rawDone[k]));
 } catch (e) {}
 
-let srsMap = readListeningJson(SRS_KEY, {});
+let srsMap = JSON.parse(localStorage.getItem(SRS_KEY) || '{}');
 let currentLesson = null;
 let currentMode = 'smart';
 if (window.S4VocabEngine) {
@@ -2347,8 +2343,18 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   selectLesson(initialLesson.id);
 }
 
-// Không tải trước toàn bộ unit khi người dùng chưa mở chúng.
-// Unit được nạp đúng lúc chọn, giúp giảm dữ liệu tải ban đầu và dung lượng cache.
+// Quiet background preload of remaining chunks during idle time
+setTimeout(function() {
+  const remainingUnits = ['u_5', 'u_3', 'u_1', 'u_2', 'u_4', 'u_6'].filter(u => !window.__STUDY4_LISTEN_CHUNK || !window.__STUDY4_LISTEN_CHUNK[u]);
+  let idx = 0;
+  function loadNext() {
+    if (idx >= remainingUnits.length) return;
+    ensureChunkLoaded(remainingUnits[idx++], function() {
+      setTimeout(loadNext, 400);
+    });
+  }
+  loadNext();
+}, 1200);
 </script>
   <script src="../assets/s4-practice-zone.js?v=65"></script>
   <script src="../auth.js?v=31"></script>
