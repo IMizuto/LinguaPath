@@ -1,15 +1,15 @@
-const CACHE_NAME = "linguapath-cache-v90";
+const CACHE_NAME = "linguapath-cache-v92";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./assets/s4-ui.css?v=64",
-  "./assets/s4-ui.js?v=63",
+  "./assets/s4-ui.css?v=66",
+  "./assets/s4-ui.js?v=65",
   "./assets/s4-whisper.js?v=4",
   "./assets/s4-whisper-worker.js?v=3",
-  "./auth.js?v=31",
-  "./assets/s4-vocab-engine.js?v=67",
-  "./assets/s4-practice-zone.js?v=65",
-  "./assets/ghibli/ghibli-theme.css?v=29",
+  "./auth.js?v=32",
+  "./assets/s4-vocab-engine.js?v=68",
+  "./assets/s4-practice-zone.js?v=67",
+  "./assets/ghibli/ghibli-theme.css?v=30",
   "./assets/ghibli/ghibli-theme.js?v=26",
   "./manifest.json",
   "./icon-192.png",
@@ -22,14 +22,14 @@ const CORE_ASSETS = [
   "./reading/index.html",
   "./reading/data/reading_manifest.js",
   "./writing/index.html",
-  "./writing/writing.css?v=9",
-  "./writing/writing.js?v=10",
-  "./writing/writing_parser.js?v=3",
+  "./writing/writing.css?v=10",
+  "./writing/writing.js?v=12",
+  "./writing/writing_parser.js?v=4",
   "./speaking/",
   "./speaking/index.html",
-  "./speaking/speaking.css?v=8",
-  "./speaking/speaking.js?v=18",
-  "./speaking/speaking_parser.js?v=6",
+  "./speaking/speaking.css?v=9",
+  "./speaking/speaking.js?v=20",
+  "./speaking/speaking_parser.js?v=7",
   "./tedtalks/index.html"
 ];
 

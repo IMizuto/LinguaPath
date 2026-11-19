@@ -60,11 +60,11 @@
   </script>
 
   <!-- Ghibli Theme CSS chuẩn LinguaPath -->
-  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=66">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
-  <link rel="stylesheet" href="writing.css?v=9">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="writing.css?v=10">
 </head>
 <body>
 
@@ -91,11 +91,10 @@
     <!-- Cụm nút bên phải -->
     <div class="topbar-right">
       <button class="btn mini-btn" id="btnOpenHistoryModal" onclick="window.openWritingHistoryModal()" style="font-weight:700;font-size:11.5px;padding:5px 9px;border:1px solid var(--border);border-radius:8px;" title="Xem toàn bộ lịch sử bài đã làm & điểm số AI">
-        📂 <span class="s4-hist-lbl">Lịch sử </span>(<span id="topHistoryCount">0</span>)
+        <span>📂 <span class="s4-hist-lbl">Lịch sử </span>(<span id="topHistoryCount">0</span>)</span>
       </button>
       <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖<span class="s4-donate-lbl"> Ủng hộ</span></button>
       <button class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
-      <button class="btn mini-btn" onclick="window.toggleGhibliTheme && window.toggleGhibliTheme()" title="Bật/Tắt Ghibli Theme">🍃</button>
       <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
     </div>
   </header>
@@ -103,7 +102,7 @@
   <!-- WORKSPACE LAYOUT (SIDEBAR + MAIN AREA) -->
   <div class="workspace" id="writingWorkspace">
     <!-- Nền mờ Drawer trên Mobile -->
-    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.toggleWritingSidebar && window.toggleWritingSidebar()"></div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.toggleWritingSidebar && window.toggleWritingSidebar(false)"></div>
 
     <!-- CỘT DANH SÁCH BÀI HỌC (SIDEBAR MỤC LỤC BÊN TRÁI 355px) -->
     <aside class="sidebar" id="writingSidebar">
@@ -117,6 +116,7 @@
             <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
           </div>
           <button class="mini-btn" id="btnToggleAll" onclick="window.toggleAllWritingFolders && window.toggleAllWritingFolders()">Thu gọn</button>
+          <button type="button" class="close-sidebar-btn" onclick="window.toggleWritingSidebar && window.toggleWritingSidebar(false)" title="Đóng mục lục" aria-label="Đóng mục lục">×</button>
         </div>
       </div>
       <div class="lesson-list" id="lessonList">
@@ -219,7 +219,7 @@
                 <div class="w-editor-lbl">✍️ KHUNG SOẠN THẢO BÀI VIẾT (YOUR RESPONSE)</div>
                 <div class="w-word-badge under" id="wordCountBadge">
                   <span>📝</span>
-                  <span id="wordCountText">0 words</span>
+                  <span id="wordCountText">0 từ</span>
                   <span id="minWordTarget" style="font-size:11px;opacity:0.8;">(Mục tiêu: 150 từ)</span>
                 </div>
               </div>
@@ -535,7 +535,7 @@
               <span id="pzEditorHeaderLbl">✍️ BÀI LÀM CỦA BẠN (YOUR RESPONSE)</span>
               <div class="w-word-badge under" id="pzWordCountBadge">
                 <span>📝</span>
-                <span id="pzWordCountText">0 words</span>
+                <span id="pzWordCountText">0 từ</span>
                 <span id="pzMinWordTarget" style="font-size:11px;opacity:0.8;">(Mục tiêu: 150 từ)</span>
               </div>
             </div>
@@ -765,10 +765,10 @@
 
   <!-- SCRIPTS DỮ LIỆU & ENGINE -->
   <script src="writing_data.js?v=3"></script>
-  <script src="writing_parser.js?v=3"></script>
-  <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../auth.js?v=31"></script>
+  <script src="writing_parser.js?v=4"></script>
+  <script src="../assets/s4-ui.js?v=65"></script>
+  <script src="../auth.js?v=32"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
-  <script src="writing.js?v=10"></script>
+  <script src="writing.js?v=12"></script>
 </body>
 </html>

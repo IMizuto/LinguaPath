@@ -60,11 +60,11 @@
   </script>
 
   <!-- Shared UI, Ghibli Theme & Speaking Styles -->
-  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=66">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
-  <link rel="stylesheet" href="speaking.css?v=8">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="speaking.css?v=9">
 </head>
 <body>
 
@@ -95,14 +95,13 @@
       </button>
       <button type="button" class="btn mini-btn sp-donate-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án phi lợi nhuận">💖 Ủng hộ</button>
       <button type="button" class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
-      <button type="button" class="btn mini-btn" onclick="window.toggleGhibliTheme && window.toggleGhibliTheme()" title="Bật/Tắt Ghibli Theme">🍃</button>
       <span class="prog-pill" id="topProgText"><span class="sp-prog-lbl">Đã học: </span>0/2490</span>
     </div>
   </header>
 
   <!-- WORKSPACE LAYOUT (SIDEBAR MỤC LỤC + MAIN AREA) -->
   <div class="workspace" id="speakingWorkspace">
-    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar()"></div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar(false)"></div>
 
     <!-- CỘT MỤC LỤC BÊN TRÁI (355px ĐỒNG BỘ CÁC PHÂN HỆ) -->
     <aside class="sidebar" id="speakingSidebar">
@@ -116,6 +115,7 @@
             <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
           </div>
           <button type="button" class="mini-btn" id="btnToggleAll" onclick="window.toggleAllSpeakingFolders && window.toggleAllSpeakingFolders()">Thu gọn</button>
+          <button type="button" class="close-sidebar-btn" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar(false)" title="Đóng mục lục" aria-label="Đóng mục lục">×</button>
         </div>
       </div>
 
@@ -137,7 +137,8 @@
           <div class="sp-header-actions">
             <span class="s4-step-badge" id="vocabStepBadge">15 mục từ</span>
             <button type="button" class="btn mini-btn" id="btnToggleVocabDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">✓ Đánh dấu đã học</button>
-            <button type="button" class="btn btn-primary" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ➜</button>
+            <button type="button" class="btn mini-btn" id="btnPrevSpVocab" onclick="window.openPrevLesson && window.openPrevLesson()">◀ Bài trước</button>
+            <button type="button" class="btn btn-primary" id="btnNextSpVocab" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ▶</button>
           </div>
         </div>
         <div id="speakingVocabMount">
@@ -155,7 +156,8 @@
           <div class="sp-header-actions">
             <span class="s4-step-badge" id="theoryDurationTag">⏱️ 8 phút đọc</span>
             <button type="button" class="btn mini-btn" id="btnToggleTheoryDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">✓ Đánh dấu đã học</button>
-            <button type="button" class="btn btn-primary" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ➜</button>
+            <button type="button" class="btn mini-btn" id="btnPrevSpTheory" onclick="window.openPrevLesson && window.openPrevLesson()">◀ Bài trước</button>
+            <button type="button" class="btn btn-primary" id="btnNextSpTheory" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ▶</button>
           </div>
         </div>
 
@@ -188,6 +190,8 @@
               <button type="button" class="sp-accent-btn" data-accent="en-US" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-US')" title="Giọng Anh-Mỹ (US)">🇺🇸 US</button>
             </div>
             <button type="button" class="btn mini-btn" id="btnToggleStudioDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">✓ Đánh dấu hoàn thành</button>
+            <button type="button" class="btn mini-btn" id="btnPrevSpStudio" onclick="window.openPrevLesson && window.openPrevLesson()">◀ Bài trước</button>
+            <button type="button" class="btn mini-btn" id="btnNextSpStudio" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ▶</button>
             <button type="button" class="btn btn-primary" onclick="window.openPracticeZoneFromStudio && window.openPracticeZoneFromStudio()" title="Thử sức ngay với Phòng Thi Thật Practice Zone">🎯 Thi thử thật</button>
           </div>
         </div>
@@ -398,13 +402,17 @@
                     <button type="button" class="btn mini-btn" id="btnToggleGeminiKeyVis" onclick="window.togglePzGeminiKeyVisibility && window.togglePzGeminiKeyVisibility()" title="Hiện/ẩn tạm thời API Key">👁️</button>
                     <button type="button" class="btn mini-btn" id="btnClearGeminiKey" onclick="window.clearPzGeminiKey && window.clearPzGeminiKey()" title="Xoá API Key khỏi máy">🗑️</button>
                   </div>
-                  <input type="url" id="pzAiBaseUrlInput" class="sp-select" style="font-size:12px;" placeholder="🌐 https://codex.fosta.app/v1 (hoặc URL proxy CORS tùy chọn)" autocomplete="off">
+                  <input type="url" id="pzAiBaseUrlInput" class="sp-select" style="font-size:12px;" placeholder="🌐 URL Proxy OpenAI-compatible tùy chọn (vd: https://api.groq.com/openai/v1)" autocomplete="off">
                   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
                     <select id="pzGeminiModelSelect" class="sp-select" style="flex:1;min-width:160px;" aria-label="Chọn model AI">
                       <option value="gemini-2.5-flash">gemini-2.5-flash · Gemini 2.5 Flash (Khuyên dùng · Ổn định)</option>
                       <option value="gemini-2.0-flash">gemini-2.0-flash · Gemini 2.0 Flash (Free Tier · Nhanh)</option>
+                      <option value="gemini-2.5-pro">gemini-2.5-pro · Gemini 2.5 Pro (Chấm sâu · Chi tiết)</option>
                       <option value="gemini-4-hydrogen">gemini-4-hydrogen · Gemini 4 Hydrogen (Preview)</option>
-                      <option value="gpt-6-sol">gpt-6-sol · OpenAI / Groq / Proxy (sk- / gsk_)</option>
+                      <option value="gpt-6-sol">gpt-6-sol · GPT-6 Sol (OpenAI / Proxy sk-)</option>
+                      <option value="gpt-6.1-sol">gpt-6.1-sol · GPT-6.1 Sol (Proxy)</option>
+                      <option value="gpt-6-luna">gpt-6-luna · GPT-6 Luna (Proxy)</option>
+                      <option value="gpt-4o-mini">gpt-4o-mini · OpenAI / Groq / Proxy (sk- / gsk_)</option>
                     </select>
                     <button type="button" class="btn mini-btn" id="btnTestGeminiConn" onclick="window.testPzGeminiConnection && window.testPzGeminiConnection()">🔌 Thử kết nối AI</button>
                   </div>
@@ -566,12 +574,12 @@
 
   <!-- SCRIPTS DỮ LIỆU & ENGINE (THỨ TỰ CHUẨN LINGUAPATH) -->
   <script src="speaking_data.js?v=2"></script>
-  <script src="speaking_parser.js?v=6"></script>
-  <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../assets/s4-vocab-engine.js?v=67"></script>
-  <script src="../auth.js?v=31"></script>
+  <script src="speaking_parser.js?v=7"></script>
+  <script src="../assets/s4-ui.js?v=65"></script>
+  <script src="../assets/s4-vocab-engine.js?v=68"></script>
+  <script src="../auth.js?v=32"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
   <script src="../assets/s4-whisper.js?v=4"></script>
-  <script src="speaking.js?v=18"></script>
+  <script src="speaking.js?v=20"></script>
 </body>
 </html>

@@ -68,17 +68,18 @@
     .hero-inner { max-width: 920px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-width: 0; flex-wrap: wrap; }
     .hero h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
     .hero p { margin: 4px 0 0 0; font-size: 13.5px; opacity: 0.9; }
-    .dark-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 16px; cursor: pointer; flex-shrink: 0; }
-    .back-portal-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 7px 13px; border-radius: 11px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: background 0.15s ease; }
+    .dark-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #fff; height: 36px; padding: 0 12px; border-radius: 12px; font-size: 16px; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; line-height: 1; }
+    .back-portal-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); color: #fff; height: 36px; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; box-sizing: border-box; line-height: 1; white-space: nowrap; transition: background 0.15s ease; }
     .back-portal-btn:hover { background: rgba(255,255,255,0.3); }
     .data-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 600; font-size: 13px; cursor: pointer; }
-    .container { max-width: 920px; width: 100%; margin: -22px auto 36px auto; padding: 0 calc(14px + env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 16px) calc(14px + env(safe-area-inset-left, 0px)); }
+    .container { max-width: 920px; width: 100%; margin: -22px auto 0 auto; padding: 0 calc(14px + env(safe-area-inset-right, 0px)) calc(80px + env(safe-area-inset-bottom, 0px)) calc(14px + env(safe-area-inset-left, 0px)); }
     .portal-wrap { padding-top: 28px; }
     .summary-bar { background: var(--card); border-radius: 16px; padding: 14px 16px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,0.06); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; text-align: center; margin-bottom: 22px; }
     .sum-num { font-size: 20px; font-weight: 800; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sum-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
     .sec-title { font-size: 14.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 20px 0 12px 4px; display: flex; align-items: center; gap: 8px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    #viewPortal .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .course-card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); padding: 18px; text-decoration: none; color: var(--text); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: relative; overflow: hidden; min-width: 0; cursor: pointer; }
     .course-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,0.09); border-color: var(--primary); }
     .course-card:active { transform: scale(0.985); }
@@ -108,14 +109,14 @@
       .summary-bar { padding: 12px 8px; gap: 6px; margin-bottom: 18px; }
       .sum-num { font-size: 17px; }
       .sum-label { font-size: 11px; }
-      .grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      .grid, #viewPortal .grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
       .course-card { padding: 15px; border-radius: 15px; }
     }
   </style>
-  <link rel="stylesheet" href="assets/s4-ui.css?v=64">
+  <link rel="stylesheet" href="assets/s4-ui.css?v=66">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=29">
+  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -190,7 +191,7 @@
           </div>
           <div class="card-footer">
             <div class="prog-row" style="margin-bottom:0;align-items:center;">
-              <span style="color:var(--muted);font-size:12px;">⏳ Đang biên soạn</span>
+              <span style="color:var(--muted);font-size:12px;white-space:nowrap;">⏳ Đang biên soạn</span>
               <span style="color:#e11d48;font-weight:700;font-size:12px;">💖 Ủng hộ ra mắt sớm &rarr;</span>
             </div>
           </div>
@@ -208,7 +209,7 @@
           </div>
           <div class="card-footer">
             <div class="prog-row" style="margin-bottom:0;align-items:center;">
-              <span style="color:var(--muted);font-size:12px;">⏳ Đang biên soạn</span>
+              <span style="color:var(--muted);font-size:12px;white-space:nowrap;">⏳ Đang biên soạn</span>
               <span style="color:#e11d48;font-weight:700;font-size:12px;">💖 Ủng hộ ra mắt sớm &rarr;</span>
             </div>
           </div>
@@ -248,7 +249,7 @@
           </div>
           <div class="card-footer">
             <div class="prog-row">
-              <span id="vocabPctText">Tiến độ: 0%</span>
+              <span id="vocabPctText">Đã học: 0/1,827 từ SRS (0%)</span>
               <span style="color:#2563eb;">Vào học &rarr;</span>
             </div>
             <div class="prog-bar"><div class="prog-fill" id="vocabProgFill" style="width:0%;background:#2563eb;"></div></div>
@@ -266,7 +267,7 @@
           </div>
           <div class="card-footer">
             <div class="prog-row">
-              <span id="grammarPctText">Tiến độ: 0%</span>
+              <span id="grammarPctText">Đã học: 0/120 bài (0%)</span>
               <span style="color:#0d9488;">Vào học &rarr;</span>
             </div>
             <div class="prog-bar"><div class="prog-fill" id="grammarProgFill" style="width:0%;background:#0d9488;"></div></div>
@@ -280,14 +281,14 @@
           <div class="card-top">
             <div class="card-icon" style="background:#fef3c7;color:#d97706;">🎧</div>
             <div>
-              <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING • 1,482 BÀI & 6,808 TỪ</span>
+              <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING • 1,482 BÀI & 2,176 TỪ SRS</span>
               <h3 class="card-title">IELTS Intensive Listening</h3>
-              <p class="card-desc">10 chủ đề Từ vựng SRS (2,176 từ), 133 đề thi thật CBT, 670 bài nghe Dictation & 775 video chữa đề chi tiết.</p>
+              <p class="card-desc">10 chủ đề Từ vựng SRS (2,176 từ), 670 bài nghe Dictation, 775 video chữa đề & kho 133 đề thi thật CBT riêng biệt.</p>
             </div>
           </div>
           <div class="card-prog">
             <div class="prog-row">
-              <span id="listeningPctText">Tiến độ: 0 bài • 0 từ đã thuộc</span>
+              <span id="listeningPctText">Đã học: 0/1,482 bài • 0/2,176 từ SRS</span>
               <span style="color:#d97706;">Vào học &rarr;</span>
             </div>
             <div class="prog-bar"><div class="prog-fill" id="listeningProgFill" style="width:0%;background:#d97706;"></div></div>
@@ -298,14 +299,14 @@
           <div class="card-top">
             <div class="card-icon" style="background:#dcfce7;color:#15803d;">📖</div>
             <div>
-              <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING • 1,220 BÀI & 2,969 TỪ</span>
+              <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING • 1,220 BÀI & 2,969 TỪ SRS</span>
               <h3 class="card-title">IELTS Intensive Reading</h3>
               <p class="card-desc">10 chủ đề Từ vựng SRS (2,969 từ), 184 đề thi thật CBT, 318 bài đọc Academic song ngữ & 876 video chữa đề.</p>
             </div>
           </div>
           <div class="card-prog">
             <div class="prog-row">
-              <span id="readingPctText">Tiến độ: 0 bài • 0 từ đã thuộc</span>
+              <span id="readingPctText">Đã học: 0/1,220 bài • 0/2,969 từ SRS</span>
               <span style="color:#15803d;">Vào học &rarr;</span>
             </div>
             <div class="prog-bar"><div class="prog-fill" id="readingProgFill" style="width:0%;background:#15803d;"></div></div>
@@ -318,12 +319,12 @@
             <div>
               <span class="card-tag" style="background:#f3e8ff;color:#7e22ce;">WRITING • 261 BÀI GIẢNG &amp; 1,183 ĐỀ PRACTICE ZONE</span>
               <h3 class="card-title">IELTS Intensive Writing</h3>
-              <p class="card-desc">42 bài giảng phương pháp, 80 đề Task 1, 136 đề Task 2 có bài mẫu Simon Band 8.0+, kho 1,183 đề Practice Zone CBT &amp; chấm điểm AI.</p>
+              <p class="card-desc">42 bài giảng phương pháp, 80 đề Task 1, 136 đề Task 2 có bài mẫu Simon Band 8.0+, 3 bộ đề mẫu &amp; kho 1,183 đề Practice Zone CBT chấm điểm AI.</p>
             </div>
           </div>
           <div class="card-prog">
             <div class="prog-row">
-              <span id="writingPctText">Tiến độ: 0 / 261 bài</span>
+              <span id="writingPctText">Đã học: 0/261 bài (0%)</span>
               <span style="color:#7e22ce;">Vào học &rarr;</span>
             </div>
             <div class="prog-bar"><div class="prog-fill" id="writingProgFill" style="width:0%;background:#7e22ce;"></div></div>
@@ -409,7 +410,18 @@
 
     function updateDashboardStats() {
       try {
-        const srs = JSON.parse(localStorage.getItem("s4_vocab_srs_v1") || "{}");
+        const safeJson = (k, fb) => {
+          try {
+            const raw = localStorage.getItem(k);
+            if (!raw) return fb;
+            const parsed = JSON.parse(raw);
+            return parsed !== null && typeof parsed === "object" ? parsed : fb;
+          } catch (e) {
+            return fb;
+          }
+        };
+
+        const srs = safeJson("s4_vocab_srs_v1", {});
         const allKeys = Object.keys(srs).filter(k => /^w_(0|[1-9]\d*)$/.test(k) && Number(k.slice(2)) < 1827 && srs[k] && typeof srs[k] === "object" && !Array.isArray(srs[k]));
         const activeLearnedKeys = allKeys.filter(k => srs[k] && !srs[k].ignored);
         const ignoredKeys = allKeys.filter(k => srs[k] && srs[k].ignored);
@@ -418,38 +430,38 @@
         const totalDoneCount = activeLearnedKeys.length + ignoredKeys.length;
         const vPct = Math.min(100, Math.round((totalDoneCount / 1827) * 100));
 
-        document.getElementById("vocabPctText").textContent = "Tiến độ: " + vPct + "% (" + activeLearnedKeys.length + " đã học, " + ignoredKeys.length + " đã biết)";
+        document.getElementById("vocabPctText").textContent = "Đã học: " + totalDoneCount.toLocaleString('en-US') + "/1,827 từ SRS (" + vPct + "%)";
         document.getElementById("vocabProgFill").style.width = vPct + "%";
 
-        const gDone = JSON.parse(localStorage.getItem("s4_grammar_done") || "{}");
+        const gDone = safeJson("s4_grammar_done", {});
         const gCount = Object.values(gDone).filter(Boolean).length;
         const gPct = Math.min(100, Math.round((gCount / 120) * 100));
-        document.getElementById("grammarPctText").textContent = "Tiến độ: " + gPct + "% (" + gCount + " bài)";
+        document.getElementById("grammarPctText").textContent = "Đã học: " + gCount + "/120 bài (" + gPct + "%)";
         document.getElementById("grammarProgFill").style.width = gPct + "%";
 
-        const lisDoneRaw = JSON.parse(localStorage.getItem("s4_listening_done") || "[]");
+        const lisDoneRaw = safeJson("s4_listening_done", []);
         const lisCount = Array.isArray(lisDoneRaw) ? lisDoneRaw.length : Object.values(lisDoneRaw).filter(Boolean).length;
-        const lisSrs = JSON.parse(localStorage.getItem("s4_listening_srs_v1") || "{}");
+        const lisSrs = safeJson("s4_listening_srs_v1", {});
         const lisWords = Object.keys(lisSrs).filter(k => lisSrs[k] && (lisSrs[k].reps > 0 || lisSrs[k].ignored || lisSrs[k].due)).length;
         const lisDue = Object.keys(lisSrs).filter(k => lisSrs[k] && !lisSrs[k].ignored && (lisSrs[k].reps > 0 || lisSrs[k].due) && now >= Number(lisSrs[k].due || 0)).length;
         const lisPct = Math.min(100, Math.round(((lisCount + lisWords) / (1482 + 2176)) * 100));
         const lisTextEl = document.getElementById("listeningPctText");
         const lisFillEl = document.getElementById("listeningProgFill");
-        if (lisTextEl) lisTextEl.textContent = "Đã học: " + lisCount + "/1,482 bài • " + lisWords + "/2,176 từ SRS";
+        if (lisTextEl) lisTextEl.textContent = "Đã học: " + lisCount.toLocaleString('en-US') + "/1,482 bài • " + lisWords.toLocaleString('en-US') + "/2,176 từ SRS";
         if (lisFillEl) lisFillEl.style.width = lisPct + "%";
 
-        const readDoneRaw = JSON.parse(localStorage.getItem("s4_reading_done") || "[]");
+        const readDoneRaw = safeJson("s4_reading_done", []);
         const readCount = Array.isArray(readDoneRaw) ? readDoneRaw.length : Object.values(readDoneRaw).filter(Boolean).length;
-        const readSrs = JSON.parse(localStorage.getItem("s4_reading_srs_v1") || "{}");
+        const readSrs = safeJson("s4_reading_srs_v1", {});
         const readWords = Object.keys(readSrs).filter(k => readSrs[k] && (readSrs[k].reps > 0 || readSrs[k].ignored || readSrs[k].due)).length;
         const readDue = Object.keys(readSrs).filter(k => readSrs[k] && !readSrs[k].ignored && (readSrs[k].reps > 0 || readSrs[k].due) && now >= Number(readSrs[k].due || 0)).length;
         const readPct = Math.min(100, Math.round(((readCount + readWords) / (1220 + 2969)) * 100));
         const readTextEl = document.getElementById("readingPctText");
         const readFillEl = document.getElementById("readingProgFill");
-        if (readTextEl) readTextEl.textContent = "Đã học: " + readCount + "/1,220 bài • " + readWords + "/2,969 từ SRS";
+        if (readTextEl) readTextEl.textContent = "Đã học: " + readCount.toLocaleString('en-US') + "/1,220 bài • " + readWords.toLocaleString('en-US') + "/2,969 từ SRS";
         if (readFillEl) readFillEl.style.width = readPct + "%";
 
-        const writingDoneRaw = JSON.parse(localStorage.getItem("s4_writing_done") || "[]");
+        const writingDoneRaw = safeJson("s4_writing_done", []);
         const writingDoneIds = Array.isArray(writingDoneRaw)
           ? writingDoneRaw.filter(Boolean)
           : Object.keys(writingDoneRaw || {}).filter(k => writingDoneRaw[k]);
@@ -457,12 +469,12 @@
         const writingPct = Math.min(100, Math.round((writingCount / 261) * 100));
         const writingTextEl = document.getElementById("writingPctText");
         const writingFillEl = document.getElementById("writingProgFill");
-        if (writingTextEl) writingTextEl.textContent = "Đã làm: " + writingCount + "/261 bài (" + writingPct + "%)";
+        if (writingTextEl) writingTextEl.textContent = "Đã học: " + writingCount + "/261 bài (" + writingPct + "%)";
         if (writingFillEl) writingFillEl.style.width = writingPct + "%";
 
-        const speakDoneRaw = JSON.parse(localStorage.getItem("lp_speaking_done_v1") || "[]");
+        const speakDoneRaw = safeJson("lp_speaking_done_v1", []);
         const speakCount = Array.isArray(speakDoneRaw) ? speakDoneRaw.length : Object.values(speakDoneRaw).filter(Boolean).length;
-        const speakSrs = JSON.parse(localStorage.getItem("lp_speaking_vocab_srs_v1") || "{}");
+        const speakSrs = safeJson("lp_speaking_vocab_srs_v1", {});
         const speakWords = Object.keys(speakSrs).filter(k => speakSrs[k] && (speakSrs[k].reps > 0 || speakSrs[k].ignored || speakSrs[k].due)).length;
         const speakDue = Object.keys(speakSrs).filter(k => speakSrs[k] && !speakSrs[k].ignored && (speakSrs[k].reps > 0 || speakSrs[k].due) && now >= Number(speakSrs[k].due || 0)).length;
         const speakPct = Math.min(100, Math.round(((speakCount + speakWords) / (2490 + 9214)) * 100));
@@ -483,7 +495,7 @@
         document.getElementById("portalIeltsSummary").textContent = "Tiến độ: " + overallIeltsPct + "% (" + totalAllWords.toLocaleString('en-US') + " từ • " + totalAllLessons.toLocaleString('en-US') + " bài)";
         document.getElementById("portalIeltsBar").style.width = overallIeltsPct + "%";
 
-        const tedDone = JSON.parse(localStorage.getItem("s4_ted_done") || "{}");
+        const tedDone = safeJson("s4_ted_done", {});
         const tedCount = Object.values(tedDone).filter(Boolean).length;
         const tedPct = Math.min(100, Math.round((tedCount / 202) * 100));
         const tedSumEl = document.getElementById("portalTedSummary");
@@ -511,6 +523,10 @@
       if (k.endsWith("_last_rendered_html") || k.endsWith("_last_sidebar_html") || k.endsWith("_last_lesson_cache")) return false;
       return true;
     }
+    const HTML_CACHE_KEYS = [
+      "s4_listen_last_rendered_html", "s4_listen_last_sidebar_html", "s4_listen_last_lesson_cache",
+      "s4_read_last_rendered_html", "s4_read_last_sidebar_html", "s4_read_last_lesson_cache"
+    ];
     function appKeys() {
       return Object.keys(localStorage).filter(isAppProgressKey);
     }
@@ -523,6 +539,9 @@
       a.download = "LinguaPath_Backup_" + new Date().toISOString().slice(0, 10) + ".json";
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 10000);
+      if (window.S4UI && typeof window.S4UI.toast === "function") {
+        window.S4UI.toast("success", "✅ Đã tải xuống file sao lưu tiến độ!");
+      }
     }
     function restoreAll(ev) {
       const f = ev.target.files && ev.target.files[0];
@@ -535,6 +554,7 @@
           if (obj.app !== "study4-all" || !obj.items) throw new Error("invalid");
           const doRestore = () => {
             appKeys().forEach(k => localStorage.removeItem(k));
+            HTML_CACHE_KEYS.forEach(k => localStorage.removeItem(k));
             Object.keys(obj.items).forEach(k => { if (isAppProgressKey(k)) localStorage.setItem(k, obj.items[k]); });
             if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
             updateDashboardStats();
@@ -559,6 +579,7 @@
     function resetAll() {
       const doReset = () => {
         appKeys().forEach(k => localStorage.removeItem(k));
+        HTML_CACHE_KEYS.forEach(k => localStorage.removeItem(k));
         if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
         updateDashboardStats();
         if (window.S4UI) window.S4UI.toast("success", "Đã xóa toàn bộ tiến độ trên thiết bị.");
@@ -577,17 +598,23 @@
     function checkSkillFolder(ev, skillName, icon) {
       if (ev) ev.preventDefault();
       const old = document.getElementById("s4ComingSoonModal");
-      if (old) old.remove();
+      if (old) {
+        if (typeof old._closeModal === "function") old._closeModal();
+        else old.remove();
+      }
+      const cleanName = String(skillName || "").trim();
+      const subjectHtml = /^khóa học\b/i.test(cleanName) ? `<b>${cleanName}</b>` : `Học phần <b>${cleanName}</b>`;
       const wrap = document.createElement("div");
       wrap.id = "s4ComingSoonModal";
-      wrap.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;touch-action:none;";
+      wrap.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:10050;padding:16px;touch-action:none;";
       wrap.innerHTML = `
-        <div role="dialog" aria-modal="true" aria-labelledby="s4CsTitle" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:24px 20px 18px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
+        <div role="dialog" aria-modal="true" aria-labelledby="s4CsTitle" style="position:relative;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:24px 20px 18px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
+          <button type="button" id="s4CsClose" aria-label="Đóng" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;">✕</button>
           <div style="width:56px;height:56px;border-radius:16px;background:rgba(37,99,235,0.12);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px auto;">${icon || "⏳"}</div>
           <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.4px;padding:3px 10px;border-radius:99px;background:rgba(245,158,11,0.16);color:#d97706;margin-bottom:8px;">⏳ ĐANG BIÊN SOẠN</span>
-          <h3 id="s4CsTitle" style="margin:0 0 8px 0;font-size:18px;font-weight:800;">${skillName} sắp ra mắt</h3>
+          <h3 id="s4CsTitle" style="margin:0 0 8px 0;font-size:18px;font-weight:800;">${cleanName} sắp ra mắt</h3>
           <p style="margin:0 0 12px 0;font-size:14px;color:var(--muted);line-height:1.55;">
-            Học phần <b>${skillName}</b> đang được biên soạn và hoàn thiện nội dung.
+            ${subjectHtml} đang được biên soạn và hoàn thiện nội dung.
           </p>
           <div style="margin:0 0 16px 0;padding:10px 12px;border-radius:12px;background:rgba(225,29,72,0.08);border:1px dashed rgba(225,29,72,0.45);font-size:13px;line-height:1.5;color:var(--text);">
             💖 Mỗi lượt ủng hộ của bạn sẽ giúp học phần này <b>ra mắt sớm hơn</b> và duy trì ứng dụng miễn phí cho cộng đồng.
@@ -597,14 +624,21 @@
             <button type="button" id="s4CsDonate" style="font-family:inherit;flex:1.6;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 14px rgba(225,29,72,0.3);">💖 Ủng hộ để ra mắt sớm</button>
           </div>
         </div>`;
-      const onKey = e => { if (e.key === "Escape") close(); };
+      const onKey = e => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          close();
+        }
+      };
       const close = () => {
         wrap.remove();
-        document.removeEventListener("keydown", onKey);
+        document.removeEventListener("keydown", onKey, true);
       };
-      document.addEventListener("keydown", onKey);
+      wrap._closeModal = close;
+      document.addEventListener("keydown", onKey, true);
       wrap.addEventListener("click", e => { if (e.target === wrap) close(); });
       document.body.appendChild(wrap);
+      wrap.querySelector("#s4CsClose").onclick = close;
       wrap.querySelector("#s4CsCancel").onclick = close;
       wrap.querySelector("#s4CsDonate").onclick = () => {
         close();
@@ -619,8 +653,8 @@
     updateDashboardStats();
     applyViewFromHash();
   </script>
-  <script src="assets/s4-ui.js?v=63"></script>
-  <script src="auth.js?v=31"></script>
+  <script src="assets/s4-ui.js?v=65"></script>
+  <script src="auth.js?v=32"></script>
   <script src="assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>
 </html>

@@ -55,7 +55,6 @@
 <title>LinguaPath IELTS Listening — Free for Community</title>
   <link rel="icon" href="../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../icon-192.png">
-<link rel="preload" href="data/listening_manifest.js" as="script">
 <style>
   :root {
     --bg: #0f172a;
@@ -570,10 +569,28 @@
     -webkit-backdrop-filter: blur(3px);
   }
   .sidebar-backdrop.open { display: block; }
+  @media (min-width: 769px) {
+    .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+  }
 
   @media (max-width: 768px) {
     .menu-toggle-btn { display: inline-flex !important; }
-    .close-sidebar-btn { display: block !important; }
+    .close-sidebar-btn {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      flex-shrink: 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
     .topbar { padding: 8px 10px; gap: 6px; }
     .brand-title { font-size: 13.5px; }
     .top-switch {
@@ -632,10 +649,10 @@
   }
 
 </style>
-  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=66">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <script>
@@ -691,6 +708,7 @@
           <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
         </div>
         <button class="mini-btn" onclick="toggleAllFolders()" id="btnToggleAll">Thu gọn</button>
+        <button type="button" class="close-sidebar-btn" onclick="toggleMobileSidebar(false)" title="Đóng mục lục" aria-label="Đóng mục lục">×</button>
       </div>
     </div>
     
@@ -728,8 +746,8 @@
 </div>
 <audio id="ttsAudioPlayer" style="display:none;"></audio>
 <script src="data/listening_manifest.js"></script>
-<script src="../assets/s4-ui.js?v=63"></script>
-<script src="../assets/s4-vocab-engine.js?v=67"></script>
+<script src="../assets/s4-ui.js?v=65"></script>
+<script src="../assets/s4-vocab-engine.js?v=68"></script>
 <script>
 document.querySelectorAll('#lessonContainer #globalPassAudio').forEach(el => el.remove());
 const MANIFEST = window.STUDY4_LISTENING_MANIFEST || { units: [] };
@@ -1442,8 +1460,17 @@ function getActiveVocabList() {
 }
 
 
+function closeMobileDrawerState() {
+  const sb = document.querySelector('.sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.remove('open');
+  if (bd) bd.classList.remove('open');
+  document.body.classList.remove('sidebar-open');
+}
+
 window.toggleMobileSidebar = function(force) {
   if (window.innerWidth > 768) {
+    closeMobileDrawerState();
     const nextCol = (typeof force === 'boolean') ? !force : !document.body.classList.contains('sidebar-collapsed');
     document.body.classList.toggle('sidebar-collapsed', nextCol);
     const deskLbl = document.querySelector('#btnToggleSidebar .s4-desk-sb-lbl');
@@ -1458,6 +1485,18 @@ window.toggleMobileSidebar = function(force) {
   if (bd) bd.classList.toggle('open', isOpen);
   document.body.classList.toggle('sidebar-open', isOpen);
 };
+
+window.addEventListener('resize', function () {
+  if (window.innerWidth > 768) closeMobileDrawerState();
+});
+if (window.matchMedia) {
+  const lMq = window.matchMedia('(min-width: 769px)');
+  if (lMq.addEventListener) lMq.addEventListener('change', (e) => { if (e.matches) closeMobileDrawerState(); });
+  else if (lMq.addListener) lMq.addListener((e) => { if (e.matches) closeMobileDrawerState(); });
+}
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && document.body.classList.contains('sidebar-open')) closeMobileDrawerState();
+});
 
 window.selectLesson = function(id) {
   const meta = ALL_LESSONS.find(x => x.id === id);
@@ -2024,6 +2063,16 @@ window.openListeningPzByKey = function(key) {
     }
   });
 };
+window.enterListeningPzMode = function() {
+  isListeningPzMode = true;
+  window.stopGlobalPassAudio(true);
+  ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'].forEach(id => {
+    const btn = document.getElementById('topBtn_' + id);
+    if (btn) btn.classList.remove('active');
+  });
+  const pzBtn = document.getElementById('topBtn_pz');
+  if (pzBtn) pzBtn.classList.add('active');
+};
 window.exitListeningPzMode = function() {
   isListeningPzMode = false;
   window.stopGlobalPassAudio(true);
@@ -2037,6 +2086,22 @@ window.exitListeningPzMode = function() {
     document.body.classList.remove('s4-cbt-mode');
   }
   renderMain();
+};
+
+function getListeningUnitPool() {
+  if (!currentLesson) return ALL_LESSONS;
+  const unitList = ALL_LESSONS.filter(x => x.unitId === currentLesson.unitId);
+  return unitList.length ? unitList : ALL_LESSONS;
+}
+
+window.stepListeningLesson = function(delta) {
+  if (!currentLesson) return;
+  const pool = getListeningUnitPool();
+  const idx = pool.findIndex(x => x.id === currentLesson.id);
+  const nextIdx = idx + Number(delta || 0);
+  if (idx >= 0 && nextIdx >= 0 && nextIdx < pool.length) {
+    selectLesson(pool[nextIdx].id);
+  }
 };
 
 function renderMain() {
@@ -2261,19 +2326,40 @@ function renderMain() {
     `;
   }
 
+  const navPool = getListeningUnitPool();
+  const navIdx = navPool.findIndex(x => x.id === currentLesson.id);
+  const prevLessonObj = navIdx > 0 ? navPool[navIdx - 1] : null;
+  const nextLessonObj = (navIdx >= 0 && navIdx + 1 < navPool.length) ? navPool[navIdx + 1] : null;
+  const escNavTitle = (t) => String(t || '').replace(/"/g, '&quot;');
+  const prevBtnAttrs = prevLessonObj
+    ? `title="Bài trước: ${escNavTitle(prevLessonObj.title)}" onclick="stepListeningLesson(-1)"`
+    : 'disabled title="Đã ở bài đầu tiên"';
+  const nextBtnAttrs = nextLessonObj
+    ? `title="Bài tiếp theo: ${escNavTitle(nextLessonObj.title)}" onclick="stepListeningLesson(1)"`
+    : 'disabled title="Đã ở bài cuối cùng"';
+
   container.innerHTML = `
     <div class="lesson-header">
       <div>
         <div class="lesson-unit-tag">${currentLesson.group || currentLesson.unitName}</div>
         <h1 class="lesson-title">${currentLesson.title}</h1>
       </div>
-      <div class="lesson-actions">
+      <div class="lesson-actions" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <span class="s4-lesson-nav-group">
+          <button type="button" class="btn mini-btn" id="btnPrevListenLesson" ${prevBtnAttrs}>◀ Bài trước</button>
+          <button type="button" class="btn mini-btn" id="btnNextListenLesson" ${nextBtnAttrs}>Bài tiếp theo ▶</button>
+        </span>
         <button class="btn btn-done ${isDone ? 'completed' : ''}" onclick="toggleDoneCurrent()">
           ${isDone ? '✓ Đã hoàn thành' : '○ Đánh dấu hoàn thành'}
         </button>
       </div>
     </div>
     ${bodyHtml}
+    <div class="s4-lesson-footer-nav">
+      <button type="button" class="btn mini-btn" ${prevBtnAttrs}>◀ Bài trước</button>
+      <span class="s4-lesson-footer-pos">${navIdx >= 0 ? `Bài ${navIdx + 1}/${navPool.length}` : ''}</span>
+      <button type="button" class="btn btn-primary" ${nextBtnAttrs}>Bài tiếp theo ▶</button>
+    </div>
   `;
 
   if (pType === 'topic_flashcards' && window.S4VocabEngine) {
@@ -2344,8 +2430,8 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
 }
 
 </script>
-  <script src="../assets/s4-practice-zone.js?v=65"></script>
-  <script src="../auth.js?v=31"></script>
+  <script src="../assets/s4-practice-zone.js?v=67"></script>
+  <script src="../auth.js?v=32"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 
   <!-- MODAL LỊCH SỬ BÀI THI LISTENING TRÊN TOPBAR -->

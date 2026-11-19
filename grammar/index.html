@@ -73,8 +73,9 @@
     .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 10040; backdrop-filter: blur(2px); touch-action: none; overscroll-behavior: none; }
     .sidebar-backdrop.open { display: block; }
     .sidebar { width: 340px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; height: 100dvh; z-index: 200; overscroll-behavior: contain; touch-action: pan-y; }
-    .sidebar-header { padding: 12px 14px; background: var(--card); color: var(--text); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-    .sidebar-header h2 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+    .sidebar-header { padding: 10px 12px; background: var(--card); color: var(--text); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-shrink: 0; }
+    .sidebar-header h2 { margin: 0; font-size: 14.5px; display: flex; align-items: center; gap: 6px; color: var(--text); white-space: nowrap; min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-header > div { flex-shrink: 0; gap: 5px; }
     .home-pill { color: var(--text); text-decoration: none; background: var(--bg); border: 1px solid var(--border); padding: 6px 10px; border-radius: 8px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; flex-shrink: 0; }
     .close-menu-btn { display: none; background: var(--bg); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px; border-radius: 8px; font-size: 20px; line-height: 1; cursor: pointer; }
     .search-box { padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0; }
@@ -93,7 +94,7 @@
     .sec-meta { font-size: 11.5px; font-weight: 600; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
     .sec-items { display: none; padding: 5px 6px 6px 6px; border-top: 1px solid var(--border); background: var(--bg); }
     .sec-group.open .sec-items { display: block; }
-    .lesson-item { padding: 8px 10px; border-radius: 7px; cursor: pointer; margin-bottom: 3px; transition: 0.15s; font-size: 13px; line-height: 1.35; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--card); }
+    .lesson-item { padding: 8px 10px; border-radius: 7px; cursor: pointer; margin-bottom: 3px; transition: 0.15s; font-size: 13px; line-height: 1.35; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--card); border: 1px solid transparent; }
     .lesson-item:last-child { margin-bottom: 0; }
     .lesson-item:hover { background: rgba(15,118,110,0.08); }
     .lesson-item.active { background: var(--primary); color: #fff; font-weight: 700; }
@@ -144,8 +145,7 @@
     html.dark .practice-body .ans-wrong, body.dark .practice-body .ans-wrong { background-color: rgba(239, 68, 68, 0.22) !important; color: #fca5a5 !important; }
     .ans-hint { display: inline-flex; align-items: center; margin-left: 6px; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.4); color: #065f46; font-weight: 700; font-size: 13px; }
     html.dark .ans-hint, body.dark .ans-hint { background: rgba(16, 185, 129, 0.22); border-color: rgba(16, 185, 129, 0.45); color: #6ee7b7; }
-    .s4-g-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
-    @media (max-width: 768px) { .s4-g-toast { top: calc(56px + env(safe-area-inset-top, 0px)); } }
+    .s4-g-toast { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); top: auto; left: 50%; transform: translateX(-50%) translateY(8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
     .s4-g-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .s4-g-toast.good { background: #16a34a; }
     .s4-g-toast.warn { background: #dc2626; }
@@ -155,10 +155,17 @@
     .g-problem-explanation-wrapper .collapse { display: none; margin-top: 12px; padding: 14px 18px; background: var(--bg); border-radius: 10px; border-left: 4px solid #f59e0b; }
     .g-problem-explanation-wrapper .collapse.show { display: block; }
     .nav-footer { display: flex; justify-content: space-between; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); gap: 12px; }
+    @media (min-width: 769px) {
+      .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+    }
     @media (max-width: 768px) {
-      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: 330px; border-right: none; box-shadow: none; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
+      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: 330px; border-right: none; box-shadow: none; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; overflow: hidden; }
       .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; border-right: 1px solid var(--border); box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
-      .close-menu-btn { display: block; }
+      .sidebar-header { padding: 10px; gap: 6px; }
+      .sidebar-header h2 { font-size: 14.5px; min-width: 0; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; gap: 6px; }
+      .sidebar-header > div { flex-shrink: 0; gap: 4px !important; }
+      .sidebar-header .theme-btn { padding: 5px 7px !important; font-size: 11.5px !important; }
+      .close-menu-btn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0; }
       .mobile-topbar { display: flex; }
       .main { padding: 12px 12px calc(16px + env(safe-area-inset-bottom, 8px)) 12px; }
       .container { padding: 18px 14px; border-radius: 10px; }
@@ -167,10 +174,10 @@
       .pdf-hdr-ext { display: none !important; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=66">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -179,7 +186,7 @@
     <div class="sidebar-header">
       <h2><a href="../index.html#ielts" class="home-pill" title="Về Khóa học IELTS">🏠</a> 📚 Ngữ pháp IELTS</h2>
       <div style="display:flex;align-items:center;gap:6px;">
-        <button class="theme-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án & Mặt trận Tổ quốc" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;font-size:12px;font-weight:700;padding:5px 9px;">💖 Ủng hộ</button>
+        <button class="theme-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án & Mặt trận Tổ quốc" aria-label="Ủng hộ dự án" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;font-size:12px;font-weight:700;padding:5px 8px;">💖</button>
         <button class="theme-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
         <button class="close-menu-btn" onclick="toggleMenu(false)">×</button>
       </div>
@@ -211,8 +218,8 @@
     </div>
   </div>
 
-  <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../auth.js?v=31"></script>
+  <script src="../assets/s4-ui.js?v=65"></script>
+  <script src="../auth.js?v=32"></script>
   <script src="grammar_data.js"></script>
   <script>
     (function () {
@@ -251,7 +258,7 @@
     if (initLesson) openSections.add(initLesson.unitTitle + "||" + initLesson.sectionName);
 
     window.toggleMenu = function(open) {
-      const isOpen = !!open;
+      const isOpen = !!open && window.innerWidth <= 768;
       sidebarEl.classList.toggle("open", isOpen);
       document.body.classList.toggle("sidebar-open", isOpen);
       const bd = document.getElementById("sidebarBackdrop");
@@ -264,6 +271,21 @@
         window.toggleMenu(false);
       }
     });
+    function syncGrammarDrawerViewport() {
+      if (window.innerWidth > 768 && (
+        document.body.classList.contains("sidebar-open") ||
+        sidebarEl.classList.contains("open") ||
+        document.getElementById("sidebarBackdrop")?.classList.contains("open")
+      )) {
+        window.toggleMenu(false);
+      }
+    }
+    window.addEventListener("resize", syncGrammarDrawerViewport);
+    if (window.matchMedia) {
+      const gMq = window.matchMedia("(min-width: 769px)");
+      if (gMq.addEventListener) gMq.addEventListener("change", (e) => { if (e.matches) window.toggleMenu(false); });
+      else if (gMq.addListener) gMq.addListener((e) => { if (e.matches) window.toggleMenu(false); });
+    }
 
     const UNIT_SHORT = {
       "[Grammar] Parts of speech - Từ loại": "1. Từ loại",
@@ -405,7 +427,15 @@
           if (changed) localStorage.setItem("s4_vocab_days_v2", JSON.stringify(days));
         } catch (e) {}
       }
-      selectItem(id, false);
+      renderSidebar(searchInput.value);
+      if (id === activeId) {
+        const doneBtn = contentEl.querySelector(".btn-done");
+        if (doneBtn) {
+          const isDone = !!completedMap[id];
+          doneBtn.classList.toggle("completed", isDone);
+          doneBtn.textContent = isDone ? "✅ Đã hoàn thành" : "⬜ Đánh dấu Đã học";
+        }
+      }
     };
 
     
@@ -665,6 +695,8 @@ function selectItem(id, resetScroll = true) {
         ).join("") + '</div>';
       }
 
+      const hasExplanation = /g-problem-explanation-wrapper|gproblemexplanation/i.test(q.bodyHtml || "");
+
       box.innerHTML = `
         <div class="practice-card">
           <div class="practice-header">
@@ -673,7 +705,7 @@ function selectItem(id, resetScroll = true) {
           </div>
           <div class="prob-controls">
             <button class="btn btn-check" onclick="checkPracticeAnswers()">✔️ Kiểm tra đáp án</button>
-            <button class="btn btn-show" onclick="showPracticeAnswers()">🏳️ Hiện đáp án & Giải thích</button>
+            <button class="btn btn-show" onclick="showPracticeAnswers()">${hasExplanation ? "🏳️ Hiện đáp án & Giải thích" : "🏳️ Hiện đáp án chuẩn"}</button>
             <button class="btn btn-clear" onclick="clearPracticeAnswers()">🔄 Làm lại</button>
           </div>
           <div id="scoreBanner" class="score-banner"></div>
@@ -696,11 +728,23 @@ function selectItem(id, resetScroll = true) {
         a.onclick = (ev) => {
           ev.preventDefault();
           const target = body.querySelector("#gproblemexplanation, .g-problem-explanation-wrapper .collapse");
-          if (target) target.classList.toggle("show");
+          if (target) {
+            const opened = target.classList.toggle("show");
+            if (opened) {
+              try { target.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+            }
+          }
         };
       });
       // 3. Nhấn Enter trong ô điền từ bất kỳ để kiểm tra tức thì ô đó và hiện thông báo Đúng/Sai
       body.querySelectorAll("input[data-answer], select[data-answer]").forEach(el => {
+        if (el.tagName === "SELECT") {
+          const emptyOpt = Array.from(el.options || []).find(opt => opt.value === "" && !String(opt.textContent || "").trim());
+          if (emptyOpt) {
+            emptyOpt.value = "";
+            emptyOpt.textContent = "-- Chọn --";
+          }
+        }
         el.addEventListener("focus", () => {
           setTimeout(() => {
             try { el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }); } catch (e) {}
@@ -811,7 +855,8 @@ function selectItem(id, resetScroll = true) {
       if (!body) return;
       body.querySelectorAll(".ans-hint").forEach(e => e.remove());
 
-      body.querySelectorAll("[data-answer]").forEach(el => {
+      const fields = body.querySelectorAll("[data-answer]");
+      fields.forEach(el => {
         const rawAns = el.getAttribute("data-answer") || "";
         if (el.tagName === "SELECT") {
           const opts = Array.from(el.options);
@@ -826,6 +871,20 @@ function selectItem(id, resetScroll = true) {
 
       const expCollapse = body.querySelector("#gproblemexplanation, .g-problem-explanation-wrapper .collapse");
       if (expCollapse) expCollapse.classList.add("show");
+
+      const banner = document.getElementById("scoreBanner");
+      const msg = expCollapse
+        ? `💡 Đã điền đáp án chuẩn (${fields.length} câu) và mở Giải thích chi tiết bên dưới!`
+        : `💡 Đã điền đáp án chuẩn cho toàn bộ ${fields.length} câu! (Phần này chưa có mục giải thích mở rộng)`;
+      if (banner) {
+        banner.style.display = "block";
+        banner.style.background = "#e0f2fe";
+        banner.style.color = "#0369a1";
+        banner.textContent = msg;
+      }
+      if (typeof showGrammarToast === "function") {
+        showGrammarToast(true, expCollapse ? "Đã hiện đáp án & giải thích" : "Đã điền đáp án chuẩn", 1800);
+      }
     };
 
     window.clearPracticeAnswers = function() {

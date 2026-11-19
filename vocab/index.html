@@ -95,6 +95,7 @@
     .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; max-width: 100%; background: var(--bg); overscroll-behavior: none; }
     .topbar { position: sticky; top: 0; z-index: 90; background: var(--card); color: var(--text); border-bottom: 1px solid var(--border); padding: 8px 14px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; width: 100%; max-width: 100%; touch-action: manipulation; }
     .home-btn { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 7px 11px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .vocab-mob-home { display: none; }
     .menu-btn { display: none; background: var(--primary); color: #fff; border: none; padding: 7px 11px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; white-space: nowrap; align-items: center; gap: 4px; flex-shrink: 0; }
     .mode-nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: none; touch-action: pan-x; overscroll-behavior-x: contain; }
     .mode-btn { padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 600; font-size: 12.5px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
@@ -204,8 +205,7 @@
     .text-input:focus { border-color: var(--primary); }
     .text-input.correct { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.16) !important; color: var(--success) !important; }
     .text-input.wrong { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.15) !important; color: var(--danger) !important; }
-    .s4-ans-toast { position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
-    @media (max-width: 768px) { .s4-ans-toast { top: calc(52px + env(safe-area-inset-top, 0px)); } }
+    .s4-ans-toast { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); top: auto; left: 50%; transform: translateX(-50%) translateY(8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
     .s4-ans-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .s4-ans-toast.correct { background: #16a34a; }
     .s4-ans-toast.wrong { background: #dc2626; }
@@ -215,12 +215,16 @@
     .badge-status { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700; background: var(--success-soft); color: var(--success); }
     .badge-status.ign { background: var(--warn-soft); color: var(--warn); }
 
+    @media (min-width: 769px) {
+      .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+    }
     @media (max-width: 768px) {
       .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: 330px; border-right: none; box-shadow: none; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
       .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; border-right: 1px solid var(--border); box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
       .close-sidebar { display: block; }
       .menu-btn { display: inline-flex; padding: 6px 8px; font-size: 12px; }
       .home-btn { padding: 6px 8px; font-size: 12px; }
+      .vocab-mob-home { display: inline-flex; }
       .topbar .mode-btn { padding: 6px 8px; font-size: 12px; }
       .mode-nav { display: none; }
       .mode-dd-wrap { display: block; }
@@ -265,10 +269,10 @@
       .stats-btns .v-cal-lbl { display: none; }
     }
   </style>
-  <link rel="stylesheet" href="../assets/s4-ui.css?v=64">
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=66">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=29">
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -299,7 +303,7 @@
 
   <div class="main-wrap">
     <div class="topbar">
-      <a class="home-btn" href="../index.html#ielts" title="Về Khóa học IELTS">🏠</a>
+      <a class="home-btn vocab-mob-home" href="../index.html#ielts" title="Về Khóa học IELTS">🏠</a>
       <button class="menu-btn" onclick="toggleSidebar(true)">☰ Chủ đề</button>
       <div class="mode-dd-wrap" id="modeDdWrap">
         <button class="mode-dd-btn" id="modeDdBtn" onclick="event.stopPropagation();document.getElementById('modeDdMenu').classList.toggle('open')">
@@ -336,8 +340,8 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../assets/s4-ui.js?v=63"></script>
-  <script src="../auth.js?v=31"></script>
+  <script src="../assets/s4-ui.js?v=65"></script>
+  <script src="../auth.js?v=32"></script>
   <script src="vocab_data.js"></script>
   <script>
     const VOCAB = window.STUDY4_VOCAB_DATA || [];
@@ -1041,11 +1045,30 @@
     }
 
     function toggleSidebar(open) {
-      $("sidebar").classList.toggle("open", open);
-      document.body.classList.toggle("sidebar-open", open);
+      const isOpen = !!open && window.innerWidth <= 768;
+      $("sidebar").classList.toggle("open", isOpen);
+      document.body.classList.toggle("sidebar-open", isOpen);
       const bd = $("sidebarBackdrop");
-      if (bd) bd.classList.toggle("open", open);
+      if (bd) bd.classList.toggle("open", isOpen);
     }
+    function syncVocabDrawerViewport() {
+      if (window.innerWidth > 768 && (
+        document.body.classList.contains("sidebar-open") ||
+        $("sidebar")?.classList.contains("open") ||
+        $("sidebarBackdrop")?.classList.contains("open")
+      )) {
+        toggleSidebar(false);
+      }
+    }
+    window.addEventListener("resize", syncVocabDrawerViewport);
+    if (window.matchMedia) {
+      const vMq = window.matchMedia("(min-width: 769px)");
+      if (vMq.addEventListener) vMq.addEventListener("change", (e) => { if (e.matches) toggleSidebar(false); });
+      else if (vMq.addListener) vMq.addListener((e) => { if (e.matches) toggleSidebar(false); });
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.body.classList.contains("sidebar-open")) toggleSidebar(false);
+    });
     function toggleDark() {
       if (window.toggleDarkModeOnly) {
         window.toggleDarkModeOnly();
@@ -1472,7 +1495,6 @@
           fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${rightAns}</span>`;
         }
         if (nextBtn) nextBtn.style.display = "inline-flex";
-        showAnsToast(false, rightAns);
         const w = studyQueue[0];
         if (w) playVocab(w.id, "uk");
       }

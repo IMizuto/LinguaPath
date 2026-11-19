@@ -20,7 +20,11 @@
 }
 .s4-ui-toast-stack--bottom {
   top: auto;
-  bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+body.s4-cbt-mode .s4-ui-toast-stack--bottom,
+body.in-cbt-mode .s4-ui-toast-stack--bottom {
+  bottom: calc(68px + env(safe-area-inset-bottom, 0px));
 }
 @media (max-width: 768px) {
   .s4-ui-toast-stack:not(.s4-ui-toast-stack--bottom) {
@@ -677,4 +681,34 @@ body.dark .spell-input.wrong {
     padding: 5px 9px !important;
     font-size: 12px !important;
   }
+}
+
+/* ---------------- UNIFIED LESSON PREV / NEXT NAVIGATION ---------------- */
+.s4-lesson-nav-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.s4-lesson-nav-group button:disabled,
+.s4-lesson-footer-nav button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.s4-lesson-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding-top: 14px;
+  padding-bottom: 58px;
+  border-top: 1px dashed var(--border);
+}
+.s4-lesson-footer-pos {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
 }

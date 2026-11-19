@@ -27,6 +27,10 @@
     P_SDONE, P_SLAST, P_SNOTES, P_SSUBS, P_SPREFS, P_SSRS, P_SDAYS, P_SSET, P_SSES,
     P_TDONE, P_TLAST, P_TPOS, P_TSUBVI
   ];
+  const HTML_CACHE_KEYS = [
+    "s4_listen_last_rendered_html", "s4_listen_last_sidebar_html", "s4_listen_last_lesson_cache",
+    "s4_read_last_rendered_html", "s4_read_last_sidebar_html", "s4_read_last_lesson_cache"
+  ];
   const TOTAL_VOCAB = 1827;
   const TOTAL_GRAMMAR = 120;
   const TOTAL_LISTENING_LESSONS = 1482;
@@ -654,11 +658,9 @@
     if (!session || !session.username) return;
     const ow = { scope: normScope, ts: now, expiresAt: now + 86400000, user: session.username };
     pendingOverwriteMem = ow;
-    {
-      setSync(session.username, { dirty: true, localTs: now, pendingOverwrite: ow });
-      clearTimeout(pushTimer);
-      pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, 250);
-    }
+    setSync(session.username, { dirty: true, localTs: now, pendingOverwrite: ow });
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, 250);
   }
   function onProgressChanged() {
     if (!session) return;
@@ -902,6 +904,7 @@
       PROGRESS_KEYS.forEach(k => rawRemove(k));
       hookSuspended = false;
     }
+    HTML_CACHE_KEYS.forEach(k => rawRemove(k));
     session = null;
     saveSession();
     if (msg) sessionStorage.setItem("s4_logout_msg", msg);
@@ -1681,7 +1684,7 @@
       const owner = config.bankOwner || "HOANG NGUYEN";
       const noteText = config.contactNote || "20% số tiền ủng hộ (Donate) sẽ được trích chuyển trực tiếp tới Mặt trận Tổ quốc Việt Nam để ủng hộ đồng bào & các hoạt động thiện nguyện.";
       const memo = config.transferMemo || ("UNG HO LINGUAPATH" + (u && u.username ? " " + u.username.toUpperCase() : ""));
-      const qrUrl = "https://img.vietqr.io/image/" + encodeURIComponent(bank) + "-" + encodeURIComponent(acc) + "-compact2.png?addInfo=" + encodeURIComponent(memo) + "&accountName=" + encodeURIComponent(owner);
+      const qrUrl = "https://img.vietqr.io/image/" + encodeURIComponent(bank) + "-" + encodeURIComponent(acc) + "-compact2.svg?addInfo=" + encodeURIComponent(memo) + "&accountName=" + encodeURIComponent(owner);
 
       box.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
@@ -1703,8 +1706,15 @@
 
         <div class="s4-donate-grid">
           <div style="text-align:center;">
-            <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.08);display:inline-block;max-width:100%;">
-              <img src="${qrUrl}" alt="VietQR Donate" style="width:176px;height:176px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;" id="qrImg">
+            <div id="qrBox" style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.08);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:192px;min-height:224px;max-width:100%;color:#0f172a;">
+              <div id="qrLoading" style="font-size:12px;font-weight:600;color:#475569;padding:8px 4px;">⏳ Đang tải mã VietQR...</div>
+              <img src="${qrUrl}" alt="VietQR Donate" referrerpolicy="no-referrer" decoding="async" style="width:176px;height:208px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;" id="qrImg">
+              <div id="qrFallback" style="display:none;width:176px;min-height:196px;padding:12px 8px;border:1.5px dashed #cbd5e1;border-radius:8px;background:#f8fafc;color:#0f172a;flex-direction:column;align-items:center;justify-content:center;gap:6px;line-height:1.45;">
+                <div style="font-size:13px;font-weight:800;color:#be123c;">🏦 ${esc(bank)}</div>
+                <div style="font-size:13px;font-weight:800;color:#1d4ed8;word-break:break-all;">STK: ${esc(acc)}</div>
+                <div style="font-size:11px;color:#475569;">Chưa tải được ảnh QR lúc này. Bạn hãy dùng nút <b>Sao chép</b> thông tin bên cạnh để chuyển khoản nhanh.</div>
+                <button type="button" id="btnRetryQr" class="s4-top-btn" style="margin-top:4px;font-size:11.5px;padding:5px 10px;background:#fff;color:#0f172a;border:1px solid #cbd5e1;cursor:pointer;">🔄 Thử tải lại mã QR</button>
+              </div>
             </div>
             <div style="font-size:11px;color:var(--muted,#64748b);margin-top:6px;">Quét mã VietQR bằng mọi ứng dụng Ngân hàng / Ví điện tử</div>
           </div>
@@ -1743,6 +1753,40 @@
           <button type="button" class="s4-top-btn" id="s4CloseBottom" onclick="window.S4Auth.closeModals()" style="padding:8px 18px;font-size:13px;cursor:pointer;">Đóng</button>
         </div>
       `;
+
+      const qrImg = box.querySelector("#qrImg");
+      const qrLoading = box.querySelector("#qrLoading");
+      const qrFallback = box.querySelector("#qrFallback");
+      const btnRetryQr = box.querySelector("#btnRetryQr");
+      const showQrSuccess = () => {
+        if (qrLoading) qrLoading.style.display = "none";
+        if (qrFallback) qrFallback.style.display = "none";
+        if (qrImg) qrImg.style.display = "block";
+      };
+      const showQrFallback = () => {
+        if (qrLoading) qrLoading.style.display = "none";
+        if (qrImg) qrImg.style.display = "none";
+        if (qrFallback) qrFallback.style.display = "flex";
+      };
+      if (qrImg) {
+        qrImg.onload = () => {
+          if (qrImg.naturalWidth > 0) showQrSuccess();
+          else showQrFallback();
+        };
+        qrImg.onerror = showQrFallback;
+        if (qrImg.complete) {
+          if (qrImg.naturalWidth > 0) showQrSuccess();
+          else showQrFallback();
+        }
+      }
+      if (btnRetryQr && qrImg) {
+        btnRetryQr.onclick = () => {
+          if (qrFallback) qrFallback.style.display = "none";
+          if (qrLoading) qrLoading.style.display = "block";
+          qrImg.style.display = "block";
+          qrImg.src = qrUrl + "&_t=" + Date.now();
+        };
+      }
 
       box.querySelector("#s4Close").onclick = closeModals;
       box.querySelectorAll("[data-copy]").forEach(btn => {
@@ -2220,6 +2264,7 @@
       PROGRESS_KEYS.forEach(k => rawRemove(k));
       hookSuspended = false;
     }
+    HTML_CACHE_KEYS.forEach(k => rawRemove(k));
     pendingOverwriteMem = null;
     session = null;
     saveSession();
@@ -2260,8 +2305,6 @@
       fetchConfig().then(changed => {
         if (!changed) return;
         renderTopBar();
-        if (config.authEnforced && !getCurrentUser()) openLoginModal(true);
-        else closeModals();
         if (!isHomePage()) reloadOnce("cfg");
       }).catch(() => {});
     } else if (firstConfigChanged && !isHomePage()) {

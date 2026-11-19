@@ -262,7 +262,11 @@ html:not(.dark) .lesson-item:hover {
 }
 html:not(.dark) .lesson-item.active {
   background: rgba(45, 106, 79, 0.16) !important;
-  border-color: var(--primary) !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--text) !important;
+}
+html:not(.dark) .lesson-item.active .done-dot {
+  color: #15803d !important;
 }
 html:not(.dark) .lesson-item-title {
   color: var(--text) !important;
@@ -343,7 +347,7 @@ html:not(.dark) .mini-btn {
   border: 1px solid var(--border) !important;
   color: var(--text) !important;
 }
-html:not(.dark) .btn:hover,
+html:not(.dark) .btn:not(.btn-primary):hover,
 html:not(.dark) .back-btn:hover,
 html:not(.dark) .mini-btn:hover {
   background: var(--box-sub) !important;
@@ -351,6 +355,11 @@ html:not(.dark) .mini-btn:hover {
 html:not(.dark) .btn-primary {
   background: var(--primary) !important;
   border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+html:not(.dark) .btn-primary:hover {
+  background: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
   color: #ffffff !important;
 }
 
@@ -527,13 +536,16 @@ html.theme-ghibli .course-card:hover {
   transform: translateY(-4px) !important;
   border-color: var(--primary) !important;
 }
+html.theme-ghibli .course-card .card-top {
+  padding-right: 24px;
+}
 html.theme-ghibli .course-card::after {
   content: "🌿";
   position: absolute;
-  top: 12px;
-  right: 14px;
-  font-size: 15px;
-  opacity: 0.45;
+  top: 8px;
+  right: 10px;
+  font-size: 12px;
+  opacity: 0.28;
   pointer-events: none;
 }
 
@@ -1446,13 +1458,19 @@ html:not(.dark) .s4-pz-qnav-btn.graded-wrong {
   border: 1px solid var(--border);
   margin: 10px 0;
 }
-.s4-pz-container .context-content table {
+.s4-pz-container .context-content table,
+.s4-cbt-pane-left .context-content table,
+.s4-cbt-pane-right .context-content table {
   width: 100% !important;
   border-collapse: collapse !important;
   margin: 12px 0 !important;
 }
 .s4-pz-container .context-content td,
-.s4-pz-container .context-content th {
+.s4-pz-container .context-content th,
+.s4-cbt-pane-left .context-content td,
+.s4-cbt-pane-left .context-content th,
+.s4-cbt-pane-right .context-content td,
+.s4-cbt-pane-right .context-content th {
   border: 1px solid var(--border) !important;
   padding: 8px 12px !important;
 }
@@ -1678,7 +1696,7 @@ html:not(.dark) .s4-pz-submitted .question-correct {
    ================================================================ */
 
 /* 1. Cho phép Thu gọn / Mở rộng Sidebar bên trái trên cả Desktop & Mở rộng 100% khung làm bài */
-.menu-toggle-btn {
+#btnToggleSidebar.menu-toggle-btn {
   display: inline-flex !important;
   align-items: center;
   gap: 5px;
@@ -1687,7 +1705,7 @@ html:not(.dark) .s4-pz-submitted .question-correct {
   transition: width 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.18s ease;
 }
 @media (min-width: 769px) {
-  body.sidebar-collapsed .sidebar {
+  body.sidebar-collapsed .sidebar:not(.open) {
     width: 0 !important;
     min-width: 0 !important;
     padding: 0 !important;
@@ -1841,7 +1859,7 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
     font-size: 11px !important;
   }
   .s4-cbt-test-title {
-    max-width: 160px !important;
+    max-width: 240px !important;
     font-size: 12.5px !important;
   }
   .s4-cbt-header-center {
@@ -1869,9 +1887,24 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
   }
 }
 
+@media (max-width: 1360px) {
+  .s4-cbt-header-right .s4-cbt-ctrl-btn:not(.s4-cbt-exit-btn) .s4-cbt-hide-mob {
+    display: none !important;
+  }
+  .s4-cbt-submit-btn .s4-cbt-hide-mob {
+    display: none !important;
+  }
+  .s4-cbt-vol-group input[type="range"] {
+    width: 46px !important;
+  }
+  .s4-cbt-test-title {
+    max-width: 220px !important;
+  }
+}
+
 @media (max-width: 1250px) {
   .s4-cbt-test-title {
-    max-width: 110px !important;
+    max-width: 175px !important;
   }
   .s4-cbt-header-center > span {
     font-size: 11.5px !important;
@@ -2301,14 +2334,14 @@ html:not(.dark) .s4-cbt-user-hl {
 
 /* 7. Thanh Điều Hướng Câu Hỏi 1..40 Ở Đáy Màn Hình (Bottom Question Palette chuẩn Inspera) */
 .s4-cbt-bottom-bar {
-  min-height: 52px;
-  padding: 5px 12px;
+  min-height: 46px;
+  padding: 4px 8px;
   background: var(--card);
   border-top: 2px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   z-index: 30;
   width: 100vw !important;
   max-width: 100vw !important;
@@ -2318,7 +2351,8 @@ html:not(.dark) .s4-cbt-user-hl {
 .s4-cbt-part-groups {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  scroll-padding-inline: 16px;
   overflow-x: auto !important;
   padding: 2px 0;
   flex: 1 1 0% !important;
@@ -2331,8 +2365,9 @@ html:not(.dark) .s4-cbt-user-hl {
 .s4-cbt-part-cluster {
   display: inline-flex;
   align-items: center;
-  gap: 2.5px;
-  padding: 3px 6px;
+  gap: 2px;
+  padding: 2px 5px;
+  flex-shrink: 0;
   border-radius: 8px;
   background: var(--box-sub);
   border: 1px solid var(--border);
@@ -2340,20 +2375,20 @@ html:not(.dark) .s4-cbt-user-hl {
   transition: all 0.15s;
 }
 .s4-cbt-part-cluster .s4-pz-qnav-btn {
-  min-width: 23px;
-  height: 23px;
-  padding: 0 3px;
-  font-size: 11px;
+  min-width: 20px;
+  height: 21px;
+  padding: 0 2px;
+  font-size: 10.5px;
 }
 .s4-cbt-part-cluster.active {
   border-color: var(--primary);
   background: rgba(16, 185, 129, 0.08);
 }
 .s4-cbt-part-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 900;
   color: var(--text);
-  margin-right: 3px;
+  margin-right: 2px;
   white-space: nowrap;
 }
 .s4-pz-qnav-btn.current-q {
@@ -2379,8 +2414,12 @@ html:not(.dark) .s4-cbt-user-hl {
 .s4-cbt-bottom-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
+}
+.s4-cbt-bottom-actions .s4-cbt-ctrl-btn {
+  padding: 4px 7px;
+  font-size: 11.5px;
 }
 
 /* ================================================================

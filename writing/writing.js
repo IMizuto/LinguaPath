@@ -271,6 +271,15 @@
     }
   }
 
+  function updateTopWritingHistoryCount() {
+    const subs = getWritingSubmissions();
+    const badgeEl = document.getElementById('lobbyHistoryBadgeCount');
+    const topCountEl = document.getElementById('topHistoryCount');
+    if (badgeEl) badgeEl.textContent = `${subs.length} bài đã nộp`;
+    if (topCountEl) topCountEl.textContent = String(subs.length);
+    return subs;
+  }
+
   function saveWritingSubmissionRecord(record) {
     const list = getWritingSubmissions();
     const idx = list.findIndex(r => r.id === record.id);
@@ -284,6 +293,7 @@
     } catch (e) {
       console.error('Không thể lưu submission vào localStorage', e);
     }
+    renderLobbyHistory();
   }
 
   function renderAiEvaluationForm(subRecord) {
@@ -914,6 +924,53 @@
     else if (mode === 'essay') renderEssayMode(activeLesson);
   };
 
+  function highlightSampleSentenceVocab(rawText, vocabWords, includeMeaning) {
+    const baseText = String(rawText || '');
+    if (!Array.isArray(vocabWords) || vocabWords.length === 0) return baseText;
+
+    const sorted = vocabWords
+      .filter(vw => vw && vw.word && String(vw.word).trim())
+      .slice()
+      .sort((a, b) => String(b.word).trim().length - String(a.word).trim().length);
+
+    let segments = [{ text: baseText, locked: false }];
+    sorted.forEach(vw => {
+      const clean = String(vw.word).trim();
+      const escaped = escapeRegExp(clean);
+      const prefix = /^[a-z0-9]/i.test(clean) ? '\\b' : '';
+      const suffix = /[a-z]$/i.test(clean) ? '(?:es|s|ed|ing|d)?\\b' : '';
+      const re = new RegExp(prefix + '(' + escaped + suffix + ')', 'gi');
+      const pill = includeMeaning && vw.meaning ? `<span class="vocab-meaning-pill">[${vw.meaning}]</span>` : '';
+
+      const nextSegments = [];
+      segments.forEach(seg => {
+        if (seg.locked || !seg.text) {
+          nextSegments.push(seg);
+          return;
+        }
+        let lastIdx = 0;
+        let m;
+        re.lastIndex = 0;
+        while ((m = re.exec(seg.text)) !== null) {
+          if (m.index > lastIdx) {
+            nextSegments.push({ text: seg.text.slice(lastIdx, m.index), locked: false });
+          }
+          nextSegments.push({ text: `<span class="vocab-word-hl">${m[1]}</span>${pill}`, locked: true });
+          lastIdx = m.index + m[0].length;
+          if (m[0].length === 0) {
+            re.lastIndex++;
+          }
+        }
+        if (lastIdx < seg.text.length) {
+          nextSegments.push({ text: seg.text.slice(lastIdx), locked: false });
+        }
+      });
+      segments = nextSegments;
+    });
+
+    return segments.map(s => s.text).join('');
+  }
+
   // 6.1 MODE: BÀI MẪU & SONG NGỮ
   function renderSampleMode(lesson) {
     const box = document.getElementById('sampleContentBox');
@@ -926,17 +983,7 @@
 
     let html = '';
     lesson.sampleSentences.forEach((s, sIdx) => {
-      let sentenceHtml = s.en;
-
-      // Highlight các cụm từ vựng
-      if (s.vocabWords && s.vocabWords.length > 0) {
-        s.vocabWords.forEach(vw => {
-          if (!vw.word) return;
-          const re = new RegExp('(' + escapeRegExp(vw.word) + ')', 'gi');
-          const pill = showSampleMeaning && vw.meaning ? `<span class="vocab-meaning-pill">[${vw.meaning}]</span>` : '';
-          sentenceHtml = sentenceHtml.replace(re, `<span class="vocab-word-hl">$1</span>${pill}`);
-        });
-      }
+      const sentenceHtml = highlightSampleSentenceVocab(s.en, s.vocabWords, showSampleMeaning);
 
       // Nhãn vai trò câu học thuật
       let roleBadge = '';
@@ -1400,7 +1447,7 @@
 
     const text = editor.value;
     const count = countWords(text);
-    countText.textContent = `${count} words`;
+    countText.textContent = `${count} từ`;
 
     const minW = (activeLesson && activeLesson.category === 'Task 1') ? 150 : 250;
     if (count >= minW) {
@@ -1454,80 +1501,149 @@
   // =========================================================================
   // 9. REVIEW MODE (ĐỐI CHIẾU SONG SONG & CHẤM ĐIỂM)
   // =========================================================================
-  async function submitEssayAndReview() {
-    if (!activeLesson) return;
-    const editor = document.getElementById('essayEditor');
-    const userText = editor ? editor.value.trim() : '';
-    const userWords = countWords(userText);
+  let isSubmittingStudioEssay = false;
 
-    if (userWords < 15) {
-      const okShort = (window.S4UI && typeof window.S4UI.confirm === 'function')
-        ? await window.S4UI.confirm('Bài viết của bạn hiện tại còn khá ngắn (dưới 15 từ). Bạn có chắc chắn muốn nộp để xem bài mẫu và đối chiếu không?', {
-            title: 'Nộp bài viết ngắn?',
-            tone: 'warn',
-            confirmText: 'Vẫn nộp bài'
-          })
-        : confirm('Bài viết của bạn hiện tại còn khá ngắn (dưới 15 từ). Bạn có chắc chắn muốn nộp để xem bài mẫu và đối chiếu không?');
-      if (!okShort) return;
+  function renderReviewPromptCard(taskKey, taskData) {
+    const promptCard = document.getElementById('reviewPromptCard');
+    const promptLbl = document.getElementById('reviewPromptTaskLbl');
+    const promptType = document.getElementById('reviewPromptTaskType');
+    const promptTitle = document.getElementById('reviewPromptTaskTitle');
+    const promptText = document.getElementById('reviewPromptText');
+    const chartWrap = document.getElementById('reviewChartWrap');
+    const promptGrid = document.getElementById('reviewPromptGrid');
+    const safeTask = taskData || {};
+
+    if (promptCard) promptCard.style.display = 'block';
+    if (promptLbl) {
+      promptLbl.textContent = (taskKey === 'task1')
+        ? '📊 ĐỀ BÀI TASK 1 • ACADEMIC REPORT (20 PHÚT)'
+        : '💡 ĐỀ BÀI TASK 2 • DISCURSIVE ESSAY (40 PHÚT)';
+    }
+    if (promptType) {
+      promptType.textContent = (taskKey === 'task1')
+        ? (safeTask.chartType || 'Biểu đồ Task 1')
+        : (safeTask.questionType || 'Nghị luận Task 2');
+    }
+    if (promptTitle) {
+      promptTitle.textContent = safeTask.title || (taskKey === 'task1' ? 'Task 1: Academic Report' : 'Task 2: Discursive Essay');
+    }
+    if (promptText) {
+      promptText.innerHTML = renderPzPromptHtml(safeTask);
     }
 
-    saveDraft(userText, userWords);
-    markLessonCompleted(activeLesson.id);
+    const hasImages = !!(safeTask.images && safeTask.images.length > 0);
+    if (promptGrid) {
+      promptGrid.classList.toggle('has-chart', hasImages);
+    }
 
-    document.getElementById('studioContainer').style.display = 'none';
-    document.getElementById('reviewContainer').style.display = 'block';
-
-    const pzTabs = document.getElementById('reviewPzTabs');
-    if (pzTabs) pzTabs.style.display = 'none';
-
-    const reviewUser = document.getElementById('reviewUserEssay');
-    const reviewSample = document.getElementById('reviewSampleEssay');
-    const userBadge = document.getElementById('reviewUserWordCount');
-    const sampleBadge = document.getElementById('reviewSampleWordCount');
-
-    if (reviewUser) reviewUser.textContent = userText || '(Chưa có nội dung bài viết)';
-    if (reviewSample) reviewSample.textContent = activeLesson.sampleText || '(Không có bài mẫu cho bài này)';
-    if (userBadge) userBadge.textContent = `${userWords} từ`;
-    if (sampleBadge) sampleBadge.textContent = `${activeLesson.sampleWordCount || 0} từ`;
-
-    const now = new Date();
-    const dateStr = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} • ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    const subRecord = {
-      id: `sub_${Date.now()}`,
-      skill: 'writing',
-      type: 'practice_single',
-      testId: activeLesson.id,
-      testCode: activeLesson.category,
-      testTitle: activeLesson.title,
-      date: dateStr,
-      timestamp: Date.now(),
-      duration: 'Bài viết Studio',
-      task1: {
-        title: activeLesson.title,
-        chartType: activeLesson.chartType || 'Chart',
-        questionType: activeLesson.questionType || 'Essay',
-        prompt: activeLesson.prompt || '',
-        images: activeLesson.images || [],
-        userText: userText,
-        wordCount: userWords,
-        minWords: (activeLesson.category === 'Task 1') ? 150 : 250,
-        sampleText: activeLesson.sampleText || ''
-      },
-      task2: null,
-      aiEvaluation: {
-        bandOverall: '',
-        bandTR: '',
-        bandCC: '',
-        bandLR: '',
-        bandGRA: '',
-        feedback: '',
-        corrections: '',
-        updatedAt: null
+    if (chartWrap) {
+      if (hasImages) {
+        chartWrap.style.display = 'block';
+        chartWrap.innerHTML = `
+          <div class="w-review-chart-box">
+            ${renderChartImagesHtml(safeTask.images, 'w-review-chart-img', 'Biểu đồ đề thi')}
+            <div class="w-review-chart-hint">🔍 Nhấp vào ảnh để phóng to toàn màn hình</div>
+          </div>
+        `;
+      } else {
+        chartWrap.style.display = 'none';
+        chartWrap.innerHTML = '';
       }
-    };
-    saveWritingSubmissionRecord(subRecord);
-    currentActiveSubId = subRecord.id;
-    renderAiEvaluationForm(subRecord);
+    }
+  }
+
+  async function submitEssayAndReview() {
+    if (!activeLesson || isSubmittingStudioEssay) return;
+    isSubmittingStudioEssay = true;
+    try {
+      const editor = document.getElementById('essayEditor');
+      const userText = editor ? editor.value.trim() : '';
+      const userWords = countWords(userText);
+
+      const isTask1 = (/task\s*1/i.test(activeLesson.category || '') || activeLesson.unitId === 'u_3');
+      const minWords = isTask1 ? 150 : 250;
+      if (userWords < minWords) {
+        const okShort = (window.S4UI && typeof window.S4UI.confirm === 'function')
+          ? await window.S4UI.confirm(`Bài viết hiện tại mới có ${userWords} từ (chưa đạt chuẩn tối thiểu ${minWords} từ của ${isTask1 ? 'Task 1' : 'Task 2'}). Bạn vẫn muốn nộp để đối chiếu với bài mẫu chứ?`, {
+              title: 'Bài viết chưa đủ số từ chuẩn',
+              tone: 'warn',
+              confirmText: 'Vẫn nộp & Đối chiếu',
+              cancelText: 'Viết tiếp'
+            })
+          : confirm(`Bài viết hiện tại mới có ${userWords} từ (chưa đạt chuẩn tối thiểu ${minWords} từ của ${isTask1 ? 'Task 1' : 'Task 2'}). Bạn vẫn muốn nộp để đối chiếu với bài mẫu chứ?`);
+        if (!okShort) return;
+      }
+
+      saveDraft(userText, userWords);
+      markLessonCompleted(activeLesson.id);
+
+      document.getElementById('studioContainer').style.display = 'none';
+      document.getElementById('reviewContainer').style.display = 'block';
+
+      const pzTabs = document.getElementById('reviewPzTabs');
+      if (pzTabs) pzTabs.style.display = 'none';
+
+      const taskKey = (/task\s*1/i.test(activeLesson.category || '') || activeLesson.unitId === 'u_3') ? 'task1' : 'task2';
+      renderReviewPromptCard(taskKey, {
+        title: activeLesson.title,
+        chartType: activeLesson.chartType || 'Task 1',
+        questionType: activeLesson.questionType || activeLesson.category || 'Essay',
+        prompt: activeLesson.prompt || '',
+        promptHtml: activeLesson.promptHtml || '',
+        images: activeLesson.images || []
+      });
+
+      const reviewUser = document.getElementById('reviewUserEssay');
+      const reviewSample = document.getElementById('reviewSampleEssay');
+      const userBadge = document.getElementById('reviewUserWordCount');
+      const sampleBadge = document.getElementById('reviewSampleWordCount');
+
+      if (reviewUser) reviewUser.textContent = userText || '(Chưa có nội dung bài viết)';
+      if (reviewSample) reviewSample.textContent = activeLesson.sampleText || '(Không có bài mẫu cho bài này)';
+      if (userBadge) userBadge.textContent = `${userWords} từ`;
+      if (sampleBadge) sampleBadge.textContent = `${activeLesson.sampleWordCount || 0} từ`;
+
+      const now = new Date();
+      const dateStr = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} • ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const subRecord = {
+        id: `sub_${Date.now()}`,
+        skill: 'writing',
+        type: 'practice_single',
+        testId: activeLesson.id,
+        testCode: activeLesson.category,
+        testTitle: activeLesson.title,
+        date: dateStr,
+        timestamp: Date.now(),
+        duration: 'Bài viết Studio',
+        task1: {
+          title: activeLesson.title,
+          chartType: activeLesson.chartType || 'Chart',
+          questionType: activeLesson.questionType || 'Essay',
+          prompt: activeLesson.prompt || '',
+          images: activeLesson.images || [],
+          userText: userText,
+          wordCount: userWords,
+          minWords: (activeLesson.category === 'Task 1') ? 150 : 250,
+          sampleText: activeLesson.sampleText || ''
+        },
+        task2: null,
+        aiEvaluation: {
+          bandOverall: '',
+          bandTR: '',
+          bandCC: '',
+          bandLR: '',
+          bandGRA: '',
+          feedback: '',
+          corrections: '',
+          updatedAt: null
+        }
+      };
+      saveWritingSubmissionRecord(subRecord);
+      currentActiveSubId = subRecord.id;
+      renderAiEvaluationForm(subRecord);
+    } finally {
+      isSubmittingStudioEssay = false;
+    }
   }
 
   // =========================================================================
@@ -1713,12 +1829,7 @@
 
   function renderLobbyHistory() {
     const listEl = document.getElementById('lobbyHistoryList');
-    const badgeEl = document.getElementById('lobbyHistoryBadgeCount');
-    const topCountEl = document.getElementById('topHistoryCount');
-    const subs = getWritingSubmissions();
-
-    if (badgeEl) badgeEl.textContent = `${subs.length} bài đã nộp`;
-    if (topCountEl) topCountEl.textContent = `${subs.length}`;
+    const subs = updateTopWritingHistoryCount();
 
     if (!listEl) return;
     if (subs.length === 0) {
@@ -2888,7 +2999,7 @@
 
     const text = editor.value;
     const count = countWords(text);
-    countText.textContent = `${count} words`;
+    countText.textContent = `${count} từ`;
 
     const minW = (currentPzTask === 'task1') ? 150 : 250;
     if (count >= minW) {
@@ -2945,16 +3056,39 @@
     const t2Words = countWords(t2Text);
 
     const skipConfirm = !!(opts && opts.skipConfirm === true);
-    const isTooShort = isDualMode ? (t1Words < 15 && t2Words < 15) : (includeT1 ? t1Words < 15 : t2Words < 15);
-    if (isTooShort && !skipConfirm) {
-      const okShort = (window.S4UI && typeof window.S4UI.confirm === 'function')
-        ? await window.S4UI.confirm('Bạn chưa viết bài đủ độ dài tối thiểu (hoặc bài làm dưới 15 từ). Bạn có chắc chắn muốn nộp bài không?', {
-            title: 'Nộp bài thi ngay?',
+    const t1Short = includeT1 && t1Words < 150;
+    const t2Short = includeT2 && t2Words < 250;
+    const isTooShort = t1Short || t2Short;
+    if (!skipConfirm) {
+      const confirmFn = (window.S4UI && typeof window.S4UI.confirm === 'function')
+        ? (msg, cfg) => window.S4UI.confirm(msg, cfg)
+        : (typeof window.confirm === 'function' ? (msg) => window.confirm(msg) : () => true);
+      if (isTooShort) {
+        const parts = [];
+        if (includeT1) parts.push(`Task 1: ${t1Words}/150 từ`);
+        if (includeT2) parts.push(`Task 2: ${t2Words}/250 từ`);
+        const okShort = await confirmFn(
+          `Bài viết chưa đạt chuẩn độ dài tối thiểu IELTS (${parts.join(' • ')}). Bạn có chắc chắn muốn nộp bài ngay không?`,
+          {
+            title: 'Bài viết chưa đủ độ dài tối thiểu',
             tone: 'warn',
-            confirmText: 'Vẫn nộp bài'
-          })
-        : confirm('Bạn chưa viết bài đủ độ dài tối thiểu (hoặc bài làm dưới 15 từ). Bạn có chắc chắn muốn nộp bài không?');
-      if (!okShort) return;
+            confirmText: 'Vẫn nộp bài',
+            cancelText: 'Viết tiếp'
+          }
+        );
+        if (!okShort) return;
+      } else {
+        const okSubmit = await confirmFn(
+          'Bạn đã kiểm tra lại bài viết và sẵn sàng nộp để đối chiếu & chấm điểm?',
+          {
+            title: 'Xác nhận nộp bài Writing',
+            tone: 'info',
+            confirmText: 'Nộp bài',
+            cancelText: 'Kiểm tra lại'
+          }
+        );
+        if (!okSubmit) return;
+      }
     }
 
     clearInterval(pzTimerInterval);
@@ -3084,51 +3218,7 @@
     const sampleWords = countWords(sampleText);
 
     // 2. Cập nhật Khung Đề Bài & Biểu đồ Review
-    const promptCard = document.getElementById('reviewPromptCard');
-    const promptLbl = document.getElementById('reviewPromptTaskLbl');
-    const promptType = document.getElementById('reviewPromptTaskType');
-    const promptTitle = document.getElementById('reviewPromptTaskTitle');
-    const promptText = document.getElementById('reviewPromptText');
-    const chartWrap = document.getElementById('reviewChartWrap');
-    const promptGrid = document.getElementById('reviewPromptGrid');
-
-    if (promptCard) promptCard.style.display = 'block';
-    if (promptLbl) {
-      promptLbl.textContent = (taskKey === 'task1') 
-        ? '📊 ĐỀ BÀI TASK 1 • ACADEMIC REPORT (20 PHÚT)' 
-        : '💡 ĐỀ BÀI TASK 2 • DISCURSIVE ESSAY (40 PHÚT)';
-    }
-    if (promptType) {
-      promptType.textContent = (taskKey === 'task1') 
-        ? (taskData.chartType || 'Biểu đồ Task 1') 
-        : (taskData.questionType || 'Nghị luận Task 2');
-    }
-    if (promptTitle) {
-      promptTitle.textContent = taskData.title || (taskKey === 'task1' ? 'Task 1: Academic Report' : 'Task 2: Discursive Essay');
-    }
-    if (promptText) {
-      promptText.innerHTML = renderPzPromptHtml(taskData);
-    }
-
-    const hasImages = !!(taskData.images && taskData.images.length > 0);
-    if (promptGrid) {
-      promptGrid.classList.toggle('has-chart', hasImages);
-    }
-
-    if (chartWrap) {
-      if (hasImages) {
-        chartWrap.style.display = 'block';
-        chartWrap.innerHTML = `
-          <div class="w-review-chart-box">
-            ${renderChartImagesHtml(taskData.images, 'w-review-chart-img', 'Biểu đồ đề thi')}
-            <div class="w-review-chart-hint">🔍 Nhấp vào ảnh để phóng to toàn màn hình</div>
-          </div>
-        `;
-      } else {
-        chartWrap.style.display = 'none';
-        chartWrap.innerHTML = '';
-      }
-    }
+    renderReviewPromptCard(taskKey, taskData);
 
     // 3. Cập nhật bài làm & bài mẫu song song
     const reviewUser = document.getElementById('reviewUserEssay');
@@ -3250,6 +3340,14 @@ Hãy chỉ rõ:
   // =========================================================================
   // 10. LIGHTBOX & SIDEBAR
   // =========================================================================
+  function closeWritingMobileDrawer() {
+    const sb = document.getElementById('writingSidebar');
+    const bd = document.getElementById('sidebarBackdrop');
+    if (sb) sb.classList.remove('open');
+    if (bd) bd.classList.remove('open');
+    document.body.classList.remove('sidebar-open');
+  }
+
   global.toggleWritingSidebar = function (forcedState) {
     if (window.innerWidth <= 860) {
       const sb = document.getElementById('writingSidebar');
@@ -3258,14 +3356,42 @@ Hãy chỉ rõ:
       const isOpen = (typeof forcedState === 'boolean') ? forcedState : !sb.classList.contains('open');
       sb.classList.toggle('open', isOpen);
       bd.classList.toggle('open', isOpen);
+      document.body.classList.toggle('sidebar-open', isOpen);
     } else {
-      document.body.classList.toggle('sidebar-collapsed');
+      closeWritingMobileDrawer();
+      const nextCol = (typeof forcedState === 'boolean') ? !forcedState : !document.body.classList.contains('sidebar-collapsed');
+      document.body.classList.toggle('sidebar-collapsed', nextCol);
       const lbl = document.querySelector('.s4-desk-sb-lbl');
       if (lbl) {
-        lbl.textContent = document.body.classList.contains('sidebar-collapsed') ? '▶ Hiện mục lục' : '◀ Ẩn mục lục';
+        lbl.textContent = nextCol ? '▶ Hiện mục lục' : '◀ Ẩn mục lục';
       }
     }
   };
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) closeWritingMobileDrawer();
+  });
+  if (typeof window.matchMedia === 'function') {
+    const wMq = window.matchMedia('(min-width: 861px)');
+    if (wMq.addEventListener) wMq.addEventListener('change', (e) => { if (e.matches) closeWritingMobileDrawer(); });
+    else if (wMq.addListener) wMq.addListener((e) => { if (e.matches) closeWritingMobileDrawer(); });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const lb = document.getElementById('chartLightbox');
+    if (lb && lb.classList.contains('active')) {
+      global.closeLightbox();
+      return;
+    }
+    const hm = document.getElementById('writingHistoryModal');
+    if (hm && hm.style.display && hm.style.display !== 'none') {
+      global.closeWritingHistoryModal();
+      return;
+    }
+    if (document.body.classList.contains('sidebar-open')) {
+      closeWritingMobileDrawer();
+    }
+  });
 
   global.openLightbox = function (imgSrc) {
     const box = document.getElementById('chartLightbox');
@@ -3294,11 +3420,7 @@ Hãy chỉ rõ:
     const pzEditor = document.getElementById('pzEssayEditor');
     if (pzEditor) pzEditor.addEventListener('input', handlePzEditorInput);
 
-    const btnSubmit = document.getElementById('btnSubmitEssay');
-    if (btnSubmit) btnSubmit.addEventListener('click', submitEssayAndReview);
-
-    const btnSubmitBottom = document.getElementById('btnSubmitBottom');
-    if (btnSubmitBottom) btnSubmitBottom.addEventListener('click', submitEssayAndReview);
+    // Studio Submit handlers được gắn trực tiếp qua .onclick trong loadLessonToStudio() để tránh kích hoạt 2 lần.
 
     const btnClear = document.getElementById('btnClearEditor');
     if (btnClear) {

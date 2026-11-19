@@ -134,6 +134,7 @@
 
   var historyFilter = 'all';
   var selectedPzLessonId = 'sp_pz_full_act_1';
+  var selectedPzLessonObj = null;
   var pickerCategoryFilter = 'all'; // 'all' | 'full_actual' | 'full_sample' | 'topic_p1' | 'topic_p23'
   var pickerRenderLimit = 48;
   var shadowAutoListenGen = 0;
@@ -253,6 +254,7 @@
   }
 
   function saveJson(key, val) {
+    if (val === undefined) return;
     try {
       localStorage.setItem(key, JSON.stringify(val));
     } catch (e) {}
@@ -379,10 +381,6 @@
   function getStoredGeminiKey() {
     try { return String(localStorage.getItem(STORAGE_GEMINI_KEY) || '').trim(); } catch (e) { return ''; }
   }
-
-  // Fosta's OpenAI-compatible endpoint. It can be replaced with another
-  // provider or a CORS proxy in the settings field.
-  var DEFAULT_FOSTA_BASE_URL = 'https://codex.fosta.app/v1';
 
   function getStoredAiBaseUrl() {
     try { return String(localStorage.getItem(STORAGE_AI_BASE) || '').trim().replace(/\/+$/, ''); } catch (e) { return ''; }
@@ -1376,7 +1374,8 @@
     function stop() {
       if (!isRecording) return Promise.resolve(null);
       var stopGen = micStartGen;
-      var elapsed = Math.max(1, Math.round((Date.now() - startTs) / 1000));
+      var elapsedMs = Math.max(0, Date.now() - startTs);
+      var elapsed = Math.max(1, Math.round(elapsedMs / 1000));
       var transcript = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
       var hadSttError = Boolean(sttFatal);
       var recorderRef = mediaRecorder;
@@ -1398,14 +1397,15 @@
             stopFallbackTimer = null;
           }
           if (stopGen === micStartGen) stopResources(false);
-          var id = blob ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
-          var saveProm = (blob && id) ? AudioVault.saveBlob(id, blob) : Promise.resolve('');
+          var validBlob = (blob && blob.size >= 1024 && elapsedMs >= 500) ? blob : null;
+          var id = validBlob ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
+          var saveProm = (validBlob && id) ? AudioVault.saveBlob(id, validBlob) : Promise.resolve('');
           saveProm.then(function (url) {
             var payload = {
               id: id,
               url: url || '',
-              blob: blob || null,
-              mimeType: (blob && blob.type) ? blob.type : '',
+              blob: validBlob,
+              mimeType: (validBlob && validBlob.type) ? validBlob.type : '',
               durationSec: elapsed,
               transcript: transcript,
               sttErrored: hadSttError,
@@ -1689,10 +1689,11 @@
     if (progEl) progEl.innerHTML = '<span class="sp-prog-lbl">Đã học: </span>' + done.length + '/' + allLessons.length;
 
     var hist = getSubmissions();
+    var mockCount = hist.filter(function (s) { return s && s.kind === 'mock'; }).length;
     var cntEl = document.getElementById('topHistoryCount');
     if (cntEl) cntEl.textContent = String(hist.length);
     var lobbyCnt = document.getElementById('lobbyHistoryBadgeCount');
-    if (lobbyCnt) lobbyCnt.textContent = hist.length + ' lần thi thử';
+    if (lobbyCnt) lobbyCnt.textContent = mockCount + ' lần thi thử';
 
     updateDoneButtonStates();
   }
@@ -1881,6 +1882,14 @@
     renderSidebar();
   };
 
+  function closeSpeakingMobileDrawer() {
+    document.body.classList.remove('sidebar-open');
+    var sb = document.getElementById('speakingSidebar');
+    var bd = document.getElementById('sidebarBackdrop');
+    if (sb) sb.classList.remove('open');
+    if (bd) bd.classList.remove('open');
+  }
+
   global.toggleSpeakingSidebar = function (forceOpen, opts) {
     var isMobile = window.innerWidth <= 960;
     var sb = document.getElementById('speakingSidebar');
@@ -1891,6 +1900,7 @@
       if (sb) sb.classList.toggle('open', nextOpen);
       if (bd) bd.classList.toggle('open', nextOpen);
     } else {
+      closeSpeakingMobileDrawer();
       var nextCol = typeof forceOpen === 'boolean' ? !forceOpen : !document.body.classList.contains('sidebar-collapsed');
       document.body.classList.toggle('sidebar-collapsed', nextCol);
       if (!(opts && opts.auto) && activeUnitFilter !== 'u_6') {
@@ -1900,6 +1910,18 @@
       if (lbl) lbl.textContent = nextCol ? '▶ Mở mục lục' : '◀ Ẩn mục lục';
     }
   };
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 960) closeSpeakingMobileDrawer();
+  });
+  if (typeof window.matchMedia === 'function') {
+    var sMq = window.matchMedia('(min-width: 961px)');
+    if (sMq.addEventListener) sMq.addEventListener('change', function (e) { if (e.matches) closeSpeakingMobileDrawer(); });
+    else if (sMq.addListener) sMq.addListener(function (e) { if (e.matches) closeSpeakingMobileDrawer(); });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('sidebar-open')) closeSpeakingMobileDrawer();
+  });
 
   global.switchSpeakingUnit = function (unitId, opts) {
     var targetUnit = unitId === 'all' ? 'all' : normalizeFilterUnit(unitId);
@@ -1976,13 +1998,42 @@
     showToast(nextState ? 'Đã đánh dấu hoàn thành bài học!' : 'Đã bỏ đánh dấu hoàn thành.', nextState ? 'success' : 'info');
   };
 
-  global.openNextLesson = function () {
+  global.stepSpeakingLesson = function (delta) {
     if (!activeLesson || !allLessons.length) return;
     var pool = activeLessonsForNext();
     var idx = pool.findIndex(function (l) { return l.id === activeLesson.id; });
-    var next = (idx !== -1 && idx + 1 < pool.length) ? pool[idx + 1] : pool[0];
-    if (next) global.selectSpeakingLesson(next.id);
+    var nextIdx = idx + Number(delta || 0);
+    if (idx >= 0 && nextIdx >= 0 && nextIdx < pool.length) {
+      global.selectSpeakingLesson(pool[nextIdx].id);
+    }
   };
+
+  global.openPrevLesson = function () {
+    global.stepSpeakingLesson(-1);
+  };
+
+  global.openNextLesson = function () {
+    global.stepSpeakingLesson(1);
+  };
+
+  function updateSpeakingLessonNav(lesson) {
+    var pool = lesson ? activeLessonsForNext() : [];
+    var idx = (lesson && pool.length) ? pool.findIndex(function (l) { return l.id === lesson.id; }) : -1;
+    var prevL = idx > 0 ? pool[idx - 1] : null;
+    var nextL = (idx >= 0 && idx + 1 < pool.length) ? pool[idx + 1] : null;
+    ['btnPrevSpVocab', 'btnPrevSpTheory', 'btnPrevSpStudio'].forEach(function (id) {
+      var btn = document.getElementById(id);
+      if (!btn) return;
+      btn.disabled = !prevL;
+      btn.title = prevL ? ('Bài trước: ' + prevL.title) : 'Đã ở bài đầu tiên của mục này';
+    });
+    ['btnNextSpVocab', 'btnNextSpTheory', 'btnNextSpStudio'].forEach(function (id) {
+      var btn = document.getElementById(id);
+      if (!btn) return;
+      btn.disabled = !nextL;
+      btn.title = nextL ? ('Bài tiếp theo: ' + nextL.title) : 'Đã ở bài cuối cùng của mục này';
+    });
+  }
 
   function activeLessonsForNext() {
     if (activeUnitFilter === 'u_34') {
@@ -2005,10 +2056,12 @@
     if (sBox) sBox.style.display = (lesson.type === 'part1' || lesson.type === 'part2' || lesson.type === 'part3') ? 'flex' : 'none';
     if (pBox) pBox.style.display = lesson.type === 'practice_full' ? 'block' : 'none';
 
+    updateSpeakingLessonNav(lesson);
     if (lesson.type === 'vocab_srs') renderVocabView(lesson);
     else if (lesson.type === 'theory') renderTheoryView(lesson);
     else if (lesson.type === 'practice_full') {
       selectedPzLessonId = lesson.id;
+      selectedPzLessonObj = lesson;
       renderPzLobby(lesson);
     } else {
       renderStudioView(lesson);
@@ -3328,7 +3381,7 @@
       var timerCls = studioState.prepLeftSec <= 10 ? ' danger' : (studioState.prepLeftSec <= 20 ? ' warn' : '');
       prepSectionHtml = ''
         + '<div class="sp-prep-timer-bar">'
-        + '  <div><strong>📝 Bảng Nháp Từ Khóa Part 2 (1 phút chuẩn bị)</strong><div style="font-size:12px;color:var(--muted);">Ghi nhanh bullet points theo WH-questions thay vì viết cả câu</div></div>'
+        + '  <div><strong>1. 📝 Bảng Nháp Từ Khóa Part 2 (1 phút chuẩn bị — không dùng để chấm điểm)</strong><div style="font-size:12px;color:var(--muted);">Ghi nhanh bullet points theo WH-questions thay vì viết cả câu</div></div>'
         + '  <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">'
         + '    <span id="studioPrepTimerPill" class="sp-timer-pill' + timerCls + '">⏱️ ' + formatSec(studioState.prepLeftSec) + '</span>'
         + '    <button type="button" class="mini-btn" onclick="window._spTogglePrepTimer()">' + (studioState.prepRunning ? '⏸ Tạm dừng' : '▶ Bấm giờ 60s') + '</button>'
@@ -3336,14 +3389,14 @@
         + '    <button type="button" class="mini-btn" onclick="window._spFillSampleNotes()">💡 Gợi ý dàn ý</button>'
         + '  </div>'
         + '</div>'
-        + '<textarea id="studioPrepNotepad" class="sp-notepad-textarea" placeholder="Ghi nhanh từ khóa cho 4 ý Cue Card..." oninput="window._spSavePrepNote(this.value)">' + escHtml(studioState.prepNoteText) + '</textarea>';
+        + '<textarea id="studioPrepNotepad" class="sp-notepad-textarea" placeholder="Ghi nhanh từ khóa dàn ý cho 4 ý Cue Card (chỉ để bạn xem khi nói)..." oninput="window._spSavePrepNote(this.value)">' + escHtml(studioState.prepNoteText) + '</textarea>';
     } else {
       prepSectionHtml = ''
         + '<div class="sp-prep-timer-bar">'
-        + '  <div><strong>💡 Nháp nhanh Ý chính (' + escHtml(ctx.targetDurationLabel) + ')</strong></div>'
+        + '  <div><strong>1. 💡 Nháp nhanh Ý chính — Outline (' + escHtml(ctx.targetDurationLabel) + ')</strong><div style="font-size:11.5px;color:var(--muted);">Ô ghi chú dàn ý cá nhân (không dùng để chấm điểm ở Tab 5)</div></div>'
         + '  <span class="sp-tag-pill">Đề đang chọn: ' + escHtml(ctx.promptText.slice(0, 72)) + (ctx.promptText.length > 72 ? '...' : '') + '</span>'
         + '</div>'
-        + '<textarea id="studioPrepNotepad" class="sp-notepad-textarea" style="min-height:70px;" placeholder="Ghi nhanh 2–3 cụm từ vựng bạn muốn lồng ghép vào câu trả lời..." oninput="window._spSavePrepNote(this.value)">' + escHtml(studioState.prepNoteText) + '</textarea>';
+        + '<textarea id="studioPrepNotepad" class="sp-notepad-textarea" style="min-height:70px;" placeholder="Ghi nhanh 2–3 cụm từ vựng/ý chính muốn dùng (không dùng để chấm điểm)..." oninput="window._spSavePrepNote(this.value)">' + escHtml(studioState.prepNoteText) + '</textarea>';
     }
 
     var audioBarHtml = studioState.recAudioUrl
@@ -3364,13 +3417,13 @@
       + audioBarHtml
       + '<div>'
       + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">'
-      + '    <strong style="font-size:13.5px;">🗣️ Transcript Tự Động / Chỉnh sửa Thủ công</strong>'
+      + '    <strong style="font-size:13.5px;">2. 🗣️ Transcript Bài Nói (Dùng để Chấm điểm Tab 5)</strong>'
       + '    <div style="display:flex;gap:8px;align-items:center;">'
       + '      <span class="sp-wpm-badge">📝 ' + countWords(studioState.recTranscript) + ' từ</span>'
       + '      <span class="sp-wpm-badge">⚡ ~' + curWpm + ' WPM</span>'
       + '    </div>'
       + '  </div>'
-      + '  <textarea id="studioTranscriptInput" class="sp-transcript-fallback" rows="4" placeholder="Bài nói của bạn sẽ tự động xuất hiện tại đây khi bật Mic (hoặc gõ/dán transcript để chấm 4 tiêu chí & tạo prompt AI)..." oninput="window._spUpdateStudioTranscript(this.value)">' + escHtml(studioState.recTranscript) + '</textarea>'
+      + '  <textarea id="studioTranscriptInput" class="sp-transcript-fallback" rows="4" placeholder="Bài nói của bạn sẽ tự động xuất hiện tại đây khi bật Mic (hoặc gõ/dán câu trả lời vào ô này để hệ thống chấm 4 tiêu chí ở Tab 5)..." oninput="window._spUpdateStudioTranscript(this.value)">' + escHtml(studioState.recTranscript) + '</textarea>'
       + '</div>'
       + '<div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">'
       + '  <button type="button" class="btn btn-primary" onclick="window.switchSpeakingMode(\'review\')">📊 Phân tích & Chấm điểm 4 Tiêu chí ➜</button>'
@@ -3463,8 +3516,8 @@
           if (res.transcript) studioState.recTranscript = res.transcript;
           studioState.recordingSec = res.durationSec || studioState.recordingSec;
           studioState.recWpm = computeWpm(studioState.recTranscript, studioState.recordingSec);
-          studioState.recAudioId = res.id;
-          studioState.recAudioUrl = res.url;
+          studioState.recAudioId = (res.id && res.url) ? res.id : null;
+          studioState.recAudioUrl = (res.id && res.url) ? res.url : '';
         }
         renderModeRecord(activeLesson);
         var defaultStudioPh = 'Bài nói của bạn sẽ tự động xuất hiện tại đây khi bật Mic (hoặc gõ/dán transcript để chấm 4 tiêu chí & tạo prompt AI)...';
@@ -3536,7 +3589,14 @@
     }).join('') + '</div>';
   }
 
-  function getScoreSourceLabelHtml(scoreSource, gradeSource, isNotRated) {
+  function getActiveAiModelLabel(modelOpt) {
+    if (typeof PzAiExaminer !== 'undefined' && PzAiExaminer && typeof PzAiExaminer.normalizeModel === 'function') {
+      return PzAiExaminer.normalizeModel(modelOpt || (prefs && prefs.pzGeminiModel) || 'gemini-2.5-flash');
+    }
+    return String(modelOpt || (prefs && prefs.pzGeminiModel) || 'gemini-2.5-flash').trim() || 'gemini-2.5-flash';
+  }
+
+  function getScoreSourceLabelHtml(scoreSource, gradeSource, isNotRated, modelName) {
     if (scoreSource === 'manual') {
       return '<span class="sp-tag-pill" style="background:rgba(245,158,11,0.16);color:var(--hl-gold);">✏️ Đã chỉnh tay (ưu tiên điểm bạn chọn)</span>';
     }
@@ -3544,7 +3604,7 @@
       return '<span class="sp-tag-pill" style="background:rgba(244,63,94,0.16);color:var(--sp-accent-rose,#f43f5e);">⚠️ Chưa đủ dữ liệu — Chưa chấm</span>';
     }
     if (gradeSource === 'gemini') {
-      return '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm AI Examiner (gemini-4-hydrogen)</span>';
+      return '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm AI Examiner (' + escHtml(getActiveAiModelLabel(modelName)) + ')</span>';
     }
     if (gradeSource === 'offline_fallback') {
       return '<span class="sp-tag-pill">⚡ Tự chấm Offline (AI dự phòng)</span>';
@@ -3593,16 +3653,17 @@
         + '</div></div>'
       : '';
 
+    var activeModel = getActiveAiModelLabel((grade && grade.model) || (prefs && prefs.pzGeminiModel));
     var quickKeyRow = !hasKey
       ? '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:8px 10px;border-radius:8px;background:var(--card);border:1px dashed var(--border);">'
-        + '  <span style="font-size:12px;color:var(--muted);flex:1;min-width:180px;">🔑 Chưa có Gemini Key — dán API Key cá nhân (Free Tier) nếu muốn chấm sâu bằng <b>gemini-4-hydrogen</b>:</span>'
+        + '  <span style="font-size:12px;color:var(--muted);flex:1;min-width:180px;">🔑 Chưa có Gemini Key — dán API Key cá nhân (Free Tier) nếu muốn chấm sâu bằng <b>' + escHtml(activeModel) + '</b>:</span>'
         + '  <input type="password" class="sp-select" style="max-width:210px;font-size:12px;" placeholder="Dán Gemini API Key..." oninput="window._spSaveQuickGeminiKey && window._spSaveQuickGeminiKey(this.value)">'
         + '</div>'
       : '';
 
     var aiBtnLabel = o.busy
-      ? '⏳ Đang chấm sâu với Gemini 4 Hydrogen...'
-      : '🤖 Chấm sâu với AI (gemini-4-hydrogen)';
+      ? '⏳ Đang chấm sâu với ' + escHtml(activeModel) + '...'
+      : '🤖 Chấm sâu với AI (' + escHtml(activeModel) + ')';
 
     var fmtCrit = function (k) {
       return grade.notRated ? 'Chưa chấm' : Number(grade.scores[k] || 0).toFixed(1);
@@ -3616,7 +3677,7 @@
       + '  <div class="sp-autograde-head">'
       + '    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
       + '      <strong>🎯 Đánh giá Tự động (4 Tiêu chí IELTS)</strong>'
-      + getScoreSourceLabelHtml(o.scoreSource, grade.source, isNotRated)
+      + getScoreSourceLabelHtml(o.scoreSource, grade.source, isNotRated, grade.model)
       + '    </div>'
       + '    <div style="display:flex;gap:6px;flex-wrap:wrap;">'
       + '      <button type="button" class="btn mini-btn" onclick="window.' + o.onRegradeOfflineFn + '()"' + (o.busy ? ' disabled' : '') + '>⚡ Chấm lại Offline</button>'
@@ -3885,7 +3946,7 @@
     if (!activeLesson || studioState.gradingBusy) return;
     var apiKey = getStoredGeminiKey();
     if (!apiKey) {
-      showToast('Hãy dán Gemini API Key cá nhân (Free Tier) vào ô trên để chấm bằng gemini-4-hydrogen.', 'warn', 4200);
+      showToast('Hãy dán Gemini API Key cá nhân (Free Tier) vào ô trên để chấm bằng ' + getActiveAiModelLabel() + '.', 'warn', 4200);
       return;
     }
     var targetLessonId = activeLesson.id;
@@ -3930,7 +3991,7 @@
       }
       renderModeReview(activeLesson);
       if (res.source === 'gemini') {
-        showToast('AI Examiner (gemini-4-hydrogen) đã chấm xong — Overall Band ' + res.overallBand.toFixed(1) + '!', 'success');
+        showToast('AI Examiner (' + getActiveAiModelLabel(res && res.model) + ') đã chấm xong — Overall Band ' + res.overallBand.toFixed(1) + '!', 'success');
       } else {
         showToast('Chưa chấm được qua Gemini' + (res.fallbackReason ? (' (' + res.fallbackReason + ')') : '') + ' — đã dùng kết quả Offline dự phòng.', 'warn', 4500);
       }
@@ -4993,15 +5054,19 @@
   var PzAiExaminer = (function () {
     var API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/models/';
     var TIMEOUT_MS = 12000;
-    var GOOGLE_FALLBACK_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-4-hydrogen'];
+    var GOOGLE_FALLBACK_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.5-pro', 'gemini-1.5-flash', 'gemini-4-hydrogen'];
     var ALLOWED_MODELS = [
       'gemini-2.5-flash',
       'gemini-2.0-flash',
+      'gemini-2.5-pro',
       'gemini-1.5-flash',
       'gemini-4-hydrogen',
       'gpt-6-sol',
       'gpt-6.1-sol',
-      'gpt-6-luna'
+      'gpt-6-luna',
+      'gpt-4o-mini',
+      'gpt-4o',
+      'llama-3.3-70b-versatile'
     ];
     var THINKING_LEVELS = { low: 1, medium: 1, high: 1, xhigh: 1 };
 
@@ -6128,9 +6193,10 @@
         })
         : offlineResult.grammarFixes;
 
+      var usedModel = PzAiExaminer.normalizeModel(parsed.model || o.model || (prefs && prefs.pzGeminiModel) || 'gemini-2.5-flash');
       return {
         source: 'gemini',
-        model: PzAiExaminer.normalizeModel(parsed.model || 'gemini-4-hydrogen'),
+        model: usedModel,
         hasTranscript: offlineResult.hasTranscript,
         hasRealAudio: hasAudio,
         notRated: false,
@@ -6150,7 +6216,7 @@
         vocabUpgrades: vocabUpgrades,
         grammarFixes: grammarFixes,
         prEstimatedNote: hasAudio
-          ? '🎧 Tiêu chí Pronunciation đã được Gemini 4 Hydrogen chấm trực tiếp từ bản ghi âm giọng nói của bạn.'
+          ? ('🎧 Tiêu chí Pronunciation đã được AI Examiner (' + usedModel + ') chấm trực tiếp từ bản ghi âm giọng nói của bạn.')
           : String(parsed.prEstimatedNote || offlineResult.prEstimatedNote).trim(),
         gradedAt: Date.now()
       };
@@ -6167,7 +6233,7 @@
     }
 
     /**
-     * Tầng 2: Chấm điểm & nhận xét chuyên sâu qua gemini-4-hydrogen (thinkingLevel: 'medium').
+     * Tầng 2: Chấm điểm & nhận xét chuyên sâu qua AI BYOK (mặc định gemini-2.5-flash).
      * Nếu có file thu âm thật (`audioId`/`audioBlob`), tự đính kèm audio để chấm trực tiếp Pronunciation.
      */
     function evaluateWithGemini(payload, opts) {
@@ -6240,7 +6306,7 @@
           temperature: 0.35,
           timeoutMs: o.timeoutMs || 30000
         }).then(function (rawText) {
-          return parseGeminiGrade(rawText, offlineResult, { hasRealAudio: hasRealAudio });
+          return parseGeminiGrade(rawText, offlineResult, { hasRealAudio: hasRealAudio, model: model });
         });
       }).catch(function (err) {
         return Object.assign({}, offlineResult, {
@@ -6253,7 +6319,7 @@
     function formatFeedbackText(report) {
       if (!report) return '';
       var lines = [];
-      var tag = report.source === 'gemini' ? '🤖 AI Examiner (gemini-4-hydrogen)' : '⚡ Tự chấm Offline';
+      var tag = report.source === 'gemini' ? ('🤖 AI Examiner (' + getActiveAiModelLabel(report.model) + ')') : '⚡ Tự chấm Offline';
       lines.push('[' + tag + ' · ' + (report.notRated ? 'CHƯA CHẤM' : 'Overall ' + Number(report.overallBand || 0).toFixed(1)) + ']');
       if (report.summaryVi) lines.push(report.summaryVi);
       if (report.evidence && report.evidence.reasons && report.evidence.reasons.length && !report.notRated) {
@@ -6296,6 +6362,7 @@
   function renderPzLobby(lesson) {
     if (!lesson) return;
     selectedPzLessonId = lesson.id;
+    selectedPzLessonObj = lesson;
 
     var badgeEl = document.getElementById('lobbyExaminerBadge');
     var titleEl = document.getElementById('lobbyTestTitle');
@@ -6442,16 +6509,28 @@
     });
   };
 
+  function getSelectedPzLessonTarget() {
+    if (selectedPzLessonObj && selectedPzLessonObj.id === selectedPzLessonId) {
+      return selectedPzLessonObj;
+    }
+    var byId = global.SpeakingParser.getLessonById(selectedPzLessonId);
+    if (byId) return byId;
+    if (activeLesson && activeLesson.type === 'practice_full') return activeLesson;
+    return allLessons.find(function (l) { return l.unitId === 'u_6'; }) || null;
+  }
+
   global.pairAndStartFullPzExam = function () {
-    var target = (activeLesson && activeLesson.type === 'practice_full')
-      ? activeLesson
-      : global.SpeakingParser.getLessonById(selectedPzLessonId);
+    var target = getSelectedPzLessonTarget();
     if (!target || typeof global.SpeakingParser.pairTopicWithRandomComplement !== 'function') {
       global.startRandomSpeakingExam();
       return;
     }
     var paired = global.SpeakingParser.pairTopicWithRandomComplement(target);
-    if (paired) launchPzExam(paired);
+    if (paired) {
+      selectedPzLessonId = paired.id;
+      selectedPzLessonObj = paired;
+      launchPzExam(paired);
+    }
   };
 
   function renderLobbyHistory() {
@@ -6499,16 +6578,22 @@
   };
 
   global.openPracticeZoneFromStudio = function () {
-    var target = (selectedPzLessonId && global.SpeakingParser.getLessonById(selectedPzLessonId))
-      || allLessons.find(function (l) { return l.unitId === 'u_6'; });
-    if (target) global.selectSpeakingLesson(target.id);
-    else global.switchSpeakingUnit('u_6');
+    var target = (selectedPzLessonObj && selectedPzLessonObj.id === selectedPzLessonId)
+      ? selectedPzLessonObj
+      : ((selectedPzLessonId && global.SpeakingParser.getLessonById(selectedPzLessonId))
+        || allLessons.find(function (l) { return l.unitId === 'u_6'; }));
+    if (target && !target.isDynamicRandom) global.selectSpeakingLesson(target.id);
+    else if (target) {
+      routeViewForLesson(target);
+      renderPzLobby(target);
+    } else global.switchSpeakingUnit('u_6');
   };
 
   global.startRandomSpeakingExam = function () {
     var rnd = global.SpeakingParser.buildRandomFullTest();
     if (!rnd) return;
     selectedPzLessonId = rnd.id;
+    selectedPzLessonObj = rnd;
     launchPzExam(rnd);
   };
 
@@ -6518,11 +6603,10 @@
   };
 
   global.startSpeakingPracticeExam = function () {
-    var target = (activeLesson && activeLesson.type === 'practice_full')
-      ? activeLesson
-      : global.SpeakingParser.getLessonById(selectedPzLessonId);
-    if (!target) target = allLessons.find(function (l) { return l.unitId === 'u_6'; });
+    var target = getSelectedPzLessonTarget();
     if (!target) return;
+    selectedPzLessonId = target.id;
+    selectedPzLessonObj = target;
     launchPzExam(target);
   };
 
@@ -6579,12 +6663,17 @@
 
     var peekBtn = document.getElementById('btnPzPeekToggle');
     if (peekBtn) {
+      var canPeekToggle = pzExam.phase === 'part1' || pzExam.phase === 'part2_round' || pzExam.phase === 'part3';
+      peekBtn.style.display = canPeekToggle ? '' : 'none';
       var showLabel = pzExam.peekVisible ? '🙈 Ẩn chữ' : '👁️ Hiện chữ';
       peekBtn.innerHTML = showLabel;
     }
   }
 
   function launchPzExam(lesson) {
+    if (!lesson) return;
+    selectedPzLessonId = lesson.id;
+    selectedPzLessonObj = lesson;
     TtsEngine.stop();
     stopStudioPrepTimer();
     clearPzTimer();
@@ -6684,9 +6773,15 @@
       if (MicEngine.isActive()) MicEngine.cancel();
       pzExam.active = false;
       document.body.classList.remove('s4-cbt-mode');
+      var vBox = document.getElementById('vocabContainer');
+      var tBox = document.getElementById('theoryContainer');
+      var sBox = document.getElementById('studioContainer');
+      if (vBox) vBox.style.display = 'none';
+      if (tBox) tBox.style.display = 'none';
+      if (sBox) sBox.style.display = 'none';
       var pzBox = document.getElementById('practiceZoneLobby');
       if (pzBox) pzBox.style.display = 'block';
-      if (activeLesson) renderPzLobby(pzExam.lesson || activeLesson);
+      if (pzExam.lesson || activeLesson) renderPzLobby(pzExam.lesson || activeLesson);
     };
 
     if (pzExam.phase === 'report' || pzExam.responses.length === 0) {
@@ -6960,8 +7055,8 @@
           if (res.transcript) recordSlot.transcript = res.transcript;
           recordSlot.durationSec = res.durationSec || pzExam.p2TalkElapsed;
           recordSlot.wpm = computeWpm(recordSlot.transcript, recordSlot.durationSec);
-          recordSlot.audioId = res.id;
-          recordSlot.audioUrl = res.url;
+          recordSlot.audioId = (res.id && res.url) ? res.id : null;
+          recordSlot.audioUrl = (res.id && res.url) ? res.url : '';
           if (!String(recordSlot.transcript || '').trim() && res.blob) {
             autoTranscribeRecordingIfEmpty(res, function (txt) {
               if (!txt || !pzExam.active) return;
@@ -7247,7 +7342,7 @@
     var activeQPrompt = activeTurn.isFollowUp ? pzExam.activeFollowUpQ : meta.qText;
     var micBusy = MicEngine.isActive();
 
-    var showText = pzExam.strictness === 'guided' || pzExam.peekVisible || pzExam.phase === 'warmup';
+    var showText = pzExam.peekVisible || pzExam.phase === 'warmup';
     var badgeCls = pzExam.phase === 'warmup' ? 'is-warmup' : (pzExam.phase === 'part1' ? 'is-p1' : (pzExam.phase === 'part2_round' ? 'is-p2' : 'is-p3'));
 
     var curtainContent = showText
@@ -7569,7 +7664,8 @@
           if (res.transcript) activeTurn.setTranscript(res.transcript);
           dur = res.durationSec || pzExam.turnElapsedSec;
           activeTurn.setMetrics(dur, computeWpm(activeTurn.getTranscript(), dur));
-          activeTurn.setAudio(res.id, res.url);
+          if (res.id && res.url) activeTurn.setAudio(res.id, res.url);
+          else activeTurn.setAudio(null, '');
           var curPzTxt = String(activeTurn.getTranscript() || '').trim();
           needPzFallback = Boolean(
             res.blob && (
@@ -8032,7 +8128,7 @@
     var apiKey = getStoredGeminiKey();
     if (!apiKey) {
       if (!isBackgroundAuto) {
-        showToast('Hãy dán Gemini API Key cá nhân (Free Tier) vào ô trên để chấm bằng gemini-4-hydrogen.', 'warn', 4200);
+        showToast('Hãy dán Gemini API Key cá nhân (Free Tier) vào ô trên để chấm bằng ' + getActiveAiModelLabel() + '.', 'warn', 4200);
       }
       return;
     }
@@ -8094,7 +8190,7 @@
       }
       renderPzStage();
       if (res.source === 'gemini') {
-        showToast('AI Examiner (gemini-4-hydrogen) đã hoàn tất chấm điểm — Band ' + res.overallBand.toFixed(1) + '!', 'success');
+        showToast('AI Examiner (' + getActiveAiModelLabel(res && res.model) + ') đã hoàn tất chấm điểm — Band ' + res.overallBand.toFixed(1) + '!', 'success');
       } else if (!isBackgroundAuto) {
         showToast('Chưa chấm được qua Gemini' + (res.fallbackReason ? (' (' + res.fallbackReason + ')') : '') + ' — giữ nguyên kết quả Offline dự phòng.', 'warn', 4500);
       }
@@ -8268,7 +8364,7 @@
       : (rec.scoreSource === 'not_rated' || rec.notRated
         ? '<span class="sp-tag-pill" style="background:rgba(244,63,94,0.16);color:var(--sp-accent-rose,#f43f5e);">⚠️ Chưa chấm</span>'
         : (rec.scoreSource === 'auto_gemini'
-          ? '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm gemini-4-hydrogen</span>'
+          ? '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm AI (' + escHtml(getActiveAiModelLabel(rec.gradeModel)) + ')</span>'
           : (rec.scoreSource === 'auto_offline' ? '<span class="sp-tag-pill">⚡ Tự chấm Offline</span>' : '')));
 
     var extraAdviceHtml = '';
@@ -8308,11 +8404,30 @@
     var mounts = document.getElementById('histAudioMounts');
     if (mounts && audioIds.length) {
       audioIds.forEach(function (a) {
-        AudioVault.getUrl(a.id).then(function (url) {
+        AudioVault.getBlob(a.id).then(function (blob) {
+          if (!blob || !blob.size || blob.size < 1024) return '';
+          return AudioVault.getUrl(a.id);
+        }).then(function (url) {
           if (url && mounts) {
             var row = document.createElement('div');
             row.className = 'sp-saved-audio-bar';
-            row.innerHTML = '<span>🎧 <b>' + escHtml(a.label) + ':</b></span><audio controls src="' + url + '" style="flex:1;height:34px;"></audio>';
+            var labelEl = document.createElement('span');
+            labelEl.innerHTML = '🎧 <b>' + escHtml(a.label) + ':</b>';
+            var audioEl = document.createElement('audio');
+            audioEl.controls = true;
+            audioEl.src = url;
+            audioEl.style.flex = '1';
+            audioEl.style.height = '34px';
+            audioEl.addEventListener('error', function () {
+              if (row.parentNode) row.parentNode.removeChild(row);
+            });
+            audioEl.addEventListener('loadedmetadata', function () {
+              if (Number.isFinite(audioEl.duration) && audioEl.duration <= 0.1 && row.parentNode) {
+                row.parentNode.removeChild(row);
+              }
+            });
+            row.appendChild(labelEl);
+            row.appendChild(audioEl);
             mounts.appendChild(row);
           }
         });
@@ -8556,14 +8671,19 @@
     syncTopbarUnitBadges(parsedStats);
 
     if (global.S4VocabEngine && typeof global.S4VocabEngine.init === 'function') {
+      var loadedSpeakSrs = loadJson(VOCAB_SRS_KEY, {});
+      var speakingVocabSrsMap = (loadedSpeakSrs && typeof loadedSpeakSrs === 'object' && !Array.isArray(loadedSpeakSrs)) ? loadedSpeakSrs : {};
       global.S4VocabEngine.init({
         srsKey: VOCAB_SRS_KEY,
         daysKey: VOCAB_DAYS_KEY,
         settingsKey: VOCAB_SETTINGS_KEY,
         sessionKey: VOCAB_SESSION_KEY,
         supportsAu: true,
-        getSrsMap: function () { return loadJson(VOCAB_SRS_KEY, {}); },
-        onSaveSrs: function (map) { saveJson(VOCAB_SRS_KEY, map); },
+        getSrsMap: function () { return speakingVocabSrsMap; },
+        onSaveSrs: function (map) {
+          if (map && typeof map === 'object' && !Array.isArray(map)) speakingVocabSrsMap = map;
+          saveJson(VOCAB_SRS_KEY, speakingVocabSrsMap);
+        },
         playWordAudio: function (wordItem, accent) {
           var phrase = typeof wordItem === 'string'
             ? wordItem

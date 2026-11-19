@@ -475,7 +475,7 @@
       localStorage.setItem(cfg.daysKey, JSON.stringify(dayLog));
       localStorage.setItem(cfg.settingsKey, JSON.stringify(userSettings));
     } catch (e) {}
-    cfg.onSaveSrs();
+    cfg.onSaveSrs(srsMap());
   }
 
   function logActivity(id) {
@@ -1469,7 +1469,6 @@
           fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${rightAns}</span>`;
         }
         if (nextBtn) nextBtn.style.display = "inline-flex";
-        showAnsToast(false, rightAns);
         if (studyQueue[0]) playVocab(studyQueue[0].id, "uk");
       }
     },

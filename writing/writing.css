@@ -306,14 +306,20 @@ body {
   z-index: 50;
 }
 
-body.sidebar-collapsed .sidebar {
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  border-right: none !important;
-  overflow: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
+@media (min-width: 861px) {
+  body.sidebar-collapsed .sidebar {
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    border-right: none !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .sidebar-backdrop {
+    display: none !important;
+    pointer-events: none !important;
+  }
 }
 
 .sidebar-header {
@@ -449,8 +455,10 @@ body.sidebar-collapsed .sidebar {
   transition: margin-left 0.25s ease;
 }
 
-body.sidebar-collapsed .main-area {
-  margin-left: 0 !important;
+@media (min-width: 861px) {
+  body.sidebar-collapsed .main-area {
+    margin-left: 0 !important;
+  }
 }
 
 body.in-cbt-mode .main-area {
@@ -963,6 +971,7 @@ body.in-cbt-mode .main-area {
    ========================================================================== */
 .s4-mob-sb-lbl { display: none; }
 .s4-desk-sb-lbl { display: inline; }
+.close-sidebar-btn { display: none; }
 .sidebar-backdrop { display: none; }
 
 @media (max-width: 860px) {
@@ -1007,6 +1016,25 @@ body.in-cbt-mode .main-area {
   .w-pill-sub { display: none; }
 
   /* Sidebar trượt dạng Drawer đồng bộ Reading / Listening */
+  .close-sidebar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  body.sidebar-open {
+    overflow: hidden !important;
+  }
   .sidebar {
     position: fixed;
     top: 0;
@@ -1016,10 +1044,17 @@ body.in-cbt-mode .main-area {
     height: 100dvh;
     z-index: 10050;
     transform: translateX(-100%);
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 1;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
   .sidebar.open {
-    transform: translateX(0);
+    transform: translateX(0) !important;
+    width: min(86vw, 320px) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 
   .sidebar-backdrop {

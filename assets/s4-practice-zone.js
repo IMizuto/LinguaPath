@@ -19,6 +19,15 @@
   let readAnswers = {};
   let listenAnswers = {};
   let reviewFlags = {};
+  let viewingReadSub = null;
+  let viewingListenSub = null;
+
+  function getActiveReadAnswers() {
+    return (viewingReadSub && viewingReadSub.answers && typeof viewingReadSub.answers === 'object') ? viewingReadSub.answers : readAnswers;
+  }
+  function getActiveListenAnswers() {
+    return (viewingListenSub && viewingListenSub.answers && typeof viewingListenSub.answers === 'object') ? viewingListenSub.answers : listenAnswers;
+  }
 
   try { readAnswers = JSON.parse(localStorage.getItem(STORAGE_READ_ANS) || '{}'); } catch (e) {}
   try { listenAnswers = JSON.parse(localStorage.getItem(STORAGE_LISTEN_ANS) || '{}'); } catch (e) {}
@@ -32,6 +41,21 @@
   }
   function saveReviewFlags() {
     try { localStorage.setItem(STORAGE_REVIEW_FLAGS, JSON.stringify(reviewFlags)); } catch (e) {}
+  }
+
+  async function confirmCbtAction(message, opts) {
+    const o = opts || {};
+    if (o.skipConfirm === true) return true;
+    if (typeof window !== 'undefined' && window.S4UI && typeof window.S4UI.confirm === 'function') {
+      return !!(await window.S4UI.confirm(message, o));
+    }
+    if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+      return !!window.confirm(message);
+    }
+    if (typeof confirm === 'function') {
+      return !!confirm(message);
+    }
+    return true;
   }
 
   // =========================================================================
@@ -126,6 +150,12 @@
     if (scaled >= 2) return '2.5';
     if (scaled >= 1) return '2.0';
     return '0.0';
+  }
+
+  function formatBandScore(raw) {
+    if (raw === null || raw === undefined || raw === '') return null;
+    const n = Number(raw);
+    return Number.isFinite(n) ? n.toFixed(1) : null;
   }
 
   // =========================================================================
@@ -624,19 +654,51 @@
     const qMetaList = [];
 
     rootEl.querySelectorAll('.question-group-wrapper').forEach(groupEl => {
-      const ctxText = (groupEl.querySelector('.context-content')?.innerText || '').trim();
+      const ctxEl = groupEl.querySelector('.context-content');
+      const ctxText = ((ctxEl && (ctxEl.innerText || ctxEl.textContent)) || '').replace(/\u00a0/g, ' ').trim();
       const poolEls = [...groupEl.querySelectorAll('[data-pool-key]')];
       const poolKeys = poolEls.map(el => el.getAttribute('data-pool-key')).filter(Boolean);
 
       let letterChoices = [...new Set(poolKeys)];
       if (letterChoices.length === 0) {
-        const rangeMatch = ctxText.match(/\b([A-Z])\s*[-–to]+\s*([A-Z])\b/);
+        const rangeMatch = ctxText.match(/\b([A-Z])\s*(?:[-–—]|\bto\b)\s*([A-Z])\b/);
         if (rangeMatch) {
           const startCode = rangeMatch[1].charCodeAt(0);
           const endCode = rangeMatch[2].charCodeAt(0);
           if (endCode > startCode && endCode - startCode <= 12) {
             for (let c = startCode; c <= endCode; c++) letterChoices.push(String.fromCharCode(c));
           }
+        }
+      }
+      if (letterChoices.length === 0) {
+        const listMatch = ctxText.match(/\b(A\s*,\s*B(?:\s*,\s*[C-J])*(?:\s*,?\s*(?:or|and)\s+[C-J])?)\b/)
+          || ctxText.match(/\bletters?,?\s+(A\s+or\s+B)\b/i);
+        if (listMatch) {
+          const foundLetters = listMatch[1].match(/\b[A-J]\b/g) || [];
+          letterChoices = [...new Set(foundLetters.map(x => x.toUpperCase()))];
+        }
+      }
+      if (letterChoices.length === 0 && ctxEl) {
+        const lineLetters = [];
+        ctxEl.querySelectorAll('p, li, tr').forEach(rowEl => {
+          const rawLine = ((rowEl.innerText || rowEl.textContent) || '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+          const boldEl = rowEl.querySelector('strong, b');
+          const boldTxt = boldEl ? ((boldEl.innerText || boldEl.textContent) || '').replace(/\u00a0/g, ' ').trim() : '';
+          if (/^[A-J]$/.test(boldTxt) && rawLine.length > boldTxt.length && rawLine.indexOf(boldTxt) === 0) {
+            if (!lineLetters.includes(boldTxt)) lineLetters.push(boldTxt);
+            return;
+          }
+          const lm = rawLine.match(/^([A-J])\s*[.):]\s+\S/);
+          if (lm && !lineLetters.includes(lm[1])) {
+            lineLetters.push(lm[1]);
+          }
+        });
+        if (lineLetters.length >= 2 && lineLetters[0] === 'A') {
+          let contiguous = true;
+          for (let i = 0; i < lineLetters.length; i++) {
+            if (lineLetters[i].charCodeAt(0) !== 65 + i) { contiguous = false; break; }
+          }
+          if (contiguous) letterChoices = lineLetters;
         }
       }
 
@@ -1236,17 +1298,19 @@
     return 'Bộ đề khác';
   }
 
-  function collectQuestionsFromSynHtml(rightHtml) {
+  function collectQuestionsFromSynHtml(rightHtml, ansStore) {
     const list = [];
     if (!rightHtml) return list;
+    const store = ansStore || readAnswers;
     const regex = /<div class="question-wrapper"[^>]*data-qid="(\d+)"[\s\S]*?<div class="question-number[^"]*"[^>]*>\s*<strong>(\d+)<\/strong>[\s\S]*?<div class="[^"]*question-correct[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
     let m;
     while ((m = regex.exec(rightHtml)) !== null) {
       const qid = m[1];
       const qNum = m[2];
       const correctRaw = m[3].replace(/<[^>]+>/g, '').replace(/^(?:✓\s*Đáp án chuẩn:\s*|Đáp án đúng:\s*)+/i, '').trim();
-      const g = gradeIeltsAnswer(readAnswers[qid] || '', correctRaw);
-      list.push({ qid, qNum, correctRaw, userVal: readAnswers[qid] || '', ...g });
+      const userVal = store[qid] || '';
+      const g = gradeIeltsAnswer(userVal, correctRaw);
+      list.push({ qid, qNum, correctRaw, userVal, ...g });
     }
     return list;
   }
@@ -1388,7 +1452,12 @@
     const synData = getReadingPartSynData(targetLesson, targetLesson.partIdx ?? activePartIdx, synMap);
 
     const sessionKey = isFull ? ('full_' + siblings[0].id) : ('single_' + currentLesson.id);
-    const isSubmitted = !!readSubmittedMap[sessionKey];
+    if (viewingReadSub && viewingReadSub.sessionKey !== sessionKey && String(viewingReadSub.lessonId || '') !== String(currentLesson.id)) {
+      viewingReadSub = null;
+    }
+    const isViewingHistory = !!(viewingReadSub && viewingReadSub.answers && typeof viewingReadSub.answers === 'object');
+    const activeAns = isViewingHistory ? viewingReadSub.answers : readAnswers;
+    const isSubmitted = isViewingHistory || !!readSubmittedMap[sessionKey];
 
     const partTitleMatch = String(targetLesson.title || '').match(/Passage\s*(\d+)/i);
     const displayPartNum = isFull
@@ -1402,7 +1471,7 @@
     activeLessons.forEach((les, pIdx) => {
       partNames.push(isFull ? `Part ${pIdx + 1}` : `Passage ${displayPartNum}`);
       const sd = getReadingPartSynData(les, les.partIdx ?? pIdx, synMap);
-      const qs = collectQuestionsFromSynHtml(sd.rightHtml);
+      const qs = collectQuestionsFromSynHtml(sd.rightHtml, activeAns);
       qs.forEach(q => allQ.push({ ...q, partIdx: pIdx, lessonId: les.id }));
     });
 
@@ -1435,6 +1504,7 @@
     const explainLessons = findExplainLessonsForReading(targetLesson, allLessons);
 
     const isFs = !!document.fullscreenElement;
+    const curTimerMins = timerLimitSeconds > 0 ? Math.round(timerLimitSeconds / 60) : 0;
 
     return `
       <div class="s4-cbt-shell ${isSubmitted ? 's4-pz-submitted' : 's4-pz-unsubmitted'}" id="s4PzExamRoot">
@@ -1452,10 +1522,11 @@
             <div class="s4-cbt-timer-box" id="s4CbtTimerBox">
               <span>⏱️</span>
               <span id="s4PzTimerText">${formatTimer(timerSeconds)}</span>
-              <select style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.s4PzChangeTimer(Number(this.value))">
-                <option value="${isFull ? 60 : 20}">${isFull ? '60 phút' : '20 phút'}</option>
-                <option value="40">40 phút</option>
-                <option value="0">Đếm xuôi</option>
+              <select id="s4PzTimerSelect" style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.s4PzChangeTimer(Number(this.value))">
+                ${isFull ? `<option value="60" ${curTimerMins === 60 ? 'selected' : ''}>60 phút</option>` : ''}
+                <option value="40" ${curTimerMins === 40 ? 'selected' : ''}>40 phút</option>
+                <option value="20" ${curTimerMins === 20 ? 'selected' : ''}>20 phút</option>
+                <option value="0" ${curTimerMins === 0 ? 'selected' : ''}>Đếm xuôi</option>
               </select>
             </div>
             <span style="font-size:12.5px;font-weight:800;color:var(--muted);">Đã làm: <strong id="s4PzAnsweredCount" style="color:var(--hl-cyan);">${answeredCount}/${allQ.length}</strong></span>
@@ -1491,7 +1562,7 @@
               </div>
               <div>
                 <div style="font-size:15.5px;font-weight:800;color:var(--text);">
-                  Kết quả: Đúng <span style="color:#34d399;">${correctCount} / ${allQ.length}</span> câu (${Math.round((correctCount / Math.max(1, allQ.length)) * 100)}%)
+                  Kết quả: Đúng <span style="color:#34d399;">${correctCount} / ${allQ.length}</span> câu (${Math.round((correctCount / Math.max(1, allQ.length)) * 100)}%)${isViewingHistory && viewingReadSub.date ? ` <span style="font-size:12px;font-weight:700;color:var(--hl-cyan);margin-left:6px;">• Đang xem lại bài nộp lúc ${escapeAttr(viewingReadSub.date)}</span>` : ''}
                 </div>
                 <div style="font-size:12.5px;color:var(--muted);">
                   ${!isPzDirect ? '💡 Đã mở khóa <strong>Đáp án chuẩn</strong> và <strong>Dẫn chứng Paraphrase Q1..Q40</strong> bên bài đọc! Bấm nhãn <strong>Q1, Q2...</strong> để đối chiếu.' : `💡 Đã mở khóa <strong>Đáp án chuẩn</strong> và phản hồi chi tiết cho <strong>${allQ.length} câu hỏi</strong>! Bấm nút câu <strong>Q1..Q${allQ.length}</strong> bên dưới để xem lại.`}
@@ -1567,10 +1638,12 @@
     const siblings = getReadingTestSiblings(currentLesson, allLessons);
     const isFull = readFullTestMode && siblings.length > 1;
     const sessionKey = isFull ? ('full_' + siblings[0].id) : ('single_' + currentLesson.id);
-    const isSubmitted = !!readSubmittedMap[sessionKey];
+    const isViewingHistory = !!(viewingReadSub && viewingReadSub.answers && typeof viewingReadSub.answers === 'object' && (viewingReadSub.sessionKey === sessionKey || String(viewingReadSub.lessonId || '') === String(currentLesson.id)));
+    const activeAns = isViewingHistory ? Object.assign({}, viewingReadSub.answers) : readAnswers;
+    const isSubmitted = isViewingHistory || !!readSubmittedMap[sessionKey];
 
-    enhanceQuestionsDom(rootEl, readAnswers, () => {
-      saveReadAnswers();
+    enhanceQuestionsDom(rootEl, activeAns, () => {
+      if (!isViewingHistory) saveReadAnswers();
     }, isSubmitted);
 
     initSplitResizer();
@@ -1582,6 +1655,7 @@
   }
 
   window.s4CbtExitReadingToLesson = function () {
+    viewingReadSub = null;
     exitCbtExamMode();
     readLobbyOpen = false;
     readHubOpen = false;
@@ -1596,6 +1670,7 @@
     if (typeof window.setMode === 'function') window.setMode('passage');
   };
   window.s4CbtExitReadingToMode = function (m) {
+    viewingReadSub = null;
     exitCbtExamMode();
     readLobbyOpen = false;
     readHubOpen = false;
@@ -1612,6 +1687,7 @@
         : window.confirm(msg);
       if (!ok) return;
     }
+    viewingReadSub = null;
     exitCbtExamMode();
     readLobbyOpen = false;
     readHubOpen = false;
@@ -1621,6 +1697,7 @@
   };
 
   window.s4PzToggleReadingFullMode = function (fullFlag) {
+    viewingReadSub = null;
     readFullTestMode = !!fullFlag;
     activePartIdx = 0;
     startExamTimer(readFullTestMode ? 60 : 20);
@@ -1632,6 +1709,11 @@
     if (typeof window.renderMain === 'function') window.renderMain();
     if (scrollQid) {
       setTimeout(() => window.s4PzScrollToQuestion(scrollQid, idx), 60);
+    } else {
+      setTimeout(() => {
+        const act = document.querySelector('.s4-cbt-part-cluster.active');
+        if (act) { try { act.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }); } catch (e) {} }
+      }, 40);
     }
   };
 
@@ -1639,15 +1721,50 @@
     startExamTimer(mins);
   };
 
-  window.s4PzSubmitReading = function (sessionKey) {
+  window.s4PzSubmitReading = async function (sessionKey, opts) {
+    const preQs = (lastReadingSessionContext && Array.isArray(lastReadingSessionContext.allQ)) ? lastReadingSessionContext.allQ : [];
+    const totalPre = preQs.length;
+    const answeredPre = preQs.filter(q => normAnsStr(readAnswers[q.qid] || '') !== '').length;
+    const unansweredPre = Math.max(0, totalPre - answeredPre);
+    const confirmMsg = unansweredPre > 0
+      ? `Bạn vẫn còn ${unansweredPre}/${totalPre} câu chưa điền đáp án. Bạn có chắc chắn muốn nộp bài Reading ngay không?`
+      : `Bạn đã hoàn thành ${answeredPre}/${totalPre} câu. Xác nhận nộp bài Reading và xem điểm ngay?`;
+    const ok = await confirmCbtAction(confirmMsg, Object.assign({
+      title: unansweredPre > 0 ? 'Còn câu chưa trả lời' : 'Xác nhận nộp bài Reading',
+      tone: unansweredPre > 0 ? 'warn' : 'info',
+      confirmText: 'Nộp bài & Chấm điểm',
+      cancelText: 'Kiểm tra lại'
+    }, opts || {}));
+    if (!ok) return;
+
+    viewingReadSub = null;
     readSubmittedMap[sessionKey] = true;
     stopExamTimer();
 
-    // Lưu bản ghi lịch sử bài thi Reading
+    // Chấm lại trực tiếp từ readAnswers hiện hành và lưu bản ghi lịch sử bài thi Reading
     if (lastReadingSessionContext) {
       const now = new Date();
       const dateStr = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} • ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       const ctx = lastReadingSessionContext;
+      const gradedQs = (ctx.allQ || []).map(q => {
+        const userVal = readAnswers[q.qid] || '';
+        const g = gradeIeltsAnswer(userVal, q.correctRaw);
+        return { ...q, userVal, ...g };
+      });
+      const answeredCount = gradedQs.filter(q => q.isAnswered).length;
+      const correctCount = gradedQs.filter(q => q.isCorrect).length;
+      const totalQuestions = gradedQs.length;
+      const bandScore = calcIeltsBand(correctCount, totalQuestions);
+      const answersSnapshot = {};
+      gradedQs.forEach(q => {
+        if (q.userVal !== '') answersSnapshot[q.qid] = q.userVal;
+      });
+      ctx.allQ = gradedQs;
+      ctx.answeredCount = answeredCount;
+      ctx.correctCount = correctCount;
+      ctx.totalQuestions = totalQuestions;
+      ctx.bandScore = bandScore;
+
       const spentMin = Math.max(1, Math.round((timerLimitSeconds - timerSeconds) / 60));
       const durationText = `${spentMin} phút`;
 
@@ -1661,12 +1778,13 @@
         date: dateStr,
         timestamp: Date.now(),
         duration: durationText,
-        correctCount: ctx.correctCount,
-        totalQuestions: ctx.totalQuestions,
-        bandScore: String(ctx.bandScore),
-        accuracy: Math.round((ctx.correctCount / Math.max(1, ctx.totalQuestions)) * 100),
+        correctCount: correctCount,
+        totalQuestions: totalQuestions,
+        bandScore: String(bandScore),
+        accuracy: Math.round((correctCount / Math.max(1, totalQuestions)) * 100),
         isFull: ctx.isFull,
-        answeredCount: ctx.answeredCount
+        answeredCount: answeredCount,
+        answers: answersSnapshot
       };
       saveReadingSubmissionRecord(subRecord);
     }
@@ -1731,6 +1849,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
   // Thoát phòng thi về Sảnh phòng thi Reading
   window.s4PzExitExamToLobby = function () {
+    viewingReadSub = null;
     exitCbtExamMode();
     readLobbyOpen = true;
     readHubOpen = false;
@@ -1740,13 +1859,26 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (typeof window.renderMain === 'function') window.renderMain();
   };
 
-  window.s4PzResetReading = function (sessionKey) {
+  window.s4PzResetReading = async function (sessionKey, opts) {
+    const ok = await confirmCbtAction('Bạn muốn xóa toàn bộ đáp án và cờ Review của lượt thi Reading này để làm lại từ đầu?', Object.assign({
+      title: 'Làm lại bài Reading',
+      tone: 'danger',
+      confirmText: 'Làm lại',
+      cancelText: 'Giữ nguyên'
+    }, opts || {}));
+    if (!ok) return;
+
+    viewingReadSub = null;
     delete readSubmittedMap[sessionKey];
     if (lastReadingSessionContext && Array.isArray(lastReadingSessionContext.allQ)) {
       lastReadingSessionContext.allQ.forEach(q => {
-        if (q && q.qid) delete readAnswers[q.qid];
+        if (q && q.qid) {
+          delete readAnswers[q.qid];
+          delete reviewFlags[q.qid];
+        }
       });
       saveReadAnswers();
+      saveReviewFlags();
     }
     startExamTimer(readFullTestMode ? 60 : 20);
     if (typeof window.renderMain === 'function') window.renderMain();
@@ -1775,11 +1907,11 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     const meta = getReadingSubmissionMeta(sub);
     const correct = sub.correctCount == null ? NaN : Number(sub.correctCount);
     const total = sub.totalQuestions == null ? NaN : Number(sub.totalQuestions);
-    const band = sub.bandScore == null ? NaN : Number(sub.bandScore);
+    const bandText = formatBandScore(sub.bandScore);
     const accuracy = sub.accuracy == null ? NaN : Number(sub.accuracy);
     const hasCounts = Number.isFinite(correct) && Number.isFinite(total);
-    const hasBand = Number.isFinite(band);
-    const isPass = hasBand && band >= 6.5;
+    const hasBand = bandText !== null;
+    const isPass = hasBand && Number(bandText) >= 6.5;
     const resultText = hasCounts ? `Đúng ${correct}/${total} câu (${Number.isFinite(accuracy) ? accuracy + '%' : '—'})` : 'Bản ghi cũ chưa có kết quả';
     return `
       <div class="w-history-item" id="r_sub_${sub.id}">
@@ -1799,7 +1931,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
         <div class="w-history-right">
           <div class="w-history-score-badge graded">
-            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `🏆 Band ${band}` : '⏳ Thiếu điểm'}</div>
+            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `🏆 Band ${bandText}` : '⏳ Thiếu điểm'}</div>
             <div class="w-score-sub">${resultText}</div>
           </div>
           <div class="w-history-actions">
@@ -1828,15 +1960,17 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (!sub) return;
 
     window.S4PracticeZone.closeReadingHistoryModal();
+    viewingReadSub = sub;
     readLobbyOpen = false;
     readHubOpen = false;
     const meta = getReadingSubmissionMeta(sub);
     readFullTestMode = meta.isFull;
     activePartIdx = 0;
     readSubmittedMap[sub.sessionKey] = true; // Giữ trạng thái đã nộp để xem đáp án
-    enterCbtExamMode(true);
     if (typeof window.selectLesson === 'function') {
       window.selectLesson(meta.lessonId, 'practice_test');
+    } else {
+      exitCbtExamMode();
     }
   };
 
@@ -1846,6 +1980,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (!sub) return;
 
     window.S4PracticeZone.closeReadingHistoryModal();
+    viewingReadSub = null;
+    readHubOpen = false;
+    exitCbtExamMode();
     const meta = getReadingSubmissionMeta(sub);
     // Xóa đáp án của đề thi này để làm lại
     delete readSubmittedMap[sub.sessionKey];
@@ -2142,6 +2279,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
   // Mở Sảnh từ ngoài
   window.s4PzOpenReadingLobby = function (lessonId, isFull) {
+    viewingReadSub = null;
     readHubOpen = false;
     readLobbyOpen = true;
     readLobbyTimer = isFull ? 60 : 20;
@@ -2180,6 +2318,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
   // Bắt đầu làm bài thi từ Sảnh (Tự động Fullscreen + CBT Mode)
   window.s4PzStartReadingExamFromLobby = function () {
+    viewingReadSub = null;
     try {
       if (!document.fullscreenElement) {
         const el = document.documentElement;
@@ -2578,6 +2717,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     window.s4PzHubSearchInput('reading', q);
   };
   window.s4PzStartReadingTest = function (lessonId, isFull) {
+    viewingReadSub = null;
     readHubOpen = false;
     readFullTestMode = !!isFull;
     activePartIdx = 0;
@@ -2660,7 +2800,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   window.updateTopListeningHistoryCount = updateTopListeningHistoryCount;
 
   function renderListeningHistoryItemHtml(sub) {
-    const isPass = parseFloat(sub.bandScore) >= 6.5;
+    const bandText = formatBandScore(sub.bandScore);
+    const hasBand = bandText !== null;
+    const isPass = hasBand && Number(bandText) >= 6.5;
     return `
       <div class="w-history-item" id="l_sub_${sub.id}">
         <div class="w-history-left">
@@ -2679,7 +2821,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
         <div class="w-history-right">
           <div class="w-history-score-badge graded">
-            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">🏆 Band ${sub.bandScore || '6.0'}</div>
+            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `🏆 Band ${bandText}` : '⏳ Thiếu điểm'}</div>
             <div class="w-score-sub">${sub.correctCount}/${sub.totalQuestions} câu đúng</div>
           </div>
           <div class="w-history-actions">
@@ -2706,13 +2848,39 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (window.S4PracticeZone && window.S4PracticeZone.closeListeningHistoryModal) {
       window.S4PracticeZone.closeListeningHistoryModal();
     }
-    listenLobbyOpen = false;
-    listenHubOpen = false;
-    activeListenTestId = Number(sub.testId);
-    activePartIdx = 0;
-    listenSubmittedMap[sub.sessionKey] = true;
-    enterCbtExamMode(true);
-    if (typeof window.renderMain === 'function') window.renderMain();
+    const openReview = () => {
+      const testList = window.__STUDY4_LISTEN_PZ || [];
+      const found = testList.find(t => Number(t.id) === Number(sub.testId));
+      if (!found) {
+        viewingListenSub = null;
+        exitCbtExamMode();
+        if (window.S4UI && typeof window.S4UI.toast === 'function') {
+          window.S4UI.toast('warn', 'Không tìm thấy đề thi tương ứng trong kho Practice Zone.');
+        }
+        if (window.S4PracticeZone && typeof window.S4PracticeZone.openListeningHub === 'function') {
+          if (typeof window.enterListeningPzMode === 'function') window.enterListeningPzMode();
+          window.S4PracticeZone.openListeningHub();
+        }
+        return;
+      }
+      if (typeof window.enterListeningPzMode === 'function') {
+        window.enterListeningPzMode();
+      }
+      viewingListenSub = sub;
+      listenLobbyOpen = false;
+      listenHubOpen = false;
+      activeListenLobbyTest = found;
+      activeListenTestId = Number(found.id);
+      activePartIdx = 0;
+      listenSubmittedMap[sub.sessionKey] = true;
+      enterCbtExamMode(true);
+      if (typeof window.renderMain === 'function') window.renderMain();
+    };
+    if (!window.__STUDY4_LISTEN_PZ) {
+      ensureListeningPzLoaded(openReview);
+    } else {
+      openReview();
+    }
   };
 
   window.s4PzRetakeListeningSubmission = function (subId) {
@@ -2723,17 +2891,30 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (window.S4PracticeZone && window.S4PracticeZone.closeListeningHistoryModal) {
       window.S4PracticeZone.closeListeningHistoryModal();
     }
+    viewingListenSub = null;
     delete listenSubmittedMap[sub.sessionKey];
-    listenLobbyOpen = true;
-    const testList = window.__STUDY4_LISTEN_PZ || [];
-    const found = testList.find(t => t.id === Number(sub.testId));
-    if (found) {
-      activeListenLobbyTest = found;
-      activeListenTestId = found.id;
+    const openRetake = () => {
+      if (typeof window.enterListeningPzMode === 'function') {
+        window.enterListeningPzMode();
+      }
+      exitCbtExamMode();
+      listenHubOpen = false;
+      listenLobbyOpen = true;
+      const testList = window.__STUDY4_LISTEN_PZ || [];
+      const found = testList.find(t => Number(t.id) === Number(sub.testId));
+      if (found) {
+        activeListenLobbyTest = found;
+        activeListenTestId = found.id;
+      }
+      listenLobbyMode = 'full';
+      listenLobbyTimer = 40;
+      if (typeof window.renderMain === 'function') window.renderMain();
+    };
+    if (!window.__STUDY4_LISTEN_PZ) {
+      ensureListeningPzLoaded(openRetake);
+    } else {
+      openRetake();
     }
-    listenLobbyMode = 'full';
-    listenLobbyTimer = 40;
-    if (typeof window.renderMain === 'function') window.renderMain();
   };
 
   window.s4PzDeleteListeningSubmission = function (id) {
@@ -2934,6 +3115,13 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     cbtFontClass = f;
     if (typeof window.renderMain === 'function') window.renderMain();
   };
+  window.s4PzOpenListeningLobbySection = function (testId, mode) {
+    const validModes = ['full', 's1', 's2', 's3', 's4'];
+    const targetMode = validModes.includes(mode) ? mode : 'full';
+    listenLobbyMode = targetMode;
+    listenLobbyTimer = (targetMode === 'full') ? 40 : 15;
+    window.S4PracticeZone.openListeningLobby(testId);
+  };
   window.s4PzPlayTestSound = function() {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2951,6 +3139,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   };
 
   window.s4PzStartListeningExamFromLobby = function () {
+    viewingListenSub = null;
     try {
       if (!document.fullscreenElement) {
         const el = document.documentElement;
@@ -2982,6 +3171,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   };
 
   window.s4PzExitListeningExamToLobby = function () {
+    viewingListenSub = null;
     stopListeningPassAudio(true);
     exitCbtExamMode();
     listenLobbyOpen = true;
@@ -2990,6 +3180,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   };
 
   window.s4CbtExitListeningToExplain = function (lessonId) {
+    viewingListenSub = null;
     stopListeningPassAudio(true);
     exitCbtExamMode();
     listenLobbyOpen = false;
@@ -3166,6 +3357,20 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                       <span class="w-radio-desc">Q11–Q20</span>
                     </div>
                   </label>
+                  <label class="w-config-radio">
+                    <input type="radio" name="lLobbyMode" value="s3" ${listenLobbyMode === 's3' ? 'checked' : ''} onchange="window.s4PzSetListeningLobbyMode('s3')">
+                    <div class="w-radio-box">
+                      <span class="w-radio-title">Section 3</span>
+                      <span class="w-radio-desc">Q21–Q30</span>
+                    </div>
+                  </label>
+                  <label class="w-config-radio">
+                    <input type="radio" name="lLobbyMode" value="s4" ${listenLobbyMode === 's4' ? 'checked' : ''} onchange="window.s4PzSetListeningLobbyMode('s4')">
+                    <div class="w-radio-box">
+                      <span class="w-radio-title">Section 4</span>
+                      <span class="w-radio-desc">Q31–Q40</span>
+                    </div>
+                  </label>
                 </div>
               </div>
 
@@ -3321,7 +3526,12 @@ function renderListeningExamView(testObj, allLessonsParam) {
     if (activePartIdx >= parts.length) activePartIdx = 0;
     const curPart = parts[activePartIdx] || parts[0];
     const sessionKey = 'listen_' + testObj.id;
-    const isSubmitted = !!listenSubmittedMap[sessionKey];
+    if (viewingListenSub && Number(viewingListenSub.testId) !== Number(testObj.id)) {
+      viewingListenSub = null;
+    }
+    const isViewingHistory = !!(viewingListenSub && viewingListenSub.answers && typeof viewingListenSub.answers === 'object');
+    const activeAns = isViewingHistory ? viewingListenSub.answers : listenAnswers;
+    const isSubmitted = isViewingHistory || !!listenSubmittedMap[sessionKey];
 
     const allQ = [];
     const partNames = [];
@@ -3333,7 +3543,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
         const qid = m[1];
         const qNum = m[2];
         const correctRaw = (testObj.answers && testObj.answers[qid]) || '';
-        const g = gradeIeltsAnswer(listenAnswers[qid] || '', correctRaw);
+        const g = gradeIeltsAnswer(activeAns[qid] || '', correctRaw);
         allQ.push({ qid, qNum, correctRaw, partIdx: pIdx, ...g });
       }
     });
@@ -3351,6 +3561,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     }
 
     const isFs = !!document.fullscreenElement;
+    const curTimerMins = timerLimitSeconds > 0 ? Math.round(timerLimitSeconds / 60) : 0;
 
     return `
       <div class="s4-cbt-shell ${isSubmitted ? 's4-pz-submitted' : 's4-pz-unsubmitted'}" id="s4PzListenExamRoot">
@@ -3368,10 +3579,12 @@ function renderListeningExamView(testObj, allLessonsParam) {
             <div class="s4-cbt-timer-box" id="s4CbtTimerBox">
               <span>⏱️</span>
               <span id="s4PzTimerText">${formatTimer(timerSeconds)}</span>
-              <select style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.s4PzChangeTimer(Number(this.value))">
-                <option value="40">40 phút</option>
-                <option value="20">20 phút</option>
-                <option value="0">Đếm xuôi</option>
+              <select id="s4PzTimerSelect" style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.s4PzChangeTimer(Number(this.value))">
+                <option value="40" ${curTimerMins === 40 ? 'selected' : ''}>40 phút</option>
+                <option value="30" ${curTimerMins === 30 ? 'selected' : ''}>30 phút</option>
+                <option value="20" ${curTimerMins === 20 ? 'selected' : ''}>20 phút</option>
+                <option value="10" ${curTimerMins === 10 ? 'selected' : ''}>10 phút</option>
+                <option value="0" ${curTimerMins === 0 ? 'selected' : ''}>Đếm xuôi</option>
               </select>
             </div>
             <span style="font-size:12.5px;font-weight:800;color:var(--muted);">Đã làm: <strong id="s4PzAnsweredCount" style="color:var(--hl-cyan);">${answeredCount}/${allQ.length}</strong></span>
@@ -3414,7 +3627,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
                 </div>
                 <div>
                   <div style="font-size:15.5px;font-weight:800;color:var(--text);">
-                    Kết quả đề ${testObj.title}: Đúng <span style="color:#34d399;">${correctCount} / ${allQ.length}</span> câu (${Math.round((correctCount / Math.max(1, allQ.length)) * 100)}%)
+                    Kết quả đề ${testObj.title}: Đúng <span style="color:#34d399;">${correctCount} / ${allQ.length}</span> câu (${Math.round((correctCount / Math.max(1, allQ.length)) * 100)}%)${isViewingHistory && viewingListenSub.date ? ` <span style="font-size:12px;font-weight:700;color:var(--hl-cyan);margin-left:6px;">• Đang xem lại bài nộp lúc ${escapeAttr(viewingListenSub.date)}</span>` : ''}
                   </div>
                   <div style="font-size:12.5px;color:var(--muted);">
                     ✓ Đã hiển thị toàn bộ <strong>Đáp án chuẩn</strong> bên dưới từng câu hỏi của cả 4 Recording!
@@ -3493,7 +3706,9 @@ function renderListeningExamView(testObj, allLessonsParam) {
     const parts = testObj.parts || [];
     const curPart = parts[activePartIdx] || parts[0];
     const sessionKey = 'listen_' + testObj.id;
-    const isSubmitted = !!listenSubmittedMap[sessionKey];
+    const isViewingHistory = !!(viewingListenSub && viewingListenSub.answers && typeof viewingListenSub.answers === 'object' && Number(viewingListenSub.testId) === Number(testObj.id));
+    const activeAns = isViewingHistory ? Object.assign({}, viewingListenSub.answers) : listenAnswers;
+    const isSubmitted = isViewingHistory || !!listenSubmittedMap[sessionKey];
 
     const audioMount = document.getElementById('s4CbtAudioMount') || document.getElementById('s4PzListenAudioSlot');
     const passAudio = document.getElementById('globalPassAudio');
@@ -3567,8 +3782,8 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
     const rootEl = document.getElementById('s4PzListenExamRoot');
     if (rootEl) {
-      enhanceQuestionsDom(rootEl, listenAnswers, () => {
-        saveListenAnswers();
+      enhanceQuestionsDom(rootEl, activeAns, () => {
+        if (!isViewingHistory) saveListenAnswers();
       }, isSubmitted);
     }
 
@@ -3577,6 +3792,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
   }
 
   window.s4CbtExitListeningToLesson = function () {
+    viewingListenSub = null;
     stopListeningPassAudio(true);
     exitCbtExamMode();
     const targetKey = activeListenLobbyTest ? parseIeltsTestIdentity(activeListenLobbyTest.title, { skill: 'listening' })?.key : null;
@@ -3616,6 +3832,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     window.s4PzHubSearchInput('listening', q);
   };
   window.s4PzStartListeningTest = function (testId, partIdx) {
+    viewingListenSub = null;
     listenHubOpen = false;
     activeListenTestId = Number(testId);
     activePartIdx = partIdx || 0;
@@ -3628,29 +3845,54 @@ function renderListeningExamView(testObj, allLessonsParam) {
     if (typeof window.renderMain === 'function') window.renderMain();
     if (scrollQid) {
       setTimeout(() => window.s4PzScrollToQuestion(scrollQid, idx), 60);
+    } else {
+      setTimeout(() => {
+        const act = document.querySelector('.s4-cbt-part-cluster.active');
+        if (act) { try { act.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }); } catch (e) {} }
+      }, 40);
     }
   };
-  window.s4PzSubmitListening = function (sessionKey, testId) {
-    listenSubmittedMap[sessionKey] = true;
-    stopExamTimer();
-
+  window.s4PzSubmitListening = async function (sessionKey, testId, opts) {
     const list = window.__STUDY4_LISTEN_PZ || [];
     const target = list.find(t => t.id === Number(testId)) || activeListenLobbyTest;
+    const allQ = [];
+    const answersSnapshot = {};
     if (target) {
       const parts = target.parts || [];
-      const allQ = [];
       parts.forEach((p, pIdx) => {
         const regex = /<div class="question-wrapper"[^>]*\bdata-qid="(\d+)"[\s\S]*?<div class="question-number[^"]*"[^>]*>\s*<strong>(\d+)<\/strong>/gi;
         let m;
         while ((m = regex.exec(p.html)) !== null) {
           const qid = m[1];
           const qNum = m[2];
+          const userVal = listenAnswers[qid] || '';
+          if (userVal !== '') answersSnapshot[qid] = userVal;
           const correctRaw = (target.answers && target.answers[qid]) || '';
-          const g = gradeIeltsAnswer(listenAnswers[qid] || '', correctRaw);
+          const g = gradeIeltsAnswer(userVal, correctRaw);
           allQ.push({ qid, qNum, correctRaw, partIdx: pIdx, ...g });
         }
       });
+    }
 
+    const totalPre = allQ.length;
+    const answeredPre = allQ.filter(q => q.isAnswered).length;
+    const unansweredPre = Math.max(0, totalPre - answeredPre);
+    const confirmMsg = unansweredPre > 0
+      ? `Bạn vẫn còn ${unansweredPre}/${totalPre} câu chưa điền đáp án. Bạn có chắc chắn muốn nộp bài Listening ngay không?`
+      : `Bạn đã hoàn thành ${answeredPre}/${totalPre} câu. Xác nhận nộp bài Listening và xem điểm ngay?`;
+    const ok = await confirmCbtAction(confirmMsg, Object.assign({
+      title: unansweredPre > 0 ? 'Còn câu chưa trả lời' : 'Xác nhận nộp bài Listening',
+      tone: unansweredPre > 0 ? 'warn' : 'info',
+      confirmText: 'Nộp bài & Chấm điểm',
+      cancelText: 'Kiểm tra lại'
+    }, opts || {}));
+    if (!ok) return;
+
+    viewingListenSub = null;
+    listenSubmittedMap[sessionKey] = true;
+    stopExamTimer();
+
+    if (target) {
       const correctCount = allQ.filter(q => q.isCorrect).length;
       const bandScore = calcIeltsBand(correctCount, allQ.length);
       saveListeningSubmissionRecord({
@@ -3664,19 +3906,39 @@ function renderListeningExamView(testObj, allLessonsParam) {
         correctCount: correctCount,
         totalQuestions: allQ.length,
         accuracy: Math.round((correctCount / Math.max(1, allQ.length)) * 100),
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        answers: answersSnapshot
       });
     }
 
     if (typeof window.renderMain === 'function') window.renderMain();
   };
-  window.s4PzResetListening = function (sessionKey, testId) {
+  window.s4PzResetListening = async function (sessionKey, testId, opts) {
+    const ok = await confirmCbtAction('Bạn muốn xóa toàn bộ đáp án và cờ Review của lượt thi Listening này để làm lại từ đầu?', Object.assign({
+      title: 'Làm lại bài Listening',
+      tone: 'danger',
+      confirmText: 'Làm lại',
+      cancelText: 'Giữ nguyên'
+    }, opts || {}));
+    if (!ok) return;
+
+    viewingListenSub = null;
     delete listenSubmittedMap[sessionKey];
     const list = window.__STUDY4_LISTEN_PZ || [];
     const testObj = list.find(t => t.id === Number(testId));
-    if (testObj && testObj.answers) {
-      Object.keys(testObj.answers).forEach(qid => delete listenAnswers[qid]);
+    if (testObj) {
+      const qidsToClear = new Set(Object.keys(testObj.answers || {}));
+      (testObj.parts || []).forEach(p => {
+        const re = /\bdata-qid="(\d+)"/gi;
+        let m;
+        while ((m = re.exec(p.html || '')) !== null) qidsToClear.add(m[1]);
+      });
+      qidsToClear.forEach(qid => {
+        delete listenAnswers[qid];
+        delete reviewFlags[qid];
+      });
       saveListenAnswers();
+      saveReviewFlags();
     }
     startExamTimer(40);
     if (typeof window.renderMain === 'function') window.renderMain();
@@ -3711,12 +3973,14 @@ function renderListeningExamView(testObj, allLessonsParam) {
       }
     },
     openReadingHub: function () {
+      viewingReadSub = null;
       exitCbtExamMode();
       readLobbyOpen = false;
       readHubOpen = true;
       if (typeof window.renderMain === 'function') window.renderMain();
     },
     openReadingLobbyDirect: function () {
+      viewingReadSub = null;
       exitCbtExamMode();
       readHubOpen = false;
       const all = window.ALL_LESSONS || [];
@@ -3746,6 +4010,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     isListeningLobbyOpen: () => listenLobbyOpen,
     renderListeningLobby,
     openListeningLobby: function (testId) {
+      viewingListenSub = null;
       stopListeningPassAudio(true);
       exitCbtExamMode();
       listenLobbyOpen = true;
@@ -3762,6 +4027,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     },
     closeListeningLobby: () => { listenLobbyOpen = false; },
     setActiveListenLobbyTest: (test) => {
+      viewingListenSub = null;
       activeListenLobbyTest = test;
       if (test) activeListenTestId = test.id;
     },
@@ -3787,6 +4053,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
       return findListeningTestForLesson(currentLesson);
     },
     setActiveListeningTestForLesson: (lesson) => {
+      viewingListenSub = null;
       const m = (lesson?.title || '').match(/Section\s*(\d+)/i);
       const t = findListeningTestForLesson(lesson);
       if (!t) return false;
@@ -3800,6 +4067,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
       return true;
     },
     openListeningHub: function () {
+      viewingListenSub = null;
       stopListeningPassAudio(true);
       exitCbtExamMode();
       listenLobbyOpen = false;

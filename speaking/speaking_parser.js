@@ -830,6 +830,10 @@
         ? classifyPart1Group(p1.quarter)
         : classifyPart1CoreGroup(p1CleanTopic);
 
+      var hasRealQs = builtQs.some(function (q) {
+        return q && q.q && String(q.q).indexOf('Câu mẫu') === -1;
+      });
+
       var lessonP1 = {
         id: p1.id,
         actId: p1.actId,
@@ -844,6 +848,7 @@
         group: p1GroupName,
         topicTag: p1.quarter || 'Everyday',
         questions: builtQs,
+        hasRealQuestions: hasRealQs,
         vocabTips: combinedTips,
         questionCount: builtQs.length
       };
@@ -1313,12 +1318,24 @@
     if (!_part1Pool.length || !_part23Pool.length) return null;
 
     var o = opts || {};
+    var realP1Indices = [];
+    for (var ri = 0; ri < _part1Pool.length; ri++) {
+      if (_part1Pool[ri] && _part1Pool[ri].hasRealQuestions) realP1Indices.push(ri);
+    }
+    var p1PoolIndices = realP1Indices.length ? realP1Indices : _part1Pool.map(function (_, i) { return i; });
     var idxA = (typeof o.p1IdxA === 'number' && _part1Pool[o.p1IdxA])
       ? o.p1IdxA
-      : Math.floor(Math.random() * _part1Pool.length);
+      : p1PoolIndices[Math.floor(Math.random() * p1PoolIndices.length)];
+    var p1BChoices = p1PoolIndices.filter(function (i) { return i !== idxA; });
+    if (!p1BChoices.length) {
+      for (var fi = 0; fi < _part1Pool.length; fi++) {
+        if (fi !== idxA) p1BChoices.push(fi);
+      }
+      if (!p1BChoices.length) p1BChoices = [idxA];
+    }
     var idxB = (typeof o.p1IdxB === 'number' && _part1Pool[o.p1IdxB] && o.p1IdxB !== idxA)
       ? o.p1IdxB
-      : (idxA + 1 + Math.floor(Math.random() * Math.max(1, _part1Pool.length - 1))) % _part1Pool.length;
+      : p1BChoices[Math.floor(Math.random() * p1BChoices.length)];
     var p23Idx = (typeof o.p23Idx === 'number' && _part23Pool[o.p23Idx])
       ? o.p23Idx
       : Math.floor(Math.random() * _part23Pool.length);
@@ -1419,12 +1436,33 @@
         base.title = 'Full Mock: ' + base.cleanTitle + ' + ' + pick23.cleanTitle;
       }
     } else if (base.pzKind === 'topic_p23') {
-      var pick1 = _pzTopicsP1.length
-        ? _pzTopicsP1[Math.floor(Math.random() * _pzTopicsP1.length)]
+      var realPzP1 = _pzTopicsP1.filter(function (t) {
+        return t && t.part1 && (t.part1.topic1Qs || []).some(function (q) {
+          return q && q.q && String(q.q).indexOf('Câu mẫu') === -1;
+        });
+      });
+      var p1Candidates = realPzP1.length ? realPzP1 : _pzTopicsP1;
+      var pick1 = p1Candidates.length
+        ? p1Candidates[Math.floor(Math.random() * p1Candidates.length)]
         : null;
       if (pick1) {
         base.part1 = cloneJson(pick1.part1);
         base.title = 'Full Mock: ' + pick1.cleanTitle + ' + ' + base.cleanTitle;
+      } else if (_part1Pool.length) {
+        var realPool1 = _part1Pool.filter(function (p) { return p && p.hasRealQuestions; });
+        var fallbackPool1 = realPool1.length ? realPool1 : _part1Pool;
+        var fp1 = fallbackPool1[Math.floor(Math.random() * fallbackPool1.length)];
+        base.part1 = {
+          intro: 'Now, in this first part, let us talk about ' + fp1.cleanTitle.toLowerCase() + '.',
+          topic1Id: fp1.id,
+          topic1Title: fp1.cleanTitle,
+          topic1Qs: cloneJson((fp1.questions || []).slice(0, 4)),
+          transition: '',
+          topic2Id: '',
+          topic2Title: '',
+          topic2Qs: []
+        };
+        base.title = 'Full Mock: ' + fp1.cleanTitle + ' + ' + base.cleanTitle;
       }
     }
     base.hasPart1 = Boolean(base.part1 && (base.part1.topic1Qs || []).length);

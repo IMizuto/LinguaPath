@@ -51,7 +51,7 @@
     }
 
     const type = cfg.type || "info";
-    const position = cfg.position || (isCbtActive() ? "bottom" : "top");
+    const position = cfg.position || "bottom";
     const duration = Number(cfg.duration) > 0 ? Number(cfg.duration) : (type === "error" || type === "warn" ? 2600 : 1900);
     const host = getMountHost();
 
@@ -197,8 +197,11 @@
       host.appendChild(backdrop);
       requestAnimationFrame(function () {
         backdrop.classList.add("open");
+        const preferCancel = opts.mode === "confirm" && (opts.tone === "danger" || opts.tone === "warn") && cancelBtn;
         if (inputEl) {
           try { inputEl.focus({ preventScroll: true }); inputEl.select(); } catch (e) {}
+        } else if (preferCancel) {
+          try { cancelBtn.focus({ preventScroll: true }); } catch (e) {}
         } else if (okBtn) {
           try { okBtn.focus({ preventScroll: true }); } catch (e) {}
         }

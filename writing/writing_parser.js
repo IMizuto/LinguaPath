@@ -85,6 +85,12 @@
     return clean.split(/\s+/).filter(Boolean).length;
   }
 
+  function normalizePromptText(raw) {
+    return String(raw || '')
+      .replace(/([a-z0-9)%?])\.([A-Z][a-z]{2,})/g, '$1. $2')
+      .trim();
+  }
+
   // 6. Danh sách 3 Bộ đề thi thử Practice Zone Full Exam chuẩn Cambridge
   const PRACTICE_ZONE_TESTS = [
     {
@@ -224,7 +230,7 @@
           let cleanTitle = (item.title || item.actTitle || `Bài ${itemIdx + 1}`).replace(/^Luyện tập:\s*/i, '').trim();
 
           // 3. Trích xuất đề bài & hình ảnh
-          let prompt = (prob && prob.prompt) ? prob.prompt.trim() : '';
+          let prompt = normalizePromptText(prob && prob.prompt);
           let images = (prob && prob.images) ? prob.images : (item.slideImages || []);
 
           // 4. Bóc tách câu bài mẫu song ngữ & từ vựng kèm nghĩa tiếng Việt (ĐÃ KHỬ TRÙNG & GÁN VAI TRÒ CÂU)
@@ -424,7 +430,7 @@
         topic: !isT1 ? (part.seriesLabel || 'IELTS Practice') : '',
         minWords: isT1 ? 150 : 250,
         suggestedTime: isT1 ? '20 minutes' : '40 minutes',
-        prompt: part.prompt || '',
+        prompt: normalizePromptText(part.prompt),
         promptHtml: part.promptHtml || '',
         images: Array.isArray(part.images) ? part.images : [],
         sampleId: part.sampleId || '',
