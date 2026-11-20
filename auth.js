@@ -142,7 +142,7 @@
     return "L" + simpleHash(s);
   }
 
-  /* ---------- Firebase REST ---------- */
+  /* ---------- Firebase REST & Xác thực Chữ ký Bảo mật (authProof) ---------- */
   async function db(path, method, body, opts) {
     opts = opts || {};
     const ctl = typeof AbortController !== "undefined" ? new AbortController() : null;
@@ -156,6 +156,45 @@
       if (!res.ok) throw new Error("HTTP " + res.status);
       return await res.json();
     } finally { clearTimeout(timer); }
+  }
+
+  // Lưu mã băm mật khẩu sang nhánh bảo mật riêng (study4_auth/$username có .read: false)
+  // và tự động gỡ passwordHash khỏi nhánh hồ sơ công khai study4_users/$username khi Rules mới đã bật.
+  async function syncAuthSecret(uname, newPh, proofPh) {
+    if (!uname || !newPh) return false;
+    try {
+      await db(`study4_auth/${uname}`, "PUT", {
+        passwordHash: newPh,
+        prevPh: proofPh || newPh,
+        updatedAt: Date.now()
+      });
+      db(`study4_users/${uname}`, "PATCH", {
+        passwordHash: null,
+        authProof: newPh
+      }).catch(() => {});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Kiểm tra mật khẩu tương thích cả trước và sau khi cập nhật Rules mới trên Firebase Console.
+  async function verifyAuthSecret(uname, ph, userRec) {
+    if (!uname || !ph || !userRec) return false;
+    if (userRec.passwordHash) {
+      if (userRec.passwordHash !== ph) return false;
+      syncAuthSecret(uname, ph, ph).catch(() => {});
+      return true;
+    }
+    if (!userRec.username && !userRec.role) return false;
+    try {
+      await db(`study4_auth/${uname}/check/${ph}`);
+      return true;
+    } catch (e) {
+      const msg = String((e && e.message) || "");
+      if (msg.includes("HTTP 401") || msg.includes("HTTP 403")) return false;
+      throw e;
+    }
   }
 
   /* ---------- Người dùng hiện tại ---------- */
@@ -756,7 +795,8 @@
       }
     }
 
-    const body = { data: data, updatedAt: ts };
+    const authProof = (session && session.ph) || "";
+    const body = { data: data, updatedAt: ts, authProof: authProof };
     if (nextResetAt > 0) body.resetAt = nextResetAt;
     if (nextVocabResetAt > 0) body.vocabResetAt = nextVocabResetAt;
     const small = JSON.stringify(body).length < 60000;
@@ -770,7 +810,7 @@
       pendingOverwrite: null
     });
     const st = progressStats(data);
-    db(`study4_users/${uname}`, "PATCH", buildProgressStatsPatch(st)).catch(() => {});
+    db(`study4_users/${uname}`, "PATCH", Object.assign(buildProgressStatsPatch(st), { authProof: authProof })).catch(() => {});
     return true;
   }
 
@@ -856,7 +896,7 @@
         vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt)
       });
       const st = progressStats(readProgress());
-      db(`study4_users/${uname}`, "PATCH", buildProgressStatsPatch(st)).catch(() => {});
+      db(`study4_users/${uname}`, "PATCH", Object.assign(buildProgressStatsPatch(st), { authProof: (session && session.ph) || "" })).catch(() => {});
     }
     if (changedLocal) refreshAfterDataChange("progress");
   }
@@ -865,19 +905,21 @@
   async function fetchConfig() {
     const remote = await db("study4_config");
     if (!remote || typeof remote !== "object") return false;
-    const next = Object.assign({}, config);
-    if (typeof remote.authEnforced === "boolean") next.authEnforced = remote.authEnforced;
+    const next = Object.assign({}, config, { authEnforced: false });
     if (typeof remote.contactNote === "string") {
       if (remote.contactNote.includes("kích hoạt") || remote.contactNote.includes("Kích Hoạt")) {
         next.contactNote = DEFAULT_CONFIG.contactNote;
       } else {
-        next.contactNote = remote.contactNote;
+        next.contactNote = remote.contactNote.slice(0, 300);
       }
     }
-    if (typeof remote.bankCode === "string" && remote.bankCode) next.bankCode = remote.bankCode;
-    if (typeof remote.bankAccount === "string" && remote.bankAccount) next.bankAccount = remote.bankAccount;
-    if (typeof remote.bankOwner === "string" && remote.bankOwner) next.bankOwner = remote.bankOwner;
-    if (typeof remote.transferMemo === "string" && remote.transferMemo) next.transferMemo = remote.transferMemo;
+    // Chỉ chấp nhận cấu hình ngân hàng từ Cloud khi có cờ xác thực Admin hợp lệ
+    if (remote.adminVerified === true && remote.updatedBy === "admin") {
+      if (typeof remote.bankCode === "string" && /^[A-Z0-9]{2,12}$/i.test(remote.bankCode.trim())) next.bankCode = remote.bankCode.trim().toUpperCase();
+      if (typeof remote.bankAccount === "string" && /^[0-9]{6,22}$/.test(remote.bankAccount.trim())) next.bankAccount = remote.bankAccount.trim();
+      if (typeof remote.bankOwner === "string" && remote.bankOwner.trim().length >= 3 && remote.bankOwner.trim().length <= 50) next.bankOwner = remote.bankOwner.trim();
+      if (typeof remote.transferMemo === "string" && remote.transferMemo.trim().length <= 60) next.transferMemo = remote.transferMemo.trim();
+    }
     const changed = canon(next) !== canon(config);
     config = next;
     saveConfig();
@@ -890,6 +932,9 @@
       bankAccount: config.bankAccount,
       bankOwner: config.bankOwner,
       transferMemo: config.transferMemo,
+      adminVerified: true,
+      updatedBy: "admin",
+      authProof: (session && session.ph) || "",
       updatedAt: new Date().toISOString()
     });
   }
@@ -914,13 +959,19 @@
     if (!session) return;
     let rec;
     try { rec = await db(`study4_users/${session.username}`); } catch (e) { return; }
-    if (!rec || !rec.passwordHash) return forceLogout("Tài khoản không còn tồn tại.");
-    if (rec.passwordHash !== session.ph) return forceLogout("Mật khẩu đã được thay đổi, vui lòng đăng nhập lại.");
+    if (!rec || rec.deleted || (!rec.username && !rec.passwordHash && !rec.role)) return forceLogout("Tài khoản không còn tồn tại.");
+    let pwOk = true;
+    try {
+      pwOk = await verifyAuthSecret(session.username, session.ph, rec);
+    } catch (e) {
+      return;
+    }
+    if (!pwOk) return forceLogout("Mật khẩu đã được thay đổi, vui lòng đăng nhập lại.");
     if (rec.status === "blocked") return forceLogout("Tài khoản của bạn đã bị quản trị viên khóa.");
     const before = canon(effective(cache[session.username] || {}));
     cacheUserRecord(rec, session.ph);
     const eff = effective(cache[session.username]);
-    if (rec.role === "vip" && eff.role === "basic") db(`study4_users/${session.username}`, "PATCH", { role: "basic" }).catch(() => {});
+    if (rec.role === "vip" && eff.role === "basic") db(`study4_users/${session.username}`, "PATCH", { role: "basic", authProof: session.ph }).catch(() => {});
     if (before !== canon(eff)) {
       renderTopBar();
       if (!isHomePage()) reloadOnce("role");
@@ -952,8 +1003,17 @@
       if (c && c.passwordHash === ph && c.status !== "blocked") { await startSession(c, ph); return { ok: true }; }
       return { ok: false, msg: "Không kết nối được máy chủ. Hãy bật mạng để đăng nhập (lần đầu trên thiết bị này cần có mạng)." };
     }
-    if (uname === "admin" && (!rec || !rec.passwordHash)) return { ok: false, needSetup: true };
-    if (!rec || rec.passwordHash !== ph) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
+    if (uname === "admin" && (!rec || (!rec.passwordHash && !rec.username && !rec.role))) return { ok: false, needSetup: true };
+    if (!rec || rec.deleted) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
+    let pwOk = false;
+    try {
+      pwOk = await verifyAuthSecret(uname, ph, rec);
+    } catch (e) {
+      const c = cache[uname];
+      if (c && c.passwordHash === ph && c.status !== "blocked") { await startSession(c, ph); return { ok: true }; }
+      return { ok: false, msg: "Không kết nối được máy chủ xác thực. Vui lòng thử lại." };
+    }
+    if (!pwOk) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
     if (rec.status === "blocked") return { ok: false, msg: "Tài khoản này đã bị quản trị viên khóa." };
     await startSession(rec, ph);
     return { ok: true };
@@ -961,12 +1021,14 @@
 
   async function setupAdmin(pass) {
     const rec = await db("study4_users/admin");
-    if (rec && rec.passwordHash) return { ok: false, msg: "Tài khoản admin đã được thiết lập trước đó." };
+    if (rec && (rec.passwordHash || rec.role === "admin")) return { ok: false, msg: "Tài khoản admin đã được thiết lập trước đó." };
     const ph = await hashPw("admin", pass);
+    const migrated = await syncAuthSecret("admin", ph, ph);
     const full = Object.assign({}, rec || {}, {
       username: "admin", displayName: "Quản trị viên", avatar: "🛡️", targetBand: "8.0+", role: "admin", status: "active",
-      expiresAt: "PERM", passwordHash: ph, createdAt: new Date().toISOString().slice(0, 10)
+      expiresAt: "PERM", authProof: ph, createdAt: new Date().toISOString().slice(0, 10)
     });
+    if (!migrated) full.passwordHash = ph;
     await db("study4_users/admin", "PUT", full);
     await startSession(full, ph);
     return { ok: true };
@@ -1419,9 +1481,9 @@
           const newBio = box.querySelector("#profBio").value.trim().slice(0, 100);
           btn.disabled = true; btn.textContent = "⏳ Đang lưu...";
           try {
-            const patch = { displayName: newName, avatar: selAvatar, targetBand: newBand, bio: newBio };
+            const patch = { displayName: newName, avatar: selAvatar, targetBand: newBand, bio: newBio, authProof: (session && session.ph) || "" };
             await db(`study4_users/${curU.username}`, "PATCH", patch);
-            Object.assign(cache[curU.username], patch);
+            Object.assign(cache[curU.username], { displayName: newName, avatar: selAvatar, targetBand: newBand, bio: newBio });
             saveCache();
             renderTopBar();
             msg = "Đã cập nhật hồ sơ cá nhân thành công!";
@@ -1446,7 +1508,10 @@
           btn.disabled = true; btn.textContent = "⏳ Đang cập nhật...";
           try {
             const newHash = await hashPw(curU.username, newP);
-            await db(`study4_users/${curU.username}`, "PATCH", { passwordHash: newHash });
+            const migrated = await syncAuthSecret(curU.username, newHash, oldHash);
+            if (!migrated) {
+              await db(`study4_users/${curU.username}`, "PATCH", { passwordHash: newHash, authProof: oldHash });
+            }
             session.ph = newHash;
             saveSession();
             if (cache[curU.username]) { cache[curU.username].passwordHash = newHash; saveCache(); }
@@ -1485,7 +1550,6 @@
     sessionStorage.removeItem("s4_logout_msg");
     let busy = false;
     let setupMode = false;
-    let forgotStep = 1; // 1: enter username, 2: verify display name & reset
 
     function render(errMsg, infoMsg) {
       const canClose = !forceLock || !config.authEnforced || !!getCurrentUser();
@@ -1493,23 +1557,14 @@
       let bodyHtml = "";
       if (mode === "forgot") {
         bodyHtml = `
-          <div style="font-weight:700;font-size:14.5px;margin-bottom:4px;color:#2563eb;">Khôi phục mật khẩu</div>
-          <div style="font-size:12.5px;color:#64748b;margin-bottom:12px;">Nhập tên đăng nhập để xác minh và đặt lại mật khẩu mới.</div>
+          <div style="font-weight:700;font-size:14.5px;margin-bottom:4px;color:#2563eb;">Yêu cầu hỗ trợ đặt lại mật khẩu</div>
+          <div style="font-size:12.5px;color:#64748b;margin-bottom:12px;">Để bảo mật tài khoản, việc đặt lại mật khẩu khi quên mật khẩu cũ sẽ do Quản trị viên xác minh và cấp lại.</div>
           <form id="s4ForgotForm">
             <input class="s4-input" id="inpForgotUser" placeholder="Tên đăng nhập (@username)" autocomplete="username" autocapitalize="off" required>
             <input class="s4-input" id="inpForgotName" placeholder="Họ tên hiển thị đã đăng ký (để xác minh)" required>
-            <div class="s4-pass-wrap">
-              <input class="s4-input" id="inpForgotPass" type="password" placeholder="Mật khẩu mới (tối thiểu 6 ký tự)" autocomplete="new-password" required>
-              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
-            </div>
-            <div class="s4-pass-wrap">
-              <input class="s4-input" id="inpForgotPass2" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password" required>
-              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
-            </div>
-            <button type="submit" class="s4-btn" id="btnDoForgot">Đặt Lại Mật Khẩu</button>
+            <button type="submit" class="s4-btn" id="btnDoForgot">Gửi Yêu Cầu Tới Quản Trị Viên</button>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
               <a href="#" id="linkBackLogin" style="font-size:12.5px;color:#2563eb;text-decoration:none;font-weight:700;">← Quay lại Đăng nhập</a>
-              <button type="button" id="btnRequestAdminReset" style="background:none;border:none;font-size:12px;color:#64748b;cursor:pointer;text-decoration:underline;">Nhờ Admin cấp lại</button>
             </div>
           </form>
         `;
@@ -1559,62 +1614,33 @@
 
       setupPassToggles(box);
 
-      const reqAdminBtn = box.querySelector("#btnRequestAdminReset");
-      if (reqAdminBtn) {
-        reqAdminBtn.onclick = async () => {
+      const forgotForm = box.querySelector("#s4ForgotForm");
+      if (forgotForm) {
+        forgotForm.onsubmit = async (e) => {
+          e.preventDefault();
           const uInp = (box.querySelector("#inpForgotUser").value || "").trim().toLowerCase();
-          if (!uInp) {
-            return window.S4UI ? window.S4UI.alert("Vui lòng nhập tên đăng nhập trước.", { title: "Thiếu tên đăng nhập", tone: "warn" }) : alert("Vui lòng nhập tên đăng nhập trước.");
+          const nInp = (box.querySelector("#inpForgotName").value || "").trim();
+          if (!USER_RE.test(uInp) || uInp === "admin") {
+            return render("Tên đăng nhập không hợp lệ hoặc không hỗ trợ tự đặt lại.");
           }
           try {
             const userRec = await db("study4_users/" + uInp);
-            if (!userRec) {
-              return window.S4UI ? window.S4UI.alert("Không tìm thấy tài khoản @" + uInp, { title: "Không tìm thấy tài khoản", tone: "warn" }) : alert("Không tìm thấy tài khoản @" + uInp);
+            if (!userRec || (!userRec.username && !userRec.passwordHash)) {
+              return render("Không tìm thấy tài khoản @" + uInp);
+            }
+            const savedName = (userRec.displayName || userRec.username || "").trim().toLowerCase();
+            if (savedName !== nInp.toLowerCase()) {
+              return render("Họ tên hiển thị xác minh chưa khớp với thông tin đã đăng ký.");
             }
             await db("study4_reset_requests/" + uInp, "PUT", {
               username: uInp,
               displayName: userRec.displayName || uInp,
               requestedAt: new Date().toISOString()
             });
-            if (window.S4UI) {
-              await window.S4UI.alert("Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ đặt lại mật khẩu cho tài khoản @" + uInp, { title: "Đã gửi yêu cầu", tone: "success" });
-            } else {
-              alert("Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ đặt lại mật khẩu cho tài khoản @" + uInp);
-            }
-          } catch(e) {
-            if (window.S4UI) {
-              window.S4UI.alert("Lỗi kết nối máy chủ. Hãy thử lại khi có mạng.", { title: "Lỗi kết nối", tone: "error" });
-            } else {
-              alert("Lỗi kết nối máy chủ. Hãy thử lại khi có mạng.");
-            }
-          }
-        };
-      }
-
-      const forgotForm = box.querySelector("#s4ForgotForm");
-      if (forgotForm) {
-        forgotForm.onsubmit = async (e) => {
-          e.preventDefault();
-          const uInp = box.querySelector("#inpForgotUser").value.trim().toLowerCase();
-          const nInp = box.querySelector("#inpForgotName").value.trim().toLowerCase();
-          const p1 = box.querySelector("#inpForgotPass").value;
-          const p2 = box.querySelector("#inpForgotPass2").value;
-          if (p1.length < 6) return render("Mật khẩu mới phải từ 6 ký tự trở lên.");
-          if (p1 !== p2) return render("Hai mật khẩu nhập chưa khớp nhau.");
-          try {
-            const userRec = await db("study4_users/" + uInp);
-            if (!userRec || !userRec.passwordHash) return render("Không tìm thấy tài khoản @" + uInp);
-            const savedName = (userRec.displayName || userRec.username || "").trim().toLowerCase();
-            if (savedName !== nInp && userRec.username.toLowerCase() !== nInp) {
-              return render("Họ tên hiển thị xác minh chưa khớp với thông tin đã đăng ký.");
-            }
-            const ph = await hashPw(uInp, p1);
-            await db("study4_users/" + uInp, "PATCH", { passwordHash: ph });
-            await db("study4_reset_requests/" + uInp, "DELETE").catch(() => {});
             mode = "login";
-            render("", "Đặt lại mật khẩu thành công! Hãy đăng nhập bằng mật khẩu mới.");
+            render("", "Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ cấp lại mật khẩu cho tài khoản @" + uInp + ".");
           } catch(e) {
-            render("Lỗi kết nối máy chủ khi đặt lại mật khẩu.");
+            render("Lỗi kết nối máy chủ khi gửi yêu cầu đặt lại mật khẩu.");
           }
         };
       }
@@ -1652,15 +1678,17 @@
           let existing;
           try { existing = await db("study4_users/" + raw); }
           catch (e) { throw new Error("Cần có mạng để tạo tài khoản. Vui lòng kết nối internet và thử lại."); }
-          if (existing && existing.passwordHash) throw new Error("Tên đăng nhập này đã có người dùng, vui lòng chọn tên khác.");
+          if (existing && !existing.deleted && (existing.username || existing.passwordHash || existing.role)) throw new Error("Tên đăng nhập này đã có người dùng, vui lòng chọn tên khác.");
           const ph = await hashPw(raw, pass);
+          const migrated = await syncAuthSecret(raw, ph, ph);
           const st = progressStats(readProgress());
           const rec = {
             username: raw, displayName: disp, avatar: "🎓", targetBand: "7.0", bio: "",
-            passwordHash: ph, role: "basic", status: "active", expiresAt: "PERM",
+            role: "basic", status: "active", expiresAt: "PERM", authProof: ph,
             vocabLearned: st.vocabLearned, grammarDone: st.grammarDone, overallPct: st.overallPct,
             createdAt: new Date().toISOString().slice(0, 10), lastActive: new Date().toISOString()
           };
+          if (!migrated) rec.passwordHash = ph;
           await db("study4_users/" + raw, "PUT", rec);
           await startSession(rec, ph);
           closeModals(); location.reload();
@@ -1824,7 +1852,13 @@
       try {
         if (tab === "users") {
           users = (await db("study4_users")) || {};
-          resetRequests = (await db("study4_reset_requests")) || {};
+          resetRequests = (await db("study4_reset_requests").catch(() => ({}))) || {};
+          // Tự động di trú mã băm mật khẩu còn sót sang nhánh bảo mật riêng study4_auth
+          Object.keys(users).forEach(k => {
+            if (users[k] && users[k].passwordHash) {
+              syncAuthSecret(k, users[k].passwordHash, (session && session.ph) || users[k].passwordHash).catch(() => {});
+            }
+          });
         }
         msg = "";
       } catch (e) {
@@ -1904,7 +1938,7 @@
     }
 
     function usersHtml() {
-      const allUsers = Object.keys(users || {}).filter(k => users[k] && users[k].passwordHash).map(k => users[k]);
+      const allUsers = Object.keys(users || {}).filter(k => users[k] && !users[k].deleted && (users[k].username || users[k].passwordHash || users[k].role)).map(k => users[k]);
       const totalCount = allUsers.length;
       const activeCount = allUsers.filter(u => u.status !== "blocked").length;
       const blockedCount = allUsers.filter(u => u.status === "blocked").length;
@@ -2120,7 +2154,7 @@
       if (act === "block") {
         const nx = users[v].status === "blocked" ? "active" : "blocked";
         if (await guard(async () => {
-          await db("study4_users/" + v, "PATCH", { status: nx });
+          await db("study4_users/" + v, "PATCH", { status: nx, authProof: (session && session.ph) || "" });
           users[v].status = nx;
         })) render();
         return;
@@ -2138,7 +2172,11 @@
         if (np.length < 6) { msg = "Mật khẩu phải từ 6 ký tự."; return render(); }
         if (await guard(async () => {
           const ph = await hashPw(v, np);
-          await db("study4_users/" + v, "PATCH", { passwordHash: ph });
+          const adminProof = (session && session.ph) || ph;
+          const migrated = await syncAuthSecret(v, ph, adminProof);
+          if (!migrated) {
+            await db("study4_users/" + v, "PATCH", { passwordHash: ph, authProof: adminProof });
+          }
           await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
           if (resetRequests) delete resetRequests[v];
           if (session && session.username === v) { session.ph = ph; saveSession(); if (cache[v]) { cache[v].passwordHash = ph; saveCache(); } }
@@ -2164,8 +2202,14 @@
           : confirm("Xóa tài khoản " + v + " và toàn bộ tiến độ học của họ?");
         if (!okDel) return;
         if (await guard(async () => {
-          await db("study4_users/" + v, "DELETE");
-          await db("study4_progress/" + v, "DELETE");
+          const adminProof = (session && session.ph) || "";
+          await db("study4_auth/" + v, "PUT", { passwordHash: "DELETED_" + Date.now(), prevPh: adminProof, updatedAt: Date.now() }).catch(() => {});
+          try {
+            await db("study4_users/" + v, "DELETE");
+          } catch (e) {
+            await db("study4_users/" + v, "PUT", { username: v, deleted: true, status: "blocked", role: "basic", authProof: adminProof });
+          }
+          await db("study4_progress/" + v, "PUT", { data: { _deleted: true }, updatedAt: Date.now(), authProof: adminProof }).catch(() => {});
           await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
           delete users[v];
           if (resetRequests) delete resetRequests[v];
@@ -2194,8 +2238,12 @@
           await pushConfig();
 
           if (np) {
+            const oldAdminProof = (session && session.ph) || "";
             const ph = await hashPw("admin", np);
-            await db("study4_users/admin", "PATCH", { passwordHash: ph });
+            const migrated = await syncAuthSecret("admin", ph, oldAdminProof || ph);
+            if (!migrated) {
+              await db("study4_users/admin", "PATCH", { passwordHash: ph, authProof: oldAdminProof || ph });
+            }
             session.ph = ph;
             saveSession();
             if (cache.admin) { cache.admin.passwordHash = ph; saveCache(); }

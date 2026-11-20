@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v92";
+const CACHE_NAME = "linguapath-cache-v93";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -6,7 +6,7 @@ const CORE_ASSETS = [
   "./assets/s4-ui.js?v=65",
   "./assets/s4-whisper.js?v=4",
   "./assets/s4-whisper-worker.js?v=3",
-  "./auth.js?v=32",
+  "./auth.js?v=33",
   "./assets/s4-vocab-engine.js?v=68",
   "./assets/s4-practice-zone.js?v=67",
   "./assets/ghibli/ghibli-theme.css?v=30",
