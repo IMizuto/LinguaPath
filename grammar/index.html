@@ -222,6 +222,7 @@
   <script src="../auth.js?v=33"></script>
   <script src="grammar_data.js"></script>
   <script>
+    window.LINGUAPATH_GRAMMAR_DATA = window.STUDY4_GRAMMAR_DATA;
     (function () {
       var d = localStorage.getItem("s4_vocab_dark");
       var isDark = !(d === "0" || d === "false");
@@ -241,7 +242,7 @@
         document.querySelectorAll('.dark-btn').forEach(b => { b.textContent = isDark ? '☀️' : '🌙'; });
       }
     };
-    const ITEMS = window.STUDY4_GRAMMAR_DATA || [];
+    const ITEMS = window.LINGUAPATH_GRAMMAR_DATA || window.STUDY4_GRAMMAR_DATA || [];
     const listEl = document.getElementById("lessonList");
     const contentEl = document.getElementById("lessonContent");
     const searchInput = document.getElementById("searchInput");
@@ -429,7 +430,7 @@
       }
       renderSidebar(searchInput.value);
       if (id === activeId) {
-        const doneBtn = contentEl.querySelector(".btn-done");
+        const doneBtn = document.getElementById("btnToggleDone") || contentEl.querySelector(".btn-done");
         if (doneBtn) {
           const isDone = !!completedMap[id];
           doneBtn.classList.toggle("completed", isDone);
@@ -623,7 +624,7 @@ function selectItem(id, resetScroll = true) {
       }
 
       const isDone = !!completedMap[l.id];
-      let btnsHtml = '<button class="btn btn-done ' + (isDone ? 'completed' : '') + '" onclick="toggleDone(\'' + l.id + '\')">' + (isDone ? '✅ Đã hoàn thành' : '⬜ Đánh dấu Đã học') + '</button>';
+      let btnsHtml = '<button id="btnToggleDone" class="btn btn-done ' + (isDone ? 'completed' : '') + '" onclick="toggleDone(\'' + l.id + '\')">' + (isDone ? '✅ Đã hoàn thành' : '⬜ Đánh dấu Đã học') + '</button>';
       if (l.localPdfPath) {
         btnsHtml += '<button class="btn btn-pdf" id="btnTogglePdf" onclick="togglePdf()">📑 Xem Slide PDF</button>';
         btnsHtml += '<a class="btn btn-pdf" style="background:#0284c7;" href="' + l.localPdfPath + '" target="_blank" title="Mở slide trong tab mới toàn màn hình">⛶ Mở tab mới</a>';
@@ -845,8 +846,14 @@ function selectItem(id, resetScroll = true) {
         const isGood = pct >= 80;
         banner.style.background = isGood ? "#dcfce7" : "#fee2e2";
         banner.style.color = isGood ? "#15803d" : "#b91c1c";
-        banner.textContent = `Đúng ${correct}/${total} câu (${pct}%)`;
-        showGrammarToast(isGood, `Đúng ${correct}/${total} câu (${pct}%)`, 1800);
+        if (isGood && curLesson && !completedMap[curLesson.id]) {
+          toggleDone(curLesson.id);
+          banner.textContent = `🎉 Xuất sắc! Đúng ${correct}/${total} câu (${pct}%) — Đã tự động hoàn thành bài học!`;
+          showGrammarToast(true, `🎉 Đạt ${pct}% — Đã tự động hoàn thành bài học!`, 2200);
+        } else {
+          banner.textContent = `Đúng ${correct}/${total} câu (${pct}%)`;
+          showGrammarToast(isGood, `Đúng ${correct}/${total} câu (${pct}%)`, 1800);
+        }
       }
     };
 

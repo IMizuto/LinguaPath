@@ -4,8 +4,8 @@
   "description": "Nền tảng tự học & luyện thi ngoại ngữ miễn phí vì cộng đồng",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#fff1f2",
-  "theme_color": "#fb7185",
+  "background_color": "#0d1813",
+  "theme_color": "#0d1813",
   "orientation": "any",
   "icons": [
     {

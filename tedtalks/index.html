@@ -501,6 +501,7 @@
   <!-- YouTube API lazy-loaded on demand when user switches to YouTube engine -->
   <script src="../assets/s4-ui.js?v=65"></script>
   <script src="../assets/s4-whisper.js?v=4"></script>
+  <script src="../auth.js?v=33"></script>
   <script>
     const ITEMS = window.STUDY4_TED_DATA || [];
     const STORAGE_DONE = "s4_ted_done";
@@ -800,8 +801,12 @@
       if (a) return a.replace(/index-f\d+-a\d+\.m3u8.*$/, "manifest.m3u8");
       return it.mp4 || "";
     }
+    function tedAudioUrl(it) {
+      if (!it) return "";
+      return it.mp4 || it.audioHls || it.hls || "";
+    }
     function getTedOffsetMs(it) {
-      if (!it) return 0;
+      if (!it || !tedVideoUrl(it)) return 0;
       if (currentMode === "podcast" || currentEngine === "ted" || !ytReady || ytError) {
         return Number(it.podOffsetMs || 0);
       }
@@ -815,14 +820,48 @@
     let tedVidLoadedUrl = "";
     function loadTedVideo(vid, it) {
       const url = tedVideoUrl(it);
-      if (!vid || !url) return;
+      if (!vid) return;
+      if (!url) {
+        tedVidLoadedUrl = "";
+        if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
+        try { vid.pause(); vid.removeAttribute("src"); vid.load(); } catch (e) {}
+        if (it && it.youtubeId) setMediaEngine("yt");
+        return;
+      }
       if (tedVidLoadedUrl === url && (tedHls || vid.src === url)) return;
       tedVidLoadedUrl = url;
       if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
-      if (/\.m3u8/.test(url) && window.Hls && Hls.isSupported()) {
-        tedHls = new Hls({ enableWorker: true, maxBufferLength: 20, maxMaxBufferLength: 40 });
-        tedHls.loadSource(url);
-        tedHls.attachMedia(vid);
+      const fallbackToMp4OrYt = () => {
+        if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
+        if (it && it.mp4 && vid.src !== it.mp4) {
+          tedVidLoadedUrl = it.mp4;
+          vid.src = it.mp4;
+          vid.load();
+        } else if (it && it.youtubeId) {
+          setMediaEngine("yt");
+        }
+      };
+      if (/\.m3u8/.test(url)) {
+        if (window.Hls && Hls.isSupported()) {
+          const hls = new Hls({ enableWorker: true, maxBufferLength: 20, maxMaxBufferLength: 40 });
+          tedHls = hls;
+          hls.on(Hls.Events.ERROR, (_, data) => {
+            if (data && data.fatal && tedHls === hls) {
+              fallbackToMp4OrYt();
+            }
+          });
+          hls.loadSource(url);
+          hls.attachMedia(vid);
+        } else if (vid.canPlayType && vid.canPlayType("application/vnd.apple.mpegurl")) {
+          vid.onerror = () => {
+            vid.onerror = null;
+            fallbackToMp4OrYt();
+          };
+          vid.src = url;
+          vid.load();
+        } else {
+          fallbackToMp4OrYt();
+        }
       } else {
         vid.src = url;
         vid.load();
@@ -868,10 +907,26 @@
     }
 
     function setMediaEngine(eng, isAutoFallback) {
-      currentEngine = eng;
       const it = getActiveItem();
       const btnYt = document.getElementById("btnEngYt");
       const btnTed = document.getElementById("btnEngTed");
+      if (eng === "ted" && it && !tedVideoUrl(it) && it.youtubeId) {
+        currentEngine = "yt";
+        if (btnYt) btnYt.classList.add("active");
+        if (btnTed) btnTed.classList.remove("active");
+        ytWanted = true;
+        ytError = false;
+        showYtPlayerUI();
+        if (ytReady && ytPlayer && ytPlayer.cueVideoById) {
+          try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
+        } else {
+          ensureYouTubeApi();
+        }
+        setTedEngineStatus("ℹ️ Bài học này chỉ hỗ trợ nguồn Video YouTube (chưa có luồng TED CDN trực tiếp).");
+        if (!isAutoFallback) showToast(false, "Bài học này chỉ hỗ trợ nguồn Video YouTube!");
+        return;
+      }
+      currentEngine = eng;
       if (btnYt) btnYt.classList.toggle("active", eng === "yt");
       if (btnTed) btnTed.classList.toggle("active", eng === "ted");
 
@@ -985,18 +1040,21 @@
       const extBtn = document.getElementById("btnEngExtYt");
       if (extBtn) extBtn.href = `https://www.youtube.com/watch?v=${it.youtubeId}`;
 
-      const hasTedStream = !!(it.mp4 || it.audioHls || it.hls);
+      const hasTedStream = !!tedVideoUrl(it);
 
+      if (currentMode === "podcast") {
+        loadPodcastStream(it, !!autoPlayPodcast);
+      }
       if (!hasTedStream && it.youtubeId) {
         ytWanted = true;
         ensureYouTubeApi();
-        setMediaEngine("yt");
-      } else if (currentMode === "podcast") {
-        loadPodcastStream(it, !!autoPlayPodcast);
-      } else if (currentEngine === "ted") {
-        showTedPlayerUI();
-      } else if (ytReady && ytPlayer && ytPlayer.cueVideoById) {
-        try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
+        setMediaEngine("yt", true);
+      } else if (currentMode !== "podcast") {
+        if (currentEngine === "ted") {
+          showTedPlayerUI();
+        } else if (ytReady && ytPlayer && ytPlayer.cueVideoById) {
+          try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
+        }
       }
     }
 
@@ -1007,8 +1065,9 @@
       const next = it.subs[idx + 1];
       const startSec = Math.max(0, (cur.time || 0) / 1000 - 0.08);
       segmentEndSec = autoPauseSentence ? (next ? (next.time / 1000 - 0.04) : ((cur.time / 1000) + 12)) : null;
+      const hasTed = !!tedVideoUrl(it);
 
-      if (currentEngine === "ted" || !ytReady || ytError) {
+      if (hasTed && (currentEngine === "ted" || !ytReady || ytError)) {
         if (currentEngine !== "ted") setMediaEngine("ted", true);
         const tedVid = document.getElementById("tedVideoPlayer");
         const bgAudio = document.getElementById("bgPodcastAudio");
@@ -1046,6 +1105,12 @@
               tedVid.pause();
               segmentEndSec = null;
               focusCurrentDicInput();
+              if (currentMode === "shadowing" && pendingAutoRecordAfterListen) {
+                pendingAutoRecordAfterListen = false;
+                setTimeout(() => {
+                  if (currentMode === "shadowing" && !activeRec) toggleShadowRecord();
+                }, 220);
+              }
             }
           }
         }
@@ -1175,7 +1240,8 @@
       highlightTranscriptRow(idx);
 
       const startSec = Math.max(0, it.subs[idx].time / 1000);
-      if (currentMode === "podcast" || currentEngine === "ted" || !ytReady || ytError) {
+      const hasTed = !!tedVideoUrl(it);
+      if (hasTed && (currentMode === "podcast" || currentEngine === "ted" || !ytReady || ytError)) {
         if (currentEngine !== "ted" && currentMode !== "podcast") setMediaEngine("ted", true);
         const tedVid = document.getElementById("tedVideoPlayer");
         const bgAudio = document.getElementById("bgPodcastAudio");
@@ -1929,9 +1995,13 @@
         try { window.S4Whisper.getSharedAudioContext(); } catch (e) {}
       }
 
-      // Tạm dừng YouTube / Podcast để tránh tiếng video lọt vào mic
+      // Tạm dừng YouTube / Video TED gốc / Podcast để tránh tiếng video lọt vào mic
       if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
         try { ytPlayer.pauseVideo(); } catch (e) {}
+      }
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (tedVid && !tedVid.paused) {
+        try { tedVid.pause(); } catch (e) {}
       }
       const bgAudio = document.getElementById("bgPodcastAudio");
       if (bgAudio && !bgAudio.paused) {
@@ -2341,6 +2411,25 @@
       if (thumbEl) thumbEl.src = `https://i.ytimg.com/vi/${it.youtubeId}/hqdefault.jpg`;
       updateMediaSessionMeta(it);
 
+      if (!tedAudioUrl(it)) {
+        destroyPodcastStream();
+        const seekEl = document.getElementById("podSeek");
+        const curEl = document.getElementById("podCurTime");
+        const durEl = document.getElementById("podDurTime");
+        const playBtn = document.getElementById("podPlayBtn");
+        const podWrap = document.getElementById("podcastBoxWrap");
+        if (seekEl) seekEl.value = 0;
+        if (curEl) curEl.textContent = "0:00";
+        if (durEl) durEl.textContent = "0:00";
+        if (playBtn) playBtn.textContent = "▶️ Phát Podcast";
+        if (podWrap) podWrap.classList.remove("playing");
+        if (speakerEl) speakerEl.textContent = "⚠️ Bài này chỉ có nguồn Video YouTube (hãy chuyển sang chế độ Nghe & Transcript)";
+        if (currentMode === "podcast") {
+          showToast(false, "Bài này chỉ hỗ trợ nguồn Video YouTube — Hãy chuyển sang chế độ Video!");
+        }
+        return;
+      }
+
       if (podcastLoadedId === it.id && (bgAudio.getAttribute("src") || bgAudio.src)) {
         if (autoPlay && currentMode === "podcast" && activeId === it.id && bgAudio.paused) {
           bgAudio.play().catch(() => {});
@@ -2400,7 +2489,12 @@
     function togglePodcastPlay() {
       const bgAudio = document.getElementById("bgPodcastAudio");
       if (!bgAudio) return;
-      if (!podcastLoadedId) loadPodcastStream(getActiveItem(), true);
+      const it = getActiveItem();
+      if (it && !tedAudioUrl(it)) {
+        loadPodcastStream(it, false);
+        return;
+      }
+      if (!podcastLoadedId) loadPodcastStream(it, true);
       else if (bgAudio.paused) bgAudio.play().catch(() => {});
       else bgAudio.pause();
     }
@@ -2420,7 +2514,7 @@
       const box = document.getElementById("modeContainer");
       const rowsHtml = it.subs.map((s, idx) => `
         <div class="sub-item ${idx === playbackSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
-          <span class="sub-time">${fmtTime(s.time)}</span>
+          <span class="sub-time">${fmtTime(getSubDisplayTimeMs(it, s))}</span>
           <div style="flex:1;min-width:0;">
             ${showEnSub ? `<div class="sub-en">${s.en}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
             ${showViSub && s.vi ? `<div class="sub-vi">${s.vi}</div>` : ""}
@@ -2501,7 +2595,6 @@
     loadActiveVideo();
     renderModeContent();
   </script>
-  <script src="../auth.js?v=33"></script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>
 </html>

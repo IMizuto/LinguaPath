@@ -553,7 +553,7 @@ body.in-cbt-mode .main-area {
   animation: pulse 1s infinite;
 }
 
-/* BỐ CỤC XẾP DỌC TOÀN DIỆN TRÊN CẢ DESKTOP & MOBILE */
+/* BỐ CỤC CHIA ĐÔI MÀN HÌNH 2 CỘT TRÊN DESKTOP (>860px) & XẾP DỌC TRÊN MOBILE (<=860px) */
 .w-split-box {
   display: flex;
   flex-direction: column;
@@ -564,7 +564,7 @@ body.in-cbt-mode .main-area {
   width: 100%;
 }
 
-/* 1. KHUNG ĐỀ BÀI Ở TRÊN: RỘNG RÃI, RÕ RÀNG */
+/* 1. KHUNG ĐỀ BÀI: CỘT TRÁI TRÊN DESKTOP / KHUNG TRÊN Ở MOBILE */
 .w-pane-left {
   width: 100%;
   height: auto;
@@ -574,9 +574,10 @@ body.in-cbt-mode .main-area {
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
 }
 
-/* 2. KHUNG BÀI LÀM Ở NGAY BÊN DƯỚI: KHÔNG GIAN THÊNH THANG */
+/* 2. KHUNG BÀI LÀM: CỘT PHẢI TRÊN DESKTOP / KHUNG DƯỚI Ở MOBILE */
 .w-pane-right {
   width: 100%;
   height: auto;
@@ -588,6 +589,25 @@ body.in-cbt-mode .main-area {
   padding: 22px 24px;
   overflow: visible;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+@media (min-width: 861px) {
+  .w-split-box {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .w-pane-left {
+    flex: 1 1 43%;
+    width: 43%;
+    min-width: 0;
+  }
+  .w-pane-right {
+    flex: 1 1 57%;
+    width: 57%;
+    min-width: 0;
+  }
 }
 
 /* Đề bài & Biểu đồ */

@@ -14,11 +14,79 @@ const mimeTypes = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
   '.mp3': 'audio/mpeg',
+  '.m4a': 'audio/mp4',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.pdf': 'application/pdf',
   '.woff': 'font/woff',
-  '.woff2': 'font/woff2'
+  '.woff2': 'font/woff2',
+  '.webmanifest': 'application/manifest+json'
 };
+
+function serveFile(req, res, filePath, stats) {
+  const ext = path.extname(filePath).toLowerCase();
+  const contentType = mimeTypes[ext] || 'application/octet-stream';
+  res.setHeader('Content-Type', contentType);
+  res.setHeader('Accept-Ranges', 'bytes');
+
+  if (['.html', '.js', '.css', '.json', '.webmanifest'].includes(ext)) {
+    res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+  } else if (['.png', '.jpg', '.jpeg', '.webp', '.svg', '.mp3', '.m4a', '.mp4', '.webm', '.woff2'].includes(ext)) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+  }
+
+  const totalSize = stats.size;
+  const range = req.headers.range;
+
+  if (range) {
+    const parts = range.replace(/bytes=/, '').split('-');
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : totalSize - 1;
+
+    if (isNaN(start) || isNaN(end) || start > end || start >= totalSize) {
+      res.writeHead(416, {
+        'Content-Range': `bytes */${totalSize}`
+      });
+      res.end();
+      return;
+    }
+
+    const chunkSize = (end - start) + 1;
+    res.writeHead(206, {
+      'Content-Range': `bytes ${start}-${end}/${totalSize}`,
+      'Content-Length': chunkSize
+    });
+
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
+
+    const stream = fs.createReadStream(filePath, { start, end });
+    stream.on('error', () => {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Server Error');
+    });
+    stream.pipe(res);
+  } else {
+    res.setHeader('Content-Length', totalSize);
+    res.writeHead(200);
+
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
+
+    const stream = fs.createReadStream(filePath);
+    stream.on('error', () => {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Server Error');
+    });
+    stream.pipe(res);
+  }
+}
 
 const server = http.createServer((req, res) => {
   // CORS Headers cho mọi request từ localhost / mạng cục bộ
@@ -50,24 +118,25 @@ const server = http.createServer((req, res) => {
     }
 
     if (stats.isDirectory()) {
+      if (!pathname.endsWith('/')) {
+        const redirectUrl = pathname + '/' + (parsedUrl.search || '');
+        res.writeHead(301, { 'Location': redirectUrl });
+        res.end();
+        return;
+      }
       filePath = path.join(filePath, 'index.html');
+      fs.stat(filePath, (indexErr, indexStats) => {
+        if (indexErr) {
+          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+          res.end('Not Found: ' + pathname);
+          return;
+        }
+        serveFile(req, res, filePath, indexStats);
+      });
+      return;
     }
 
-    const ext = path.extname(filePath).toLowerCase();
-    const contentType = mimeTypes[ext] || 'application/octet-stream';
-    res.setHeader('Content-Type', contentType);
-    if (['.html', '.js', '.css', '.json', '.webmanifest'].includes(ext)) {
-      res.setHeader('Cache-Control', 'no-cache, must-revalidate');
-    } else if (['.png', '.jpg', '.jpeg', '.webp', '.svg', '.mp3', '.woff2'].includes(ext)) {
-      res.setHeader('Cache-Control', 'public, max-age=86400');
-    }
-
-    const stream = fs.createReadStream(filePath);
-    stream.on('error', () => {
-      res.writeHead(500, { 'Content-Type': 'text/plain' });
-      res.end('Server Error');
-    });
-    stream.pipe(res);
+    serveFile(req, res, filePath, stats);
   });
 });
 

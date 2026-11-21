@@ -3445,10 +3445,10 @@ Hãy chỉ rõ:
       btnBack.addEventListener('click', () => {
         document.getElementById('reviewContainer').style.display = 'none';
         if (activeLesson && activeLesson.type === 'practice_full') {
-          document.body.classList.add('in-cbt-mode', 'sidebar-collapsed');
+          document.body.classList.add('s4-cbt-mode', 'in-cbt-mode', 'sidebar-collapsed');
           document.getElementById('practiceZoneContainer').style.display = 'flex';
         } else {
-          document.body.classList.remove('in-cbt-mode');
+          document.body.classList.remove('s4-cbt-mode', 'in-cbt-mode');
           document.getElementById('studioContainer').style.display = 'flex';
         }
       });

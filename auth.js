@@ -11,9 +11,9 @@
   const VOCAB_SCOPE_KEYS = [P_SRS, P_DAYS, P_SET, P_VSES];
   const P_GDONE = "s4_grammar_done", P_GLAST = "s4_grammar_last";
   const P_LDONE = "s4_listening_done", P_LLAST = "s4_listening_last_v2", P_LSRS = "s4_listening_srs_v1", P_LDAYS = "s4_listening_days_v1", P_LSET = "s4_listening_settings_v1", P_LSES = "s4_listening_vocab_session_v1", P_LPOS = "s4_listening_lesson_pos_v1", P_LNOTES = "s4_listening_notes_v1", P_LUNIT = "s4_listen_last_by_unit", P_LSUBS = "lp_listening_submissions_v1", P_LPZANS = "s4_pz_listen_answers_v1";
-  const P_RDONE = "s4_reading_done", P_RLAST = "s4_reading_last_v2", P_RSRS = "s4_reading_srs_v1", P_RDAYS = "s4_reading_days_v1", P_RSET = "s4_reading_settings_v1", P_RSES = "s4_reading_vocab_session_v1", P_RUNIT = "s4_read_last_by_unit", P_RSUBS = "lp_reading_submissions_v1", P_RPZANS = "s4_pz_read_answers_v1";
+  const P_RDONE = "s4_reading_done", P_RLAST = "s4_reading_last_v2", P_RSRS = "s4_reading_srs_v1", P_RDAYS = "s4_reading_days_v1", P_RSET = "s4_reading_settings_v1", P_RSES = "s4_reading_vocab_session_v1", P_RNOTES = "s4_reading_notes_v1", P_RUNIT = "s4_read_last_by_unit", P_RSUBS = "lp_reading_submissions_v1", P_RPZANS = "s4_pz_read_answers_v1";
   const P_PZFLAGS = "s4_pz_review_flags_v1";
-  const P_WDONE = "s4_writing_done", P_WLAST = "s4_writing_last_v1", P_WESSAYS = "s4_writing_essays_v1", P_WSUBS = "lp_submissions_history";
+  const P_WDONE = "s4_writing_done", P_WLAST = "s4_writing_last_v1", P_WESSAYS = "s4_writing_essays_v1", P_WNOTES = "s4_writing_notes_v1", P_WSUBS = "lp_submissions_history";
   const P_SDONE = "lp_speaking_done_v1", P_SLAST = "lp_speaking_last_v1", P_SNOTES = "lp_speaking_notes_v1", P_SSUBS = "lp_speaking_submissions_v1", P_SPREFS = "lp_speaking_prefs_v1";
   const P_SSRS = "lp_speaking_vocab_srs_v1", P_SDAYS = "lp_speaking_vocab_days_v1", P_SSET = "lp_speaking_vocab_settings_v1", P_SSES = "lp_speaking_vocab_session_v1";
   const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos", P_TSUBVI = "s4_ted_show_vi";
@@ -21,12 +21,13 @@
     P_SRS, P_DAYS, P_SET, P_VSES,
     P_GDONE, P_GLAST,
     P_LDONE, P_LLAST, P_LSRS, P_LDAYS, P_LSET, P_LSES, P_LPOS, P_LNOTES, P_LUNIT, P_LSUBS, P_LPZANS,
-    P_RDONE, P_RLAST, P_RSRS, P_RDAYS, P_RSET, P_RSES, P_RUNIT, P_RSUBS, P_RPZANS,
+    P_RDONE, P_RLAST, P_RSRS, P_RDAYS, P_RSET, P_RSES, P_RNOTES, P_RUNIT, P_RSUBS, P_RPZANS,
     P_PZFLAGS,
-    P_WDONE, P_WLAST, P_WESSAYS, P_WSUBS,
+    P_WDONE, P_WLAST, P_WESSAYS, P_WNOTES, P_WSUBS,
     P_SDONE, P_SLAST, P_SNOTES, P_SSUBS, P_SPREFS, P_SSRS, P_SDAYS, P_SSET, P_SSES,
     P_TDONE, P_TLAST, P_TPOS, P_TSUBVI
   ];
+  const isPzDraftKey = k => typeof k === "string" && /^lp_pz_draft_[A-Za-z0-9_-]+$/.test(k);
   const HTML_CACHE_KEYS = [
     "s4_listen_last_rendered_html", "s4_listen_last_sidebar_html", "s4_listen_last_lesson_cache",
     "s4_read_last_rendered_html", "s4_read_last_sidebar_html", "s4_read_last_lesson_cache"
@@ -246,6 +247,13 @@
   function readProgress() {
     const m = {};
     PROGRESS_KEYS.forEach(k => { const v = localStorage.getItem(k); if (v !== null) m[k] = v; });
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (isPzDraftKey(k)) {
+        const v = localStorage.getItem(k);
+        if (v !== null && v !== "") m[k] = v;
+      }
+    }
     return m;
   }
   let hookSuspended = false;
@@ -253,6 +261,17 @@
     hookSuspended = true;
     try {
       PROGRESS_KEYS.forEach(k => { if (map[k] !== undefined && map[k] !== null) rawSet(k, map[k]); else rawRemove(k); });
+      const existingDraftKeys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (isPzDraftKey(k)) existingDraftKeys.push(k);
+      }
+      existingDraftKeys.forEach(k => {
+        if (!map || map[k] === undefined || map[k] === null || map[k] === "") rawRemove(k);
+      });
+      Object.keys(map || {}).forEach(k => {
+        if (isPzDraftKey(k) && map[k] !== undefined && map[k] !== null && map[k] !== "") rawSet(k, String(map[k]));
+      });
     } finally { hookSuspended = false; }
   }
   function parseJ(s, fb) { try { const o = JSON.parse(s); return o && typeof o === "object" ? o : fb; } catch (e) { return fb; } }
@@ -262,9 +281,13 @@
     return JSON.stringify(v);
   }
   function sameProgress(a, b) {
-    return PROGRESS_KEYS.every(k => {
+    const allKeys = new Set(PROGRESS_KEYS);
+    Object.keys(a || {}).forEach(k => { if (isPzDraftKey(k)) allKeys.add(k); });
+    Object.keys(b || {}).forEach(k => { if (isPzDraftKey(k)) allKeys.add(k); });
+    return Array.from(allKeys).every(k => {
       const x = a[k], y = b[k];
       if (x === undefined || y === undefined) return x === y;
+      if (isPzDraftKey(k)) return String(x) === String(y);
       return canon(parseJ(x, x)) === canon(parseJ(y, y));
     });
   }
@@ -485,7 +508,7 @@
     if (local[P_WESSAYS] !== undefined || remote[P_WESSAYS] !== undefined) {
       out[P_WESSAYS] = mergeKeyMap(local[P_WESSAYS], remote[P_WESSAYS]);
     }
-    [P_SNOTES, P_LNOTES].forEach(k => {
+    [P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeNotesMap(local[k], remote[k]);
     });
     [P_SPREFS, P_RPZANS, P_LPZANS, P_PZFLAGS, P_LUNIT, P_RUNIT].forEach(k => {
@@ -522,6 +545,16 @@
     if (local[P_LPOS] !== undefined || remote[P_LPOS] !== undefined) {
       out[P_LPOS] = mergeLessonPosMap(local[P_LPOS], remote[P_LPOS]);
     }
+    // 7. Writing Practice Zone per-task text drafts (lp_pz_draft_*)
+    const draftKeys = new Set(
+      Object.keys(local || {}).concat(Object.keys(remote || {})).filter(isPzDraftKey)
+    );
+    draftKeys.forEach(k => {
+      const lv = local && local[k] ? String(local[k]) : "";
+      const rv = remote && remote[k] ? String(remote[k]) : "";
+      const chosen = preferLocalScalar ? (lv || rv) : (rv || lv);
+      if (chosen) out[k] = chosen;
+    });
     return out;
   }
 
@@ -543,13 +576,14 @@
     return ids.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_[1-3]$/.test(String(id))).length;
   }
 
-  function countSrsEntries(raw) {
+  function countSrsEntries(raw, maxVocabIdx) {
     const srs = parseJ(raw, {});
     const now = Date.now();
     let learned = 0, ignored = 0, mastered = 0, due = 0;
     Object.keys(srs).forEach(k => {
+      if (maxVocabIdx && (!/^w_(0|[1-9]\d*)$/.test(k) || Number(k.slice(2)) >= maxVocabIdx)) return;
       const st = srs[k];
-      if (!st || typeof st !== "object") return;
+      if (!st || typeof st !== "object" || Array.isArray(st)) return;
       if (st.ignored) { ignored++; return; }
       if (st.reps > 0 || st.due || st.lastReview || /^w_\d+$/.test(k)) {
         learned++;
@@ -561,17 +595,11 @@
   }
 
   function progressStats(map) {
-    const srs = parseJ(map[P_SRS], {});
-    const now = Date.now();
-    let vocabLearned = 0, vocabIgnored = 0, vocabMastered = 0, vocabDue = 0;
-    Object.keys(srs).forEach(k => {
-      if (!/^w_\d+$/.test(k) || !srs[k] || typeof srs[k] !== "object") return;
-      const st = srs[k];
-      if (st.ignored) { vocabIgnored++; return; }
-      vocabLearned++;
-      if (now >= Number(st.due || 0)) vocabDue++;
-      else if (Number(st.interval || 0) >= 7) vocabMastered++;
-    });
+    const vocabSrsStat = countSrsEntries(map[P_SRS], TOTAL_VOCAB);
+    const vocabLearned = vocabSrsStat.learned;
+    const vocabIgnored = vocabSrsStat.ignored;
+    const vocabMastered = vocabSrsStat.mastered;
+    const vocabDue = vocabSrsStat.due;
 
     const grammarDone = countDoneEntries(map[P_GDONE]);
     const listeningDone = countDoneEntries(map[P_LDONE]);
@@ -682,9 +710,20 @@
       lastActive: new Date().toISOString()
     };
   }
+  function hasNonEmptyData(raw) {
+    if (!raw) return false;
+    const parsed = parseJ(raw, null);
+    if (Array.isArray(parsed)) return parsed.length > 0;
+    if (parsed && typeof parsed === "object") return Object.keys(parsed).some(k => Boolean(parsed[k]));
+    return String(raw).trim().length > 0;
+  }
   function hasProgress(map) {
+    if (!map || typeof map !== "object") return false;
     const s = progressStats(map);
-    return s.totalWordsAll > 0 || s.totalLessonsAll > 0 || !!(map && (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_LPOS]));
+    if (s.totalWordsAll > 0 || s.totalLessonsAll > 0) return true;
+    if (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_SSES] || map[P_LPOS]) return true;
+    if ([P_WESSAYS, P_LSUBS, P_RSUBS, P_WSUBS, P_SSUBS, P_LNOTES, P_RNOTES, P_WNOTES, P_SNOTES].some(k => hasNonEmptyData(map[k]))) return true;
+    return Object.keys(map).some(k => isPzDraftKey(k) && Boolean(map[k]));
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
@@ -712,11 +751,11 @@
   }
   Storage.prototype.setItem = function (k, v) {
     _setItem.call(this, k, v);
-    if (!hookSuspended && this === localStorage && PROGRESS_KEYS.indexOf(k) >= 0) onProgressChanged();
+    if (!hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k))) onProgressChanged();
   };
   Storage.prototype.removeItem = function (k) {
     _removeItem.call(this, k);
-    if (!hookSuspended && this === localStorage && PROGRESS_KEYS.indexOf(k) >= 0) onProgressChanged();
+    if (!hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k))) onProgressChanged();
   };
 
   async function pushProgress(opts) {
@@ -940,13 +979,22 @@
   }
 
   /* ---------- Kiểm tra phiên đăng nhập với cloud ---------- */
+  function clearLocalProgressKeys() {
+    PROGRESS_KEYS.forEach(k => rawRemove(k));
+    const draftKeys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (isPzDraftKey(k)) draftKeys.push(k);
+    }
+    draftKeys.forEach(k => rawRemove(k));
+  }
   async function forceLogout(msg) {
     const cur = session;
     pendingOverwriteMem = null;
     if (cur) {
       try { rawSet("s4_auth_profile_" + cur.username, JSON.stringify(readProgress())); } catch (e) {}
       hookSuspended = true;
-      PROGRESS_KEYS.forEach(k => rawRemove(k));
+      clearLocalProgressKeys();
       hookSuspended = false;
     }
     HTML_CACHE_KEYS.forEach(k => rawRemove(k));
@@ -1164,6 +1212,23 @@
       .s4-avt-opt.active { border-color: #2563eb; background: #dbeafe; }
       .s4-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
       @media (max-width: 600px) { .s4-kpi-grid { grid-template-columns: repeat(2, 1fr); } .s4-avt-grid { grid-template-columns: repeat(6, 1fr); } }
+      @keyframes s4ModalIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      .s4-disc-dialog { background: var(--card, #ffffff); color: var(--text, #0f172a); border: 1.5px solid rgba(16,185,129,0.4); }
+      html.dark .s4-disc-dialog, body.dark .s4-disc-dialog { background: var(--card, #1e293b); color: var(--text, #f8fafc); border-color: rgba(251,191,36,0.35); }
+      .s4-disc-badge { background: rgba(16,185,129,0.14); color: #047857; border: 1px solid rgba(16,185,129,0.35); }
+      html.dark .s4-disc-badge, body.dark .s4-disc-badge { background: rgba(16,185,129,0.2); color: #34d399; border-color: rgba(52,211,153,0.35); }
+      .s4-disc-body { color: var(--text, #0f172a); }
+      html.dark .s4-disc-body, body.dark .s4-disc-body { color: var(--text, #f1f5f9); }
+      .s4-disc-box-green { background: rgba(16,185,129,0.08); }
+      html.dark .s4-disc-box-green, body.dark .s4-disc-box-green { background: rgba(16,185,129,0.1); }
+      .s4-disc-box-amber { background: rgba(245,158,11,0.1); }
+      html.dark .s4-disc-box-amber, body.dark .s4-disc-box-amber { background: rgba(251,191,36,0.08); }
+      .s4-disc-box-blue { background: rgba(37,99,235,0.08); }
+      html.dark .s4-disc-box-blue, body.dark .s4-disc-box-blue { background: rgba(59,130,246,0.1); }
+      .s4-disc-link { color: #1d4ed8; text-decoration: underline; font-weight: 700; }
+      html.dark .s4-disc-link, body.dark .s4-disc-link { color: #60a5fa; }
+      .s4-disc-foot { background: rgba(15,23,42,0.04); border-top: 1px solid var(--border, #e2e8f0); }
+      html.dark .s4-disc-foot, body.dark .s4-disc-foot { background: rgba(0,0,0,0.2); border-top-color: var(--border, rgba(255,255,255,0.08)); }
     `;
     st.innerHTML += "\n@keyframes s4Pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.25); } }";
     document.head.appendChild(st);
@@ -1254,8 +1319,14 @@
     return { wrap, box: wrap.firstChild };
   }
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && document.getElementById("s4AuthModal")) {
-      closeModals();
+    if (e.key === "Escape") {
+      const dd = document.getElementById("s4TopDropdown");
+      if (dd && dd.classList.contains("open")) {
+        dd.classList.remove("open");
+      }
+      if (document.getElementById("s4AuthModal")) {
+        closeModals();
+      }
     }
   });
   function closeModals() {
@@ -1346,6 +1417,12 @@
           </div>`;
         }).join("");
 
+        const lisPct = Math.min(100, Math.round(((st.listeningDone + st.listeningWords) / (TOTAL_LISTENING_LESSONS + TOTAL_LISTENING_VOCAB)) * 100));
+        const readPct = Math.min(100, Math.round(((st.readingDone + st.readingWords) / (TOTAL_READING_LESSONS + TOTAL_READING_VOCAB)) * 100));
+        const writePct = Math.min(100, Math.round((st.writingDone / TOTAL_WRITING_LESSONS) * 100));
+        const speakPct = Math.min(100, Math.round(((st.speakingDone + st.speakingWords) / (TOTAL_SPEAKING_LESSONS + TOTAL_SPEAKING_VOCAB)) * 100));
+        const tedPct = Math.min(100, Math.round((st.tedDone / TOTAL_TED_LESSONS) * 100));
+
         bodyHtml = `
           ${vipCardHtml}
           <div class="s4-stat-box" style="margin-bottom:12px;">
@@ -1357,10 +1434,10 @@
               </div>
             </div>
             <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.overallPct}%;background:linear-gradient(90deg,#2563eb,#0d9488);"></div></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:10px;margin-top:12px;">
               <div style="padding:10px;border-radius:10px;background:rgba(37,99,235,0.07);">
                 <div style="font-size:12px;color:#64748b;font-weight:600;">🧠 Từ vựng IELTS</div>
-                <div style="font-size:17px;font-weight:800;color:#2563eb;margin:2px 0;">${st.vocabLearned + st.vocabIgnored} / ${TOTAL_VOCAB} <span style="font-size:12px;">(${st.vocabPct}%)</span></div>
+                <div style="font-size:16px;font-weight:800;color:#2563eb;margin:2px 0;">${st.vocabLearned + st.vocabIgnored} / ${TOTAL_VOCAB} <span style="font-size:12px;">(${st.vocabPct}%)</span></div>
                 <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.vocabPct}%;background:#2563eb;"></div></div>
                 <div style="font-size:11px;color:#64748b;margin-top:6px;">
                   Đang học: <b>${st.vocabLearned}</b> • Nhớ kỹ: <b style="color:#16a34a">${st.vocabMastered}</b> • Đã biết: <b>${st.vocabIgnored}</b> • Cần ôn: <b style="color:#dc2626">${st.vocabDue}</b>
@@ -1368,11 +1445,50 @@
               </div>
               <div style="padding:10px;border-radius:10px;background:rgba(13,148,136,0.08);">
                 <div style="font-size:12px;color:#64748b;font-weight:600;">📘 Ngữ pháp IELTS</div>
-                <div style="font-size:17px;font-weight:800;color:#0d9488;margin:2px 0;">${st.grammarDone} / ${TOTAL_GRAMMAR} <span style="font-size:12px;">(${st.grammarPct}%)</span></div>
+                <div style="font-size:16px;font-weight:800;color:#0d9488;margin:2px 0;">${st.grammarDone} / ${TOTAL_GRAMMAR} <span style="font-size:12px;">(${st.grammarPct}%)</span></div>
                 <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.grammarPct}%;background:#0d9488;"></div></div>
                 <div style="font-size:11px;color:#64748b;margin-top:6px;">
                   Đã hoàn thành: <b style="color:#16a34a">${st.grammarDone} bài</b> • Chưa học: <b>${Math.max(0, TOTAL_GRAMMAR - st.grammarDone)} bài</b> (4 chương)
                 </div>
+              </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(217,119,6,0.08);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;">🎧 IELTS Listening</div>
+                <div style="font-size:15.5px;font-weight:800;color:#d97706;margin:2px 0;">${st.listeningDone} / ${TOTAL_LISTENING_LESSONS} bài <span style="font-size:12px;">(${lisPct}%)</span></div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${lisPct}%;background:#d97706;"></div></div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px;">
+                  Từ vựng SRS: <b>${st.listeningWords} / ${TOTAL_LISTENING_VOCAB} từ</b>
+                </div>
+              </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(21,128,61,0.08);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;">📖 IELTS Reading</div>
+                <div style="font-size:15.5px;font-weight:800;color:#15803d;margin:2px 0;">${st.readingDone} / ${TOTAL_READING_LESSONS} bài <span style="font-size:12px;">(${readPct}%)</span></div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${readPct}%;background:#15803d;"></div></div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px;">
+                  Từ vựng SRS: <b>${st.readingWords} / ${TOTAL_READING_VOCAB} từ</b>
+                </div>
+              </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(126,34,206,0.08);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;">✍️ IELTS Writing</div>
+                <div style="font-size:15.5px;font-weight:800;color:#7e22ce;margin:2px 0;">${st.writingDone} / ${TOTAL_WRITING_LESSONS} bài <span style="font-size:12px;">(${writePct}%)</span></div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${writePct}%;background:#7e22ce;"></div></div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px;">
+                  Bài giảng &amp; Bộ đề Practice Zone CBT
+                </div>
+              </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(225,29,72,0.08);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;">🗣️ IELTS Speaking</div>
+                <div style="font-size:15.5px;font-weight:800;color:#e11d48;margin:2px 0;">${st.speakingDone} / ${TOTAL_SPEAKING_LESSONS} bài <span style="font-size:12px;">(${speakPct}%)</span></div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${speakPct}%;background:#e11d48;"></div></div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px;">
+                  Từ vựng SRS: <b>${st.speakingWords} / ${TOTAL_SPEAKING_VOCAB} từ</b>
+                </div>
+              </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(220,38,38,0.08);grid-column:1 / -1;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                  <div style="font-size:12px;color:#64748b;font-weight:600;">🎙️ TED Talks Song ngữ (Dictation &amp; Shadowing)</div>
+                  <div style="font-size:14.5px;font-weight:800;color:#dc2626;">${st.tedDone} / ${TOTAL_TED_LESSONS} bài <span style="font-size:12px;">(${tedPct}%)</span></div>
+                </div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${tedPct}%;background:#dc2626;"></div></div>
               </div>
             </div>
           </div>
@@ -1845,7 +1961,7 @@
     const { box } = newModal("wide");
     let tab = startTab || "users"; // "users" | "settings"
     let users = null, resetRequests = null, loading = false, msg = "";
-    let userSearch = "", userFilter = "all", inspectUser = null, inspectProgress = null;
+    let userSearch = "", userFilter = "all", inspectUser = null, inspectProgress = null, searchTimer = null;
 
     async function load() {
       loading = true; render();
@@ -2105,9 +2221,16 @@
         sInp.oninput = () => {
           userSearch = sInp.value;
           const pos = sInp.selectionStart;
-          render();
-          const nextInp = box.querySelector("#admSearchUser");
-          if (nextInp) { nextInp.focus(); nextInp.setSelectionRange(pos, pos); }
+          clearTimeout(searchTimer);
+          searchTimer = setTimeout(() => {
+            const curInp = box.querySelector("#admSearchUser");
+            const curPos = curInp ? curInp.selectionStart : pos;
+            render();
+            const nextInp = box.querySelector("#admSearchUser");
+            if (nextInp) {
+              try { nextInp.focus({ preventScroll: true }); nextInp.setSelectionRange(curPos, curPos); } catch (e) {}
+            }
+          }, 150);
         };
       }
       const fSel = box.querySelector("#admFilterUser");
@@ -2309,7 +2432,7 @@
       if (!pushed) { try { rawSet("s4_auth_profile_" + cur.username, JSON.stringify(readProgress())); } catch (e) {} }
       else rawRemove("s4_auth_sync_" + cur.username);
       hookSuspended = true;
-      PROGRESS_KEYS.forEach(k => rawRemove(k));
+      clearLocalProgressKeys();
       hookSuspended = false;
     }
     HTML_CACHE_KEYS.forEach(k => rawRemove(k));
@@ -2402,42 +2525,43 @@
     }
 
     if (document.getElementById("lpDisclaimerModal")) return;
+    injectStyles();
 
     const modal = document.createElement("div");
     modal.id = "lpDisclaimerModal";
-    modal.style.cssText = "display:flex;align-items:center;justify-content:center;z-index:2147483647;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(6px);padding:16px;box-sizing:border-box;";
+    modal.style.cssText = "display:flex;align-items:center;justify-content:center;z-index:2147483647;position:fixed;inset:0;background:rgba(15,23,42,0.74);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:16px;box-sizing:border-box;";
     modal.innerHTML = `
-      <div style="background:var(--card, #1e293b);color:var(--text, #f8fafc);max-width:540px;width:100%;border-radius:18px;border:1.5px solid rgba(251,191,36,0.35);box-shadow:0 24px 60px rgba(0,0,0,0.5);overflow:hidden;animation:s4ModalIn 0.24s cubic-bezier(0.16,1,0.3,1);font-family:inherit;">
-        <div style="padding:22px 24px 14px;background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(251,191,36,0.12));border-bottom:1px solid var(--border, rgba(255,255,255,0.08));display:flex;align-items:center;gap:12px;">
+      <div class="s4-disc-dialog" role="dialog" aria-modal="true" style="max-width:540px;width:100%;max-height:90vh;overflow-y:auto;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.45);animation:s4ModalIn 0.24s cubic-bezier(0.16,1,0.3,1);font-family:inherit;box-sizing:border-box;">
+        <div style="padding:20px 22px 14px;background:linear-gradient(135deg, rgba(16,185,129,0.16), rgba(245,158,11,0.12));border-bottom:1px solid var(--border, rgba(148,163,184,0.22));display:flex;align-items:center;gap:12px;">
           <div style="width:42px;height:42px;border-radius:12px;background:var(--primary, #10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
             🌿
           </div>
           <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
               <h2 style="margin:0;font-size:17.5px;font-weight:800;letter-spacing:-0.01em;">LinguaPath</h2>
-              <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:rgba(16,185,129,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.35);">Free for Community</span>
+              <span class="s4-disc-badge" style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;">Free for Community</span>
             </div>
-            <p style="margin:2px 0 0;font-size:12px;color:var(--muted, #94a3b8);font-weight:500;">Thông báo Tôn trọng Bản quyền & Sứ mệnh Chia sẻ</p>
+            <p style="margin:2px 0 0;font-size:12px;color:var(--muted, #64748b);font-weight:600;">Thông báo Tôn trọng Bản quyền &amp; Sứ mệnh Chia sẻ</p>
           </div>
         </div>
         
-        <div style="padding:20px 24px;font-size:13.5px;line-height:1.6;color:var(--text, #f1f5f9);">
-          <div style="margin-bottom:12px;padding:12px 14px;background:rgba(255,255,255,0.04);border-radius:10px;border-left:3.5px solid #10b981;">
+        <div class="s4-disc-body" style="padding:18px 22px;font-size:13.5px;line-height:1.6;">
+          <div class="s4-disc-box-green" style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border-left:3.5px solid #10b981;">
             <strong>🤝 Sứ mệnh phi lợi nhuận:</strong> Nền tảng được xây dựng hoàn toàn phi thương mại nhằm hỗ trợ học sinh, sinh viên và cộng đồng có môi trường mô phỏng phòng thi máy tính để tự rèn luyện kỹ năng mọi lúc, mọi nơi.
           </div>
           
-          <div style="margin-bottom:12px;padding:12px 14px;background:rgba(251,191,36,0.06);border-radius:10px;border-left:3.5px solid #f59e0b;">
+          <div class="s4-disc-box-amber" style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border-left:3.5px solid #f59e0b;">
             <strong>📚 Nguồn gốc tài liệu:</strong> Dữ liệu học thuật trong hệ thống được tham khảo và biên soạn dựa trên các khóa <strong>IELTS Fundamentals</strong> và <strong>IELTS 4 Kỹ Năng</strong> của nền tảng <strong>STUDY4</strong>.
           </div>
           
-          <div style="padding:12px 14px;background:rgba(59,130,246,0.06);border-radius:10px;border-left:3.5px solid #3b82f6;font-size:13px;">
-            <strong>💎 Tôn trọng tác giả:</strong> Để trải nghiệm trọn vẹn 100% dữ liệu gốc, kho đề mới nhất, bài giảng chuyên sâu và hệ thống giáo viên chấm bài tương tác, chúng tôi <strong>khuyến khích bạn đăng ký mua khóa học chính thức trực tiếp tại website chính hãng của STUDY4</strong> (<a href="https://study4.com" target="_blank" rel="noopener" style="color:#60a5fa;text-decoration:underline;font-weight:700;">study4.com</a>).
+          <div class="s4-disc-box-blue" style="padding:12px 14px;border-radius:10px;border-left:3.5px solid #3b82f6;font-size:13px;">
+            <strong>💎 Tôn trọng tác giả:</strong> Để trải nghiệm trọn vẹn 100% dữ liệu gốc, kho đề mới nhất, bài giảng chuyên sâu và hệ thống giáo viên chấm bài tương tác, chúng tôi <strong>khuyến khích bạn đăng ký mua khóa học chính thức trực tiếp tại website chính hãng của STUDY4</strong> (<a href="https://study4.com" target="_blank" rel="noopener" class="s4-disc-link">study4.com</a>).
           </div>
         </div>
         
-        <div style="padding:14px 24px 20px;display:flex;align-items:center;justify-content:flex-end;gap:12px;border-top:1px solid var(--border, rgba(255,255,255,0.08));background:rgba(0,0,0,0.12);">
+        <div class="s4-disc-foot" style="padding:14px 22px 18px;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
           <button type="button" id="lpDisclaimerBtn" style="padding:10px 20px;border-radius:10px;background:linear-gradient(135deg, #10b981, #059669);color:#ffffff;border:none;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);transition:all 0.15s ease;">
-            🚀 Tôi đã hiểu & Bắt đầu học miễn phí
+            🚀 Tôi đã hiểu &amp; Bắt đầu học miễn phí
           </button>
         </div>
       </div>

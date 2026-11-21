@@ -344,7 +344,8 @@
   <script src="../auth.js?v=33"></script>
   <script src="vocab_data.js"></script>
   <script>
-    const VOCAB = window.STUDY4_VOCAB_DATA || [];
+    window.LINGUAPATH_VOCAB_DATA = window.STUDY4_VOCAB_DATA;
+    const VOCAB = window.LINGUAPATH_VOCAB_DATA || window.STUDY4_VOCAB_DATA || [];
     const VOCAB_BY_ID = new Map(VOCAB.map(v => [v.id, v]));
     const KEYS = { srs: "s4_vocab_srs_v1", days: "s4_vocab_days_v2", settings: "s4_vocab_settings_v2", session: "s4_vocab_active_session_v2" };
     const DEFAULT_SETTINGS = { dailyNewLimit: 20, reviewCap: 100, autoAudio: true, queueOrder: "mix", bonusTodayDate: "", bonusTodayCount: 0, lastTopic: "" };

@@ -286,7 +286,7 @@
               <p class="card-desc">10 chủ đề Từ vựng SRS (2,176 từ), 670 bài nghe Dictation, 775 video chữa đề & kho 133 đề thi thật CBT riêng biệt.</p>
             </div>
           </div>
-          <div class="card-prog">
+          <div class="card-footer">
             <div class="prog-row">
               <span id="listeningPctText">Đã học: 0/1,482 bài • 0/2,176 từ SRS</span>
               <span style="color:#d97706;">Vào học &rarr;</span>
@@ -304,7 +304,7 @@
               <p class="card-desc">10 chủ đề Từ vựng SRS (2,969 từ), 184 đề thi thật CBT, 318 bài đọc Academic song ngữ & 876 video chữa đề.</p>
             </div>
           </div>
-          <div class="card-prog">
+          <div class="card-footer">
             <div class="prog-row">
               <span id="readingPctText">Đã học: 0/1,220 bài • 0/2,969 từ SRS</span>
               <span style="color:#15803d;">Vào học &rarr;</span>
@@ -322,7 +322,7 @@
               <p class="card-desc">42 bài giảng phương pháp, 80 đề Task 1, 136 đề Task 2 có bài mẫu Simon Band 8.0+, 3 bộ đề mẫu &amp; kho 1,183 đề Practice Zone CBT chấm điểm AI.</p>
             </div>
           </div>
-          <div class="card-prog">
+          <div class="card-footer">
             <div class="prog-row">
               <span id="writingPctText">Đã học: 0/261 bài (0%)</span>
               <span style="color:#7e22ce;">Vào học &rarr;</span>
@@ -340,7 +340,7 @@
               <p class="card-desc">88 chủ đề Từ vựng SRS (9,214 từ), 78 bài Phát âm (139 drills), 34 video chiến thuật, 376 chủ đề Part 1, 415 cặp Part 2+3 &amp; 1,084 đề Practice Zone.</p>
             </div>
           </div>
-          <div class="card-prog">
+          <div class="card-footer">
             <div class="prog-row">
               <span id="speakingPctText">Đã học: 0/2,490 bài • 0/9,214 từ SRS</span>
               <span style="color:#e11d48;">Vào học &rarr;</span>
@@ -396,17 +396,23 @@
     }
 
     function openCourse(courseKey) {
-      location.hash = courseKey;
+      const targetHash = "#" + String(courseKey || "").replace(/^#/, "");
+      if (location.hash.toLowerCase() !== targetHash.toLowerCase()) {
+        location.hash = targetHash;
+      } else {
+        applyViewFromHash();
+      }
     }
 
     function openPortal() {
       if (location.hash) {
-        history.pushState("", document.title, window.location.pathname + window.location.search);
+        history.pushState({ view: "portal" }, document.title, window.location.pathname + window.location.search);
       }
       applyViewFromHash();
     }
 
     window.addEventListener("hashchange", applyViewFromHash);
+    window.addEventListener("popstate", applyViewFromHash);
 
     function updateDashboardStats() {
       try {
@@ -421,13 +427,27 @@
           }
         };
 
-        const srs = safeJson("s4_vocab_srs_v1", {});
-        const allKeys = Object.keys(srs).filter(k => /^w_(0|[1-9]\d*)$/.test(k) && Number(k.slice(2)) < 1827 && srs[k] && typeof srs[k] === "object" && !Array.isArray(srs[k]));
-        const activeLearnedKeys = allKeys.filter(k => srs[k] && !srs[k].ignored);
-        const ignoredKeys = allKeys.filter(k => srs[k] && srs[k].ignored);
         const now = Date.now();
-        const dueCount = activeLearnedKeys.filter(k => srs[k] && now >= srs[k].due).length;
-        const totalDoneCount = activeLearnedKeys.length + ignoredKeys.length;
+        const countSrsEntries = (srsObj, maxVocabIdx) => {
+          const map = srsObj && typeof srsObj === "object" && !Array.isArray(srsObj) ? srsObj : {};
+          let learned = 0, ignored = 0, mastered = 0, due = 0;
+          Object.keys(map).forEach(k => {
+            if (maxVocabIdx && (!/^w_(0|[1-9]\d*)$/.test(k) || Number(k.slice(2)) >= maxVocabIdx)) return;
+            const st = map[k];
+            if (!st || typeof st !== "object" || Array.isArray(st)) return;
+            if (st.ignored) { ignored++; return; }
+            if (st.reps > 0 || st.due || st.lastReview || /^w_\d+$/.test(k)) {
+              learned++;
+              if (now >= Number(st.due || 0)) due++;
+              else if (Number(st.interval || 0) >= 7) mastered++;
+            }
+          });
+          return { learned, ignored, mastered, due, totalDone: learned + ignored };
+        };
+
+        const vocabSrsStat = countSrsEntries(safeJson("s4_vocab_srs_v1", {}), 1827);
+        const dueCount = vocabSrsStat.due;
+        const totalDoneCount = vocabSrsStat.totalDone;
         const vPct = Math.min(100, Math.round((totalDoneCount / 1827) * 100));
 
         document.getElementById("vocabPctText").textContent = "Đã học: " + totalDoneCount.toLocaleString('en-US') + "/1,827 từ SRS (" + vPct + "%)";
@@ -441,9 +461,9 @@
 
         const lisDoneRaw = safeJson("s4_listening_done", []);
         const lisCount = Array.isArray(lisDoneRaw) ? lisDoneRaw.length : Object.values(lisDoneRaw).filter(Boolean).length;
-        const lisSrs = safeJson("s4_listening_srs_v1", {});
-        const lisWords = Object.keys(lisSrs).filter(k => lisSrs[k] && (lisSrs[k].reps > 0 || lisSrs[k].ignored || lisSrs[k].due)).length;
-        const lisDue = Object.keys(lisSrs).filter(k => lisSrs[k] && !lisSrs[k].ignored && (lisSrs[k].reps > 0 || lisSrs[k].due) && now >= Number(lisSrs[k].due || 0)).length;
+        const lisSrsStat = countSrsEntries(safeJson("s4_listening_srs_v1", {}));
+        const lisWords = lisSrsStat.totalDone;
+        const lisDue = lisSrsStat.due;
         const lisPct = Math.min(100, Math.round(((lisCount + lisWords) / (1482 + 2176)) * 100));
         const lisTextEl = document.getElementById("listeningPctText");
         const lisFillEl = document.getElementById("listeningProgFill");
@@ -452,9 +472,9 @@
 
         const readDoneRaw = safeJson("s4_reading_done", []);
         const readCount = Array.isArray(readDoneRaw) ? readDoneRaw.length : Object.values(readDoneRaw).filter(Boolean).length;
-        const readSrs = safeJson("s4_reading_srs_v1", {});
-        const readWords = Object.keys(readSrs).filter(k => readSrs[k] && (readSrs[k].reps > 0 || readSrs[k].ignored || readSrs[k].due)).length;
-        const readDue = Object.keys(readSrs).filter(k => readSrs[k] && !readSrs[k].ignored && (readSrs[k].reps > 0 || readSrs[k].due) && now >= Number(readSrs[k].due || 0)).length;
+        const readSrsStat = countSrsEntries(safeJson("s4_reading_srs_v1", {}));
+        const readWords = readSrsStat.totalDone;
+        const readDue = readSrsStat.due;
         const readPct = Math.min(100, Math.round(((readCount + readWords) / (1220 + 2969)) * 100));
         const readTextEl = document.getElementById("readingPctText");
         const readFillEl = document.getElementById("readingProgFill");
@@ -474,13 +494,13 @@
 
         const speakDoneRaw = safeJson("lp_speaking_done_v1", []);
         const speakCount = Array.isArray(speakDoneRaw) ? speakDoneRaw.length : Object.values(speakDoneRaw).filter(Boolean).length;
-        const speakSrs = safeJson("lp_speaking_vocab_srs_v1", {});
-        const speakWords = Object.keys(speakSrs).filter(k => speakSrs[k] && (speakSrs[k].reps > 0 || speakSrs[k].ignored || speakSrs[k].due)).length;
-        const speakDue = Object.keys(speakSrs).filter(k => speakSrs[k] && !speakSrs[k].ignored && (speakSrs[k].reps > 0 || speakSrs[k].due) && now >= Number(speakSrs[k].due || 0)).length;
+        const speakSrsStat = countSrsEntries(safeJson("lp_speaking_vocab_srs_v1", {}));
+        const speakWords = speakSrsStat.totalDone;
+        const speakDue = speakSrsStat.due;
         const speakPct = Math.min(100, Math.round(((speakCount + speakWords) / (2490 + 9214)) * 100));
         const speakTextEl = document.getElementById("speakingPctText");
         const speakFillEl = document.getElementById("speakingProgFill");
-        if (speakTextEl) speakTextEl.textContent = "Đã học: " + speakCount + "/2,490 bài • " + speakWords.toLocaleString('en-US') + "/9,214 từ SRS";
+        if (speakTextEl) speakTextEl.textContent = "Đã học: " + speakCount.toLocaleString('en-US') + "/2,490 bài • " + speakWords.toLocaleString('en-US') + "/9,214 từ SRS";
         if (speakFillEl) speakFillEl.style.width = speakPct + "%";
 
         const totalAllWords = totalDoneCount + lisWords + readWords + speakWords;
@@ -505,7 +525,10 @@
       } catch (e) {}
     }
 
-    window.addEventListener("pageshow", updateDashboardStats);
+    window.addEventListener("pageshow", () => {
+      applyViewFromHash();
+      updateDashboardStats();
+    });
     window.addEventListener("focus", updateDashboardStats);
     window.addEventListener("storage", updateDashboardStats);
 
