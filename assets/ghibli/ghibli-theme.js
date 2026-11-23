@@ -11,12 +11,22 @@
   const LITE_KEY = 's4_ghibli_lite';  // '1' (lite mode: tắt hiệu ứng nặng) | '0' (full)
   const DOCK_MIN_KEY = 's4_dock_min'; // '1' (thu gọn dock) | '0' (mở rộng)
 
-  // Detect base path relative to root
-  const pathParts = location.pathname.replace(/\\/g, '/').split('/');
-  const inSubdir = ['vocab', 'grammar', 'reading', 'listening', 'tedtalks', 'writing', 'speaking'].some(
-    d => pathParts.includes(d)
-  );
-  const assetPrefix = inSubdir ? '../assets/ghibli/' : 'assets/ghibli/';
+  // Tự động xác định thư mục chứa ghibli-theme.js (hoạt động chính xác ở mọi độ sâu thư mục)
+  const currentScriptSrc = (typeof document !== 'undefined' && document.currentScript && document.currentScript.src)
+    ? document.currentScript.src
+    : '';
+  let assetPrefix = '';
+  try {
+    if (currentScriptSrc) assetPrefix = new URL('./', currentScriptSrc).href;
+  } catch (e) {}
+  if (!assetPrefix) {
+    const pathParts = location.pathname.replace(/\\/g, '/').split('/').filter(Boolean);
+    const inNestedCourse = ['ielts', 'toeic', 'hsk'].some(d => pathParts.includes(d));
+    const inSubdir = ['vocab', 'grammar', 'reading', 'listening', 'tedtalks', 'writing', 'speaking'].some(
+      d => pathParts.includes(d)
+    );
+    assetPrefix = inNestedCourse ? '../../assets/ghibli/' : (inSubdir ? '../assets/ghibli/' : 'assets/ghibli/');
+  }
 
   const GHIBLI_QUOTES = [
     '🌿 "Mỗi từ vựng hôm nay là một hạt mầm nở hoa trong khu rừng tri thức!"',

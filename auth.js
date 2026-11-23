@@ -5,6 +5,22 @@
 (function () {
   "use strict";
 
+  const AUTH_SCRIPT_SRC = (typeof document !== "undefined" && document.currentScript && document.currentScript.src)
+    ? document.currentScript.src
+    : "";
+  const APP_ROOT_URL = (() => {
+    try {
+      if (AUTH_SCRIPT_SRC) return new URL("./", AUTH_SCRIPT_SRC).href;
+    } catch (e) {}
+    return "";
+  })();
+  const resolveFromRoot = (relPath, fallback) => {
+    try {
+      if (APP_ROOT_URL) return new URL(relPath, APP_ROOT_URL).href;
+    } catch (e) {}
+    return fallback;
+  };
+
   const DB = "https://study4-app-default-rtdb.firebaseio.com";
   const K = { cfg: "s4_auth_config_v2", session: "s4_auth_session_v2", cache: "s4_auth_cache_v2" };
   const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2", P_VSES = "s4_vocab_active_session_v2";
@@ -84,9 +100,19 @@
   const saveSession = () => { if (session) rawSet(K.session, JSON.stringify(session)); else rawRemove(K.session); };
   const saveCache = () => rawSet(K.cache, JSON.stringify(cache));
 
+  const normalizeDirPath = p => {
+    let s = String(p || "/").replace(/\\/g, "/").replace(/\/index\.html?$/i, "/");
+    if (!s.endsWith("/")) s += "/";
+    return s;
+  };
   const isHomePage = () => {
-    const p = (location.pathname || '').replace(/\\/g, '/');
-    const subdirs = ['/vocab/', '/grammar/', '/reading/', '/listening/', '/tedtalks/', '/writing/', '/speaking/'];
+    const p = (location.pathname || "").replace(/\\/g, "/");
+    if (APP_ROOT_URL) {
+      try {
+        return normalizeDirPath(p) === normalizeDirPath(new URL(APP_ROOT_URL).pathname);
+      } catch (e) {}
+    }
+    const subdirs = ["/ielts/", "/toeic/", "/hsk/", "/vocab/", "/grammar/", "/reading/", "/listening/", "/tedtalks/", "/writing/", "/speaking/"];
     return !subdirs.some(d => p.includes(d));
   };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1083,7 +1109,7 @@
   }
 
   /* ---------- Giao diện & CSS ---------- */
-  function getLogoPath() { return isHomePage() ? "icon-192.png" : "../icon-192.png"; }
+  function getLogoPath() { return resolveFromRoot("icon-192.png", isHomePage() ? "icon-192.png" : "../icon-192.png"); }
 
   function updateSafeAreaVar() {
     try {
@@ -2468,7 +2494,7 @@
     /* Mở tự do 100% không ép đăng nhập */
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-      const swPath = isHomePage() ? "./sw.js" : "../sw.js";
+      const swPath = resolveFromRoot("sw.js", isHomePage() ? "./sw.js" : "../sw.js");
       navigator.serviceWorker.register(swPath).then(reg => reg.update()).catch(() => {});
     }
 
