@@ -334,13 +334,18 @@
     var allNavIds = CLUSTERS.map(function (c) { return c.id; }).concat([CHECK.id]);
     var activeId = allNavIds.indexOf(reqId) >= 0 ? reqId : CLUSTERS[0].id;
     var activeTab = ["dialogue", "vocab", "grammar", "practice", "production"].indexOf(reqTab) >= 0 ? reqTab : "dialogue";
+    var reviewMode = qs.get("review");
+    if (reviewMode !== "due" && reviewMode !== "new") reviewMode = "";
     var playSlow = true;
     var showVi = true;
     var pracPicked = {};
-    var prodDrafts = {};
+    var DRAFT_KEY = "lp_ielts_foundation_drafts_v1";
+    var drafts = readJson(DRAFT_KEY, {});
+    var prodDrafts = drafts.production || {};
     var prodFeedback = {};
-    var checkAnswers = {};
-    var checkWriting = "";
+    var checkAnswers = drafts.answers || {};
+    var checkWriting = typeof drafts.writing === "string" ? drafts.writing : "";
+    var checkSpeaking = Boolean(drafts.speaking);
     var checkResult = null;
 
     function speakEn(text, forceSlow) {
@@ -358,6 +363,42 @@
       }
     }
     window.__fndSpeak = speakEn;
+
+    function saveDrafts() {
+      writeJson(DRAFT_KEY, { production: prodDrafts, answers: checkAnswers, writing: checkWriting, speaking: checkSpeaking });
+    }
+
+    function replaceLessonUrl() {
+      var url = new URL(location.href);
+      url.searchParams.set("id", activeId);
+      if (activeId !== CHECK.id && activeTab !== "dialogue") url.searchParams.set("tab", activeTab);
+      else url.searchParams.delete("tab");
+      if (!reviewMode) url.searchParams.delete("review");
+      history.replaceState(history.state, "", url);
+    }
+
+    var stageEl = document.getElementById("mainStage");
+    stageEl.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-fnd-speak]");
+      if (!button) return;
+      var speed = button.getAttribute("data-fnd-slow");
+      speakEn(button.dataset.fndSpeak, speed === null ? undefined : speed === "true");
+    });
+    stageEl.addEventListener("input", function (event) {
+      if (event.target.id === "fndProdInput") prodDrafts[activeId] = event.target.value;
+      else if (event.target.id === "fndCheckWriting") {
+        checkWriting = event.target.value;
+      } else if (event.target.id === "fndCheckSpeaking") {
+        checkSpeaking = Boolean(event.target.checked);
+      } else return;
+      saveDrafts();
+    });
+    stageEl.addEventListener("change", function (event) {
+      if (event.target && event.target.id === "fndCheckSpeaking") {
+        checkSpeaking = Boolean(event.target.checked);
+        saveDrafts();
+      }
+    });
 
     function refreshStorageState() {
       doneMap = readJson(DONE_KEY, {});
@@ -417,12 +458,15 @@
     });
 
     window.__fndSelect = function (id) {
+      if (allNavIds.indexOf(id) < 0) return;
       activeId = id;
+      reviewMode = "";
+      replaceLessonUrl();
       document.body.classList.remove("drawer-open");
       render();
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    window.__fndTab = function (t) { activeTab = t; render(); };
+    window.__fndTab = function (t) { activeTab = t; reviewMode = ""; replaceLessonUrl(); render(); };
     window.__fndToggleSlow = function () { playSlow = !playSlow; render(); };
     window.__fndToggleVi = function () { showVi = !showVi; render(); };
     window.__fndPickPrac = function (cid, qIdx, optIdx) {
@@ -444,16 +488,19 @@
           ? ("Tốt lắm! Bạn đã viết " + sents + " câu (" + words + " từ). Hãy bấm Nghe thử và đọc to theo mẫu, sau đó đánh dấu hoàn thành cụm này.")
           : ("Hiện có " + sents + "/" + c.production.minSentences + " câu và " + words + "/" + c.production.minWords + " từ. Hãy thêm đủ số câu theo khung gợi ý nhé.")
       };
-      if (ok && !doneMap[cid]) {
-        doneMap[cid] = true;
-        writeJson(DONE_KEY, doneMap);
-      }
       render();
     };
-    window.__fndPickCheck = function (qid, oi) { checkAnswers[qid] = oi; render(); };
+    window.__fndPickCheck = function (qid, oi) {
+      checkAnswers[qid] = oi;
+      saveDrafts();
+      checkResult = null;
+      render();
+    };
     window.__fndSubmitCheck = function () {
       var ta = document.getElementById("fndCheckWriting");
       if (ta) checkWriting = ta.value.trim();
+      var spChk = document.getElementById("fndCheckSpeaking");
+      if (spChk) checkSpeaking = Boolean(spChk.checked);
       var right = 0;
       var weakClusters = {};
       var bySkill = { listening: [0, 0], reading: [0, 0], grammar: [0, 0] };
@@ -466,14 +513,27 @@
           weakClusters[q.clusterId] = true;
         }
       });
-      var wWords = checkWriting.split(/\s+/).filter(Boolean).length;
-      var wSents = checkWriting.split(/[.!?]+/).map(function (s) { return s.trim(); }).filter(function (s) { return s.length >= 4; }).length;
-      var writingOk = wWords >= 25 && wSents >= 4;
-      var passed = right >= CHECK.passCorrectMin && writingOk;
-      checkResult = { right: right, total: CHECK.questions.length, bySkill: bySkill, wWords: wWords, wSents: wSents, writingOk: writingOk, passed: passed, weakIds: Object.keys(weakClusters) };
+      var words = checkWriting.toLowerCase().match(/[a-z]+(?:['’][a-z]+)*/g) || [];
+      var wWords = words.length;
+      var wSents = checkWriting.split(/[.!?]+/).filter(function (sentence) {
+        return (sentence.match(/[a-z]+/gi) || []).length >= 3;
+      }).length;
+      var writingFormOk = wWords >= 25 && wSents >= 4;
+      var content = checkWriting.toLowerCase().replace(/’/g, "'");
+      var missing = [
+        { pattern: /\b(?:my name is|i am|i'm)\s+[a-z]+/, label: "tên" },
+        { pattern: /\b(?:i live in|i am from|i'm from|i come from)\s+[a-z]+/, label: "nơi ở hoặc quê quán" },
+        { pattern: /\b(?:family|mother|father|sister|brother|parents)\b/, label: "gia đình" },
+        { pattern: /\b(?:usually|every day|every morning|in the morning|in the evening|wake up|go to bed)\b/, label: "thói quen" },
+        { pattern: /\b(?:learn|study|practise|practice)\b[^.!?]*\benglish\b[^.!?]*\b(?:because|so i can|to)\b/, label: "lý do học tiếng Anh" }
+      ].filter(function (item) { return !item.pattern.test(content); }).map(function (item) { return item.label; });
+      var writingOk = writingFormOk && new Set(words).size >= 12 && missing.length === 0;
+      var passed = right >= CHECK.passCorrectMin && writingOk && checkSpeaking;
+      checkResult = { right: right, total: CHECK.questions.length, bySkill: bySkill, wWords: wWords, wSents: wSents,
+        writingFormOk: writingFormOk, writingOk: writingOk, missing: missing, speakingOk: checkSpeaking, passed: passed, weakIds: Object.keys(weakClusters) };
       if (passed) {
         var freshDone = readJson(DONE_KEY, {});
-        freshDone[CHECK.id] = true;
+        freshDone[CHECK.completionId] = true;
         doneMap = freshDone;
         writeJson(DONE_KEY, doneMap);
       }
@@ -489,7 +549,7 @@
     }
 
     function renderSidebar() {
-      var doneCount = allNavIds.filter(function (id) { return Boolean(doneMap[id]); }).length;
+      var doneCount = allNavIds.filter(function (id) { return Boolean(doneMap[id === CHECK.id ? CHECK.completionId : id]); }).length;
       var vocabDone = countAllVocabLearned();
       var html = '<div style="margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--lg-divider);">'
         + '<div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--lg-accent);">Mốc 0 • Pre-IELTS A0 → A2</div>'
@@ -503,7 +563,7 @@
           + '<span><span class="fnd-sb-code">' + esc(c.code) + '</span><span class="fnd-sb-title">' + esc(c.title) + '</span></span>'
           + '</button>';
       });
-      var ckDone = Boolean(doneMap[CHECK.id]);
+      var ckDone = Boolean(doneMap[CHECK.completionId]);
       html += '<button type="button" class="fnd-sb-item' + (activeId === CHECK.id ? ' active' : '') + '" onclick="window.__fndSelect(\'' + CHECK.id + '\')">'
         + '<span style="color:' + (ckDone ? 'var(--lg-green)' : 'var(--lg-amber)') + ';margin-top:2px;">' + svg("award", 15) + '</span>'
         + '<span><span class="fnd-sb-code">Chốt Mốc 0</span><span class="fnd-sb-title">Kiểm tra sẵn sàng sang Mốc 1</span></span>'
@@ -520,13 +580,15 @@
       if (checkResult) {
         html += '<div style="padding:14px;border-radius:16px;background:' + (checkResult.passed ? 'var(--lg-green-soft)' : 'var(--lg-amber-soft)') + ';margin-bottom:14px;">'
           + '<div style="font-size:16px;font-weight:800;color:' + (checkResult.passed ? 'var(--lg-green)' : 'var(--lg-amber)') + ';">'
-          + (checkResult.passed ? 'Đạt chuẩn đầu ra Mốc 0 — Sẵn sàng sang Mốc 1 (IELTS Academic)!' : 'Chưa đạt hết tiêu chí — Hãy ôn lại đúng cụm còn yếu bên dưới')
+          + (checkResult.passed ? 'Đã hoàn thành bài kiểm tra Mốc 0' : 'Còn mục cần bổ sung')
           + '</div>'
           + '<div style="font-size:13px;margin-top:6px;line-height:1.5;">'
           + 'Trắc nghiệm: <b>' + checkResult.right + '/' + checkResult.total + '</b> (Nghe chậm ' + checkResult.bySkill.listening[0] + '/' + checkResult.bySkill.listening[1]
           + ' • Đọc ngắn ' + checkResult.bySkill.reading[0] + '/' + checkResult.bySkill.reading[1]
           + ' • Ghép câu ' + checkResult.bySkill.grammar[0] + '/' + checkResult.bySkill.grammar[1]
-          + ') • Tự viết: <b>' + checkResult.wSents + ' câu / ' + checkResult.wWords + ' từ</b> ' + (checkResult.writingOk ? '(Đạt)' : '(Cần ≥ 4 câu & ≥ 25 từ)')
+          + ') • Hình thức tự viết: <b>' + checkResult.wSents + ' câu / ' + checkResult.wWords + ' từ</b> ' + (checkResult.writingFormOk ? '(Đủ)' : '(Cần ≥ 4 câu & ≥ 25 từ)')
+          + '<br>Nội dung viết: ' + (checkResult.writingOk ? 'Đã nhận thấy các ý theo khung' : 'Ôn lại và bổ sung ' + esc(checkResult.missing.join(", ") || "câu hoàn chỉnh và từ vựng đa dạng"))
+          + '<br>Tự nói: ' + (checkResult.speakingOk ? 'Đã tự đối chiếu' : 'Hãy nói theo nhiệm vụ bên dưới')
           + '</div>';
         if (checkResult.weakIds.length) {
           html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">' + checkResult.weakIds.map(function (cid) {
@@ -545,8 +607,8 @@
         html += '<div style="padding:13px;border-radius:16px;background:var(--lg-wash);margin-bottom:10px;">';
         if (q.audioEn) {
           html += '<div style="margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap;">'
-            + '<button type="button" class="fnd-btn primary" onclick="window.__fndSpeak(\'' + esc(q.audioEn).replace(/'/g, "\\'") + '\', true)">' + svg("volume", 14) + ' Nghe chậm (0.78x)</button>'
-            + '<button type="button" class="fnd-btn" onclick="window.__fndSpeak(\'' + esc(q.audioEn).replace(/'/g, "\\'") + '\', false)">' + svg("volume", 14) + ' Nghe chuẩn (1.0x)</button>'
+            + '<button type="button" class="fnd-btn primary" data-fnd-speak="' + esc(q.audioEn) + '" data-fnd-slow="true">' + svg("volume", 14) + ' Nghe chậm (0.78x)</button>'
+            + '<button type="button" class="fnd-btn" data-fnd-speak="' + esc(q.audioEn) + '" data-fnd-slow="false">' + svg("volume", 14) + ' Nghe chuẩn (1.0x)</button>'
             + '</div>';
         }
         if (q.passage) {
@@ -570,6 +632,12 @@
         + '<div style="font-size:13px;color:var(--lg-ink-muted);margin-bottom:8px;">' + esc(CHECK.writingTask.prompt) + '</div>'
         + '<textarea id="fndCheckWriting" class="fnd-textarea" placeholder="Hello! My name is...">' + esc(checkWriting) + '</textarea>'
         + '<details style="margin-top:8px;font-size:13px;"><summary style="cursor:pointer;font-weight:800;">Xem bài mẫu tham khảo</summary><div style="margin-top:6px;line-height:1.5;">' + esc(CHECK.writingTask.sample) + '</div></details>'
+        + '</div>'
+        + '<div style="padding:13px;border-radius:16px;background:var(--lg-wash);margin-top:12px;">'
+        + '<h2 style="font-size:15px;margin:0 0 6px;">Tự nói trong 30 giây</h2>'
+        + '<p>Nói tên của bạn, nơi bạn sống và một việc bạn thường làm mỗi ngày, không nhìn đoạn mẫu. Bạn có thể thu bằng máy ghi âm và nghe lại để đối chiếu.</p>'
+        + '<label><input type="checkbox" id="fndCheckSpeaking"' + (checkSpeaking ? ' checked' : '') + '> Tôi đã nói đủ ba ý và nghe rõ từng câu.</label>'
+        + '<p style="font-size:12px;">Phần nói do bạn tự đối chiếu. Phần viết được kiểm tra theo mẫu câu gợi ý.</p>'
         + '</div>'
         + '<div style="margin-top:14px;display:flex;justify-content:flex-end;">'
         + '<button type="button" class="fnd-btn primary" onclick="window.__fndSubmitCheck()">Chấm kiểm tra cuối Mốc 0</button>'
@@ -623,7 +691,7 @@
               + '  <div class="fnd-en">' + esc(line.en) + '</div>'
               + (showVi ? ('  <div class="fnd-vi">' + esc(line.vi) + '</div>') : '')
               + '</div>'
-              + '<button type="button" class="fnd-btn" onclick="window.__fndSpeak(\'' + esc(line.en).replace(/'/g, "\\'") + '\')">' + svg("volume", 14) + ' Nghe</button>'
+              + '<button type="button" class="fnd-btn" data-fnd-speak="' + esc(line.en) + '">' + svg("volume", 14) + ' Nghe</button>'
               + '</div>';
           }).join("")
           + '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">'
@@ -632,18 +700,24 @@
           }).join("")
           + '</div></section>';
       } else if (activeTab === "vocab") {
+        var visibleVocab = reviewMode ? CLUSTERS.flatMap(function (cluster) { return cluster.vocab; }).filter(function (word) {
+          var progress = srsMap[word.id];
+          if (reviewMode === "new") return !progress || !progress.reps;
+          return progress && progress.reps > 0 && Number(progress.due) <= Date.now();
+        }) : c.vocab;
+        var vocabHeading = reviewMode === "due" ? "Từ đến hạn của Mốc 0" : reviewMode === "new" ? "Từ mới còn lại của Mốc 0" : "Từ vựng sinh tồn A0–A1";
         bodyHtml = '<section class="fnd-card lp-glass">'
-          + '<h2 style="margin:0 0 6px;font-size:16px;font-weight:800;">' + c.vocab.length + ' từ vựng sinh tồn A0–A1 (SRS)</h2>'
+          + '<h2 style="margin:0 0 6px;font-size:16px;font-weight:800;">' + vocabHeading + ' (' + visibleVocab.length + ')</h2>'
           + '<p style="margin:0 0 12px;font-size:12.5px;color:var(--lg-ink-muted);">Bấm Nghe để nhại lại và chọn mức độ nhớ bên dưới để đồng bộ tiến độ Mốc 0.</p>'
           + '<div class="fnd-vocab-grid">'
-          + c.vocab.map(function (v) {
+          + visibleVocab.map(function (v) {
             var st = srsMap[v.id];
             var badge = st && st.reps > 0 ? '<span style="font-size:11px;font-weight:800;color:var(--lg-green);">Đã học</span>' : '<span style="font-size:11px;font-weight:700;color:var(--lg-ink-muted);">Từ mới</span>';
             return '<div class="fnd-vcard">'
               + '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">'
               + '  <div><b style="font-size:16px;">' + esc(v.word) + '</b> <span style="font-size:12px;color:var(--lg-ink-muted);">' + esc(v.pos) + ' ' + esc(v.ipa) + '</span></div>'
               + '  <div style="display:flex;align-items:center;gap:6px;">' + badge
-              + '    <button type="button" class="fnd-btn" style="padding:4px 8px;" onclick="window.__fndSpeak(\'' + esc(v.word).replace(/'/g, "\\'") + '\')">' + svg("volume", 13) + '</button>'
+              + '    <button type="button" class="fnd-btn" style="padding:4px 8px;" data-fnd-speak="' + esc(v.word) + '">' + svg("volume", 13) + '</button>'
               + '  </div>'
               + '</div>'
               + '<div style="font-size:13.5px;font-weight:700;color:var(--lg-ink);">' + esc(v.vi) + '</div>'
@@ -667,7 +741,7 @@
               + '<div style="margin-top:8px;display:grid;gap:6px;">' + gp.examples.map(function (ex) {
                 return '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:10px;background:var(--lg-surface);">'
                   + '<div><div style="font-size:13.5px;font-weight:700;">' + esc(ex.en) + '</div><div style="font-size:12px;color:var(--lg-ink-muted);">' + esc(ex.vi) + '</div></div>'
-                  + '<button type="button" class="fnd-btn" style="padding:4px 8px;" onclick="window.__fndSpeak(\'' + esc(ex.en).replace(/'/g, "\\'") + '\')">' + svg("volume", 13) + '</button>'
+                  + '<button type="button" class="fnd-btn" style="padding:4px 8px;" data-fnd-speak="' + esc(ex.en) + '">' + svg("volume", 13) + '</button>'
                   + '</div>';
               }).join("") + '</div></div>';
           }).join("")
@@ -700,9 +774,9 @@
           + '<div style="padding:10px 12px;border-radius:12px;background:var(--lg-wash);font-size:13px;margin-bottom:10px;"><b>Khung gợi ý:</b> ' + esc(c.production.template) + '</div>'
           + '<textarea id="fndProdInput" class="fnd-textarea" placeholder="Nhập câu tiếng Anh của bạn tại đây...">' + esc(draft) + '</textarea>'
           + '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">'
-          + '<button type="button" class="fnd-btn primary" onclick="window.__fndCheckProd(\'' + c.id + '\')">Kiểm tra bài viết</button>'
+          + '<button type="button" class="fnd-btn primary" onclick="window.__fndCheckProd(\'' + c.id + '\')">Kiểm tra hình thức</button>'
           + '<button type="button" class="fnd-btn" onclick="var t=document.getElementById(\'fndProdInput\'); if(t&&t.value.trim()) window.__fndSpeak(t.value.trim());">' + svg("volume", 13) + ' Nghe thử bài viết</button>'
-          + '<button type="button" class="fnd-btn" onclick="window.__fndSpeak(\'' + esc(c.production.sample).replace(/'/g, "\\'") + '\')">' + svg("volume", 13) + ' Nghe câu mẫu</button>'
+          + '<button type="button" class="fnd-btn" data-fnd-speak="' + esc(c.production.sample) + '">' + svg("volume", 13) + ' Nghe câu mẫu</button>'
           + '</div>'
           + (fb ? ('<div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:' + (fb.ok ? 'var(--lg-green-soft)' : 'var(--lg-amber-soft)') + ';color:' + (fb.ok ? 'var(--lg-green)' : 'var(--lg-amber)') + ';font-size:13px;font-weight:700;">' + esc(fb.msg) + '</div>') : '')
           + '<details style="margin-top:10px;font-size:13px;"><summary style="cursor:pointer;font-weight:800;">Xem đoạn mẫu tham khảo</summary><div style="margin-top:6px;line-height:1.5;">' + esc(c.production.sample) + '</div></details>'

@@ -219,5 +219,32 @@
     {"num":214,"char":"龠","variants":[],"pinyin":"yuè","hv":"Dược","nameVi":"Bộ Dược","strokes":17,"meaning":"Ống sáo cổ nhiều lỗ, đơn vị đo xưa","examples":["龠 (yuè: ống sáo cổ)","钥 (yào: chìa khóa)","瀹 (yuè: khơi thông, đun nấu)"]}
   ];
 
+  const CORE_50_RADICAL_NUMS = new Set([
+    1, 9, 15, 18, 19, 29, 30, 31, 32, 36,
+    37, 38, 39, 40, 41, 42, 46, 50, 53, 60,
+    61, 63, 64, 66, 72, 74, 75, 85, 86, 93,
+    94, 96, 102, 104, 109, 112, 113, 118, 120, 140,
+    145, 147, 149, 154, 157, 162, 167, 169, 173, 184
+  ]);
+  const RADICAL_STAGE_BY_NUM = new Map();
+  (function initRadicalStages() {
+    const rest = [];
+    radicals214.forEach(function (r) {
+      if (!r || !r.num) return;
+      if (CORE_50_RADICAL_NUMS.has(Number(r.num))) {
+        RADICAL_STAGE_BY_NUM.set(Number(r.num), "stage1");
+      } else {
+        rest.push(Number(r.num));
+      }
+    });
+    rest.sort(function (a, b) { return a - b; });
+    rest.forEach(function (num, idx) {
+      const st = idx < 50 ? "stage2" : (idx < 100 ? "stage3" : "stage4");
+      RADICAL_STAGE_BY_NUM.set(num, st);
+    });
+  })();
+
   global.LP_HSK_RADICALS_214 = radicals214;
-})(window);
+  global.LP_HSK_RADICAL_STAGE_BY_NUM = RADICAL_STAGE_BY_NUM;
+  if (typeof module === "object" && module.exports) module.exports = { radicals: radicals214, stageByNum: RADICAL_STAGE_BY_NUM };
+})(typeof window !== "undefined" ? window : globalThis);

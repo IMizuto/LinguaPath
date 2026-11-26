@@ -1,10 +1,14 @@
-const CACHE_NAME = "linguapath-cache-v126";
+const CACHE_NAME = "linguapath-cache-v129";
+const OFFLINE_CACHE = "linguapath-offline-packs-v1";
+const WHISPER_CACHE = "lp-whisper-runtime-v1";
 const CORE_ASSETS = [
   "./index.html",
   "./assets/s4-ui.css",
   "./assets/s4-ui.js",
   "./assets/s4-search-engine.js",
   "./assets/s4-global-search.js",
+  "./assets/s4-lesson-search-data.js",
+  "./assets/s4-offline.js",
   "./assets/s4-whisper.js",
   "./assets/s4-whisper-worker.js",
   "./assets/s4-core.wasm",
@@ -46,6 +50,8 @@ const CORE_ASSETS = [
   "./hsk/hsk-tts.js",
   "./hsk/hanzi-writer.min.js",
   "./hsk/lessons/index.html",
+  "./hsk/writing/radicals_214_data.js",
+  "./ielts/reading/data/reading_practice_catalog.js",
   "./hsk/vocab/index.html",
   "./hsk/vocab/hsk-shooter.js",
   "./hsk/grammar/index.html",
@@ -55,6 +61,23 @@ const CORE_ASSETS = [
   "./hsk/speaking/index.html",
   "./hsk/mock/index.html"
 ];
+
+const OFFLINE_PACKS = {
+  foundation: [
+    "./ielts/foundation/index.html", "./ielts/foundation/foundation_data.js",
+    "./ielts/listening/index.html", "./ielts/listening/data/listening_manifest.js",
+    "./ielts/listening/data/listening_u_2.js"
+  ],
+  hsk: [
+    "./hsk/lessons/index.html", "./hsk/lessons/lessons_data.js", "./hsk/lessons/lessons-slides-workbook.js",
+    "./hsk/speaking/index.html", "./hsk/speaking/speaking_data.js", "./hsk/hsk-tts.js"
+  ],
+  speaking: [
+    "./ielts/speaking/index.html", "./ielts/speaking/speaking_data.js", "./ielts/speaking/speaking.js",
+    "./ielts/speaking/speaking_parser.js", "./ielts/speaking/speaking.css"
+  ],
+  ted: ["./tedtalks/index.html", "./tedtalks/tedtalks_data.js"]
+};
 
 function canonicalCacheKey(rawUrl) {
   const u = new URL(rawUrl, self.location.href);
@@ -109,7 +132,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((k) => k !== CACHE_NAME && k !== "transformers-cache" && !k.startsWith("lp-whisper-"))
+          .filter((k) => k !== CACHE_NAME && k !== OFFLINE_CACHE && k !== "transformers-cache" && !k.startsWith("lp-whisper-"))
           .map((k) => caches.delete(k))
       )
     )
@@ -117,44 +140,125 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Chiến lược Network-First cho HTML/JS (để khi Admin cập nhật trên GitHub, máy người dùng tự nhận bản mới ngay),
-// và rơi về Cache Offline khi mất mạng; Cache-First cho Media (Ảnh/Audio/PDF) để tải siêu nhanh & học Offline!
-self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
-  // Không tự cache sw.js để trình duyệt luôn kiểm tra bản cập nhật Service Worker mới nhất
-  if (url.pathname.endsWith("/sw.js")) return;
-  // Request Range (phát audio/video, tua) để trình duyệt tự xử lý, không trả bản 200 đầy đủ từ cache
-  if (event.request.headers && typeof event.request.headers.get === "function" && event.request.headers.get("range")) return;
+function whisperRuntimeUrl(url) {
+  return ((url.hostname === "cdn.jsdelivr.net" && url.pathname.startsWith("/npm/@xenova/transformers@2.17.2/dist/"))
+    || (url.hostname === "unpkg.com" && url.pathname.startsWith("/@xenova/transformers@2.17.2/dist/"))
+    || (url.hostname === "huggingface.co" && url.pathname.startsWith("/Xenova/whisper-tiny.en/resolve/")));
+}
 
-  const isMedia = /\.(mp3|m4a|mp4|webm|jpg|jpeg|png|gif|webp|pdf|svg|woff2?)$/i.test(url.pathname);
-  if (isMedia) {
-    event.respondWith(
-      matchCanonical(event.request).then((cached) => {
-        if (cached) return cached;
-        return fetch(event.request).then((resp) => {
-          storeCanonical(resp.url || event.request.url, resp);
-          return resp;
-        });
-      })
-    );
-  } else {
-    event.respondWith(
-      fetch(event.request.url, { cache: "no-cache", redirect: "follow" })
-        .then((resp) => {
-          storeCanonical(resp.url || event.request.url, resp);
-          if (resp.redirected && event.request.mode === "navigate" && resp.url) {
-            try {
-              const targetUrl = new URL(resp.url);
-              if (targetUrl.origin === self.location.origin) {
-                return Response.redirect(resp.url, 302);
-              }
-            } catch (e) {}
-          }
-          return resp;
-        })
-        .catch(() => matchCanonical(event.request))
-    );
+function assetPaths(pack) {
+  if (Object.prototype.hasOwnProperty.call(OFFLINE_PACKS, pack)) return OFFLINE_PACKS[pack];
+  const reading = /^reading:(\d+)$/.exec(pack);
+  return reading ? ["./ielts/reading/index.html", "./ielts/reading/data/reading_practice_catalog.js",
+    "./ielts/reading/data/reading_manifest.js",
+    "./ielts/reading/data/practice-tests/" + reading[1] + ".json"] : [];
+}
+
+self.addEventListener("message", event => {
+  const message = event.data;
+  const port = event.ports[0];
+  if (!port || !message || typeof message.pack !== "string"
+      || !["lp-download-offline", "lp-status-offline"].includes(message.type)) return;
+  const files = assetPaths(message.pack);
+  if (!files.length) return port.postMessage({ error: "Gói tài liệu không tồn tại." });
+
+  event.waitUntil(caches.open(OFFLINE_CACHE).then(async cache => {
+    if (message.type === "lp-status-offline") {
+      const matches = await Promise.all(files.map(path => cache.match(canonicalCacheKey(path))));
+      port.postMessage({ ready: matches.every(Boolean) });
+      return;
+    }
+    let done = 0;
+    for (const path of files) {
+      const url = canonicalCacheKey(path);
+      const response = await fetch(url, { cache: "no-cache" });
+      if (!response.ok || response.status !== 200) throw new Error("Không tải được " + path);
+      await cache.put(url, response);
+      port.postMessage({ done: ++done, total: files.length });
+    }
+    port.postMessage({ ready: true });
+  }).catch(error => port.postMessage({ error: error.message || "Không thể tải gói ngoại tuyến." })));
+});
+
+async function mediaRange(request, range) {
+  const parsed = /^bytes=(\d*)-(\d*)$/i.exec(range.trim());
+  if (!parsed || (!parsed[1] && !parsed[2])) return fetch(request);
+  const cached = await matchCanonical(request);
+  if (!cached || cached.status !== 200) return fetch(request);
+  const audio = await cached.blob();
+  const size = audio.size;
+  const start = parsed[1] ? Number(parsed[1]) : Math.max(0, size - Number(parsed[2]));
+  const end = parsed[1] && parsed[2] ? Math.min(size - 1, Number(parsed[2])) : size - 1;
+  if (start >= size || start > end) {
+    return new Response(null, { status: 416, headers: { "Content-Range": "bytes */" + size } });
   }
+  return new Response(audio.slice(start, end + 1), {
+    status: 206,
+    headers: {
+      "Content-Type": cached.headers.get("Content-Type") || "application/octet-stream",
+      "Content-Range": "bytes " + start + "-" + end + "/" + size,
+      "Content-Length": String(end - start + 1),
+      "Accept-Ranges": "bytes"
+    }
+  });
+}
+
+self.addEventListener("fetch", event => {
+  const request = event.request;
+  if (request.method !== "GET") return;
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) {
+    if (request.headers.has("range") || !whisperRuntimeUrl(url)) return;
+    event.respondWith(caches.open(WHISPER_CACHE).then(async cache => {
+      const cached = await cache.match(request);
+      if (cached) return cached;
+      const response = await fetch(request);
+      if (response.ok && response.status === 200) await cache.put(request, response.clone()).catch(() => {});
+      return response;
+    }));
+    return;
+  }
+  if (url.pathname.endsWith("/sw.js")) return;
+  const range = request.headers.get("range");
+  if (range) {
+    event.respondWith(mediaRange(request, range));
+    return;
+  }
+
+  const isMedia = /\.(mp3|m4a|mp4|webm|jpg|jpeg|png|avif|webp|pdf|svg|woff2?)$/i.test(url.pathname);
+  const fetchAndStore = async () => {
+    const response = await fetch(request, { cache: "no-cache", redirect: "follow" });
+    storeCanonical(response.url || request.url, response);
+    if (response.redirected && request.mode === "navigate" && response.url !== request.url) {
+      const targetUrl = new URL(response.url);
+      if (targetUrl.origin === self.location.origin) return Response.redirect(response.url, 302);
+    }
+    return response;
+  };
+  const downloaded = caches.open(OFFLINE_CACHE).then(cache => cache.match(canonicalCacheKey(request.url)));
+  const refresh = downloaded.then(async cached => {
+    if (!cached) return;
+    try {
+      const updated = await fetch(request, { cache: "no-cache", redirect: "follow" });
+      if (updated.ok && updated.status === 200) {
+        const cache = await caches.open(OFFLINE_CACHE);
+        const core = await caches.open(CACHE_NAME);
+        const key = canonicalCacheKey(request.url);
+        await Promise.all([cache.put(key, updated.clone()), core.put(key, updated)]);
+      }
+    } catch (error) {}
+  }).catch(() => {});
+  event.waitUntil(refresh);
+  event.respondWith(downloaded.then(async cached => {
+    if (cached) {
+      // Prefer the current app shell after an update while retaining downloaded lesson data.
+      const core = await caches.open(CACHE_NAME);
+      return await core.match(canonicalCacheKey(request.url)) || cached;
+    }
+    if (isMedia) return await matchCanonical(request) || fetchAndStore();
+    try { return await fetchAndStore(); }
+    catch (error) {
+      return await matchCanonical(request) || Response.error();
+    }
+  }));
 });

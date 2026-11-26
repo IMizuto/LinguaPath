@@ -958,7 +958,70 @@
     });
   }
 
+  function keepDialogFocus(dialog, initialFocus, returnFocus) {
+    if (!dialog) return function () {};
+    const previous = returnFocus || document.activeElement;
+    const focusable = () => [...dialog.querySelectorAll(
+      'a[href], button, textarea, select, input, summary, [tabindex]'
+    )].filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length && !el.closest('[inert]'));
+    function moveFocus(event) {
+      if (event.key !== 'Tab') return;
+      const nodes = focusable();
+      const first = nodes[0] || dialog;
+      const last = nodes[nodes.length - 1] || first;
+      const active = document.activeElement;
+      if (!dialog.contains(active) || (event.shiftKey ? active === first : active === last)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      }
+    }
+    dialog.tabIndex = -1;
+    document.addEventListener('keydown', moveFocus, true);
+    (initialFocus || focusable()[0] || dialog).focus({ preventScroll: true });
+    return function () {
+      document.removeEventListener('keydown', moveFocus, true);
+      if (previous && previous.isConnected && typeof previous.focus === 'function') previous.focus({ preventScroll: true });
+    };
+  }
+
+  const searchScriptHref = document.currentScript && new URL('s4-global-search.js', document.currentScript.src).href;
+  let searchScript;
+  function openGlobalSearch() {
+    if (window.openGlobalSearchModal) {
+      window.openGlobalSearchModal();
+      return;
+    }
+    if (!searchScriptHref || searchScript) return;
+    searchScript = document.createElement('script');
+    searchScript.src = searchScriptHref;
+    searchScript.onload = () => { if (window.openGlobalSearchModal) window.openGlobalSearchModal(); };
+    searchScript.onerror = () => {
+      searchScript.remove();
+      searchScript = null;
+      toast('warn', 'Chưa mở được tra cứu. Hãy thử lại.');
+    };
+    document.head.appendChild(searchScript);
+  }
+
+  document.addEventListener('keydown', function (event) {
+    if (window.openGlobalSearchModal || event.isComposing || document.querySelector('#lpDisclaimerModal')) return;
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      openGlobalSearch();
+    }
+  });
+
+  if (performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+    try {
+      if (JSON.parse(sessionStorage.getItem('lp_global_search_v1'))?.returnUrl === location.href) {
+        window.addEventListener('pageshow', openGlobalSearch, { once: true });
+      }
+    } catch (error) {}
+  }
+
   window.S4UI = {
+    keepDialogFocus: keepDialogFocus,
+    openGlobalSearch: openGlobalSearch,
     icon: icon,
     renderThemeButton: renderThemeButton,
     initSmartBackButton: initSmartBackButton,

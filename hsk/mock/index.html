@@ -1017,6 +1017,31 @@
       };
 
       let timerId = null;
+      const DRAFT_PREFIX = "lp_hsk_mock_draft_v1:";
+      const DRAFT_FIELDS = ["activeSection", "focusedQIdx", "remainingSec", "audioRate",
+        "listeningAnswers", "readingAnswers", "writingAnswers", "listeningPlays", "flagged", "summaryState"];
+
+      function draftKey(id) {
+        return DRAFT_PREFIX + state.mode + ":" + id;
+      }
+
+      function readDraft(id) {
+        try {
+          const draft = JSON.parse(localStorage.getItem(draftKey(id)));
+          return draft && Number.isFinite(draft.remainingSec) && draft.remainingSec > 0 ? draft : null;
+        } catch (e) { return null; }
+      }
+
+      function saveDraft() {
+        if (state.screen !== "exam" || !state.exam || state.remainingSec <= 0) return;
+        const draft = {};
+        DRAFT_FIELDS.forEach((key) => { draft[key] = state[key]; });
+        try { localStorage.setItem(draftKey(state.exam.id), JSON.stringify(draft)); } catch (e) {}
+      }
+
+      function clearDraft(id) {
+        try { localStorage.removeItem(draftKey(id)); } catch (e) {}
+      }
 
       const MOCK_ICON_PATHS = {
         award: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13.9 17 22l-5-3-5 3 1.5-8.1"/>',
@@ -1222,6 +1247,7 @@
           if (state.screen !== "exam" || !state.exam) return;
           if (state.remainingSec > 0) {
             state.remainingSec -= 1;
+            if (state.remainingSec % 10 === 0) saveDraft();
             const tEl = document.getElementById("examTimerDisplay");
             if (tEl) {
               tEl.textContent = formatClock(state.remainingSec);
@@ -1500,6 +1526,7 @@
         const report = computeReport();
         state.lastReport = report;
         saveResult(report);
+        clearDraft(state.exam.id);
         state.reviewFilter = "all";
         state.screen = "report";
         render();
@@ -1545,12 +1572,25 @@
             };
           }
         });
+        const draft = readDraft(mockId);
+        if (draft) {
+          DRAFT_FIELDS.forEach((key) => {
+            if (draft[key] !== undefined) state[key] = draft[key];
+          });
+        }
         render();
         startExamTimer();
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
 
+      window.discardMockDraft = function (id) {
+        if (!window.confirm("Xóa bài đang làm của đề này?")) return;
+        clearDraft(id);
+        render();
+      };
+
       window.goLobby = function () {
+        saveDraft();
         stopAudio();
         clearExamTimer();
         state.showSubmitModal = false;
@@ -1643,12 +1683,14 @@
             b.classList.toggle("selected", oi === optIdx);
           });
         }
+        saveDraft();
         updateExamProgressInPlace();
       };
 
       window.toggleFlag = function (sec, idx) {
         const key = sec + ":" + idx;
         state.flagged[key] = !state.flagged[key];
+        saveDraft();
         const card = document.getElementById("qCard_" + sec + "_" + idx);
         if (card) {
           card.classList.toggle("is-flagged", Boolean(state.flagged[key]));
@@ -1670,6 +1712,7 @@
         cur.push(wordIdx);
         state.writingAnswers[idx] = cur;
         refreshWritingCard(idx);
+        saveDraft();
         updateExamProgressInPlace();
       };
 
@@ -1678,12 +1721,14 @@
         cur.splice(pos, 1);
         state.writingAnswers[idx] = cur;
         refreshWritingCard(idx);
+        saveDraft();
         updateExamProgressInPlace();
       };
 
       window.resetReorderWord = function (idx) {
         state.writingAnswers[idx] = [];
         refreshWritingCard(idx);
+        saveDraft();
         updateExamProgressInPlace();
       };
 
@@ -1711,6 +1756,7 @@
             }
           }
         }
+        saveDraft();
         updateExamProgressInPlace();
       };
 
@@ -1826,7 +1872,8 @@
                   <span class="meta-tag">${mockSvg("clock", 13)} ${mins} phút</span>
                   <span class="meta-tag">${mockSvg("target", 13)} Ngưỡng &ge;${m.passScore}/${m.maxScore}</span>
                 </div>
-                <button class="start-btn" onclick="startExam('${escAttr(m.id)}')">${mockSvg("play", 14)} Bắt đầu luyện</button>
+                <button class="start-btn" onclick="startExam('${escAttr(m.id)}')">${mockSvg("play", 14)} ${readDraft(m.id) ? "Tiếp tục bài đang làm" : "Bắt đầu luyện"}</button>
+                ${readDraft(m.id) ? '<button class="tool-btn" onclick="discardMockDraft(\'' + escAttr(m.id) + '\')">Bỏ bài đang làm</button>' : ""}
               </div>
             </article>
           `;
@@ -2536,7 +2583,7 @@
       window.syncThemeBtn();
       syncTopbarHeight();
       window.addEventListener("resize", syncTopbarHeight);
-      window.addEventListener("pagehide", stopAudio);
+      window.addEventListener("pagehide", () => { saveDraft(); stopAudio(); });
       render();
       if (state.screen === "lobby" && state.targetMockId) {
         setTimeout(() => {

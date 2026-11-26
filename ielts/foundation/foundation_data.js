@@ -78,7 +78,7 @@
         hints: ["name / I am", "from / live in", "student / work / teacher"]
       },
       bridgeLinks: [
-        { label: "Luyện nghe Chữ cái & Số (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_2&from=roadmap" },
+        { label: "Luyện nghe Chữ cái & Số (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_5&from=roadmap" },
         { label: "Làm quen Nguyên âm cơ bản (IPA Bài 1)", url: "../speaking/index.html?id=sp_pr_5994&from=roadmap" }
       ]
     },
@@ -153,7 +153,7 @@
         hints: ["There is / There are", "family / room", "a / an / số nhiều"]
       },
       bridgeLinks: [
-        { label: "Luyện nghe Địa chỉ & Thông tin (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_5&from=roadmap" },
+        { label: "Luyện nghe Địa chỉ & Thông tin (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_7&from=roadmap" },
         { label: "Ôn bài Danh từ cơ bản (Grammar Bài 2)", url: "../grammar/index.html?id=item_2&from=roadmap" }
       ]
     },
@@ -228,7 +228,7 @@
         hints: ["wake up at", "in the morning / evening", "study / work", "sleep at"]
       },
       bridgeLinks: [
-        { label: "Luyện nghe Ngày tháng & Thời gian (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_6&from=roadmap" },
+        { label: "Luyện nghe Ngày tháng & Thời gian (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_8&from=roadmap" },
         { label: "Học Thì Hiện tại đơn đầy đủ (Grammar Bài 31)", url: "../grammar/index.html?id=item_31&from=roadmap" }
       ]
     },
@@ -303,7 +303,7 @@
         hints: ["How much", "would like / buy", "please / thank you / where is"]
       },
       bridgeLinks: [
-        { label: "Luyện nghe Tiền tệ & Giá cả (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_4&from=roadmap" },
+        { label: "Luyện nghe Tiền tệ & Giá cả (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_6&from=roadmap" },
         { label: "Luyện nghe Chỉ đường Bản đồ (Listening Unit 2)", url: "../listening/index.html?id=listening_u2_15&from=roadmap" }
       ]
     }
@@ -311,8 +311,9 @@
 
   var READINESS_CHECK = {
     id: "m0_check",
-    title: "Kiểm tra cuối Mốc 0 (Sẵn sàng sang Mốc 1 IELTS)",
-    subtitle: "6 câu kiểm tra mới (Nghe chậm · Đọc ngắn · Ghép câu) + 1 đoạn tự viết ngắn 4 câu",
+    completionId: "m0_check_v2",
+    title: "Kiểm tra cuối Mốc 0",
+    subtitle: "6 câu nghe, đọc và ghép câu, một đoạn tự viết và một nhiệm vụ nói ngắn.",
     passCorrectMin: 5,
     questions: [
       {

@@ -47,7 +47,10 @@
 
   <!-- Dùng trực tiếp bộ token Liquid Glass 2 tầng (portal) từ s4-ui.css & ghibli-theme.css -->
   <style>
-    @view-transition { navigation: auto; }
+    #startFirstLesson[hidden] { display: none; }
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition { navigation: auto; }
+    }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -902,6 +905,7 @@
         <div>
           <div class="rm-seg-label">Xuất phát điểm</div>
           <div class="rm-seg-track" id="startLevelChips"></div>
+          <a class="rm-cta-btn" id="startFirstLesson" href="../foundation/index.html?id=m0_c1" style="margin-top:7px;">Bắt đầu bài đầu tiên</a>
         </div>
         <div>
           <div class="rm-seg-label">Nhịp học / ngày</div>
@@ -1112,7 +1116,9 @@
           ? ("Mốc " + ev.activeStage.order + " • " + ev.activeStage.bandRange)
           : "";
         var focusEl = document.getElementById("dailyFocusGrid");
-        if (!ev.dailyFocus.length) {
+        if (!ev.dailyFocus.length && ev.activeStage) {
+          focusEl.textContent = "Xem các mục còn lại trong mốc đang học ở bên dưới.";
+        } else if (!ev.dailyFocus.length) {
           focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần của lộ trình hiện tại. Hãy duy trì làm thêm Full Test Practice Zone.</div>';
         } else {
           focusEl.innerHTML = ev.dailyFocus.map(function (item) {
@@ -1152,6 +1158,8 @@
             + svgIcon(mf.icon, 13) + '<span>' + esc(mf.label) + '</span></button>';
         }).join("");
 
+        document.getElementById("startFirstLesson").hidden = ev.state.startLevel !== "zero";
+        stageBodyRenderers = {};
         var allOpen = ev.stages.every(function (st) { return Boolean(openStages[st.id]); });
         document.getElementById("btnToggleAllStages").textContent = allOpen ? "Thu gọn" : "Mở tất cả";
 
@@ -1169,7 +1177,7 @@
             return activeModuleFilter === "all" || tk.module === activeModuleFilter;
           });
 
-          var tasksHtml = filteredTasks.length ? filteredTasks.map(function (tk) {
+          function renderTasks() { return filteredTasks.length ? filteredTasks.map(function (tk) {
             var cls = "rm-task" + (tk.isEffectiveDone ? " is-done" : "") + (tk.isSkipped ? " is-skipped" : "");
             var countText = tk.evalType === "due_review"
               ? (tk.isCompleted ? "Sạch từ đến hạn" : "Cần ôn tập")
@@ -1207,10 +1215,11 @@
               + '  </div>'
               + '</div>'
               + '</div>';
-          }).join("") : '<div style="grid-column:1/-1;font-size:13px;color:var(--lg-ink-muted);padding:6px 2px;">Mốc này không có học phần thuộc bộ lọc kỹ năng đang chọn.</div>';
+          }).join("") : '<div style="grid-column:1/-1;font-size:13px;color:var(--lg-ink-muted);padding:6px 2px;">Mốc này không có học phần thuộc bộ lọc kỹ năng đang chọn.</div>'; }
+          stageBodyRenderers[st.id] = renderTasks;
 
           return '<article class="rm-stage rm-glass' + (isOpen ? " open" : "") + (isCur ? " is-current" : "") + '" id="stageCard_' + esc(st.id) + '">'
-            + '<div class="rm-stage-head" onclick="window.__rmToggleStage(\'' + esc(st.id) + '\')">'
+            + '<div class="rm-stage-head" role="button" tabindex="0" aria-expanded="' + isOpen + '" onclick="window.__rmToggleStage(\'' + esc(st.id) + '\')">'
             + '  <div class="rm-stage-left">'
             + '    <div class="rm-stage-ico">' + svgIcon(st.id, 20) + '</div>'
             + '    <div style="min-width:0;">'
@@ -1232,7 +1241,7 @@
             + '<div class="rm-stage-body">'
             + '  <p class="rm-stage-goal"><b>Mục tiêu:</b> ' + esc(st.goal) + '</p>'
             + '  <div class="rm-stage-tip"><b>Mẹo:</b> ' + esc(st.tip) + '</div>'
-            + '  <div class="rm-tasks-grid">' + tasksHtml + '</div>'
+            + '  <div class="rm-tasks-grid">' + (isOpen ? renderTasks() : '') + '</div>'
             + '</div>'
             + '</article>';
         }).join("");
@@ -1260,11 +1269,27 @@
           window.S4UI.toast("info", "Đã đặt lại cấu hình lộ trình về mặc định.");
         }
       };
+      var stageBodyRenderers = {};
+      function setStageOpen(stageId, opened) {
+        openStages[stageId] = opened;
+        var stage = document.getElementById("stageCard_" + stageId);
+        if (!stage) return;
+        stage.classList.toggle("open", opened);
+        stage.querySelector(".rm-stage-head").setAttribute("aria-expanded", String(opened));
+        var taskGrid = stage.querySelector(".rm-tasks-grid");
+        if (opened && !taskGrid.hasChildNodes() && stageBodyRenderers[stageId]) {
+          taskGrid.innerHTML = stageBodyRenderers[stageId]();
+        }
+      }
+      document.getElementById("stagesContainer").addEventListener("keydown", function (event) {
+        if (event.target.matches(".rm-stage-head") && (event.key === " " || event.key === "Enter")) {
+          event.preventDefault();
+          event.target.click();
+        }
+      });
       window.__rmToggleStage = function (stageId) {
         userToggledStage = true;
-        openStages[stageId] = !openStages[stageId];
-        var el = document.getElementById("stageCard_" + stageId);
-        if (el) el.classList.toggle("open", Boolean(openStages[stageId]));
+        setStageOpen(stageId, !openStages[stageId]);
         var btn = document.getElementById("btnToggleAllStages");
         if (btn && window.LP_IELTS_ROADMAP_DATA) {
           var allOpen = window.LP_IELTS_ROADMAP_DATA.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
@@ -1276,15 +1301,15 @@
         if (!data) return;
         userToggledStage = true;
         var allOpen = data.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
-        data.STAGES.forEach(function (s) { openStages[s.id] = !allOpen; });
-        renderAll();
+        data.STAGES.forEach(function (s) { setStageOpen(s.id, !allOpen); });
+        document.getElementById("btnToggleAllStages").textContent = allOpen ? "Mở tất cả" : "Thu gọn";
       };
       window.__rmJumpStage = function (stageId) {
         userToggledStage = true;
-        openStages[stageId] = true;
-        renderAll();
+        setStageOpen(stageId, true);
         var el = document.getElementById("stageCard_" + stageId);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        var motion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (el) el.scrollIntoView({ behavior: motion ? "instant" : "smooth", block: "start" });
       };
       window.__rmSetModFilter = function (modId) {
         activeModuleFilter = modId || "all";
@@ -1385,16 +1410,20 @@
           + '</div>';
       }
 
+      var releasePlacementFocus;
       window.__rmOpenPlacement = function () {
         ptAns = {};
         ptSubmitted = false;
         var m = document.getElementById("placementModal");
         if (m) m.style.display = "flex";
         renderPlacementModal();
+        if (!releasePlacementFocus && m) releasePlacementFocus = window.S4UI?.keepDialogFocus(m);
       };
       window.__rmClosePlacement = function () {
         var m = document.getElementById("placementModal");
         if (m) m.style.display = "none";
+        if (releasePlacementFocus) releasePlacementFocus();
+        releasePlacementFocus = null;
         try { if (typeof speechSynthesis !== "undefined") speechSynthesis.cancel(); } catch (e) {}
       };
       window.__rmPtPick = function (qid, oi) {

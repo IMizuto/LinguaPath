@@ -53,6 +53,14 @@
     6: 2508
   };
 
+  // 214 bộ thủ chia theo 4 chặng đồng bộ 1-1 với hsk/writing/radicals_214_data.js (50 + 50 + 50 + 64)
+  var RADICAL_CHARS_BY_STAGE = {
+    stage1: "一人冫刀力又口囗土夕大女子宀寸小山巾广彳心戶手攴日月木水火牛犬王田疒目石示竹糸艹衣见言貝足辶金门雨食",
+    stage2: "丨丶丿乙亅二亠儿入八冂冖几凵勹匕匚匸十卜卩厂厶士夂夊尢尸屮巛工己干幺廴廾弋弓彐彡戈支文斗斤方无曰欠止",
+    stage3: "歹殳毋比毛氏气爪父爻爿片牙玄瓜瓦甘生用疋癶白皮皿矛矢禸禾穴立米缶网羊羽老而耒耳聿肉臣自至臼舌舛舟艮色",
+    stage4: "虍虫血行襾角谷豆豕豸赤走身车辛辰邑酉釆里長阜隶隹青非面革韋韭音頁風飛首香马骨高髟鬥鬯鬲鬼魚鳥鹵鹿麥麻黃黍黑黹黽鼎鼓鼠鼻齊齒龍龜龠"
+  };
+
   // ID thật 106 bài giảng (hsk/lessons/lessons_data.js & lessons_hsk2..6.js)
   var HSK0_LESSON_IDS = ["c0_1", "c0_2", "c0_3"];
   var HSK1_LESSON_IDS = [
@@ -272,7 +280,7 @@
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "radicals",
-          offset: 0,
+          radicalStage: "stage1",
           target: 50,
           defaultUrl: "hsk/writing/index.html?level=1&tab=radicals",
           unitLabel: "bộ thủ"
@@ -417,7 +425,7 @@
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "radicals",
-          offset: 50,
+          radicalStage: "stage2",
           target: 50,
           defaultUrl: "hsk/writing/index.html?level=2&tab=radicals",
           unitLabel: "bộ thủ"
@@ -574,7 +582,7 @@
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "radicals",
-          offset: 100,
+          radicalStage: "stage3",
           target: 50,
           defaultUrl: "hsk/writing/index.html?level=3&tab=radicals",
           unitLabel: "bộ thủ"
@@ -747,7 +755,7 @@
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "radicals",
-          offset: 150,
+          radicalStage: "stage4",
           target: 64,
           defaultUrl: "hsk/writing/index.html?level=4&tab=radicals",
           unitLabel: "bộ thủ"
@@ -1168,6 +1176,7 @@
     START_LEVELS: START_LEVELS,
     PACES: PACES,
     VOCAB_LEVEL_TOTALS: VOCAB_LEVEL_TOTALS,
+    RADICAL_CHARS_BY_STAGE: RADICAL_CHARS_BY_STAGE,
     STAGES: STAGES
   };
 

@@ -8,6 +8,9 @@
 (function (globalScope) {
   "use strict";
 
+  var siteRoot = document.currentScript ? new URL("../", document.currentScript.src) : new URL("./", location.href);
+  var stateKey = "lp_global_search_v1";
+  var releaseFocus = null;
   var DEFAULTS = {
     limitAll: 20,
     limitPerBucketInAll: 6,
@@ -25,6 +28,7 @@
 
   var TABS = [
     { key: "all", label: "Tất cả", icon: "" },
+    { key: "lessons", label: "Bài học", icon: "grammar" },
     { key: "ielts_vocab", label: "IELTS Vocab", icon: "vocab" },
     { key: "hsk_vocab", label: "HSK Vocab", icon: "hsk" },
     { key: "grammar", label: "Ngữ pháp", icon: "grammar" },
@@ -68,6 +72,22 @@
   var loadPromise = null;
   var activeTab = "all";
   var currentQuery = "";
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(stateKey));
+    if (saved) {
+      currentQuery = typeof saved.query === "string" ? saved.query : "";
+      if (TABS.some(function (tab) { return tab.key === saved.tab; })) activeTab = saved.tab;
+    }
+  } catch (error) {}
+  function saveSearchState(returnUrl) {
+    try { sessionStorage.setItem(stateKey, JSON.stringify({ query: currentQuery, tab: activeTab, returnUrl: returnUrl || "" })); }
+    catch (error) {}
+  }
+
+  function normalizeLessonText(text) {
+    return String(text || "").normalize("NFD").toLowerCase().replace(/\p{M}+/gu, "")
+      .replace(/đ/g, "d").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  }
   var currentItems = [];
   var selectedIdx = 0;
   var searchTimer = null;
@@ -136,7 +156,7 @@
         return;
       }
       var s = document.createElement("script");
-      s.src = src;
+      s.src = new URL(src, siteRoot).href;
       s.async = true;
       s.onload = function () { resolve(); };
       s.onerror = function () {
@@ -399,9 +419,10 @@
       ? Promise.resolve()
       : loadScriptOnce("assets/s4-search-engine.js?v=1");
 
+    loadScriptOnce("assets/s4-lesson-search-data.js").then(refreshLiveIfOpen).catch(function () {});
     loadPromise = engineReady.then(function () {
       if (globalScope.S4SearchEngine && typeof globalScope.S4SearchEngine.initWasm === "function") {
-        globalScope.S4SearchEngine.initWasm("assets/s4-core.wasm?v=1").catch(function () {});
+        globalScope.S4SearchEngine.initWasm(new URL("assets/s4-core.wasm?v=1", siteRoot).href).catch(function () {});
       }
       return loadScriptOnce("ielts/vocab/vocab_data.js");
     }).then(function () {
@@ -450,6 +471,10 @@
 
   function buildDeepLink(entry, q) {
     var qEnc = encodeURIComponent(q || "");
+    if (entry.bucket === "lessons") {
+      var prefix = entry.item.course === "hsk" ? "hsk/lessons" : "ielts/foundation";
+      return prefix + "/index.html?id=" + encodeURIComponent(entry.item.id);
+    }
     if (entry.bucket === "ielts_vocab") {
       return "ielts/vocab/index.html?q=" + encodeURIComponent(entry.item.word || q || "") + "&mode=list";
     }
@@ -478,6 +503,18 @@
   }
 
   function queryBucket(bucketKey, q, limit) {
+    if (bucketKey === "lessons") {
+      var key = normalizeLessonText(q);
+      if (key.length < 2) return [];
+      var selectedCourse = location.hash === "#ielts" ? "ielts" : document.documentElement.dataset.course;
+      return (globalScope.LP_LESSON_SEARCH_DATA || []).map(function (item) {
+        var title = normalizeLessonText(item.title);
+        var exact = title === key || (item.aliases || []).some(function (alias) { return normalizeLessonText(alias) === key; });
+        var score = exact ? 1400 : title.startsWith(key + " ") ? 1250 : title.includes(key) ? 950 : 0;
+        return { bucket: "lessons", item: item, normScore: score && score + (item.course === selectedCourse ? 40 : 0) };
+      }).filter(function (entry) { return entry.normScore; })
+        .sort(function (a, b) { return b.normScore - a.normScore; }).slice(0, limit);
+    }
     if (bucketKey === "ielts_vocab" && store.ieltsVocab.ready) {
       return store.ieltsVocab.index.search(q, { limit: limit }).map(function (h) {
         return {
@@ -538,20 +575,21 @@
 
     if (targetTab !== "all") {
       var list = queryBucket(targetTab, trimmed, DEFAULTS.limitSingleTab);
-      list.forEach(function (entry) { entry.href = buildDeepLink(entry, trimmed); });
+      list.forEach(function (entry) { entry.href = new URL(buildDeepLink(entry, trimmed), siteRoot).href; });
       var countsSingle = { all: list.length, ielts_vocab: 0, hsk_vocab: 0, grammar: 0, ted: 0 };
       countsSingle[targetTab] = list.length;
       var t1s = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
       return { items: list, counts: countsSingle, elapsedMs: Math.max(0.1, t1s - t0) };
     }
 
+    var bLessons = queryBucket("lessons", trimmed, DEFAULTS.limitPerBucketInAll);
     var bIelts = queryBucket("ielts_vocab", trimmed, DEFAULTS.limitPerBucketInAll);
     var bHsk = queryBucket("hsk_vocab", trimmed, DEFAULTS.limitPerBucketInAll);
     var bGram = queryBucket("grammar", trimmed, DEFAULTS.limitPerBucketInAll);
     var bTed = queryBucket("ted", trimmed, DEFAULTS.limitPerBucketInAll);
 
     // Đảm bảo mỗi phân hệ có kết quả tốt không bị kho lớn lấn át hết kết quả top
-    var buckets = [bIelts, bHsk, bGram, bTed];
+    var buckets = [bLessons, bIelts, bHsk, bGram, bTed];
     var topLeads = [];
     var rest = [];
     for (var b = 0; b < buckets.length; b++) {
@@ -565,12 +603,13 @@
     rest.sort(function (a, b) { return b.normScore - a.normScore; });
 
     var merged = topLeads.concat(rest).slice(0, DEFAULTS.limitAll);
-    merged.forEach(function (entry) { entry.href = buildDeepLink(entry, trimmed); });
+    merged.forEach(function (entry) { entry.href = new URL(buildDeepLink(entry, trimmed), siteRoot).href; });
     var t1 = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
     return {
       items: merged,
       counts: {
-        all: bIelts.length + bHsk.length + bGram.length + bTed.length,
+        all: bLessons.length + bIelts.length + bHsk.length + bGram.length + bTed.length,
+        lessons: bLessons.length,
         ielts_vocab: bIelts.length,
         hsk_vocab: bHsk.length,
         grammar: bGram.length,
@@ -707,6 +746,7 @@
           e.preventDefault();
           var targetHref = currentItems[selectedIdx].href;
           if (targetHref && targetHref !== "#") {
+            saveSearchState(location.href);
             globalScope.location.href = targetHref;
           }
         }
@@ -733,11 +773,13 @@
   function renderTabs() {
     var host = typeof document !== "undefined" ? document.getElementById("lpGsTabs") : null;
     if (!host) return;
+    var focusedTab = host.contains(document.activeElement) ? document.activeElement.getAttribute("data-tab") : null;
     host.innerHTML = TABS.map(function (tb) {
       var act = activeTab === tb.key ? " active" : "";
       var ico = tb.icon ? gsIcon(tb.icon, 13) : "";
       return '<button type="button" class="lp-gs-tab' + act + '" data-tab="' + tb.key + '">' + ico + '<span>' + escHtml(tb.label) + '</span></button>';
     }).join("");
+    if (focusedTab) host.querySelector('[data-tab="' + focusedTab + '"]')?.focus({ preventScroll: true });
     host.querySelectorAll(".lp-gs-tab").forEach(function (btn) {
       btn.onclick = function () {
         activeTab = btn.getAttribute("data-tab") || "all";
@@ -776,7 +818,11 @@
     var metaHtml = "";
     var descHtml = "";
 
-    if (entry.bucket === "ielts_vocab") {
+    if (entry.bucket === "lessons") {
+      badge = '<span class="lp-gs-badge">' + gsIcon("grammar", 12) + '<span>Bài học ' + (it.course === "hsk" ? "HSK" : "IELTS") + '</span></span>';
+      titleHtml = hlHtml(it.title, q);
+      descHtml = hlHtml(it.desc, q);
+    } else if (entry.bucket === "ielts_vocab") {
       badge = '<span class="lp-gs-badge ielts_vocab">' + gsIcon("vocab", 12) + '<span>IELTS Vocab</span></span>';
       titleHtml = hlHtml(it.word, q) + (it.pos ? ' <span class="lp-gs-submeta">' + escHtml(it.pos) + '</span>' : "");
       metaHtml = it.ipa ? '<span class="lp-gs-submeta">' + escHtml(it.ipa) + '</span>' : "";
@@ -857,6 +903,19 @@
   }
 
   function executeSearch(q) {
+    var results = document.getElementById("lpGsResults");
+    var focusedItem = results && results.contains(document.activeElement) ? document.activeElement : null;
+    renderSearchResults(q);
+    if (focusedItem && !focusedItem.isConnected) {
+      var previousHref = focusedItem.getAttribute("href");
+      var replacement = Array.from(results.querySelectorAll("a")).find(function (item) {
+        return item.getAttribute("href") === previousHref;
+      });
+      (replacement || document.getElementById("lpGlobalSearchInput"))?.focus({ preventScroll: true });
+    }
+  }
+
+  function renderSearchResults(q) {
     var host = typeof document !== "undefined" ? document.getElementById("lpGsResults") : null;
     var trimmed = String(q || "").trim();
     if (!trimmed) {
@@ -897,6 +956,9 @@
     }
     modalOpen = true;
     modal.classList.add("open");
+    if (!releaseFocus && globalScope.S4UI?.keepDialogFocus) {
+      releaseFocus = globalScope.S4UI.keepDialogFocus(modal, document.getElementById("lpGlobalSearchInput"), lastFocusedEl);
+    }
     if (typeof initialQuery === "string") {
       currentQuery = initialQuery;
     }
@@ -918,6 +980,9 @@
     modalOpen = false;
     var modal = typeof document !== "undefined" ? document.getElementById("lpGlobalSearchModal") : null;
     if (modal) modal.classList.remove("open");
+    if (releaseFocus) releaseFocus();
+    releaseFocus = null;
+    if (wasOpen) saveSearchState();
     if (wasOpen && typeof document !== "undefined" && document.body && document.body.style) {
       document.body.style.overflow = prevBodyOverflow || "";
     }
@@ -971,6 +1036,16 @@
       }
     }, true);
   }
+
+  document.addEventListener("click", function (event) {
+    if (modalOpen && event.target.closest(".lp-gs-item")) saveSearchState(location.href);
+  });
+  window.addEventListener("pageshow", function (event) {
+    if (!event.persisted && performance.getEntriesByType("navigation")[0]?.type !== "back_forward") return;
+    try {
+      if (JSON.parse(sessionStorage.getItem(stateKey))?.returnUrl === location.href) open();
+    } catch (error) {}
+  });
 
   globalScope.openGlobalSearchModal = function (q) {
     open(q);

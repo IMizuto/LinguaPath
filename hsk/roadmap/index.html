@@ -47,7 +47,9 @@
 
   <!-- Sử dụng trực tiếp bộ token --lg-* tầng portal & tông nhấn HSK từ s4-ui.css (Clear Liquid Glass) -->
   <style>
-    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition { navigation: auto; }
+    }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -947,7 +949,7 @@
     </div>
   </div>
 
-  <div id="pinyinCheckModal" style="display:none;position:fixed;inset:0;z-index:9000;background:var(--lg-modal-backdrop,rgba(15,23,42,0.36));backdrop-filter:blur(6px);padding:16px;overflow-y:auto;align-items:center;justify-content:center;">
+  <div id="pinyinCheckModal" role="dialog" aria-modal="true" aria-label="Kiểm tra Pinyin và thanh điệu" style="display:none;position:fixed;inset:0;z-index:9000;background:var(--lg-modal-backdrop,rgba(15,23,42,0.36));backdrop-filter:blur(6px);padding:16px;overflow-y:auto;align-items:center;justify-content:center;">
     <div class="rm-glass" style="width:100%;max-width:560px;border-radius:22px;padding:18px;margin:auto;background:var(--lg-modal-surface,var(--lg-surface-strong));">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
         <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--lg-ink);">Kiểm tra nhanh Pinyin &amp; Thanh điệu (5 câu)</h3>
@@ -959,6 +961,7 @@
 
   <script src="../hsk-tts.js?v=3"></script>
   <script src="roadmap_data.js?v=2"></script>
+  <script src="../writing/radicals_214_data.js"></script>
   <script src="roadmap.js?v=3"></script>
   <script src="../../assets/s4-ui.js?v=67"></script>
   <script src="../../auth.js?v=33"></script>
@@ -1327,16 +1330,20 @@
           if (!data) return;
           userToggledStage = true;
           var allOpen = data.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
-          data.STAGES.forEach(function (s) { openStages[s.id] = !allOpen; });
-          renderAll();
+          data.STAGES.forEach(function (s) {
+            openStages[s.id] = !allOpen;
+            var card = document.getElementById("stageCard_" + s.id);
+            if (card) card.classList.toggle("open", !allOpen);
+          });
+          toggleAllBtn.textContent = allOpen ? "Mở tất cả" : "Thu gọn";
         });
       }
 
       // Bài kiểm tra nhanh Pinyin & Thanh điệu (5 câu) cho người đã biết bỏ qua Chương 0 hoặc luyện bù đúng cặp sai
       var PINYIN_CHECK_QS = [
         {
-          id: "q1", audioZh: "买东西", audioPy: "mǎi dōngxi",
-          prompt: "Nghe mẫu hoặc đọc Pinyin “mǎi dōngxi” — từ này mang nghĩa nào?",
+          id: "q1", audioZh: "买东西", audioPy: "mǎi dōngxi", audioOnly: true,
+          prompt: "Nghe đoạn mẫu. Người nói nói mua hay bán đồ?",
           opts: ["Mua đồ (thanh 3: mǎi)", "Bán đồ (thanh 4: mài)"],
           ans: 0, fixUrl: "../speaking/index.html?id=tp_1&from=roadmap", fixLabel: "Luyện Cặp 1: 买 (mǎi) vs 卖 (mài)"
         },
@@ -1347,8 +1354,8 @@
           ans: 0, fixUrl: "../speaking/index.html?id=tp_2&from=roadmap", fixLabel: "Luyện Cặp 2: 睡觉 vs 水饺"
         },
         {
-          id: "q3", audioZh: "眼镜", audioPy: "yǎnjìng",
-          prompt: "Phân biệt “yǎnjing” (thanh nhẹ) và “yǎnjìng” (thanh 4): đâu là “kính mắt”?",
+          id: "q3", audioZh: "眼镜", audioPy: "yǎnjìng", audioOnly: true,
+          prompt: "Nghe đoạn mẫu. Âm tiết thứ hai là thanh nhẹ hay thanh 4?",
           opts: ["yǎnjing (眼睛)", "yǎnjìng (眼镜)"],
           ans: 1, fixUrl: "../speaking/index.html?id=tp_3&from=roadmap", fixLabel: "Luyện Cặp 3: 眼睛 vs 眼镜"
         },
@@ -1367,6 +1374,8 @@
       ];
       var pyAnswers = {};
       var pySubmitted = false;
+      var pyListened = {};
+      var releasePinyinFocus;
 
       function renderPinyinCheckModal() {
         var body = document.getElementById("pinyinCheckBody");
@@ -1378,7 +1387,7 @@
             if (pyAnswers[q.id] === q.ans) right++;
             else missed.push({ idx: i + 1, q: q });
           });
-          var canSkip = right >= 4;
+          var canSkip = right >= 4 && PINYIN_CHECK_QS.filter(function (q) { return q.audioOnly; }).every(function (q) { return pyListened[q.id] && pyAnswers[q.id] === q.ans; });
           var html = '<div style="padding:12px;border-radius:14px;background:var(--lg-wash);margin-bottom:12px;">'
             + '<div style="font-size:16px;font-weight:800;color:' + (canSkip ? 'var(--lg-green)' : 'var(--lg-amber)') + ';">Kết quả: ' + right + '/' + PINYIN_CHECK_QS.length + ' câu đúng</div>'
             + '<div style="font-size:13px;color:var(--lg-ink-sub);margin-top:4px;">'
@@ -1400,7 +1409,7 @@
           html += '</div>';
           body.innerHTML = html;
           var retryBtn = document.getElementById("btnRetryPinyinCheck");
-          if (retryBtn) retryBtn.addEventListener("click", function () { pyAnswers = {}; pySubmitted = false; renderPinyinCheckModal(); });
+          if (retryBtn) retryBtn.addEventListener("click", function () { pyAnswers = {}; pyListened = {}; pySubmitted = false; renderPinyinCheckModal(); });
           var skipBtn = document.getElementById("btnSkipWarmupNow");
           if (skipBtn) {
             skipBtn.addEventListener("click", function () {
@@ -1416,7 +1425,7 @@
           return;
         }
 
-        body.innerHTML = '<p style="margin:0 0 10px;font-size:12.5px;color:var(--lg-ink-muted);">Đạt từ <b>4/5 câu</b> để bỏ qua nhanh Chương 0 &amp; 20 cặp thanh điệu. Nếu sai, hệ thống sẽ chỉ đúng cặp cần ôn bù.</p>'
+        body.innerHTML = '<p style="margin:0 0 10px;font-size:12.5px;color:var(--lg-ink-muted);">Đạt từ <b>4/5 câu và đúng cả hai câu chỉ nghe</b> để bỏ qua nhanh Chương 0 &amp; 20 cặp thanh điệu. Nếu sai, hệ thống sẽ chỉ đúng cặp cần ôn bù.</p>'
           + '<div style="display:grid;gap:10px;">' + PINYIN_CHECK_QS.map(function (q, i) {
             return '<div style="padding:10px 12px;border-radius:14px;background:var(--lg-wash);">'
               + '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">'
@@ -1425,7 +1434,7 @@
               + '</div>'
               + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
                 var sel = pyAnswers[q.id] === oi;
-                return '<button type="button" data-py-q="' + esc(q.id) + '" data-py-opt="' + oi + '" style="text-align:left;padding:8px 10px;border-radius:10px;border:1px solid ' + (sel ? 'var(--lg-accent)' : 'var(--lg-hairline)') + ';background:' + (sel ? 'var(--lg-accent-soft)' : 'transparent') + ';color:var(--lg-ink);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;">' + esc(op) + '</button>';
+                return '<button type="button"' + (q.audioOnly && !pyListened[q.id] ? ' disabled' : '') + ' data-py-q="' + esc(q.id) + '" data-py-opt="' + oi + '" style="text-align:left;padding:8px 10px;border-radius:10px;border:1px solid ' + (sel ? 'var(--lg-accent)' : 'var(--lg-hairline)') + ';background:' + (sel ? 'var(--lg-accent-soft)' : 'transparent') + ';color:var(--lg-ink);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;">' + esc(op) + '</button>';
               }).join("") + '</div></div>';
           }).join("") + '</div>'
           + '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;">'
@@ -1435,7 +1444,16 @@
         body.querySelectorAll("[data-py-play]").forEach(function (b) {
           b.addEventListener("click", function () {
             var q = PINYIN_CHECK_QS[Number(b.getAttribute("data-py-play"))];
-            if (q && window.HskTTS) window.HskTTS.speak(q.audioZh, { pinyin: q.audioPy, rate: 0.92 });
+            if (!q || !window.HskTTS) return;
+            Promise.resolve(window.HskTTS.speak(q.audioZh, { pinyin: q.audioPy, rate: 0.92 })).then(function (ok) {
+              if (q.audioOnly && ok) {
+                pyListened[q.id] = true;
+                body.querySelectorAll('[data-py-q="' + q.id + '"]').forEach(function (option) { option.disabled = false; });
+              }
+              if (!ok && window.S4UI) window.S4UI.toast("warn", "Chưa phát được mẫu. Hãy kiểm tra giọng đọc hoặc kết nối.");
+            }).catch(function () {
+              if (window.S4UI) window.S4UI.toast("warn", "Chưa phát được mẫu.");
+            });
           });
         });
         body.querySelectorAll("[data-py-q]").forEach(function (b) {
@@ -1455,14 +1473,18 @@
 
       function openPinyinCheckModal() {
         pyAnswers = {};
+        pyListened = {};
         pySubmitted = false;
         var m = document.getElementById("pinyinCheckModal");
         if (m) m.style.display = "flex";
         renderPinyinCheckModal();
+        if (m) releasePinyinFocus = window.S4UI?.keepDialogFocus(m);
       }
       function closePinyinCheckModal() {
         var m = document.getElementById("pinyinCheckModal");
         if (m) m.style.display = "none";
+        if (releasePinyinFocus) releasePinyinFocus();
+        releasePinyinFocus = null;
       }
 
       var openPyBtn = document.getElementById("btnPinyinQuickCheck");
@@ -1562,16 +1584,20 @@
         if (subB) subB.addEventListener("click", function () { window.__hskPtSubmit(); });
       }
 
+      var releasePlacementFocus;
       window.__hskOpenPlacement = function () {
         hskPtAns = {};
         hskPtSubmitted = false;
         var m = document.getElementById("placementModal");
         if (m) m.style.display = "flex";
         renderHskPlacementModal();
+        if (!releasePlacementFocus && m) releasePlacementFocus = window.S4UI?.keepDialogFocus(m);
       };
       window.__hskClosePlacement = function () {
         var m = document.getElementById("placementModal");
         if (m) m.style.display = "none";
+        if (releasePlacementFocus) releasePlacementFocus();
+        releasePlacementFocus = null;
       };
       window.__hskPtPick = function (qid, oi) {
         hskPtAns[qid] = Number(oi);

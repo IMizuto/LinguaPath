@@ -930,7 +930,12 @@ html.ghibli-lite .ghibli-sprites-stage {
 }
 
 html.ghibli-lite {
-  --lg-blur: blur(6px) saturate(120%);
+  --lg-blur: none;
+}
+html.ghibli-lite .lp-glass,
+html.ghibli-lite .rm-glass {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 html.ghibli-lite .s4-ui-backdrop,
 html.ghibli-lite .w-modal-backdrop,

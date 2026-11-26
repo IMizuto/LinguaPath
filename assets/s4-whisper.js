@@ -795,6 +795,21 @@
     return s;
   }
 
+  function validateTranscriptResult(result) {
+    if (!result || !result.ok || !result.transcript) return result;
+    var words = String(result.transcript).toLowerCase().match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu) || [];
+    // Require a long run that dominates the whole transcript to preserve natural repetition.
+    var repeatLimit = Math.max(5, Math.ceil(words.length * 0.8));
+    var run = 1;
+    for (var i = 1; i < words.length; i++) {
+      run = words[i] === words[i - 1] ? run + 1 : 1;
+      if (run >= repeatLimit) {
+        return Object.assign({}, result, { ok: false, transcript: '', reason: 'repetitive_transcript' });
+      }
+    }
+    return result;
+  }
+
   function transcribeWithCloudApi(wavBlob, opts) {
     var o = opts || {};
     if (!wavBlob || !wavBlob.size || typeof global.fetch !== 'function' || typeof global.FormData !== 'function') {
@@ -848,7 +863,7 @@
     }).then(function (data) {
       var tx = cleanCloudTranscript(data && (data.text || data.transcript || ''));
       if (tx) {
-        return { ok: true, transcript: tx, source: 'cloud_stt', engine: model };
+        return validateTranscriptResult({ ok: true, transcript: tx, source: 'cloud_stt', engine: model });
       }
       return { ok: false, transcript: '', reason: 'cloud_empty' };
     }).catch(function (err) {
@@ -919,14 +934,14 @@
     if (msg.type === 'result') {
       var tx = String(msg.transcript || '').trim();
       if (msg.ok) modelReady = true;
-      entry.resolve({
+      entry.resolve(validateTranscriptResult({
         ok: Boolean(msg.ok && tx),
         transcript: tx,
         source: tx ? 'whisper_local' : (msg.cancelled ? 'cancelled' : 'empty_audio'),
         error: msg.error || '',
         cancelled: Boolean(msg.cancelled),
         reason: msg.cancelled ? 'cancelled' : (msg.ok ? (tx ? '' : 'empty_audio') : 'worker_transcribe_error')
-      });
+      }));
     }
   }
 
@@ -1176,9 +1191,9 @@
       return Promise.resolve(global.__LP_WHISPER_TRANSCRIBE_OVERRIDE(blob, opts, decoded)).then(function (res) {
         if (typeof res === 'string') {
           var tx = res.trim();
-          return { ok: Boolean(tx), transcript: tx, source: tx ? 'whisper_local' : 'empty_audio' };
+          return validateTranscriptResult({ ok: Boolean(tx), transcript: tx, source: tx ? 'whisper_local' : 'empty_audio' });
         }
-        return res || { ok: false, transcript: '', reason: 'empty_override' };
+        return validateTranscriptResult(res) || { ok: false, transcript: '', reason: 'empty_override' };
       }).catch(function (err) {
         return { ok: false, transcript: '', reason: 'override_error', error: (err && err.message) ? err.message : String(err) };
       });
@@ -1341,6 +1356,9 @@
             return attachAudioTelemetry(cloudRes || { ok: false, transcript: '', reason: 'cloud_error' }, decoded);
           }
           return runLocalWorkerTranscribe(decoded.samples, o).then(function (r) {
+            if (cloudRes && cloudRes.reason === 'repetitive_transcript' && !r.ok && !r.cancelled) {
+              return wrapCancel(attachAudioTelemetry(cloudRes, decoded));
+            }
             return wrapCancel(attachAudioTelemetry(r, decoded));
           });
         });

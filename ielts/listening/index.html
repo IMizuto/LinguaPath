@@ -728,6 +728,9 @@
   </div>
 
   <div class="lp-top-actions">
+    <button type="button" class="lp-icon-btn" aria-label="Tra cứu toàn cục" title="Tra cứu toàn cục (Ctrl+K)" onclick="window.S4UI?.openGlobalSearch()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+    </button>
     <button type="button" class="lp-study-pill-btn hist" id="btnListeningHistory" onclick="window.S4PracticeZone && window.S4PracticeZone.openListeningHistoryModal ? window.S4PracticeZone.openListeningHistoryModal() : (window.S4UI ? window.S4UI.toast('info', 'Chưa có lịch sử làm bài') : alert('Chưa có lịch sử'))" title="Xem lại các bài thi thử Listening đã nộp">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span class="s4-hist-lbl">Lịch sử </span>(<span id="topListeningHistoryCount">0</span>)
@@ -1710,6 +1713,26 @@ function normWord(s) {
   return (s || '').toLowerCase().replace(/[’‘']/g, '').replace(/[^a-z0-9]/g, '').trim();
 }
 
+function revealWordDictation() {
+  const item = currentLesson && POOLS[currentLesson.problem.poolKey]?.[currentWordIdx];
+  const feedback = document.getElementById('wordDicFeedback');
+  if (item && feedback) feedback.textContent = 'Đáp án: ' + item.term;
+}
+
+function normalizeDictationHint(text) {
+  return String(text || '').normalize('NFC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+}
+
+function canShowDictationHint(sub, idx, level) {
+  const hint = normalizeDictationHint(sub.vi);
+  if (!hint || hint === normalizeDictationHint(sub.en)) return false;
+  return !buildDictationTokens(sub.en, idx, level).some((token) => {
+    if (!token.isBlank || !/\d/.test(token.answer)) return false;
+    const answer = normalizeDictationHint(token.answer);
+    return answer && (' ' + hint + ' ').includes(' ' + answer + ' ');
+  });
+}
+
 function buildDictationTokens(sentence, idx, level) {
   const words = (sentence || '').trim().split(/\s+/);
   let lastBlank = false, blankCount = 0;
@@ -2311,6 +2334,9 @@ function renderMain() {
     const words = POOLS[currentLesson.problem.poolKey] || [];
     if (words.length && currentWordIdx >= words.length) currentWordIdx = 0;
     const wObj = words[currentWordIdx] || { term: '', definition: '', pronunciation: '', audio: '' };
+    const termKey = normalizeDictationHint(wObj.term);
+    const definition = normalizeDictationHint(wObj.definition) !== termKey ? wObj.definition : '';
+    const pronunciation = normalizeDictationHint(wObj.pronunciation) !== termKey ? wObj.pronunciation : '';
     setTimeout(() => playWordAudio(wObj, 'en-GB'), 100);
     bodyHtml = `
       <div class="drill-box" style="text-align:center;">
@@ -2321,13 +2347,13 @@ function renderMain() {
         <button class="btn btn-primary lp-chip-inline" style="padding:14px 26px;font-size:16px;border-radius:99px;margin-bottom:14px;" onclick="playWordAudio(POOLS['${currentLesson.problem.poolKey}'][${currentWordIdx}], 'en-GB')">
           ${lIcon('volume', 18)} Nghe phát âm từ
         </button>
-        <div style="font-size:18px;font-weight:800;color:var(--hl-gold);margin-bottom:8px;">[VI] ${wObj.definition || ''} <small style="color:var(--hl-cyan);">/${wObj.pronunciation || ''}/</small></div>
+        <div style="font-size:18px;font-weight:800;color:var(--hl-gold);margin-bottom:8px;">${definition ? '[VI] ' + definition : ''} ${pronunciation ? '<small style="color:var(--hl-cyan);">' + pronunciation + '</small>' : ''}</div>
         <input type="text" id="wordDicInput" class="spell-input" style="text-align:center;" placeholder="Gõ từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') checkWordDictation()">
         <div id="wordDicFeedback" style="min-height:22px;font-weight:700;margin-bottom:10px;"></div>
         <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
           <button class="btn" onclick="currentWordIdx=Math.max(0,currentWordIdx-1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{wordIdx:currentWordIdx});renderMain();">← Từ trước</button>
           <button class="btn btn-primary lp-chip-inline" onclick="checkWordDictation()">${lIcon('check', 14)} Kiểm tra (Enter)</button>
-          <button class="btn lp-chip-inline" onclick="document.getElementById('wordDicInput').value='${(wObj.term || '').replace(/'/g, "\\'")}'">${lIcon('lightbulb', 14)} Đáp án</button>
+          <button class="btn lp-chip-inline" onclick="revealWordDictation()">${lIcon('lightbulb', 14)} Hiện đáp án</button>
           <button class="btn" onclick="currentWordIdx=(currentWordIdx+1)%${words.length || 1};if(currentLesson)saveListeningLessonPos(currentLesson.id,{wordIdx:currentWordIdx});renderMain();">Từ tiếp →</button>
         </div>
       </div>
@@ -2397,7 +2423,7 @@ function renderMain() {
               <button class="btn" onclick="currentSubIdx=Math.min(${subs.length - 1},currentSubIdx+1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">Câu sau →</button>
             </div>
           </div>
-          ${(showViSub && sub.vi) ? `<div style="padding:9px 13px;background:var(--vi-bg);border-left:3px solid #38bdf8;border-radius:6px;font-size:13.5px;color:var(--vi-text);margin-bottom:10px;"><strong>Nghĩa Việt:</strong> ${sub.vi}</div>` : ''}
+          ${(showViSub && canShowDictationHint(sub, currentSubIdx, dicLevel)) ? `<div style="padding:9px 13px;background:var(--vi-bg);border-left:3px solid #38bdf8;border-radius:6px;font-size:13.5px;color:var(--vi-text);margin-bottom:10px;"><strong>Nghĩa Việt:</strong> ${sub.vi}</div>` : ''}
           <div class="dic-sentence">
             ${buildDictationTokens(sub.en, currentSubIdx, dicLevel).map(tk => {
               if (!tk.isBlank) return `<span>${tk.raw} </span>`;

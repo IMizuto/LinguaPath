@@ -1297,7 +1297,7 @@
   }
 
   function resolveReadingPzLesson(lessonId) {
-    const pzList = window.__STUDY4_READ_PZ || [];
+    const pzList = readingDetails;
     if (!pzList.length || lessonId == null) return null;
     const rawStr = String(lessonId);
     let foundTest = null;
@@ -1340,7 +1340,7 @@
 
     const isPz = les.isPzDirect || (les.id && String(les.id).startsWith('read_pz_'));
     if (isPz) {
-      const pzList = window.__STUDY4_READ_PZ || [];
+      const pzList = readingDetails;
       const mId = String(les.id || '').match(/^read_pz_([^_]+)(?:_p(\d+))?$/i);
       const tId = les.testId != null ? les.testId : (mId ? mId[1] : null);
       const pIdx = typeof les.partIdx === 'number'
@@ -1362,8 +1362,8 @@
   function getReadingTestSiblings(lesson, allLessons) {
     if (!lesson) return [lesson];
 
-    // 1. Nhận diện nếu thuộc Kho đề Practice Zone (__STUDY4_READ_PZ)
-    const pzList = window.__STUDY4_READ_PZ || [];
+    // Resolve siblings using the Reading CBT test selected by the learner.
+    const pzList = readingDetails;
     const isPz = lesson.isPzDirect || (lesson.id && String(lesson.id).startsWith('read_pz_'));
     let pzTest = lesson.pzTestObj || null;
 
@@ -1394,38 +1394,54 @@
     return siblings.length > 0 ? siblings : [lesson];
   }
 
-  let readPzLoading = false;
-  let readPzWaiters = [];
-  function flushReadPzWaiters(data) {
-    const queue = readPzWaiters.slice();
-    readPzWaiters = [];
-    queue.forEach(fn => { try { fn(data); } catch (e) {} });
-  }
+  const readingDetails = [];
+  const readingDetailRequests = new Map();
+  let readingCatalogRequest;
+
   function ensureReadingPzLoaded(cb) {
-    if (window.__STUDY4_READ_PZ) {
-      cb && cb(window.__STUDY4_READ_PZ);
-      return;
+    if (!readingCatalogRequest) {
+      readingCatalogRequest = new Promise(resolve => {
+        if (window.__STUDY4_READ_PZ_CATALOG) {
+          resolve(window.__STUDY4_READ_PZ_CATALOG);
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'data/reading_practice_catalog.js';
+        script.onload = () => resolve(window.__STUDY4_READ_PZ_CATALOG || []);
+        script.onerror = () => { script.remove(); resolve([]); };
+        document.head.appendChild(script);
+      }).then(catalog => {
+        if (!catalog.length) readingCatalogRequest = null;
+        return catalog;
+      });
     }
-    if (cb) readPzWaiters.push(cb);
-    if (readPzLoading) return;
-    readPzLoading = true;
-    const s = document.createElement('script');
-    s.src = 'data/reading_practice_zone.js?v=26';
-    s.onload = () => {
-      readPzLoading = false;
-      flushReadPzWaiters(window.__STUDY4_READ_PZ || []);
-    };
-    s.onerror = () => {
-      readPzLoading = false;
-      try { s.remove(); } catch (e) {}
-      flushReadPzWaiters([]);
-    };
-    document.head.appendChild(s);
+    if (cb) readingCatalogRequest.then(cb);
+    return readingCatalogRequest;
+  }
+
+  function ensureReadingPzTest(lessonId) {
+    const match = String(lessonId).match(/^(?:read_pz_)?(\d+)(?:_p\d+)?$/);
+    if (!match) return Promise.resolve(null);
+    const id = match[1];
+    const cached = readingDetails.find(test => String(test.id) === id);
+    if (cached) return Promise.resolve(cached);
+    if (!readingDetailRequests.has(id)) {
+      const request = fetch('data/practice-tests/' + id + '.json').then(response => {
+        if (!response.ok) throw new Error('Reading test ' + response.status);
+        return response.json();
+      }).then(test => {
+        if (String(test.id) !== id || !Array.isArray(test.parts)) return null;
+        readingDetails.push(test);
+        return test;
+      }).catch(() => null).finally(() => readingDetailRequests.delete(id));
+      readingDetailRequests.set(id, request);
+    }
+    return readingDetailRequests.get(id);
   }
 
   function getReadingFullTestsCatalog(allLessons) {
-    if (window.__STUDY4_READ_PZ && window.__STUDY4_READ_PZ.length > 0) {
-      return window.__STUDY4_READ_PZ.map(t => ({
+    if (window.__STUDY4_READ_PZ_CATALOG && window.__STUDY4_READ_PZ_CATALOG.length > 0) {
+      return window.__STUDY4_READ_PZ_CATALOG.map(t => ({
         id: t.id,
         title: t.title,
         book: getReadingBookCategory(t.title),
@@ -1551,7 +1567,7 @@
   }
 
   function findReadingPzTestByKey(key) {
-    const list = window.__STUDY4_READ_PZ || [];
+    const list = window.__STUDY4_READ_PZ_CATALOG || [];
     if (!key || !list.length) return null;
     return list.find(t => {
       const idObj = parseIeltsTestIdentity(t.title, { skill: 'reading' });
@@ -1594,7 +1610,7 @@
       const u2Ident = parseIeltsTestIdentity(x.title, { skill: 'reading' });
       return !!(u2Ident && u2Ident.key === ident.key);
     });
-    const pzLoaded = Array.isArray(window.__STUDY4_READ_PZ) && window.__STUDY4_READ_PZ.length > 0;
+    const pzLoaded = Boolean(window.__STUDY4_READ_PZ_CATALOG?.length);
     const pzTest = pzLoaded ? findReadingPzTestByKey(ident.key) : null;
     const hasPz = pzLoaded
       ? !!pzTest
@@ -2178,8 +2194,11 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
       readLobbyTimer = meta.isFull ? 60 : 20;
       if (typeof window.renderMain === 'function') window.renderMain();
     };
-    if (String(meta.lessonId || '').startsWith('read_pz_') && !window.__STUDY4_READ_PZ) {
-      ensureReadingPzLoaded(openRetake);
+    if (String(meta.lessonId || '').startsWith('read_pz_') && !resolveReadingPzLesson(meta.lessonId)) {
+      ensureReadingPzTest(meta.lessonId).then(test => {
+        if (test) openRetake();
+        else window.S4UI?.toast('warn', 'Chưa tải được đề Reading. Hãy kết nối mạng rồi thử lại.');
+      });
     } else {
       openRetake();
     }
@@ -2380,6 +2399,8 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                   <span>${pzIcon('play', 16)} BẮT ĐẦU LÀM BÀI THI</span>
                   <small>Tự động bật toàn màn hình (F11)</small>
                 </button>
+                  ${isPzTarget && target.pzTestObj ? '<button class="btn" onclick="window.s4SaveReadingTest(this,' + Number(target.pzTestObj.id) + ')">Lưu đề offline</button><span role="status" class="s4-reading-download-status"></span>' : ""}
+
                 <button type="button" class="w-lobby-back-btn" onclick="${isPzTarget ? 'window.S4PracticeZone.openReadingHub()' : 'window.s4CbtExitReadingToLesson()'}">
                   ${isPzTarget ? '← Quay lại Kho Đề Thi Reading' : '← Quay lại bài đọc & từ vựng'}
                 </button>
@@ -2428,14 +2449,42 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
   };
 
   // Mở Sảnh từ ngoài
+  window.s4SaveReadingTest = async function (button, id) {
+    var status = button.parentElement.querySelector('.s4-reading-download-status');
+    button.disabled = true;
+    try {
+      var offline = window.LinguaPathOffline;
+      if (!offline) throw new Error('Chưa sẵn sàng lưu ngoại tuyến.');
+      status.textContent = 'Đang lưu đề...';
+      await offline.askWorker('reading:' + id, true);
+      status.textContent = 'Đã lưu đề để mở khi offline.';
+    } catch (error) {
+      status.textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
+  };
+
+  let readingLobbyRequest = 0;
   window.s4PzOpenReadingLobby = function (lessonId, isFull) {
+    if (/^(?:read_pz_|\d+$)/.test(String(lessonId)) && !resolveReadingPzLesson(lessonId)) {
+      const before = ++readingLobbyRequest;
+      window.S4UI?.toast('info', 'Đang tải đề Reading...');
+      ensureReadingPzTest(lessonId).then(test => {
+        if (before !== readingLobbyRequest) return;
+        if (test) window.s4PzOpenReadingLobby(lessonId, isFull);
+        else window.S4UI?.toast('warn', 'Đề này chưa được lưu offline. Hãy kết nối mạng rồi thử lại.');
+      });
+      return;
+    }
+    readingLobbyRequest++;
     viewingReadSub = null;
     readHubOpen = false;
     readLobbyOpen = true;
     readLobbyTimer = isFull ? 60 : 20;
 
     let found = null;
-    // 1. Nhận diện nếu lessonId thuộc Kho đề Practice Zone (__STUDY4_READ_PZ)
+    // Match the selected CBT test before falling back to the lesson list.
     if (lessonId != null && (String(lessonId).startsWith('read_pz_') || typeof lessonId === 'number' || (!isNaN(Number(lessonId)) && Number(lessonId) > 0))) {
       found = resolveReadingPzLesson(lessonId);
       activeReadLobbyTest = found ? (found.pzTestObj || null) : null;
@@ -2817,8 +2866,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (Array.isArray(allLessons) && allLessons.length > 0) {
       readHubLessonsCache = allLessons;
     }
-    if (!window.__STUDY4_READ_PZ) {
-      ensureReadingPzLoaded(() => {
+    if (!window.__STUDY4_READ_PZ_CATALOG && !readingCatalogRequest) {
+      ensureReadingPzLoaded(catalog => {
+        if (!catalog.length) return;
         if (document.getElementById('s4PzReadResultsWrap')) {
           refreshReadingHubMetaDom();
           updatePzHubResults('reading');
@@ -4099,7 +4149,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     isReadingLobbyOpen: () => readLobbyOpen,
     renderReadingLobby,
     openReadingLobby: window.s4PzOpenReadingLobby,
-    closeReadingLobby: () => { readLobbyOpen = false; },
+    closeReadingLobby: () => { readingLobbyRequest++; readLobbyOpen = false; },
     setActiveReadLobbyLesson: (les) => { activeReadLobbyLesson = les; },
     getActiveReadLobbyLesson: () => activeReadLobbyLesson,
     getActiveReadLobbyTest: () => activeReadLobbyTest,
@@ -4140,6 +4190,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     renderReadingPracticeView,
     mountReadingDomEvents,
     ensureReadingPzLoaded,
+    ensureReadingPzTest,
     resolveReadingPzLesson,
     findExplainLessonsForReading,
     findReadingSourcesForExplain,

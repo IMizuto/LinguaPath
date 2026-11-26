@@ -876,30 +876,7 @@
       // ==========================================================
       let pickerMode = "chars"; // "chars" | "radicals"
       let pickerFilter = "all";
-      const CORE_50_RADICAL_NUMS = new Set([
-        1, 9, 15, 18, 19, 29, 30, 31, 32, 36,
-        37, 38, 39, 40, 41, 42, 46, 50, 53, 60,
-        61, 63, 64, 66, 72, 74, 75, 85, 86, 93,
-        94, 96, 102, 104, 109, 112, 113, 118, 120, 140,
-        145, 147, 149, 154, 157, 162, 167, 169, 173, 184
-      ]);
-      const RADICAL_STAGE_BY_NUM = new Map();
-      (function initRadicalStages() {
-        const rest = [];
-        (DATA.radicals || []).forEach(function (r) {
-          if (!r || !r.num) return;
-          if (CORE_50_RADICAL_NUMS.has(Number(r.num))) {
-            RADICAL_STAGE_BY_NUM.set(Number(r.num), "stage1");
-          } else {
-            rest.push(Number(r.num));
-          }
-        });
-        rest.sort(function (a, b) { return a - b; });
-        rest.forEach(function (num, idx) {
-          const st = idx < 50 ? "stage2" : (idx < 100 ? "stage3" : "stage4");
-          RADICAL_STAGE_BY_NUM.set(num, st);
-        });
-      })();
+      const RADICAL_STAGE_BY_NUM = window.LP_HSK_RADICAL_STAGE_BY_NUM || new Map();
       let selectedItem = DATA.practiceChars[0] || DATA.radicals[0] || { char: "好", pinyin: "hǎo", hv: "Hảo", meaning: "Tốt", strokes: 6, tip: "" };
       let selectedType = "chars"; // "chars" | "radicals" | "custom"
       let writeMode = "quiz"; // "quiz" | "animate" | "free"

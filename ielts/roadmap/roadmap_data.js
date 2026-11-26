@@ -151,7 +151,7 @@
           storageKey: "lp_ielts_foundation_srs_v1",
           offset: 0,
           target: 64,
-          defaultUrl: "ielts/foundation/index.html?tab=vocab",
+          defaultUrl: "ielts/foundation/index.html?tab=vocab&review=new",
           unitLabel: "từ"
         },
         {
@@ -163,7 +163,7 @@
           desc: "Tái sử dụng 4 bài chép chính tả thiết thực nhất của Listening Unit 2.",
           evalType: "id_list",
           storageKey: "s4_listening_done",
-          ids: ["listening_u2_2", "listening_u2_4", "listening_u2_5", "listening_u2_6"],
+          ids: ["listening_u2_5", "listening_u2_6", "listening_u2_7", "listening_u2_8"],
           basePath: "ielts/listening/index.html",
           unitLabel: "bài"
         },
@@ -172,12 +172,12 @@
           module: "foundation",
           moduleLabel: "Chốt Mốc 0",
           icon: "✅",
-          title: "Kiểm tra cuối Mốc 0 (Sẵn sàng sang Mốc 1)",
-          desc: "Nghe chậm, đọc ngắn, ghép câu và viết đoạn 4–5 câu giới thiệu bản thân.",
+          title: "Kiểm tra cuối Mốc 0",
+          desc: "Nghe chậm, đọc ngắn, ghép câu, viết đoạn giới thiệu và tự đối chiếu bài nói ngắn.",
           evalType: "id_list",
           storageKey: "lp_ielts_foundation_done_v1",
-          ids: ["m0_check"],
-          basePath: "ielts/foundation/index.html",
+          ids: ["m0_check_v2"],
+          defaultUrl: "ielts/foundation/index.html?id=m0_check",
           unitLabel: "bài"
         }
       ]

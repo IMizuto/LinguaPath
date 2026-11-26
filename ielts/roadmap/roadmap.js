@@ -38,7 +38,7 @@
   function getDefaultState() {
     return {
       version: 1,
-      startLevel: "foundation",
+      startLevel: "zero",
       pace: "standard",
       skipped: {},
       updatedAt: ""
@@ -172,6 +172,7 @@
     var bd = dueBreakdown || {};
     var stores = [
       { key: "vocab", label: "Vocab", due: Number(bd.vocab || 0), path: "ielts/vocab/index.html?topic=ALL_DUE" },
+      { key: "foundation", label: "Mốc 0", due: Number(bd.foundation || 0), path: "ielts/foundation/index.html?tab=vocab&review=due" },
       { key: "listening", label: "Listening", due: Number(bd.listening || 0), path: "ielts/listening/index.html?id=listening_u5_1" },
       { key: "reading", label: "Reading", due: Number(bd.reading || 0), path: "ielts/reading/index.html?id=reading_u3_1" },
       { key: "speaking", label: "Speaking", due: Number(bd.speaking || 0), path: "ielts/speaking/index.html?unit=u_1" }
@@ -324,7 +325,11 @@
         }
       } else if (skill === "speaking") {
         testKey = String(rec.lessonId || rec.testId || rec.title || rec.id || ("idx_" + i));
-        var sBand = parseBandNum(rec.overallBand);
+        var sHasAudio = Boolean(rec.audioId || (Array.isArray(rec.turns) && rec.turns.some(function (turn) {
+          return turn && !/^warmup/i.test(String(turn.label || "")) && (turn.audioId || turn.followUpAudioId);
+        })));
+        var sTextOnly = /^(auto_offline|auto_gemini)$/.test(rec.scoreSource) && !sHasAudio;
+        var sBand = sTextOnly ? NaN : parseBandNum(rec.overallBand);
         var sWords = typeof rec.wordCount === "number" ? rec.wordCount : NaN;
         var turnsOk = !Array.isArray(rec.turns) || rec.turns.length >= 2;
         if (Number.isNaN(sBand) && Number.isNaN(sWords)) {
@@ -479,10 +484,12 @@
       var dListen = caches.getSrsStat("s4_listening_srs_v1", 0);
       var dRead = caches.getSrsStat("s4_reading_srs_v1", 0);
       var dSpeak = caches.getSrsStat("lp_speaking_vocab_srs_v1", 0);
-      dueCount = dVocab.due + dListen.due + dRead.due + dSpeak.due;
-      var totalLearnedAny = dVocab.totalDone + dListen.totalDone + dRead.totalDone + dSpeak.totalDone;
+      var dFoundation = caches.getSrsStat("lp_ielts_foundation_srs_v1", 0);
+      dueCount = dVocab.due + dListen.due + dRead.due + dSpeak.due + dFoundation.due;
+      var totalLearnedAny = dVocab.totalDone + dListen.totalDone + dRead.totalDone + dSpeak.totalDone + dFoundation.totalDone;
       var dueTargetTask = resolveDueSrsTarget({
         vocab: dVocab.due,
+        foundation: dFoundation.due,
         listening: dListen.due,
         reading: dRead.due,
         speaking: dSpeak.due
@@ -551,13 +558,15 @@
     var dListen = caches.getSrsStat("s4_listening_srs_v1", 0);
     var dRead = caches.getSrsStat("s4_reading_srs_v1", 0);
     var dSpeak = caches.getSrsStat("lp_speaking_vocab_srs_v1", 0);
+    var dFoundation = caches.getSrsStat("lp_ielts_foundation_srs_v1", 0);
     var dueBreakdown = {
       vocab: dVocab.due,
+      foundation: dFoundation.due,
       listening: dListen.due,
       reading: dRead.due,
       speaking: dSpeak.due
     };
-    var dueWordsTotal = dueBreakdown.vocab + dueBreakdown.listening + dueBreakdown.reading + dueBreakdown.speaking;
+    var dueWordsTotal = Object.keys(dueBreakdown).reduce(function (total, key) { return total + dueBreakdown[key]; }, 0);
     var dueTarget = resolveDueSrsTarget(dueBreakdown, urlPrefix);
 
     var stagesOut = [];
@@ -657,6 +666,12 @@
         if (tk.module === "vocab" || tk.evalType === "vocab_range" || tk.evalType === "srs_quota") return false;
         return true;
       });
+      if (!pendingTasks.length) {
+        var remainingTask = activeStage.tasks.find(function (tk) {
+          return !tk.isEffectiveDone && tk.evalType !== "due_review";
+        });
+        if (remainingTask) pendingTasks.push(remainingTask);
+      }
       var studyCount = 0;
       // Lượt 1: lấy đủ 1 mục chưa xong cho MỖI kỹ năng khác nhau có trong mốc hiện tại
       for (var p1 = 0; p1 < pendingTasks.length; p1++) {

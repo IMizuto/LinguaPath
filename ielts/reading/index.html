@@ -1087,6 +1087,9 @@
   </div>
 
   <div class="lp-top-actions">
+    <button type="button" class="lp-icon-btn" aria-label="Tra cứu toàn cục" title="Tra cứu toàn cục (Ctrl+K)" onclick="window.S4UI?.openGlobalSearch()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+    </button>
     <button type="button" class="lp-study-pill-btn hist" id="btnReadingHistory" onclick="window.S4PracticeZone && window.S4PracticeZone.openReadingHistoryModal()" title="Xem lại các bài thi thử Reading đã nộp & chấm điểm">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span class="s4-hist-lbl">Lịch sử </span><span>(<span id="topReadingHistoryCount">0</span>)</span>
@@ -1632,17 +1635,9 @@ window.openReadingPracticeZone = function() {
   });
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.add('active');
-  ensureChunkLoaded('u_2', function() {
-    ensureChunkLoaded('u_4', function() {
-      ensureSynonymsLoaded(function() {
-        if (window.S4PracticeZone) {
-          window.S4PracticeZone.openReadingHub();
-        }
-        renderSidebar();
-        renderMain();
-      });
-    });
-  });
+  if (window.S4PracticeZone) window.S4PracticeZone.openReadingHub();
+  renderSidebar();
+  renderMain();
 };
 
 window.openReadingPzByKey = function(key) {
@@ -1655,17 +1650,10 @@ window.openReadingPzByKey = function(key) {
   const pzBtn = document.getElementById('topBtn_pz');
   if (pzBtn) pzBtn.classList.add('active');
   window.S4PracticeZone.ensureReadingPzLoaded(() => {
-    ensureChunkLoaded('u_4', function() {
-      ensureSynonymsLoaded(function() {
-        const t = window.S4PracticeZone.findReadingPzTestByKey ? window.S4PracticeZone.findReadingPzTestByKey(key) : null;
-        if (t && typeof window.s4PzOpenReadingLobby === 'function') {
-          window.s4PzOpenReadingLobby(`read_pz_${t.id}_p1`, true);
-        } else {
-          window.S4PracticeZone.openReadingHub();
-        }
-        renderSidebar();
-      });
-    });
+    const test = window.S4PracticeZone.findReadingPzTestByKey(key);
+    if (test) window.s4PzOpenReadingLobby('read_pz_' + test.id + '_p1', true);
+    else window.S4PracticeZone.openReadingHub();
+    renderSidebar();
   });
 };
 
@@ -1986,10 +1974,11 @@ window.selectLesson = function(id, forcedMode) {
       const act = window.S4PracticeZone.getActiveReadLobbyLesson();
       if (act && act.id === id) meta = act;
     }
-    // Hỗ trợ gọi trực tiếp từ Lịch sử sau khi tải lại trang (chưa tải reading_practice_zone.js)
-    if (!meta && !window.__STUDY4_READ_PZ && window.S4PracticeZone && typeof window.S4PracticeZone.ensureReadingPzLoaded === 'function') {
-      window.S4PracticeZone.ensureReadingPzLoaded(() => {
-        if (window.__STUDY4_READ_PZ) window.selectLesson(id, forcedMode);
+    // A direct or history link may point to a test that has yet to be loaded.
+    if (!meta && window.S4PracticeZone && typeof window.S4PracticeZone.ensureReadingPzTest === 'function') {
+      window.S4PracticeZone.ensureReadingPzTest(id).then(test => {
+        if (test) window.selectLesson(id, forcedMode);
+        else window.S4UI?.toast('warn', 'Chưa tải được đề Reading. Hãy thử lại khi có mạng.');
       });
       return;
     }
@@ -2894,7 +2883,13 @@ try {
   cachedLesson = JSON.parse(localStorage.getItem('s4_read_last_lesson_cache') || 'null');
 } catch(e) {}
 
-if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
+if (reqPz || reqId.startsWith('read_pz_')) {
+  // The CBT script is added after this module; wait before opening the hub or a direct test.
+  document.addEventListener('DOMContentLoaded', () => {
+    if (reqId.startsWith('read_pz_')) window.s4PzOpenReadingLobby(reqId, true);
+    else openReadingPracticeZone();
+  }, { once: true });
+} else if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   currentLesson = cachedLesson;
   syncActiveUnitUI(currentLesson);
   if (currentLesson.problem && currentLesson.problem.pType === 'topic_flashcards') {
@@ -2919,17 +2914,6 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   });
 } else if (initialLesson) {
   selectLesson(initialLesson.id);
-}
-
-if (reqPz) {
-  const openPzOnReady = () => {
-    if (typeof openReadingPracticeZone === 'function') openReadingPracticeZone();
-  };
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', openPzOnReady);
-  } else {
-    setTimeout(openPzOnReady, 0);
-  }
 }
 
 </script>
@@ -2963,5 +2947,6 @@ if (reqPz) {
     </div>
   </div>
 
+<script src="../../assets/s4-offline.js"></script>
 </body>
 </html>

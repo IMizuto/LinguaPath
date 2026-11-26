@@ -1861,16 +1861,27 @@
         }
         if (l.phonetics) {
           b += `<div class="sound-tip-label" id="soundTip">${lIcon("volume", 13)}<span>Chạm ô để nghe</span></div>`;
-          b += `<h3>21 Thanh mẫu (Phụ âm đầu)</h3><div class="sound-grid">${l.phonetics.initials.map((it, idx) => `
-            <button class="sound-tile" onclick="playSoundByIdx('initials',${idx})">
-              <span class="sound-sym">${esc(it.sym)}</span>
-              <span class="sound-ex">${esc(it.speak)}</span>
-            </button>`).join("")}</div>`;
-          b += `<h3>34 Vận mẫu thông dụng (Vần)</h3><div class="sound-grid">${l.phonetics.finals.map((it, idx) => `
-            <button class="sound-tile" onclick="playSoundByIdx('finals',${idx})">
-              <span class="sound-sym">${esc(it.sym)}</span>
-              <span class="sound-ex">${esc(it.speak)}</span>
-            </button>`).join("")}</div>`;
+          function soundGroups(key, groups) {
+            return groups.map(([label, start, end], groupIndex) => {
+              const tiles = l.phonetics[key].slice(start, end).map((it, idx) => `
+                <button class="sound-tile" onclick="playSoundByIdx('${key}',${start + idx})">
+                  <span class="sound-sym">${esc(it.sym)}</span>
+                  <span class="sound-ex">${esc(it.speak)}</span>
+                </button>`).join("");
+              return `<details ${groupIndex === 0 ? "open" : ""} style="margin:8px 0;">
+                <summary style="cursor:pointer;font-weight:750;">${label}</summary>
+                <div class="sound-grid" style="margin-top:8px;">${tiles}</div>
+              </details>`;
+            }).join("");
+          }
+          b += '<h3>21 thanh mẫu</h3>' + soundGroups("initials", [
+            ["Môi và đầu lưỡi", 0, 8], ["Gốc lưỡi và mặt lưỡi", 8, 14], ["Uốn lưỡi và lưỡi thẳng", 14, 21]
+          ]);
+          b += '<h3>Vận mẫu thông dụng</h3>' + soundGroups("finals", [
+            ["Nguyên âm đơn và đôi", 0, 10], ["Âm mũi", 10, 15], ["Vần bắt đầu bằng i", 15, 23],
+            ["Vần bắt đầu bằng u", 23, 30], ["Vần với ü và er", 30, 34]
+          ]);
+          b += '<p>Thử trong lời chào: nghe “nǐ” và “hǎo”, rồi luyện cả câu trong <a href="?lesson=hsk1_01">Bài 1 — 你好！</a>.</p>';
         }
         if (l.tones) {
           b += `<h3>Bảng 4 Thanh điệu &amp; Thanh nhẹ (bấm để nghe)</h3><div class="tone-grid">${l.tones.map((t, idx) => `

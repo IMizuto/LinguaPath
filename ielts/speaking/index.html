@@ -515,6 +515,10 @@
               </div>
 
               <div class="sp-lobby-settings">
+                <label class="sp-setting-row">
+                  <span>Cho phép đính kèm file ghi âm lên AI Cloud (khi dùng Hybrid / Chấm sâu AI)</span>
+                  <input type="checkbox" id="pzCloudAudioCheck">
+                </label>
                 <div class="sp-setting-row">
                   <label for="pzStrictnessSelect"><strong>Hiển thị đề (Part 1 &amp; Part 3)</strong></label>
                   <select id="pzStrictnessSelect" class="sp-select">
@@ -572,10 +576,12 @@
                   </label>
                   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
                     <select id="pzGeminiModelSelect" class="sp-select" style="flex:1;min-width:160px;" aria-label="Chọn model AI">
-                      <option value="gemini-2.5-flash">gemini-2.5-flash · Gemini 2.5 Flash (Khuyên dùng · Ổn định)</option>
-                      <option value="gemini-2.0-flash">gemini-2.0-flash · Gemini 2.0 Flash (Free Tier · Nhanh)</option>
-                      <option value="gemini-2.5-pro">gemini-2.5-pro · Gemini 2.5 Pro (Chấm sâu · Chi tiết)</option>
-                      <option value="gemini-4-hydrogen">gemini-4-hydrogen · Gemini 4 Hydrogen (Preview)</option>
+                      <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite · Flash-Lite (Mặc định · Nhanh)</option>
+                      <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite · Flash-Lite (Ổn định · Nhẹ)</option>
+                      <option value="gemini-3.8-flash">gemini-3.8-flash · Gemini 3.8 Flash (Đa phương thức)</option>
+                      <option value="gemini-4-hydrogen">gemini-4-hydrogen · Gemini 4 Hydrogen (Tốc độ cao)</option>
+                      <option value="gemini-4-neon">gemini-4-neon · Gemini 4 Neon (Cân bằng sâu)</option>
+                      <option value="gemini-4-argon">gemini-4-argon · Gemini 4 Argon (Chấm kỹ)</option>
                       <option value="gpt-6-sol">gpt-6-sol · GPT-6 Sol (OpenAI / Proxy sk-)</option>
                       <option value="gpt-6.1-sol">gpt-6.1-sol · GPT-6.1 Sol (Proxy)</option>
                       <option value="gpt-6-luna">gpt-6-luna · GPT-6 Luna (Proxy)</option>
@@ -617,6 +623,15 @@
                       <span>Thử Micro &amp; Loa</span>
                     </button>
                   </div>
+              <div class="sp-setting-row">
+                <button type="button" class="mini-btn" data-offline-pack="speaking">Tải đề Speaking offline</button>
+                <span data-offline-status role="status"></span>
+              </div>
+              <div class="sp-setting-row">
+                <button type="button" class="mini-btn" id="pzDownloadWhisper">Tải bộ nhận diện Whisper</button>
+                <span id="pzWhisperStatus" role="status">Mô hình được tải riêng. Giọng giám khảo offline cần giọng tiếng Anh cài trên thiết bị.</span>
+              </div>
+
                   <div id="pzEnvBannerHost"></div>
                 </div>
               </div>
@@ -777,5 +792,6 @@
   <script src="../../assets/ghibli/ghibli-theme.js?v=27"></script>
   <script src="../../assets/s4-whisper.js?v=6"></script>
   <script src="speaking.js?v=26"></script>
+<script src="../../assets/s4-offline.js"></script>
 </body>
 </html>

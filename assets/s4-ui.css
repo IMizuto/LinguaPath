@@ -1354,3 +1354,29 @@ body.dark mark.s4-hl {
     scroll-behavior: auto !important;
   }
 }
+
+/* Keep navigation and auxiliary controls separate on narrow displays. */
+@media (max-width: 370px) {
+  body header.lp-study-topbar,
+  body.in-ielts-view .lp-shell > header.lp-topbar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  body header.lp-study-topbar .lp-top-left,
+  body header.lp-study-topbar .lp-top-actions,
+  body.in-ielts-view .lp-shell > header.lp-topbar .lp-top-actions {
+    position: static !important;
+    width: 100%;
+    justify-content: space-between;
+    min-width: 0;
+  }
+  body header.lp-study-topbar .prog-pill,
+  body.in-ielts-view .lp-topbar #btnBackPortal ~ .lp-brand { display: none; }
+  .lp-topbar #btnBackPortal { flex-shrink: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) { animation-duration: 0s !important; }
+  ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

@@ -2844,6 +2844,7 @@
 
               if (shouldWhisper && window.S4Whisper) {
                 window.S4Whisper.transcribeBlob(blob, {
+                  forceLocal: true,
                   onProgress: (info) => {
                     if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
                     if (info && info.status === "progress" && typeof info.progress === "number" && !shadAccumFinal.trim()) {

@@ -3111,7 +3111,9 @@
 
     const btn = document.getElementById("lpDisclaimerBtn");
     if (btn) {
+      const releaseFocus = window.S4UI?.keepDialogFocus(modal.querySelector('[role="dialog"]'), btn);
       btn.onclick = () => {
+        if (releaseFocus) releaseFocus();
         try { localStorage.setItem(K_DISCLAIMER_ACK, "1"); } catch (e) {}
         modal.style.opacity = "0";
         modal.style.transition = "opacity 0.2s ease";

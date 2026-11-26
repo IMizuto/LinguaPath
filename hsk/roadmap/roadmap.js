@@ -13,6 +13,14 @@
     return null;
   }
 
+  function getRadicalGroups() {
+    if (root.LP_HSK_RADICAL_STAGE_BY_NUM) {
+      return { radicals: root.LP_HSK_RADICALS_214, stageByNum: root.LP_HSK_RADICAL_STAGE_BY_NUM };
+    }
+    if (typeof require === "function") return require("../writing/radicals_214_data.js");
+    return null;
+  }
+
   function safeReadJson(key, fallback) {
     try {
       if (typeof localStorage === "undefined") return fallback;
@@ -275,7 +283,23 @@
       }
       var bOffset = Number(task.offset || 0);
       total = Math.max(1, Number(task.target || 1));
-      done = Math.min(total, Math.max(0, bMatch - bOffset));
+      if (task.radicalStage) {
+        var groups = getRadicalGroups();
+        if (groups && Array.isArray(groups.radicals) && groups.stageByNum) {
+          done = groups.radicals.filter(function (radical) {
+            return groups.stageByNum.get(radical.num) === task.radicalStage && Boolean(bucketObj[radical.char]);
+          }).length;
+        } else if (data && data.RADICAL_CHARS_BY_STAGE && data.RADICAL_CHARS_BY_STAGE[task.radicalStage]) {
+          done = Array.from(data.RADICAL_CHARS_BY_STAGE[task.radicalStage]).filter(function (ch) {
+            return Boolean(bucketObj[ch]);
+          }).length;
+        } else {
+          done = 0;
+        }
+        done = Math.min(total, done);
+      } else {
+        done = Math.min(total, Math.max(0, bMatch - bOffset));
+      }
       nextHint = (done >= total)
         ? "Hoàn thành đủ " + total + " " + (task.unitLabel || "mục")
         : "Đã luyện " + done + "/" + total + " " + (task.unitLabel || "mục") + " (còn " + (total - done) + ")";

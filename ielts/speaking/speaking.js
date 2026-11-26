@@ -94,7 +94,8 @@
     pzAutoMic: false,
     pzDialogueMode: 'offline',
     pzExaminerStyle: 'adaptive',
-    pzGeminiModel: 'gemini-2.5-flash',
+    pzCloudAudio: false,
+    pzGeminiModel: 'gemini-3.5-flash-lite',
     showVi: true,
     showRoles: true
   };
@@ -356,7 +357,7 @@
   }
 
   function computeAverageBand(scoresObj) {
-    if (!scoresObj) return 0;
+    if (!scoresObj || ['fc', 'lr', 'gra', 'pr'].some(function (key) { return isScoreUnrated(scoresObj[key]); })) return null;
     var sum = Number(scoresObj.fc || 0) + Number(scoresObj.lr || 0) + Number(scoresObj.gra || 0) + Number(scoresObj.pr || 0);
     if (sum <= 0) return 0;
     return Math.max(1.0, roundIeltsBand(sum / 4));
@@ -365,9 +366,6 @@
   function applyManualBandScore(scoresObj, key, val) {
     if (!scoresObj) return;
     var num = Number(val);
-    ['fc', 'lr', 'gra', 'pr'].forEach(function (k) {
-      if (isScoreUnrated(scoresObj[k])) scoresObj[k] = num;
-    });
     scoresObj[key] = num;
   }
 
@@ -397,13 +395,30 @@
     return loadJson(STORAGE_NOTES, {});
   }
 
-  function getSubmissions() {
+  function getStoredSubmissions() {
     var arr = loadJson(STORAGE_SUBMISSIONS, []);
     return Array.isArray(arr) ? arr : [];
   }
 
+  function getSubmissions() {
+    return getStoredSubmissions().map(function (record) {
+      if (!record || !/^(auto_offline|auto_gemini)$/.test(record.scoreSource)) return record;
+      var hasAudio = Boolean(record.audioId || (Array.isArray(record.turns) && record.turns.some(function (turn) {
+        return turn && !/^warmup/i.test(String(turn.label || '')) && (turn.audioId || turn.followUpAudioId);
+      })));
+      if (hasAudio || isScoreUnrated(record.overallBand)) return record;
+      var note = 'Chưa đánh giá Phát âm và Overall vì bài đã lưu thiếu bản thu.';
+      return Object.assign({}, record, {
+        overallBand: null,
+        scores: Object.assign({}, record.scores, { pr: null }),
+        autoGradeSummary: note,
+        criteriaFeedback: Object.assign({}, record.criteriaFeedback, { pr: note })
+      });
+    });
+  }
+
   function saveSubmissionRecord(rec) {
-    var list = getSubmissions();
+    var list = getStoredSubmissions();
     var idx = list.findIndex(function (x) { return x && x.id === rec.id; });
     if (idx !== -1) list[idx] = rec;
     else list.unshift(rec);
@@ -769,6 +784,7 @@
         return { voice: null, lang: requested, pitch: 1.0, hasExact: false, fallbackKind: 'no-api' };
       }
       var voices = global.speechSynthesis.getVoices() || [];
+      if (navigator.onLine === false) voices = voices.filter(function (voice) { return voice.localService; });
       if (!voices.length) {
         return { voice: null, lang: requested, pitch: 1.0, hasExact: false, fallbackKind: 'empty' };
       }
@@ -898,6 +914,7 @@
       }
 
       if (!global.speechSynthesis || typeof global.SpeechSynthesisUtterance !== 'function') {
+        if (o.onError) o.onError();
         if (o.onStart) o.onStart();
         setTimeout(function () {
           if (token === activeToken && o.onEnd) o.onEnd();
@@ -933,18 +950,21 @@
         if (token === activeToken && o.onStart) o.onStart();
       };
       utter.onend = finish;
-      utter.onerror = finish;
+      utter.onerror = function () {
+        if (!finished && token === activeToken && o.onError) o.onError();
+        finish();
+      };
 
       var maxWait = Math.max(3500, cleanText.length * 95);
       setTimeout(function () {
-        if (!finished && token === activeToken) finish();
+        if (!finished && token === activeToken) utter.onerror();
       }, maxWait);
 
       try {
         if (o.onStart) o.onStart();
         global.speechSynthesis.speak(utter);
       } catch (e) {
-        finish();
+        utter.onerror();
       }
       return token;
     }
@@ -969,9 +989,10 @@
         fellBack = true;
         stopMediaOnly();
         if (fallbackText) {
-          speak(fallbackText, { lang: o.lang, rate: o.rate, onEnd: o.onEnd });
-        } else if (o.onEnd) {
-          o.onEnd();
+          speak(fallbackText, { lang: o.lang, rate: o.rate, onEnd: o.onEnd, onError: o.onError });
+        } else {
+          if (o.onError) o.onError();
+          if (o.onEnd) o.onEnd();
         }
       };
 
@@ -1022,6 +1043,7 @@
           lang: o.lang,
           rate: o.rate,
           onStart: idx === 1 ? o.onStart : null,
+          onError: o.onError,
           onEnd: function () {
             if (seqId !== activeSeqGen) return;
             setTimeout(next, 220);
@@ -1426,7 +1448,7 @@
       }
 
       var canMedia = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-      var SttCtor = getSttConstructor();
+      var SttCtor = o.disableNativeStt ? null : getSttConstructor();
 
       if (!canMedia && !SttCtor) {
         if (o.onUnsupported) o.onUnsupported('Trình duyệt không hỗ trợ ghi âm / nhận diện giọng nói. Bạn vẫn có thể gõ hoặc dán transcript để chấm điểm!');
@@ -2936,6 +2958,7 @@
     }
     showToast('Hãy đọc to: "' + target + '" (tự dừng sau 7 giây)', 'info');
     MicEngine.start({
+      disableNativeStt: shouldDisableNativeStt(),
       lang: prefs.voiceAccent,
       maxSeconds: 7,
       ephemeral: true,
@@ -3710,6 +3733,7 @@
     var sessionWarning = '';
 
     MicEngine.start({
+      disableNativeStt: shouldDisableNativeStt(),
       lang: prefs.voiceAccent,
       waveSelector: '#shadowWaveRow .sp-wave-bar',
       maxSeconds: 30,
@@ -4000,6 +4024,7 @@
     studioState.recordingSec = 0;
 
     MicEngine.start({
+      disableNativeStt: shouldDisableNativeStt(),
       lang: prefs.voiceAccent,
       waveSelector: '#studioWaveRow .sp-wave-bar',
       maxSeconds: activeLesson.type === 'part2' ? 125 : 90,
@@ -4069,7 +4094,7 @@
             contextHint: ctxPrompt ? ctxPrompt.promptText : '',
             onStart: function () {
               var inp = document.getElementById('studioTranscriptInput');
-              if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
+              if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói từ bản thu...';
             }
           });
         } else if (res && res.blob && global.S4Whisper && typeof global.S4Whisper.analyzeBlobAcoustics === 'function') {
@@ -4117,9 +4142,9 @@
 
   function getActiveAiModelLabel(modelOpt) {
     if (typeof PzAiExaminer !== 'undefined' && PzAiExaminer && typeof PzAiExaminer.normalizeModel === 'function') {
-      return PzAiExaminer.normalizeModel(modelOpt || (prefs && prefs.pzGeminiModel) || 'gemini-2.5-flash');
+      return PzAiExaminer.normalizeModel(modelOpt || (prefs && prefs.pzGeminiModel) || 'gemini-3.5-flash-lite');
     }
-    return String(modelOpt || (prefs && prefs.pzGeminiModel) || 'gemini-2.5-flash').trim() || 'gemini-2.5-flash';
+    return String(modelOpt || (prefs && prefs.pzGeminiModel) || 'gemini-3.5-flash-lite').trim() || 'gemini-3.5-flash-lite';
   }
 
   function getScoreSourceLabelHtml(scoreSource, gradeSource, isNotRated, modelName) {
@@ -4192,7 +4217,7 @@
       : (spIcon('sparkle', 13) + '<span>Chấm sâu với AI (' + escHtml(activeModel) + ')</span>');
 
     var fmtCrit = function (k) {
-      return grade.notRated ? 'Chưa chấm' : Number(grade.scores[k] || 0).toFixed(1);
+      return formatBandValue(grade.scores[k]);
     };
 
     var strengthBoxHtml = grade.notRated
@@ -4257,6 +4282,18 @@
     };
   }
 
+  function canSendSpeakingAudio() {
+    return Boolean(prefs.pzCloudAudio && navigator.onLine !== false
+      && (!pzExam.active || pzExam.phase === 'report' || pzExam.dialogueMode === 'gemini_hybrid'));
+  }
+
+  function shouldDisableNativeStt() {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) return true;
+    var whisperReady = Boolean(global.S4Whisper && typeof global.S4Whisper.isReady === 'function' && global.S4Whisper.isReady());
+    if (whisperReady && !prefs.pzCloudAudio) return true;
+    return false;
+  }
+
   var autoTranscribeSeq = 0;
 
   function autoTranscribeRecordingIfEmpty(res, applyFn, opts) {
@@ -4287,8 +4324,15 @@
       res._transcribeDone = true;
       return Promise.resolve(existing || '');
     }
-    var canWhisper = Boolean(global.S4Whisper && global.S4Whisper.isSupported());
-    var apiKey = getStoredGeminiKey();
+    var whisperReady = Boolean(global.S4Whisper && typeof global.S4Whisper.isReady === 'function' && global.S4Whisper.isReady());
+    var hasNativeStt = Boolean(global.SpeechRecognition || global.webkitSpeechRecognition);
+    var canWhisper = Boolean(
+      global.S4Whisper
+      && global.S4Whisper.isSupported()
+      && (whisperReady || !existing || !hasNativeStt)
+    );
+    var allowCloudAudio = canSendSpeakingAudio();
+    var apiKey = allowCloudAudio ? getStoredGeminiKey() : '';
     if (!canWhisper && !apiKey) {
       res._transcribeDone = true;
       return Promise.resolve(existing || '');
@@ -4297,6 +4341,7 @@
     var prom;
     if (canWhisper) {
       prom = global.S4Whisper.transcribeBlob(res.blob, {
+        forceLocal: !allowCloudAudio,
         onProgress: typeof o.onProgress === 'function' ? function (info) {
           if (isStaleTurn()) return;
           o.onProgress(info);
@@ -4320,6 +4365,7 @@
         if (wRes && (wRes.cancelled || wRes.reason === 'cancelled')) {
           return wRes;
         }
+        if (wRes && wRes.reason === 'repetitive_transcript') return wRes;
         if (apiKey && /^(AIza|AQ\.)/i.test(apiKey) && PzAiExaminer && typeof PzAiExaminer.transcribeAudioWithGemini === 'function') {
           return PzAiExaminer.transcribeAudioWithGemini(res.blob, {
             apiKey: apiKey,
@@ -4354,6 +4400,9 @@
           : (countWords(rawTxt) >= countWords(existing) ? rawTxt : existing);
       }
       if (outTxt) res.transcript = outTxt;
+      if (!outTxt && tr && tr.reason === 'repetitive_transcript') {
+        showToast('Kết quả nhận diện bị lặp. Bạn có thể nghe lại bản thu, nhập lời vừa nói hoặc thu lại.', 'warn', 6500);
+      }
       if (applyFn) applyFn(outTxt, res, tr);
       return outTxt;
     }).catch(function () {
@@ -4471,7 +4520,7 @@
       studioState.aiFeedbackAuto = true;
     }
     renderModeReview(activeLesson);
-    showToast(offGrade.notRated ? 'Chưa có lời nói để chấm — hãy ghi âm hoặc nhập transcript.' : ('Đã chấm lại theo bộ tiêu chí Offline (Band ' + offGrade.overallBand.toFixed(1) + ').'), offGrade.notRated ? 'warn' : 'info');
+    showToast(offGrade.notRated ? 'Chưa có lời nói để chấm — hãy ghi âm hoặc nhập transcript.' : ('Đã chấm lại theo bộ tiêu chí Offline (Band ' + formatBandValue(offGrade.overallBand) + ').'), offGrade.notRated ? 'warn' : 'info');
   };
 
   global._spRunStudioAiGrade = function () {
@@ -4485,7 +4534,7 @@
     studioState.gradingBusy = true;
     renderModeReview(activeLesson);
 
-    var preTranscribe = (!String(studioState.recTranscript || '').trim() && studioState.recAudioId)
+    var preTranscribe = (canSendSpeakingAudio() && !String(studioState.recTranscript || '').trim() && studioState.recAudioId)
       ? AudioVault.getBlob(studioState.recAudioId).then(function (blob) {
         if (!blob) return '';
         var ctx = getActivePromptContext(activeLesson);
@@ -4523,7 +4572,7 @@
       }
       renderModeReview(activeLesson);
       if (res.source === 'gemini') {
-        showToast('AI Examiner (' + getActiveAiModelLabel(res && res.model) + ') đã chấm xong — Overall Band ' + res.overallBand.toFixed(1) + '!', 'success');
+        showToast('AI Examiner (' + getActiveAiModelLabel(res && res.model) + ') đã chấm xong — Overall Band ' + formatBandValue(res.overallBand) + '!', 'success');
       } else {
         showToast('Chưa chấm được qua Gemini' + (res.fallbackReason ? (' (' + res.fallbackReason + ')') : '') + ' — đã dùng kết quả Offline dự phòng.', 'warn', 4500);
       }
@@ -5586,13 +5635,21 @@
   var PzAiExaminer = (function () {
     var API_ROOT = 'https://generativelanguage.googleapis.com/v1beta/models/';
     var TIMEOUT_MS = 12000;
-    var GOOGLE_FALLBACK_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.5-pro', 'gemini-1.5-flash', 'gemini-4-hydrogen'];
+    var LIVE_TIMEOUT_MS = 4200;
+    var GOOGLE_FALLBACK_CHAIN = [
+      'gemini-3.5-flash-lite',
+      'gemini-3.1-flash-lite',
+      'gemini-3.8-flash',
+      'gemini-4-hydrogen'
+    ];
     var ALLOWED_MODELS = [
-      'gemini-2.5-flash',
-      'gemini-2.0-flash',
-      'gemini-2.5-pro',
-      'gemini-1.5-flash',
+      'gemini-3.5-flash-lite',
+      'gemini-3.1-flash-lite',
+      'gemini-3.8-flash',
       'gemini-4-hydrogen',
+      'gemini-4-neon',
+      'gemini-4-argon',
+      'gemini-4-carbon',
       'gpt-6-sol',
       'gpt-6.1-sol',
       'gpt-6-luna',
@@ -5646,7 +5703,6 @@
       }
       if (/openrouter\.ai/i.test(baseUrl)) {
         if (chosenModel && !isGoogleModelName(chosenModel)) pushUnique(chosenModel);
-        pushUnique('google/gemini-2.0-flash-exp:free');
         pushUnique('meta-llama/llama-3.3-70b-instruct:free');
         return list;
       }
@@ -5668,7 +5724,8 @@
     function shouldRetryGoogleStatus(status, errMsg) {
       var msg = String(errMsg || '');
       if (/API key not valid|API_KEY_INVALID|permission_denied/i.test(msg)) return false;
-      return status === 503 || status === 429 || status === 404 || status === 400 || status >= 500;
+      return status === 404 || status === 429 || status === 503 || status >= 500
+        || (status === 400 && !/invalid|key/i.test(msg));
     }
 
     function stripCodeFenceJson(rawText) {
@@ -5835,7 +5892,7 @@
             throw new Error('Không gọi được API ' + baseUrl + ' từ trình duyệt. Máy chủ có thể chưa bật CORS cho Origin của website (preflight OPTIONS), hoặc URL/API đang không truy cập được.');
           }
           var st = err && err.httpStatus ? err.httpStatus : 0;
-          if (!timedOut && idx + 1 < candidates.length && (st === 404 || st === 429 || st === 503 || st >= 500 || (st === 400 && !/invalid_api_key|incorrect api key/i.test(errMsg)))) {
+          if (!timedOut && !opts.liveTurn && idx + 1 < candidates.length && (st === 404 || st === 429 || st === 503 || st >= 500 || (st === 400 && !/invalid_api_key|incorrect api key/i.test(errMsg)))) {
             return tryCandidate(idx + 1);
           }
           if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
@@ -5879,21 +5936,10 @@
           temperature: typeof opts.temperature === 'number' ? opts.temperature : 0.45,
           maxOutputTokens: opts.maxOutputTokens || 1024
         };
-        if (model === 'gemini-4-hydrogen') {
+        if (/^gemini-4-/i.test(model) || model === 'gemini-3.8-flash') {
           genConfig.thinkingConfig = {
             thinkingLevel: (opts.thinkingLevel && THINKING_LEVELS[opts.thinkingLevel]) ? opts.thinkingLevel : 'low'
           };
-        } else if (model === 'gemini-2.5-flash') {
-          var flashBudget = typeof opts.thinkingBudget === 'number'
-            ? opts.thinkingBudget
-            : ((opts.thinkingLevel === 'medium' || opts.thinkingLevel === 'high') ? 512 : 0);
-          genConfig.thinkingConfig = { thinkingBudget: flashBudget };
-        } else if (model === 'gemini-2.5-pro') {
-          var proBudget = typeof opts.thinkingBudget === 'number'
-            ? Math.max(128, opts.thinkingBudget)
-            : ((opts.thinkingLevel === 'medium' || opts.thinkingLevel === 'high') ? 1024 : 256);
-          genConfig.thinkingConfig = { thinkingBudget: proBudget };
-          genConfig.maxOutputTokens = Math.max(genConfig.maxOutputTokens, 2048);
         }
         if (opts.jsonMode !== false) {
           genConfig.responseMimeType = 'application/json';
@@ -5956,7 +6002,7 @@
           clearTimeout(timerId);
           var errMsg = String((err && err.message) || err || '');
           var st = err && err.httpStatus ? err.httpStatus : 0;
-          if (!timedOut && idx + 1 < candidates.length && ((err && err.retryableOutput) || shouldRetryGoogleStatus(st, errMsg))) {
+          if (!timedOut && !opts.liveTurn && idx + 1 < candidates.length && ((err && err.retryableOutput) || shouldRetryGoogleStatus(st, errMsg))) {
             return tryGoogleCandidate(idx + 1);
           }
           if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
@@ -6120,7 +6166,8 @@
         systemPrompt: systemPrompt,
         userPrompt: userPrompt,
         temperature: typeof o.temperature === 'number' ? o.temperature : styleProfile.temperature,
-        timeoutMs: o.timeoutMs || TIMEOUT_MS
+        timeoutMs: o.timeoutMs || LIVE_TIMEOUT_MS,
+        liveTurn: true
       }).then(function (rawText) {
         return parseAndValidateAiDecision(rawText, {
           phase: o.phase,
@@ -6159,7 +6206,8 @@
         maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: styleProfile.temperature,
-        timeoutMs: o.timeoutMs || TIMEOUT_MS
+        timeoutMs: o.timeoutMs || LIVE_TIMEOUT_MS,
+        liveTurn: true
       }).then(function (raw) {
         var obj = JSON.parse(stripCodeFenceJson(raw));
         var bridge = String((obj && obj.bridge) || '').replace(/\s+/g, ' ').trim();
@@ -6183,9 +6231,8 @@
         apiKey: cleanKey,
         baseUrl: o.baseUrl,
         model: o.model,
-        systemPrompt: 'Reply concisely.',
-        userPrompt: 'Reply with exact word: READY',
-        jsonMode: false,
+        systemPrompt: 'Return JSON for an IELTS interviewer with keys action and examinerReaction.',
+        userPrompt: 'Return {"action":"advance","examinerReaction":"Ready."}',
         maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: 0,
@@ -6194,6 +6241,10 @@
           if (m) resolvedModel = m;
         }
       }).then(function (reply) {
+        var parsed = JSON.parse(stripCodeFenceJson(reply));
+        if (!parsed || parsed.action !== 'advance' || !String(parsed.examinerReaction || '').trim()) {
+          throw new Error('AI chưa trả về đúng cấu trúc của giám khảo.');
+        }
         return { ok: true, model: resolvedModel, reply: reply };
       }).catch(function (err) {
         return { ok: false, error: (err && err.message) || 'Kết nối thất bại' };
@@ -6214,7 +6265,8 @@
         maxOutputTokens: 1024,
         thinkingLevel: 'low',
         temperature: styleProfile.temperature,
-        timeoutMs: o.timeoutMs || TIMEOUT_MS
+        timeoutMs: o.timeoutMs || LIVE_TIMEOUT_MS,
+        liveTurn: true
       }).then(function (raw) {
         var obj = JSON.parse(stripCodeFenceJson(raw));
         var hint = String((obj && obj.hint) || '').replace(/\s+/g, ' ').trim();
@@ -6608,28 +6660,24 @@
       var graScore = clampIeltsBand(graRaw, 2.5);
 
       // 4. Pronunciation (tích hợp đặc trưng âm học thực tế từ s4-core.wasm nếu có, ngược lại ước lượng gián tiếp)
-      var prRaw;
+      var prScore = null;
       if (ac) {
         var acComposite = ((ac.intonationScore || 0) * 0.40) + ((ac.clarityScore || 0) * 0.35) + ((ac.fluencySignalScore || 0) * 0.25);
         var acBand = 3.2 + (acComposite / 100) * 5.3;
-        prRaw = fcScore * 0.35 + lrScore * 0.20 + acBand * 0.45;
+        var prRaw = fcScore * 0.35 + lrScore * 0.20 + acBand * 0.45;
         if (ac.pitchStdSemitones >= 2.0 && ac.pitchStdSemitones <= 5.0) prRaw += 0.2;
         else if (ac.pitchStdSemitones > 0 && ac.pitchStdSemitones < 1.1) prRaw -= 0.2;
-      } else {
-        prRaw = fcScore * 0.55 + lrScore * 0.45;
-        if (metrics.wpm >= 98 && metrics.wpm <= 152 && fillerRatio <= 0.035) prRaw += 0.2;
-        else if (metrics.wpm > 0 && (metrics.wpm < 75 || metrics.wpm > 185)) prRaw -= 0.35;
+        prScore = clampIeltsBand(prRaw, 2.5);
       }
-      var prScore = clampIeltsBand(prRaw, ac ? 2.5 : fcScore);
 
       var evidence = computeEvidence(p, wc, isFullExam);
       var capped = applyCaps({ fc: fcScore, lr: lrScore, gra: graScore, pr: prScore }, evidence.caps, Boolean(ac));
       fcScore = capped.fc;
       lrScore = capped.lr;
       graScore = capped.gra;
-      prScore = capped.pr;
+      prScore = ac ? capped.pr : null;
 
-      var overallBand = roundIeltsBand((fcScore + lrScore + graScore + prScore) / 4);
+      var overallBand = computeAverageBand({ fc: fcScore, lr: lrScore, gra: graScore, pr: prScore });
 
       // Xây dựng nâng cấp từ vựng & gợi ý cụ thể
       var vocabUpgrades = [];
@@ -6682,7 +6730,7 @@
         improvements.unshift('Bạn mới trả lời ' + evidence.answered + '/' + evidence.required + ' câu — bỏ câu trong phòng thi thật bị trừ nặng ở Fluency & Coherence.');
       }
 
-      var summaryVi = 'Band ước lượng Offline: ' + overallBand.toFixed(1)
+      var summaryVi = overallBand === null ? 'Đã nhận xét nội dung transcript. Cần dữ liệu âm thanh để đánh giá Phát âm và Overall.' : 'Band ước lượng Offline: ' + overallBand.toFixed(1)
         + ' (' + wc + ' từ • ~' + metrics.wpm + ' WPM' + (ac ? ' • Ngữ điệu ' + ac.intonationScore + '%' : '') + '). '
         + (overallBand >= 7.0
           ? 'Nội dung triển khai tốt, mạch nối và vốn từ khá chắc; tối ưu thêm collocation C1 sẽ tiến tới 7.5–8.0.'
@@ -6697,10 +6745,10 @@
         : '';
       var prAcFeedback = ac
         ? ('Phân tích sóng âm Wasm: Ngữ điệu ' + (ac.intonationScore || 0) + '% (~' + (ac.pitchMeanHz || 0) + ' Hz, ±' + (ac.pitchStdSemitones || 0) + ' ST), độ rõ ' + (ac.clarityScore || 0) + '% (SNR ' + (ac.snrDb || 0) + ' dB).')
-        : ('Ước lượng gián tiếp qua WPM (' + metrics.wpm + ') và độ rõ nhận diện STT (nếu cần điểm chuẩn, hãy nghe lại bản ghi âm).');
+        : 'Chưa đánh giá Phát âm vì thiếu tín hiệu âm thanh phù hợp.';
       var prNote = ac
         ? ('Đã phân tích trực tiếp sóng âm qua Wasm DSP: Cao độ TB ~' + (ac.pitchMeanHz || 0) + ' Hz (±' + (ac.pitchStdSemitones || 0) + ' ST), độ liền mạch ' + Math.round((ac.articulationRatio || 0) * 100) + '%, ' + (ac.pauseCount || 0) + ' nhịp nghỉ, SNR ' + (ac.snrDb || 0) + ' dB.')
-        : 'Lưu ý: Chấm Offline ước lượng tiêu chí Pronunciation gián tiếp qua nhịp nói WPM & khả năng nhận diện văn bản (STT).';
+        : '';
 
       return {
         source: 'offline',
@@ -6755,8 +6803,8 @@
       var fc = aiCapped.fc;
       var lr = aiCapped.lr;
       var gra = aiCapped.gra;
-      var pr = aiCapped.pr;
-      var overallBand = roundIeltsBand((fc + lr + gra + pr) / 4);
+      var pr = hasAudio && !isScoreUnrated(s.pr) ? aiCapped.pr : offS.pr;
+      var overallBand = computeAverageBand({ fc: fc, lr: lr, gra: gra, pr: pr });
 
       var cf = parsed.criteriaFeedback || {};
       var offCf = offlineResult.criteriaFeedback;
@@ -6780,7 +6828,7 @@
         })
         : offlineResult.grammarFixes;
 
-      var usedModel = PzAiExaminer.normalizeModel(parsed.model || o.model || (prefs && prefs.pzGeminiModel) || 'gemini-2.5-flash');
+      var usedModel = PzAiExaminer.normalizeModel(parsed.model || o.model || (prefs && prefs.pzGeminiModel) || 'gemini-3.5-flash-lite');
       return {
         source: 'gemini',
         model: usedModel,
@@ -6796,21 +6844,22 @@
           fc: String(cf.fc || offCf.fc).trim(),
           lr: String(cf.lr || offCf.lr).trim(),
           gra: String(cf.gra || offCf.gra).trim(),
-          pr: String(cf.pr || offCf.pr).trim()
+          pr: String((hasAudio && !isScoreUnrated(s.pr) && cf.pr) || offCf.pr).trim()
         },
         strengths: sanitizeStringArray(parsed.strengths, 3, offlineResult.strengths),
         improvements: sanitizeStringArray(parsed.improvements, 4, offlineResult.improvements),
         vocabUpgrades: vocabUpgrades,
         grammarFixes: grammarFixes,
         prEstimatedNote: hasAudio
-          ? ('🎧 Tiêu chí Pronunciation đã được AI Examiner (' + usedModel + ') chấm trực tiếp từ bản ghi âm giọng nói của bạn.')
-          : String(parsed.prEstimatedNote || offlineResult.prEstimatedNote).trim(),
+          ? ('AI đánh giá Phát âm từ một mẫu thu: ' + (o.audioSampleLabel || 'bài nói này') + '.')
+          : offlineResult.prEstimatedNote,
         gradedAt: Date.now()
       };
     }
 
     function resolveAudioInlinePart(payload) {
       var p = payload || {};
+      if (!canSendSpeakingAudio()) return Promise.resolve(null);
       var blobProm = p.audioBlob
         ? Promise.resolve(p.audioBlob)
         : (p.audioId ? AudioVault.getBlob(p.audioId) : Promise.resolve(null));
@@ -6820,7 +6869,7 @@
     }
 
     /**
-     * Tầng 2: Chấm điểm & nhận xét chuyên sâu qua AI BYOK (mặc định gemini-2.5-flash).
+     * Tầng 2: Chấm điểm & nhận xét chuyên sâu qua AI BYOK (mặc định gemini-3.5-flash-lite).
      * Nếu có file thu âm thật (`audioId`/`audioBlob`), tự đính kèm audio để chấm trực tiếp Pronunciation.
      */
     function evaluateWithGemini(payload, opts) {
@@ -6846,11 +6895,11 @@
         : [{ label: p.kind || 'Speaking Practice', question: String(p.questionText || '').slice(0, 300), answer: buildCombinedExamTranscript(p).slice(0, 1800) }];
 
       return resolveAudioInlinePart(p).then(function (audioPart) {
-        var hasRealAudio = Boolean(audioPart);
+        var hasRealAudio = Boolean(audioPart && /^(AIza|AQ\.)/i.test(String(o.apiKey || '')));
         var ev = offlineResult.evidence || {};
         var prInstruction = hasRealAudio
           ? 'The candidate RAW AUDIO recording is attached! Listen closely to evaluate Pronunciation (PR) directly from phoneme clarity, word stress, sentence stress, intonation and connected speech — mention specific pronunciation observations in criteriaFeedback.pr.'
-          : 'Because you evaluate transcript + WPM without raw audio, state honestly in criteriaFeedback.pr & prEstimatedNote that PR is an estimate inferred from pacing and speech recognition clarity, and keep PR within 0.5 of FC.';
+          : 'There is no audio. Return null for scores.pr. Do not estimate pronunciation, spoken pace or overall band from text alone. Assess the transcript.';
 
         var systemPrompt = [
           'You are a Senior Certified IELTS Speaking Examiner grading a candidate fairly and strictly against the official IELTS public band descriptors (FC, LR, GRA, PR) on the full 1.0–9.0 scale in 0.5 steps.',
@@ -6887,13 +6936,13 @@
           model: model,
           systemPrompt: systemPrompt,
           userPrompt: userPrompt,
-          extraParts: audioPart ? [audioPart] : null,
+          extraParts: hasRealAudio ? [audioPart] : null,
           thinkingLevel: 'medium',
           maxOutputTokens: 4096,
           temperature: 0.35,
           timeoutMs: o.timeoutMs || 30000
         }).then(function (rawText) {
-          return parseGeminiGrade(rawText, offlineResult, { hasRealAudio: hasRealAudio, model: model });
+          return parseGeminiGrade(rawText, offlineResult, { hasRealAudio: hasRealAudio, model: model, audioSampleLabel: p.audioSampleLabel });
         });
       }).catch(function (err) {
         return Object.assign({}, offlineResult, {
@@ -6907,7 +6956,7 @@
       if (!report) return '';
       var lines = [];
       var tag = report.source === 'gemini' ? ('🤖 AI Examiner (' + getActiveAiModelLabel(report.model) + ')') : '⚡ Tự chấm Offline';
-      lines.push('[' + tag + ' · ' + (report.notRated ? 'CHƯA CHẤM' : 'Overall ' + Number(report.overallBand || 0).toFixed(1)) + ']');
+      lines.push('[' + tag + ' · ' + (isScoreUnrated(report.overallBand) ? 'Chưa đủ bằng chứng cho Overall' : 'Overall ' + Number(report.overallBand).toFixed(1)) + ']');
       if (report.summaryVi) lines.push(report.summaryVi);
       if (report.evidence && report.evidence.reasons && report.evidence.reasons.length && !report.notRated) {
         lines.push('📏 Giới hạn theo bằng chứng: ' + report.evidence.reasons.join(' | '));
@@ -7021,6 +7070,8 @@
     prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(prefs.pzExaminerStyle);
     if (styleSel) styleSel.value = prefs.pzExaminerStyle;
     prefs.pzGeminiModel = PzAiExaminer.normalizeModel(prefs.pzGeminiModel);
+    var audioConsent = document.getElementById('pzCloudAudioCheck');
+    if (audioConsent) audioConsent.checked = Boolean(prefs.pzCloudAudio);
     if (modelSel) modelSel.value = prefs.pzGeminiModel;
     if (autoMicChk) autoMicChk.checked = Boolean(prefs.pzAutoMic);
     var storedKey = getStoredGeminiKey();
@@ -7101,8 +7152,13 @@
       if (!statusEl) return;
       if (res.ok) {
         statusEl.style.color = 'var(--lg-green)';
-        var fallbackNote = (res.model && res.model !== model) ? (' (xoay sang ' + res.model + ')') : '';
-        statusEl.textContent = 'Kết nối AI thành công (' + res.model + fallbackNote + ').';
+        if (modelSel && modelSel.value === model && res.model !== model
+            && Array.from(modelSel.options).some(function (option) { return option.value === res.model; })) {
+          modelSel.value = res.model;
+          prefs.pzGeminiModel = res.model;
+          savePrefs();
+        }
+        statusEl.textContent = 'Kết nối AI thành công (' + res.model + ').';
         showToast('Kết nối AI API thành công!', 'success');
       } else {
         statusEl.style.color = 'var(--lg-rose)';
@@ -7159,26 +7215,75 @@
   global.runLobbyMicCheck = function () {
     MicEngine.resetSticky();
     syncPzLobbyEnvBanner();
-    var statusEl = document.getElementById('pzMicCheckStatus');
-    if (statusEl) statusEl.textContent = 'Đang thử phát loa Giám khảo & kiểm tra quyền Micro...';
-    TtsEngine.speak('Hello, microphone check one two three. Good luck with your IELTS Speaking test.', {
-      lang: (document.getElementById('pzVoiceSelect') && document.getElementById('pzVoiceSelect').value) || prefs.voiceAccent,
-      rate: 0.98
-    });
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      if (statusEl) statusEl.innerHTML = '<span style="color:var(--lg-amber);">Trình duyệt không cấp API Micro trực tiếp — vẫn thi được bằng chế độ nhập transcript thay thế.</span>';
-      return;
+    var status = document.getElementById('pzMicCheckStatus');
+    var button = document.getElementById('btnTestMicLobby');
+    if (!status || !button || button.disabled) return;
+    button.disabled = true;
+    status.textContent = 'Đang phát câu thử. Hãy nghe và chuẩn bị nói vào mic.';
+    var voiceFailed = false;
+    var context = global.S4Whisper && global.S4Whisper.getSharedAudioContext();
+    var startAudio = context ? context.resume().catch(function () {}) : Promise.resolve();
+    var done = false;
+    var checkTimeout = setTimeout(function () {
+      finish('Chưa kiểm tra được mic. Hãy thử lại khi đã cấp quyền.');
+    }, 15000);
+    function finish(micStatus) {
+      if (done) return;
+      done = true;
+      clearTimeout(checkTimeout);
+      status.textContent = (voiceFailed ? 'Phát giọng giám khảo gặp lỗi.' : 'Đã phát câu thử. Hãy xác nhận bạn nghe được.') + ' ' + micStatus;
+      button.disabled = false;
     }
-    var lobbyStreamProm = (global.S4Whisper && typeof global.S4Whisper.acquireVoiceStream === 'function')
-      ? global.S4Whisper.acquireVoiceStream()
-      : navigator.mediaDevices.getUserMedia({ audio: true });
-    lobbyStreamProm.then(function (ms) {
-      ms.getTracks().forEach(function (t) { t.stop(); });
-      if (statusEl) statusEl.innerHTML = '<span style="color:var(--lg-green);">Micro &amp; Loa Giám khảo hoạt động ổn định.</span>';
-      showToast('Kiểm tra Micro & Loa thành công!', 'success');
-    }).catch(function () {
-      if (statusEl) statusEl.innerHTML = '<span style="color:var(--lg-rose);">Chưa cấp quyền Micro. Bạn có thể cấp quyền trên thanh địa chỉ hoặc gõ transcript trong phòng thi.</span>';
+    TtsEngine.speak('Microphone check. Please get ready to speak.', {
+      lang: (document.getElementById('pzVoiceSelect') || {}).value || prefs.voiceAccent,
+      onError: function () { voiceFailed = true; },
+      onEnd: function () {
+        if (done) return;
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          finish('Thiết bị chưa cho phép truy cập mic. Bạn vẫn có thể nhập câu trả lời.');
+          return;
+        }
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+          if (done || !context) {
+            stream.getTracks().forEach(function (track) { track.stop(); });
+            finish('Đã cấp quyền mic. Thiết bị chưa kiểm tra được tín hiệu.');
+            return;
+          }
+          return startAudio.then(function () {
+            if (done) {
+              stream.getTracks().forEach(function (track) { track.stop(); });
+              return;
+            }
+            var source;
+            function stop() {
+              if (source) source.disconnect();
+              stream.getTracks().forEach(function (track) { track.stop(); });
+            }
+            try {
+              var analyser = context.createAnalyser();
+              source = context.createMediaStreamSource(stream);
+              source.connect(analyser);
+              var samples = new Float32Array(analyser.fftSize);
+              var heardSignal = false;
+              status.textContent = 'Hãy nói vào mic trong hai giây.';
+              var tick = setInterval(function () {
+                analyser.getFloatTimeDomainData(samples);
+                heardSignal = heardSignal || samples.some(function (sample) { return Math.abs(sample) > 0.015; });
+              }, 80);
+              setTimeout(function () {
+                clearInterval(tick);
+                stop();
+                finish(heardSignal ? 'Mic nhận được tín hiệu âm thanh.' : 'Mic chưa nhận được tín hiệu rõ. Hãy kiểm tra mic rồi thử lại.');
+              }, 2000);
+            } catch (error) {
+              stop();
+              finish('Đã cấp quyền mic. Thiết bị chưa kiểm tra được tín hiệu.');
+            }
+          });
+        }).catch(function () {
+          finish('Chưa cấp quyền mic. Bạn vẫn có thể nhập câu trả lời.');
+        });
+      }
     });
   };
 
@@ -7300,6 +7405,8 @@
     prefs.pzDialogueMode = dModeSel ? dModeSel.value : (prefs.pzDialogueMode || 'offline');
     prefs.pzExaminerStyle = PzDialogueEngine.normalizeStyle(styleSel ? styleSel.value : prefs.pzExaminerStyle);
     prefs.pzGeminiModel = PzAiExaminer.normalizeModel(gModelSel ? gModelSel.value : prefs.pzGeminiModel);
+    var audioConsent = document.getElementById('pzCloudAudioCheck');
+    prefs.pzCloudAudio = Boolean(audioConsent && audioConsent.checked);
     if (gKeyInp && gKeyInp.value.trim()) setStoredGeminiKey(gKeyInp.value.trim());
     if (gBaseInp) setStoredAiBaseUrl(gBaseInp.value);
     savePrefs();
@@ -7448,6 +7555,11 @@
     TtsEngine.speakSequence(cleanLines, {
       lang: pzExam.voiceLang,
       rate: 0.96,
+      onError: function () {
+        if (!pzExam.active || pzExam.startedAt !== sessionStamp || pzExam.voiceUnavailable) return;
+        pzExam.voiceUnavailable = true;
+        showToast('Không phát được giọng giám khảo. Câu hỏi sẽ hiện dạng chữ.', 'warn', 4500);
+      },
       onEnd: function () {
         if (!pzExam.active || pzExam.startedAt !== sessionStamp) return;
         pzExam.examinerSpeaking = false;
@@ -7628,6 +7740,7 @@
     }
 
     MicEngine.start({
+      disableNativeStt: shouldDisableNativeStt(),
       lang: pzExam.voiceLang,
       waveSelector: '#pzExamWaveRow .sp-wave-bar',
       maxSeconds: maxAllowed,
@@ -7698,12 +7811,13 @@
           }
 
           if (!segTxt && res.blob) {
+            var draftBeforeTranscription = recordSlot.transcript;
             autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
-              if (!pzExam.active) return;
+              if (!pzExam.active || pzExam.startedAt !== p2Stamp) return;
               if (wRes && wRes.acoustic) {
                 recordSlot.acoustic = wRes.acoustic;
               }
-              if (!txt) return;
+              if (!txt || recordSlot.transcript !== draftBeforeTranscription) return;
               var mergedWhisper = [baseTranscript, txt].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
               recordSlot.transcript = mergedWhisper;
               recordSlot.wpm = computeWpm(mergedWhisper, Math.max(1, recordSlot.durationSec || pzExam.p2TalkElapsed));
@@ -7748,16 +7862,17 @@
         pzExam.aiThinking = true;
         renderPzStage();
       }
+      var draftBeforeTranscription = p2Slot.transcript;
       var trProm = needTranscribe
         ? autoTranscribeRecordingIfEmpty(targetRes, function (txt) {
-          if (txt) {
+          if (txt && p2Slot.transcript === draftBeforeTranscription) {
             p2Slot.transcript = txt;
             p2Slot.wpm = computeWpm(txt, p2Slot.durationSec || pzExam.p2TalkElapsed);
           }
         }, { contextHint: p2Slot.question })
         : Promise.resolve(p2Slot.transcript);
 
-      trProm.then(function () {
+      waitForPzTranscript(trProm).then(function () {
         if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
         var stopLine = PzDialogueEngine.getPhaseScript('part2_stop', {
           style: pzExam.resolvedStyle,
@@ -7775,7 +7890,7 @@
           seed: pzExam.styleSeed || 0,
           usedTemplates: pzExam.usedTemplates
         });
-        var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(getStoredGeminiKey());
+        var hasHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && !pzExam.aiUnavailable && navigator.onLine !== false && Boolean(getStoredGeminiKey());
         var reactionPromise = hasHybridAi
           ? PzAiExaminer.buildPart2StopReactionHybrid({
             mode: pzExam.dialogueMode,
@@ -8003,7 +8118,7 @@
     var activeQPrompt = activeTurn.isFollowUp ? pzExam.activeFollowUpQ : meta.qText;
     var micBusy = MicEngine.isActive();
 
-    var showText = pzExam.peekVisible || pzExam.phase === 'warmup';
+    var showText = pzExam.peekVisible || pzExam.voiceUnavailable || pzExam.phase === 'warmup';
     var badgeCls = pzExam.phase === 'warmup' ? 'is-warmup' : (pzExam.phase === 'part1' ? 'is-p1' : (pzExam.phase === 'part2_round' ? 'is-p2' : 'is-p3'));
 
     var curtainContent = showText
@@ -8218,7 +8333,7 @@
     slot.usedClarify = true;
 
     var apiKey = getStoredGeminiKey();
-    var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && Boolean(apiKey);
+    var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid' && !pzExam.aiUnavailable && navigator.onLine !== false && Boolean(apiKey);
     var sessionStartedAt = pzExam.startedAt;
 
     if (!useHybridAi) {
@@ -8299,6 +8414,7 @@
     pzExam.turnElapsedSec = 0;
 
     MicEngine.start({
+      disableNativeStt: shouldDisableNativeStt(),
       lang: pzExam.voiceLang,
       waveSelector: '#pzExamWaveRow .sp-wave-bar',
       maxSeconds: pzExam.phase === 'part3' ? 75 : 55,
@@ -8352,6 +8468,7 @@
         renderPzStage();
         var isFuSnap = Boolean(activeTurn && activeTurn.isFollowUp);
         if (res && needPzFallback) {
+          var draftBeforeTranscription = activeTurn.getTranscript();
           autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
             if (!pzExam.active || pzExam.startedAt !== stamp) return;
             if (wRes && wRes.acoustic && slot) {
@@ -8361,10 +8478,12 @@
                 pzExam.autoGrade = null;
               }
             }
-            if (txt) {
+            if (txt && activeTurn.getTranscript() === draftBeforeTranscription) {
               activeTurn.setTranscript(txt);
               activeTurn.setMetrics(dur, computeWpm(txt, dur));
             }
+            var current = getActivePzQuestionMeta();
+            if (!current || current.key !== meta.key || getPzActiveTurnFields(slot).isFollowUp !== isFuSnap) return;
             renderPzStage();
             var inp2 = document.getElementById('pzCandidateTranscriptInput');
             if (inp2 && !inp2.value.trim()) {
@@ -8375,7 +8494,7 @@
             contextHint: meta.qText,
             onStart: function () {
               var inp = document.getElementById('pzCandidateTranscriptInput');
-              if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
+              if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói từ bản thu...';
             }
           });
         } else if (res && res.blob && slot && global.S4Whisper && typeof global.S4Whisper.analyzeBlobAcoustics === 'function') {
@@ -8512,6 +8631,23 @@
     advancePzToNextCanonicalPhase(L, decision.examinerReaction || '', src);
   }
 
+  function waitForPzTranscript(result) {
+    var sessionStartedAt = pzExam.startedAt;
+    return new Promise(function (resolve) {
+      var timer = setTimeout(function () {
+        if (pzExam.active && pzExam.startedAt === sessionStartedAt) {
+          showToast('Vẫn đang chép lời. Có thể tiếp tục phần thi và nghe lại bản thu trong báo cáo.', 'info', 3500);
+        }
+        resolve();
+      }, 6000);
+      function complete(value) {
+        clearTimeout(timer);
+        resolve(value);
+      }
+      result.then(complete, complete);
+    });
+  }
+
   global._spPzAdvanceTurn = function () {
     if (pzExam.aiThinking || pzExam.subStage === 'finishing_report' || pzExam.subStage === 'stopped_notice') return;
     var sessionStartedAt = pzExam.startedAt;
@@ -8538,14 +8674,14 @@
       }
       var ensureTx = needAudioStt
         ? autoTranscribeRecordingIfEmpty(targetRes, function (txt) {
-          if (txt && activeTurn) {
+          if (txt && activeTurn && activeTurn.getTranscript() === curBefore) {
             activeTurn.setTranscript(txt);
             activeTurn.setMetrics(targetRes.durationSec || pzExam.turnElapsedSec, computeWpm(txt, targetRes.durationSec || pzExam.turnElapsedSec));
           }
         }, { contextHint: meta ? meta.qText : '' })
         : Promise.resolve(curBefore);
 
-      ensureTx.then(function () {
+      waitForPzTranscript(ensureTx).then(function () {
         if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
         var curTranscript = activeTurn ? activeTurn.getTranscript() : '';
         if (curTranscript) {
@@ -8570,6 +8706,7 @@
         var offlineDecision = PzDialogueEngine.decideTurn(turnCtx);
         var apiKey = getStoredGeminiKey();
         var useHybridAi = pzExam.dialogueMode === 'gemini_hybrid'
+          && !pzExam.aiUnavailable && navigator.onLine !== false
           && Boolean(apiKey)
           && offlineDecision.intent !== 'repeat'
           && (Boolean(String(curTranscript || '').trim()) || pzExam.phase === 'warmup');
@@ -8592,6 +8729,10 @@
         }), offlineDecision).then(function (finalDecision) {
           pzExam.aiThinking = false;
           if (!pzExam.active || pzExam.startedAt !== sessionStartedAt) return;
+          if (finalDecision.source === 'offline_fallback') {
+            pzExam.aiUnavailable = true;
+            showToast('AI không phản hồi ổn định. Tiếp tục lượt thi với giám khảo offline.', 'warn', 4000);
+          }
           applyPzTurnDecision(finalDecision, L, slot, activeTurn, meta);
         });
       });
@@ -8683,6 +8824,7 @@
       transcript: combinedTranscript,
       durationSec: totalDur || 120,
       audioId: sampleAudioSlot ? (sampleAudioSlot.audioId || sampleAudioSlot.followUpAudioId || null) : null,
+      audioSampleLabel: sampleAudioSlot ? sampleAudioSlot.label + (sampleAudioSlot.audioId ? '' : ' (Follow-up)') : '',
       acoustic: aggregatePzAcoustics(pzExam.responses),
       turns: pzExam.responses,
       telemetry: {
@@ -8711,6 +8853,7 @@
 
     if (
       pzExam.dialogueMode === 'gemini_hybrid'
+      && !pzExam.aiUnavailable && navigator.onLine !== false
       && getStoredGeminiKey()
       && pzExam.autoGrade.hasTranscript
       && !pzExam.autoGeminiTriggered
@@ -8874,7 +9017,7 @@
       pzExam.reportFeedbackAuto = true;
     }
     renderPzStage();
-    showToast(offGrade.notRated ? 'Chưa ghi nhận lời nói phần thi (Part 1–3) để chấm.' : ('Đã chấm lại báo cáo theo bộ tiêu chí Offline (Band ' + offGrade.overallBand.toFixed(1) + ').'), offGrade.notRated ? 'warn' : 'info');
+    showToast(offGrade.notRated ? 'Chưa ghi nhận lời nói phần thi (Part 1–3) để chấm.' : ('Đã chấm lại báo cáo theo bộ tiêu chí Offline (Band ' + formatBandValue(offGrade.overallBand) + ').'), offGrade.notRated ? 'warn' : 'info');
   };
   global._spRunPzAiGrade = function (isBackgroundAuto) {
     if (!pzExam.lesson || pzExam.gradingBusy) return;
@@ -8899,7 +9042,7 @@
         preTranscribeJobs.push({ slot: r, audioId: r.followUpAudioId, question: r.followUpQ || r.question || '', isFollowUp: true });
       }
     });
-    var preTranscribeAll = preTranscribeJobs.length
+    var preTranscribeAll = canSendSpeakingAudio() && preTranscribeJobs.length
       ? Promise.all(preTranscribeJobs.map(function (job) {
         return AudioVault.getBlob(job.audioId).then(function (blob) {
           if (!blob) return '';
@@ -8908,7 +9051,8 @@
             model: prefs.pzGeminiModel,
             contextHint: job.question
           }).then(function (tr) {
-            if (tr && tr.ok && tr.transcript && pzExam.active && pzExam.startedAt === sessionStamp) {
+            if (tr && tr.ok && tr.transcript && pzExam.active && pzExam.startedAt === sessionStamp
+                && !String(job.isFollowUp ? job.slot.followUpTranscript : job.slot.transcript).trim()) {
               if (job.isFollowUp) {
                 job.slot.followUpTranscript = tr.transcript;
                 job.slot.followUpWpm = computeWpm(tr.transcript, job.slot.followUpDurationSec || 20);
@@ -8943,7 +9087,7 @@
       }
       renderPzStage();
       if (res.source === 'gemini') {
-        showToast('AI Examiner (' + getActiveAiModelLabel(res && res.model) + ') đã hoàn tất chấm điểm — Band ' + res.overallBand.toFixed(1) + '!', 'success');
+        showToast('AI Examiner (' + getActiveAiModelLabel(res && res.model) + ') đã hoàn tất chấm điểm — Band ' + formatBandValue(res.overallBand) + '!', 'success');
       } else if (!isBackgroundAuto) {
         showToast('Chưa chấm được qua Gemini' + (res.fallbackReason ? (' (' + res.fallbackReason + ')') : '') + ' — giữ nguyên kết quả Offline dự phòng.', 'warn', 4500);
       }
@@ -9209,15 +9353,17 @@
   };
 
   global._spAddSubmissionFeedback = function (subId) {
-    var list = getSubmissions();
-    var item = list.find(function (x) { return x && x.id === subId; });
+    var item = getStoredSubmissions().find(function (x) { return x && x.id === subId; });
     if (!item) return;
     uiPrompt('Nhập điểm hoặc nhận xét từ ChatGPT / Claude cho bài "' + item.title + '":', {
       title: 'Lưu nhận xét AI',
       defaultValue: item.aiFeedback || ''
     }).then(function (txt) {
       if (txt === null) return;
-      item.aiFeedback = String(txt).trim();
+      var list = getStoredSubmissions();
+      var target = list.find(function (x) { return x && x.id === subId; });
+      if (!target) return;
+      target.aiFeedback = String(txt).trim();
       saveJson(STORAGE_SUBMISSIONS, list);
       renderHistoryModalList();
       showToast('Đã cập nhật nhận xét AI!', 'success');
@@ -9231,7 +9377,7 @@
       danger: true
     }).then(function (ok) {
       if (!ok) return;
-      var list = getSubmissions();
+      var list = getStoredSubmissions();
       var target = list.find(function (x) { return x && x.id === subId; });
       if (target) {
         if (target.audioId) AudioVault.remove(target.audioId);
@@ -9469,6 +9615,29 @@
     var mSel = document.getElementById('pzGeminiModelSelect');
     var kInp = document.getElementById('pzGeminiKeyInput');
     var bInp = document.getElementById('pzAiBaseUrlInput');
+    var cloudAudio = document.getElementById('pzCloudAudioCheck');
+    if (cloudAudio) cloudAudio.addEventListener('change', function () {
+      prefs.pzCloudAudio = cloudAudio.checked;
+      savePrefs();
+    });
+    var downloadWhisper = document.getElementById('pzDownloadWhisper');
+    if (downloadWhisper) downloadWhisper.addEventListener('click', function () {
+      var status = document.getElementById('pzWhisperStatus');
+      if (!global.S4Whisper || !global.S4Whisper.isSupported()) {
+        status.textContent = 'Thiết bị chưa hỗ trợ Whisper.';
+        return;
+      }
+      downloadWhisper.disabled = true;
+      status.textContent = 'Đang tải bộ nhận diện...';
+      global.S4Whisper.preload({
+        onProgress: function (info) {
+          if (Number.isFinite(info.progress)) status.textContent = 'Đang tải ' + info.file + ' (' + Math.round(info.progress) + '%)';
+        }
+      }).then(function (result) {
+        status.textContent = result.ok ? 'Đã nạp Whisper trên thiết bị. Hãy giữ dữ liệu trang để dùng offline.'
+          : 'Chưa nạp được Whisper. Hãy kiểm tra kết nối rồi thử lại.';
+      }).finally(function () { downloadWhisper.disabled = false; });
+    });
     if (sSel) sSel.addEventListener('change', function () { prefs.pzStrictness = sSel.value; savePrefs(); });
     if (vSel) vSel.addEventListener('change', function () { global.setSpeakingVoiceAccent(vSel.value); });
     if (tChk) tChk.addEventListener('change', function () { prefs.pzStrictTimers = tChk.checked; savePrefs(); });
