@@ -661,6 +661,7 @@
             <input type="search" class="search-inp" id="pickerSearch" placeholder="Tìm chữ / 214 bộ (số bộ, Pinyin, nghĩa)..." oninput="debouncedRenderPicker()">
           </div>
           <div class="filter-row" id="pickerFilters"></div>
+          <div id="radStageHint" style="display:none;margin-bottom:10px;"></div>
           <div class="tile-grid" id="pickerGrid"></div>
         </div>
       </div>
@@ -850,6 +851,7 @@
           `<span class="stat-pill">${wIcon("layers", 13)} Bộ thủ: ${rDone}/${DATA.radicals.length}</span>` +
           `<span class="stat-pill">${wIcon("edit", 13)} HSK 3–4: ${hsk34Done}/${hsk34Total}</span>` +
           `<span class="stat-pill">${wIcon("file", 13)} HSK 5–6: ${eDone}/${DATA.essayPrompts.length}</span>`;
+        if (typeof renderRadicalStageHint === "function") renderRadicalStageHint();
       }
 
       // ---------- MAIN TAB SWITCH ----------
@@ -874,6 +876,30 @@
       // ==========================================================
       let pickerMode = "chars"; // "chars" | "radicals"
       let pickerFilter = "all";
+      const CORE_50_RADICAL_NUMS = new Set([
+        1, 9, 15, 18, 19, 29, 30, 31, 32, 36,
+        37, 38, 39, 40, 41, 42, 46, 50, 53, 60,
+        61, 63, 64, 66, 72, 74, 75, 85, 86, 93,
+        94, 96, 102, 104, 109, 112, 113, 118, 120, 140,
+        145, 147, 149, 154, 157, 162, 167, 169, 173, 184
+      ]);
+      const RADICAL_STAGE_BY_NUM = new Map();
+      (function initRadicalStages() {
+        const rest = [];
+        (DATA.radicals || []).forEach(function (r) {
+          if (!r || !r.num) return;
+          if (CORE_50_RADICAL_NUMS.has(Number(r.num))) {
+            RADICAL_STAGE_BY_NUM.set(Number(r.num), "stage1");
+          } else {
+            rest.push(Number(r.num));
+          }
+        });
+        rest.sort(function (a, b) { return a - b; });
+        rest.forEach(function (num, idx) {
+          const st = idx < 50 ? "stage2" : (idx < 100 ? "stage3" : "stage4");
+          RADICAL_STAGE_BY_NUM.set(num, st);
+        });
+      })();
       let selectedItem = DATA.practiceChars[0] || DATA.radicals[0] || { char: "好", pinyin: "hǎo", hv: "Hảo", meaning: "Tốt", strokes: 6, tip: "" };
       let selectedType = "chars"; // "chars" | "radicals" | "custom"
       let writeMode = "quiz"; // "quiz" | "animate" | "free"
@@ -1405,6 +1431,10 @@
             if (pickerFilter === "num" && !"一二三四五六七八九十".includes(item.char)) return false;
             if (pickerFilter === "low" && item.strokes > 5) return false;
           } else {
+            if (pickerFilter === "stage1" || pickerFilter === "stage2" || pickerFilter === "stage3" || pickerFilter === "stage4") {
+              if (RADICAL_STAGE_BY_NUM.get(Number(item.num)) !== pickerFilter) return false;
+            }
+            if (pickerFilter === "todo" && bucket[item.char]) return false;
             if (pickerFilter === "1-2" && (item.strokes < 1 || item.strokes > 2)) return false;
             if (pickerFilter === "3-4" && (item.strokes < 3 || item.strokes > 4)) return false;
             if (pickerFilter === "5-6" && (item.strokes < 5 || item.strokes > 6)) return false;
@@ -1546,10 +1576,61 @@
         const el = document.getElementById("pickerFilters");
         const opts = pickerMode === "chars"
           ? [["all", "Tất cả (" + DATA.practiceChars.length + ")"], ["todo", "Chưa tập"], ["num", "Số đếm (1–10)"], ["low", "Ít nét (≤5)"]]
-          : [["all", "Tất cả (" + DATA.radicals.length + ")"], ["1-2", "1–2 nét"], ["3-4", "3–4 nét"], ["5-6", "5–6 nét"], ["7-9", "7–9 nét"], ["10-17", "10–17 nét"]];
+          : [
+              ["stage1", "⭐ Chặng 1: 50 Bộ cốt lõi"],
+              ["stage2", "Chặng 2: +50 bộ"],
+              ["stage3", "Chặng 3: +50 bộ"],
+              ["stage4", "Chặng 4: +64 bộ cuối"],
+              ["all", "Tất cả (" + DATA.radicals.length + ")"],
+              ["todo", "Chưa tập"],
+              ["1-2", "1–2 nét"],
+              ["3-4", "3–4 nét"],
+              ["5-6", "5–6 nét"],
+              ["7-9", "7–9 nét"],
+              ["10-17", "10–17 nét"]
+            ];
         el.innerHTML = opts.map(function (pair) {
           return `<button class="f-chip ${pickerFilter === pair[0] ? "active" : ""}" onclick="setPickerFilter('${pair[0]}')">${pair[1]}</button>`;
         }).join("");
+        renderRadicalStageHint();
+      }
+
+      function renderRadicalStageHint() {
+        const box = document.getElementById("radStageHint");
+        if (!box) return;
+        if (pickerMode !== "radicals") {
+          box.style.display = "none";
+          box.innerHTML = "";
+          return;
+        }
+        const bucket = doneState.radicals || {};
+        const totalDoneAll = Object.keys(bucket).filter(function (k) { return bucket[k]; }).length;
+        box.style.display = "block";
+        const stageMeta = {
+          stage1: { num: 1, title: "Chặng 1 Roadmap — 50 Bộ thủ cốt lõi hay gặp nhất (HSK 1)", quota: 50, tip: "Chỉ cần nhận mặt nghĩa, nhớ biến thể đứng ghép (人→亻, 水→氵, 心→忄, 手→扌, 言→讠) và bấm nghe ví dụ; không cần viết thuộc lòng cả 214 bộ lúc đầu." },
+          stage2: { num: 2, title: "Chặng 2 Roadmap — 50 Bộ thủ mở rộng tiếp theo (Mốc 100 bộ)", quota: 50, tip: "Hoàn thành thêm 50 bộ nhóm cơ thể, tự nhiên và hành động để nâng tổng đạt 100 bộ trên Lộ trình." },
+          stage3: { num: 3, title: "Chặng 3 Roadmap — 50 Bộ thủ trung cấp (Mốc 150 bộ)", quota: 50, tip: "Giúp đoán nhanh nghĩa từ vựng học thuật HSK 3–4." },
+          stage4: { num: 4, title: "Chặng 4 Roadmap — 64 Bộ thủ cuối (Trọn bộ 214 Khang Hy)", quota: 64, tip: "Hoàn tất đủ 214 bộ thủ Khang Hy phục vụ đọc hiểu HSK 4–6." }
+        };
+        const sm = stageMeta[pickerFilter];
+        if (sm) {
+          const stageItems = (DATA.radicals || []).filter(function (r) {
+            return RADICAL_STAGE_BY_NUM.get(Number(r.num)) === pickerFilter;
+          });
+          const stageDone = stageItems.filter(function (r) { return Boolean(bucket[r.char]); }).length;
+          box.innerHTML = `<div style="padding:9px 11px;border-radius:11px;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.28);font-size:12.5px;line-height:1.5;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;">
+              <span>🎯 ${esc(sm.title)}</span>
+              <span style="color:var(--primary);">Nhóm này: ${stageDone}/${stageItems.length} • Tổng Roadmap: ${totalDoneAll}/214</span>
+            </div>
+            <div style="color:var(--muted);margin-top:3px;">${esc(sm.tip)}</div>
+          </div>`;
+        } else {
+          box.innerHTML = `<div style="padding:8px 11px;border-radius:11px;background:var(--bg);border:1px solid var(--border);font-size:12.5px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span>💡 Mới bắt đầu từ Chặng 1 (50 bộ thủ)? Bấm lọc riêng để không bị ngợp bởi cả 214 bộ:</span>
+            <button type="button" class="f-chip active" onclick="setPickerFilter('stage1')">⭐ Lọc 50 Bộ Chặng 1</button>
+          </div>`;
+        }
       }
 
       window.selectPracticeItem = function (type, ch) {
@@ -2509,7 +2590,19 @@
           }
           if (qTab === "radicals") {
             window.setPickerMode("radicals");
-            window.switchMainTab("canvas");
+            if (qLevel >= 1 && qLevel <= 4) {
+              pickerFilter = "stage" + qLevel;
+              renderPickerFilters();
+              renderPicker();
+            }
+            const listNow = getFilteredPickerItems();
+            const firstTodo = listNow.find(function (x) { return !doneState.radicals[x.char]; }) || listNow[0];
+            if (firstTodo) {
+              selectPracticeItem("radicals", firstTodo.char);
+            }
+            document.querySelectorAll(".main-tab-btn").forEach(function (b) {
+              b.classList.toggle("active", b.dataset.tab === "canvas");
+            });
             return;
           }
           if (qTab === "canvas") {
