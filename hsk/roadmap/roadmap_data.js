@@ -54,8 +54,8 @@
   };
 
   // ID thật 106 bài giảng (hsk/lessons/lessons_data.js & lessons_hsk2..6.js)
+  var HSK0_LESSON_IDS = ["c0_1", "c0_2", "c0_3"];
   var HSK1_LESSON_IDS = [
-    "c0_1", "c0_2", "c0_3",
     "hsk1_01", "hsk1_02", "hsk1_03", "hsk1_04", "hsk1_05",
     "hsk1_06", "hsk1_07", "hsk1_08", "hsk1_09", "hsk1_10",
     "hsk1_11", "hsk1_12", "hsk1_13", "hsk1_14", "hsk1_15"
@@ -185,11 +185,39 @@
       tip: "Hoàn thành 3 bài Chương 0 Pinyin và 20 cặp thanh điệu trước khi vào bài khóa HSK 1.",
       tasks: [
         {
+          id: "hsk1_c0",
+          module: "lessons",
+          moduleLabel: "Tuần 1 • Nhập môn",
+          warmupStep: 1,
+          title: "Chương 0: Pinyin, 4 thanh điệu & 8 nét cơ bản",
+          desc: "3 bài nền tảng bắt buộc cho người mới (21 thanh mẫu, 36 vận mẫu, biến điệu & bút thuận).",
+          evalType: "id_list",
+          storageKey: "lp_hsk_lessons_done_v1",
+          ids: HSK0_LESSON_IDS,
+          basePath: "hsk/lessons/index.html",
+          idParam: "lesson",
+          unitLabel: "bài"
+        },
+        {
+          id: "hsk1_speak_tones",
+          module: "speaking",
+          moduleLabel: "Tuần 1 • Thanh điệu",
+          warmupStep: 2,
+          title: "20 cặp thanh điệu dễ nhầm",
+          desc: "Luyện nghe chọn và nói phân biệt thanh 1–2–3–4 qua đo cao độ F0 trước khi vào bài khóa.",
+          evalType: "id_list",
+          storageKey: "lp_hsk_speaking_done_v1",
+          ids: TONE_PAIR_IDS,
+          basePath: "hsk/speaking/index.html",
+          defaultUrl: "hsk/speaking/index.html?level=1",
+          unitLabel: "cặp"
+        },
+        {
           id: "hsk1_lessons",
           module: "lessons",
           moduleLabel: "Bài giảng",
-          title: "Chương 0 Pinyin & 15 bài giảng HSK 1",
-          desc: "3 bài Pinyin nhập môn + 15 bài khóa song ngữ kèm chiết tự và slide.",
+          title: "15 bài giảng HSK 1 (Từ Bài 1: 你好!)",
+          desc: "15 bài khóa tình huống song ngữ kèm chiết tự, hội thoại bật/tắt Pinyin và quiz chốt bài.",
           evalType: "id_list",
           storageKey: "lp_hsk_lessons_done_v1",
           ids: HSK1_LESSON_IDS,
@@ -201,13 +229,13 @@
           id: "hsk1_vocab",
           module: "vocab",
           moduleLabel: "Từ vựng SRS",
-          title: "150 từ vựng SRS HSK 1",
-          desc: "Học đủ 150 từ giao tiếp cơ bản qua 4 chế độ SRS và âm Hán-Việt.",
+          title: "150 từ vựng SRS HSK 1 (Theo Bài 1–15)",
+          desc: "Học đủ 150 từ HSK 1 theo đúng thứ tự bài giảng kèm âm Hán-Việt và 4 chế độ SRS.",
           evalType: "hsk_vocab_level",
           storageKey: "lp_hsk_vocab_srs_v1",
           level: 1,
           target: 150,
-          defaultUrl: "hsk/vocab/index.html?level=1",
+          defaultUrl: "hsk/vocab/index.html?level=1&order=lesson",
           unitLabel: "từ"
         },
         {
@@ -280,24 +308,12 @@
           module: "reading",
           moduleLabel: "Đọc",
           title: "6 bài Đọc hiểu song ngữ HSK 1",
-          desc: "Làm quen đọc đoạn hội thoại ngắn có bật/tắt Pinyin đối chiếu.",
+          desc: "Làm quen đọc đoạn hội thoại ngắn có bật/tắt Pinyin đối chiếu (nên làm sau Bài 3–4).",
           evalType: "id_list",
           storageKey: "lp_hsk_reading_done_v1",
           ids: buildSkillIds("read_hsk", 1),
           basePath: "hsk/reading/index.html",
           unitLabel: "bài"
-        },
-        {
-          id: "hsk1_speak_tones",
-          module: "speaking",
-          moduleLabel: "Khẩu ngữ",
-          title: "20 cặp thanh điệu dễ nhầm",
-          desc: "Phân biệt thanh 1–2–3–4 và biến điệu thanh 3 qua đo âm chuẩn.",
-          evalType: "id_list",
-          storageKey: "lp_hsk_speaking_done_v1",
-          ids: TONE_PAIR_IDS,
-          defaultUrl: "hsk/speaking/index.html?level=1",
-          unitLabel: "cặp"
         },
         {
           id: "hsk1_speak_shadow",
@@ -314,16 +330,16 @@
         {
           id: "hsk1_mock",
           module: "mock",
-          moduleLabel: "Thi thử Mock",
-          title: "2 đề Full Mock HSK 1",
-          desc: "Thi thử bấm giờ chuẩn 2 phần Nghe + Đọc và đạt mốc 120/200.",
+          moduleLabel: "Đề rút gọn",
+          title: "2 đề luyện rút gọn HSK 1 (HSK 2.0)",
+          desc: "20 câu/đề (10 Nghe + 10 Đọc • 35 phút), ngưỡng bài luyện ≥ 120/200.",
           evalType: "hsk_mock_level",
           storageKey: "lp_hsk_mock_results_v1",
           level: 1,
           ids: ["mock_hsk1_1", "mock_hsk1_2"],
           target: 2,
           defaultUrl: "hsk/mock/index.html?level=1",
-          unitLabel: "đề đạt"
+          unitLabel: "đề đạt ngưỡng"
         }
       ]
     },
@@ -471,16 +487,16 @@
         {
           id: "hsk2_mock",
           module: "mock",
-          moduleLabel: "Thi thử Mock",
-          title: "2 đề Full Mock HSK 2",
-          desc: "Thi thử chuẩn 2 kỹ năng Nghe + Đọc, mục tiêu đạt ≥ 120/200.",
+          moduleLabel: "Đề rút gọn",
+          title: "2 đề luyện rút gọn HSK 2 (HSK 2.0)",
+          desc: "20 câu/đề (10 Nghe + 10 Đọc • 50 phút), ngưỡng bài luyện ≥ 120/200.",
           evalType: "hsk_mock_level",
           storageKey: "lp_hsk_mock_results_v1",
           level: 2,
           ids: ["mock_hsk2_1", "mock_hsk2_2"],
           target: 2,
           defaultUrl: "hsk/mock/index.html?level=2",
-          unitLabel: "đề đạt"
+          unitLabel: "đề đạt ngưỡng"
         }
       ]
     },
@@ -644,16 +660,16 @@
         {
           id: "hsk3_mock",
           module: "mock",
-          moduleLabel: "Thi thử Mock",
-          title: "2 đề Full Mock HSK 3",
-          desc: "Thi thử đầy đủ 3 phần Nghe–Đọc–Viết chuẩn thang điểm 300.",
+          moduleLabel: "Đề rút gọn",
+          title: "2 đề luyện rút gọn HSK 3 (HSK 2.0)",
+          desc: "25 câu/đề (10 Nghe + 10 Đọc + 5 Viết • 85 phút), ngưỡng ≥ 180/300.",
           evalType: "hsk_mock_level",
           storageKey: "lp_hsk_mock_results_v1",
           level: 3,
           ids: ["mock_hsk3_1", "mock_hsk3_2"],
           target: 2,
           defaultUrl: "hsk/mock/index.html?level=3",
-          unitLabel: "đề đạt"
+          unitLabel: "đề đạt ngưỡng"
         }
       ]
     },
@@ -832,16 +848,16 @@
         {
           id: "hsk4_mock",
           module: "mock",
-          moduleLabel: "Thi thử Mock",
-          title: "2 đề Full Mock HSK 4",
-          desc: "Thi thử chuẩn 105 phút Nghe–Đọc–Viết mục tiêu ≥ 180/300.",
+          moduleLabel: "Đề rút gọn",
+          title: "2 đề luyện rút gọn HSK 4 (HSK 2.0)",
+          desc: "25 câu/đề (10 Nghe + 10 Đọc + 5 Viết • 100 phút), ngưỡng ≥ 180/300.",
           evalType: "hsk_mock_level",
           storageKey: "lp_hsk_mock_results_v1",
           level: 4,
           ids: ["mock_hsk4_1", "mock_hsk4_2"],
           target: 2,
           defaultUrl: "hsk/mock/index.html?level=4",
-          unitLabel: "đề đạt"
+          unitLabel: "đề đạt ngưỡng"
         }
       ]
     },
@@ -976,16 +992,16 @@
         {
           id: "hsk5_mock",
           module: "mock",
-          moduleLabel: "Thi thử Mock",
-          title: "2 đề Full Mock HSK 5",
-          desc: "Thi thử bấm giờ chuẩn 125 phút cho trọn bộ Nghe–Đọc–Viết.",
+          moduleLabel: "Đề rút gọn",
+          title: "2 đề luyện rút gọn HSK 5 (HSK 2.0)",
+          desc: "24 câu/đề (10 Nghe + 10 Đọc + 4 Viết • 120 phút), ngưỡng ≥ 180/300.",
           evalType: "hsk_mock_level",
           storageKey: "lp_hsk_mock_results_v1",
           level: 5,
           ids: ["mock_hsk5_1", "mock_hsk5_2"],
           target: 2,
           defaultUrl: "hsk/mock/index.html?level=5",
-          unitLabel: "đề đạt"
+          unitLabel: "đề đạt ngưỡng"
         }
       ]
     },
@@ -1121,16 +1137,16 @@
         {
           id: "hsk6_mock",
           module: "mock",
-          moduleLabel: "Thi thử Mock",
-          title: "2 đề Full Mock HSK 6",
-          desc: "Thi thử 140 phút gồm Nghe–Đọc–Viết tóm tắt, mục tiêu ≥ 180/300.",
+          moduleLabel: "Đề rút gọn",
+          title: "2 đề luyện rút gọn HSK 6 (HSK 2.0)",
+          desc: "23 câu/đề (10 Nghe + 10 Đọc + 3 Viết • 135 phút), ngưỡng ≥ 180/300.",
           evalType: "hsk_mock_level",
           storageKey: "lp_hsk_mock_results_v1",
           level: 6,
           ids: ["mock_hsk6_1", "mock_hsk6_2"],
           target: 2,
           defaultUrl: "hsk/mock/index.html?level=6",
-          unitLabel: "đề đạt"
+          unitLabel: "đề đạt ngưỡng"
         },
         {
           id: "hsk6_srs_daily",

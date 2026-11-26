@@ -207,6 +207,11 @@
   window.setThemeStyle = function (style) {
     localStorage.setItem(STYLE_KEY, style === 'ghibli' ? 'ghibli' : 'default');
     applyThemeState();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(ensureGhibliFontAsync, { timeout: 1200 });
+    } else {
+      setTimeout(ensureGhibliFontAsync, 80);
+    }
   };
 
   // Toggle between Ghibli and Default theme style
@@ -219,6 +224,11 @@
     const isDark = mode === 'dark';
     localStorage.setItem(DARK_KEY, isDark ? '1' : '0');
     applyThemeState();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(ensureGhibliFontAsync, { timeout: 1200 });
+    } else {
+      setTimeout(ensureGhibliFontAsync, 80);
+    }
   };
 
   // Toggle dark/light only (keeps current Ghibli/Default theme intact!)
@@ -226,6 +236,11 @@
     const nextDark = !getSavedDark();
     localStorage.setItem(DARK_KEY, nextDark ? '1' : '0');
     applyThemeState();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(ensureGhibliFontAsync, { timeout: 1200 });
+    } else {
+      setTimeout(ensureGhibliFontAsync, 80);
+    }
   };
 
   // Toggle Chế độ Nhẹ cho Ghibli (Tắt bớt hiệu ứng cho máy yếu)
@@ -233,6 +248,11 @@
     const nextLite = !getSavedLite();
     localStorage.setItem(LITE_KEY, nextLite ? '1' : '0');
     applyThemeState();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(ensureGhibliFontAsync, { timeout: 1200 });
+    } else {
+      setTimeout(ensureGhibliFontAsync, 80);
+    }
   };
 
   // Thu gọn / Mở rộng thanh Dock Ghibli ở góc phải dưới
@@ -335,6 +355,11 @@
   });
   window.addEventListener('focus', function () {
     applyThemeState();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(ensureGhibliFontAsync, { timeout: 1200 });
+    } else {
+      setTimeout(ensureGhibliFontAsync, 80);
+    }
   });
 
   function buildSootSpriteSvg(idSuffix) {
@@ -394,6 +419,20 @@
         osc.start(audioCtx.currentTime + idx * 0.07);
         osc.stop(audioCtx.currentTime + idx * 0.07 + 0.46);
       });
+    } catch (e) {}
+  }
+
+  function ensureGhibliFontAsync() {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) return;
+      if (document.getElementById('lpQuicksandFontLink')) return;
+      const link = document.createElement('link');
+      link.id = 'lpQuicksandFontLink';
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700;800&display=swap';
+      link.media = 'print';
+      link.onload = function () { link.media = 'all'; };
+      document.head.appendChild(link);
     } catch (e) {}
   }
 
@@ -539,6 +578,11 @@
     }
 
     applyThemeState();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(ensureGhibliFontAsync, { timeout: 1200 });
+    } else {
+      setTimeout(ensureGhibliFontAsync, 80);
+    }
   }
 
   if (document.readyState === 'loading') {

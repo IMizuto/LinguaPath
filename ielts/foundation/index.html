@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="study" data-course="ielts">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="manifest" href="../../manifest.json">
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <title>Mốc 0: Nhập môn Tiếng Anh (A0 → A2) — LinguaPath</title>
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background: transparent !important;
+      color: var(--lg-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+    .fnd-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 12px 14px 80px;
+    }
+    .fnd-layout {
+      display: grid;
+      grid-template-columns: var(--lp-sidebar-w, 336px) minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      margin-top: 12px;
+    }
+    .fnd-sidebar {
+      position: sticky;
+      top: 72px;
+      border-radius: 22px;
+      padding: 14px;
+      max-height: calc(100vh - 90px);
+      overflow-y: auto;
+    }
+    .fnd-sb-item {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--lg-ink);
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 6px;
+      transition: background-color 0.16s ease, border-color 0.16s ease;
+    }
+    .fnd-sb-item:hover { background: var(--lg-wash); }
+    .fnd-sb-item.active {
+      background: var(--lg-accent-soft);
+      border-color: var(--lg-accent);
+    }
+    .fnd-sb-code {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--lg-accent);
+    }
+    .fnd-sb-title {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--lg-ink);
+    }
+    .fnd-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .fnd-card {
+      border-radius: 22px;
+      padding: 18px;
+    }
+    .fnd-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .fnd-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink-sub);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .fnd-tab.active {
+      background: var(--lg-accent);
+      border-color: transparent;
+      color: #fff;
+    }
+    .fnd-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .fnd-btn:hover { background: var(--lg-wash-hover); }
+    .fnd-btn.primary {
+      background: var(--lg-accent);
+      border-color: transparent;
+      color: #fff;
+    }
+    .fnd-btn.done {
+      background: var(--lg-green-soft);
+      border-color: var(--lg-green);
+      color: var(--lg-green);
+    }
+    .fnd-line {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--lg-wash);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .fnd-en { font-size: 15.5px; font-weight: 800; color: var(--lg-ink); line-height: 1.45; }
+    .fnd-vi { font-size: 13px; color: var(--lg-ink-muted); margin-top: 3px; line-height: 1.4; }
+    .fnd-vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .fnd-vcard {
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .fnd-srs-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .fnd-srs-btn {
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-surface);
+      color: var(--lg-ink);
+      border-radius: 999px;
+      padding: 6px 6px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .fnd-srs-btn:hover { background: var(--lg-wash-hover); }
+    .fnd-dot { width: 7px; height: 7px; border-radius: 999px; display: inline-block; flex-shrink: 0; }
+    .fnd-textarea {
+      width: 100%;
+      min-height: 110px;
+      border-radius: 14px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-surface-strong);
+      color: var(--lg-ink);
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14.5px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+    .fnd-drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    #btnMobileMenu { display: none; }
+    @media (max-width: 1024px) {
+      .fnd-layout { grid-template-columns: minmax(0, 1fr); }
+      #btnMobileMenu { display: inline-flex; }
+      .fnd-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(336px, 86vw);
+        max-height: 100vh;
+        z-index: 100;
+        border-radius: 0 22px 22px 0;
+        transform: translateX(-105%);
+        transition: transform 0.22s ease;
+      }
+      body.drawer-open .fnd-sidebar { transform: translateX(0); }
+      body.drawer-open .fnd-drawer-backdrop { display: block; }
+    }
+    @media (max-width: 680px) {
+      .fnd-vocab-grid { grid-template-columns: minmax(0, 1fr); }
+      .fnd-card { padding: 14px; border-radius: 18px; }
+      .fnd-hide-xs { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="fnd-drawer-backdrop" id="drawerBackdrop"></div>
+
+  <div class="fnd-wrap">
+    <header class="lp-topbar lp-glass">
+      <div class="lp-top-left">
+        <button type="button" class="lp-icon-btn" id="btnMobileMenu" aria-label="Mở danh sách cụm học">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+        <a id="lpBackBtn" class="lp-back-pill" href="../../index.html#ielts">IELTS</a>
+        <div class="lp-brand">
+          <div class="lp-brand-text">
+            <span class="lp-brand-title">Nhập môn A0–A2</span>
+          </div>
+        </div>
+      </div>
+      <div class="lp-top-actions">
+        <button type="button" class="lp-icon-btn donate" id="btnDonate" title="Ủng hộ dự án">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="fnd-hide-xs">Ủng hộ</span>
+        </button>
+        <button type="button" class="lp-icon-btn" id="btnTheme" data-lp-theme-toggle="1" title="Đổi Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+
+    <div class="fnd-layout">
+      <aside class="fnd-sidebar lp-glass" id="sidebarPanel" aria-label="Danh sách cụm Mốc 0"></aside>
+      <main class="fnd-main" id="mainStage"></main>
+    </div>
+  </div>
+
+  <script src="foundation_data.js?v=1"></script>
+  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script>
+  (function () {
+    "use strict";
+    var DATA = window.LP_IELTS_FOUNDATION_DATA;
+    if (!DATA) return;
+
+    var DONE_KEY = DATA.DONE_KEY || "lp_ielts_foundation_done_v1";
+    var SRS_KEY = DATA.SRS_KEY || "lp_ielts_foundation_srs_v1";
+    var CLUSTERS = DATA.CLUSTERS || [];
+    var CHECK = DATA.READINESS_CHECK;
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+    function readJson(k, fb) {
+      try { var v = JSON.parse(localStorage.getItem(k)); return v && typeof v === "object" ? v : fb; } catch (e) { return fb; }
+    }
+    function writeJson(k, obj) {
+      try { localStorage.setItem(k, JSON.stringify(obj)); } catch (e) {}
+    }
+
+    var ICONS = {
+      volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>',
+      check: '<polyline points="20 6 9 17 4 12"/>',
+      circle: '<circle cx="12" cy="12" r="8"/>',
+      book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+      award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+      arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+      arrowLeft: '<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',
+      clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+      eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>'
+    };
+    function svg(name, sz) {
+      var s = sz || 14;
+      return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || ICONS.book) + '</svg>';
+    }
+
+    var doneMap = readJson(DONE_KEY, {});
+    var srsMap = readJson(SRS_KEY, {});
+    var qs = new URLSearchParams(location.search);
+    var reqId = (qs.get("id") || "").trim();
+    var reqTab = (qs.get("tab") || "").trim();
+
+    var allNavIds = CLUSTERS.map(function (c) { return c.id; }).concat([CHECK.id]);
+    var activeId = allNavIds.indexOf(reqId) >= 0 ? reqId : CLUSTERS[0].id;
+    var activeTab = ["dialogue", "vocab", "grammar", "practice", "production"].indexOf(reqTab) >= 0 ? reqTab : "dialogue";
+    var playSlow = true;
+    var showVi = true;
+    var pracPicked = {};
+    var prodDrafts = {};
+    var prodFeedback = {};
+    var checkAnswers = {};
+    var checkWriting = "";
+    var checkResult = null;
+
+    function speakEn(text, forceSlow) {
+      var rate = (forceSlow !== undefined ? forceSlow : playSlow) ? 0.78 : 1.0;
+      if (window.S4UI && typeof window.S4UI.speakEnglish === "function") {
+        window.S4UI.speakEnglish(text, { lang: "en-US", rate: rate });
+      } else if ("speechSynthesis" in window) {
+        try {
+          window.speechSynthesis.cancel();
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.rate = rate;
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+    }
+    window.__fndSpeak = speakEn;
+
+    function refreshStorageState() {
+      doneMap = readJson(DONE_KEY, {});
+      srsMap = readJson(SRS_KEY, {});
+    }
+
+    function rateVocab(wordId, quality) {
+      var freshSrs = readJson(SRS_KEY, {});
+      srsMap = Object.assign({}, freshSrs, srsMap);
+      var cur = srsMap[wordId] || { reps: 0, interval: 0, ease: 2.5, due: 0 };
+      var now = Date.now();
+      var DAY = 86400000;
+      if (quality === 0) {
+        cur.reps = 1;
+        cur.interval = 0.01;
+        cur.due = now + 600000;
+      } else if (quality === 1) {
+        cur.reps = Math.max(1, (cur.reps || 0) + 1);
+        cur.interval = 1;
+        cur.due = now + DAY;
+      } else if (quality === 2) {
+        cur.reps = Math.max(1, (cur.reps || 0) + 1);
+        cur.interval = cur.reps <= 1 ? 3 : Math.round((cur.interval || 2) * 2.2);
+        cur.due = now + cur.interval * DAY;
+      } else {
+        cur.reps = Math.max(2, (cur.reps || 0) + 1);
+        cur.interval = Math.max(7, Math.round((cur.interval || 3) * 2.8));
+        cur.due = now + cur.interval * DAY;
+      }
+      cur.lastReview = now;
+      srsMap[wordId] = cur;
+      writeJson(SRS_KEY, srsMap);
+      render();
+    }
+    window.__fndRate = rateVocab;
+
+    function toggleDone(id) {
+      var freshDone = readJson(DONE_KEY, {});
+      var nextVal = !freshDone[id];
+      if (nextVal) freshDone[id] = true;
+      else delete freshDone[id];
+      doneMap = freshDone;
+      writeJson(DONE_KEY, doneMap);
+      render();
+    }
+    window.__fndToggleDone = toggleDone;
+
+    window.addEventListener("storage", function (ev) {
+      if (!ev || !ev.key || ev.key === DONE_KEY || ev.key === SRS_KEY) {
+        refreshStorageState();
+        render();
+      }
+    });
+    window.addEventListener("focus", function () {
+      refreshStorageState();
+      render();
+    });
+
+    window.__fndSelect = function (id) {
+      activeId = id;
+      document.body.classList.remove("drawer-open");
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    window.__fndTab = function (t) { activeTab = t; render(); };
+    window.__fndToggleSlow = function () { playSlow = !playSlow; render(); };
+    window.__fndToggleVi = function () { showVi = !showVi; render(); };
+    window.__fndPickPrac = function (cid, qIdx, optIdx) {
+      pracPicked[cid + "_" + qIdx] = optIdx;
+      render();
+    };
+    window.__fndCheckProd = function (cid) {
+      var c = CLUSTERS.find(function (x) { return x.id === cid; });
+      var ta = document.getElementById("fndProdInput");
+      if (!c || !ta) return;
+      var txt = ta.value.trim();
+      prodDrafts[cid] = txt;
+      var words = txt.split(/\s+/).filter(Boolean).length;
+      var sents = txt.split(/[.!?]+/).map(function (s) { return s.trim(); }).filter(function (s) { return s.length >= 4; }).length;
+      var ok = words >= (c.production.minWords || 12) && sents >= (c.production.minSentences || 3);
+      prodFeedback[cid] = {
+        ok: ok,
+        msg: ok
+          ? ("Tốt lắm! Bạn đã viết " + sents + " câu (" + words + " từ). Hãy bấm Nghe thử và đọc to theo mẫu, sau đó đánh dấu hoàn thành cụm này.")
+          : ("Hiện có " + sents + "/" + c.production.minSentences + " câu và " + words + "/" + c.production.minWords + " từ. Hãy thêm đủ số câu theo khung gợi ý nhé.")
+      };
+      if (ok && !doneMap[cid]) {
+        doneMap[cid] = true;
+        writeJson(DONE_KEY, doneMap);
+      }
+      render();
+    };
+    window.__fndPickCheck = function (qid, oi) { checkAnswers[qid] = oi; render(); };
+    window.__fndSubmitCheck = function () {
+      var ta = document.getElementById("fndCheckWriting");
+      if (ta) checkWriting = ta.value.trim();
+      var right = 0;
+      var weakClusters = {};
+      var bySkill = { listening: [0, 0], reading: [0, 0], grammar: [0, 0] };
+      CHECK.questions.forEach(function (q) {
+        if (bySkill[q.skill]) bySkill[q.skill][1]++;
+        if (checkAnswers[q.id] === q.ans) {
+          right++;
+          if (bySkill[q.skill]) bySkill[q.skill][0]++;
+        } else {
+          weakClusters[q.clusterId] = true;
+        }
+      });
+      var wWords = checkWriting.split(/\s+/).filter(Boolean).length;
+      var wSents = checkWriting.split(/[.!?]+/).map(function (s) { return s.trim(); }).filter(function (s) { return s.length >= 4; }).length;
+      var writingOk = wWords >= 25 && wSents >= 4;
+      var passed = right >= CHECK.passCorrectMin && writingOk;
+      checkResult = { right: right, total: CHECK.questions.length, bySkill: bySkill, wWords: wWords, wSents: wSents, writingOk: writingOk, passed: passed, weakIds: Object.keys(weakClusters) };
+      if (passed) {
+        var freshDone = readJson(DONE_KEY, {});
+        freshDone[CHECK.id] = true;
+        doneMap = freshDone;
+        writeJson(DONE_KEY, doneMap);
+      }
+      render();
+    };
+
+    function countAllVocabLearned() {
+      var n = 0;
+      CLUSTERS.forEach(function (c) {
+        c.vocab.forEach(function (v) { if (srsMap[v.id] && srsMap[v.id].reps > 0) n++; });
+      });
+      return n;
+    }
+
+    function renderSidebar() {
+      var doneCount = allNavIds.filter(function (id) { return Boolean(doneMap[id]); }).length;
+      var vocabDone = countAllVocabLearned();
+      var html = '<div style="margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--lg-divider);">'
+        + '<div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--lg-accent);">Mốc 0 • Pre-IELTS A0 → A2</div>'
+        + '<div style="font-size:13px;font-weight:800;margin-top:4px;">Hoàn thành: ' + doneCount + '/5 mục • ' + vocabDone + '/64 từ SRS</div>'
+        + '</div>';
+      CLUSTERS.forEach(function (c) {
+        var isAct = activeId === c.id;
+        var isDone = Boolean(doneMap[c.id]);
+        html += '<button type="button" class="fnd-sb-item' + (isAct ? ' active' : '') + '" onclick="window.__fndSelect(\'' + c.id + '\')">'
+          + '<span style="color:' + (isDone ? 'var(--lg-green)' : 'var(--lg-ink-muted)') + ';margin-top:2px;">' + svg(isDone ? "check" : "circle", 15) + '</span>'
+          + '<span><span class="fnd-sb-code">' + esc(c.code) + '</span><span class="fnd-sb-title">' + esc(c.title) + '</span></span>'
+          + '</button>';
+      });
+      var ckDone = Boolean(doneMap[CHECK.id]);
+      html += '<button type="button" class="fnd-sb-item' + (activeId === CHECK.id ? ' active' : '') + '" onclick="window.__fndSelect(\'' + CHECK.id + '\')">'
+        + '<span style="color:' + (ckDone ? 'var(--lg-green)' : 'var(--lg-amber)') + ';margin-top:2px;">' + svg("award", 15) + '</span>'
+        + '<span><span class="fnd-sb-code">Chốt Mốc 0</span><span class="fnd-sb-title">Kiểm tra sẵn sàng sang Mốc 1</span></span>'
+        + '</button>';
+      document.getElementById("sidebarPanel").innerHTML = html;
+    }
+
+    function renderReadinessCheck() {
+      var html = '<section class="fnd-card lp-glass">'
+        + '<div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--lg-accent);">Đánh giá đầu ra Mốc 0</div>'
+        + '<h1 style="margin:4px 0 6px;font-size:20px;font-weight:800;">' + esc(CHECK.title) + '</h1>'
+        + '<p style="margin:0 0 14px;font-size:13.5px;color:var(--lg-ink-muted);">' + esc(CHECK.subtitle) + '</p>';
+
+      if (checkResult) {
+        html += '<div style="padding:14px;border-radius:16px;background:' + (checkResult.passed ? 'var(--lg-green-soft)' : 'var(--lg-amber-soft)') + ';margin-bottom:14px;">'
+          + '<div style="font-size:16px;font-weight:800;color:' + (checkResult.passed ? 'var(--lg-green)' : 'var(--lg-amber)') + ';">'
+          + (checkResult.passed ? 'Đạt chuẩn đầu ra Mốc 0 — Sẵn sàng sang Mốc 1 (IELTS Academic)!' : 'Chưa đạt hết tiêu chí — Hãy ôn lại đúng cụm còn yếu bên dưới')
+          + '</div>'
+          + '<div style="font-size:13px;margin-top:6px;line-height:1.5;">'
+          + 'Trắc nghiệm: <b>' + checkResult.right + '/' + checkResult.total + '</b> (Nghe chậm ' + checkResult.bySkill.listening[0] + '/' + checkResult.bySkill.listening[1]
+          + ' • Đọc ngắn ' + checkResult.bySkill.reading[0] + '/' + checkResult.bySkill.reading[1]
+          + ' • Ghép câu ' + checkResult.bySkill.grammar[0] + '/' + checkResult.bySkill.grammar[1]
+          + ') • Tự viết: <b>' + checkResult.wSents + ' câu / ' + checkResult.wWords + ' từ</b> ' + (checkResult.writingOk ? '(Đạt)' : '(Cần ≥ 4 câu & ≥ 25 từ)')
+          + '</div>';
+        if (checkResult.weakIds.length) {
+          html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">' + checkResult.weakIds.map(function (cid) {
+            var c = CLUSTERS.find(function (x) { return x.id === cid; });
+            return c ? '<button type="button" class="fnd-btn" onclick="window.__fndSelect(\'' + cid + '\')">Ôn lại ' + esc(c.code + ': ' + c.title) + '</button>' : '';
+          }).join("") + '</div>';
+        }
+        if (checkResult.passed) {
+          html += '<div style="margin-top:10px;"><a class="fnd-btn primary" href="../roadmap/index.html">Quay lại Lộ trình sang Mốc 1 ' + svg("arrowRight", 14) + '</a></div>';
+        }
+        html += '</div>';
+      }
+
+      CHECK.questions.forEach(function (q, idx) {
+        var picked = checkAnswers[q.id];
+        html += '<div style="padding:13px;border-radius:16px;background:var(--lg-wash);margin-bottom:10px;">';
+        if (q.audioEn) {
+          html += '<div style="margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap;">'
+            + '<button type="button" class="fnd-btn primary" onclick="window.__fndSpeak(\'' + esc(q.audioEn).replace(/'/g, "\\'") + '\', true)">' + svg("volume", 14) + ' Nghe chậm (0.78x)</button>'
+            + '<button type="button" class="fnd-btn" onclick="window.__fndSpeak(\'' + esc(q.audioEn).replace(/'/g, "\\'") + '\', false)">' + svg("volume", 14) + ' Nghe chuẩn (1.0x)</button>'
+            + '</div>';
+        }
+        if (q.passage) {
+          html += '<div style="padding:10px 12px;border-radius:12px;background:var(--lg-surface);font-size:14px;line-height:1.5;margin-bottom:8px;">' + esc(q.passage) + '</div>';
+        }
+        html += '<div style="font-size:14px;font-weight:800;margin-bottom:8px;">Câu ' + (idx + 1) + ': ' + esc(q.prompt) + '</div>'
+          + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
+            var sel = picked === oi;
+            return '<button type="button" onclick="window.__fndPickCheck(\'' + q.id + '\',' + oi + ')" style="text-align:left;padding:9px 11px;border-radius:11px;border:1px solid ' + (sel ? 'var(--lg-accent)' : 'var(--lg-hairline)') + ';background:' + (sel ? 'var(--lg-accent-soft)' : 'transparent') + ';color:var(--lg-ink);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">' + esc(op) + '</button>';
+          }).join("") + '</div>';
+        if (checkResult) {
+          var ok = picked === q.ans;
+          html += '<div style="margin-top:6px;font-size:12.5px;font-weight:700;color:' + (ok ? 'var(--lg-green)' : 'var(--lg-rose)') + ';">'
+            + (ok ? 'Chính xác! ' : 'Chưa đúng. ') + esc(q.exp) + '</div>';
+        }
+        html += '</div>';
+      });
+
+      html += '<div style="padding:13px;border-radius:16px;background:var(--lg-wash);margin-top:12px;">'
+        + '<div style="font-size:14px;font-weight:800;margin-bottom:6px;">Phần tự viết ngắn (4–5 câu):</div>'
+        + '<div style="font-size:13px;color:var(--lg-ink-muted);margin-bottom:8px;">' + esc(CHECK.writingTask.prompt) + '</div>'
+        + '<textarea id="fndCheckWriting" class="fnd-textarea" placeholder="Hello! My name is...">' + esc(checkWriting) + '</textarea>'
+        + '<details style="margin-top:8px;font-size:13px;"><summary style="cursor:pointer;font-weight:800;">Xem bài mẫu tham khảo</summary><div style="margin-top:6px;line-height:1.5;">' + esc(CHECK.writingTask.sample) + '</div></details>'
+        + '</div>'
+        + '<div style="margin-top:14px;display:flex;justify-content:flex-end;">'
+        + '<button type="button" class="fnd-btn primary" onclick="window.__fndSubmitCheck()">Chấm kiểm tra cuối Mốc 0</button>'
+        + '</div></section>';
+
+      document.getElementById("mainStage").innerHTML = html;
+    }
+
+    function renderCluster(c) {
+      var isDone = Boolean(doneMap[c.id]);
+      var idx = CLUSTERS.findIndex(function (x) { return x.id === c.id; });
+      var prevId = idx > 0 ? CLUSTERS[idx - 1].id : "";
+      var nextId = idx < CLUSTERS.length - 1 ? CLUSTERS[idx + 1].id : CHECK.id;
+
+      var headHtml = '<section class="fnd-card lp-glass">'
+        + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">'
+        + '<div>'
+        + '  <div style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--lg-accent);">Mốc 0 • ' + esc(c.code) + ' / 4</div>'
+        + '  <h1 style="margin:4px 0 4px;font-size:21px;font-weight:800;">' + esc(c.title) + '</h1>'
+        + '  <div style="font-size:13px;color:var(--lg-ink-muted);">' + esc(c.subtitle) + '</div>'
+        + '</div>'
+        + '<button type="button" class="fnd-btn' + (isDone ? ' done' : '') + '" onclick="window.__fndToggleDone(\'' + c.id + '\')">'
+        + svg(isDone ? "check" : "circle", 14) + '<span>' + (isDone ? 'Đã hoàn thành' : 'Đánh dấu hoàn thành') + '</span></button>'
+        + '</div>'
+        + '<div style="margin-top:10px;padding:9px 12px;border-radius:12px;background:var(--lg-wash);font-size:13px;"><b>Mục tiêu hành động:</b> ' + esc(c.goal) + '</div>'
+        + '<div class="fnd-tabs">'
+        + [
+            ["dialogue", "1. Hội thoại"],
+            ["vocab", "2. Từ vựng SRS (" + c.vocab.length + ")"],
+            ["grammar", "3. Mẫu câu"],
+            ["practice", "4. Luyện có mẫu"],
+            ["production", "5. Tự nói & Viết"]
+          ].map(function (t) {
+            return '<button type="button" class="fnd-tab' + (activeTab === t[0] ? ' active' : '') + '" onclick="window.__fndTab(\'' + t[0] + '\')">' + t[1] + '</button>';
+          }).join("")
+        + '</div>'
+        + '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">'
+        + '<button type="button" class="fnd-btn" onclick="window.__fndToggleSlow()">' + svg("clock", 13) + ' Tốc độ nghe: ' + (playSlow ? 'Chậm 0.78x' : 'Chuẩn 1.0x') + '</button>'
+        + '<button type="button" class="fnd-btn" onclick="window.__fndToggleVi()">' + svg("eye", 13) + ' Dịch Việt: ' + (showVi ? 'Hiện' : 'Ẩn') + '</button>'
+        + '</div>'
+        + '</section>';
+
+      var bodyHtml = "";
+      if (activeTab === "dialogue") {
+        bodyHtml = '<section class="fnd-card lp-glass">'
+          + '<h2 style="margin:0 0 12px;font-size:16px;font-weight:800;">' + esc(c.dialogueTitle) + '</h2>'
+          + c.dialogue.map(function (line) {
+            return '<div class="fnd-line">'
+              + '<div style="min-width:0;flex:1;">'
+              + '  <div style="font-size:11.5px;font-weight:800;color:var(--lg-accent);margin-bottom:2px;">' + esc(line.spk) + '</div>'
+              + '  <div class="fnd-en">' + esc(line.en) + '</div>'
+              + (showVi ? ('  <div class="fnd-vi">' + esc(line.vi) + '</div>') : '')
+              + '</div>'
+              + '<button type="button" class="fnd-btn" onclick="window.__fndSpeak(\'' + esc(line.en).replace(/'/g, "\\'") + '\')">' + svg("volume", 14) + ' Nghe</button>'
+              + '</div>';
+          }).join("")
+          + '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">'
+          + c.bridgeLinks.map(function (bl) {
+            return '<a class="fnd-btn" href="' + esc(bl.url) + '">' + svg("arrowRight", 13) + '<span>' + esc(bl.label) + '</span></a>';
+          }).join("")
+          + '</div></section>';
+      } else if (activeTab === "vocab") {
+        bodyHtml = '<section class="fnd-card lp-glass">'
+          + '<h2 style="margin:0 0 6px;font-size:16px;font-weight:800;">' + c.vocab.length + ' từ vựng sinh tồn A0–A1 (SRS)</h2>'
+          + '<p style="margin:0 0 12px;font-size:12.5px;color:var(--lg-ink-muted);">Bấm Nghe để nhại lại và chọn mức độ nhớ bên dưới để đồng bộ tiến độ Mốc 0.</p>'
+          + '<div class="fnd-vocab-grid">'
+          + c.vocab.map(function (v) {
+            var st = srsMap[v.id];
+            var badge = st && st.reps > 0 ? '<span style="font-size:11px;font-weight:800;color:var(--lg-green);">Đã học</span>' : '<span style="font-size:11px;font-weight:700;color:var(--lg-ink-muted);">Từ mới</span>';
+            return '<div class="fnd-vcard">'
+              + '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">'
+              + '  <div><b style="font-size:16px;">' + esc(v.word) + '</b> <span style="font-size:12px;color:var(--lg-ink-muted);">' + esc(v.pos) + ' ' + esc(v.ipa) + '</span></div>'
+              + '  <div style="display:flex;align-items:center;gap:6px;">' + badge
+              + '    <button type="button" class="fnd-btn" style="padding:4px 8px;" onclick="window.__fndSpeak(\'' + esc(v.word).replace(/'/g, "\\'") + '\')">' + svg("volume", 13) + '</button>'
+              + '  </div>'
+              + '</div>'
+              + '<div style="font-size:13.5px;font-weight:700;color:var(--lg-ink);">' + esc(v.vi) + '</div>'
+              + '<div style="font-size:12.5px;color:var(--lg-ink-muted);">Ví dụ: ' + esc(v.ex) + '</div>'
+              + '<div class="fnd-srs-row">'
+              + '  <button type="button" class="fnd-srs-btn" onclick="window.__fndRate(\'' + v.id + '\',0)"><span class="fnd-dot" style="background:#ef4444;"></span>Quên</button>'
+              + '  <button type="button" class="fnd-srs-btn" onclick="window.__fndRate(\'' + v.id + '\',1)"><span class="fnd-dot" style="background:#f59e0b;"></span>Khó</button>'
+              + '  <button type="button" class="fnd-srs-btn" onclick="window.__fndRate(\'' + v.id + '\',2)"><span class="fnd-dot" style="background:#10b981;"></span>Nhớ</button>'
+              + '  <button type="button" class="fnd-srs-btn" onclick="window.__fndRate(\'' + v.id + '\',3)"><span class="fnd-dot" style="background:#3b82f6;"></span>Dễ</button>'
+              + '</div></div>';
+          }).join("")
+          + '</div></section>';
+      } else if (activeTab === "grammar") {
+        bodyHtml = '<section class="fnd-card lp-glass">'
+          + '<h2 style="margin:0 0 12px;font-size:16px;font-weight:800;">' + esc(c.grammarTitle) + '</h2>'
+          + c.grammarPoints.map(function (gp) {
+            return '<div style="padding:14px;border-radius:16px;background:var(--lg-wash);margin-bottom:10px;">'
+              + '<div style="font-size:15px;font-weight:800;color:var(--lg-accent);">' + esc(gp.pattern) + '</div>'
+              + '<div style="font-size:13px;font-weight:700;margin-top:3px;">' + esc(gp.vi) + '</div>'
+              + '<div style="font-size:12.5px;color:var(--lg-ink-muted);margin-top:4px;line-height:1.45;">' + esc(gp.note) + '</div>'
+              + '<div style="margin-top:8px;display:grid;gap:6px;">' + gp.examples.map(function (ex) {
+                return '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:10px;background:var(--lg-surface);">'
+                  + '<div><div style="font-size:13.5px;font-weight:700;">' + esc(ex.en) + '</div><div style="font-size:12px;color:var(--lg-ink-muted);">' + esc(ex.vi) + '</div></div>'
+                  + '<button type="button" class="fnd-btn" style="padding:4px 8px;" onclick="window.__fndSpeak(\'' + esc(ex.en).replace(/'/g, "\\'") + '\')">' + svg("volume", 13) + '</button>'
+                  + '</div>';
+              }).join("") + '</div></div>';
+          }).join("")
+          + '</section>';
+      } else if (activeTab === "practice") {
+        bodyHtml = '<section class="fnd-card lp-glass">'
+          + '<h2 style="margin:0 0 12px;font-size:16px;font-weight:800;">Luyện tập có mẫu (4 câu)</h2>'
+          + c.practice.map(function (q, qi) {
+            var pk = pracPicked[c.id + "_" + qi];
+            var answered = pk !== undefined;
+            var ok = pk === q.ans;
+            return '<div style="padding:13px;border-radius:16px;background:var(--lg-wash);margin-bottom:10px;">'
+              + '<div style="font-size:14px;font-weight:800;margin-bottom:8px;">Câu ' + (qi + 1) + ': ' + esc(q.q) + '</div>'
+              + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
+                var sel = pk === oi;
+                var border = sel ? (ok ? 'var(--lg-green)' : 'var(--lg-rose)') : 'var(--lg-hairline)';
+                var bg = sel ? (ok ? 'var(--lg-green-soft)' : 'var(--lg-rose-soft)') : 'transparent';
+                return '<button type="button" onclick="window.__fndPickPrac(\'' + c.id + '\',' + qi + ',' + oi + ')" style="text-align:left;padding:9px 11px;border-radius:11px;border:1px solid ' + border + ';background:' + bg + ';color:var(--lg-ink);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">' + esc(op) + '</button>';
+              }).join("") + '</div>'
+              + (answered ? ('<div style="margin-top:6px;font-size:12.5px;font-weight:700;color:' + (ok ? 'var(--lg-green)' : 'var(--lg-rose)') + ';">' + (ok ? 'Chính xác! ' : 'Chưa đúng. ') + esc(q.exp) + '</div>') : '')
+              + '</div>';
+          }).join("")
+          + '</section>';
+      } else {
+        var draft = prodDrafts[c.id] || "";
+        var fb = prodFeedback[c.id] || null;
+        bodyHtml = '<section class="fnd-card lp-glass">'
+          + '<h2 style="margin:0 0 6px;font-size:16px;font-weight:800;">' + esc(c.production.title) + '</h2>'
+          + '<p style="margin:0 0 10px;font-size:13px;color:var(--lg-ink-muted);">' + esc(c.production.instruction) + '</p>'
+          + '<div style="padding:10px 12px;border-radius:12px;background:var(--lg-wash);font-size:13px;margin-bottom:10px;"><b>Khung gợi ý:</b> ' + esc(c.production.template) + '</div>'
+          + '<textarea id="fndProdInput" class="fnd-textarea" placeholder="Nhập câu tiếng Anh của bạn tại đây...">' + esc(draft) + '</textarea>'
+          + '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">'
+          + '<button type="button" class="fnd-btn primary" onclick="window.__fndCheckProd(\'' + c.id + '\')">Kiểm tra bài viết</button>'
+          + '<button type="button" class="fnd-btn" onclick="var t=document.getElementById(\'fndProdInput\'); if(t&&t.value.trim()) window.__fndSpeak(t.value.trim());">' + svg("volume", 13) + ' Nghe thử bài viết</button>'
+          + '<button type="button" class="fnd-btn" onclick="window.__fndSpeak(\'' + esc(c.production.sample).replace(/'/g, "\\'") + '\')">' + svg("volume", 13) + ' Nghe câu mẫu</button>'
+          + '</div>'
+          + (fb ? ('<div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:' + (fb.ok ? 'var(--lg-green-soft)' : 'var(--lg-amber-soft)') + ';color:' + (fb.ok ? 'var(--lg-green)' : 'var(--lg-amber)') + ';font-size:13px;font-weight:700;">' + esc(fb.msg) + '</div>') : '')
+          + '<details style="margin-top:10px;font-size:13px;"><summary style="cursor:pointer;font-weight:800;">Xem đoạn mẫu tham khảo</summary><div style="margin-top:6px;line-height:1.5;">' + esc(c.production.sample) + '</div></details>'
+          + '</section>';
+      }
+
+      var navHtml = '<div class="lp-lesson-nav lp-glass" style="padding:10px 14px;border-radius:18px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">'
+        + '<button type="button" class="fnd-btn" ' + (prevId ? ('onclick="window.__fndSelect(\'' + prevId + '\')"') : 'disabled style="opacity:0.45;"') + '>' + svg("arrowLeft", 13) + ' Cụm trước</button>'
+        + '<button type="button" class="fnd-btn' + (isDone ? ' done' : '') + '" onclick="window.__fndToggleDone(\'' + c.id + '\')">' + svg(isDone ? "check" : "circle", 13) + (isDone ? ' Đã xong' : ' Đánh dấu xong') + '</button>'
+        + '<button type="button" class="fnd-btn primary" onclick="window.__fndSelect(\'' + nextId + '\')">' + (nextId === CHECK.id ? 'Làm bài kiểm tra cuối Mốc 0' : 'Cụm tiếp theo') + ' ' + svg("arrowRight", 13) + '</button>'
+        + '</div>';
+
+      document.getElementById("mainStage").innerHTML = headHtml + bodyHtml + navHtml;
+    }
+
+    function render() {
+      renderSidebar();
+      if (activeId === CHECK.id) renderReadinessCheck();
+      else {
+        var c = CLUSTERS.find(function (x) { return x.id === activeId; }) || CLUSTERS[0];
+        renderCluster(c);
+      }
+    }
+
+    function syncThemeBtn() {
+      var btn = document.getElementById("btnTheme");
+      if (!btn) return;
+      var isDark = document.documentElement.classList.contains("dark");
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+        window.S4UI.renderThemeButton(btn, isDark);
+      }
+    }
+
+    var themeBtn = document.getElementById("btnTheme");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function () {
+        if (window.toggleDarkModeOnly) window.toggleDarkModeOnly();
+        else {
+          var isDark = !document.documentElement.classList.contains("dark");
+          document.documentElement.classList.toggle("dark", isDark);
+          try { localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0"); } catch (e) {}
+        }
+        syncThemeBtn();
+      });
+    }
+    var donateBtn = document.getElementById("btnDonate");
+    if (donateBtn) donateBtn.addEventListener("click", function () { if (window.S4Auth && window.S4Auth.openDonateModal) window.S4Auth.openDonateModal(); });
+    var menuBtn = document.getElementById("btnMobileMenu");
+    if (menuBtn) menuBtn.addEventListener("click", function () { document.body.classList.toggle("drawer-open"); });
+    var backdrop = document.getElementById("drawerBackdrop");
+    if (backdrop) backdrop.addEventListener("click", function () { document.body.classList.remove("drawer-open"); });
+
+    if (window.S4UI && typeof window.S4UI.initSmartBackButton === "function") {
+      window.S4UI.initSmartBackButton({
+        element: "#lpBackBtn",
+        defaultUrl: "../../index.html#ielts",
+        defaultLabel: "IELTS",
+        roadmapUrl: "../roadmap/index.html",
+        roadmapLabel: "Lộ trình IELTS"
+      });
+    }
+    syncThemeBtn();
+    if (typeof MutationObserver !== "undefined") {
+      new MutationObserver(syncThemeBtn).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    }
+    render();
+  })();
+  </script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
+</body>
+</html>

@@ -41,10 +41,10 @@
   <title>LinguaPath — Nền tảng Tự học Đa ngôn ngữ</title>
   <link rel="prefetch" href="ielts/listening/data/listening_manifest.js">
   <link rel="prefetch" href="ielts/reading/data/reading_manifest.js">
-  <link rel="stylesheet" href="assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="assets/s4-ui.css?v=68">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=31">
 
   <style>
     @view-transition { navigation: auto; }
@@ -372,12 +372,12 @@
           calc(78px + env(safe-area-inset-bottom, 0px))
           calc(8px + env(safe-area-inset-left, 0px));
       }
-      .lp-topbar { gap: 4px; padding: 6px 8px; border-radius: 18px; min-height: 46px; }
-      .lp-top-left { gap: 5px; }
-      .lp-brand { gap: 6px; flex-shrink: 0; }
-      .lp-top-actions { gap: 4px; min-width: 0; }
+      .lp-topbar { gap: 6px; padding: 6px 8px; border-radius: 18px; min-height: 46px; }
+      .lp-top-left { gap: 5px; min-width: 0; overflow: hidden; }
+      .lp-brand { gap: 6px; min-width: 0; flex: 0 1 auto; overflow: hidden; }
+      .lp-top-actions { gap: 4px; min-width: 0; flex-shrink: 0; }
       .lp-brand-logo { width: 26px; height: 26px; border-radius: 8px; }
-      .lp-brand-title { font-size: 14px; letter-spacing: -0.25px; overflow: visible; text-overflow: clip; }
+      .lp-brand-title { font-size: 14px; letter-spacing: -0.25px; overflow: hidden; text-overflow: ellipsis; }
       .lp-back-pill { height: 30px; padding: 0 8px; font-size: 11.5px; gap: 3px; }
       .lp-icon-btn { height: 30px; min-width: 30px; width: 30px; padding: 0; }
       #s4UserTopBar { gap: 4px; min-width: 0; }
@@ -389,13 +389,34 @@
         min-width: 30px;
       }
       #s4UserTopBar .s4-top-btn.gold { display: none !important; }
-      #s4UserTopBar .s4-profile-trigger { height: 30px; max-width: 82px; padding: 0 6px 0 3px; font-size: 11.5px; }
+      #s4UserTopBar .s4-profile-trigger { height: 30px; max-width: 86px; padding: 0 6px 0 3px; font-size: 11.5px; }
       body.in-ielts-view .lp-brand-logo { display: none; }
       body.in-ielts-view .lp-brand-title { font-size: 14px; }
       body.in-ielts-view #s4UserTopBar .s4-top-btn[onclick*="openInstallModal"] { display: none !important; }
       body.in-ielts-view #s4UserTopBar:has(.s4-profile-trigger) .s4-top-btn.donate { display: none !important; }
       .grid, #viewPortal .grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
       .course-card { padding: 15px; border-radius: 20px !important; }
+    }
+    @media (max-width: 440px) {
+      #s4UserTopBar .s4-profile-trigger {
+        width: 30px !important;
+        min-width: 30px !important;
+        max-width: 30px !important;
+        padding: 0 !important;
+        justify-content: center;
+      }
+      #s4UserTopBar .s4-profile-name { display: none !important; }
+      #s4UserTopBar #s4MenuToggle {
+        width: 30px !important;
+        min-width: 30px !important;
+        padding: 0 !important;
+        font-size: 0 !important;
+        gap: 0 !important;
+      }
+      #s4UserTopBar #s4MenuToggle svg:last-of-type { display: none !important; }
+    }
+    @media (max-width: 375px) {
+      #s4UserTopBar .s4-top-btn[onclick*="openInstallModal"] { display: none !important; }
     }
   </style>
 </head>
@@ -552,9 +573,9 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
           </div>
           <div>
-            <span class="card-tag tag-blue" id="ieltsRoadmapStageTag">LỘ TRÌNH 5 MỐC • BAND 3.5 → 8.0+</span>
-            <h3 class="card-title">Lộ Trình Học IELTS Từng Bước</h3>
-            <p class="card-desc">Ghép 6 phân hệ theo mốc Band &amp; gợi ý bài học hôm nay.</p>
+            <span class="card-tag tag-blue" id="ieltsRoadmapStageTag">MỐC 0 (A0) + 5 MỐC ACADEMIC</span>
+            <h3 class="card-title">Lộ Trình Học IELTS Academic Từng Bước</h3>
+            <p class="card-desc">Bắt đầu từ số 0 (Pre-IELTS A0–A2) hoặc thẳng IELTS 3.5 → 8.0+.</p>
           </div>
         </div>
         <div class="card-footer">
@@ -571,6 +592,26 @@
         <span>Nền tảng</span>
       </div>
       <div class="grid">
+        <a class="course-card lp-glass" href="ielts/foundation/index.html">
+          <div class="card-top">
+            <div class="card-icon tone-teal" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-9"/><path d="M15.14 8.86a4.5 4.5 0 0 1 6.36 0 4.5 4.5 0 0 1-6.36 6.36L12 12l3.14-3.14Z"/><path d="M8.86 8.86a4.5 4.5 0 0 0-6.36 0 4.5 4.5 0 0 0 6.36 6.36L12 12 8.86 8.86Z"/></svg>
+            </div>
+            <div>
+              <span class="card-tag tag-teal">MỐC 0 • A0 → A2 • 64 TỪ SRS</span>
+              <h3 class="card-title">Nhập môn Tiếng Anh</h3>
+              <p class="card-desc">4 cụm hội thoại nghe chậm, ghép câu đơn &amp; bài kiểm tra trước IELTS.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="prog-row">
+              <span id="foundationPctText">Đã xong: 0/5 mục (0%)</span>
+              <span class="prog-cta" style="color:#0d9488;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="foundationProgFill" style="width:0%;background:#0d9488;"></div></div>
+          </div>
+        </a>
+
         <a class="course-card lp-glass" href="ielts/vocab/index.html">
           <div class="card-top">
             <div class="card-icon tone-blue" aria-hidden="true">
@@ -716,8 +757,8 @@
     </div>
   </div>
 
-  <script src="ielts/roadmap/roadmap_data.js?v=1"></script>
-  <script src="ielts/roadmap/roadmap.js?v=1"></script>
+  <script src="ielts/roadmap/roadmap_data.js?v=3"></script>
+  <script src="ielts/roadmap/roadmap.js?v=3"></script>
   <script src="assets/s4-ui.js?v=67"></script>
   <script>
     function syncHomeDarkButton() {
@@ -819,6 +860,16 @@
           });
           return { learned, ignored, mastered, due, totalDone: learned + ignored };
         };
+
+        const fndDone = safeJson("lp_ielts_foundation_done_v1", {});
+        const fndIds = ["m0_c1", "m0_c2", "m0_c3", "m0_c4", "m0_check"];
+        const fndCount = fndIds.filter(id => Boolean(fndDone[id])).length;
+        const fndSrsStat = countSrsEntries(safeJson("lp_ielts_foundation_srs_v1", {}));
+        const fndPct = Math.min(100, Math.round((fndCount / 5) * 100));
+        const fndTextEl = document.getElementById("foundationPctText");
+        const fndFillEl = document.getElementById("foundationProgFill");
+        if (fndTextEl) fndTextEl.textContent = "Đã xong: " + fndCount + "/5 mục • " + fndSrsStat.totalDone + "/64 từ SRS (" + fndPct + "%)";
+        if (fndFillEl) fndFillEl.style.width = fndPct + "%";
 
         const vocabSrsStat = countSrsEntries(safeJson("s4_vocab_srs_v1", {}), 1827);
         const dueCount = vocabSrsStat.due;
@@ -974,7 +1025,7 @@
       "lp_hsk_speaking_done_v1", "lp_hsk_mock_results_v1",
       "lp_hsk_shooter_best_v1", "lp_hsk_shooter_prefs_v1",
       "lp_hsk_roadmap_v1", "lp_ted_shadow_lang",
-      "lp_ielts_roadmap_v1"
+      "lp_ielts_roadmap_v1", "lp_ielts_foundation_done_v1", "lp_ielts_foundation_srs_v1"
     ];
     function isAppProgressKey(k) {
       if (EXTRA_BACKUP_KEYS.includes(k) || k.startsWith("lp_pz_draft_")) return true;
@@ -1134,8 +1185,8 @@
     updateDashboardStats();
     applyViewFromHash();
   </script>
-  <script src="assets/s4-global-search.js?v=2"></script>
+  <script src="assets/s4-global-search.js?v=3"></script>
   <script src="auth.js?v=33"></script>
-  <script src="assets/ghibli/ghibli-theme.js?v=26"></script>
+  <script src="assets/ghibli/ghibli-theme.js?v=27"></script>
 </body>
 </html>

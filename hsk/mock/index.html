@@ -38,7 +38,7 @@
   </script>
   <link rel="icon" href="../../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../../icon-192.png">
-  <title>Phòng Thi Thử Full Mock Test HSK 1–6 | LinguaPath</title>
+  <title>Đề Luyện Rút Gọn HSK 1–6 (Khung HSK 2.0) | LinguaPath</title>
   <style>
     :root {
       --bg: #f1f5f9;
@@ -101,8 +101,8 @@
 
     .surface-card, .exam-bar, .sheet-panel, .q-card, .mock-card, .report-hero, .modal-card {
       background: var(--lg-surface, var(--card));
-      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
-      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--hairline);
       box-shadow: var(--lg-shadow, 0 12px 32px rgba(15, 23, 42, 0.08)),
         inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.75)),
@@ -159,7 +159,7 @@
       color: var(--text);
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.16s ease;
+      transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease;
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -204,7 +204,7 @@
       cursor: pointer;
       font-family: inherit;
       white-space: nowrap;
-      transition: all 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
     }
     .lv-pill:hover { border-color: var(--primary); }
     .lv-pill.active {
@@ -672,7 +672,7 @@
       font-family: inherit;
       line-height: 1.45;
       overflow-wrap: anywhere;
-      transition: all 0.13s ease;
+      transition: background-color 0.13s ease, border-color 0.13s ease, color 0.13s ease, transform 0.13s ease, opacity 0.13s ease, box-shadow 0.13s ease;
     }
     .opt-btn:hover { border-color: var(--primary); }
     .opt-btn.selected {
@@ -959,7 +959,7 @@
       <div class="lp-brand">
         <span class="lp-brand-icon" id="mockBrandIcon" aria-hidden="true"></span>
         <div class="lp-brand-text">
-          <span class="lp-brand-title">Thi thử Mock</span>
+          <span class="lp-brand-title">Đề luyện rút gọn</span>
         </div>
       </div>
     </div>
@@ -1167,6 +1167,10 @@
             listeningScore: report.listeningScore,
             readingScore: report.readingScore,
             writingScore: report.writingScore,
+            writingFormalOnly: Boolean(report.hasOpenWriting),
+            qualityChecked: report.qualitySummary ? report.qualitySummary.checked : 0,
+            qualityTotal: report.qualitySummary ? report.qualitySummary.total : 0,
+            formatVersion: "HSK 2.0 (rút gọn)",
             dateIso: report.dateIso
           };
         }
@@ -1180,10 +1184,28 @@
           listeningScore: report.listeningScore,
           readingScore: report.readingScore,
           writingScore: report.writingScore,
+          writingFormalOnly: Boolean(report.hasOpenWriting),
+          qualityChecked: report.qualitySummary ? report.qualitySummary.checked : 0,
+          qualityTotal: report.qualitySummary ? report.qualitySummary.total : 0,
+          formatVersion: "HSK 2.0 (rút gọn)",
           mode: report.mode,
           dateIso: report.dateIso
         });
         data.history = data.history.slice(0, 30);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+      }
+
+      function updateLatestHistoryQuality(report) {
+        if (!report || !report.qualitySummary) return;
+        const data = loadResults();
+        if (data.history.length && data.history[0].id === report.id && data.history[0].dateIso === report.dateIso) {
+          data.history[0].qualityChecked = report.qualitySummary.checked;
+          data.history[0].qualityTotal = report.qualitySummary.total;
+        }
+        if (data.bestById[report.id] && data.bestById[report.id].dateIso === report.dateIso) {
+          data.bestById[report.id].qualityChecked = report.qualitySummary.checked;
+          data.bestById[report.id].qualityTotal = report.qualitySummary.total;
+        }
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
       }
 
@@ -1264,23 +1286,47 @@
         return { done, total: ls.length + rs.length + ws.length };
       }
 
+      const OPEN_WRITING_RUBRIC = [
+        { key: "content", label: "Nội dung & Đúng yêu cầu", hint: "Đúng chủ đề / giữ được ý chính văn bản nguồn (chấp nhận từ đồng nghĩa đúng ý)." },
+        { key: "order", label: "Trật tự câu & Ngữ pháp", hint: "Đúng trật tự Chủ–Trạng–Vị–Bổ–Tân, dùng hợp lý 了/着/过/把/被." },
+        { key: "vocab", label: "Từ vựng phù hợp ngữ cảnh", hint: "Chọn từ tự nhiên, không ghép rời từ khóa máy móc." },
+        { key: "flow", label: "Mạch ý & Dấu câu", hint: "Câu văn trôi chảy, có liên kết ý và dấu câu đầy đủ." }
+      ];
+
+      function extractSourceKeyPoints(q) {
+        if (!q || q.type !== "essay_summary") return [];
+        const viRaw = String(q.sourceVi || "").trim();
+        const zhRaw = String(q.sourceZh || "").trim();
+        const viParts = viRaw.split(/(?<=[.!?。！？])\s+/).map((s) => s.trim()).filter((s) => s.length >= 18);
+        const zhParts = zhRaw.split(/[。！？]/).map((s) => s.trim()).filter((s) => s.length >= 10);
+        const out = [];
+        const maxPts = Math.min(4, Math.max(viParts.length, zhParts.length));
+        for (let i = 0; i < maxPts; i++) {
+          out.push({
+            key: "kp_" + i,
+            label: viParts[i] || zhParts[i] || ("Ý chính #" + (i + 1))
+          });
+        }
+        return out;
+      }
+
       function evaluateWritingItem(q, rawVal) {
         const text = getWritingUserText(q, rawVal);
         const hCount = countHanzi(text);
-        if (!q) return { ratio: 0, detail: "" };
+        if (!q) return { ratio: 0, isFormalOnly: false, detail: "" };
 
         if (q.type === "reorder") {
           const uNorm = normalizeZh(text);
           const aNorm = normalizeZh(q.answer || "");
           const ok = Boolean(uNorm && aNorm && uNorm === aNorm);
-          return { ratio: ok ? 1 : 0, detail: ok ? "Sắp xếp chính xác 100%" : "Chưa khớp đáp án chuẩn" };
+          return { ratio: ok ? 1 : 0, isFormalOnly: false, detail: ok ? "Sắp xếp chính xác 100%" : "Chưa khớp đáp án chuẩn" };
         }
 
         if (q.type === "pinyin_write") {
           const uNorm = normalizeZh(text);
           const tNorm = normalizeZh(q.targetHanzi || "");
           const ok = Boolean(uNorm && tNorm && uNorm === tNorm);
-          return { ratio: ok ? 1 : 0, detail: ok ? "Viết đúng chữ Hán" : "Chưa khớp chữ Hán mục tiêu" };
+          return { ratio: ok ? 1 : 0, isFormalOnly: false, detail: ok ? "Viết đúng chữ Hán" : "Chưa khớp chữ Hán mục tiêu" };
         }
 
         if (q.type === "make_sentence") {
@@ -1289,33 +1335,83 @@
             : (q.keyword ? [q.keyword] : []);
           const hasTokens = req.length > 0 && req.every((tk) => text.includes(tk));
           const hasLen = hCount >= 6;
-          if (hasTokens && hasLen) return { ratio: 1, detail: "Đủ từ khóa & độ dài câu (>=6 chữ Hán)" };
-          if ((hasTokens || hasLen) && text.trim().length > 0) {
-            return { ratio: 0.5, detail: hasTokens ? "Đủ từ khóa nhưng câu hơi ngắn (<6 chữ Hán)" : "Đạt độ dài nhưng thiếu từ khóa bắt buộc" };
+          if (hasTokens && hasLen) {
+            return {
+              ratio: 1,
+              isFormalOnly: true,
+              formalPassed: true,
+              detail: "Kiểm tra hình thức: Đủ từ khóa & độ dài (≥6 chữ Hán) — cần tự đối chiếu ngữ pháp & nghĩa"
+            };
           }
-          return { ratio: 0, detail: "Chưa đạt yêu cầu đặt câu" };
+          if ((hasTokens || hasLen) && text.trim().length > 0) {
+            return {
+              ratio: 0.5,
+              isFormalOnly: true,
+              formalPassed: false,
+              detail: hasTokens
+                ? "Kiểm tra hình thức: Đủ từ khóa nhưng câu ngắn (<6 chữ Hán)"
+                : "Kiểm tra hình thức: Đạt độ dài nhưng thiếu từ khóa yêu cầu (nếu dùng từ đồng nghĩa đúng ý, đánh dấu ở bảng chất lượng)"
+            };
+          }
+          return { ratio: 0, isFormalOnly: true, formalPassed: false, detail: "Kiểm tra hình thức: Chưa đạt yêu cầu đặt câu" };
         }
 
         if (q.type === "essay_keywords" || q.type === "essay_summary") {
-          if (hCount === 0) return { ratio: 0, detail: "Chưa viết bài" };
+          if (hCount === 0) return { ratio: 0, isFormalOnly: true, formalPassed: false, detail: "Chưa viết bài" };
           const kwList = Array.isArray(q.keywords) ? q.keywords : [];
           const hit = kwList.filter((kw) => kw && text.includes(kw)).length;
           const kwRatio = kwList.length ? (hit / kwList.length) : 0;
           const minC = Number(q.minChars) || (q.type === "essay_summary" ? 110 : 60);
           const lenRatio = Math.min(1, hCount / minC);
           const ratio = Math.min(1, Math.max(0, 0.6 * kwRatio + 0.4 * lenRatio));
+          const hasPunct = /[，。！？；、,.!?;]/.test(text);
+          const stuffWarn = (!hasPunct && hCount >= 12)
+            ? " • Lưu ý: thiếu dấu câu ngắt ý (văn bản ghép từ khóa rời chỉ qua kiểm tra hình thức)"
+            : "";
           return {
             ratio,
+            isFormalOnly: true,
+            formalPassed: ratio >= 0.6,
             hitCount: hit,
             kwTotal: kwList.length,
             hCount,
             minC,
-            detail: `Trúng ${hit}/${kwList.length} từ khóa • ${hCount}/${minC} chữ Hán`
+            detail: `Kiểm tra hình thức: Trúng ${hit}/${kwList.length} từ khóa • ${hCount}/${minC} chữ Hán${stuffWarn}`
           };
         }
 
-        return { ratio: 0, detail: "" };
+        return { ratio: 0, isFormalOnly: false, detail: "" };
       }
+
+      function computeQualitySummary(wReview) {
+        let checked = 0;
+        let total = 0;
+        (wReview || []).forEach((item) => {
+          if (!item || !item.ev || !item.ev.isFormalOnly) return;
+          const checks = item.qualityChecks || {};
+          OPEN_WRITING_RUBRIC.forEach((c) => {
+            total++;
+            if (checks[c.key]) checked++;
+          });
+          (item.sourceKeyPoints || []).forEach((kp) => {
+            total++;
+            if (checks[kp.key]) checked++;
+          });
+        });
+        return { checked, total };
+      }
+
+      window.toggleMockWritingRubric = function (wIdx, key) {
+        const rep = state.lastReport;
+        if (!rep || !Array.isArray(rep.wReview)) return;
+        const item = rep.wReview.find((x) => x.idx === wIdx);
+        if (!item) return;
+        if (!item.qualityChecks) item.qualityChecks = {};
+        item.qualityChecks[key] = !item.qualityChecks[key];
+        rep.qualitySummary = computeQualitySummary(rep.wReview);
+        updateLatestHistoryQuality(rep);
+        render();
+      };
 
       function computeReport() {
         const ex = state.exam;
@@ -1341,9 +1437,11 @@
         });
 
         let wRatioSum = 0;
+        let hasOpenWriting = false;
         const wReview = ws.map((q, i) => {
           const rawVal = state.writingAnswers[i];
           const ev = evaluateWritingItem(q, rawVal);
+          if (ev.isFormalOnly) hasOpenWriting = true;
           wRatioSum += ev.ratio;
           return {
             idx: i,
@@ -1352,7 +1450,9 @@
             ratio: ev.ratio,
             pct: Math.round(ev.ratio * 100),
             isOk: ev.ratio >= 0.999,
-            ev
+            ev,
+            qualityChecks: {},
+            sourceKeyPoints: extractSourceKeyPoints(q)
           };
         });
 
@@ -1361,6 +1461,7 @@
         const writingScore = hasWriting ? Math.min(100, Math.round((wRatioSum / ws.length) * 100)) : 0;
         const totalScore = listeningScore + readingScore + (hasWriting ? writingScore : 0);
         const passed = totalScore >= Number(ex.passScore || (hasWriting ? 180 : 120));
+        const qualitySummary = computeQualitySummary(wReview);
 
         return {
           id: ex.id,
@@ -1370,6 +1471,8 @@
           maxScore: Number(ex.maxScore || (hasWriting ? 300 : 200)),
           passScore: Number(ex.passScore || (hasWriting ? 180 : 120)),
           hasWriting,
+          hasOpenWriting,
+          qualitySummary,
           listeningScore,
           readingScore,
           writingScore,
@@ -1702,45 +1805,47 @@
           const lLen = (m.listening || []).length;
           const rLen = (m.reading || []).length;
           const wLen = (m.writing || []).length;
+          const totalQ = lLen + rLen + wLen;
           const mins = Math.round(Number(m.durationSec || 0) / 60);
           return `
             <article class="mock-card ${isTarget ? "is-target" : ""}" id="mockCard_${escAttr(m.id)}">
               <div>
                 <div class="mock-top-row">
-                  <span class="lv-badge">${esc(m.badge || ("HSK " + m.level))}</span>
+                  <span class="lv-badge">${esc(String(m.badge || ("HSK " + m.level)).replace(/Đề [Tt]hi [Tt]hử/g, "Đề rút gọn"))}</span>
                   ${statusHtml}
                 </div>
-                <h3 class="mock-title">${esc(m.title)}</h3>
+                <h3 class="mock-title">${esc(String(m.title || "").replace(/Đề [Tt]hi [Tt]hử/g, "Đề luyện rút gọn"))}</h3>
                 <p class="mock-sub">${esc(m.subtitle)}</p>
               </div>
               <div>
                 <div class="mock-meta" style="margin-bottom:10px;">
+                  <span class="meta-tag">${mockSvg("layers", 13)} HSK 2.0 (${totalQ} câu)</span>
                   <span class="meta-tag">${mockSvg("volume", 13)} ${lLen} Nghe</span>
                   <span class="meta-tag">${mockSvg("book", 13)} ${rLen} Đọc</span>
                   ${wLen > 0 ? `<span class="meta-tag">${mockSvg("edit", 13)} ${wLen} Viết</span>` : ""}
                   <span class="meta-tag">${mockSvg("clock", 13)} ${mins} phút</span>
-                  <span class="meta-tag">${mockSvg("target", 13)} Đạt &ge;${m.passScore}/${m.maxScore}</span>
+                  <span class="meta-tag">${mockSvg("target", 13)} Ngưỡng &ge;${m.passScore}/${m.maxScore}</span>
                 </div>
-                <button class="start-btn" onclick="startExam('${escAttr(m.id)}')">${mockSvg("play", 14)} Bắt đầu thi</button>
+                <button class="start-btn" onclick="startExam('${escAttr(m.id)}')">${mockSvg("play", 14)} Bắt đầu luyện</button>
               </div>
             </article>
           `;
-        }).join("") : `<div class="surface-card" style="text-align:center;color:var(--muted);">Chưa có dữ liệu đề thi cho bộ lọc này.</div>`;
+        }).join("") : `<div class="surface-card" style="text-align:center;color:var(--muted);">Chưa có dữ liệu đề luyện cho bộ lọc này.</div>`;
 
         const historyHtml = history.length ? `
           <section class="surface-card">
-            <h2 class="sec-title"><span style="display:inline-flex;align-items:center;gap:6px;">${mockSvg("chart", 16)} Lịch sử thi gần đây (${history.length} lần)</span></h2>
+            <h2 class="sec-title"><span style="display:inline-flex;align-items:center;gap:6px;">${mockSvg("chart", 16)} Lịch sử luyện đề gần đây (${history.length} lần)</span></h2>
             <div class="hist-list">
               ${history.map((h) => `
                 <div class="hist-row">
                   <div class="hist-main">
-                    <div class="hist-title">${h.passed ? mockSvg("award", 14) : mockSvg("fileText", 14)} <span>[HSK ${esc(h.level)}] ${esc(h.title)}</span></div>
+                    <div class="hist-title">${h.passed ? mockSvg("award", 14) : mockSvg("fileText", 14)} <span>[HSK ${esc(h.level)}] ${esc(String(h.title || "").replace(/Đề [Tt]hi [Tt]hử/g, "Đề luyện rút gọn"))}</span></div>
                     <div class="hist-sub">
-                      ${h.mode === "real" ? "Thi thật" : "Luyện đề"} • Nghe ${h.listeningScore} • Đọc ${h.readingScore}${Number(h.maxScore) === 300 ? ` • Viết ${h.writingScore}` : ""} • ${formatDateVi(h.dateIso)}
+                      ${h.mode === "real" ? "Bấm giờ" : "Luyện tự do"} • Nghe ${h.listeningScore} • Đọc ${h.readingScore}${Number(h.maxScore) === 300 ? ` • Viết ${h.writingFormalOnly ? "(hình thức) " : ""}${h.writingScore}` : ""}${Number(h.qualityTotal || 0) > 0 ? ` • Tự chấm chất lượng: ${h.qualityChecked || 0}/${h.qualityTotal} tiêu chí` : ""} • ${formatDateVi(h.dateIso)}
                     </div>
                   </div>
                   <div class="hist-score" style="color:${h.passed ? "var(--ok)" : "var(--warn)"}">
-                    ${h.score}/${h.maxScore} ${h.passed ? "(Đạt)" : "(Chưa đạt)"}
+                    ${h.score}/${h.maxScore} ${h.passed ? "(Đạt ngưỡng)" : "(Chưa đạt)"}
                   </div>
                 </div>
               `).join("")}
@@ -1752,12 +1857,12 @@
           <section class="surface-card">
             <div class="lobby-hero">
               <div>
-                <h1>${mockSvg("award", 20)} Sảnh Phòng Thi Thử Chuẩn Thi Máy HSK 1–6</h1>
-                <p>12 bộ đề thi chuẩn cấu trúc HSK mới nhất. Chọn chế độ thi và bắt đầu làm bài.</p>
+                <h1>${mockSvg("award", 20)} Đề Luyện Rút Gọn HSK 1–6 (Khung HSK 2.0)</h1>
+                <p>12 đề mô phỏng rút gọn (20–25 câu/đề) theo cấu trúc HSK 2.0 để làm quen dạng bài và bấm giờ. CTI công bố triển khai HSK 3.0 toàn cầu ngày 13/12/2026 — điểm luyện tập tại đây dùng để tự đánh giá tiến bộ, không thay thế đề thi chứng chỉ đủ cấu trúc.</p>
               </div>
               <div class="lobby-stats">
-                <span class="stat-pill">${mockSvg("layers", 13)} Tổng: ${MOCK_TESTS.length} đề</span>
-                <span class="stat-pill">${mockSvg("award", 13)} Đã đạt: ${passedCount}/${MOCK_TESTS.length} đề</span>
+                <span class="stat-pill">${mockSvg("layers", 13)} Tổng: ${MOCK_TESTS.length} đề rút gọn</span>
+                <span class="stat-pill">${mockSvg("award", 13)} Đạt ngưỡng: ${passedCount}/${MOCK_TESTS.length} đề</span>
               </div>
             </div>
             <div class="mode-grid">
@@ -2126,14 +2231,17 @@
           <section class="report-hero ${rep.passed ? "passed" : "failed"}">
             <div class="cert-badge ${rep.passed ? "passed" : "failed"}">
               ${mockSvg(rep.passed ? "award" : "book", 15)}
-              ${rep.passed ? `ĐẠT CHỨNG CHỈ HSK ${rep.level}` : `CẦN CỦNG CỐ THÊM — HSK ${rep.level}`}
+              ${rep.passed ? `ĐẠT NGƯỠNG BÀI LUYỆN RÚT GỌN — HSK ${rep.level}` : `CHƯA ĐẠT NGƯỠNG BÀI LUYỆN — HSK ${rep.level}`}
             </div>
-            <h2 style="margin:0 0 4px;font-size:19px;">${esc(rep.title)}</h2>
+            <h2 style="margin:0 0 4px;font-size:19px;">${esc(String(rep.title || "").replace(/Đề [Tt]hi [Tt]hử/g, "Đề luyện rút gọn"))}</h2>
             <div class="big-score" style="color:${rep.passed ? "var(--ok)" : "var(--warn)"}">
               ${rep.totalScore} / ${rep.maxScore}
             </div>
             <div style="font-size:13px;color:var(--muted);font-weight:700;">
-              Điểm chuẩn đạt: ${rep.passScore}/${rep.maxScore} • ${rep.mode === "real" ? "Thi thật" : "Luyện đề"}
+              Ngưỡng bài luyện: ${rep.passScore}/${rep.maxScore} • Đề rút gọn khung HSK 2.0 (${rep.lTotal + rep.rTotal + rep.wTotal} câu) • ${rep.mode === "real" ? "Bấm giờ" : "Luyện tự do"}
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+              Kết quả chỉ phản ánh bài luyện rút gọn (không thay thế điểm thi chứng chỉ HSK chính thức).${rep.hasOpenWriting ? " Điểm phần Viết tự do là kết quả Kiểm tra yêu cầu hình thức (từ khóa & độ dài)." : ""}
             </div>
 
             <div class="score-bars">
@@ -2154,10 +2262,11 @@
               ${rep.hasWriting ? `
                 <div class="score-bar-box">
                   <div style="display:flex;justify-content:space-between;font-weight:800;font-size:13.5px;">
-                    <span style="display:inline-flex;align-items:center;gap:5px;">${mockSvg("edit", 14)} Phần Viết (${rep.wTotal} câu)</span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;">${mockSvg("edit", 14)} Phần Viết${rep.hasOpenWriting ? " (Kiểm tra hình thức)" : ""} (${rep.wTotal} câu)</span>
                     <span>${rep.writingScore}/100</span>
                   </div>
                   <div class="bar-track"><div class="bar-fill" style="width:${rep.writingScore}%;background:#dc2626;"></div></div>
+                  ${rep.qualitySummary && rep.qualitySummary.total > 0 ? `<div style="margin-top:5px;font-size:12px;color:var(--muted);font-weight:700;">Tự đánh giá chất lượng viết: <b>${rep.qualitySummary.checked}/${rep.qualitySummary.total}</b> tiêu chí đã đạt</div>` : ""}
                 </div>
               ` : ""}
             </div>
@@ -2235,11 +2344,11 @@
 
             ${rep.hasWriting ? `
               <h3 style="margin:18px 0 8px;font-size:15.5px;display:flex;align-items:center;gap:6px;">${mockSvg("edit", 15)} Phần 3: Viết (${wList.length} bài hiển thị)</h3>
-              ${wList.length ? wList.map(({ idx, q, userText, pct, ev }) => `
+              ${wList.length ? wList.map(({ idx, q, userText, pct, ev, qualityChecks, sourceKeyPoints }) => `
                 <div class="q-card" style="border-color:${pct >= 100 ? "var(--ok)" : (pct >= 50 ? "var(--warn)" : "var(--danger)")};">
                   <div class="q-head-row">
                     <span class="q-part-badge">${esc(q.partLabel || ("Viết • Câu " + (idx + 1)))}</span>
-                    <span style="font-weight:800;font-size:13px;color:${pct >= 100 ? "var(--ok)" : "var(--warn)"};">Điểm câu: ${pct}%</span>
+                    <span style="font-weight:800;font-size:13px;color:${pct >= 100 ? "var(--ok)" : "var(--warn)"};">${ev.isFormalOnly ? "Kiểm tra hình thức" : "Điểm câu"}: ${pct}%</span>
                   </div>
                   <div class="review-box">
                     <div><b>Bài làm của bạn:</b> ${userText ? esc(userText) : "<span style='color:var(--muted)'>(Bỏ trống)</span>"}</div>
@@ -2278,10 +2387,41 @@
                       ${q.samplePy ? `<div class="py-line">${esc(q.samplePy)}</div>` : ""}
                       ${q.sampleVi ? `<div class="vi-line">Nghĩa: ${esc(q.sampleVi)}</div>` : ""}
                     ` : ""}
+                    ${ev.isFormalOnly ? `
+                      <div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--lg-wash,rgba(148,163,184,0.1));border:1px solid var(--border);">
+                        <div style="font-weight:800;font-size:12.5px;margin-bottom:6px;display:flex;align-items:center;gap:5px;">${mockSvg("target", 13)} Tự đánh giá chất lượng nội dung (tách riêng khỏi điểm hình thức)</div>
+                        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+                          <b>Ví dụ chưa đạt:</b> ghép rời từ khóa không thành câu đúng ngữ pháp (chỉ qua kiểm tra hình thức). • <b>Ví dụ đạt:</b> đúng cấu trúc, diễn đạt trọn ý (vẫn ghi nhận nếu dùng từ đồng nghĩa chuẩn ngữ cảnh).
+                        </div>
+                        <div style="display:grid;gap:6px;">
+                          ${OPEN_WRITING_RUBRIC.map((c) => {
+                            const ck = Boolean(qualityChecks && qualityChecks[c.key]);
+                            return `<label style="display:flex;align-items:flex-start;gap:7px;font-size:12.5px;cursor:pointer;">
+                              <input type="checkbox" ${ck ? "checked" : ""} onchange="toggleMockWritingRubric(${idx}, '${c.key}')" style="margin-top:2px;">
+                              <span><b>${esc(c.label)}:</b> <span style="color:var(--muted);">${esc(c.hint)}</span></span>
+                            </label>`;
+                          }).join("")}
+                        </div>
+                        ${Array.isArray(sourceKeyPoints) && sourceKeyPoints.length ? `
+                          <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);">
+                            <div style="font-weight:800;font-size:12px;margin-bottom:5px;">Đối chiếu ý chính văn bản nguồn (HSK 6 Tóm tắt):</div>
+                            <div style="display:grid;gap:5px;">
+                              ${sourceKeyPoints.map((kp) => {
+                                const ck = Boolean(qualityChecks && qualityChecks[kp.key]);
+                                return `<label style="display:flex;align-items:flex-start;gap:7px;font-size:12px;cursor:pointer;">
+                                  <input type="checkbox" ${ck ? "checked" : ""} onchange="toggleMockWritingRubric(${idx}, '${kp.key}')" style="margin-top:2px;">
+                                  <span>${esc(kp.label)}</span>
+                                </label>`;
+                              }).join("")}
+                            </div>
+                          </div>
+                        ` : ""}
+                      </div>
+                    ` : ""}
                     ${q.exp ? `<div style="margin-top:8px;display:flex;align-items:flex-start;gap:5px;">${mockSvg("lightbulb", 14)} <span><b>Giải thích:</b> ${esc(q.exp)}</span></div>` : ""}
                   </div>
                 </div>
-              `).join("") : `<p style="color:var(--muted);font-size:13.5px;">Tuyệt vời! Tất cả câu viết đều đạt tối đa.</p>`}
+              `).join("") : `<p style="color:var(--muted);font-size:13.5px;">Tuyệt vời! Tất cả câu viết đều đạt yêu cầu.</p>`}
             ` : ""}
           </section>
         `;

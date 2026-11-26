@@ -191,6 +191,52 @@
     document.head.appendChild(s);
   }
 
+  const writingUnitLoading = {};
+  const writingUnitCallbacks = {};
+  function ensureWritingUnitLoaded(unitId, cb) {
+    if (!unitId || unitId === 'u_6') {
+      if (cb) cb();
+      return;
+    }
+    const existing = global.__LP_WRITING_CHUNKS && global.__LP_WRITING_CHUNKS[unitId];
+    if (existing) {
+      allLessons = WritingParser.hydrateUnit(unitId, existing);
+      if (cb) cb();
+      return;
+    }
+    if (!writingUnitCallbacks[unitId]) writingUnitCallbacks[unitId] = [];
+    if (cb) writingUnitCallbacks[unitId].push(cb);
+    if (writingUnitLoading[unitId]) return;
+    writingUnitLoading[unitId] = true;
+
+    const s = document.createElement('script');
+    s.src = `data/writing_${unitId}.js?v=1`;
+    s.onload = () => {
+      writingUnitLoading[unitId] = false;
+      const chunk = global.__LP_WRITING_CHUNKS && global.__LP_WRITING_CHUNKS[unitId];
+      if (chunk) {
+        allLessons = WritingParser.hydrateUnit(unitId, chunk);
+      }
+      const ok = Boolean(chunk);
+      const list = writingUnitCallbacks[unitId] || [];
+      writingUnitCallbacks[unitId] = [];
+      while (list.length > 0) {
+        const fn = list.shift();
+        try { if (fn) fn(ok); } catch (e) { console.error('[WritingChunk]', e); }
+      }
+    };
+    s.onerror = () => {
+      writingUnitLoading[unitId] = false;
+      const list = writingUnitCallbacks[unitId] || [];
+      writingUnitCallbacks[unitId] = [];
+      while (list.length > 0) {
+        const fn = list.shift();
+        try { if (fn) fn(false); } catch (e) {}
+      }
+    };
+    document.head.appendChild(s);
+  }
+
   // =========================================================================
   // 1. KHỞI TẠO
   // =========================================================================
@@ -946,6 +992,32 @@
   };
 
   function loadLessonToStudio(lesson) {
+    if (lesson && lesson._stub && lesson.unitId && lesson.unitId !== 'u_6') {
+      const targetId = lesson.id;
+      const uId = lesson.unitId;
+      const leftPane = document.getElementById('studioLeftPane');
+      const titleEl = document.getElementById('studioLessonTitle');
+      if (titleEl) titleEl.textContent = lesson.title || 'Đang tải bài học...';
+      if (leftPane) {
+        leftPane.innerHTML = '<div style="padding:22px 16px;font-size:13.5px;font-weight:700;color:var(--muted,#94a3b8);">Đang nạp nội dung học phần…</div>';
+      }
+      ensureWritingUnitLoaded(uId, (ok) => {
+        const hydrated = WritingParser.getLessonById(targetId);
+        if (ok && hydrated && !hydrated._stub && activeLesson && activeLesson.id === targetId) {
+          activeLesson = hydrated;
+          renderSidebar();
+          loadLessonToStudio(hydrated);
+        } else if (!ok && leftPane && activeLesson && activeLesson.id === targetId) {
+          leftPane.innerHTML = `<div style="padding:20px 16px;border-radius:14px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:var(--text,#f8fafc);font-size:13.5px;line-height:1.5;">
+            <div style="font-weight:800;margin-bottom:6px;">Không tải được gói dữ liệu học phần (${escHtml(uId)}).</div>
+            <div style="font-size:12.5px;opacity:0.85;margin-bottom:10px;">Kiểm tra kết nối mạng (hoặc mở lại khi có mạng để bộ nhớ đệm lưu offline).</div>
+            <button type="button" class="btn btn-primary" onclick="window.selectWritingLesson('${escJsAttr(targetId)}')">Thử tải lại</button>
+          </div>`;
+        }
+      });
+      return;
+    }
+
     const pzContainer = document.getElementById('practiceZoneContainer');
     const lobbyContainer = document.getElementById('practiceZoneLobby');
     const studioContainer = document.getElementById('studioContainer');

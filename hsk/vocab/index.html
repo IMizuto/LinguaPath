@@ -538,10 +538,48 @@
     })();
     let userSettings = Object.assign({}, DEFAULT_SETTINGS, safeJson(SET_KEY, {}));
 
+    const HSK1_LESSON_GROUPS = [
+      { id: "hsk1_01", label: "Bài 1: 你好！", words: ["你","好","老师","对不起","没关系","再见"] },
+      { id: "hsk1_02", label: "Bài 2: 谢谢你！", words: ["谢谢","不","不客气","我","我们","很","吗"] },
+      { id: "hsk1_03", label: "Bài 3: 你叫什么名字？", words: ["叫","什么","名字","是","哪","人","中国"] },
+      { id: "hsk1_04", label: "Bài 4: 她是我的汉语老师", words: ["她","他","谁","的","汉语","同学","朋友","学生","呢","这","那","都"] },
+      { id: "hsk1_05", label: "Bài 5: 她女儿今年二十岁", words: ["家","有","爸爸","妈妈","女儿","儿子","几","多少","岁"] },
+      { id: "hsk1_06", label: "Bài 6: 我会说汉语", words: ["会","写","读","做","菜","怎么","太"] },
+      { id: "hsk1_07", label: "Bài 7: 今天几号？", words: ["今天","昨天","明天","年","月","日","星期","去","学校"] },
+      { id: "hsk1_08", label: "Bài 8: 我想喝茶", words: ["想","喝","茶","水","吃","米饭","杯子","钱","块"] },
+      { id: "hsk1_09", label: "Bài 9: 你儿子在哪儿工作？", words: ["在","工作","医院","医生","猫","狗"] },
+      { id: "hsk1_10", label: "Bài 10: 桌子上有什么？", words: ["桌子","椅子","电脑","书","本","里","前面","后面","和","能","坐","先生"] },
+      { id: "hsk1_11", label: "Bài 11: 现在几点？", words: ["现在","点","上午","中午","下午","时候","回","零"] },
+      { id: "hsk1_12", label: "Bài 12: 明天天气怎么样？", words: ["天气","怎么样","热","冷","下雨","爱","水果","些","多","小姐"] },
+      { id: "hsk1_13", label: "Bài 13: 他在学做中国菜呢", words: ["喂","打电话","睡觉","听","学习","喜欢"] },
+      { id: "hsk1_14", label: "Bài 14: 她买了不少衣服", words: ["买","东西","衣服","漂亮","商店","苹果","看见","少"] },
+      { id: "hsk1_15", label: "Bài 15: 我是坐飞机来的", words: ["认识","高兴","飞机","出租车","火车站","住","电影","来"] },
+      { id: "hsk1_extra", label: "Bổ sung HSK 1 (số đếm & mở rộng)", words: ["了","个","一","上","看","没","大","下","小","开","请","三","分钟","四","五","二","电视","六","十","说话","字","八","七","九","北京","饭馆"] }
+    ];
+    const HSK1_LESSON_PACKS = (() => {
+      const byWord = new Map((WORDS_BY_LEVEL[1] || []).map((w) => [w.word, w]));
+      return HSK1_LESSON_GROUPS.map((g) => ({
+        topic: "HSK 1 — " + g.label,
+        shortName: g.label,
+        lessonId: g.id,
+        items: g.words.map((zh) => byWord.get(zh)).filter(Boolean)
+      })).filter((p) => p.items.length > 0);
+    })();
+    function getLevelPacks(lv) {
+      if (lv === 1 && hsk1OrderMode === "lesson") return HSK1_LESSON_PACKS;
+      return PACKS_BY_LEVEL[lv] || [];
+    }
+
     const qs = new URLSearchParams(location.search);
     let currentLevel = Math.min(6, Math.max(1, Number(qs.get("level") || qs.get("lv") || 1) || 1));
     let hasDueLevelFilter = Boolean(Number(qs.get("level") || qs.get("lv") || 0));
-    let currentTopic = PACKS_BY_LEVEL[currentLevel][0] ? PACKS_BY_LEVEL[currentLevel][0].topic : "__ALL__";
+    const reqOrder = (qs.get("order") || "").toLowerCase();
+    const savedOrder = (() => { try { return localStorage.getItem("lp_hsk1_vocab_order") || ""; } catch (e) { return ""; } })();
+    let hsk1OrderMode = (reqOrder === "freq" || reqOrder === "lesson")
+      ? reqOrder
+      : ((savedOrder === "freq" || savedOrder === "lesson") ? savedOrder : "lesson");
+    const initPacks = getLevelPacks(currentLevel);
+    let currentTopic = initPacks[0] ? initPacks[0].topic : "__ALL__";
     let currentMode = "smart"; // smart | flashcard | quiz | listen | match | cloze | list
     let quizDir = "mix";       // mix | zh2vi | vi2zh | zh2py
     let listenSub = "choice";  // choice | dictation
@@ -687,8 +725,14 @@
         const basePool = hasDueLevelFilter ? (WORDS_BY_LEVEL[currentLevel] || []) : ALL_WORDS;
         return basePool.filter((w) => isDueWord(w, now)).sort((a, b) => (srsMap[a.id].due || 0) - (srsMap[b.id].due || 0));
       }
-      if (currentTopic === "__ALL__") return WORDS_BY_LEVEL[currentLevel] || [];
-      const pack = (PACKS_BY_LEVEL[currentLevel] || []).find((p) => p.topic === currentTopic);
+      if (currentTopic === "__ALL__") {
+        if (currentLevel === 1 && hsk1OrderMode === "lesson") {
+          return HSK1_LESSON_PACKS.reduce((acc, p) => acc.concat(p.items), []);
+        }
+        return WORDS_BY_LEVEL[currentLevel] || [];
+      }
+      const pack = getLevelPacks(currentLevel).find((p) => p.topic === currentTopic)
+        || (PACKS_BY_LEVEL[currentLevel] || []).find((p) => p.topic === currentTopic);
       return pack ? pack.items : (WORDS_BY_LEVEL[currentLevel] || []);
     }
     function scopeId() {
@@ -1235,7 +1279,7 @@
         : "../lessons/index.html";
       wrap.innerHTML = `<div class="bar-card" style="padding:9px 12px;">
         ${isLessonScope ? `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:800;color:var(--primary);margin-bottom:6px;padding-bottom:6px;border-bottom:1px dashed var(--border);">
-          <span>🏫 Đang ôn bộ từ Bài giảng: ${esc(lessonSrsPool.title)} (${lessonSrsPool.words.length} từ)</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;">${vIcon("book", 14)}<span>Đang ôn bộ từ Bài giảng: ${esc(lessonSrsPool.title)} (${lessonSrsPool.words.length} từ)</span></span>
           <a class="skip-btn" style="text-decoration:none;" href="${lessonBackUrl}">← Về Bài giảng</a>
         </div>` : ""}
         <div class="sess-row">
@@ -1866,7 +1910,7 @@
       if (lessonSrsPool && Array.isArray(lessonSrsPool.words) && lessonSrsPool.words.length) {
         const lesDone = lessonSrsPool.words.filter((w) => isTouchedWord(w)).length;
         html += `<button class="pack-btn ${currentTopic === "__LESSON__" ? "active" : ""}" onclick="selectTopic('__LESSON__')">
-          <span style="display:inline-flex;align-items:center;gap:6px;">🏫<span>${esc(lessonSrsPool.title)}</span></span><span class="pack-cnt">${lesDone}/${lessonSrsPool.words.length}</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;">${vIcon("book", 13)}<span>${esc(lessonSrsPool.title)}</span></span><span class="pack-cnt">${lesDone}/${lessonSrsPool.words.length}</span>
         </button>`;
       }
       if (allDueCount > 0 || currentTopic === "__DUE__") {
@@ -1874,13 +1918,19 @@
           <span style="display:inline-flex;align-items:center;gap:6px;">${vIcon("bell", 13)}<span>Cần ôn hôm nay</span></span><span class="pack-cnt">${allDueCount}</span>
         </button>`;
       }
-      const packs = PACKS_BY_LEVEL[currentLevel] || [];
+      if (currentLevel === 1) {
+        html += `<div style="display:flex;gap:4px;padding:3px;border-radius:12px;background:var(--lg-seg-track,rgba(148,163,184,0.16));margin:2px 0 6px;">
+          <button type="button" onclick="setHsk1OrderMode('lesson')" style="flex:1;border:none;border-radius:9px;padding:6px 8px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;background:${hsk1OrderMode === "lesson" ? "var(--lg-seg-active,#fff)" : "transparent"};color:${hsk1OrderMode === "lesson" ? "var(--accent)" : "var(--muted)"};">Theo bài giảng (1–15)</button>
+          <button type="button" onclick="setHsk1OrderMode('freq')" style="flex:1;border:none;border-radius:9px;padding:6px 8px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;background:${hsk1OrderMode === "freq" ? "var(--lg-seg-active,#fff)" : "transparent"};color:${hsk1OrderMode === "freq" ? "var(--accent)" : "var(--muted)"};">Theo tần suất</button>
+        </div>`;
+      }
+      const packs = getLevelPacks(currentLevel);
       html += `<button class="pack-btn ${currentTopic === "__ALL__" ? "active" : ""}" onclick="selectTopic('__ALL__')">
         <span style="display:inline-flex;align-items:center;gap:6px;">${vIcon("book", 13)}<span>Toàn bộ HSK ${currentLevel}</span></span><span class="pack-cnt">${lvDone}/${lvWords.length}</span>
       </button>`;
       packs.forEach((p) => {
         const done = p.items.filter((w) => isTouchedWord(w)).length;
-        const shortName = p.topic.replace(`HSK ${currentLevel} — `, "");
+        const shortName = p.shortName || p.topic.replace(`HSK ${currentLevel} — `, "");
         html += `<button class="pack-btn ${currentTopic === p.topic ? "active" : ""}" onclick="selectTopic('${escJsAttr(p.topic)}')">
           <span>${esc(shortName)}</span><span class="pack-cnt">${done}/${p.items.length}</span>
         </button>`;
@@ -1919,6 +1969,18 @@
     }
 
     /* ---------- User Actions ---------- */
+    function setHsk1OrderMode(mode) {
+      hsk1OrderMode = mode === "freq" ? "freq" : "lesson";
+      try { localStorage.setItem("lp_hsk1_vocab_order", hsk1OrderMode); } catch (e) {}
+      if (currentLevel === 1 && currentTopic !== "__DUE__" && currentTopic !== "__LESSON__") {
+        const packs = getLevelPacks(1);
+        selectTopic(packs[0] ? packs[0].topic : "__ALL__");
+        return;
+      }
+      renderAll();
+    }
+    window.setHsk1OrderMode = setHsk1OrderMode;
+
     function toggleDrawer(open) { document.body.classList.toggle("drawer-open", Boolean(open) && window.innerWidth <= 1024); }
     window.addEventListener("resize", () => { if (window.innerWidth > 1024 && document.body.classList.contains("drawer-open")) toggleDrawer(false); });
     function togglePanel(p) { panel = panel === p ? "" : p; renderStatsCard(); }
@@ -1987,7 +2049,8 @@
     function selectLevel(lv) {
       hasDueLevelFilter = false;
       currentLevel = lv;
-      currentTopic = PACKS_BY_LEVEL[lv][0] ? PACKS_BY_LEVEL[lv][0].topic : "__ALL__";
+      const packs = getLevelPacks(lv);
+      currentTopic = packs[0] ? packs[0].topic : "__ALL__";
       extraPracticeMode = false;
       listPage = 1;
       if (!tryRestoreSession(false)) buildStudyQueue(false);
@@ -2094,7 +2157,8 @@
         const lvParam = Number(sp.get("lv") || sp.get("level") || 0);
         if (lvParam >= 1 && lvParam <= 6) {
           currentLevel = lvParam;
-          currentTopic = PACKS_BY_LEVEL[lvParam][0] ? PACKS_BY_LEVEL[lvParam][0].topic : "__ALL__";
+          const bootPacks = getLevelPacks(lvParam);
+          currentTopic = bootPacks[0] ? bootPacks[0].topic : "__ALL__";
         }
         const fromLesson = sp.get("fromLesson");
         if (fromLesson) {

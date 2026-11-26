@@ -33,7 +33,7 @@
   const P_SDONE = "lp_speaking_done_v1", P_SLAST = "lp_speaking_last_v1", P_SNOTES = "lp_speaking_notes_v1", P_SSUBS = "lp_speaking_submissions_v1", P_SPREFS = "lp_speaking_prefs_v1";
   const P_SSRS = "lp_speaking_vocab_srs_v1", P_SDAYS = "lp_speaking_vocab_days_v1", P_SSET = "lp_speaking_vocab_settings_v1", P_SSES = "lp_speaking_vocab_session_v1";
   const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos", P_TSUBVI = "s4_ted_show_vi", P_TSHADLANG = "lp_ted_shadow_lang";
-  const P_IELTS_RM = "lp_ielts_roadmap_v1", P_HSK_RM = "lp_hsk_roadmap_v1", P_HMOCK = "lp_hsk_mock_results_v1", P_HMWDONE = "lp_hsk_mw_done_v1";
+  const P_IELTS_RM = "lp_ielts_roadmap_v1", P_HSK_RM = "lp_hsk_roadmap_v1", P_HMOCK = "lp_hsk_mock_results_v1", P_HMWDONE = "lp_hsk_mw_done_v1", P_FND_DONE = "lp_ielts_foundation_done_v1", P_FND_SRS = "lp_ielts_foundation_srs_v1";
   const P_HVSRS = "lp_hsk_vocab_srs_v1", P_HVDAYS = "lp_hsk_vocab_days_v1", P_HVSET = "lp_hsk_vocab_settings_v1", P_HVSES = "lp_hsk_vocab_session_v1";
   const P_HLDONE = "lp_hsk_lessons_done_v1", P_HLLAST = "lp_hsk_lessons_last_v1", P_HWBDONE = "lp_hsk_workbook_done_v1";
   const P_HGDONE = "lp_hsk_grammar_done_v1", P_HGLAST = "lp_hsk_grammar_last_v1", P_HWDONE = "lp_hsk_writing_done_v1", P_HWDRAFTS = "lp_hsk_writing_drafts_v1", P_HLISDONE = "lp_hsk_listening_done_v1", P_HLISLAST = "lp_hsk_listening_last_v1", P_HRDONE = "lp_hsk_reading_done_v1", P_HRLAST = "lp_hsk_reading_last_v1", P_HSDONE = "lp_hsk_speaking_done_v1", P_HSHOOT = "lp_hsk_shooter_best_v1", P_HSHOOTPREF = "lp_hsk_shooter_prefs_v1";
@@ -45,13 +45,13 @@
     P_PZFLAGS,
     P_WDONE, P_WLAST, P_WESSAYS, P_WNOTES, P_WSUBS,
     P_SDONE, P_SLAST, P_SNOTES, P_SSUBS, P_SPREFS, P_SSRS, P_SDAYS, P_SSET, P_SSES,
-    P_IELTS_RM, P_HSK_RM, P_HMOCK, P_HMWDONE,
+    P_IELTS_RM, P_HSK_RM, P_HMOCK, P_HMWDONE, P_FND_DONE, P_FND_SRS,
     P_TDONE, P_TLAST, P_TPOS, P_TSUBVI, P_TSHADLANG,
     P_HVSRS, P_HVDAYS, P_HVSET, P_HVSES, P_HLDONE, P_HLLAST, P_HWBDONE,
     P_HGDONE, P_HGLAST, P_HWDONE, P_HWDRAFTS, P_HLISDONE, P_HLISLAST, P_HRDONE, P_HRLAST, P_HSDONE, P_HSHOOT, P_HSHOOTPREF
   ];
   const SUBMISSION_KEYS = [P_SSUBS, P_WSUBS, P_RSUBS, P_LSUBS];
-  const DONE_MAP_KEYS = [P_GDONE, P_TDONE, P_HLDONE, P_HWBDONE, P_HGDONE, P_HLISDONE, P_HRDONE, P_HSDONE, P_HMWDONE];
+  const DONE_MAP_KEYS = [P_GDONE, P_TDONE, P_HLDONE, P_HWBDONE, P_HGDONE, P_HLISDONE, P_HRDONE, P_HSDONE, P_HMWDONE, P_FND_DONE];
   const DONE_ARR_KEYS = [P_LDONE, P_RDONE, P_WDONE, P_SDONE];
   const DELETABLE_MAP_KEYS = [P_WESSAYS, P_HWDRAFTS, P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES, P_RPZANS, P_LPZANS, P_PZFLAGS];
   const isPzDraftKey = k => typeof k === "string" && /^lp_pz_draft_[A-Za-z0-9_-]+$/.test(k);
@@ -932,8 +932,8 @@
     const preferLocalScalar = Boolean(sync && sync.dirty && localTs >= Number(rts || 0));
     const lT = normalizeTombs(localTombsRaw);
     const rT = normalizeTombs(remoteTombsRaw);
-    // 1. SRS Maps (Vocab, Listening, Reading, Speaking, HSK Vocab)
-    [P_SRS, P_LSRS, P_RSRS, P_SSRS, P_HVSRS].forEach(k => {
+    // 1. SRS Maps (Vocab, Listening, Reading, Speaking, HSK Vocab, IELTS Foundation)
+    [P_SRS, P_LSRS, P_RSRS, P_SSRS, P_HVSRS, P_FND_SRS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSrsMap(local[k], remote[k]);
     });
     // 2. Study Days Maps (Vocab, Listening, Reading, Speaking, HSK Vocab)

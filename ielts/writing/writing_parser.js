@@ -342,6 +342,7 @@
             id: item.id || `writing_${uId}_${itemIdx + 1}`,
             unitId: uId,
             unitName: uName,
+            _stub: Boolean(item._stub),
             type: lessonType,
             category,
             title: cleanTitle,
@@ -534,6 +535,20 @@
           task2: t2Part ? this._toPzTaskSpec(t2Part, 'task2') : { taskId: 'task2', title: 'Task 2', minWords: 250, prompt: '', images: [], sampleText: '' }
         }
       };
+    },
+
+    hydrateUnit(unitId, rawUnit) {
+      const src = (typeof window !== 'undefined' && window.STUDY4_WRITING_DATA) ? window.STUDY4_WRITING_DATA : null;
+      if (!src || !Array.isArray(src.units) || !rawUnit) return this.getAllLessons();
+      const idx = src.units.findIndex(u => u && u.unitId === unitId);
+      if (idx >= 0) {
+        src.units[idx] = rawUnit;
+      } else {
+        src.units.push(rawUnit);
+      }
+      this.cache = null;
+      this.init(src);
+      return this.getAllLessons();
     },
 
     getAllLessons() {

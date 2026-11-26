@@ -185,6 +185,24 @@ html.dark[data-course="ted"] {
   --lg-accent-soft: rgba(251, 113, 133, 0.18);
 }
 
+/* Bề mặt kính sáng trong riêng cho Modal / Spotlight (không bị nền tối phía sau làm xám đục ở chế độ Sáng) */
+:root {
+  --lg-modal-surface: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.93) 100%);
+  --lg-modal-backdrop: rgba(15, 23, 42, 0.34);
+}
+html.theme-ghibli:not(.dark) {
+  --lg-modal-surface: linear-gradient(160deg, rgba(255, 252, 245, 0.96) 0%, rgba(249, 243, 229, 0.93) 100%);
+  --lg-modal-backdrop: rgba(34, 48, 38, 0.34);
+}
+html.dark {
+  --lg-modal-surface: linear-gradient(160deg, rgba(20, 32, 50, 0.95) 0%, rgba(13, 21, 36, 0.92) 100%);
+  --lg-modal-backdrop: rgba(2, 6, 23, 0.62);
+}
+html.theme-ghibli.dark {
+  --lg-modal-surface: linear-gradient(160deg, rgba(22, 38, 30, 0.95) 0%, rgba(14, 26, 20, 0.92) 100%);
+  --lg-modal-backdrop: rgba(5, 12, 9, 0.64);
+}
+
 html.ghibli-lite {
   --lg-blur: blur(6px) saturate(125%);
 }
@@ -196,6 +214,8 @@ html.ghibli-lite {
   z-index: -2;
   pointer-events: none;
   display: none;
+  contain: strict;
+  transform: translateZ(0);
   background:
     radial-gradient(62% 50% at 14% 12%, rgba(56, 189, 248, 0.36) 0%, transparent 70%),
     radial-gradient(56% 52% at 86% 18%, rgba(167, 139, 250, 0.30) 0%, transparent 72%),
@@ -497,7 +517,7 @@ html:not(.theme-ghibli) .lp-aurora-layer {
   white-space: nowrap;
   flex-shrink: 0;
   text-shadow: none;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 .lp-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
 .lp-pill.active {
@@ -627,9 +647,9 @@ body.in-cbt-mode .s4-ui-toast-stack--bottom {
   position: fixed;
   inset: 0;
   z-index: 2147483646;
-  background: rgba(15, 23, 42, 0.62);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: var(--lg-modal-backdrop, rgba(15, 23, 42, 0.36));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -643,13 +663,14 @@ body.in-cbt-mode .s4-ui-toast-stack--bottom {
 .s4-ui-dialog {
   width: 100%;
   max-width: 440px;
-  background: var(--lg-surface-strong, var(--card, var(--panel, #ffffff)));
-  backdrop-filter: var(--lg-blur, blur(14px));
-  -webkit-backdrop-filter: var(--lg-blur, blur(14px));
+  background: var(--lg-modal-surface, var(--lg-surface-strong, var(--card, var(--panel, #ffffff))));
+  backdrop-filter: blur(18px) saturate(155%);
+  -webkit-backdrop-filter: blur(18px) saturate(155%);
   color: var(--lg-ink, var(--text, #0f172a));
   border: 1px solid var(--lg-hairline, var(--border, #e2e8f0));
   border-radius: 22px;
   padding: 20px 20px 16px;
+  text-shadow: none;
   box-shadow:
     inset 0 1.5px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.4)),
     inset 0 -1px 0 var(--lg-rim-bot, rgba(15, 23, 42, 0.08)),
@@ -976,7 +997,7 @@ html.theme-ghibli.dark .s4-search-input {
   background: var(--bg, var(--box-sub, #f1f5f9));
   color: var(--muted, #64748b);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
 }
 .s4-pz-book-pill:hover {
   color: var(--text, #0f172a);
@@ -1001,7 +1022,7 @@ html.theme-ghibli.dark .s4-search-input {
   flex-direction: column;
   justify-content: space-between;
   gap: 10px;
-  transition: all 0.16s;
+  transition: background-color 0.16s, border-color 0.16s, color 0.16s, transform 0.16s, opacity 0.16s, box-shadow 0.16s;
 }
 .s4-pz-test-item:hover {
   border-color: var(--primary, #2563eb);
@@ -1293,4 +1314,43 @@ body.dark mark.s4-hl {
 .lesson-item.active mark.s4-hl {
   background: rgba(255, 255, 255, 0.28);
   color: #fff;
+}
+
+/* ---------------- 60 FPS SCROLL & GPU PAINT OPTIMIZATION ---------------- */
+.lesson-item,
+.w-lesson-item,
+.sp-lesson-item,
+.v-card,
+.word-card,
+.ted-card,
+.rm-task,
+.tile-btn,
+.c-tile,
+.pz-card,
+.hsk-word-row,
+.grammar-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 64px;
+  contain: layout style;
+}
+
+.rm-stage {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
+}
+
+.lesson-list,
+.modal-scroll,
+.sp-modal-body {
+  contain: layout style;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

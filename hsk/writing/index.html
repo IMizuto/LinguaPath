@@ -114,7 +114,7 @@
       background: var(--card-strong); color: var(--text); font-weight: 800; font-size: 13.5px;
       cursor: pointer; white-space: nowrap; flex-shrink: 0; font-family: inherit;
       display: inline-flex; align-items: center; gap: 6px;
-      transition: all 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
     }
     @media (max-width: 640px) {
       .main-tabs { gap: 6px; }
@@ -144,7 +144,7 @@
     .wmode-btn {
       padding: 8px 6px; border-radius: 10px; border: 1px solid var(--border);
       background: var(--bg); color: var(--text); font-size: 12px; font-weight: 800;
-      cursor: pointer; font-family: inherit; text-align: center; transition: all 0.14s ease;
+      cursor: pointer; font-family: inherit; text-align: center; transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease;
       display: inline-flex; align-items: center; justify-content: center; gap: 5px;
     }
     .wmode-btn:hover { border-color: var(--primary); }
@@ -196,7 +196,7 @@
     .hw-status {
       width: 100%; border-radius: 11px; border: 1px solid var(--border);
       background: var(--bg); padding: 9px 12px; font-size: 13px; font-weight: 700;
-      line-height: 1.45; text-align: center; transition: all 0.15s ease;
+      line-height: 1.45; text-align: center; transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
     }
     .hw-status.ok { border-color: #16a34a; background: rgba(22, 163, 74, 0.12); color: var(--ok); }
     .hw-status.bad { border-color: #dc2626; background: rgba(220, 38, 38, 0.12); color: var(--primary); }
@@ -297,7 +297,7 @@
     .c-tile {
       position: relative; background: var(--bg); border: 1px solid var(--border);
       border-radius: 12px; padding: 8px 4px; text-align: center; cursor: pointer;
-      transition: all 0.14s ease; font-family: inherit; color: var(--text);
+      transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease; font-family: inherit; color: var(--text);
     }
     .c-tile:hover { border-color: var(--primary); transform: translateY(-1px); }
     .c-tile.active {
@@ -325,7 +325,7 @@
     .submode-btn {
       padding: 8px 13px; border-radius: 11px; border: 1px solid var(--border);
       background: var(--bg); color: var(--text); font-size: 13px; font-weight: 800;
-      cursor: pointer; font-family: inherit; transition: all 0.14s ease;
+      cursor: pointer; font-family: inherit; transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease;
       display: inline-flex; align-items: center; gap: 6px;
     }
     .submode-btn:hover { border-color: var(--primary); }
@@ -390,7 +390,7 @@
     .w-chip {
       padding: 8px 13px; border-radius: 10px; border: 1px solid var(--border);
       background: var(--card); color: var(--text); font-size: 16px; font-weight: 700;
-      cursor: pointer; font-family: inherit; transition: all 0.12s ease;
+      cursor: pointer; font-family: inherit; transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, transform 0.12s ease, opacity 0.12s ease, box-shadow 0.12s ease;
     }
     .w-chip:hover { border-color: var(--primary); transform: translateY(-1px); }
     .w-chip.placed { background: rgba(220,38,38,0.12); border-color: var(--primary); color: var(--primary); }
@@ -658,7 +658,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
               214 Bộ thủ (1–17 nét)
             </button>
-            <input type="search" class="search-inp" id="pickerSearch" placeholder="Tìm chữ / 214 bộ (số bộ, Pinyin, nghĩa)..." oninput="renderPicker()">
+            <input type="search" class="search-inp" id="pickerSearch" placeholder="Tìm chữ / 214 bộ (số bộ, Pinyin, nghĩa)..." oninput="debouncedRenderPicker()">
           </div>
           <div class="filter-row" id="pickerFilters"></div>
           <div class="tile-grid" id="pickerGrid"></div>
@@ -1565,6 +1565,15 @@
         renderTargetInfo();
         renderPicker();
         mountHanziWriter();
+      };
+
+      let _pickerDebounceTimer = null;
+      window.debouncedRenderPicker = function () {
+        if (_pickerDebounceTimer) clearTimeout(_pickerDebounceTimer);
+        _pickerDebounceTimer = setTimeout(function () {
+          _pickerDebounceTimer = null;
+          window.renderPicker();
+        }, 140);
       };
 
       window.renderPicker = function () {

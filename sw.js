@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v124";
+const CACHE_NAME = "linguapath-cache-v126";
 const CORE_ASSETS = [
   "./index.html",
   "./assets/s4-ui.css",
@@ -23,14 +23,21 @@ const CORE_ASSETS = [
   "./ielts/roadmap/index.html",
   "./ielts/roadmap/roadmap_data.js",
   "./ielts/roadmap/roadmap.js",
+  "./ielts/foundation/index.html",
+  "./ielts/foundation/foundation_data.js",
   "./ielts/vocab/index.html",
   "./ielts/grammar/index.html",
   "./ielts/listening/index.html",
   "./ielts/reading/index.html",
   "./ielts/writing/index.html",
   "./ielts/writing/writing.css",
+  "./ielts/writing/writing_parser.js",
+  "./ielts/writing/writing.js",
+  "./ielts/writing/data/writing_manifest.js",
   "./ielts/speaking/index.html",
   "./ielts/speaking/speaking.css",
+  "./ielts/speaking/speaking_parser.js",
+  "./ielts/speaking/speaking.js",
   "./tedtalks/index.html",
   "./hsk/index.html",
   "./hsk/roadmap/index.html",

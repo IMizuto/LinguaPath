@@ -9591,9 +9591,40 @@
     }
   }
 
+  function bootSpeakingAfterPaint() {
+    if (global.STUDY4_SPEAKING_DATA) {
+      initApp();
+      return;
+    }
+    var listEl = document.getElementById('lessonList');
+    if (listEl) {
+      listEl.innerHTML = '<div style="padding:18px 14px;font-size:13px;color:var(--muted,#94a3b8);font-weight:700;">Đang nạp kho bài Speaking…</div>';
+    }
+    var leftEl = document.getElementById('studioLeftPane');
+    if (leftEl) {
+      leftEl.innerHTML = '<div style="padding:24px 18px;font-size:14px;color:var(--muted,#94a3b8);font-weight:700;">Đang chuẩn bị nội dung bài học…</div>';
+    }
+    var loadScript = function () {
+      if (global.STUDY4_SPEAKING_DATA) { initApp(); return; }
+      var s = document.createElement('script');
+      s.src = 'speaking_data.js?v=2';
+      s.async = true;
+      s.onload = function () { initApp(); };
+      s.onerror = function () {
+        if (listEl) listEl.innerHTML = '<div style="padding:18px 14px;font-size:13px;color:var(--danger,#ef4444);font-weight:700;">Không tải được dữ liệu Speaking. Hãy tải lại trang.</div>';
+      };
+      document.head.appendChild(s);
+    };
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(function () { setTimeout(loadScript, 0); });
+    } else {
+      setTimeout(loadScript, 0);
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
+    document.addEventListener('DOMContentLoaded', bootSpeakingAfterPaint);
   } else {
-    initApp();
+    bootSpeakingAfterPaint();
   }
 })(window);

@@ -10,7 +10,7 @@
      D. 🎨 Mặc định + ☀️ Sáng (Modern Clean Light)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700;800&display=swap');
+/* Quicksand font được nạp bất đồng bộ (non-blocking) bởi ghibli-theme.js để tránh chặn First Paint */
 
 /* --------------------------------------------------------------------------
    1. DEFAULT THEME + LIGHT MODE (🎨 Mặc định + ☀️ Sáng)
@@ -148,6 +148,8 @@ html.theme-ghibli.dark body {
   z-index: -1;
   pointer-events: none;
   display: none;
+  contain: strict;
+  transform: translateZ(0);
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -745,7 +747,7 @@ html.theme-ghibli .ghibli-sprites-stage {
   box-shadow: 0 6px 18px rgba(0,0,0,0.22);
   opacity: 0;
   transform: translateY(6px);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   pointer-events: none;
 }
 .ghibli-sprites-stage:hover .soot-speech,
@@ -1382,7 +1384,7 @@ html:not(.dark) .s4-pz-timer-pill {
   background: var(--box-sub);
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
 }
 .s4-pz-part-btn:hover {
   color: var(--text);
@@ -1421,7 +1423,7 @@ html:not(.dark) .s4-pz-timer-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.14s;
+  transition: background-color 0.14s, border-color 0.14s, color 0.14s, transform 0.14s, opacity 0.14s, box-shadow 0.14s;
 }
 .s4-pz-qnav-btn:hover {
   border-color: var(--primary);
@@ -1572,7 +1574,7 @@ html:not(.dark) .s4-pz-qnav-btn.graded-wrong {
   border-radius: 11px;
   background: var(--box-sub);
   border: 1.5px solid var(--border);
-  transition: all 0.16s;
+  transition: background-color 0.16s, border-color 0.16s, color 0.16s, transform 0.16s, opacity 0.16s, box-shadow 0.16s;
 }
 .s4-pz-container .question-wrapper.pz-correct {
   border-color: rgba(16, 185, 129, 0.55);
@@ -1650,7 +1652,7 @@ html:not(.dark) .s4-pz-container .question-number {
   background: var(--card);
   color: var(--text);
   cursor: pointer;
-  transition: all 0.14s;
+  transition: background-color 0.14s, border-color 0.14s, color 0.14s, transform 0.14s, opacity 0.14s, box-shadow 0.14s;
 }
 .s4-pz-choice-pill:hover {
   border-color: var(--primary);
@@ -1731,7 +1733,7 @@ html:not(.dark) .s4-pz-submitted .question-correct {
   background: var(--box-sub);
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
 }
 .s4-pz-book-pill:hover {
   color: var(--text);
@@ -1756,7 +1758,7 @@ html:not(.dark) .s4-pz-submitted .question-correct {
   flex-direction: column;
   justify-content: space-between;
   gap: 10px;
-  transition: all 0.16s;
+  transition: background-color 0.16s, border-color 0.16s, color 0.16s, transform 0.16s, opacity 0.16s, box-shadow 0.16s;
 }
 .s4-pz-test-item:hover {
   border-color: var(--primary);
@@ -2041,7 +2043,7 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
   align-items: center;
   gap: 5px;
   white-space: nowrap;
-  transition: all 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
 }
 .s4-cbt-ctrl-btn:hover {
   border-color: var(--primary);
@@ -2267,7 +2269,7 @@ body:not(.s4-cbt-mode) .s4-cbt-shell {
     cursor: pointer;
     text-align: center;
     white-space: nowrap;
-    transition: all 0.15s;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
   }
   .s4-cbt-mob-tab.active {
     background: var(--primary);
@@ -2454,7 +2456,7 @@ html:not(.dark) .s4-cbt-user-hl {
   background: var(--box-sub);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
 }
 .s4-cbt-part-cluster .s4-pz-qnav-btn {
   min-width: 20px;
@@ -3022,7 +3024,7 @@ header.topbar {
   border-radius: 8px;
   border: 1.5px solid var(--border);
   background: var(--box-sub);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -3069,7 +3071,7 @@ header.topbar {
   font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
 }
 
@@ -3094,7 +3096,7 @@ header.topbar {
   font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
 }
 
@@ -3129,7 +3131,7 @@ header.topbar {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-lobby-start-btn:hover {
@@ -3163,7 +3165,7 @@ header.topbar {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-lobby-back-btn:hover {
@@ -3221,7 +3223,7 @@ header.topbar {
   border: 1.5px solid var(--border);
   min-width: 85px;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-ai-band-badge strong {
@@ -3244,7 +3246,7 @@ header.topbar {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-ai-score-box.main {
@@ -3391,7 +3393,7 @@ header.topbar {
   border-radius: 12px;
   background: var(--box-sub);
   border: 1.5px solid var(--border);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-history-item:hover {
@@ -3511,7 +3513,7 @@ header.topbar {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
 }
 
@@ -3527,7 +3529,7 @@ header.topbar {
   color: var(--muted);
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-history-btn-icon:hover {
@@ -3595,7 +3597,7 @@ header.topbar {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-filter-pill.active {
@@ -3648,7 +3650,7 @@ summary:focus-visible,
   outline-offset: 2px !important;
   border-radius: inherit;
 }
-input:focus-visible,
+input:not(.lp-gs-input):focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--primary, #2d6a4f);
   outline-offset: 1px;

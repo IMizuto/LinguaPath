@@ -38,7 +38,7 @@
   <link rel="manifest" href="../../manifest.json">
   <link rel="icon" href="../../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../../icon-192.png">
-  <title>Lộ Trình Học IELTS (5 Mốc) — LinguaPath</title>
+  <title>Lộ Trình Học IELTS Academic (5 Mốc) — LinguaPath</title>
 
   <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -517,7 +517,7 @@
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: all 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     }
     .rm-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
     .rm-pill.active {
@@ -738,11 +738,90 @@
       color: var(--lg-green);
     }
 
+    /* 2b. Dải tiến độ 4 kỹ năng (Nghe · Đọc · Nói · Viết) */
+    .rm-skill-strip {
+      border-radius: 20px;
+      padding: 11px 14px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-skill-cell {
+      border: 1px solid transparent;
+      background: var(--lg-wash);
+      border-radius: 14px;
+      padding: 9px 10px;
+      text-align: left;
+      font-family: inherit;
+      color: var(--lg-ink);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.14s ease;
+    }
+    .rm-skill-cell:hover { background: var(--lg-wash-hover); border-color: var(--lg-hairline); transform: translateY(-1px); }
+    .rm-skill-cell.is-lagging { border-color: rgba(217, 119, 6, 0.45); background: rgba(245, 158, 11, 0.10); }
+    .rm-skill-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .rm-skill-name { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; color: var(--lg-ink); }
+    .rm-skill-pct { font-size: 12.5px; font-weight: 800; color: var(--lg-ink); }
+    .rm-skill-sub { font-size: 10.5px; font-weight: 700; color: var(--lg-ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rm-skill-cell.is-lagging .rm-skill-sub { color: var(--lg-amber); }
+
+    /* Modal Placement Test 5 phút */
+    .rm-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: var(--lg-modal-backdrop, rgba(15, 23, 42, 0.36));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 16px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .rm-modal-card {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 22px;
+      padding: 18px;
+      margin: auto;
+      background: var(--lg-modal-surface, var(--lg-surface-strong));
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+    }
+    .rm-pt-q {
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: var(--lg-wash);
+    }
+    .rm-pt-opt {
+      text-align: left;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--lg-hairline);
+      background: transparent;
+      color: var(--lg-ink);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.14s ease, border-color 0.14s ease;
+    }
+    .rm-pt-opt:hover { background: var(--lg-wash-hover); }
+    .rm-pt-opt.selected { border-color: var(--lg-accent); background: var(--lg-accent-soft); }
+
     @media (max-width: 760px) {
       .rm-seg-grid, .rm-focus-grid, .rm-tasks-grid { grid-template-columns: minmax(0, 1fr); }
     }
     @media (max-width: 580px) {
       .rm-brand-sub, .rm-hide-xs { display: none; }
+      #startLevelChips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .rm-skill-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 10px; border-radius: 18px; gap: 8px; }
       .rm-topbar { padding: 7px 9px; border-radius: 18px; }
       .rm-summary-strip { padding: 10px 4px; border-radius: 18px; }
       .rm-sum-num { font-size: 17.5px; }
@@ -770,8 +849,8 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
           </div>
           <div class="rm-brand-text">
-            <h1 class="rm-brand-title">Lộ Trình Học IELTS</h1>
-            <div class="rm-brand-sub">5 mốc • Band 3.5 → 8.0+</div>
+            <h1 class="rm-brand-title">Lộ Trình Học IELTS Academic</h1>
+            <div class="rm-brand-sub">Mốc 0 (A0) + 5 mốc Academic • Lịch tham khảo</div>
           </div>
         </div>
       </div>
@@ -799,16 +878,24 @@
       </a>
     </section>
 
+    <section class="rm-skill-strip rm-glass" id="skillBreakdownStrip" aria-label="Tiến độ 4 kỹ năng IELTS"></section>
+
     <section class="rm-panel rm-glass">
       <div class="rm-panel-head">
         <h2 class="rm-panel-title">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
           <span>Cá nhân hóa lộ trình</span>
         </h2>
-        <button type="button" class="rm-ghost-btn" onclick="resetRoadmapPrefs()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          <span>Mặc định</span>
-        </button>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <button type="button" class="rm-ghost-btn" id="btnOpenPlacement" onclick="window.__rmOpenPlacement()" style="border-color:var(--lg-accent);color:var(--lg-accent);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Đánh giá đầu vào (5 phút)</span>
+          </button>
+          <button type="button" class="rm-ghost-btn" onclick="resetRoadmapPrefs()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Mặc định</span>
+          </button>
+        </div>
       </div>
       <div class="rm-seg-grid">
         <div>
@@ -845,8 +932,18 @@
     <section id="stagesContainer" aria-label="Chi tiết 5 mốc lộ trình"></section>
   </div>
 
-  <script src="roadmap_data.js?v=1"></script>
-  <script src="roadmap.js?v=1"></script>
+  <div id="placementModal" class="rm-modal-backdrop" role="dialog" aria-modal="true" aria-label="Đánh giá đầu vào IELTS nhanh 5 phút">
+    <div class="rm-modal-card rm-glass">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--lg-ink);">Đánh giá đầu vào IELTS (10 câu • ~5 phút)</h3>
+        <button type="button" class="rm-ghost-btn" onclick="window.__rmClosePlacement()">Đóng</button>
+      </div>
+      <div id="placementBody"></div>
+    </div>
+  </div>
+
+  <script src="roadmap_data.js?v=3"></script>
+  <script src="roadmap.js?v=4"></script>
   <script src="../../assets/s4-ui.js?v=67"></script>
   <script src="../../auth.js?v=33"></script>
   <script>
@@ -854,6 +951,7 @@
       "use strict";
 
       var SVG_MAP = {
+        foundation: '<path d="M12 22v-9"/><path d="M15.14 8.86a4.5 4.5 0 0 1 6.36 0 4.5 4.5 0 0 1-6.36 6.36L12 12l3.14-3.14Z"/><path d="M8.86 8.86a4.5 4.5 0 0 0-6.36 0 4.5 4.5 0 0 0 6.36 6.36L12 12 8.86 8.86Z"/>',
         grammar: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/>',
         vocab: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>',
         listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
@@ -871,6 +969,7 @@
         sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
         sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
         moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+        m0: '<circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',
         m1: '<path d="M12 22v-9"/><path d="M15.14 8.86a4.5 4.5 0 0 1 6.36 0 4.5 4.5 0 0 1-6.36 6.36L12 12l3.14-3.14Z"/><path d="M8.86 8.86a4.5 4.5 0 0 0-6.36 0 4.5 4.5 0 0 0 6.36 6.36L12 12 8.86 8.86Z"/>',
         m2: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
         m3: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>',
@@ -886,6 +985,7 @@
 
       var MODULE_FILTERS = [
         { id: "all", icon: "sparkle", label: "Tất cả" },
+        { id: "foundation", icon: "foundation", label: "Nhập môn A0" },
         { id: "grammar", icon: "grammar", label: "Ngữ pháp" },
         { id: "vocab", icon: "vocab", label: "Từ vựng" },
         { id: "listening", icon: "listening", label: "Listening" },
@@ -960,10 +1060,29 @@
           dueLblEl.textContent = ev.dueWordsTotal > 0 ? ev.dueSummaryHint : "Từ SRS cần ôn";
         }
 
+        // 1b. Thanh tiến độ 4 kỹ năng (Nghe · Đọc · Nói · Viết)
+        var skillStrip = document.getElementById("skillBreakdownStrip");
+        if (skillStrip && ev.skillBreakdown && Array.isArray(ev.skillBreakdown.items)) {
+          skillStrip.innerHTML = ev.skillBreakdown.items.map(function (it) {
+            var lagCls = it.isLagging ? " is-lagging" : "";
+            var sub = it.isLagging
+              ? ("Cần ưu tiên • " + it.doneTasks + "/" + it.totalTasks + " phần")
+              : (it.doneTasks + "/" + it.totalTasks + " học phần");
+            return '<button type="button" class="rm-skill-cell' + lagCls + '" onclick="window.__rmSetModFilter(\'' + esc(it.key) + '\')" title="Lọc nhanh các học phần ' + esc(it.label) + '">'
+              + '<div class="rm-skill-top">'
+              + '  <span class="rm-skill-name">' + svgIcon(it.icon, 14) + '<span>' + esc(it.label) + '</span></span>'
+              + '  <span class="rm-skill-pct">' + it.pct + '%</span>'
+              + '</div>'
+              + '<div class="rm-bar" style="height:4px;"><div class="rm-bar-fill" style="width:' + it.pct + '%;background:' + esc(it.color) + ';"></div></div>'
+              + '<div class="rm-skill-sub">' + esc(sub) + '</div>'
+              + '</button>';
+          }).join("");
+        }
+
         // 2. Cá nhân hóa dạng Segmented Pill Control gọn
         document.getElementById("startLevelChips").innerHTML = data.START_LEVELS.map(function (lv) {
           var act = lv.id === ev.state.startLevel ? " active" : "";
-          var shortLbl = lv.id === "foundation" ? "Mất gốc" : (lv.id === "intermediate" ? "Cơ bản 5.0+" : "Luyện đề 6.0+");
+          var shortLbl = lv.shortLabel || (lv.id === "zero" ? "Từ số 0 (A0)" : (lv.id === "foundation" ? "Có nền A2+" : (lv.id === "intermediate" ? "Cơ bản 5.0+" : "Luyện đề 6.0+")));
           return '<button type="button" class="rm-seg-btn' + act + '" onclick="window.__rmSelectStart(\'' + esc(lv.id) + '\')">'
             + esc(shortLbl) + '<small>' + esc(lv.badge) + '</small></button>';
         }).join("");
@@ -974,10 +1093,18 @@
             + esc(pc.label) + '<small>' + esc(pc.dailyDesc) + '</small></button>';
         }).join("");
 
+        var ptSavedNote = "";
+        try {
+          var ptSaved = JSON.parse(localStorage.getItem("lp_ielts_placement_v1") || "null");
+          if (ptSaved && typeof ptSaved.score === "number" && ptSaved.recLabel) {
+            ptSavedNote = ' • Đánh giá gần nhất: <b>' + ptSaved.score + '/10</b> (Gợi ý: <b>' + esc(ptSaved.recLabel) + '</b>).';
+          }
+        } catch (e) {}
+
         document.getElementById("prefDescNote").innerHTML = svgIcon("info", 15)
           + '<span>' + esc(ev.startLevel.desc)
-          + (ev.activeStage ? (' Dự kiến xong <b>Mốc ' + ev.activeStage.order + '</b> trong <b>' + esc(ev.activeStage.estWeeks) + '</b> (' + esc(ev.pace.dailyDesc) + ').') : '')
-          + '</span>';
+          + (ev.activeStage ? (' Lịch tham khảo <b>Mốc ' + ev.activeStage.order + '</b>: <b>' + esc(ev.activeStage.estWeeks) + '</b> (' + esc(ev.pace.dailyDesc) + ').') : '')
+          + ' Phân tách rõ: <b>Hoàn thành bài học</b> · <b>Đạt mục tiêu bài luyện</b> (theo điểm &amp; đề khác nhau) · <b>Ước lượng năng lực</b>.' + ptSavedNote + '</span>';
 
         // 3. Hôm nay học gì?
         document.getElementById("focusStageLabel").textContent = ev.activeStage
@@ -1052,13 +1179,21 @@
               + svgIcon("check", 12) + '<span>' + skipLabel + '</span></button>'
             );
 
+            var statusTag = tk.isCompleted
+              ? (' • ' + esc(tk.statusCategory || "Hoàn thành bài học"))
+              : (tk.isSkipped ? ' • Đã bỏ qua' : '');
+            var criteriaLine = tk.criteriaLabel
+              ? ('<div style="margin-top:4px;font-size:11px;font-weight:700;color:var(--lg-ink-muted);">Tiêu chí đạt: ' + esc(tk.criteriaLabel) + '</div>')
+              : '';
+
             return '<div class="' + cls + '">'
               + '<div class="rm-item-top">'
               + '  <div class="rm-mod-ico mod-' + esc(tk.module) + '">' + svgIcon(tk.evalType === "due_review" ? "bell" : tk.module, 17) + '</div>'
               + '  <div style="min-width:0;flex:1;">'
-              + '    <div class="rm-item-kicker">' + esc(tk.moduleLabel) + (tk.isCompleted ? ' • Hoàn thành' : (tk.isSkipped ? ' • Đã bỏ qua' : '')) + '</div>'
+              + '    <div class="rm-item-kicker">' + esc(tk.moduleLabel) + statusTag + '</div>'
               + '    <h4 class="rm-item-title">' + esc(tk.title) + '</h4>'
               + '    <p class="rm-task-desc">' + esc(tk.desc) + '</p>'
+              +      criteriaLine
               + '    <div class="rm-task-hint">' + esc(tk.nextHint) + '</div>'
               + '  </div>'
               + '</div>'
@@ -1084,7 +1219,7 @@
             +          statusBadge
             + '      </div>'
             + '      <h3 class="rm-stage-title">' + esc(st.title) + '</h3>'
-            + '      <div class="rm-stage-meta">' + svgIcon("clock", 13) + '<span>Dự kiến: ' + esc(st.estWeeks) + ' • ' + st.doneTaskCount + '/' + st.totalTaskCount + ' học phần</span></div>'
+            + '      <div class="rm-stage-meta">' + svgIcon("clock", 13) + '<span>Lịch tham khảo: ' + esc(st.estWeeks) + ' • ' + st.doneTaskCount + '/' + st.totalTaskCount + ' học phần</span></div>'
             + '    </div>'
             + '  </div>'
             + '  <div class="rm-stage-right">'
@@ -1158,6 +1293,141 @@
         }
         renderAll();
       };
+
+      // Đánh giá đầu vào IELTS nhanh (10 câu • ~5 phút • tùy chọn, không khóa thư viện)
+      var IELTS_PLACEMENT_QS = [
+        { id: "ip1", tier: "A0–A1", group: "Nền tảng A0–A2", audio: "My name is Lisa. I live in London and I am a nurse.", prompt: "Nghe câu giới thiệu ngắn — Lisa làm nghề gì?", opts: ["Giáo viên (teacher)", "Y tá (nurse)", "Kỹ sư (engineer)"] , ans: 1 },
+        { id: "ip2", tier: "A0–A1", group: "Nền tảng A0–A2", prompt: "Chọn dạng động từ đúng: “She ____ to school by bus every morning.”", opts: ["go", "goes", "going"], ans: 1 },
+        { id: "ip3", tier: "A1", group: "Nền tảng A0–A2", prompt: "Đọc hội thoại: “Excuse me, how much is this ticket?” — “It's fifteen pounds.” Câu hỏi đang hỏi về gì?", opts: ["Giá vé", "Giờ tàu chạy", "Vị trí nhà ga"], ans: 0 },
+        { id: "ip4", tier: "A2", group: "Nền tảng A0–A2", prompt: "Chọn đáp án đúng: “Yesterday evening, we ____ dinner at a small restaurant near the river.”", opts: ["have", "having", "had"], ans: 2 },
+        { id: "ip5", tier: "A2–B1", group: "Nghe & Đọc hiểu", audio: "The library will close at six thirty today instead of eight because of maintenance.", prompt: "Nghe thông báo ngắn — Hôm nay thư viện đóng cửa lúc mấy giờ?", opts: ["8 giờ tối", "6 giờ 30 chiều", "5 giờ 30 chiều"], ans: 1 },
+        { id: "ip6", tier: "B1 (5.0)", group: "Ngữ pháp & Từ vựng", prompt: "“Although the new policy was expensive, it significantly ____ air pollution in the city.”", opts: ["reduced", "reduces to", "reducing"], ans: 0 },
+        { id: "ip7", tier: "B1+ (5.5)", group: "Nghe & Đọc hiểu", prompt: "Đọc câu: “Many commuters abandon private cars once reliable electric buses run every ten minutes.” Ý nào đúng nhất?", opts: ["Xe buýt điện đắt hơn xe cá nhân", "Chính phủ cấm hoàn toàn xe cá nhân", "Người đi làm giảm dùng xe cá nhân khi xe buýt điện chạy đều và đáng tin cậy"], ans: 2 },
+        { id: "ip8", tier: "B2 (6.0)", group: "Ngữ pháp & Từ vựng", prompt: "“Governments should allocate more funds to renewable energy.” Từ “allocate” gần nghĩa nhất với?", opts: ["vay mượn từ nước ngoài", "phân bổ cho một mục đích cụ thể", "cắt giảm toàn bộ"], ans: 1 },
+        { id: "ip9", tier: "B2+ (6.5)", group: "Viết học thuật", prompt: "Câu nào phù hợp nhất với văn phong IELTS Academic Writing Task 2?", opts: ["While remote work enhances flexibility, it may gradually erode workplace cohesion.", "Remote work is super cool and everybody loves staying home.", "Working at home good for many people because no traffic."], ans: 0 },
+        { id: "ip10", tier: "C1 (7.0)", group: "Ngữ pháp & Từ vựng", prompt: "“Not only ____ the initial experiment fail to confirm the hypothesis, but it also revealed a flaw in the sampling method.”", opts: ["was", "has", "did"], ans: 2 }
+      ];
+      var ptAns = {};
+      var ptSubmitted = false;
+
+      function getIeltsRecommendation(score) {
+        if (score <= 3) return { levelId: "zero", label: "Mốc 0 • Từ số 0 (A0)", note: "Nên đi qua 4 cụm Nhập môn Tiếng Anh A0–A2 (nghe chậm, 64 từ cốt lõi, ghép câu đơn) trước khi vào IELTS Academic." };
+        if (score <= 6) return { levelId: "foundation", label: "Mốc 1 • Có nền A2+ (3.5 → 5.0)", note: "Bạn đã có nền cơ bản, phù hợp vào thẳng Ngữ pháp & Từ vựng nền IELTS ở Mốc 1." };
+        if (score <= 8) return { levelId: "intermediate", label: "Mốc 2 • Cơ bản 5.0+ (5.0 → 6.5)", note: "Nền tiếng Anh khá chắc, có thể bỏ qua phần nhập môn và tập trung vào kỹ năng trọng tâm từ Mốc 2." };
+        return { levelId: "advanced", label: "Mốc 3 • Luyện đề 6.0+ (6.0 → 7.5+)", note: "Nền học thuật tốt! Bạn có thể bắt đầu từ Mốc 3 để tăng tốc Writing, Speaking và Full Test." };
+      }
+
+      window.__rmPtPlay = function (idx) {
+        var q = IELTS_PLACEMENT_QS[Number(idx)];
+        if (!q || !q.audio) return;
+        try {
+          if (typeof speechSynthesis !== "undefined") {
+            speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(q.audio);
+            u.lang = "en-GB";
+            u.rate = 0.84;
+            speechSynthesis.speak(u);
+          }
+        } catch (e) {}
+      };
+
+      function renderPlacementModal() {
+        var body = document.getElementById("placementBody");
+        if (!body) return;
+        if (ptSubmitted) {
+          var score = 0;
+          var byGroup = {};
+          IELTS_PLACEMENT_QS.forEach(function (q) {
+            if (!byGroup[q.group]) byGroup[q.group] = { ok: 0, total: 0 };
+            byGroup[q.group].total++;
+            if (ptAns[q.id] === q.ans) { score++; byGroup[q.group].ok++; }
+          });
+          var rec = getIeltsRecommendation(score);
+          try {
+            localStorage.setItem("lp_ielts_placement_v1", JSON.stringify({
+              score: score, total: IELTS_PLACEMENT_QS.length, recLevel: rec.levelId, recLabel: rec.label, at: new Date().toISOString()
+            }));
+          } catch (e) {}
+          var grpHtml = Object.keys(byGroup).map(function (g) {
+            return '<span class="rm-badge" style="padding:4px 9px;">' + esc(g) + ': ' + byGroup[g].ok + '/' + byGroup[g].total + '</span>';
+          }).join("");
+          body.innerHTML = '<div class="rm-pt-q" style="margin-bottom:12px;">'
+            + '<div style="font-size:18px;font-weight:800;color:var(--lg-accent);">Kết quả: ' + score + '/' + IELTS_PLACEMENT_QS.length + ' câu đúng</div>'
+            + '<div style="font-size:14px;font-weight:800;color:var(--lg-ink);margin-top:4px;">Gợi ý xuất phát điểm: ' + esc(rec.label) + '</div>'
+            + '<p style="margin:6px 0 8px;font-size:12.5px;color:var(--lg-ink-sub);line-height:1.45;">' + esc(rec.note) + '</p>'
+            + '<div style="display:flex;gap:6px;flex-wrap:wrap;">' + grpHtml + '</div>'
+            + '</div>'
+            + '<p style="margin:0 0 12px;font-size:12px;color:var(--lg-ink-muted);">Thư viện bài học luôn mở 100% — gợi ý này chỉ giúp sắp lại xuất phát điểm và bạn có thể đổi bất kỳ lúc nào.</p>'
+            + '<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">'
+            + '  <button type="button" class="rm-ghost-btn" onclick="window.__rmPtRetry()">Làm lại</button>'
+            + '  <button type="button" class="rm-cta-btn" id="btnApplyPlacement" style="border:none;cursor:pointer;" onclick="window.__rmPtApply(\'' + esc(rec.levelId) + '\')">Áp dụng gợi ý ngay</button>'
+            + '</div>';
+          return;
+        }
+        var answered = Object.keys(ptAns).length;
+        body.innerHTML = '<p style="margin:0 0 10px;font-size:12.5px;color:var(--lg-ink-muted);">Bài test tùy chọn giúp gợi ý Mốc xuất phát phù hợp (Mốc 0 → Mốc 3). <b>Không khóa bất kỳ bài học nào</b>. Đã chọn: <b>' + answered + '/' + IELTS_PLACEMENT_QS.length + '</b>.</p>'
+          + '<div style="display:grid;gap:10px;">' + IELTS_PLACEMENT_QS.map(function (q, i) {
+            var playBtn = q.audio ? '<button type="button" class="rm-ghost-btn" onclick="window.__rmPtPlay(' + i + ')" style="flex-shrink:0;">Nghe mẫu</button>' : '';
+            return '<div class="rm-pt-q">'
+              + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">'
+              + '  <div><span class="rm-badge" style="margin-bottom:4px;">Câu ' + (i + 1) + ' • ' + esc(q.tier) + '</span>'
+              + '  <div style="font-size:13px;font-weight:800;color:var(--lg-ink);line-height:1.4;">' + esc(q.prompt) + '</div></div>'
+              +    playBtn
+              + '</div>'
+              + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
+                var sel = ptAns[q.id] === oi ? " selected" : "";
+                return '<button type="button" class="rm-pt-opt' + sel + '" onclick="window.__rmPtPick(\'' + esc(q.id) + '\',' + oi + ')">' + esc(op) + '</button>';
+              }).join("") + '</div></div>';
+          }).join("") + '</div>'
+          + '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;">'
+          + '  <button type="button" class="rm-cta-btn" style="border:none;cursor:pointer;" onclick="window.__rmPtSubmit()">Chấm điểm &amp; xem gợi ý</button>'
+          + '</div>';
+      }
+
+      window.__rmOpenPlacement = function () {
+        ptAns = {};
+        ptSubmitted = false;
+        var m = document.getElementById("placementModal");
+        if (m) m.style.display = "flex";
+        renderPlacementModal();
+      };
+      window.__rmClosePlacement = function () {
+        var m = document.getElementById("placementModal");
+        if (m) m.style.display = "none";
+        try { if (typeof speechSynthesis !== "undefined") speechSynthesis.cancel(); } catch (e) {}
+      };
+      window.__rmPtPick = function (qid, oi) {
+        ptAns[qid] = Number(oi);
+        renderPlacementModal();
+      };
+      window.__rmPtSubmit = function () {
+        ptSubmitted = true;
+        renderPlacementModal();
+      };
+      window.__rmPtRetry = function () {
+        ptAns = {};
+        ptSubmitted = false;
+        renderPlacementModal();
+      };
+      window.__rmPtApply = function (levelId) {
+        window.LPIeltsRoadmap.setStartLevel(levelId);
+        userToggledStage = false;
+        window.__rmClosePlacement();
+        renderAll();
+        if (window.S4UI && typeof window.S4UI.toast === "function") {
+          window.S4UI.toast("success", "Đã áp dụng xuất phát điểm theo kết quả đánh giá đầu vào.");
+        }
+      };
+
+      var ptModalEl = document.getElementById("placementModal");
+      if (ptModalEl) {
+        ptModalEl.addEventListener("click", function (ev) {
+          if (ev.target === ptModalEl) window.__rmClosePlacement();
+        });
+      }
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") window.__rmClosePlacement();
+      });
 
       var darkBtnEl = document.getElementById("rmDarkBtn");
       if (darkBtnEl) darkBtnEl.addEventListener("click", function () { window.toggleDark(); });

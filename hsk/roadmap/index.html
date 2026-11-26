@@ -519,7 +519,7 @@
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: all 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     }
     .rm-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
     .rm-pill.active {
@@ -740,11 +740,89 @@
       color: var(--lg-green);
     }
 
+    /* 2b. Dải tiến độ 4 kỹ năng HSK (Nghe · Đọc · Nói · Viết) */
+    .rm-skill-strip {
+      border-radius: 20px;
+      padding: 11px 14px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-skill-cell {
+      border: 1px solid transparent;
+      background: var(--lg-wash);
+      border-radius: 14px;
+      padding: 9px 10px;
+      text-align: left;
+      font-family: inherit;
+      color: var(--lg-ink);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.14s ease;
+    }
+    .rm-skill-cell:hover { background: var(--lg-wash-hover); border-color: var(--lg-hairline); transform: translateY(-1px); }
+    .rm-skill-cell.is-lagging { border-color: rgba(217, 119, 6, 0.45); background: rgba(245, 158, 11, 0.10); }
+    .rm-skill-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .rm-skill-name { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; color: var(--lg-ink); }
+    .rm-skill-pct { font-size: 12.5px; font-weight: 800; color: var(--lg-ink); }
+    .rm-skill-sub { font-size: 10.5px; font-weight: 700; color: var(--lg-ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rm-skill-cell.is-lagging .rm-skill-sub { color: var(--lg-amber); }
+
+    /* Modal Placement Test 5 phút */
+    .rm-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: var(--lg-modal-backdrop, rgba(15, 23, 42, 0.36));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 16px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .rm-modal-card {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 22px;
+      padding: 18px;
+      margin: auto;
+      background: var(--lg-modal-surface, var(--lg-surface-strong));
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+    }
+    .rm-pt-q {
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: var(--lg-wash);
+    }
+    .rm-pt-opt {
+      text-align: left;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--lg-hairline);
+      background: transparent;
+      color: var(--lg-ink);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.14s ease, border-color 0.14s ease;
+    }
+    .rm-pt-opt:hover { background: var(--lg-wash-hover); }
+    .rm-pt-opt.selected { border-color: var(--lg-accent); background: var(--lg-accent-soft); }
+
     @media (max-width: 760px) {
       .rm-seg-grid, .rm-focus-grid, .rm-tasks-grid { grid-template-columns: minmax(0, 1fr); }
     }
     @media (max-width: 580px) {
       .rm-brand-sub, .rm-hide-xs { display: none; }
+      .rm-skill-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 10px; border-radius: 18px; gap: 8px; }
       .rm-topbar { padding: 7px 9px; border-radius: 18px; }
       .rm-summary-strip { padding: 10px 4px; border-radius: 18px; }
       .rm-sum-num { font-size: 17.5px; }
@@ -802,16 +880,24 @@
       </a>
     </section>
 
+    <section class="rm-skill-strip rm-glass" id="skillBreakdownStrip" aria-label="Tiến độ 4 kỹ năng HSK"></section>
+
     <section class="rm-panel rm-glass">
       <div class="rm-panel-head">
         <h2 class="rm-panel-title" id="prefTitle">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
           <span>Cá nhân hóa lộ trình</span>
         </h2>
-        <button type="button" class="rm-ghost-btn" id="btnResetPrefs">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          <span>Mặc định</span>
-        </button>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <button type="button" class="rm-ghost-btn" id="btnOpenPlacement" style="border-color:var(--lg-accent);color:var(--lg-accent);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Đánh giá đầu vào (5 phút)</span>
+          </button>
+          <button type="button" class="rm-ghost-btn" id="btnResetPrefs">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Mặc định</span>
+          </button>
+        </div>
       </div>
       <div class="rm-seg-grid">
         <div>
@@ -832,7 +918,10 @@
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
           <span>Hôm nay học gì?</span>
         </h2>
-        <span style="font-size:12px;font-weight:700;color:var(--lg-ink-muted);" id="focusStageLabel"></span>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="rm-ghost-btn" id="btnPinyinQuickCheck" style="display:none;">Kiểm tra nhanh Pinyin (5 câu)</button>
+          <span style="font-size:12px;font-weight:700;color:var(--lg-ink-muted);" id="focusStageLabel"></span>
+        </div>
       </div>
       <div class="rm-focus-grid" id="dailyFocusGrid"></div>
     </section>
@@ -848,8 +937,29 @@
     <section id="stagesContainer" aria-label="Chi tiết 6 chặng lộ trình HSK"></section>
   </div>
 
-  <script src="roadmap_data.js?v=1"></script>
-  <script src="roadmap.js?v=1"></script>
+  <div id="placementModal" class="rm-modal-backdrop" role="dialog" aria-modal="true" aria-label="Đánh giá đầu vào HSK nhanh 5 phút">
+    <div class="rm-modal-card rm-glass">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--lg-ink);">Đánh giá đầu vào HSK (10 câu • ~5 phút)</h3>
+        <button type="button" class="rm-ghost-btn" id="btnClosePlacement">Đóng</button>
+      </div>
+      <div id="placementBody"></div>
+    </div>
+  </div>
+
+  <div id="pinyinCheckModal" style="display:none;position:fixed;inset:0;z-index:9000;background:var(--lg-modal-backdrop,rgba(15,23,42,0.36));backdrop-filter:blur(6px);padding:16px;overflow-y:auto;align-items:center;justify-content:center;">
+    <div class="rm-glass" style="width:100%;max-width:560px;border-radius:22px;padding:18px;margin:auto;background:var(--lg-modal-surface,var(--lg-surface-strong));">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--lg-ink);">Kiểm tra nhanh Pinyin &amp; Thanh điệu (5 câu)</h3>
+        <button type="button" class="rm-ghost-btn" id="btnClosePinyinCheck">Đóng</button>
+      </div>
+      <div id="pinyinCheckBody"></div>
+    </div>
+  </div>
+
+  <script src="../hsk-tts.js?v=3"></script>
+  <script src="roadmap_data.js?v=2"></script>
+  <script src="roadmap.js?v=3"></script>
   <script src="../../assets/s4-ui.js?v=67"></script>
   <script src="../../auth.js?v=33"></script>
   <script>
@@ -907,7 +1017,7 @@
         { id: "listening", icon: "listening", label: "Nghe" },
         { id: "reading", icon: "reading", label: "Đọc" },
         { id: "speaking", icon: "speaking", label: "Khẩu ngữ HSKK" },
-        { id: "mock", icon: "mock", label: "Thi thử Mock" }
+        { id: "mock", icon: "mock", label: "Đề rút gọn" }
       ];
 
       var openStages = {};
@@ -966,6 +1076,25 @@
         var dueLinkEl = document.getElementById("sumDueLink");
         if (dueLinkEl && ev.dueTargetUrl) dueLinkEl.setAttribute("href", ev.dueTargetUrl);
 
+        // 1b. Thanh tiến độ 4 kỹ năng HSK (Nghe · Đọc · Nói · Viết)
+        var skillStrip = document.getElementById("skillBreakdownStrip");
+        if (skillStrip && ev.skillBreakdown && Array.isArray(ev.skillBreakdown.items)) {
+          skillStrip.innerHTML = ev.skillBreakdown.items.map(function (it) {
+            var lagCls = it.isLagging ? " is-lagging" : "";
+            var sub = it.isLagging
+              ? ("Cần ưu tiên • " + it.doneTasks + "/" + it.totalTasks + " phần")
+              : (it.doneTasks + "/" + it.totalTasks + " học phần");
+            return '<button type="button" class="rm-skill-cell' + lagCls + '" data-action="filter-mod" data-id="' + esc(it.key) + '" title="Lọc nhanh các học phần ' + esc(it.label) + '">'
+              + '<div class="rm-skill-top">'
+              + '  <span class="rm-skill-name">' + svgIcon(it.icon, 14) + '<span>' + esc(it.label) + '</span></span>'
+              + '  <span class="rm-skill-pct">' + it.pct + '%</span>'
+              + '</div>'
+              + '<div class="rm-bar" style="height:4px;"><div class="rm-bar-fill" style="width:' + it.pct + '%;background:' + esc(it.color) + ';"></div></div>'
+              + '<div class="rm-skill-sub">' + esc(sub) + '</div>'
+              + '</button>';
+          }).join("");
+        }
+
         // 2. Cá nhân hóa lộ trình (Segmented Pill)
         document.getElementById("startLevelChips").innerHTML = data.START_LEVELS.map(function (lv) {
           var act = lv.id === ev.state.startLevel ? " active" : "";
@@ -979,18 +1108,30 @@
             + esc(pc.label) + '<small>' + esc(pc.dailyDesc) + '</small></button>';
         }).join("");
 
+        var ptSavedNote = "";
+        try {
+          var ptSaved = JSON.parse(localStorage.getItem("lp_hsk_placement_v1") || "null");
+          if (ptSaved && typeof ptSaved.score === "number" && ptSaved.recLabel) {
+            ptSavedNote = ' • Đánh giá gần nhất: <b>' + ptSaved.score + '/10</b> (Gợi ý: <b>' + esc(ptSaved.recLabel) + '</b>).';
+          }
+        } catch (e) {}
+
         document.getElementById("prefDescNote").innerHTML = svgIcon("info", 15)
           + '<span>' + esc(ev.startLevel.desc)
-          + (ev.activeStage ? (' Dự kiến xong <b>Chặng ' + ev.activeStage.order + '</b> trong <b>' + esc(ev.activeStage.estWeeks) + '</b> (' + esc(ev.pace.dailyDesc) + ').') : '')
-          + '</span>';
+          + (ev.activeStage ? (' Lịch tham khảo <b>Chặng ' + ev.activeStage.order + '</b>: <b>' + esc(ev.activeStage.estWeeks) + '</b> (' + esc(ev.pace.dailyDesc) + ').') : '')
+          + ptSavedNote + '</span>';
 
         // 3. Hôm nay học gì?
         document.getElementById("focusStageLabel").textContent = ev.activeStage
           ? ("Chặng " + ev.activeStage.order + " • " + ev.activeStage.levelRange)
           : "";
+        var pyBtn = document.getElementById("btnPinyinQuickCheck");
+        if (pyBtn) {
+          pyBtn.style.display = (ev.warmupStatus && ev.warmupStatus.needWarmup) ? "inline-flex" : "none";
+        }
         var focusEl = document.getElementById("dailyFocusGrid");
         if (!ev.dailyFocus.length) {
-          focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần lộ trình HSK 1–6. Hãy duy trì luyện thêm đề Full Mock và ôn SRS hằng ngày.</div>';
+          focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần lộ trình HSK 1–6. Hãy duy trì luyện thêm đề luyện rút gọn và ôn SRS hằng ngày.</div>';
         } else {
           focusEl.innerHTML = ev.dailyFocus.map(function (item) {
             var dueCls = item.isDueBanner ? " is-due" : "";
@@ -1089,7 +1230,7 @@
             +          statusBadge
             + '      </div>'
             + '      <h3 class="rm-stage-title">' + esc(st.title) + '</h3>'
-            + '      <div class="rm-stage-meta">' + svgIcon("clock", 13) + '<span>Dự kiến: ' + esc(st.estWeeks) + ' • ' + st.doneTaskCount + '/' + st.totalTaskCount + ' học phần</span></div>'
+            + '      <div class="rm-stage-meta">' + svgIcon("clock", 13) + '<span>Lịch tham khảo: ' + esc(st.estWeeks) + ' • ' + st.doneTaskCount + '/' + st.totalTaskCount + ' học phần</span></div>'
             + '    </div>'
             + '  </div>'
             + '  <div class="rm-stage-right">'
@@ -1190,6 +1331,279 @@
           renderAll();
         });
       }
+
+      // Bài kiểm tra nhanh Pinyin & Thanh điệu (5 câu) cho người đã biết bỏ qua Chương 0 hoặc luyện bù đúng cặp sai
+      var PINYIN_CHECK_QS = [
+        {
+          id: "q1", audioZh: "买东西", audioPy: "mǎi dōngxi",
+          prompt: "Nghe mẫu hoặc đọc Pinyin “mǎi dōngxi” — từ này mang nghĩa nào?",
+          opts: ["Mua đồ (thanh 3: mǎi)", "Bán đồ (thanh 4: mài)"],
+          ans: 0, fixUrl: "../speaking/index.html?id=tp_1&from=roadmap", fixLabel: "Luyện Cặp 1: 买 (mǎi) vs 卖 (mài)"
+        },
+        {
+          id: "q2", audioZh: "水饺", audioPy: "shuǐjiǎo",
+          prompt: "Cụm “水饺 (shuǐjiǎo)” gồm 2 thanh 3 liên tiếp. Quy tắc biến điệu đọc đúng là gì?",
+          opts: ["Đọc thành thanh 2 + thanh 3 (shuíjiǎo)", "Đọc thành hai thanh 4 (shuìjiào)"],
+          ans: 0, fixUrl: "../speaking/index.html?id=tp_2&from=roadmap", fixLabel: "Luyện Cặp 2: 睡觉 vs 水饺"
+        },
+        {
+          id: "q3", audioZh: "眼镜", audioPy: "yǎnjìng",
+          prompt: "Phân biệt “yǎnjing” (thanh nhẹ) và “yǎnjìng” (thanh 4): đâu là “kính mắt”?",
+          opts: ["yǎnjing (眼睛)", "yǎnjìng (眼镜)"],
+          ans: 1, fixUrl: "../speaking/index.html?id=tp_3&from=roadmap", fixLabel: "Luyện Cặp 3: 眼睛 vs 眼镜"
+        },
+        {
+          id: "q4", audioZh: "请问", audioPy: "qǐngwèn",
+          prompt: "Âm đầu “q” trong “qǐngwèn (请问 — xin hỏi)” phát âm thế nào?",
+          opts: ["Bật hơi mạnh, mặt lưỡi áp ngạc cứng", "Không bật hơi, giống âm ch tiếng Việt"],
+          ans: 0, fixUrl: "../lessons/index.html?lesson=c0_1&from=roadmap", fixLabel: "Ôn Bài 0.1: Bảng 21 Thanh mẫu"
+        },
+        {
+          id: "q5", audioZh: "你好", audioPy: "nǐ hǎo",
+          prompt: "Trong “你好 (nǐ hǎo)”, chữ nào bị biến điệu khi đọc tự nhiên?",
+          opts: ["Chữ 你 (nǐ) đọc thành thanh 2 (ní hǎo)", "Chữ 好 (hǎo) đọc thành thanh 4 (nǐ hào)"],
+          ans: 0, fixUrl: "../lessons/index.html?lesson=c0_2&from=roadmap", fixLabel: "Ôn Bài 0.2: Quy tắc Biến điệu"
+        }
+      ];
+      var pyAnswers = {};
+      var pySubmitted = false;
+
+      function renderPinyinCheckModal() {
+        var body = document.getElementById("pinyinCheckBody");
+        if (!body) return;
+        if (pySubmitted) {
+          var right = 0;
+          var missed = [];
+          PINYIN_CHECK_QS.forEach(function (q, i) {
+            if (pyAnswers[q.id] === q.ans) right++;
+            else missed.push({ idx: i + 1, q: q });
+          });
+          var canSkip = right >= 4;
+          var html = '<div style="padding:12px;border-radius:14px;background:var(--lg-wash);margin-bottom:12px;">'
+            + '<div style="font-size:16px;font-weight:800;color:' + (canSkip ? 'var(--lg-green)' : 'var(--lg-amber)') + ';">Kết quả: ' + right + '/' + PINYIN_CHECK_QS.length + ' câu đúng</div>'
+            + '<div style="font-size:13px;color:var(--lg-ink-sub);margin-top:4px;">'
+            + (canSkip
+              ? 'Bạn đã nắm tốt nền tảng Pinyin &amp; thanh điệu! Bạn có thể bỏ qua bước khởi động Tuần 1 để vào thẳng Bài 1 (你好!).'
+              : 'Bạn còn nhầm ở một vài cặp thanh điệu/Pinyin. Hãy luyện bù đúng mục dưới đây trước khi vào bài khóa nhé.')
+            + '</div></div>';
+          if (missed.length) {
+            html += '<div style="display:grid;gap:8px;margin-bottom:12px;">' + missed.map(function (m) {
+              return '<a href="' + esc(m.q.fixUrl) + '" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:12px;background:var(--lg-wash);color:var(--lg-ink);text-decoration:none;font-size:13px;font-weight:700;">'
+                + '<span>Câu ' + m.idx + ': ' + esc(m.q.fixLabel) + '</span><span style="color:var(--lg-accent);">Luyện ngay →</span></a>';
+            }).join("") + '</div>';
+          }
+          html += '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">';
+          html += '<button type="button" class="rm-ghost-btn" id="btnRetryPinyinCheck">Làm lại</button>';
+          if (canSkip) {
+            html += '<button type="button" class="rm-cta-btn" style="border:none;cursor:pointer;" id="btnSkipWarmupNow">Bỏ qua Tuần 1 → Vào Bài 1 (你好!)</button>';
+          }
+          html += '</div>';
+          body.innerHTML = html;
+          var retryBtn = document.getElementById("btnRetryPinyinCheck");
+          if (retryBtn) retryBtn.addEventListener("click", function () { pyAnswers = {}; pySubmitted = false; renderPinyinCheckModal(); });
+          var skipBtn = document.getElementById("btnSkipWarmupNow");
+          if (skipBtn) {
+            skipBtn.addEventListener("click", function () {
+              if (window.LPHskRoadmap) {
+                window.LPHskRoadmap.toggleSkipTask("hsk1_c0", true);
+                window.LPHskRoadmap.toggleSkipTask("hsk1_speak_tones", true);
+              }
+              closePinyinCheckModal();
+              renderAll();
+              if (window.S4UI && window.S4UI.toast) window.S4UI.toast("success", "Đã mở khóa gợi ý thẳng vào Bài 1: 你好!");
+            });
+          }
+          return;
+        }
+
+        body.innerHTML = '<p style="margin:0 0 10px;font-size:12.5px;color:var(--lg-ink-muted);">Đạt từ <b>4/5 câu</b> để bỏ qua nhanh Chương 0 &amp; 20 cặp thanh điệu. Nếu sai, hệ thống sẽ chỉ đúng cặp cần ôn bù.</p>'
+          + '<div style="display:grid;gap:10px;">' + PINYIN_CHECK_QS.map(function (q, i) {
+            return '<div style="padding:10px 12px;border-radius:14px;background:var(--lg-wash);">'
+              + '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">'
+              + '<span style="font-size:13px;font-weight:800;color:var(--lg-ink);">Câu ' + (i + 1) + ': ' + esc(q.prompt) + '</span>'
+              + '<button type="button" class="rm-ghost-btn" data-py-play="' + i + '" style="flex-shrink:0;">Nghe mẫu</button>'
+              + '</div>'
+              + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
+                var sel = pyAnswers[q.id] === oi;
+                return '<button type="button" data-py-q="' + esc(q.id) + '" data-py-opt="' + oi + '" style="text-align:left;padding:8px 10px;border-radius:10px;border:1px solid ' + (sel ? 'var(--lg-accent)' : 'var(--lg-hairline)') + ';background:' + (sel ? 'var(--lg-accent-soft)' : 'transparent') + ';color:var(--lg-ink);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;">' + esc(op) + '</button>';
+              }).join("") + '</div></div>';
+          }).join("") + '</div>'
+          + '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;">'
+          + '<button type="button" class="rm-cta-btn" id="btnSubmitPinyinCheck" style="border:none;cursor:pointer;">Chấm điểm ngay</button>'
+          + '</div>';
+
+        body.querySelectorAll("[data-py-play]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var q = PINYIN_CHECK_QS[Number(b.getAttribute("data-py-play"))];
+            if (q && window.HskTTS) window.HskTTS.speak(q.audioZh, { pinyin: q.audioPy, rate: 0.92 });
+          });
+        });
+        body.querySelectorAll("[data-py-q]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            pyAnswers[b.getAttribute("data-py-q")] = Number(b.getAttribute("data-py-opt"));
+            renderPinyinCheckModal();
+          });
+        });
+        var subBtn = document.getElementById("btnSubmitPinyinCheck");
+        if (subBtn) {
+          subBtn.addEventListener("click", function () {
+            pySubmitted = true;
+            renderPinyinCheckModal();
+          });
+        }
+      }
+
+      function openPinyinCheckModal() {
+        pyAnswers = {};
+        pySubmitted = false;
+        var m = document.getElementById("pinyinCheckModal");
+        if (m) m.style.display = "flex";
+        renderPinyinCheckModal();
+      }
+      function closePinyinCheckModal() {
+        var m = document.getElementById("pinyinCheckModal");
+        if (m) m.style.display = "none";
+      }
+
+      var openPyBtn = document.getElementById("btnPinyinQuickCheck");
+      if (openPyBtn) openPyBtn.addEventListener("click", openPinyinCheckModal);
+      var closePyBtn = document.getElementById("btnClosePinyinCheck");
+      if (closePyBtn) closePyBtn.addEventListener("click", closePinyinCheckModal);
+
+      // Đánh giá đầu vào HSK nhanh (10 câu • ~5 phút • tùy chọn, không khóa thư viện)
+      var HSK_PLACEMENT_QS = [
+        { id: "hp1", tier: "Pinyin", group: "Pinyin & HSK 1", audioZh: "买东西", audioPy: "mǎi dōngxi", prompt: "Nghe mẫu “mǎi dōngxi (买东西)” — cụm này nghĩa là gì?", opts: ["Mua đồ (mǎi)", "Bán đồ (mài)", "Đi học"], ans: 0 },
+        { id: "hp2", tier: "HSK 1", group: "Pinyin & HSK 1", prompt: "Câu “我很高兴认识你。” có nghĩa là gì?", opts: ["Tôi không quen bạn.", "Tôi rất vui được quen bạn.", "Tôi đang tìm bạn."], ans: 1 },
+        { id: "hp3", tier: "HSK 1", group: "Pinyin & HSK 1", prompt: "Chọn lượng từ đúng: “我有一____书。” (Tôi có một quyển sách.)", opts: ["杯 (bēi)", "本 (běn)", "只 (zhī)"], ans: 1 },
+        { id: "hp4", tier: "HSK 2", group: "HSK 2–3", audioZh: "明天上午九点我们去医院吧。", audioPy: "Míngtiān shàngwǔ jiǔ diǎn wǒmen qù yīyuàn ba.", prompt: "Nghe câu hội thoại — Sáng mai 9 giờ họ định đi đâu?", opts: ["Trường học (学校)", "Siêu thị (超市)", "Bệnh viện (医院)"], ans: 2 },
+        { id: "hp5", tier: "HSK 2", group: "HSK 2–3", prompt: "Chọn từ so sánh đúng: “今天的天气____昨天暖和得多。”", opts: ["比 (bǐ)", "被 (bèi)", "把 (bǎ)"], ans: 0 },
+        { id: "hp6", tier: "HSK 3", group: "HSK 2–3", prompt: "Điền cặp liên từ: “____下雨了，____我们决定改天再去爬山。”", opts: ["虽然……但是……", "因为……所以……", "不但……而且……"], ans: 1 },
+        { id: "hp7", tier: "HSK 3", group: "HSK 2–3", prompt: "Hoàn thiện câu chữ 把: “请把桌子上的那杯茶____。”", opts: ["拿过来", "去过", "喝着了"], ans: 0 },
+        { id: "hp8", tier: "HSK 4", group: "HSK 4–6", audioZh: "无论遇到什么困难，他都从来没有放弃过自己的理想。", audioPy: "Wúlùn yùdào shénme kùnnan, tā dōu cónglái méiyǒu fàngqì guo zìjǐ de lǐxiǎng.", prompt: "Nghe câu HSK 4 — Ý chính của câu là gì?", opts: ["Anh ấy đã đổi lý tưởng vì quá khó khăn.", "Anh ấy chưa từng gặp khó khăn nào.", "Dù gặp khó khăn gì anh ấy cũng chưa từng từ bỏ lý tưởng."], ans: 2 },
+        { id: "hp9", tier: "HSK 4–5", group: "HSK 4–6", prompt: "“这项环保政策不仅减少了污染，而且大大____了居民的生活质量。”", opts: ["下降", "提高", "取消"], ans: 1 },
+        { id: "hp10", tier: "HSK 5–6", group: "HSK 4–6", prompt: "“____近年来远程办公日益普及，传统写字楼的需求仍未完全消失。”", opts: ["尽管", "既然", "除非"], ans: 0 }
+      ];
+      var hskPtAns = {};
+      var hskPtSubmitted = false;
+
+      function getHskRecommendation(score) {
+        if (score <= 4) return { levelId: "foundation", label: "Chặng 1 • Mới bắt đầu (Pinyin → HSK 1)", note: "Nên bắt đầu từ Chương 0 Pinyin, 20 cặp thanh điệu và Bài 1 (你好!) để chắc nền phát âm & chữ Hán." };
+        if (score <= 7) return { levelId: "intermediate", label: "Chặng 3 • Đã có HSK 2 (HSK 3–4)", note: "Bạn đã nắm nền HSK 1–2, phù hợp tăng tốc từ Chặng 3 (liên từ HSK 3, viết câu & HSKK Trung cấp)." };
+        return { levelId: "advanced", label: "Chặng 5 • Tăng tốc HSK 4+ (HSK 5–6)", note: "Nền HSK 3–4 rất tốt! Bạn có thể đi thẳng vào Chặng 5 để luyện đọc báo chí, viết đoạn văn và HSKK Cao cấp." };
+      }
+
+      function renderHskPlacementModal() {
+        var body = document.getElementById("placementBody");
+        if (!body) return;
+        if (hskPtSubmitted) {
+          var score = 0;
+          var byGroup = {};
+          HSK_PLACEMENT_QS.forEach(function (q) {
+            if (!byGroup[q.group]) byGroup[q.group] = { ok: 0, total: 0 };
+            byGroup[q.group].total++;
+            if (hskPtAns[q.id] === q.ans) { score++; byGroup[q.group].ok++; }
+          });
+          var rec = getHskRecommendation(score);
+          try {
+            localStorage.setItem("lp_hsk_placement_v1", JSON.stringify({
+              score: score, total: HSK_PLACEMENT_QS.length, recLevel: rec.levelId, recLabel: rec.label, at: new Date().toISOString()
+            }));
+          } catch (e) {}
+          var grpHtml = Object.keys(byGroup).map(function (g) {
+            return '<span class="rm-badge" style="padding:4px 9px;">' + esc(g) + ': ' + byGroup[g].ok + '/' + byGroup[g].total + '</span>';
+          }).join("");
+          body.innerHTML = '<div class="rm-pt-q" style="margin-bottom:12px;">'
+            + '<div style="font-size:18px;font-weight:800;color:var(--lg-accent);">Kết quả: ' + score + '/' + HSK_PLACEMENT_QS.length + ' câu đúng</div>'
+            + '<div style="font-size:14px;font-weight:800;color:var(--lg-ink);margin-top:4px;">Gợi ý xuất phát điểm: ' + esc(rec.label) + '</div>'
+            + '<p style="margin:6px 0 8px;font-size:12.5px;color:var(--lg-ink-sub);line-height:1.45;">' + esc(rec.note) + '</p>'
+            + '<div style="display:flex;gap:6px;flex-wrap:wrap;">' + grpHtml + '</div>'
+            + '</div>'
+            + '<p style="margin:0 0 12px;font-size:12px;color:var(--lg-ink-muted);">Thư viện HSK 1–6 luôn mở 100% — gợi ý này chỉ giúp chọn chặng bắt đầu hợp lý và bạn có thể đổi bất cứ lúc nào.</p>'
+            + '<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">'
+            + '  <button type="button" class="rm-ghost-btn" id="btnRetryPlacement">Làm lại</button>'
+            + '  <button type="button" class="rm-cta-btn" id="btnApplyPlacement" style="border:none;cursor:pointer;" data-rec-level="' + esc(rec.levelId) + '">Áp dụng gợi ý ngay</button>'
+            + '</div>';
+          var retryB = document.getElementById("btnRetryPlacement");
+          if (retryB) retryB.addEventListener("click", function () { hskPtAns = {}; hskPtSubmitted = false; renderHskPlacementModal(); });
+          var applyB = document.getElementById("btnApplyPlacement");
+          if (applyB) applyB.addEventListener("click", function () { window.__hskPtApply(rec.levelId); });
+          return;
+        }
+        var answered = Object.keys(hskPtAns).length;
+        body.innerHTML = '<p style="margin:0 0 10px;font-size:12.5px;color:var(--lg-ink-muted);">Bài test tùy chọn giúp gợi ý chặng xuất phát phù hợp (Chặng 1 / Chặng 3 / Chặng 5). <b>Không khóa bất kỳ bài học nào</b>. Đã chọn: <b>' + answered + '/' + HSK_PLACEMENT_QS.length + '</b>.</p>'
+          + '<div style="display:grid;gap:10px;">' + HSK_PLACEMENT_QS.map(function (q, i) {
+            var playBtn = q.audioZh ? '<button type="button" class="rm-ghost-btn" data-hpt-play="' + i + '" style="flex-shrink:0;">Nghe mẫu</button>' : '';
+            return '<div class="rm-pt-q">'
+              + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">'
+              + '  <div><span class="rm-badge" style="margin-bottom:4px;">Câu ' + (i + 1) + ' • ' + esc(q.tier) + '</span>'
+              + '  <div style="font-size:13px;font-weight:800;color:var(--lg-ink);line-height:1.4;">' + esc(q.prompt) + '</div></div>'
+              +    playBtn
+              + '</div>'
+              + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
+                var sel = hskPtAns[q.id] === oi ? " selected" : "";
+                return '<button type="button" class="rm-pt-opt' + sel + '" data-hpt-q="' + esc(q.id) + '" data-hpt-opt="' + oi + '">' + esc(op) + '</button>';
+              }).join("") + '</div></div>';
+          }).join("") + '</div>'
+          + '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;">'
+          + '  <button type="button" class="rm-cta-btn" id="btnSubmitPlacement" style="border:none;cursor:pointer;">Chấm điểm &amp; xem gợi ý</button>'
+          + '</div>';
+        body.querySelectorAll("[data-hpt-play]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var q = HSK_PLACEMENT_QS[Number(b.getAttribute("data-hpt-play"))];
+            if (q && window.HskTTS) window.HskTTS.speak(q.audioZh, { pinyin: q.audioPy, rate: 0.9 });
+          });
+        });
+        body.querySelectorAll("[data-hpt-q]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            window.__hskPtPick(b.getAttribute("data-hpt-q"), Number(b.getAttribute("data-hpt-opt")));
+          });
+        });
+        var subB = document.getElementById("btnSubmitPlacement");
+        if (subB) subB.addEventListener("click", function () { window.__hskPtSubmit(); });
+      }
+
+      window.__hskOpenPlacement = function () {
+        hskPtAns = {};
+        hskPtSubmitted = false;
+        var m = document.getElementById("placementModal");
+        if (m) m.style.display = "flex";
+        renderHskPlacementModal();
+      };
+      window.__hskClosePlacement = function () {
+        var m = document.getElementById("placementModal");
+        if (m) m.style.display = "none";
+      };
+      window.__hskPtPick = function (qid, oi) {
+        hskPtAns[qid] = Number(oi);
+        renderHskPlacementModal();
+      };
+      window.__hskPtSubmit = function () {
+        hskPtSubmitted = true;
+        renderHskPlacementModal();
+      };
+      window.__hskPtApply = function (levelId) {
+        if (window.LPHskRoadmap) window.LPHskRoadmap.setStartLevel(levelId);
+        userToggledStage = false;
+        window.__hskClosePlacement();
+        renderAll();
+        if (window.S4UI && typeof window.S4UI.toast === "function") {
+          window.S4UI.toast("success", "Đã áp dụng chặng xuất phát HSK theo kết quả đánh giá đầu vào.");
+        }
+      };
+
+      var openPtBtn = document.getElementById("btnOpenPlacement");
+      if (openPtBtn) openPtBtn.addEventListener("click", window.__hskOpenPlacement);
+      var closePtBtn = document.getElementById("btnClosePlacement");
+      if (closePtBtn) closePtBtn.addEventListener("click", window.__hskClosePlacement);
+      var ptModalEl = document.getElementById("placementModal");
+      if (ptModalEl) {
+        ptModalEl.addEventListener("click", function (ev) {
+          if (ev.target === ptModalEl) window.__hskClosePlacement();
+        });
+      }
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") { window.__hskClosePlacement(); closePinyinCheckModal(); }
+      });
 
       syncDarkIcon();
       renderAll();

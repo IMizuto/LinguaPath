@@ -101,6 +101,15 @@ function serveFile(req, res, filePath, stats) {
   }
 
   const totalSize = stats.size;
+  const etag = `W/"${totalSize}-${Math.floor(stats.mtimeMs)}"`;
+  res.setHeader('ETag', etag);
+
+  if (req.headers['if-none-match'] === etag && !req.headers.range) {
+    res.writeHead(304);
+    res.end();
+    return;
+  }
+
   const range = req.headers.range;
 
   if (range && totalSize > 0) {
@@ -148,27 +157,39 @@ function serveFile(req, res, filePath, stats) {
     stream.pipe(res);
   } else {
     const acceptEncoding = String(req.headers['accept-encoding'] || '');
-    const useGzip = req.method === 'GET' && isCompressible && totalSize >= GZIP_MIN_BYTES && /\bgzip\b/i.test(acceptEncoding);
+    const isEncAccepted = (enc) => {
+      const re = new RegExp(`(?:^|,)\\s*${enc}(?:\\s*;\\s*q=([0-9.]+))?\\s*(?:,|$)`, 'i');
+      const m = re.exec(acceptEncoding);
+      if (!m) return false;
+      if (m[1] === undefined) return true;
+      const q = parseFloat(m[1]);
+      return Number.isFinite(q) && q > 0;
+    };
+    const canCompress = req.method === 'GET' && isCompressible && totalSize >= GZIP_MIN_BYTES;
+    const useBrotli = canCompress && typeof zlib.createBrotliCompress === 'function' && isEncAccepted('br');
+    const useGzip = canCompress && !useBrotli && isEncAccepted('gzip');
 
-    if (useGzip) {
-      res.setHeader('Content-Encoding', 'gzip');
+    if (useBrotli || useGzip) {
+      res.setHeader('Content-Encoding', useBrotli ? 'br' : 'gzip');
       res.writeHead(200);
 
       const stream = fs.createReadStream(filePath);
-      const gzip = zlib.createGzip({ level: 6 });
+      const compressor = useBrotli
+        ? zlib.createBrotliCompress({ params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 4 } })
+        : zlib.createGzip({ level: 6 });
       const handleErr = () => {
         if (!stream.destroyed) stream.destroy();
-        if (!gzip.destroyed) gzip.destroy();
+        if (!compressor.destroyed) compressor.destroy();
         if (!res.headersSent) res.writeHead(500, { 'Content-Type': 'text/plain' });
         if (!res.writableEnded) res.end('Server Error');
       };
       stream.on('error', handleErr);
-      gzip.on('error', handleErr);
+      compressor.on('error', handleErr);
       res.on('close', () => {
         if (!stream.destroyed) stream.destroy();
-        if (!gzip.destroyed) gzip.destroy();
+        if (!compressor.destroyed) compressor.destroy();
       });
-      stream.pipe(gzip).pipe(res);
+      stream.pipe(compressor).pipe(res);
       return;
     }
 

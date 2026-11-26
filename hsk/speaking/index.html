@@ -77,8 +77,8 @@
     .container { max-width: 1060px; margin: 0 auto; padding: 14px 14px 72px; position: relative; z-index: 1; }
     .hero-card, .card {
       background: var(--lg-surface, var(--card));
-      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
-      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--lg-hairline, var(--border));
       box-shadow: var(--lg-shadow, 0 12px 32px rgba(15, 23, 42, 0.08)),
         inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.75)),
@@ -308,8 +308,8 @@
     }
     .spk-filter-glass {
       background: var(--lg-surface, var(--card));
-      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
-      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--lg-hairline, var(--border));
       box-shadow: var(--lg-shadow, 0 12px 32px rgba(15, 23, 42, 0.08)),
         inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.75)),
@@ -329,8 +329,8 @@
       padding: 5px 12px; border-radius: 999px; margin-bottom: 10px;
       font-size: 12.5px; font-weight: 600; color: var(--text);
       background: var(--lg-surface, var(--card));
-      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
-      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--lg-hairline, var(--border));
     }
     .lp-top-left, .lp-brand, .lp-brand-text { min-width: 0; overflow: hidden; }
@@ -375,7 +375,7 @@
 
   <div class="container" id="appStage"></div>
 
-  <script src="../hsk-tts.js?v=2"></script>
+  <script src="../hsk-tts.js?v=3"></script>
   <script src="../../assets/s4-whisper.js?v=6"></script>
   <script src="./speaking_data.js?v=2"></script>
   <script>
@@ -409,6 +409,31 @@
           : (hitHskk
             ? "hskk"
             : (reqSpkLv >= 4 ? "hskk" : ((reqSpkLv === 2 || reqSpkLv === 3) ? "shadowing" : "tones")))));
+    let deviceCheckMsg = "";
+    window.testSpeakerAndMic = async function () {
+      deviceCheckMsg = "Đang phát thử âm mẫu '你好 (nǐ hǎo)' và kiểm tra quyền micro...";
+      render();
+      let audioOk = false;
+      try {
+        if (window.HskTTS && typeof window.HskTTS.testAudio === "function") {
+          audioOk = await window.HskTTS.testAudio();
+        }
+      } catch (e) {}
+      let micNote = "";
+      if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function") {
+        micNote = "Trình duyệt chưa hỗ trợ thu âm trực tiếp — bạn vẫn nghe mẫu và tự luyện đọc bình thường.";
+      } else {
+        try {
+          const st = await navigator.mediaDevices.getUserMedia({ audio: true });
+          st.getTracks().forEach((tr) => { try { tr.stop(); } catch (e) {} });
+          micNote = "Micro đã sẵn sàng (đã cấp quyền).";
+        } catch (err) {
+          micNote = "Micro chưa được cấp quyền — bấm biểu tượng ổ khóa trên thanh địa chỉ để bật Micro; phần nghe mẫu vẫn hoạt động bình thường.";
+        }
+      }
+      deviceCheckMsg = (audioOk ? "Loa phát mẫu hoạt động tốt. " : "Không phát được âm mẫu (hãy kiểm tra mạng hoặc loa thiết bị). ") + micNote;
+      render();
+    };
     let toneSearch = "";
     let activeToneId = hitTone ? hitTone.id : "";
     let shadowLevelFilter = "all";
@@ -1671,7 +1696,7 @@
         const kA = `tp_${idx}_a`;
         const kB = `tp_${idx}_b`;
         html += `
-          <div class="card tone-card ${isTarget ? "is-target-item" : ""}" id="toneCard_${escAttr(p.id)}" data-tone-id="${escAttr(p.id)}">
+          <div class="card tone-card ${isTarget ? "is-target-item" : ""}" id="toneCard_${esc(p.id)}" data-tone-id="${esc(p.id)}">
             <div class="pair-head">
               <span>Cặp ${idx + 1}: ${esc(p.title)}</span>
               <button class="done-btn ${isDone ? "is-done" : ""}" onclick="markDone('${escJsAttr(p.id)}')">
@@ -2280,7 +2305,9 @@
           <button class="ctrl-btn ${showPinyin ? "on" : ""}" onclick="showPinyin=!showPinyin;render();">${spkSvg("eye", 14)} Pinyin: ${showPinyin ? "Hiện" : "Ẩn"}</button>
           <button class="ctrl-btn ${showVi ? "on" : ""}" onclick="showVi=!showVi;render();">${spkSvg("book", 14)} Dịch Việt: ${showVi ? "Hiện" : "Ẩn"}</button>
           <button class="ctrl-btn" onclick="stopZh()">${spkSvg("stop", 14)} Dừng phát</button>
+          <button class="ctrl-btn" onclick="testSpeakerAndMic()">${spkSvg("volume", 14)} Kiểm tra loa &amp; mic</button>
         </div>
+        ${deviceCheckMsg ? `<div class="notice-box" id="spkDeviceCheckStatus" style="margin-bottom:12px;">${spkSvg("info", 15)}<span>${esc(deviceCheckMsg)}</span></div>` : ""}
 
         ${tabBody}
       `;

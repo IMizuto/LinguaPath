@@ -308,11 +308,11 @@
       }
       done = Math.min(total, passed);
       if (done >= total) {
-        nextHint = "Đã vượt chuẩn " + total + "/" + total + " đề Mock HSK " + (task.level || "");
+        nextHint = "Đạt ngưỡng " + total + "/" + total + " đề luyện rút gọn HSK " + (task.level || "");
       } else if (attempted > 0 && passed === 0) {
-        nextHint = "Đã thi thử " + attempted + " đề • Cần đạt điểm chuẩn";
+        nextHint = "Đã luyện " + attempted + " đề rút gọn • Chưa đạt ngưỡng bài luyện";
       } else {
-        nextHint = "Đã đạt " + done + "/" + total + " đề thi thử HSK " + (task.level || "");
+        nextHint = "Đạt ngưỡng " + done + "/" + total + " đề luyện rút gọn HSK " + (task.level || "");
       }
     } else if (task.evalType === "due_review") {
       var allSrs = caches.getSrsStat(task.storageKey || "lp_hsk_vocab_srs_v1", 0);
@@ -445,8 +445,9 @@
 
     var overallPct = activeStageCount > 0 ? Math.min(100, Math.round(sumStagePct / activeStageCount)) : 100;
 
-    // Xây dựng danh sách "Hôm nay học gì?" (tối đa 4 thẻ)
+    // Xây dựng danh sách "Hôm nay học gì?" (ưu tiên tuần tự Tuần 1: Chương 0 -> 20 cặp thanh điệu -> Bài 1)
     var dailyFocus = [];
+    var warmupStatus = { needWarmup: false, c0Done: true, tonesDone: true };
     if (dueWordsTotal > 0) {
       dailyFocus.push({
         id: "focus_due_srs",
@@ -464,26 +465,106 @@
     }
 
     if (activeStage) {
-      var seenModules = {};
       var pendingTasks = activeStage.tasks.filter(function (tk) {
         return !tk.isEffectiveDone && tk.evalType !== "due_review";
       });
-      // Lượt 1: mỗi kỹ năng khác nhau 1 học phần chưa xong
-      for (var p1 = 0; p1 < pendingTasks.length && dailyFocus.length < 4; p1++) {
-        var tk1 = pendingTasks[p1];
-        if (!seenModules[tk1.module]) {
-          seenModules[tk1.module] = true;
-          dailyFocus.push(tk1);
-        }
+
+      var isHsk1Active = activeStage.id === "hsk1" && !activeStage.preCompletedByLevel;
+      var c0Task = isHsk1Active ? activeStage.tasks.find(function (tk) { return tk.id === "hsk1_c0"; }) : null;
+      var tonesTask = isHsk1Active ? activeStage.tasks.find(function (tk) { return tk.id === "hsk1_speak_tones"; }) : null;
+      var hsk1LesTask = isHsk1Active ? activeStage.tasks.find(function (tk) { return tk.id === "hsk1_lessons"; }) : null;
+
+      if (isHsk1Active && (c0Task || tonesTask)) {
+        warmupStatus.c0Done = !c0Task || c0Task.isEffectiveDone;
+        warmupStatus.tonesDone = !tonesTask || tonesTask.isEffectiveDone;
+        warmupStatus.needWarmup = !warmupStatus.c0Done || !warmupStatus.tonesDone;
       }
-      // Lượt 2: nếu chưa đủ 4 thẻ thì bổ sung học phần kế tiếp chưa xong
-      for (var p2 = 0; p2 < pendingTasks.length && dailyFocus.length < 4; p2++) {
-        var tk2 = pendingTasks[p2];
-        if (dailyFocus.indexOf(tk2) === -1) {
-          dailyFocus.push(tk2);
+
+      if (warmupStatus.needWarmup) {
+        // Giữ tối giản và đúng trình tự: Tuần 1 chỉ tập trung Bước 1 (Chương 0) -> Bước 2 (Thanh điệu) -> Bước 3 (Bài 1)
+        if (c0Task && !c0Task.isEffectiveDone) {
+          dailyFocus.push(Object.assign({}, c0Task, {
+            moduleLabel: "Bước 1 ưu tiên • Tuần 1",
+            nextHint: c0Task.nextHint + " (hoàn thành 3 bài Pinyin trước khi vào Bài 1)"
+          }));
+          if (tonesTask && !tonesTask.isEffectiveDone && dailyFocus.length < 4) {
+            dailyFocus.push(Object.assign({}, tonesTask, {
+              moduleLabel: "Bước 2 kế tiếp • Thanh điệu",
+              nextHint: "Luyện sau khi xong Bài 0.2 để phân biệt chuẩn 4 thanh điệu"
+            }));
+          }
+        } else if (tonesTask && !tonesTask.isEffectiveDone) {
+          dailyFocus.push(Object.assign({}, tonesTask, {
+            moduleLabel: "Bước 2 ưu tiên • Thanh điệu",
+            nextHint: tonesTask.nextHint + " (hoàn thành hoặc làm bài kiểm tra nhanh 5 câu để sang Bài 1)"
+          }));
+          if (hsk1LesTask && !hsk1LesTask.isEffectiveDone && dailyFocus.length < 4) {
+            dailyFocus.push(Object.assign({}, hsk1LesTask, {
+              moduleLabel: "Bước 3 kế tiếp • Hội thoại",
+              nextHint: "Mở đầu giao tiếp với Bài 1: 你好! (Xin chào!)"
+            }));
+          }
+        }
+      } else {
+        var seenModules = {};
+        // Lượt 1: mỗi kỹ năng khác nhau 1 học phần chưa xong
+        for (var p1 = 0; p1 < pendingTasks.length && dailyFocus.length < 4; p1++) {
+          var tk1 = pendingTasks[p1];
+          if (!seenModules[tk1.module]) {
+            seenModules[tk1.module] = true;
+            dailyFocus.push(tk1);
+          }
+        }
+        // Lượt 2: nếu chưa đủ 4 thẻ thì bổ sung học phần kế tiếp chưa xong
+        for (var p2 = 0; p2 < pendingTasks.length && dailyFocus.length < 4; p2++) {
+          var tk2 = pendingTasks[p2];
+          if (dailyFocus.indexOf(tk2) === -1) {
+            dailyFocus.push(tk2);
+          }
         }
       }
     }
+
+    function computeSkillBreakdown(stagesList) {
+      var defs = [
+        { key: "listening", label: "Nghe", icon: "listening", color: "#d97706" },
+        { key: "reading", label: "Đọc", icon: "reading", color: "#16a34a" },
+        { key: "speaking", label: "Nói", icon: "speaking", color: "#e11d48" },
+        { key: "writing", label: "Viết", icon: "writing", color: "#ea580c" }
+      ];
+      var activeList = stagesList.filter(function (s) { return !s.preCompletedByLevel; });
+      if (!activeList.length) activeList = stagesList;
+      var items = defs.map(function (d) {
+        var sumPct = 0, cnt = 0, doneCnt = 0;
+        activeList.forEach(function (st) {
+          (st.tasks || []).forEach(function (tk) {
+            if (tk.module !== d.key) return;
+            cnt++;
+            sumPct += (tk.isEffectiveDone ? 100 : tk.rawPct);
+            if (tk.isEffectiveDone) doneCnt++;
+          });
+        });
+        var pct = cnt > 0 ? Math.min(100, Math.round(sumPct / cnt)) : 0;
+        return { key: d.key, label: d.label, icon: d.icon, color: d.color, pct: pct, doneTasks: doneCnt, totalTasks: cnt, isLagging: false };
+      });
+      var maxPct = 0, minPct = 100, minItem = null;
+      items.forEach(function (it) {
+        if (it.totalTasks <= 0) return;
+        if (it.pct > maxPct) maxPct = it.pct;
+        if (it.pct < minPct) { minPct = it.pct; minItem = it; }
+      });
+      var spread = maxPct - minPct;
+      var laggingKey = "";
+      var laggingLabel = "";
+      if (minItem && maxPct > 0 && spread >= 15) {
+        minItem.isLagging = true;
+        laggingKey = minItem.key;
+        laggingLabel = minItem.label;
+      }
+      return { items: items, laggingKey: laggingKey, laggingLabel: laggingLabel, spread: spread };
+    }
+
+    var skillBreakdown = computeSkillBreakdown(stagesOut);
 
     return {
       state: state,
@@ -493,7 +574,9 @@
       completedTasks: completedTasksAll,
       totalTasks: totalTasksAll,
       dueWordsTotal: dueWordsTotal,
+      warmupStatus: warmupStatus,
       dueTargetUrl: dueTargetUrl,
+      skillBreakdown: skillBreakdown,
       activeStage: activeStage,
       dailyFocus: dailyFocus,
       stages: stagesOut

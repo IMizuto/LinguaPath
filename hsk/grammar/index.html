@@ -129,12 +129,12 @@
     .mode-switch-btn {
       border: 1px solid var(--lg-hairline, var(--border));
       background: var(--lg-surface, var(--card));
-      backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
-      -webkit-backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       color: var(--text);
       border-radius: 16px; padding: 11px 14px; cursor: pointer; font-family: inherit;
       text-align: left; display: flex; align-items: center; justify-content: space-between;
-      gap: 10px; transition: all 0.16s ease; min-width: 0;
+      gap: 10px; transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease; min-width: 0;
       box-shadow: var(--lg-shadow, 0 4px 16px rgba(0, 0, 0, 0.05));
     }
     .mode-switch-btn:hover { border-color: var(--primary); }
@@ -161,8 +161,8 @@
     }
     .sidebar {
       background: var(--lg-surface, var(--card));
-      backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
-      -webkit-backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--lg-hairline, var(--border));
       box-shadow: var(--lg-shadow, 0 8px 28px rgba(0, 0, 0, 0.08));
       border-radius: 18px;
@@ -209,7 +209,7 @@
     .lv-pill {
       padding: 5px 9px; border-radius: 99px; border: 1px solid var(--border);
       background: var(--box-sub); color: var(--text); font-size: 11.5px; font-weight: 700;
-      cursor: pointer; font-family: inherit; transition: all 0.14s ease; white-space: nowrap;
+      cursor: pointer; font-family: inherit; transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease; white-space: nowrap;
     }
     .lv-pill:hover { border-color: var(--primary); }
     .lv-pill.active {
@@ -247,8 +247,8 @@
 
     .main-card {
       background: var(--lg-surface, var(--card));
-      backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
-      -webkit-backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--lg-hairline, var(--border));
       border-radius: 20px;
       padding: 20px; box-shadow: var(--lg-shadow, 0 8px 28px rgba(0, 0, 0, 0.08));
@@ -417,8 +417,8 @@
     /* Measure Words Mode */
     .mw-panel {
       background: var(--lg-surface, var(--card));
-      backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
-      -webkit-backdrop-filter: var(--lg-blur, blur(20px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
       border: 1px solid var(--lg-hairline, var(--border));
       border-radius: 20px;
       padding: 18px; box-shadow: var(--lg-shadow, 0 8px 28px rgba(0, 0, 0, 0.08));

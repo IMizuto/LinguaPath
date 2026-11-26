@@ -184,7 +184,7 @@ header.topbar.lp-topbar {
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: all 0.18s;
+  transition: background-color 0.18s, border-color 0.18s, color 0.18s, transform 0.18s, opacity 0.18s, box-shadow 0.18s;
 }
 .top-switch-btn svg { flex-shrink: 0; }
 .top-switch-btn:hover {
@@ -254,7 +254,7 @@ header.topbar #btnWritingDark {
   background: var(--lg-wash, rgba(255, 255, 255, 0.06));
   color: var(--lg-ink, var(--text));
   cursor: pointer;
-  transition: all 0.18s;
+  transition: background-color 0.18s, border-color 0.18s, color 0.18s, transform 0.18s, opacity 0.18s, box-shadow 0.18s;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -415,7 +415,7 @@ html.dark .btn-primary {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, box-shadow 0.15s;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -807,7 +807,7 @@ body.s4-cbt-mode .main-area {
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: all 0.25s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease;
 }
 
 .w-review-prompt-head {
@@ -851,7 +851,7 @@ body.s4-cbt-mode .main-area {
   padding: 4px 10px;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s, opacity 0.2s, box-shadow 0.2s;
 }
 .w-review-prompt-toggle:hover {
   background: var(--border);
@@ -859,7 +859,7 @@ body.s4-cbt-mode .main-area {
 }
 
 .w-review-prompt-body {
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
 }
 
 .w-review-prompt-grid {
@@ -1241,7 +1241,7 @@ body.s4-cbt-mode .main-area {
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 .w-mode-btn:hover {
   color: var(--text);
@@ -1494,7 +1494,7 @@ html:not(.dark) .vocab-meaning-pill {
   font-weight: 700;
   text-align: center;
   outline: none;
-  transition: all 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s, opacity 0.2s, box-shadow 0.2s;
   vertical-align: middle;
 }
 .w-grammar-input:focus {
@@ -1603,7 +1603,7 @@ html:not(.dark) .vocab-meaning-pill {
   background: var(--box-sub);
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   text-align: left;
 }
 .w-cbt-task-btn:hover {
@@ -1755,7 +1755,7 @@ html:not(.dark) .vocab-meaning-pill {
   height: 38px;
   border-radius: 3px;
   background: var(--border);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 .w-cbt-resizer:hover .w-cbt-resizer-line,
 .w-cbt-resizer.dragging .w-cbt-resizer-line {
@@ -2484,7 +2484,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   border-radius: 8px;
   border: 1.5px solid var(--border);
   background: var(--box-sub);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -2539,7 +2539,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
 }
 
@@ -2568,7 +2568,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
 }
 
@@ -2603,7 +2603,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-lobby-start-btn:hover {
@@ -2637,7 +2637,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-lobby-back-btn:hover {
@@ -2737,7 +2737,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   border: 1.5px solid var(--border);
   min-width: 85px;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-ai-band-badge strong {
@@ -2760,7 +2760,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-ai-score-box.main {
@@ -2907,7 +2907,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   border-radius: 12px;
   background: var(--box-sub);
   border: 1.5px solid var(--border);
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-history-item:hover {
@@ -3030,7 +3030,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
 }
 
@@ -3049,7 +3049,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   color: var(--muted);
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-history-btn-icon:hover {
@@ -3119,7 +3119,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .w-filter-pill.active {
@@ -3170,7 +3170,7 @@ body.s4-cbt-mode #practiceZoneContainer {
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .w-sb-pz-pill.active {

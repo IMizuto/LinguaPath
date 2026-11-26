@@ -252,7 +252,7 @@ textarea {
   cursor: pointer;
   white-space: nowrap;
   text-shadow: none;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .mini-btn:hover {
@@ -661,7 +661,7 @@ html body:has(#speakingWorkspace) .s4-theme-dock .s4-theme-opt {
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-accent-btn:hover {
@@ -703,7 +703,7 @@ html body:has(#speakingWorkspace) .s4-theme-dock .s4-theme-opt {
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-pair-btn small {
@@ -861,7 +861,7 @@ html body:has(#speakingWorkspace) .s4-theme-dock .s4-theme-opt {
   font-weight: 600;
   text-align: left;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-quiz-opt:hover {
@@ -912,7 +912,7 @@ html body:has(#speakingWorkspace) .s4-theme-dock .s4-theme-opt {
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-q-pill:hover {
@@ -1008,7 +1008,7 @@ html body:has(#speakingWorkspace) .s4-theme-dock .s4-theme-opt {
   font-weight: 800;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-mode-btn:hover {
@@ -1158,7 +1158,7 @@ html body:has(#speakingWorkspace) .s4-theme-dock .s4-theme-opt {
   color: var(--lg-ink);
   background: var(--lg-wash);
   border: 1px solid var(--lg-divider);
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-tok.matched {
@@ -2349,7 +2349,7 @@ html:not(.dark) .sp-exam-shell .s4-cbt-exit-btn {
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  transition: all 0.14s ease;
+  transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease, opacity 0.14s ease, box-shadow 0.14s ease;
 }
 
 .sp-band-chip:hover {
@@ -2860,7 +2860,7 @@ html:not(.dark) .sp-exam-shell .s4-cbt-exit-btn {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sp-handsfree-pill.is-active {

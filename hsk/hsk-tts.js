@@ -753,20 +753,88 @@
     }
   }
 
+  let lastAttempt = null;
+
+  function hideAudioRecoveryBar() {
+    if (typeof document === "undefined") return;
+    const bar = document.getElementById("lpHskAudioStatusBar");
+    if (bar) bar.style.display = "none";
+  }
+
+  function showAudioRecoveryBar(reasonMsg) {
+    if (typeof document === "undefined" || !document.body) return;
+    let bar = document.getElementById("lpHskAudioStatusBar");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.id = "lpHskAudioStatusBar";
+      bar.setAttribute("role", "status");
+      bar.style.cssText = [
+        "position:fixed",
+        "left:50%",
+        "bottom:16px",
+        "transform:translateX(-50%)",
+        "z-index:9500",
+        "max-width:min(560px,calc(100vw - 24px))",
+        "padding:10px 14px",
+        "border-radius:16px",
+        "display:flex",
+        "align-items:center",
+        "gap:10px",
+        "flex-wrap:wrap",
+        "font-family:inherit",
+        "font-size:13px",
+        "font-weight:700",
+        "color:#fff",
+        "background:rgba(154,52,18,0.94)",
+        "border:1px solid rgba(255,255,255,0.22)",
+        "box-shadow:0 12px 30px rgba(0,0,0,0.28)"
+      ].join(";");
+      bar.innerHTML = [
+        '<span id="lpHskAudioStatusText" style="flex:1 1 220px;line-height:1.4;"></span>',
+        '<button type="button" id="lpHskAudioRetryBtn" style="border:none;border-radius:999px;padding:6px 12px;background:#fff;color:#9a3412;font-weight:800;font-size:12px;cursor:pointer;font-family:inherit;">Thử phát lại</button>',
+        '<button type="button" id="lpHskAudioCloseBtn" aria-label="Đóng thông báo âm thanh" style="border:1px solid rgba(255,255,255,0.35);border-radius:999px;width:28px;height:28px;background:transparent;color:#fff;font-weight:800;cursor:pointer;line-height:1;">×</button>'
+      ].join("");
+      document.body.appendChild(bar);
+      const retryBtn = document.getElementById("lpHskAudioRetryBtn");
+      const closeBtn = document.getElementById("lpHskAudioCloseBtn");
+      if (retryBtn) retryBtn.addEventListener("click", () => { retryLast(); });
+      if (closeBtn) closeBtn.addEventListener("click", hideAudioRecoveryBar);
+    }
+    const txtEl = document.getElementById("lpHskAudioStatusText");
+    if (txtEl) txtEl.textContent = reasonMsg;
+    bar.style.display = "flex";
+  }
+
+  function notifyAudioFailure(text, opts) {
+    const offline = typeof navigator !== "undefined" && navigator.onLine === false;
+    const msg = offline
+      ? "Đang ngoại tuyến và thiết bị chưa có gói giọng zh-CN. Hãy kết nối mạng hoặc thử phát lại."
+      : "Không thể phát âm tiếng Trung (nguồn mạng tạm gián đoạn và máy thiếu giọng zh-CN).";
+    showAudioRecoveryBar(msg);
+    try {
+      global.dispatchEvent(new CustomEvent("lp:hsk-tts-error", {
+        detail: { text: text, opts: opts || {}, offline: offline, message: msg, debug: Object.assign({}, lastDebug) }
+      }));
+    } catch (e) {}
+  }
+
   async function speak(text, opts) {
     const o = opts || {};
     const rate = o.rate ? o.rate : 1.0;
     const plan = resolvePlan(text, o);
     if (!plan.originalText && !plan.mp3Candidates.length) return false;
 
+    lastAttempt = { text: text, opts: Object.assign({}, o) };
     stop();
     const myToken = playToken;
 
     // Ưu tiên phát âm tiết chuẩn cho từ đơn / thanh mẫu / vận mẫu / bộ thủ
     if (plan.mode === "single_syllable") {
       const ok = await playSingleChunk(plan.ttsText, rate, myToken, plan);
-      if (!ok && myToken === playToken && global.S4UI && typeof global.S4UI.toast === "function") {
-        global.S4UI.toast("warn", "🔇 Không thể phát âm tiếng Trung (kiểm tra mạng hoặc cài gói giọng zh-CN trên thiết bị).");
+      if (ok) {
+        hideAudioRecoveryBar();
+      } else if (myToken === playToken) {
+        notifyAudioFailure(text, o);
       }
       return ok;
     }
@@ -782,12 +850,21 @@
       else break;
     }
 
-    if (!okAny && myToken === playToken) {
-      if (global.S4UI && typeof global.S4UI.toast === "function") {
-        global.S4UI.toast("warn", "🔇 Không thể phát âm tiếng Trung (kiểm tra mạng hoặc cài gói giọng zh-CN trên thiết bị).");
-      }
+    if (okAny) {
+      hideAudioRecoveryBar();
+    } else if (myToken === playToken) {
+      notifyAudioFailure(text, o);
     }
     return okAny;
+  }
+
+  async function retryLast() {
+    if (!lastAttempt) return speak("你好", { pinyin: "nǐ hǎo" });
+    return speak(lastAttempt.text, lastAttempt.opts);
+  }
+
+  async function testAudio() {
+    return speak("你好", { pinyin: "nǐ hǎo", rate: 0.95 });
   }
 
   if ("speechSynthesis" in global) {
@@ -800,6 +877,9 @@
   global.HskTTS = {
     speak,
     stop,
+    retryLast,
+    testAudio,
+    hideAudioRecoveryBar,
     parsePinyin,
     resolvePlan,
     getLastDebug: () => Object.assign({}, lastDebug)
