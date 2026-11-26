@@ -254,10 +254,89 @@
       margin-top: 10px; padding: 11px 13px; border-radius: 11px;
       background: var(--card); border: 1px solid var(--border);
     }
-    .tr-zh { font-size: 17px; font-weight: 700; line-height: 1.5; }
+    .tr-zh { font-size: 17px; font-weight: 700; line-height: 1.65; }
     .tr-py { font-size: 13px; color: #2563eb; margin-top: 3px; font-weight: 600; }
     html.dark .tr-py { color: #60a5fa; }
     .tr-vi { font-size: 13px; color: var(--muted); margin-top: 3px; }
+    .tr-tok {
+      cursor: pointer; border-radius: 4px; padding: 0 1px;
+      border-bottom: 1.5px dotted rgba(37,99,235,0.4);
+      transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+    }
+    .tr-tok:hover { background: rgba(37,99,235,0.14); color: var(--primary); border-bottom-color: var(--primary); }
+    .tr-tools {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+      margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border);
+    }
+    .tr-tap-hint {
+      font-size: 11.5px; color: var(--muted); font-weight: 700;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .tr-write-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px; border-radius: 9px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700;
+      text-decoration: none; cursor: pointer; font-family: inherit;
+      transition: border-color 0.14s ease, color 0.14s ease;
+    }
+    .tr-write-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Quick Dictionary & Writing Popup (Liquid Glass) */
+    .lp-lpop-backdrop {
+      position: fixed; inset: 0; background: rgba(15,23,42,0.42); z-index: 998;
+      display: none; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+    }
+    .lp-lpop-backdrop.show { display: block; }
+    .lp-lpop-card {
+      position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%); width: min(430px, calc(100vw - 24px));
+      background: var(--card-strong); color: var(--text);
+      backdrop-filter: var(--lg-blur, blur(14px)); -webkit-backdrop-filter: var(--lg-blur, blur(14px));
+      border: 1.5px solid var(--border); border-radius: 18px;
+      padding: 15px 16px; z-index: 999; display: none;
+      box-shadow: 0 18px 46px rgba(0,0,0,0.28);
+    }
+    .lp-lpop-card.show { display: block; animation: lpLpopIn 0.16s ease-out; }
+    @keyframes lpLpopIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    .lp-lpop-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .lp-lpop-zh { font-size: 30px; font-weight: 900; color: var(--primary); line-height: 1.15; }
+    .lp-lpop-py { font-size: 15px; font-weight: 800; color: #2563eb; margin-left: 8px; }
+    html.dark .lp-lpop-py { color: #60a5fa; }
+    .lp-lpop-close {
+      width: 30px; height: 30px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--muted); cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .lp-lpop-close:hover { border-color: var(--primary); color: var(--primary); }
+    .lp-lpop-tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 7px 0 9px; }
+    .lp-ltag {
+      display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 99px;
+      font-size: 11px; font-weight: 700; border: 1px solid var(--border); background: var(--bg); color: var(--muted);
+    }
+    .lp-ltag.pos { color: #2563eb; border-color: rgba(37,99,235,0.3); }
+    html.dark .lp-ltag.pos { color: #93c5fd; }
+    .lp-ltag.hv { color: #d97706; border-color: rgba(217,119,6,0.35); }
+    .lp-lpop-vi {
+      font-size: 14px; line-height: 1.5; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 11px; padding: 9px 11px;
+    }
+    .lp-lpop-chars { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+    .lp-lpop-char-btn {
+      padding: 4px 9px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    .lp-lpop-char-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .lp-lpop-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .lp-lpop-btn {
+      flex: 1; min-width: 120px; padding: 9px 12px; border-radius: 11px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--text);
+      font-size: 13px; font-weight: 800; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit;
+    }
+    .lp-lpop-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .lp-lpop-btn.primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border-color: transparent; }
+    html.theme-ghibli .lp-lpop-btn.primary { background: linear-gradient(135deg, #2d6a4f, #40916c); }
     .hide-py .py-text { display: none; }
     .hide-vi .vi-text { display: none; }
     .exp-box { margin-top: 9px; font-size: 13px; color: var(--muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 6px; }
@@ -370,15 +449,17 @@
       menu: '<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>',
       circle: '<circle cx="12" cy="12" r="9"/>',
       arrowLeft: '<polyline points="15 18 9 12 15 6"/>',
-      arrowRight: '<polyline points="9 18 15 12 9 6"/>'
+      arrowRight: '<polyline points="9 18 15 12 9 6"/>',
+      volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>',
+      sparkles: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>'
     };
     function lHskIcon(name, size) {
       const sz = size || 14;
-      if (window.S4UI && typeof window.S4UI.icon === "function" && !["stop", "gauge", "eyeOff", "circle", "arrowLeft", "arrowRight"].includes(name)) {
+      if (window.S4UI && typeof window.S4UI.icon === "function" && !["stop", "gauge", "eyeOff", "circle", "arrowLeft", "arrowRight", "volume", "sparkles"].includes(name)) {
         const s = window.S4UI.icon(name, sz);
         if (s && s.indexOf("<svg") !== -1) return s;
       }
-      return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HSK_L_SVG[name] || HSK_L_SVG.listening}</svg>`;
+      return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HSK_L_SVG[name] || HSK_L_SVG.listening}</svg>`;
     }
 
     const DONE_KEY = "lp_hsk_listening_done_v1";
@@ -431,6 +512,215 @@
     }
     function escAttr(s) {
       return esc(s).replace(/`/g, "&#96;");
+    }
+    function escJsAttr(s) {
+      return esc(
+        String(s == null ? "" : s)
+          .replace(/\\/g, "\\\\")
+          .replace(/\r?\n/g, " ")
+          .replace(/'/g, "\\'")
+      );
+    }
+
+    /* Quick Dictionary & Tap-to-Lookup Engine (synchronized with Reading & Lessons) */
+    const lWordMap = new Map();
+    const lCharMap = new Map();
+    const lCoreGloss = {
+      "我": { py: "wǒ", vi: "tôi, mình" }, "你": { py: "nǐ", vi: "bạn" }, "您": { py: "nín", vi: "ngài, thầy/cô" },
+      "他": { py: "tā", vi: "anh ấy" }, "她": { py: "tā", vi: "cô ấy" }, "我们": { py: "wǒmen", vi: "chúng tôi" },
+      "你们": { py: "nǐmen", vi: "các bạn" }, "他们": { py: "tāmen", vi: "họ" }, "大家": { py: "dàjiā", vi: "mọi người" },
+      "的": { py: "de", vi: "của" }, "了": { py: "le", vi: "rồi / đã" }, "着": { py: "zhe", vi: "đang (trạng thái)" },
+      "过": { py: "guò", vi: "đã từng" }, "吗": { py: "ma", vi: "không? (hỏi)" }, "呢": { py: "ne", vi: "còn…?" },
+      "吧": { py: "ba", vi: "nhé / chắc là" }, "是": { py: "shì", vi: "là" }, "在": { py: "zài", vi: "ở / đang" },
+      "有": { py: "yǒu", vi: "có" }, "没": { py: "méi", vi: "không / chưa" }, "没有": { py: "méiyǒu", vi: "không có / chưa" },
+      "不": { py: "bù", vi: "không" }, "很": { py: "hěn", vi: "rất" }, "也": { py: "yě", vi: "cũng" },
+      "都": { py: "dōu", vi: "đều" }, "还": { py: "hái", vi: "vẫn / còn" }, "就": { py: "jiù", vi: "thì / liền" },
+      "才": { py: "cái", vi: "mới" }, "已经": { py: "yǐjīng", vi: "đã" }, "正在": { py: "zhèngzài", vi: "đang" },
+      "和": { py: "hé", vi: "và" }, "跟": { py: "gēn", vi: "cùng với" }, "比": { py: "bǐ", vi: "so với" },
+      "把": { py: "bǎ", vi: "đem (câu chữ 把)" }, "被": { py: "bèi", vi: "bị / được" }, "因为": { py: "yīnwèi", vi: "bởi vì" },
+      "所以": { py: "suǒyǐ", vi: "cho nên" }, "虽然": { py: "suīrán", vi: "tuy rằng" }, "但是": { py: "dànshì", vi: "nhưng mà" },
+      "如果": { py: "rúguǒ", vi: "nếu như" }, "可以": { py: "kěyǐ", vi: "có thể" }, "应该": { py: "yīnggāi", vi: "nên" },
+      "觉得": { py: "juéde", vi: "cảm thấy" }, "认为": { py: "rènwéi", vi: "cho rằng" }, "希望": { py: "xīwàng", vi: "hy vọng" },
+      "喜欢": { py: "xǐhuan", vi: "thích" }, "知道": { py: "zhīdào", vi: "biết" }, "准备": { py: "zhǔnbèi", vi: "chuẩn bị" },
+      "今天": { py: "jīntiān", vi: "hôm nay" }, "明天": { py: "míngtiān", vi: "ngày mai" }, "昨天": { py: "zuótiān", vi: "hôm qua" },
+      "现在": { py: "xiànzài", vi: "bây giờ" }, "时候": { py: "shíhou", vi: "lúc, khi" }, "问题": { py: "wèntí", vi: "vấn đề, câu hỏi" }
+    };
+    let lVocabIndexed = false;
+
+    function indexListeningDict(arr) {
+      if (!Array.isArray(arr) || lVocabIndexed) return;
+      lVocabIndexed = true;
+      for (let i = 0; i < arr.length; i++) {
+        const v = arr[i];
+        if (!v || !v.word) continue;
+        const entry = {
+          word: v.word,
+          py: v.pinyin || "",
+          hv: v.hanViet || "",
+          pos: v.pos || "",
+          radical: v.radical || "",
+          level: Number(v.level || 0),
+          vi: String(v.defVi || "").trim()
+        };
+        if (!lWordMap.has(v.word)) lWordMap.set(v.word, entry);
+        if (Array.from(v.word).length === 1 && !lCharMap.has(v.word)) lCharMap.set(v.word, entry);
+      }
+    }
+
+    function formatTranscriptZh(zh) {
+      const chars = Array.from(String(zh || ""));
+      let html = "";
+      let i = 0;
+      while (i < chars.length) {
+        const ch = chars[i];
+        if (!/[\u3400-\u9FFF]/.test(ch)) {
+          html += esc(ch);
+          i++;
+          continue;
+        }
+        let matched = "";
+        const maxLen = Math.min(4, chars.length - i);
+        for (let len = maxLen; len >= 2; len--) {
+          const sl = chars.slice(i, i + len).join("");
+          if (/^[\u3400-\u9FFF]+$/.test(sl) && (lCoreGloss[sl] || lWordMap.has(sl))) {
+            matched = sl;
+            break;
+          }
+        }
+        if (!matched) matched = ch;
+        html += `<span class="tr-tok" onclick="tapListeningZh(event,'${escJsAttr(matched)}')" title="Chạm tra nghĩa nhanh &amp; tập viết">${esc(matched)}</span>`;
+        i += Array.from(matched).length;
+      }
+      return html;
+    }
+
+    function pickTranscriptFocusWord(zh) {
+      const chars = Array.from(String(zh || ""));
+      let best = "";
+      for (let i = 0; i < chars.length; i++) {
+        if (!/[\u3400-\u9FFF]/.test(chars[i])) continue;
+        for (let len = Math.min(4, chars.length - i); len >= 2; len--) {
+          const sl = chars.slice(i, i + len).join("");
+          if (/^[\u3400-\u9FFF]+$/.test(sl) && lWordMap.has(sl) && !lCoreGloss[sl]) {
+            if (sl.length > best.length) best = sl;
+            break;
+          }
+        }
+        if (best.length >= 2) break;
+      }
+      if (best) return best;
+      const pure = chars.filter((c) => /[\u3400-\u9FFF]/.test(c));
+      return pure.slice(0, Math.min(4, pure.length)).join("");
+    }
+
+    function lookupListeningWord(term) {
+      const w = String(term || "").trim();
+      const wm = lWordMap.get(w) || null;
+      const cm = lCharMap.get(w) || null;
+      const ov = lCoreGloss[w] || null;
+      const firstCh = Array.from(w)[0] || "";
+      const firstCm = lCharMap.get(firstCh) || null;
+
+      const py = (ov && ov.py) || (wm && wm.py) || (cm && cm.py) || "";
+      const hv = (wm && wm.hv) || (cm && cm.hv) || "";
+      const vi = (ov && ov.vi) || (wm && wm.vi) || (cm && cm.vi) || "";
+      const pos = (wm && wm.pos) || (cm && cm.pos) || "";
+      const radical = (wm && wm.radical) || (cm && cm.radical) || (firstCm && firstCm.radical) || "";
+      const level = (wm && wm.level) || (cm && cm.level) || 0;
+
+      const chars = Array.from(w).filter((c) => /[\u3400-\u9FFF]/.test(c));
+      const charsBreakdown = chars.length > 1 ? chars.map((c) => {
+        const ci = lCharMap.get(c) || lWordMap.get(c) || lCoreGloss[c] || {};
+        return { ch: c, py: ci.py || "", hv: ci.hv || "", vi: String(ci.vi || "").slice(0, 36) };
+      }) : [];
+
+      return { word: w, py, hv, pos, radical, level, vi, charsBreakdown };
+    }
+
+    function ensureListenPopupDom() {
+      let bd = document.getElementById("lpListenPopupBackdrop");
+      let card = document.getElementById("lpListenPopup");
+      if (!bd) {
+        bd = document.createElement("div");
+        bd.id = "lpListenPopupBackdrop";
+        bd.className = "lp-lpop-backdrop";
+        bd.onclick = closeListeningPopup;
+        document.body.appendChild(bd);
+      }
+      if (!card) {
+        card = document.createElement("div");
+        card.id = "lpListenPopup";
+        card.className = "lp-lpop-card";
+        card.setAttribute("role", "dialog");
+        card.setAttribute("aria-label", "Tra nhanh từ vựng bài nghe");
+        document.body.appendChild(card);
+      }
+      return { bd, card };
+    }
+
+    function closeListeningPopup() {
+      const bd = document.getElementById("lpListenPopupBackdrop");
+      const card = document.getElementById("lpListenPopup");
+      if (bd) bd.classList.remove("show");
+      if (card) card.classList.remove("show");
+    }
+
+    function openListeningPopup(term) {
+      const info = lookupListeningWord(term);
+      if (!info || !info.word) return;
+      const wUrl = "../writing/index.html?char=" + encodeURIComponent(info.word) +
+        "&py=" + encodeURIComponent(info.py || "") +
+        "&vi=" + encodeURIComponent(String(info.vi || "").slice(0, 80)) +
+        "&from=listening";
+
+      const dom = ensureListenPopupDom();
+      dom.card.innerHTML = `
+        <div class="lp-lpop-top">
+          <div style="min-width:0;">
+            <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;">
+              <span class="lp-lpop-zh">${esc(info.word)}</span>
+              ${info.py ? `<span class="lp-lpop-py">${esc(info.py)}</span>` : ""}
+            </div>
+            <div class="lp-lpop-tags">
+              ${info.level ? `<span class="lp-ltag pos">HSK ${esc(info.level)}</span>` : ""}
+              ${info.pos ? `<span class="lp-ltag pos">${esc(info.pos)}</span>` : ""}
+              ${info.hv ? `<span class="lp-ltag hv">HV: ${esc(info.hv)}</span>` : ""}
+              ${info.radical ? `<span class="lp-ltag">Bộ: ${esc(info.radical)}</span>` : ""}
+            </div>
+          </div>
+          <button type="button" class="lp-lpop-close" onclick="closeListeningPopup()" aria-label="Đóng">${lHskIcon("close", 14)}</button>
+        </div>
+        <div class="lp-lpop-vi">
+          <b>Nghĩa:</b> ${info.vi ? esc(info.vi) : '<span style="color:var(--muted);">Chưa có nghĩa tóm tắt riêng — bạn có thể bấm Tập viết để xem nét bút thuận.</span>'}
+        </div>
+        ${info.charsBreakdown.length ? `
+          <div class="lp-lpop-chars">
+            <span style="font-size:11.5px;color:var(--muted);font-weight:800;align-self:center;">Từng chữ:</span>
+            ${info.charsBreakdown.map((cb) => `
+              <button type="button" class="lp-lpop-char-btn" onclick="openListeningPopup('${escJsAttr(cb.ch)}');speakAudio('${escJsAttr(cb.ch)}', 0.9)">
+                <b>${esc(cb.ch)}</b> ${cb.py ? esc(cb.py) : ""}${cb.hv ? " · " + esc(cb.hv) : ""}${cb.vi ? " — " + esc(cb.vi) : ""}
+              </button>
+            `).join("")}
+          </div>
+        ` : ""}
+        <div class="lp-lpop-actions">
+          <button type="button" class="lp-lpop-btn" onclick="speakAudio('${escJsAttr(info.word)}', 0.9)">${lHskIcon("volume", 14)} Nghe phát âm</button>
+          <a class="lp-lpop-btn primary" href="${wUrl}">${lHskIcon("edit", 14)} Tập viết chữ này</a>
+        </div>
+      `;
+      dom.bd.classList.add("show");
+      dom.card.classList.add("show");
+    }
+
+    function tapListeningZh(ev, term) {
+      if (ev && typeof ev.stopPropagation === "function") ev.stopPropagation();
+      try {
+        const sel = window.getSelection ? window.getSelection().toString().trim() : "";
+        if (sel) return;
+      } catch (e) {}
+      const info = lookupListeningWord(term);
+      speakAudio(info.word, 0.9);
+      openListeningPopup(term);
     }
 
     function normSearch(s) {
@@ -530,7 +820,12 @@
       document.body.classList.toggle("drawer-open", Boolean(open) && window.innerWidth <= 820);
     }
     window.addEventListener("resize", () => { if (window.innerWidth > 820 && document.body.classList.contains("drawer-open")) toggleDrawer(false); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("drawer-open")) toggleDrawer(false); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeListeningPopup();
+        if (document.body.classList.contains("drawer-open")) toggleDrawer(false);
+      }
+    });
 
     function syncThemeBtn() {
       const isDark = document.documentElement.classList.contains("dark");
@@ -690,27 +985,50 @@
           }).join("")}
         </div>
         ${picked !== undefined ? `<div class="exp-box"><span style="color:${picked === q.ans ? "var(--ok)" : "var(--danger)"};flex-shrink:0;margin-top:2px;">${picked === q.ans ? lHskIcon("check", 14) : lHskIcon("close", 14)}</span><span><b>${picked === q.ans ? "Chính xác!" : "Chưa đúng."}</b> ${esc(q.exp)}</span></div>` : ""}
-        ${trOpen ? `
+        ${trOpen ? (() => {
+          const focusW = pickTranscriptFocusWord(q.audioZh);
+          const focusInfo = focusW ? lookupListeningWord(focusW) : null;
+          const wUrl = "../writing/index.html?char=" + encodeURIComponent(focusW || "") +
+            "&py=" + encodeURIComponent((focusInfo && focusInfo.py) || q.audioPy || "") +
+            "&vi=" + encodeURIComponent(String((focusInfo && focusInfo.vi) || q.audioVi || "").slice(0, 80)) +
+            "&from=listening";
+          return `
           <div class="transcript-box">
-            <div class="tr-zh">${esc(q.audioZh)}</div>
+            <div class="tr-zh">${formatTranscriptZh(q.audioZh)}</div>
             <div class="tr-py py-text">${esc(q.audioPy)}</div>
             <div class="tr-vi vi-text">${esc(q.audioVi)}</div>
+            <div class="tr-tools">
+              <span class="tr-tap-hint">${lHskIcon("sparkles", 13)} Chạm từ Hán tự để tra nghĩa nhanh &amp; nghe lại</span>
+              ${focusW ? `<a class="tr-write-btn" href="${wUrl}" title="Mở bảng tập viết cho từ trọng tâm">${lHskIcon("edit", 13)} Tập viết “${esc(focusW)}”</a>` : ""}
+            </div>
           </div>
-        ` : ""}
+          `;
+        })() : ""}
       `;
     }
 
     function renderDictResultHtml(d, idx) {
       if (!dictChecked[idx]) return "";
       const res = scoreDictation(d.zh, dictInputs[idx] || "");
+      const focusW = pickTranscriptFocusWord(d.zh);
+      const focusInfo = focusW ? lookupListeningWord(focusW) : null;
+      const wUrl = "../writing/index.html?char=" + encodeURIComponent(focusW || d.zh || "") +
+        "&py=" + encodeURIComponent((focusInfo && focusInfo.py) || d.py || "") +
+        "&vi=" + encodeURIComponent(String((focusInfo && focusInfo.vi) || d.vi || "").slice(0, 80)) +
+        "&from=listening";
       return `
         <div class="dict-res">
           <div class="lp-chip-inline" style="font-weight:800;margin-bottom:4px;color:${res.exact ? "var(--ok)" : "var(--primary)"};">
             ${res.exact ? `${lHskIcon("award", 14)} Hoàn hảo 100%!` : `${lHskIcon("target", 14)} Độ chính xác: ${res.pct}%${res.extraCount > 0 ? ` <span style="color:var(--danger);font-weight:700;">(dư ${res.extraCount} ký tự thừa/sai)</span>` : ""}`}
           </div>
           <div>Đối chiếu từng chữ: <span style="font-size:18px;letter-spacing:1px;">${res.diffHtml}</span></div>
+          <div class="tr-zh" style="margin-top:6px;font-size:16px;">${formatTranscriptZh(d.zh)}</div>
           <div class="tr-py py-text" style="margin-top:4px;">${esc(d.py)}</div>
           <div class="tr-vi vi-text">${esc(d.vi)}</div>
+          <div class="tr-tools">
+            <span class="tr-tap-hint">${lHskIcon("sparkles", 13)} Chạm từ trên câu chuẩn để tra nhanh</span>
+            ${focusW ? `<a class="tr-write-btn" href="${wUrl}" title="Tập viết chữ Hán">${lHskIcon("edit", 13)} Tập viết “${esc(focusW)}”</a>` : ""}
+          </div>
         </div>
       `;
     }
@@ -1062,6 +1380,24 @@
     syncThemeBtn();
     renderSidebar();
     renderStage();
+    setTimeout(function () {
+      if (Array.isArray(window.LP_HSK_VOCAB_DATA)) {
+        indexListeningDict(window.LP_HSK_VOCAB_DATA);
+        return;
+      }
+      const sc = document.createElement("script");
+      sc.src = "../vocab/vocab_data.js?v=2";
+      sc.async = true;
+      sc.onload = function () {
+        if (Array.isArray(window.LP_HSK_VOCAB_DATA)) {
+          indexListeningDict(window.LP_HSK_VOCAB_DATA);
+          const prevY = window.scrollY || 0;
+          renderStage();
+          if (prevY > 20) window.scrollTo(0, prevY);
+        }
+      };
+      document.head.appendChild(sc);
+    }, 80);
     window.addEventListener("pagehide", stopAudio);
   </script>
   <script src="../../auth.js?v=33"></script>

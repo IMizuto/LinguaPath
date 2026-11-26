@@ -2,7 +2,7 @@
  * Searches across:
  *   1. IELTS Academic Vocabulary (1,827 words)
  *   2. HSK 1-6 Vocabulary (5,112 words)
- *   3. IELTS Grammar (120 lessons), HSK Grammar (108 topics: HSK 1-6) & HSK Measure Words (168 items)
+ *   3. IELTS Grammar (120 lessons), HSK Grammar (120 topics: HSK 1-6) & HSK Measure Words (168 items)
  *   4. TED Talks Bilingual Subtitles (202 talks)
  */
 (function (globalScope) {

@@ -182,6 +182,14 @@
     .fc-back { margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--lg-divider, var(--border)); text-align: left; }
     .def-box { font-size: 15.5px; line-height: 1.5; margin-bottom: 10px; }
     .ex-box { background: var(--success-soft); padding: 10px 13px; border-radius: 12px; font-size: 14px; line-height: 1.55; }
+    .fc-colloc-box { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--lg-wash, rgba(37,99,235,0.06)); border: 1px solid var(--lg-hairline, var(--border)); font-size: 13px; line-height: 1.45; }
+    .fc-colloc-hd { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.25px; text-transform: uppercase; color: var(--primary); margin-bottom: 7px; }
+    .fc-colloc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-bottom: 5px; }
+    .fc-colloc-row:last-child { margin-bottom: 0; }
+    .fc-colloc-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); margin-right: 2px; }
+    .fc-pill-syn { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--lg-accent-soft, var(--primary-soft)); color: var(--primary); border: 1px solid rgba(37,99,235,0.22); }
+    .fc-pill-col { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--lg-surface, var(--card)); color: var(--lg-ink, var(--text)); border: 1px solid var(--lg-hairline, var(--border)); }
+    html.dark .fc-pill-syn { border-color: rgba(96,165,250,0.32); }
     .srs-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
     .srs-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 8px; border-radius: 999px; font-weight: 700; font-size: 13.5px; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, rgba(148,163,184,0.14)); color: var(--lg-ink, var(--text)); transition: transform .15s ease, background .15s ease, border-color .15s ease; }
     .srs-btn:hover { transform: translateY(-1px); }
@@ -407,6 +415,7 @@
   <script src="../../assets/s4-search-engine.js?v=1"></script>
   <script src="../../auth.js?v=33"></script>
   <script src="vocab_data.js"></script>
+  <script src="vocab_collocations.js"></script>
   <script>
     window.LINGUAPATH_VOCAB_DATA = window.STUDY4_VOCAB_DATA;
     const VOCAB = window.LINGUAPATH_VOCAB_DATA || window.STUDY4_VOCAB_DATA || [];
@@ -1515,9 +1524,25 @@
       const safeId = escJsAttr(v.id);
       return `<div class="audio-row"><button class="audio-pill" onclick="playVocab('${safeId}','uk')">${vIcon("volume", 14)} UK</button><button class="audio-pill" onclick="playVocab('${safeId}','us')">${vIcon("volume", 14)} US</button></div>`;
     }
+    function collocationHtml(v) {
+      const map = window.LINGUAPATH_VOCAB_COLLOCATIONS;
+      if (!map || !v || !v.word) return "";
+      const info = map[String(v.word).trim().toLowerCase()];
+      if (!info) return "";
+      const syns = Array.isArray(info.synonyms) ? info.synonyms : [];
+      const cols = Array.isArray(info.collocations) ? info.collocations : [];
+      if (!syns.length && !cols.length) return "";
+      const synRow = syns.length
+        ? `<div class="fc-colloc-row"><span class="fc-colloc-lbl">Đồng nghĩa:</span>${syns.map(s => `<span class="fc-pill-syn">${escHtml(s)}</span>`).join("")}</div>`
+        : "";
+      const colRow = cols.length
+        ? `<div class="fc-colloc-row"><span class="fc-colloc-lbl">Collocations:</span>${cols.map(c => `<span class="fc-pill-col">${escHtml(c)}</span>`).join("")}</div>`
+        : "";
+      return `<div class="fc-colloc-box"><div class="fc-colloc-hd">${vIcon("sparkle", 13)}<span>Band 7.0+ Academic Usage</span></div>${synRow}${colRow}</div>`;
+    }
     function backHtml(v) {
       return `<div class="fc-back"><div class="def-box"><b>Định nghĩa:</b><br>${(v.defRaw || "").replace(/\n/g, "<br>")}</div>
-        ${v.examples && v.examples.length ? `<div class="ex-box"><b>Ví dụ:</b><br>${exampleHtml(v.examples)}</div>` : ""}</div>`;
+        ${v.examples && v.examples.length ? `<div class="ex-box"><b>Ví dụ:</b><br>${exampleHtml(v.examples)}</div>` : ""}${collocationHtml(v)}</div>`;
     }
     function flashcardHtml(v, extraBody, actionFooter) {
       return `<div class="flashcard-wrap">

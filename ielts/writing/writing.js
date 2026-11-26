@@ -33,6 +33,17 @@
   let isPzTimerRunning = false;
   let currentReviewPzTask = 'task1';
 
+  // Practice Zone 3-Tier Hint State (MẶC ĐỊNH TẮT 100% KHI MỞ ĐỀ & TỰ RESET KHI ĐỔI ĐỀ)
+  let pzHintEnabled = false;
+  let pzHintActiveTab = 'offline'; // 'tier1' | 'offline' | 'checklist' | 'ai'
+  let pzHintSelectedTopicId = '';
+  let lastPzHintContextKey = '';
+  let pzHintAiBusy = false;
+  let pzHintTier1Loading = false;
+  const pzHintAiCache = {};
+  const PZ_GEMINI_KEY_STORAGE = 'lp_speaking_gemini_key_v1';
+  const PZ_GEMINI_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.8-flash'];
+
   // Practice Zone Candidate Lobby State
   let lobbySelectedMode = 'both'; // 'both' | 'task1' | 'task2'
   let lobbySelectedTimer = 60; // 60 | 40 | 20 | 0
@@ -3214,6 +3225,14 @@
     }
 
     const promptHtml = renderPzPromptHtml(taskData, lesson.prompt);
+    const ctxKey = `${lesson.id}::${taskKey}::${taskData.pzPartId || ''}`;
+    if (ctxKey !== lastPzHintContextKey) {
+      lastPzHintContextKey = ctxKey;
+      pzHintEnabled = false;
+      pzHintSelectedTopicId = '';
+      pzHintActiveTab = taskData.sampleId ? 'tier1' : 'offline';
+    }
+    syncPzHintToggleBtn();
 
     if (pane) {
       pane.innerHTML = `
@@ -3226,7 +3245,9 @@
           <div class="w-prompt-desc" style="font-size:15px;line-height:1.7;">${promptHtml}</div>
         </div>
         ${chartHtml}
+        <div id="pzHintPanelHost"></div>
       `;
+      renderPzHintPanel();
     }
 
     const saved = readPzDraft(lesson.id, taskKey);
@@ -3750,6 +3771,462 @@ Hãy chỉ rõ:
       if (sbInp) sbInp.addEventListener('input', global.filterWritingSidebar);
     }
   }
+
+  // =========================================================================
+  // 10B. IELTS B2: CÔNG TẮC GỢI Ý 3 TẦNG PRACTICE ZONE (MẶC ĐỊNH TẮT 100%)
+  // =========================================================================
+  function getActivePzTaskData() {
+    if (!activeLesson || !activeLesson.fullTestSpec) return null;
+    return currentPzTask === 'task1' ? activeLesson.fullTestSpec.task1 : activeLesson.fullTestSpec.task2;
+  }
+
+  function syncPzHintToggleBtn() {
+    const btn = document.getElementById('btnPzHintToggle');
+    const lbl = document.getElementById('btnPzHintToggleLbl');
+    if (btn) {
+      btn.classList.toggle('is-on', pzHintEnabled);
+      btn.setAttribute('aria-pressed', pzHintEnabled ? 'true' : 'false');
+    }
+    if (lbl) {
+      lbl.textContent = pzHintEnabled ? 'Gợi ý: ĐANG BẬT' : 'Gợi ý: TẮT';
+    }
+  }
+
+  function getStoredPzGeminiKey() {
+    try {
+      const k1 = localStorage.getItem(PZ_GEMINI_KEY_STORAGE);
+      if (k1 && k1.trim()) return k1.trim();
+    } catch (e) {}
+    try {
+      const k2 = sessionStorage.getItem(PZ_GEMINI_KEY_STORAGE);
+      if (k2 && k2.trim()) return k2.trim();
+    } catch (e) {}
+    return '';
+  }
+
+  global.savePzSessionGeminiKey = function () {
+    const inp = document.getElementById('pzHintGeminiKeyInput');
+    const val = inp ? inp.value.trim() : '';
+    if (!val) {
+      if (window.S4UI) window.S4UI.toast('warn', 'Vui lòng dán Gemini API Key (AIza...) trước khi lưu.');
+      return;
+    }
+    try { sessionStorage.setItem(PZ_GEMINI_KEY_STORAGE, val); } catch (e) {}
+    if (window.S4UI) window.S4UI.toast('success', 'Đã lưu Gemini Key tạm thời cho phiên này!');
+    renderPzHintPanel();
+  };
+
+  function detectPzTask1Kind(taskData) {
+    const text = `${taskData.chartType || ''} ${taskData.title || ''} ${taskData.prompt || ''}`.toLowerCase();
+    if (/\bmap\b|\bmaps\b|floor plan|redevelopment|layout of|town called|city hospital/.test(text)) return 'map';
+    if (/process|diagram|life cycle|stages|flow chart|how .* is made|manufactur|produc.* from|geothermal/.test(text)) return 'process';
+    if (/mixed|multiple|two charts|two graphs|first chart|second chart|charts below|graphs below|tables below/.test(text)) return 'mixed';
+    return 'line_bar_table';
+  }
+
+  function detectPzTask2Framework(taskData) {
+    const text = `${taskData.questionType || ''} ${taskData.title || ''} ${taskData.prompt || ''}`.toLowerCase();
+    if (/discuss both|both views|both sides|discussion/.test(text)) return 'discussion';
+    if (/advantage|disadvantage|outweigh|drawback|benefit/.test(text)) return 'adv_disadv';
+    if (/cause|reason|problem|solution|measure|what can be done/.test(text)) return 'problem_solution';
+    if (/agree|disagree|to what extent|positive or negative|opinion/.test(text)) return 'opinion';
+    return 'two_part';
+  }
+
+  function matchPzTask2Topic(taskData, toolkit) {
+    const list = (toolkit && Array.isArray(toolkit.task2Ideas)) ? toolkit.task2Ideas : [];
+    if (!list.length) return null;
+    if (pzHintSelectedTopicId) {
+      const manual = list.find(t => t.id === pzHintSelectedTopicId);
+      if (manual) return manual;
+    }
+    const hay = `${taskData.topic || ''} ${taskData.questionType || ''} ${taskData.title || ''} ${taskData.prompt || ''}`.toLowerCase();
+    let best = list[0];
+    let bestScore = -1;
+    list.forEach(item => {
+      let score = 0;
+      (item.keywords || []).forEach(kw => {
+        if (kw && hay.includes(kw.toLowerCase())) {
+          score += kw.length >= 6 ? 3 : 2;
+        }
+      });
+      if (score > bestScore) {
+        bestScore = score;
+        best = item;
+      }
+    });
+    return best;
+  }
+
+  function ensureTier1SampleHydrated(sampleId) {
+    if (!sampleId || !global.WritingParser) return null;
+    const found = global.WritingParser.getLessonById(sampleId);
+    if (!found) return null;
+    if (!found._stub) return found;
+    if (pzHintTier1Loading) return found;
+    const uId = found.unitId;
+    if (!uId || !/^u_[1-5]$/.test(uId)) return found;
+    pzHintTier1Loading = true;
+    const script = document.createElement('script');
+    script.src = `data/writing_${uId}.js?v=1`;
+    script.async = true;
+    script.onload = function () {
+      pzHintTier1Loading = false;
+      const unitsMap = global.__STUDY4_WRITING_UNITS || {};
+      const unitObj = unitsMap[uId] || global[`__STUDY4_WRITING_${uId.toUpperCase()}`];
+      if (unitObj && global.WritingParser && typeof global.WritingParser.hydrateUnit === 'function') {
+        global.WritingParser.hydrateUnit(uId, unitObj);
+      }
+      renderPzHintPanel();
+    };
+    script.onerror = function () {
+      pzHintTier1Loading = false;
+      renderPzHintPanel();
+    };
+    document.head.appendChild(script);
+    return found;
+  }
+
+  function renderTier1HintHtml(taskData) {
+    if (!taskData.sampleId) {
+      return `<div class="w-pz-hint-section">Đề thi thử này không nằm trực tiếp trong bộ bài mẫu Unit 3–5. Hãy dùng tab <strong>Gợi ý Offline (Tầng 2)</strong> hoặc <strong>Dàn ý AI (Tầng 3)</strong>.</div>`;
+    }
+    const sampleLesson = ensureTier1SampleHydrated(taskData.sampleId);
+    if (!sampleLesson) {
+      return `<div class="w-pz-hint-section">Không tìm thấy bài mẫu liên kết (ID: ${escHtml(taskData.sampleId)}).</div>`;
+    }
+    if (sampleLesson._stub && pzHintTier1Loading) {
+      return `<div class="w-pz-hint-section">Đang nạp dữ liệu từ vựng &amp; cấu trúc gốc từ <strong>${escHtml(sampleLesson.unitName || 'Unit 3–5')}</strong>...</div>`;
+    }
+    const outlineHtml = (sampleLesson.outline || []).map(o =>
+      `<li><strong>${escHtml(o.section)}:</strong> ${escHtml(o.guide)}</li>`
+    ).join('');
+    const vocabHtml = (sampleLesson.vocabList || []).slice(0, 14).map(v =>
+      `<span class="w-pz-colloc-chip"><strong>${escHtml(v.word)}</strong>${v.meaning ? `<span>${escHtml(v.meaning)}</span>` : ''}</span>`
+    ).join('');
+    const starters = (sampleLesson.sampleSentences || []).slice(0, 4).map(s => {
+      const words = String(s.en || '').trim().split(/\s+/).slice(0, 12).join(' ');
+      return `<li><strong>${escHtml(s.roleLabel || 'Câu gợi mở')}:</strong> <em>"${escHtml(words)}..."</em></li>`;
+    }).join('');
+    return `
+      <div class="w-pz-hint-section">
+        <h4>${wIcon('award', 13)}<span>Khớp chính xác 100% — ${escHtml(sampleLesson.title)} (${escHtml(sampleLesson.unitName || 'Khóa học')})</span></h4>
+        <ul class="w-pz-hint-list">${outlineHtml || '<li>Bố cục 4 đoạn chuẩn IELTS Academic.</li>'}</ul>
+      </div>
+      ${vocabHtml ? `
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('sparkles', 13)}<span>Từ vựng &amp; Collocations trích xuất trực tiếp từ bài mẫu</span></h4>
+          <div class="w-pz-colloc-chips">${vocabHtml}</div>
+        </div>
+      ` : ''}
+      ${starters ? `
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('layers', 13)}<span>Gợi mở đầu câu theo vai trò đoạn văn (không lộ nguyên văn)</span></h4>
+          <ul class="w-pz-hint-list">${starters}</ul>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  function renderTier2OfflineHintHtml(taskData, toolkit) {
+    if (!toolkit) {
+      return `<div class="w-pz-hint-section">Đang tải bộ Cẩm nang Writing Offline...</div>`;
+    }
+    if (currentPzTask === 'task1') {
+      const kind = detectPzTask1Kind(taskData);
+      const pack = toolkit.task1Paraphrase[kind] || toolkit.task1Paraphrase.line_bar_table;
+      return `
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('chart', 13)}<span>Dạng nhận diện: ${escHtml(pack.label)}</span></h4>
+          <ul class="w-pz-hint-list">${pack.introVerbs.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+        </div>
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('layers', 13)}<span>Khung câu Overview ghi điểm Task Achievement</span></h4>
+          <ul class="w-pz-hint-list">${pack.overviewFrames.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+        </div>
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('sparkles', 13)}<span>Từ vựng &amp; Paraphrase thân bài (Body 1 &amp; 2)</span></h4>
+          <ul class="w-pz-hint-list">${pack.bodyPhrases.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+        </div>
+        <div class="w-pz-hint-grid2">
+          <div class="w-pz-hint-section">
+            <h4>${wIcon('check', 13)}<span>Cấu trúc Band 8.0</span></h4>
+            <ul class="w-pz-hint-list">${pack.band8Structures.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+          </div>
+          <div class="w-pz-hint-section">
+            <h4>${wIcon('alert', 13)}<span>Lưu ý tránh mất điểm</span></h4>
+            <ul class="w-pz-hint-list">${pack.commonTraps.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+          </div>
+        </div>
+      `;
+    }
+
+    const fwKey = detectPzTask2Framework(taskData);
+    const fw = toolkit.task2Frameworks[fwKey] || toolkit.task2Frameworks.opinion;
+    const topic = matchPzTask2Topic(taskData, toolkit);
+    const topicOpts = (toolkit.task2Ideas || []).map(t =>
+      `<option value="${escHtml(t.id)}"${topic && t.id === topic.id ? ' selected' : ''}>${escHtml(t.label)}</option>`
+    ).join('');
+
+    return `
+      <div class="w-pz-hint-section">
+        <h4>${wIcon('layers', 13)}<span>Khung dạng bài: ${escHtml(fw.label)}</span></h4>
+        <ul class="w-pz-hint-list">${fw.blueprint.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+      </div>
+      ${topic ? `
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('lightbulb', 13)}<span>Ngân hàng Ý tưởng 2 chiều (Tự khớp theo từ khóa đề)</span></h4>
+          <select class="w-pz-topic-select" aria-label="Đổi chủ đề Ngân hàng Ý tưởng" onchange="window.setPzHintTopic && window.setPzHintTopic(this.value)">
+            ${topicOpts}
+          </select>
+          <div class="w-pz-hint-grid2">
+            <div>
+              <strong style="font-size:12px;color:#10b981;display:block;margin-bottom:5px;">Chiều Ủng hộ / Lợi ích (For)</strong>
+              <ul class="w-pz-hint-list">${topic.forArgs.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+            </div>
+            <div>
+              <strong style="font-size:12px;color:#f59e0b;display:block;margin-bottom:5px;">Chiều Phản biện / Hạn chế (Against)</strong>
+              <ul class="w-pz-hint-list">${topic.againstArgs.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+            </div>
+          </div>
+        </div>
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('book', 13)}<span>Ví dụ thực tiễn &amp; Collocations ăn điểm</span></h4>
+          <ul class="w-pz-hint-list" style="margin-bottom:8px;">${topic.examples.map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+          <div class="w-pz-colloc-chips">
+            ${topic.collocations.map(c => `<span class="w-pz-colloc-chip"><strong>${escHtml(c.en)}</strong><span>${escHtml(c.vi)}</span></span>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  function renderChecklistHintHtml(toolkit) {
+    const list = toolkit && toolkit.checklist ? (toolkit.checklist[currentPzTask] || toolkit.checklist.task2) : [];
+    return `
+      <div class="w-pz-hint-grid2">
+        ${list.map(group => `
+          <div class="w-pz-hint-section">
+            <h4>${wIcon('check', 13)}<span>${escHtml(group.code)} · ${escHtml(group.title)}</span></h4>
+            ${group.items.map(it => `<label class="w-pz-check-item"><input type="checkbox"><span>${escHtml(it)}</span></label>`).join('')}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderTier3AiHintHtml(taskData) {
+    const cacheKey = `${activeLesson ? activeLesson.id : ''}::${currentPzTask}::${taskData.pzPartId || ''}`;
+    const cached = pzHintAiCache[cacheKey];
+    const hasKey = Boolean(getStoredPzGeminiKey());
+
+    let resultHtml = '';
+    if (pzHintAiBusy) {
+      resultHtml = `<div class="w-pz-hint-section">Đang tạo dàn ý riêng cho đề này bằng Gemini (<code>gemini-3.5-flash-lite</code>)...</div>`;
+    } else if (cached && cached.error) {
+      resultHtml = `<div class="w-pz-hint-section" style="border-color:rgba(244,63,94,0.4);"><strong>Không gọi được AI:</strong> ${escHtml(cached.error)}</div>`;
+    } else if (cached && cached.data) {
+      const d = cached.data;
+      resultHtml = `
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('sparkles', 13)}<span>Dàn ý AI riêng cho đề này (${escHtml(cached.model || 'Gemini')})</span></h4>
+          ${d.stanceOrOverview ? `<p style="margin:0 0 8px;font-size:12.5px;"><strong>${currentPzTask === 'task1' ? 'Overview gợi ý' : 'Thesis / Lập trường'}:</strong> ${escHtml(d.stanceOrOverview)}</p>` : ''}
+          <div class="w-pz-hint-grid2">
+            <div>
+              <strong style="font-size:12px;color:var(--primary);">Body 1</strong>
+              <ul class="w-pz-hint-list">${(d.body1 || []).map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+            </div>
+            <div>
+              <strong style="font-size:12px;color:var(--primary);">Body 2</strong>
+              <ul class="w-pz-hint-list">${(d.body2 || []).map(x => `<li>${escHtml(x)}</li>`).join('')}</ul>
+            </div>
+          </div>
+        </div>
+        ${Array.isArray(d.collocations) && d.collocations.length ? `
+          <div class="w-pz-hint-section">
+            <h4>${wIcon('book', 13)}<span>Collocations riêng theo đề</span></h4>
+            <div class="w-pz-colloc-chips">
+              ${d.collocations.map(c => `<span class="w-pz-colloc-chip"><strong>${escHtml(c.en || c)}</strong>${c.vi ? `<span>${escHtml(c.vi)}</span>` : ''}</span>`).join('')}
+            </div>
+          </div>
+        ` : ''}
+      `;
+    }
+
+    return `
+      <div class="w-pz-ai-box">
+        <div class="w-pz-hint-section">
+          <h4>${wIcon('sparkles', 13)}<span>Tầng 3 · Gợi ý Dàn ý Cá nhân hóa bằng AI (Tùy chọn BYOK)</span></h4>
+          <p style="margin:0 0 8px;font-size:12.5px;color:var(--muted);">
+            Tận dụng Gemini API Key cá nhân (dùng chung khóa <code>lp_speaking_gemini_key_v1</code> với phòng thi Speaking, model mặc định <code>gemini-3.5-flash-lite</code>).
+          </p>
+          <div class="w-pz-ai-actions">
+            <button type="button" class="btn btn-primary" onclick="window.requestPzAiOutline && window.requestPzAiOutline()" ${pzHintAiBusy ? 'disabled' : ''}>
+              ${wIcon('sparkles', 13)}
+              <span>${pzHintAiBusy ? 'Đang tạo dàn ý...' : 'Gợi ý dàn ý riêng cho đề này (AI)'}</span>
+            </button>
+            <button type="button" class="btn mini-btn" onclick="window.copyPzOutlinePromptForAI && window.copyPzOutlinePromptForAI()">
+              ${wIcon('copy', 13)}
+              <span>Copy Prompt dàn ý hỏi AI ngoài</span>
+            </button>
+          </div>
+          ${!hasKey ? `
+            <div style="margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);">
+              <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">
+                Chưa có Gemini API Key trên trình duyệt. Bạn có thể dán key miễn phí từ <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="color:var(--primary);font-weight:700;">Google AI Studio</a> (lưu phiên) hoặc dùng nút <strong>Copy Prompt</strong> ở trên:
+              </div>
+              <div class="w-pz-ai-key-row">
+                <input type="password" id="pzHintGeminiKeyInput" class="w-pz-ai-key-input" placeholder="Dán Gemini Key (AIza...)" autocomplete="off">
+                <button type="button" class="btn mini-btn" onclick="window.savePzSessionGeminiKey && window.savePzSessionGeminiKey()">Lưu key phiên</button>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+        ${resultHtml}
+      </div>
+    `;
+  }
+
+  function renderPzHintPanel() {
+    const host = document.getElementById('pzHintPanelHost');
+    if (!host) return;
+    syncPzHintToggleBtn();
+    if (!pzHintEnabled) {
+      host.innerHTML = '';
+      return;
+    }
+    const taskData = getActivePzTaskData();
+    if (!taskData) {
+      host.innerHTML = '';
+      return;
+    }
+    const toolkit = global.LP_WRITING_TOOLKIT || null;
+    const hasTier1 = Boolean(taskData.sampleId);
+    if (pzHintActiveTab === 'tier1' && !hasTier1) {
+      pzHintActiveTab = 'offline';
+    }
+
+    let bodyHtml = '';
+    if (pzHintActiveTab === 'tier1') bodyHtml = renderTier1HintHtml(taskData);
+    else if (pzHintActiveTab === 'checklist') bodyHtml = renderChecklistHintHtml(toolkit);
+    else if (pzHintActiveTab === 'ai') bodyHtml = renderTier3AiHintHtml(taskData);
+    else bodyHtml = renderTier2OfflineHintHtml(taskData, toolkit);
+
+    const tierBadge = hasTier1
+      ? `<span class="w-pz-tier-pill t1">Tầng 1 • Khớp mẫu Unit 3–5</span>`
+      : `<span class="w-pz-tier-pill t2">Tầng 2 • Offline Thông minh</span>`;
+
+    host.innerHTML = `
+      <section class="w-pz-hint-panel" aria-label="Bảng gợi ý Writing 3 tầng">
+        <div class="w-pz-hint-head">
+          <div class="w-pz-hint-title">
+            ${wIcon('lightbulb', 14)}
+            <span>Trợ lý Gợi ý Writing</span>
+            ${tierBadge}
+          </div>
+          <button type="button" class="btn mini-btn" onclick="window.togglePzWritingHint && window.togglePzWritingHint(false)" style="padding:3px 9px;font-size:11.5px;">
+            ${wIcon('x', 12)}
+            <span>Ẩn gợi ý</span>
+          </button>
+        </div>
+        <div class="w-pz-hint-tabs" role="tablist">
+          ${hasTier1 ? `<button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'tier1' ? ' active' : ''}" onclick="window.setPzHintTab('tier1')">Tầng 1: Khớp khóa học</button>` : ''}
+          <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'offline' ? ' active' : ''}" onclick="window.setPzHintTab('offline')">${currentPzTask === 'task1' ? 'Tầng 2: Paraphrase Task 1' : 'Tầng 2: Ý tưởng & Khung bài'}</button>
+          <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'checklist' ? ' active' : ''}" onclick="window.setPzHintTab('checklist')">Checklist 4 tiêu chí</button>
+          <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'ai' ? ' active' : ''}" onclick="window.setPzHintTab('ai')">Tầng 3: Dàn ý AI</button>
+        </div>
+        <div class="w-pz-hint-body">${bodyHtml}</div>
+      </section>
+    `;
+  }
+
+  global.togglePzWritingHint = function (forceState) {
+    pzHintEnabled = (typeof forceState === 'boolean') ? forceState : !pzHintEnabled;
+    renderPzHintPanel();
+  };
+
+  global.setPzHintTab = function (tab) {
+    pzHintActiveTab = tab || 'offline';
+    renderPzHintPanel();
+  };
+
+  global.setPzHintTopic = function (topicId) {
+    pzHintSelectedTopicId = topicId || '';
+    renderPzHintPanel();
+  };
+
+  global.copyPzOutlinePromptForAI = function () {
+    const taskData = getActivePzTaskData();
+    if (!taskData) {
+      copyPromptForAI();
+      return;
+    }
+    const promptTxt = `Hãy đóng vai Giám khảo IELTS Writing Band 8.5. Lập dàn ý chi tiết (KHÔNG viết nguyên bài) cho đề IELTS Academic ${currentPzTask === 'task1' ? 'Task 1' : 'Task 2'} sau:\n\nĐỀ BÀI:\n${taskData.prompt || taskData.title}\n\nYêu cầu trình bày ngắn gọn bằng tiếng Việt kèm cụm từ tiếng Anh:\n1. ${currentPzTask === 'task1' ? 'Câu Paraphrase Intro & 2 ý Overview nổi bật nhất' : 'Lập trường (Thesis) rõ ràng'}\n2. Dàn ý Body 1 (2 ý chính + dẫn chứng/cách gom số liệu)\n3. Dàn ý Body 2 (2 ý chính + phản biện/so sánh)\n4. 8 Collocations Band 7.5–8.5 đúng chủ đề kèm nghĩa tiếng Việt.`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptTxt).then(() => {
+        if (window.S4UI) window.S4UI.toast('success', 'Đã sao chép Prompt xin dàn ý gửi AI ngoài!');
+      }).catch(() => copyPromptForAI());
+    } else {
+      copyPromptForAI();
+    }
+  };
+
+  global.requestPzAiOutline = function () {
+    const taskData = getActivePzTaskData();
+    if (!taskData || pzHintAiBusy) return;
+    const apiKey = getStoredPzGeminiKey();
+    if (!apiKey) {
+      if (window.S4UI) window.S4UI.toast('warn', 'Chưa có Gemini API Key. Hãy dán key ở ô bên dưới hoặc dùng nút Copy Prompt hỏi AI ngoài.');
+      return;
+    }
+    const cacheKey = `${activeLesson ? activeLesson.id : ''}::${currentPzTask}::${taskData.pzPartId || ''}`;
+    pzHintAiBusy = true;
+    renderPzHintPanel();
+
+    const sysPrompt = 'You are an IELTS Writing Band 8.5 coach. Return STRICT JSON only with keys: "stanceOrOverview" (string), "body1" (array of 2-3 short Vietnamese/English bullet strings), "body2" (array of 2-3 short Vietnamese/English bullet strings), "collocations" (array of 6-8 objects {"en":"...","vi":"..."}). Never write a full essay.';
+    const userPrompt = `Task: IELTS Academic ${currentPzTask === 'task1' ? 'Task 1' : 'Task 2'}\nTitle: ${taskData.title || ''}\nPrompt:\n${taskData.prompt || ''}`;
+
+    function tryModel(idx) {
+      const model = PZ_GEMINI_MODELS[idx];
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: sysPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+          generationConfig: { temperature: 0.35, maxOutputTokens: 900, responseMimeType: 'application/json' }
+        })
+      }).then(resp => {
+        if (!resp.ok) {
+          const err = new Error(`HTTP ${resp.status}`);
+          err.status = resp.status;
+          throw err;
+        }
+        return resp.json();
+      }).then(json => {
+        const parts = json && json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts;
+        const raw = Array.isArray(parts) ? parts.map(p => (p && p.text && !p.thought) ? p.text : '').join('').trim() : '';
+        const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+        const parsed = JSON.parse(cleaned);
+        return { model, data: parsed };
+      }).catch(err => {
+        if (idx + 1 < PZ_GEMINI_MODELS.length) {
+          return tryModel(idx + 1);
+        }
+        throw err;
+      });
+    }
+
+    tryModel(0).then(res => {
+      pzHintAiCache[cacheKey] = res;
+    }).catch(err => {
+      pzHintAiCache[cacheKey] = { error: err && err.message ? err.message : 'Lỗi kết nối Gemini API' };
+    }).finally(() => {
+      pzHintAiBusy = false;
+      renderPzHintPanel();
+    });
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => { init(); setupButtons(); });

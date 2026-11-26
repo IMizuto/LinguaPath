@@ -1,4 +1,4 @@
-/* LinguaPath — HSK 1–6 Measure Words Data (168 Unique Measure Words + 30 Quiz Questions) */
+/* LinguaPath — HSK 1–6 Measure Words Data (168 Unique Measure Words + 90 Quiz Questions) */
 window.LP_HSK_MEASURE_WORDS = [
   {
     "id": "mw_001",
@@ -3592,6 +3592,126 @@ window.LP_HSK_MEASURE_QUIZ = [
     "exp": "Khoảng thời gian kéo dài bao nhiêu phút dùng 分钟 (三十分钟). 点 chỉ thời điểm giờ trên đồng hồ."
   },
   {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 我家有四___人：爸爸、妈妈、哥哥和我。(Nhà tôi có bốn người: bố, mẹ, anh trai và tôi.)",
+    "opts": [
+      "个",
+      "口",
+      "本",
+      "件"
+    ],
+    "ans": 1,
+    "exp": "Đếm số thành viên trong một hộ gia đình dùng lượng từ 口 (四口人)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 请给我一___热茶，谢谢！(Làm ơn cho tôi một cốc trà nóng, cảm ơn!)",
+    "opts": [
+      "杯",
+      "块",
+      "岁",
+      "些"
+    ],
+    "ans": 0,
+    "exp": "Đồ uống đựng trong cốc/ly (茶, 水, 咖啡, 牛奶) dùng lượng từ 杯 (一杯热茶)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 这件苹果一共十五___钱。(Số táo này tổng cộng mười lăm tệ.)",
+    "opts": [
+      "个",
+      "本",
+      "块",
+      "点"
+    ],
+    "ans": 2,
+    "exp": "Đơn vị tiền tệ khẩu ngữ (tệ/đồng) dùng lượng từ 块 (十五块钱)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 我买了两___苹果和三斤香蕉。(Tôi đã mua hai quả táo và ba cân chuối.)",
+    "opts": [
+      "杯",
+      "个",
+      "本",
+      "口"
+    ],
+    "ans": 1,
+    "exp": "Trái cây dạng tròn đơn lẻ ở HSK 1 dùng lượng từ phổ thông 个 (两个苹果)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 桌子上面放着三___词典。(Trên bàn đặt ba quyển từ điển.)",
+    "opts": [
+      "本",
+      "口",
+      "块",
+      "岁"
+    ],
+    "ans": 0,
+    "exp": "Sách, vở, từ điển, tạp chí đóng gáy dùng lượng từ 本 (三本词典)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 我想吃一___米饭。(Tôi muốn ăn một bát cơm.)",
+    "opts": [
+      "杯",
+      "碗",
+      "本",
+      "个"
+    ],
+    "ans": 1,
+    "exp": "Cơm, canh, mì đựng trong bát dùng lượng từ 碗 (一碗米饭)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 商店里有很多漂亮的衣服，我买了一___。(Trong cửa hàng có nhiều quần áo đẹp, tôi đã mua một chiếc.)",
+    "opts": [
+      "本",
+      "口",
+      "件",
+      "杯"
+    ],
+    "ans": 2,
+    "exp": "Áo, quần áo (衣服, 衬衫, 毛衣) dùng lượng từ 件 (一件衣服)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 椅子下面有一___可爱的小猫。(Dưới ghế có một chú mèo nhỏ đáng yêu.)",
+    "opts": [
+      "只",
+      "本",
+      "块",
+      "杯"
+    ],
+    "ans": 0,
+    "exp": "Động vật nhỏ như mèo, chó, chim, gà dùng lượng từ 只 (一只小猫)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 桌子上有一___电脑。(Trên bàn có một chiếc máy tính.)",
+    "opts": [
+      "台",
+      "杯",
+      "口",
+      "本"
+    ],
+    "ans": 0,
+    "exp": "Máy móc, thiết bị điện tử (电脑, 电视, 空调) dùng lượng từ 台 (一台电脑)."
+  },
+  {
+    "level": 1,
+    "q": "Điền lượng từ thích hợp: 我想喝一___水。(Tôi muốn uống một ngụm nước.)",
+    "opts": [
+      "口",
+      "本",
+      "件",
+      "块"
+    ],
+    "ans": 0,
+    "exp": "口 ngoài đếm nhân khẩu còn chỉ một ngụm đồ uống/miếng thức ăn (喝一口水)."
+  },
+  {
     "level": 2,
     "q": "Chọn lượng từ thể hiện sự lịch sự, tôn trọng: 请问，哪___是张老师？(Xin hỏi, vị nào là thầy Trương ạ?)",
     "opts": [
@@ -3650,6 +3770,126 @@ window.LP_HSK_MEASURE_QUIZ = [
     ],
     "ans": 0,
     "exp": "次 là động lượng từ cơ bản dùng để đếm số lần thực hiện hành động (去过三次)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ lịch sự cho người: 请问，这___是王教授吗？(Xin hỏi, vị này có phải là giáo sư Vương không?)",
+    "opts": [
+      "个",
+      "位",
+      "只",
+      "条"
+    ],
+    "ans": 1,
+    "exp": "Dùng 位 (vị) để chỉ người với sắc thái lịch sự, tôn trọng (这位老师/教授)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho vật có mặt phẳng: 房间里有一___大床和两把椅子。(Trong phòng có một chiếc giường lớn và hai cái ghế.)",
+    "opts": [
+      "张",
+      "条",
+      "件",
+      "辆"
+    ],
+    "ans": 0,
+    "exp": "Đồ vật có mặt phẳng rộng (床, 桌子, 纸, 票, 照片) dùng lượng từ 张 (一张床)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho phương tiện có bánh xe: 门口停着一___黑色的出租车。(Trước cổng đỗ một chiếc taxi màu đen.)",
+    "opts": [
+      "架",
+      "条",
+      "辆",
+      "把"
+    ],
+    "ans": 2,
+    "exp": "Xe có bánh chạy trên đường (汽车, 出租车, 自行车) dùng lượng từ 辆 (一辆出租车)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho đồ vật dài, mềm: 她今天穿了一条红色的裙子，还戴着一___围巾。(Hôm nay cô ấy mặc váy đỏ, còn quàng một chiếc khăn len.)",
+    "opts": [
+      "件",
+      "条",
+      "张",
+      "把"
+    ],
+    "ans": 1,
+    "exp": "Vật dài, mềm hoặc mảnh (裤子, 裙子, 围巾, 路, 鱼, 狗) dùng lượng từ 条 (一条围巾)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho đồ vật có tay cầm: 下雨了，别忘了带一___雨伞。(Trời mưa rồi, đừng quên mang một chiếc ô.)",
+    "opts": [
+      "把",
+      "张",
+      "辆",
+      "本"
+    ],
+    "ans": 0,
+    "exp": "Đồ vật có cán/tay cầm (雨伞, 椅子, 刀, 钥匙) dùng lượng từ 把 (一把雨伞)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho số lần hành động: 这部电影太好看了，我已经看了三___。(Bộ phim này hay quá, tôi đã xem ba lần rồi.)",
+    "opts": [
+      "个",
+      "次",
+      "件",
+      "张"
+    ],
+    "ans": 1,
+    "exp": "Đếm số lần xảy ra của hành động dùng động lượng từ 次 (看了三次)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho đồ uống đóng chai: 跑完步以后，他一口气喝了两___矿泉水。(Chạy bộ xong, anh ấy uống một hơi hai chai nước khoáng.)",
+    "opts": [
+      "瓶",
+      "碗",
+      "张",
+      "把"
+    ],
+    "ans": 0,
+    "exp": "Chất lỏng đựng trong chai/lọ dùng lượng từ 瓶 (两瓶矿泉水)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho đôi/cặp đồ đi kèm nhau: 我刚在网上买了一___白色的运动鞋。(Tôi vừa mua trên mạng một đôi giày thể thao màu trắng.)",
+    "opts": [
+      "件",
+      "双",
+      "条",
+      "张"
+    ],
+    "ans": 1,
+    "exp": "Đồ vật đi theo đôi đối xứng (鞋, 袜子, 筷子, 手套, 眼睛) dùng lượng từ 双 (一双鞋)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho vé/ảnh: 我在网上订了两___去上海的火车票。(Tôi đã đặt trên mạng hai tấm vé tàu đi Thượng Hải.)",
+    "opts": [
+      "张",
+      "本",
+      "条",
+      "辆"
+    ],
+    "ans": 0,
+    "exp": "Vé (票), giấy (纸), thẻ (卡), ảnh (照片) dùng lượng từ 张 (两张火车票)."
+  },
+  {
+    "level": 2,
+    "q": "Điền lượng từ cho tiết học: 我们每天上午有四___汉语课。(Mỗi sáng chúng tôi có bốn tiết học tiếng Trung.)",
+    "opts": [
+      "节",
+      "张",
+      "辆",
+      "双"
+    ],
+    "ans": 0,
+    "exp": "Tiết học (课), toa tàu (车厢) dùng lượng từ 节 (四节汉语课)."
   },
   {
     "level": 3,
@@ -3712,6 +3952,126 @@ window.LP_HSK_MEASURE_QUIZ = [
     "exp": "Từng căn phòng riêng lẻ (phòng ngủ, phòng học, văn phòng) dùng 间 (一间卧室). 座 dùng cho cả tòa nhà lớn hoặc ngọn núi."
   },
   {
+    "level": 3,
+    "q": "Điền lượng từ cho vật có hình trụ dài, cứng: 妹妹送给我一___很漂亮的钢笔。(Em gái tặng tôi một cây bút máy rất đẹp.)",
+    "opts": [
+      "支",
+      "张",
+      "条",
+      "块"
+    ],
+    "ans": 0,
+    "exp": "Bút (笔), bài hát/bản nhạc (歌/曲子), đội ngũ (队伍) dùng lượng từ 支 (一支钢笔)."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho bài hát: 你能给大家唱一___中文歌吗？(Bạn có thể hát tặng mọi người một bài hát tiếng Trung không?)",
+    "opts": [
+      "首",
+      "条",
+      "件",
+      "张"
+    ],
+    "ans": 0,
+    "exp": "Bài hát (歌), bài thơ (诗) dùng lượng từ 首 (一首中文歌)."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho lá thư/email: 我刚收到一___从北京寄来的信。(Tôi vừa nhận được một lá thư gửi từ Bắc Kinh.)",
+    "opts": [
+      "封",
+      "张",
+      "本",
+      "条"
+    ],
+    "ans": 0,
+    "exp": "Thư từ, email được niêm phong/gửi đi (信, 电子邮件) dùng lượng từ 封 (一封信)."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho quá trình từ đầu đến cuối: 这篇课文生词太多，我读了两___才明白。(Bài khóa này nhiều từ mới quá, tôi đọc hai lượt từ đầu đến cuối mới hiểu.)",
+    "opts": [
+      "次",
+      "遍",
+      "下",
+      "顿"
+    ],
+    "ans": 1,
+    "exp": "遍 nhấn mạnh thực hiện trọn vẹn toàn bộ quá trình từ đầu đến cuối (读了两遍)."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho cây cối: 学校的操场旁边种着很多___大树。(Bên cạnh sân thể dục của trường trồng rất nhiều cây lớn.)",
+    "opts": [
+      "棵",
+      "颗",
+      "朵",
+      "支"
+    ],
+    "ans": 0,
+    "exp": "Cây cối, thực vật (树, 草, 白菜) dùng lượng từ 棵 (bộ Mộc 木). 颗 dùng cho hạt/vật nhỏ tròn."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho bông hoa/đám mây: 桌子的花瓶里插着几___鲜花。(Trong bình hoa trên bàn cắm mấy bông hoa tươi.)",
+    "opts": [
+      "棵",
+      "朵",
+      "条",
+      "张"
+    ],
+    "ans": 1,
+    "exp": "Hoa (花) và đám mây (云) dùng lượng từ 朵 (几朵鲜花, 一朵白云)."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho bữa ăn: 今天我请客，咱们去那家新开的餐厅吃一___吧！(Hôm nay tôi mời, chúng ta ra nhà hàng mới mở ăn một bữa nhé!)",
+    "opts": [
+      "顿",
+      "遍",
+      "场",
+      "趟"
+    ],
+    "ans": 0,
+    "exp": "Bữa ăn (一顿饭) hoặc trận mắng/đánh dùng lượng từ 顿."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho tòa nhà/tầng: 图书馆在前面那___楼的三层。(Thư viện ở tầng 3 tòa nhà phía trước.)",
+    "opts": [
+      "座",
+      "张",
+      "辆",
+      "条"
+    ],
+    "ans": 0,
+    "exp": "Công trình kiến trúc lớn, cố định (楼, 桥, 山, 城市) dùng lượng từ 座 (那座楼)."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho bài viết/tiểu luận: 他用了一周时间才写完这___文章。(Anh ấy mất một tuần mới viết xong bài văn này.)",
+    "opts": [
+      "篇",
+      "本",
+      "封",
+      "首"
+    ],
+    "ans": 0,
+    "exp": "Bài văn, bài báo, luận văn, nhật ký (文章, 论文, 报道, 日记) dùng lượng từ 篇."
+  },
+  {
+    "level": 3,
+    "q": "Điền lượng từ cho máy bay: 天空中飞过一___大型客机。(Trên bầu trời có một chiếc máy bay chở khách cỡ lớn bay qua.)",
+    "opts": [
+      "辆",
+      "架",
+      "艘",
+      "台"
+    ],
+    "ans": 1,
+    "exp": "Máy bay (飞机), đàn piano (钢琴), máy ảnh có khung giá dùng lượng từ 架 (一架客机)."
+  },
+  {
     "level": 4,
     "q": "Chọn lượng từ chính xác cho ngựa: 一___白马正在草原上奔跑。(Một con ngựa trắng đang chạy trên thảo nguyên.)",
     "opts": [
@@ -3770,6 +4130,126 @@ window.LP_HSK_MEASURE_QUIZ = [
     ],
     "ans": 2,
     "exp": "Thư từ và thư điện tử (信, 电子邮件) luôn dùng 封 (一封信). 篇 dùng cho bài văn/bài báo, 页 dùng cho trang sách."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho trận mưa/cuộc thi/buổi diễn: 昨天下午下了一___大雨，天气凉快多了。(Chiều qua đổ một trận mưa to, thời tiết mát mẻ hơn hẳn.)",
+    "opts": [
+      "场",
+      "顿",
+      "趟",
+      "遍"
+    ],
+    "ans": 0,
+    "exp": "Sự kiện văn hóa, thể thao, thời tiết kéo dài một khoảng thời gian (大雨, 比赛, 电影, 演出) dùng 场."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho chuyến đi về: 这个月我因为出差，已经去了两___广州。(Tháng này vì công tác, tôi đã đi Quảng Châu hai chuyến rồi.)",
+    "opts": [
+      "趟",
+      "遍",
+      "顿",
+      "场"
+    ],
+    "ans": 0,
+    "exp": "趟 là động lượng từ chuyên chỉ số chuyến đi lại (去两趟, 跑一趟)."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho công việc/hồ sơ/quà: 大学毕业后，她很快找到了一___满意的工作。(Sau khi tốt nghiệp đại học, cô ấy nhanh chóng tìm được một công việc ưng ý.)",
+    "opts": [
+      "份",
+      "件",
+      "条",
+      "篇"
+    ],
+    "ans": 0,
+    "exp": "Công việc (工作), báo chí (报纸), hồ sơ (材料/合同), quà tặng (礼物) dùng lượng từ 份."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho bộ sách/quần áo/nhà ở: 他们在市中心买了一___两室一厅的房子。(Họ đã mua một căn hộ hai phòng ngủ một phòng khách ở trung tâm thành phố.)",
+    "opts": [
+      "套",
+      "座",
+      "间",
+      "辆"
+    ],
+    "ans": 0,
+    "exp": "Căn hộ khép kín (一套房子), bộ sách (一套书), bộ com-lê (一套西装) dùng lượng từ 套."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho tổ chức/công ty/bệnh viện: 这___科技公司今年招聘了不少程序员。(Công ty công nghệ này năm nay tuyển không ít lập trình viên.)",
+    "opts": [
+      "家",
+      "座",
+      "辆",
+      "份"
+    ],
+    "ans": 0,
+    "exp": "Cơ sở kinh doanh, doanh nghiệp, cửa hàng, nhà hàng, bệnh viện dùng lượng từ 家 (这家公司)."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho vật nhỏ hình tròn/hạt: 夜空中闪烁着一___又一___明亮的星星。(Trên bầu trời đêm lấp lánh hết ngôi sao sáng này đến ngôi sao khác.)",
+    "opts": [
+      "棵",
+      "颗",
+      "朵",
+      "座"
+    ],
+    "ans": 1,
+    "exp": "Vật nhỏ dạng hạt/tròn (星星, 牙齿, 珍珠, 药丸, 心) dùng lượng từ 颗 (bộ Hiệt 页)."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho đề bài/món ăn/cánh cửa: 这___数学题太难了，全班只有两个人做出来。(Câu toán này khó quá, cả lớp chỉ có hai người giải được.)",
+    "opts": [
+      "道",
+      "篇",
+      "首",
+      "封"
+    ],
+    "ans": 0,
+    "exp": "Câu hỏi/đề thi (一道题), món ăn (一道菜), tia sáng (一道光), bức tường/cửa dùng lượng từ 道."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho bộ phim/tác phẩm kinh điển: 这___纪录片非常值得一看。(Bộ phim tài liệu này rất đáng xem.)",
+    "opts": [
+      "部",
+      "篇",
+      "首",
+      "份"
+    ],
+    "ans": 0,
+    "exp": "Phim ảnh (电影, 纪录片), tiểu thuyết lớn (小说), tác phẩm (作品), điện thoại dùng lượng từ 部."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho trường học/viện nghiên cứu: 我姐姐毕业于北京一___著名的大学。(Chị gái tôi tốt nghiệp một trường đại học nổi tiếng ở Bắc Kinh.)",
+    "opts": [
+      "所",
+      "辆",
+      "份",
+      "套"
+    ],
+    "ans": 0,
+    "exp": "Trường học (一所大学/学校), bệnh viện, viện nghiên cứu dùng lượng từ trang trọng 所."
+  },
+  {
+    "level": 4,
+    "q": "Điền lượng từ cho ý kiến/kiến nghị/tin tức: 感谢你提出了这么多宝贵的建议，每一___都很有帮助。(Cảm ơn bạn đã đưa ra nhiều góp ý quý báu, mỗi điều đều rất hữu ích.)",
+    "opts": [
+      "条",
+      "份",
+      "篇",
+      "道"
+    ],
+    "ans": 0,
+    "exp": "Tin tức (一条新闻/消息), kiến nghị (一条建议), quy định (一条规定) dùng lượng từ 条."
   },
   {
     "level": 5,
@@ -3832,6 +4312,126 @@ window.LP_HSK_MEASURE_QUIZ = [
     "exp": "Các vụ việc đột xuất như tai nạn, hỏa hoạn, vụ án dùng 起 (一起交通事故). 项 dùng cho nhiệm vụ, quy định; 笔 dùng cho khoản tiền."
   },
   {
+    "level": 5,
+    "q": "Điền lượng từ cho tranh vẽ/bức thư pháp: 客厅的墙上挂着一___山水画。(Trên tường phòng khách treo một bức tranh sơn thủy.)",
+    "opts": [
+      "幅",
+      "副",
+      "张",
+      "片"
+    ],
+    "ans": 0,
+    "exp": "Tranh vẽ (一幅画), biểu ngữ (一幅标语), cảnh tượng (一幅景象) dùng lượng từ 幅 (bộ Cân 巾)."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho kính mắt/găng tay/diện mạo: 他鼻梁上架着一___黑框眼镜。(Trên sống mũi anh ấy đeo một cặp kính gọng đen.)",
+    "opts": [
+      "幅",
+      "副",
+      "双",
+      "对"
+    ],
+    "ans": 1,
+    "exp": "Vật ghép thành bộ đôi cố định (一副眼镜, 一副手套, 一副扑克牌) hoặc vẻ mặt (一副笑脸) dùng 副."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho từng đợt/lô hàng/nhóm người: 第一___救援物资已经顺利送达灾区。(Đợt hàng cứu trợ đầu tiên đã được chuyển đến vùng thiên tai suôn sẻ.)",
+    "opts": [
+      "批",
+      "群",
+      "串",
+      "堆"
+    ],
+    "ans": 0,
+    "exp": "Hàng hóa số lượng lớn hoặc nhóm người/tài liệu theo từng đợt (一批物资/学生/货物) dùng 批."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho chuỗi/chùm vật nối liền: 她手里拿着一___钥匙和一___葡萄。(Trên tay cô ấy cầm một chùm chìa khóa và một chùm nho.)",
+    "opts": [
+      "串",
+      "批",
+      "幅",
+      "阵"
+    ],
+    "ans": 0,
+    "exp": "Vật xâu thành chuỗi/chùm (一串钥匙, 一串葡萄, 一串糖葫芦, 一串数字) dùng lượng từ 串."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho cơn gió/tràng pháo tay ngắn: 演讲刚结束，台下立刻响起了一___热烈的掌声。(Bài diễn thuyết vừa kết thúc, bên dưới lập tức vang lên một tràng pháo tay nồng nhiệt.)",
+    "opts": [
+      "阵",
+      "场",
+      "顿",
+      "遍"
+    ],
+    "ans": 0,
+    "exp": "Âm thanh, gió, cảm xúc bùng lên trong chốc lát rồi dịu xuống (一阵掌声, 一阵风, 一阵笑声) dùng 阵."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho không gian rộng/mảnh rời: 走出森林，眼前突然出现了一___开阔的草原。(Bước ra khỏi rừng, trước mắt bỗng hiện ra một vùng thảo nguyên rộng mở.)",
+    "opts": [
+      "片",
+      "幅",
+      "座",
+      "块"
+    ],
+    "ans": 0,
+    "exp": "Vùng đất rộng nối liền (一片草原/森林/海洋) hoặc lát mỏng (一片面包/叶子) dùng 片."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho ngành học/kỹ năng/môn học: 掌握一___外语能为你打开更广阔的职业大门。(Nắm vững một ngoại ngữ có thể mở ra cánh cửa nghề nghiệp rộng lớn hơn cho bạn.)",
+    "opts": [
+      "门",
+      "项",
+      "份",
+      "道"
+    ],
+    "ans": 0,
+    "exp": "Môn học, kỹ năng, nghệ thuật, ngoại ngữ (一门外语/课程/手艺/技术) dùng lượng từ 门."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho hạng mục/chính sách/kỷ lục: 该团队近日打破了一___保持了十年的世界纪录。(Đội ngũ này gần đây đã phá vỡ một kỷ lục thế giới được giữ suốt mười năm.)",
+    "opts": [
+      "项",
+      "门",
+      "批",
+      "幅"
+    ],
+    "ans": 0,
+    "exp": "Hạng mục, nhiệm vụ, nghiên cứu, kỷ lục, chính sách (一项研究/任务/政策/纪录) dùng lượng từ 项."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho kiến trúc nhà cao tầng riêng lẻ: 小区里新建了六___高层住宅楼。(Trong khu dân cư mới xây sáu tòa nhà chung cư cao tầng.)",
+    "opts": [
+      "栋",
+      "套",
+      "间",
+      "所"
+    ],
+    "ans": 0,
+    "exp": "Nhà cửa, tòa nhà tính nguyên khối đứng độc lập (一栋楼/别墅) dùng lượng từ 栋."
+  },
+  {
+    "level": 5,
+    "q": "Điền lượng từ cho bó hoa: 毕业典礼上，同学们给导师献上了一___鲜花。(Tại lễ tốt nghiệp, các bạn học đã dâng tặng thầy hướng dẫn một bó hoa tươi.)",
+    "opts": [
+      "束",
+      "朵",
+      "棵",
+      "串"
+    ],
+    "ans": 0,
+    "exp": "Hoa bó thành bó (一束鲜花) hoặc chùm ánh sáng (一束光) dùng lượng từ 束."
+  },
+  {
     "level": 6,
     "q": "Chọn lượng từ đúng cho kính mắt: 他戴着一___金丝眼镜，显得很斯文。(Anh ấy đeo một cặp kính gọng vàng, trông rất nhã nhặn.)",
     "opts": [
@@ -3890,5 +4490,125 @@ window.LP_HSK_MEASURE_QUIZ = [
     ],
     "ans": 0,
     "exp": "丝 diễn tả lượng cực nhỏ, mong manh như tia hy vọng (一丝希望), nét cười nhẹ (一丝微笑)."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho sự vụ/hôn sự/vụ án trong văn viết: 经过多方调解，这___持续数年的商业纠纷终于圆满解决。(Qua nhiều bên hòa giải, vụ tranh chấp thương mại kéo dài nhiều năm này cuối cùng đã được giải quyết viên mãn.)",
+    "opts": [
+      "桩",
+      "项",
+      "道",
+      "届"
+    ],
+    "ans": 0,
+    "exp": "Vụ việc, chuyện lớn, hôn sự, vụ tranh chấp (一桩买卖/婚事/纠纷/悬案) dùng lượng từ trang trọng 桩."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho kỳ đại hội/khóa tốt nghiệp: 第十九___亚运会给全亚洲观众留下了深刻印象。(Đại hội Thể thao châu Á lần thứ 19 đã để lại ấn tượng sâu sắc cho khán giả toàn châu Á.)",
+    "opts": [
+      "届",
+      "期",
+      "批",
+      "次"
+    ],
+    "ans": 0,
+    "exp": "Sự kiện định kỳ theo khóa/kỳ (一届奥运会/亚运会/毕业生/政府) dùng lượng từ 届."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho luồng khí/dòng nước/sức mạnh: 一___寒流自北向南席卷了大半个国家。(Một luồng không khí lạnh từ Bắc xuống Nam đã quét qua hơn nửa đất nước.)",
+    "opts": [
+      "股",
+      "阵",
+      "道",
+      "丝"
+    ],
+    "ans": 0,
+    "exp": "Luồng khí, dòng nước, hương thơm, sức mạnh (一股寒流/清泉/香味/力量) dùng lượng từ 股."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho tia sáng/làn khói mỏng mảnh: 清晨，一___柔和的阳光透过窗帘洒在书桌上。(Sáng sớm, một tia nắng dịu nhẹ xuyên qua rèm cửa rọi lên bàn học.)",
+    "opts": [
+      "缕",
+      "股",
+      "片",
+      "阵"
+    ],
+    "ans": 0,
+    "exp": "Sợi/làn mỏng manh kéo dài (一缕阳光/炊烟/清风/头发) dùng lượng từ văn chương 缕."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho bia đá/tượng điêu khắc/đèn bàn: 广场中央矗立着一___庄严肃穆的纪念碑。(Giữa quảng trường sừng sững một tấm bia tưởng niệm trang nghiêm.)",
+    "opts": [
+      "座",
+      "尊",
+      "盏",
+      "面"
+    ],
+    "ans": 0,
+    "exp": "Bia tưởng niệm, tượng đài cỡ lớn (一座纪念碑) dùng 座; tượng Phật/đại bác dùng 尊, đèn dùng 盏."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho ngọn đèn trong văn viết: 深夜里，只有书房还亮着一___温暖的台灯。(Giữa đêm khuya, chỉ còn phòng đọc sách vẫn sáng một ngọn đèn bàn ấm áp.)",
+    "opts": [
+      "盏",
+      "支",
+      "颗",
+      "枚"
+    ],
+    "ans": 0,
+    "exp": "Đèn (一盏灯/台灯/路灯) trong văn viết dùng lượng từ 盏."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho con ngựa: 辽阔的草原上，几___骏马正在自由奔腾。(Trên thảo nguyên bao la, mấy chú tuấn mã đang tự do phi nước đại.)",
+    "opts": [
+      "匹",
+      "峰",
+      "头",
+      "只"
+    ],
+    "ans": 0,
+    "exp": "Ngựa (一匹马/骏马) và súc vải (一匹布) dùng lượng từ 匹."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho dòng suối/mặt trăng lưỡi liềm: 静谧的夜晚，一___明月高悬在湖面上空。(Đêm tĩnh lặng, một vầng trăng sáng treo cao trên mặt hồ.)",
+    "opts": [
+      "轮",
+      "颗",
+      "枚",
+      "盏"
+    ],
+    "ans": 0,
+    "exp": "Mặt trời, mặt trăng tròn (一轮红日/明月) hoặc vòng thi đấu/đàm phán (一轮谈判) dùng 轮."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho vụ tai nạn/vụ án: 交警部门正在全力调查这___重大交通事故的原因。(Cảnh sát giao thông đang dốc toàn lực điều tra nguyên nhân vụ tai nạn giao thông nghiêm trọng này.)",
+    "opts": [
+      "起",
+      "桩",
+      "届",
+      "幕"
+    ],
+    "ans": 0,
+    "exp": "Các sự cố, tai nạn, vụ án hình sự xảy ra bất ngờ (一起事故/案件/冲突) dùng lượng từ 起."
+  },
+  {
+    "level": 6,
+    "q": "Điền lượng từ cho màn kịch/cảnh tượng xúc động: 看到这感人的一___，在场许多人都热泪盈眶。(Chứng kiến cảnh tượng cảm động này, rất nhiều người có mặt đều rưng rưng nước mắt.)",
+    "opts": [
+      "幕",
+      "幅",
+      "场",
+      "番"
+    ],
+    "ans": 0,
+    "exp": "Cảnh tượng kịch tính hoặc xúc động diễn ra trước mắt (感人的一幕, 一幕喜剧) dùng lượng từ 幕."
   }
 ];

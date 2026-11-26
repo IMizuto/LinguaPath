@@ -1404,6 +1404,9 @@
 
         return list.filter(function (item) {
           if (pickerMode === "chars") {
+            if (pickerFilter === "lv1" && Number(item.level) !== 1) return false;
+            if (pickerFilter === "lv2" && Number(item.level) !== 2) return false;
+            if (pickerFilter === "lv3" && Number(item.level) !== 3) return false;
             if (pickerFilter === "todo" && bucket[item.char]) return false;
             if (pickerFilter === "num" && !"一二三四五六七八九十".includes(item.char)) return false;
             if (pickerFilter === "low" && item.strokes > 5) return false;
@@ -1551,8 +1554,19 @@
 
       function renderPickerFilters() {
         const el = document.getElementById("pickerFilters");
+        const lv1Cnt = DATA.practiceChars.filter(function (c) { return Number(c.level) === 1; }).length;
+        const lv2Cnt = DATA.practiceChars.filter(function (c) { return Number(c.level) === 2; }).length;
+        const lv3Cnt = DATA.practiceChars.filter(function (c) { return Number(c.level) === 3; }).length;
         const opts = pickerMode === "chars"
-          ? [["all", "Tất cả (" + DATA.practiceChars.length + ")"], ["todo", "Chưa tập"], ["num", "Số đếm (1–10)"], ["low", "Ít nét (≤5)"]]
+          ? [
+              ["all", "Tất cả (" + DATA.practiceChars.length + ")"],
+              ["lv1", "HSK 1 (" + lv1Cnt + ")"],
+              ["lv2", "HSK 2 (" + lv2Cnt + ")"],
+              ["lv3", "HSK 3 (" + lv3Cnt + ")"],
+              ["todo", "Chưa tập"],
+              ["num", "Số đếm (1–10)"],
+              ["low", "Ít nét (≤5)"]
+            ]
           : [
               ["stage1", "⭐ Chặng 1: 50 Bộ cốt lõi"],
               ["stage2", "Chặng 2: +50 bộ"],
@@ -1881,8 +1895,8 @@
         const subModesHtml = `
           <div class="tab2-submodes">
             <button class="submode-btn ${tab2SubMode === "reorder" ? "active" : ""}" onclick="setTab2SubMode('reorder')">1. Sắp xếp câu (${DATA.reorderTasks.length})</button>
-            <button class="submode-btn ${tab2SubMode === "pinyinWrite" ? "active" : ""}" onclick="setTab2SubMode('pinyinWrite')">2. HSK 3 • Nhìn Pinyin viết chữ (${DATA.pinyinWriteTasks.length})</button>
-            <button class="submode-btn ${tab2SubMode === "makeSentence" ? "active" : ""}" onclick="setTab2SubMode('makeSentence')">3. HSK 4 • Đặt câu với từ gợi ý (${DATA.makeSentenceTasks.length})</button>
+            <button class="submode-btn ${tab2SubMode === "pinyinWrite" ? "active" : ""}" onclick="setTab2SubMode('pinyinWrite')">2. Nhìn Pinyin viết chữ HSK 1–3 (${DATA.pinyinWriteTasks.length})</button>
+            <button class="submode-btn ${tab2SubMode === "makeSentence" ? "active" : ""}" onclick="setTab2SubMode('makeSentence')">3. Đặt câu từ gợi ý HSK 3–5 (${DATA.makeSentenceTasks.length})</button>
           </div>
         `;
 
@@ -1899,7 +1913,7 @@
 
           const numsHtml = `
             <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-              <span class="lesson-badge" style="display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;background:rgba(220,38,38,0.12);color:var(--primary);">HSK 3 • Nhìn Pinyin viết chữ • Câu ${activePwIdx + 1}/${list.length}</span>
+              <span class="lesson-badge" style="display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;background:rgba(220,38,38,0.12);color:var(--primary);">HSK ${task.level || 3} • Nhìn Pinyin viết chữ • Câu ${activePwIdx + 1}/${list.length}</span>
               <span class="stat-pill">${wIcon("check", 12)} Đã hoàn thành: ${solvedCount}/${list.length}</span>
             </div>
             <div class="num-strip">
@@ -1975,7 +1989,7 @@
 
           const numsHtml = `
             <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-              <span class="lesson-badge" style="display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;background:rgba(220,38,38,0.12);color:var(--primary);">HSK 4 • Đặt câu với từ gợi ý • Câu ${activeMsIdx + 1}/${list.length}</span>
+              <span class="lesson-badge" style="display:inline-block;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;background:rgba(220,38,38,0.12);color:var(--primary);">HSK ${task.level || 4} • Đặt câu với từ gợi ý • Câu ${activeMsIdx + 1}/${list.length}</span>
               <span class="stat-pill">${wIcon("check", 12)} Đã hoàn thành: ${solvedCount}/${list.length}</span>
             </div>
             <div class="num-strip">
@@ -2584,15 +2598,31 @@
           }
           if (qTab === "canvas") {
             window.setPickerMode("chars");
+            if (qLevel >= 1 && qLevel <= 3) {
+              pickerFilter = "lv" + qLevel;
+              renderPickerFilters();
+              renderPicker();
+              const listNow = getFilteredPickerItems();
+              const firstTodo = listNow.find(function (x) { return !doneState.chars[x.char]; }) || listNow[0];
+              if (firstTodo) selectPracticeItem("chars", firstTodo.char);
+            }
             window.switchMainTab("canvas");
             return;
           }
           if (qTab === "pinyin" || qTab === "pinyinwrite") {
+            if (qLevel >= 1 && qLevel <= 3) {
+              const firstIdx = (DATA.pinyinWriteTasks || []).findIndex(function (t) { return Number(t.level) === qLevel; });
+              if (firstIdx >= 0) activePwIdx = firstIdx;
+            }
             tab2SubMode = "pinyinWrite";
             window.switchMainTab("reorder");
             return;
           }
           if (qTab === "sentence" || qTab === "makesentence") {
+            if (qLevel >= 3 && qLevel <= 5) {
+              const firstIdx = (DATA.makeSentenceTasks || []).findIndex(function (t) { return Number(t.level) === qLevel; });
+              if (firstIdx >= 0) activeMsIdx = firstIdx;
+            }
             tab2SubMode = "makeSentence";
             window.switchMainTab("reorder");
             return;
@@ -2610,6 +2640,12 @@
           }
           if (qLevel === 1 || qLevel === 2) {
             window.setPickerMode("chars");
+            pickerFilter = "lv" + qLevel;
+            renderPickerFilters();
+            renderPicker();
+            const listNow = getFilteredPickerItems();
+            const firstTodo = listNow.find(function (x) { return !doneState.chars[x.char]; }) || listNow[0];
+            if (firstTodo) selectPracticeItem("chars", firstTodo.char);
             window.switchMainTab("canvas");
             return;
           }

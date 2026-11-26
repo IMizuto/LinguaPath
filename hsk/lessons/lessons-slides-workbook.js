@@ -420,6 +420,117 @@
       html.theme-ghibli .lp-wpop-btn.primary {
         background: linear-gradient(135deg, #2d6a4f, #40916c);
       }
+
+      /* Confusable Words & Polyphones (辨析) Liquid Glass Block */
+      .bx-wrap { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+      .bx-card {
+        background: var(--lg-surface, var(--bg));
+        backdrop-filter: var(--lg-blur, blur(10px)); -webkit-backdrop-filter: var(--lg-blur, blur(10px));
+        border: 1px solid var(--lg-hairline, var(--border)); border-radius: 15px;
+        padding: 14px 15px; display: flex; flex-direction: column; gap: 10px;
+      }
+      .bx-head {
+        display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+        padding-bottom: 8px; border-bottom: 1px dashed var(--border);
+      }
+      .bx-title {
+        margin: 0; font-size: 15.5px; font-weight: 900; color: var(--text);
+        display: inline-flex; align-items: center; gap: 7px;
+      }
+      .bx-badges { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+      .bx-badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 800;
+        border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      }
+      .bx-badge.pair { color: var(--accent); border-color: rgba(37,99,235,0.32); background: rgba(37,99,235,0.08); }
+      .bx-badge.poly { color: var(--warn); border-color: rgba(217,119,6,0.36); background: rgba(217,119,6,0.09); }
+      .bx-badge.hit { color: var(--ok); border-color: rgba(22,163,74,0.36); background: rgba(22,163,74,0.09); }
+      .bx-cols {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px;
+      }
+      .bx-col {
+        background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+        padding: 11px 12px; display: flex; flex-direction: column; gap: 7px; min-width: 0;
+      }
+      .bx-col-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+      .bx-zh { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1.15; }
+      .bx-py { font-size: 13px; font-weight: 800; color: var(--accent); margin-left: 6px; }
+      .bx-pos {
+        display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 6px;
+        background: var(--bg); border: 1px solid var(--border); color: var(--muted); margin-top: 3px;
+      }
+      .bx-core { font-size: 13.5px; line-height: 1.48; color: var(--text); }
+      .bx-pattern {
+        font-size: 12.5px; font-weight: 700; color: var(--accent);
+        background: rgba(37,99,235,0.07); border: 1px solid rgba(37,99,235,0.2);
+        border-radius: 8px; padding: 5px 8px; line-height: 1.4;
+      }
+      .bx-ex {
+        background: var(--bg); border: 1px solid var(--border); border-radius: 9px;
+        padding: 7px 9px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;
+      }
+      .bx-ex-zh { font-size: 13.5px; font-weight: 700; line-height: 1.45; }
+      .bx-ex-zh mark { background: rgba(220,38,38,0.14); color: var(--primary); padding: 0 3px; border-radius: 4px; font-weight: 900; }
+      html.theme-ghibli .bx-ex-zh mark { background: rgba(45,106,79,0.16); }
+      .bx-ex-py { font-size: 11.5px; color: var(--accent); margin-top: 2px; }
+      .bx-ex-vi { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.38; }
+      .bx-tip {
+        display: flex; align-items: flex-start; gap: 7px;
+        font-size: 12.8px; line-height: 1.5; color: var(--text);
+        background: rgba(217,119,6,0.08); border: 1px dashed rgba(217,119,6,0.38);
+        border-radius: 10px; padding: 8px 11px;
+      }
+      .bx-tip svg { flex-shrink: 0; margin-top: 2px; color: var(--warn); }
+
+      /* Workbook Part 3 Typed Mode & Part 4 [A][B][C][D] Position Picker */
+      .wb-mode-bar { display: inline-flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg); }
+      .wb-mode-btn {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 6px 11px; border: none; background: transparent; color: var(--text);
+        font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit;
+      }
+      .wb-mode-btn.on { background: var(--primary); color: #fff; }
+      .wb-type-input {
+        width: 100%; padding: 10px 12px; border-radius: 11px; border: 1.5px solid var(--border);
+        background: var(--bg); color: var(--text); font-size: 15.5px; font-weight: 600;
+        font-family: inherit; outline: none;
+      }
+      .wb-type-input:focus { border-color: var(--primary); }
+      .wb-type-hint { font-size: 12px; color: var(--muted); line-height: 1.45; }
+      .wb-diff-ok { color: var(--ok); font-weight: 800; }
+      .wb-diff-miss { color: var(--danger); font-weight: 800; text-decoration: underline wavy; }
+
+      .wb-pos-word-row {
+        display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        font-size: 13.5px; color: var(--muted);
+      }
+      .wb-pos-word-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 11px; border-radius: 999px;
+        background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.34);
+        color: var(--primary); font-size: 15px; font-weight: 900;
+      }
+      html.theme-ghibli .wb-pos-word-pill {
+        background: rgba(45,106,79,0.15); border-color: rgba(45,106,79,0.38);
+      }
+      .wb-pos-sent {
+        font-size: 16.5px; font-weight: 700; line-height: 2.05; color: var(--text);
+        background: var(--bg); border: 1px solid var(--border); border-radius: 11px;
+        padding: 10px 12px; overflow-wrap: anywhere;
+      }
+      .wb-slot-btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 34px; padding: 1px 8px; margin: 0 3px; border-radius: 8px;
+        border: 1.5px dashed var(--accent); background: rgba(37,99,235,0.08);
+        color: var(--accent); font-size: 13px; font-weight: 900; cursor: pointer;
+        font-family: inherit; vertical-align: middle; transition: all 0.12s ease;
+      }
+      .wb-slot-btn:hover:not(:disabled) { border-style: solid; background: rgba(37,99,235,0.18); transform: translateY(-1px); }
+      .wb-slot-btn.sel { border-style: solid; background: var(--accent); color: #fff; border-color: var(--accent); }
+      .wb-slot-btn.ok { border-style: solid; background: #16a34a; color: #fff; border-color: #16a34a; }
+      .wb-slot-btn.bad { border-style: solid; background: #dc2626; color: #fff; border-color: #dc2626; }
+      .wb-inline-icon { display: inline-flex; align-items: center; gap: 6px; }
     `;
     const style = document.createElement("style");
     style.id = "hskSlidesWorkbookStyle";
@@ -1448,7 +1559,339 @@
     refreshStage();
   }
 
-  /* ================== WORKBOOK ENGINE (CHỮA BÀI TẬP THỰC CHIẾN) ================== */
+  /* ================== INLINE SVG ICONS (STROKE 1.8) ================== */
+  const WB_SVG = {
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>',
+    refresh: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    split: '<path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/>',
+    keyboard: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01"/><path d="M10 8h.01"/><path d="M14 8h.01"/><path d="M18 8h.01"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/><path d="M7 16h10"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+    headphones: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+    play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+    circle: '<circle cx="12" cy="12" r="9"/>'
+  };
+  function wbIcon(name, size) {
+    const sz = size || 14;
+    return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${WB_SVG[name] || WB_SVG.book}</svg>`;
+  }
+
+  /* ================== CONFUSABLE WORDS & POLYPHONES (辨析) ENGINE ================== */
+  const CONFUSABLE_BIANXI_DB = [
+    // HSK 1
+    {
+      id: "bx_renshi_zhidao", level: 1, type: "pair", title: "认识 vs 知道",
+      triggers: ["认识", "知道"],
+      items: [
+        { zh: "认识", py: "rènshi", pos: "Động từ", core: "Quen biết người, nhận mặt chữ hoặc nơi chốn qua tiếp xúc trực tiếp.", pattern: "认识 + Người / Chữ Hán / Đường đi", exZh: "我认识这位汉语老师。", exPy: "Wǒ rènshi zhè wèi Hànyǔ lǎoshī.", exVi: "Tôi quen biết thầy giáo tiếng Hán này." },
+        { zh: "知道", py: "zhīdào", pos: "Động từ", core: "Biết thông tin, sự thật, lý do hoặc cả một mệnh đề.", pattern: "知道 + Sự việc / Mệnh đề", exZh: "我知道他今天不来上课。", exPy: "Wǒ zhīdào tā jīntiān bù lái shàngkè.", exVi: "Tôi biết hôm nay anh ấy không đến lớp." }
+      ],
+      tip: "Gặp người hoặc mặt chữ dùng 认识; biết một tin tức hay cả câu chuyện dùng 知道 (không nói 认识他不来)."
+    },
+    {
+      id: "bx_er_liang", level: 1, type: "pair", title: "二 vs 两",
+      triggers: ["二", "两"],
+      items: [
+        { zh: "二", py: "èr", pos: "Số từ", core: "Dùng khi đếm số, số thứ tự, ngày tháng, số điện thoại, số thập phân.", pattern: "一二三 / 第二 / 二月 / 十二", exZh: "今天是二月十二号。", exPy: "Jīntiān shì èr yuè shí'èr hào.", exVi: "Hôm nay là ngày 12 tháng 2." },
+        { zh: "两", py: "liǎng", pos: "Số từ", core: "Dùng trước lượng từ để chỉ số lượng 2 đơn vị.", pattern: "两 + Lượng từ + Danh từ", exZh: "我买了两本书和两杯咖啡。", exPy: "Wǒ mǎi le liǎng běn shū hé liǎng bēi kāfēi.", exVi: "Tôi đã mua hai quyển sách và hai cốc cà phê." }
+      ],
+      tip: "Trước lượng từ (个, 本, 杯, 个人) dùng 两; đếm thứ tự (第二, 二楼, 二月) dùng 二."
+    },
+    {
+      id: "bx_neng_hui_keyi", level: 1, type: "pair", title: "会 vs 能 vs 可以",
+      triggers: ["会", "能", "可以"],
+      items: [
+        { zh: "会", py: "huì", pos: "Động từ năng nguyện", core: "Biết làm một kỹ năng nhờ học tập/rèn luyện.", pattern: "会 + Kỹ năng (说汉语 / 游泳 / 开车)", exZh: "我会说一点儿汉语。", exPy: "Wǒ huì shuō yìdiǎnr Hànyǔ.", exVi: "Tôi biết nói một chút tiếng Hán." },
+        { zh: "能 / 可以", py: "néng / kěyǐ", pos: "Động từ năng nguyện", core: "能 nhấn khả năng/điều kiện khách quan; 可以 nhấn sự cho phép lịch sự.", pattern: "不能 + V (cấm) / 可以 + V + 吗？(xin phép)", exZh: "这里可以拍照吗？", exPy: "Zhèlǐ kěyǐ pāizhào ma?", exVi: "Ở đây có được phép chụp ảnh không?" }
+      ],
+      tip: "Học mới biết → 会; có đủ sức/điều kiện → 能; xin phép/được phép → 可以."
+    },
+    // HSK 2
+    {
+      id: "bx_bang_ti", level: 2, type: "pair", title: "帮 vs 替",
+      triggers: ["帮", "替", "帮助"],
+      items: [
+        { zh: "帮", py: "bāng", pos: "Động từ / Giới từ", core: "Giúp đỡ ai làm việc gì (người đó có thể cùng làm hoặc nhận sự hỗ trợ).", pattern: "帮 + A + Động từ", exZh: "请你帮我拿一下行李。", exPy: "Qǐng nǐ bāng wǒ ná yíxià xíngli.", exVi: "Phiền bạn giúp tôi cầm hành lý một chút." },
+        { zh: "替", py: "tì", pos: "Giới từ / Động từ", core: "Làm thay hoàn toàn vị trí của ai khi họ không thể tự làm.", pattern: "替 + A + Động từ (thay mặt)", exZh: "他生病了，我替他去开会。", exPy: "Tā shēngbìng le, wǒ tì tā qù kāihuì.", exVi: "Anh ấy ốm rồi, tôi đi họp thay anh ấy." }
+      ],
+      tip: "帮 = trợ giúp; 替 = thay thế hoàn toàn (A vắng mặt hoặc không tự làm được)."
+    },
+    {
+      id: "bx_yidianr_youdianr", level: 2, type: "pair", title: "一点儿 vs 有点儿",
+      triggers: ["一点儿", "有点儿"],
+      items: [
+        { zh: "一点儿", py: "yìdiǎnr", pos: "Số lượng từ", core: "Đứng SAU tính từ/động từ để giảm nhẹ hoặc so sánh, sắc thái trung tính/tích cực.", pattern: "Động từ/Tính từ + 一点儿", exZh: "请你说慢一点儿。", exPy: "Qǐng nǐ shuō màn yìdiǎnr.", exVi: "Xin bạn nói chậm lại một chút." },
+        { zh: "有点儿", py: "yǒudiǎnr", pos: "Phó từ", core: "Đứng TRƯỚC tính từ/động từ, thường mang sắc thái phàn nàn, chưa hài lòng.", pattern: "有点儿 + Tính từ (không như ý)", exZh: "这件衣服有点儿贵。", exPy: "Zhè jiàn yīfu yǒudiǎnr guì.", exVi: "Chiếc áo này hơi đắt." }
+      ],
+      tip: "Nhớ vị trí: 有点儿 đứng TRƯỚC tính từ (hơi chê); 一点儿 đứng SAU tính từ/động từ (chút ít)."
+    },
+    {
+      id: "bx_poly_hai_huan", level: 2, type: "poly", title: "Từ đa âm: 还 (hái / huán)",
+      triggers: ["还", "还是", "归还"],
+      items: [
+        { zh: "还", py: "hái", pos: "Phó từ", core: "Vẫn còn, hơn nữa, cũng tạm được.", pattern: "还 + Động từ / Tính từ", exZh: "雨还在下，我们等一会儿吧。", exPy: "Yǔ hái zài xià, wǒmen děng yíhuìr ba.", exVi: "Trời vẫn đang mưa, chúng ta đợi một lát nhé." },
+        { zh: "还", py: "huán", pos: "Động từ", core: "Trả lại đồ đã mượn (tiền, sách…).", pattern: "把 + Vật + 还给 + Người", exZh: "明天我要把书还给图书馆。", exPy: "Míngtiān wǒ yào bǎ shū huán gěi túshūguǎn.", exVi: "Ngày mai tôi phải trả sách cho thư viện." }
+      ],
+      tip: "Mang nghĩa 'vẫn/còn' đọc hái; mang nghĩa 'hoàn trả' (Hán Việt: hoàn) đọc huán."
+    },
+    // HSK 3
+    {
+      id: "bx_gangcai_gang", level: 3, type: "pair", title: "刚才 vs 刚",
+      triggers: ["刚才", "刚"],
+      items: [
+        { zh: "刚才", py: "gāngcái", pos: "Danh từ chỉ thời gian", core: "Vừa nãy (cách hiện tại vài phút). Đứng trước hoặc sau chủ ngữ, đi được với phủ định 不/没.", pattern: "刚才 + S + V / S + 刚才 + 没 + V", exZh: "刚才谁给你打电话了？", exPy: "Gāngcái shéi gěi nǐ dǎ diànhuà le?", exVi: "Vừa nãy ai gọi điện cho bạn thế?" },
+        { zh: "刚", py: "gāng", pos: "Phó từ", core: "Vừa mới (cảm giác ngắn theo chủ quan, có thể là vài ngày/tháng). Chỉ đứng sau chủ ngữ, không thêm 没 ngay sau.", pattern: "S + 刚 + V (+ Thời lượng)", exZh: "我刚来中国两个月。", exPy: "Wǒ gāng lái Zhōngguó liǎng ge yuè.", exVi: "Tôi mới đến Trung Quốc hai tháng." }
+      ],
+      tip: "刚才 là danh từ (đứng đầu câu được, chỉ vài phút trước); 刚 là phó từ (chỉ đứng sau chủ ngữ, theo sau có thể có thời lượng)."
+    },
+    {
+      id: "bx_canjia_canguan", level: 3, type: "pair", title: "参观 vs 参加",
+      triggers: ["参观", "参加"],
+      items: [
+        { zh: "参观", py: "cānguān", pos: "Động từ", core: "Tham quan địa điểm thực tế để xem, tìm hiểu.", pattern: "参观 + Địa điểm (博物馆 / 工厂 / 学校)", exZh: "周末我们去参观历史博物馆。", exPy: "Zhōumò wǒmen qù cānguān lìshǐ bówùguǎn.", exVi: "Cuối tuần chúng tôi đi tham quan bảo tàng lịch sử." },
+        { zh: "参加", py: "cānjiā", pos: "Động từ", core: "Tham gia hoạt động, cuộc thi, buổi họp, tổ chức với vai trò thành viên.", pattern: "参加 + Hoạt động (比赛 / 会议 / 活动 / 考试)", exZh: "她报名参加了汉语演讲比赛。", exPy: "Tā bàomíng cānjiā le Hànyǔ yǎnjiǎng bǐsài.", exVi: "Cô ấy đã đăng ký tham gia cuộc thi hùng biện tiếng Hán." }
+      ],
+      tip: "Đi xem nơi chốn (bảo tàng, nhà máy) → 参观 (quan = nhìn xem); hòa mình vào hoạt động/cuộc thi → 参加 (gia = gia nhập)."
+    },
+    {
+      id: "bx_juede_yiwei", level: 3, type: "pair", title: "觉得 vs 以为",
+      triggers: ["觉得", "以为"],
+      items: [
+        { zh: "觉得", py: "juéde", pos: "Động từ", core: "Cảm thấy, cho rằng (ý kiến cá nhân trung tính, có thể đúng hoặc sai).", pattern: "S + 觉得 + Nhận định", exZh: "我觉得这家餐厅的菜很好吃。", exPy: "Wǒ juéde zhè jiā cāntīng de cài hěn hǎochī.", exVi: "Tôi thấy món ăn ở nhà hàng này rất ngon." },
+        { zh: "以为", py: "yǐwéi", pos: "Động từ", core: "Tưởng rằng (suy đoán trước đó TRÁI với sự thật thực tế).", pattern: "我以为……，其实/没想到……", exZh: "我以为今天不上课，原来还要考试。", exPy: "Wǒ yǐwéi jīntiān bú shàngkè, yuánlái hái yào kǎoshì.", exVi: "Tôi tưởng hôm nay nghỉ học, hóa ra vẫn phải thi." }
+      ],
+      tip: "Nêu cảm nhận bình thường dùng 觉得; hễ 'tưởng nhầm' khác sự thật dùng 以为."
+    },
+    {
+      id: "bx_poly_chang_zhang", level: 3, type: "poly", title: "Từ đa âm: 长 (cháng / zhǎng)",
+      triggers: ["长", "长大", "时间长", "校长"],
+      items: [
+        { zh: "长", py: "cháng", pos: "Tính từ", core: "Dài (về độ dài không gian hoặc thời gian).", pattern: "很长 / 长城 / 长大衣", exZh: "这条河非常长。", exPy: "Zhè tiáo hé fēicháng cháng.", exVi: "Con sông này vô cùng dài." },
+        { zh: "长", py: "zhǎng", pos: "Động từ / Danh từ", core: "Lớn lên, mọc ra; hoặc người đứng đầu (trưởng).", pattern: "长大 / 校长 / 班长", exZh: "小树很快长高了。", exPy: "Xiǎoshù hěn kuài zhǎng gāo le.", exVi: "Cây non lớn cao lên rất nhanh." }
+      ],
+      tip: "Dài (trường) đọc cháng; lớn lên / chức trưởng đọc zhǎng."
+    },
+    {
+      id: "bx_poly_jue_jiao", level: 3, type: "poly", title: "Từ đa âm: 觉 (jué / jiào)",
+      triggers: ["觉得", "睡觉", "感觉", "午觉"],
+      items: [
+        { zh: "觉", py: "jué", pos: "Động từ", core: "Cảm giác, nhận thức, tỉnh ngộ.", pattern: "觉得 / 感觉 / 觉悟", exZh: "你觉得这个方法怎么样？", exPy: "Nǐ juéde zhège fāngfǎ zěnmeyàng?", exVi: "Bạn thấy phương pháp này thế nào?" },
+        { zh: "觉", py: "jiào", pos: "Danh từ", core: "Giấc ngủ.", pattern: "睡觉 / 睡午觉 / 睡懒觉", exZh: "中午我习惯睡半小时午觉。", exPy: "Zhōngwǔ wǒ xíguàn shuì bàn xiǎoshí wǔjiào.", exVi: "Buổi trưa tôi quen ngủ trưa nửa tiếng." }
+      ],
+      tip: "Chỉ cần đi với giấc ngủ (睡觉, 午觉) đọc jiào; còn lại (觉得, 感觉) đọc jué."
+    },
+    // HSK 4
+    {
+      id: "bx_shihe_heshi", level: 4, type: "pair", title: "适合 vs 合适",
+      triggers: ["适合", "合适"],
+      items: [
+        { zh: "适合", py: "shìhé", pos: "Động từ", core: "Phù hợp với đối tượng nào đó — CÓ thể mang tân ngữ trực tiếp phía sau.", pattern: "A + 适合 + B (tân ngữ)", exZh: "这份工作非常适合你。", exPy: "Zhè fèn gōngzuò fēicháng shìhé nǐ.", exVi: "Công việc này vô cùng phù hợp với bạn." },
+        { zh: "合适", py: "héshì", pos: "Tính từ", core: "Hợp, vừa vặn — KHÔNG mang tân ngữ trực tiếp, hay làm vị ngữ hoặc định ngữ.", pattern: "A + 很合适 / 合适的 + Danh từ", exZh: "这双鞋大小正合适。", exPy: "Zhè shuāng xié dàxiǎo zhèng héshì.", exVi: "Đôi giày này kích cỡ vừa in." }
+      ],
+      tip: "Phía sau có tân ngữ (适合你, 适合年轻人) bắt buộc dùng 适合; đứng cuối câu làm tính từ (很合适) hoặc trước 的 (合适的人) dùng 合适."
+    },
+    {
+      id: "bx_jingyan_jingli", level: 4, type: "pair", title: "经验 vs 经历",
+      triggers: ["经验", "经历"],
+      items: [
+        { zh: "经验", py: "jīngyàn", pos: "Danh từ", core: "Kinh nghiệm, bài học thực tiễn đúc kết được (không dùng làm động từ).", pattern: "有经验 / 积累经验 / 丰富的经验", exZh: "他有十年的教学经验。", exPy: "Tā yǒu shí nián de jiàoxué jīngyàn.", exVi: "Thầy ấy có mười năm kinh nghiệm giảng dạy." },
+        { zh: "经历", py: "jīnglì", pos: "Danh từ / Động từ", core: "Trải nghiệm từng đi qua (danh từ) hoặc trải qua một biến cố (động từ).", pattern: "经历过 + Sự việc / 难忘的经历", exZh: "那次旅行是一段难忘的经历。", exPy: "Nà cì lǚxíng shì yí duàn nánwàng de jīnglì.", exVi: "Chuyến du lịch ấy là một trải nghiệm khó quên." }
+      ],
+      tip: "Kỹ năng rút ra được dùng 经验 (chỉ là danh từ); quá trình từng trải qua dùng 经历 (vừa là động từ vừa là danh từ)."
+    },
+    {
+      id: "bx_shunbian_fangbian", level: 4, type: "pair", title: "顺便 vs 方便",
+      triggers: ["顺便", "方便"],
+      items: [
+        { zh: "顺便", py: "shùnbiàn", pos: "Phó từ", core: "Nhân tiện làm thêm việc phụ trong lúc đang làm việc chính.", pattern: "S + Làm việc A + 顺便 + Làm việc B", exZh: "你下楼时顺便帮我拿个快递吧。", exPy: "Nǐ xiàlóu shí shùnbiàn bāng wǒ ná ge kuàidì ba.", exVi: "Khi xuống lầu bạn tiện thể lấy giúp mình gói bưu kiện nhé." },
+        { zh: "方便", py: "fāngbiàn", pos: "Tính từ", core: "Thuận tiện, tiện lợi (về giao thông, thời gian, sử dụng).", pattern: "很方便 / 不方便 + Làm gì", exZh: "地铁开通以后，上班方便多了。", exPy: "Dìtiě kāitōng yǐhòu, shàngbān fāngbiàn duō le.", exVi: "Sau khi tàu điện ngầm mở tuyến, đi làm tiện hơn nhiều." }
+      ],
+      tip: "顺便 = tiện thể làm kèm việc khác (phó từ); 方便 = thuận tiện, dễ dàng (tính từ, có thể nói 很方便, không nói 很顺便)."
+    },
+    {
+      id: "bx_yijian_jianyi", level: 4, type: "pair", title: "意见 vs 建议",
+      triggers: ["意见", "建议"],
+      items: [
+        { zh: "意见", py: "yìjiàn", pos: "Danh từ", core: "Ý kiến, quan điểm đánh giá; đôi khi mang hàm ý bất mãn/phản đối (有意见).", pattern: "提意见 / 交换意见 / 对……有意见", exZh: "关于这个方案，大家有什么意见？", exPy: "Guānyú zhège fāng'àn, dàjiā yǒu shénme yìjiàn?", exVi: "Về phương án này, mọi người có ý kiến gì không?" },
+        { zh: "建议", py: "jiànyì", pos: "Danh từ / Động từ", core: "Lời khuyên, đề xuất giải pháp cụ thể mang tính xây dựng.", pattern: "提出建议 / 我建议 + Mệnh đề", exZh: "我建议把会议推迟到下周一。", exPy: "Wǒ jiànyì bǎ huìyì tuīchí dào xià zhōuyī.", exVi: "Tôi đề xuất dời cuộc họp sang thứ Hai tuần sau." }
+      ],
+      tip: "Nêu quan điểm hoặc ý kiến phản hồi → 意见 (danh từ); đưa giải pháp/lời khuyên cụ thể → 建议 (vừa là động từ vừa là danh từ)."
+    },
+    {
+      id: "bx_poly_xing_hang", level: 4, type: "poly", title: "Từ đa âm: 行 (xíng / háng)",
+      triggers: ["行", "银行", "行业", "旅行"],
+      items: [
+        { zh: "行", py: "xíng", pos: "Động từ / Tính từ", core: "Đi lại, thực hiện, hoặc 'được/ổn đấy'.", pattern: "旅行 / 行动 / 这样行吗？", exZh: "我们明天八点出发，行吗？", exPy: "Wǒmen míngtiān bā diǎn chūfā, xíng ma?", exVi: "Ngày mai 8 giờ chúng ta xuất phát, được không?" },
+        { zh: "行", py: "háng", pos: "Danh từ", core: "Ngành nghề, hàng lối, ngân hàng.", pattern: "银行 / 行业 / 专业对口", exZh: "他在一家国际银行工作。", exPy: "Tā zài yì jiā guójì yínháng gōngzuò.", exVi: "Anh ấy làm việc tại một ngân hàng quốc tế." }
+      ],
+      tip: "Đi lại / hành động / được → xíng; ngành nghề / hàng ngang / ngân hàng → háng."
+    },
+    {
+      id: "bx_poly_zhong_chong", level: 4, type: "poly", title: "Từ đa âm: 重 (zhòng / chóng)",
+      triggers: ["重要", "重新", "重复", "重视"],
+      items: [
+        { zh: "重", py: "zhòng", pos: "Tính từ", core: "Nặng, quan trọng, nghiêm trọng.", pattern: "重要 / 重视 / 体重", exZh: "良好的沟通习惯非常重要。", exPy: "Liánghǎo de gōutōng xíguàn fēicháng zhòngyào.", exVi: "Thói quen giao tiếp tốt vô cùng quan trọng." },
+        { zh: "重", py: "chóng", pos: "Phó từ", core: "Lặp lại lần nữa, làm lại từ đầu.", pattern: "重新 / 重复 / 重逢", exZh: "这个步骤出错了，请重新检查。", exPy: "Zhège bùzhòu chūcuò le, qǐng chóngxīn jiǎnchá.", exVi: "Bước này bị sai rồi, xin hãy kiểm tra lại từ đầu." }
+      ],
+      tip: "Nặng / trọng yếu đọc zhòng; lặp lại (trùng lặp) đọc chóng."
+    },
+    // HSK 5
+    {
+      id: "bx_ganxiang_tihui", level: 5, type: "pair", title: "感想 vs 体会",
+      triggers: ["感想", "体会"],
+      items: [
+        { zh: "感想", py: "gǎnxiǎng", pos: "Danh từ", core: "Cảm nghĩ, suy tưởng nảy sinh sau khi đọc sách, xem phim hay dự sự kiện (chỉ là danh từ).", pattern: "谈感想 / 读后感想", exZh: "看完这部纪录片，你有什么感想？", exPy: "Kànwán zhè bù jìlùpiàn, nǐ yǒu shénme gǎnxiǎng?", exVi: "Xem xong bộ phim tài liệu này, bạn có cảm nghĩ gì?" },
+        { zh: "体会", py: "tǐhuì", pos: "Động từ / Danh từ", core: "Thấu hiểu sâu sắc qua tự thân trải nghiệm (vừa làm động từ vừa làm danh từ).", pattern: "深刻体会到…… / 学习体会", exZh: "只有亲自实践，才能体会其中的不易。", exPy: "Zhǐyǒu qīnzì shíjiàn, cái néng tǐhuì qízhōng de búyì.", exVi: "Chỉ khi tự tay thực hành mới thấu hiểu nỗi vất vả trong đó." }
+      ],
+      tip: "Cảm nghĩ chung chung (danh từ) → 感想; thấu hiểu từ trải nghiệm thực tế (làm động từ được: 体会到) → 体会."
+    },
+    {
+      id: "bx_shicha_chabie", level: 5, type: "pair", title: "时差 vs 差别",
+      triggers: ["时差", "差别", "差异"],
+      items: [
+        { zh: "时差", py: "shíchā", pos: "Danh từ", core: "Chênh lệch múi giờ giữa hai khu vực địa lý; hoặc hiện tượng lệch múi giờ khi bay xa.", pattern: "倒时差 / 有几个小时的时差", exZh: "河内和北京有一个小时的时差。", exPy: "Hénèi hé Běijīng yǒu yí ge xiǎoshí de shíchā.", exVi: "Hà Nội và Bắc Kinh chênh nhau một tiếng múi giờ." },
+        { zh: "差别", py: "chābié", pos: "Danh từ", core: "Sự khác biệt, chênh lệch nói chung giữa hai sự vật/khái niệm.", pattern: "很大差别 / 没有本质差别", exZh: "这两种学习方法的效果有很大差别。", exPy: "Zhè liǎng zhǒng xuéxí fāngfǎ de xiàoguǒ yǒu hěn dà chābié.", exVi: "Hiệu quả của hai phương pháp học này có sự khác biệt rất lớn." }
+      ],
+      tip: "Chú ý thanh điệu và nghĩa: 时差 (chā, thanh 1) chuyên chỉ chênh lệch múi giờ; 差别 (chābié) chỉ sự khác biệt nói chung."
+    },
+    {
+      id: "bx_fanying_pair", level: 5, type: "pair", title: "反映 vs 反应",
+      triggers: ["反映", "反应"],
+      items: [
+        { zh: "反映", py: "fǎnyìng", pos: "Động từ", core: "Phản ánh thực trạng khách quan hoặc báo cáo ý kiến lên cấp trên.", pattern: "反映情况 / 反映问题 / 向……反映", exZh: "这部小说真实地反映了当代青年的困惑。", exPy: "Zhè bù xiǎoshuō zhēnshí de fǎnyìng le dāngdài qīngnián de kùnhuò.", exVi: "Cuốn tiểu thuyết này phản ánh chân thực nỗi trăn trở của thanh niên đương đại." },
+        { zh: "反应", py: "fǎnyìng", pos: "Danh từ / Động từ", core: "Phản ứng tâm lý, sinh lý hoặc hóa học trước một tác động.", pattern: "反应很快 / 化学反应 / 引起强烈反应", exZh: "遇到突发情况时，他的反应非常敏捷。", exPy: "Yùdào tūfā qíngkuàng shí, tā de fǎnyìng fēicháng mǐnjié.", exVi: "Khi gặp tình huống bất ngờ, phản ứng của anh ấy vô cùng nhanh nhạy." }
+      ],
+      tip: "Cùng đọc fǎnyìng: 反映 (Ánh — như gương phản chiếu) = phản ánh/báo cáo; 反应 (Ứng — đáp lại) = phản ứng."
+    },
+    {
+      id: "bx_poly_le_yue", level: 5, type: "poly", title: "Từ đa âm: 乐 (lè / yuè)",
+      triggers: ["音乐", "快乐", "乐观", "乐器"],
+      items: [
+        { zh: "乐", py: "lè", pos: "Tính từ / Động từ", core: "Vui vẻ, lạc quan, sẵn lòng.", pattern: "快乐 / 乐观 / 乐于助人", exZh: "保持乐观的心态有助于克服困难。", exPy: "Bǎochí lèguān de xīntài yǒuzhùyú kèfú kùnnan.", exVi: "Giữ tâm thế lạc quan giúp ích cho việc vượt qua khó khăn." },
+        { zh: "乐", py: "yuè", pos: "Danh từ", core: "Âm nhạc, nhạc cụ, bản nhạc.", pattern: "音乐 / 乐器 / 交响乐", exZh: "她从小就学习演奏传统乐器。", exPy: "Tā cóngxiǎo jiù xuéxí yǎnzòu chuántǒng yuèqì.", exVi: "Cô ấy học chơi nhạc cụ truyền thống từ nhỏ." }
+      ],
+      tip: "Hễ liên quan âm nhạc (音乐, 乐器, 乐团) đọc yuè; vui vẻ/lạc quan đọc lè."
+    },
+    // HSK 6
+    {
+      id: "bx_ezhi_kongzhi", level: 6, type: "pair", title: "遏制 vs 控制",
+      triggers: ["遏制", "控制", "抑制"],
+      items: [
+        { zh: "遏制", py: "èzhì", pos: "Động từ (Văn viết)", core: "Ngăn chặn, kìm hãm xu thế tiêu cực đang lan rộng (không dùng cho máy móc).", pattern: "遏制 + Xu thế xấu (蔓延 / 通胀 / 恶化)", exZh: "各国正采取联合行动以遏制气候进一步恶化。", exPy: "Gèguó zhèng cǎiqǔ liánhé xíngdòng yǐ èzhì qìhòu jìnyíbù èhuà.", exVi: "Các nước đang hành động chung nhằm ngăn chặn khí hậu xấu đi thêm." },
+        { zh: "控制", py: "kòngzhì", pos: "Động từ", core: "Kiểm soát, điều khiển ở mức ổn định (dùng rộng: cảm xúc, thiết bị, chi phí, dịch bệnh).", pattern: "控制 + Cảm xúc / Tốc độ / Chi phí", exZh: "在高压谈判中，控制情绪尤为关键。", exPy: "Zài gāoyā tánpàn zhōng, kòngzhì qíngxù yóuwéi guānjiàn.", exVi: "Trong đàm phán áp lực cao, kiểm soát cảm xúc đặc biệt then chốt." }
+      ],
+      tip: "遏制 là từ văn viết HSK 6, chỉ đi với xu hướng tiêu cực cần chặn đứng; 控制 trung tính, dùng được cho cả thiết bị lẫn cảm xúc."
+    },
+    {
+      id: "bx_yuanyuan_yuanquan", level: 6, type: "pair", title: "渊源 vs 源泉",
+      triggers: ["渊源", "源泉", "来源"],
+      items: [
+        { zh: "渊源", py: "yuānyuán", pos: "Danh từ", core: "Cội nguồn lịch sử, mối dây liên hệ truyền thống lâu đời giữa hai sự vật.", pattern: "历史渊源 / 颇有渊源", exZh: "这两种戏曲艺术有着深厚的历史渊源。", exPy: "Zhè liǎng zhǒng xìqǔ yìshù yǒuzhe shēnhòu de lìshǐ yuānyuán.", exVi: "Hai loại hình nghệ thuật hí kịch này có cội nguồn lịch sử sâu dày." },
+        { zh: "源泉", py: "yuánquán", pos: "Danh từ", core: "Nguồn suối nuôi dưỡng tinh thần, sức mạnh, cảm hứng sáng tạo.", pattern: "灵感源泉 / 力量源泉 / 创作源泉", exZh: "真实的社会生活是文学创作取之不尽的源泉。", exPy: "Zhēnshí de shèhuì shēnghuó shì wénxué chuàngzuò qǔzhī bújìn de yuánquán.", exVi: "Đời sống xã hội chân thực là nguồn suối vô tận của sáng tác văn học." }
+      ],
+      tip: "Nói gốc gác lịch sử sâu xa → 渊源; nói nguồn nuôi dưỡng cảm hứng/sức mạnh → 源泉."
+    },
+    {
+      id: "bx_poly_chu", level: 6, type: "poly", title: "Từ đa âm: 处 (chǔ / chù)",
+      triggers: ["处理", "相处", "处于", "好处", "到处"],
+      items: [
+        { zh: "处", py: "chǔ", pos: "Động từ", core: "Xử lý, ở trong hoàn cảnh nào đó, chung sống với nhau.", pattern: "处理 / 处于 / 相处 / 处境", exZh: "团队成员之间应该学会融洽相处。", exPy: "Tuánduì chéngyuán zhījiān yīnggāi xuéhuì róngqià xiāngchǔ.", exVi: "Các thành viên trong nhóm nên học cách chung sống hòa thuận." },
+        { zh: "处", py: "chù", pos: "Danh từ", core: "Nơi chốn, chỗ, phòng ban, điểm lợi/hại.", pattern: "到处 / 好处 / 住处 / 教务处", exZh: "适度运动对身心健康大有好处。", exPy: "Shìdù yùndòng duì shēnxīn jiànkāng dàyǒu hǎochù.", exVi: "Vận động điều độ mang lại lợi ích lớn cho sức khỏe thân tâm." }
+      ],
+      tip: "Làm động từ (xử lý, chung sống, ở vào thế…) đọc chǔ (thanh 3); làm danh từ (nơi chốn, lợi ích, phòng ban) đọc chù (thanh 4)."
+    }
+  ];
+
+  function getConfusablesForLesson(lesson) {
+    if (!lesson || Number(lesson.level) === 0) return [];
+    const lv = Math.max(1, Math.min(6, Number(lesson.level) || 1));
+    const corpus = [
+      (lesson.vocab || []).map(function (v) { return v.word || ""; }).join(" "),
+      (lesson.dialogue || []).map(function (d) { return d.zh || ""; }).join(" "),
+      (lesson.grammar || []).map(function (g) { return (g.title || "") + " " + (g.body || ""); }).join(" "),
+      lesson.lectureHtml || ""
+    ].join(" ");
+
+    const directHits = [];
+    CONFUSABLE_BIANXI_DB.forEach(function (entry) {
+      const matchedTrigger = (entry.triggers || []).find(function (t) { return t && corpus.includes(t); });
+      if (matchedTrigger) {
+        directHits.push({ entry: entry, isDirect: true, score: (entry.level === lv ? 10 : 5) });
+      }
+    });
+    directHits.sort(function (a, b) { return b.score - a.score; });
+
+    const picked = [];
+    const seenIds = new Set();
+    for (let i = 0; i < directHits.length && picked.length < 2; i++) {
+      seenIds.add(directHits[i].entry.id);
+      picked.push({ entry: directHits[i].entry, isDirect: true });
+    }
+
+    if (picked.length < 2) {
+      const sameLv = CONFUSABLE_BIANXI_DB.filter(function (e) { return e.level === lv && !seenIds.has(e.id); });
+      const shuffled = seededShuffle(sameLv, (lesson.id || "l") + "_bianxi");
+      for (let i = 0; i < shuffled.length && picked.length < 2; i++) {
+        seenIds.add(shuffled[i].id);
+        picked.push({ entry: shuffled[i], isDirect: false });
+      }
+    }
+    return picked;
+  }
+
+  function renderConfusableSection(lesson, helpers) {
+    injectPageAndWorkbookStyles();
+    if (helpers) state.lastHelpers = helpers;
+    const esc = (helpers && helpers.esc) || defaultEsc;
+    const escJsAttr = (helpers && helpers.escJsAttr) || defaultEsc;
+    const list = getConfusablesForLesson(lesson);
+    if (!list.length) return "";
+
+    return `<div class="bx-wrap">${list.map(function (wrap) {
+      const e = wrap.entry;
+      const isPoly = e.type === "poly";
+      return `<article class="bx-card">
+        <div class="bx-head">
+          <h4 class="bx-title">${wbIcon("split", 15)}<span>${esc(e.title)}</span></h4>
+          <div class="bx-badges">
+            <span class="bx-badge ${isPoly ? "poly" : "pair"}">${isPoly ? "Từ đa âm (多音字)" : "Phân biệt dễ nhầm (辨析)"}</span>
+            <span class="bx-badge ${wrap.isDirect ? "hit" : ""}">${wrap.isDirect ? "Xuất hiện trong bài" : ("Trọng điểm HSK " + e.level)}</span>
+          </div>
+        </div>
+        <div class="bx-cols">
+          ${e.items.map(function (it) {
+            return `<div class="bx-col">
+              <div class="bx-col-top">
+                <div style="min-width:0;">
+                  <div><span class="bx-zh">${esc(it.zh)}</span><span class="bx-py py-text">${esc(it.py)}</span></div>
+                  <span class="bx-pos">${esc(it.pos)}</span>
+                </div>
+                <button type="button" class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.zh)}','${escJsAttr(it.py)}')" title="Nghe phát âm">${wbIcon("volume", 14)}</button>
+              </div>
+              <div class="bx-core">${esc(it.core)}</div>
+              <div class="bx-pattern">Cấu trúc: ${esc(it.pattern)}</div>
+              <div class="bx-ex">
+                <div style="min-width:0;">
+                  <div class="bx-ex-zh">${highlightZhMatch(it.exZh, it.zh, esc)}</div>
+                  <div class="bx-ex-py py-text">${esc(it.exPy)}</div>
+                  <div class="bx-ex-vi vi-text">${esc(it.exVi)}</div>
+                </div>
+                <button type="button" class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.exZh)}')" title="Nghe câu ví dụ">${wbIcon("volume", 13)}</button>
+              </div>
+            </div>`;
+          }).join("")}
+        </div>
+        <div class="bx-tip">${wbIcon("lightbulb", 15)}<div><b>Mẹo phân biệt nhanh:</b> ${esc(e.tip)}</div></div>
+      </article>`;
+    }).join("")}</div>`;
+  }
+
+  /* ================== WORKBOOK ENGINE (CHỮA BÀI TẬP THỰC CHIẾN — 4 PHẦN) ================== */
 
   function ensureWbLessonState(lessonId) {
     if (!state.wbByLesson[lessonId]) {
@@ -1457,7 +1900,11 @@
         p1Graded: false,
         p2Picked: {},
         p3PickedByQ: {},
-        p3GradedByQ: {}
+        p3GradedByQ: {},
+        p3ModeByQ: {},   // "tile" | "type"
+        p3TypedByQ: {},  // raw string typed by learner
+        p4Picked: {},    // { [idx]: "A"|"B"|"C"|"D" }
+        p4Graded: false
       };
     }
     return state.wbByLesson[lessonId];
@@ -1693,11 +2140,223 @@
     });
   }
 
-  function checkAndMarkWbDone(lesson, wbSt, p1Items, p2Items, p3Items) {
+  /* -------- Flexible Translation Grader (Hanzi or Pinyin) -------- */
+  function normalizePinyinSyllables(str) {
+    const toneMap = {
+      "ā": "a", "á": "a", "ǎ": "a", "à": "a",
+      "ē": "e", "é": "e", "ě": "e", "è": "e",
+      "ī": "i", "í": "i", "ǐ": "i", "ì": "i",
+      "ō": "o", "ó": "o", "ǒ": "o", "ò": "o",
+      "ū": "u", "ú": "u", "ǔ": "u", "ù": "u",
+      "ǖ": "v", "ǘ": "v", "ǚ": "v", "ǜ": "v", "ü": "v"
+    };
+    return String(str || "")
+      .toLowerCase()
+      .replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜü]/g, function (ch) { return toneMap[ch] || ch; })
+      .replace(/[0-5]/g, " ")
+      .replace(/[^a-z\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function evaluateTranslationInput(userRaw, targetZh, targetPy, escFn) {
+    const raw = String(userRaw || "").trim();
+    if (!raw) return { mode: "empty", exact: false, pct: 0, diffHtml: "" };
+    const hasZh = /[\u3400-\u9FFF]/.test(raw);
+    if (hasZh) {
+      const target = normZh(targetZh);
+      const user = normZh(raw);
+      const tChars = Array.from(target);
+      const uChars = Array.from(user);
+      const used = new Array(uChars.length).fill(false);
+      let uPos = 0;
+      let matched = 0;
+      let diffHtml = "";
+      for (let i = 0; i < tChars.length; i++) {
+        const ch = tChars[i];
+        let foundAt = -1;
+        for (let j = uPos; j < uChars.length; j++) {
+          if (!used[j] && uChars[j] === ch) { foundAt = j; break; }
+        }
+        if (foundAt !== -1) {
+          used[foundAt] = true;
+          uPos = foundAt + 1;
+          matched++;
+          diffHtml += `<span class="wb-diff-ok">${escFn(ch)}</span>`;
+        } else {
+          diffHtml += `<span class="wb-diff-miss">${escFn(ch)}</span>`;
+        }
+      }
+      const denom = Math.max(tChars.length, uChars.length, 1);
+      const pct = Math.round((matched / denom) * 100);
+      return { mode: "zh", exact: user === target, pct: pct, diffHtml: diffHtml };
+    }
+    // Pinyin mode (flexible: ignores tone marks, tone numbers & spacing)
+    const targetNormSpaced = normalizePinyinSyllables(targetPy || "");
+    const userNormSpaced = normalizePinyinSyllables(raw);
+    const tCompact = targetNormSpaced.replace(/\s+/g, "");
+    const uCompact = userNormSpaced.replace(/\s+/g, "");
+    if (!tCompact) return { mode: "py", exact: false, pct: 0, diffHtml: escFn(raw) };
+    if (uCompact === tCompact) {
+      return { mode: "py", exact: true, pct: 100, diffHtml: `<span class="wb-diff-ok">${escFn(targetPy || targetNormSpaced)}</span>` };
+    }
+    // Character-level ordered match on compact pinyin
+    const tArr = Array.from(tCompact);
+    const uArr = Array.from(uCompact);
+    let uPos = 0;
+    let matched = 0;
+    for (let i = 0; i < tArr.length; i++) {
+      for (let j = uPos; j < uArr.length; j++) {
+        if (uArr[j] === tArr[i]) { matched++; uPos = j + 1; break; }
+      }
+    }
+    const pct = Math.round((matched / Math.max(tArr.length, uArr.length, 1)) * 100);
+    // Token-level visual highlight for target syllables
+    const tSyls = targetNormSpaced.split(" ").filter(Boolean);
+    const uSyls = userNormSpaced.split(" ").filter(Boolean);
+    const diffHtml = tSyls.map(function (syl) {
+      const hit = uSyls.includes(syl) || uCompact.includes(syl);
+      return `<span class="${hit ? "wb-diff-ok" : "wb-diff-miss"}">${escFn(syl)}</span>`;
+    }).join(" ");
+    return { mode: "py", exact: pct >= 95, pct: pct, diffHtml: diffHtml };
+  }
+
+  /* -------- Part 4 Builder: [A][B][C][D] Word/Function-Word Position Picker -------- */
+  const POS_FUNCTION_WORDS = {
+    "也": "Phó từ '也' (cũng) luôn đứng SAU chủ ngữ và TRƯỚC động từ/tính từ (hoặc trước giới từ).",
+    "都": "Phó từ '都' (đều) đứng SAU chủ ngữ số nhiều và TRƯỚC động từ/tính từ chính.",
+    "很": "Phó từ mức độ '很' đứng ngay TRƯỚC tính từ hoặc động từ tâm lý.",
+    "已经": "Phó từ thời gian '已经' (đã) đứng trước động từ/tính từ để biểu thị trạng thái đã xảy ra.",
+    "正在": "Phó từ '正在' (đang) đứng ngay trước động từ để nhấn mạnh hành động đang diễn ra.",
+    "刚才": "Danh từ thời gian '刚才' đứng trước hoặc ngay sau chủ ngữ để chỉ thời điểm vừa mới qua.",
+    "刚": "Phó từ '刚' (vừa mới) đứng SAU chủ ngữ và TRƯỚC động từ.",
+    "就": "Phó từ '就' luôn đứng SAU chủ ngữ và TRƯỚC vị ngữ (động từ/giới từ).",
+    "才": "Phó từ '才' (mới) đứng SAU chủ ngữ/thời gian và TRƯỚC động từ chính.",
+    "一直": "Phó từ '一直' (luôn/suốt) đứng trước động từ hoặc cụm giới từ để biểu thị sự liên tục.",
+    "经常": "Phó từ tần suất '经常' đứng trước động từ vị ngữ.",
+    "总是": "Phó từ '总是' (luôn luôn) đứng trước động từ hoặc tính từ.",
+    "非常": "Phó từ mức độ '非常' đứng ngay trước tính từ hoặc động từ tâm lý.",
+    "比较": "Phó từ '比较' (khá) đứng ngay trước tính từ hoặc động từ tâm lý.",
+    "一定": "Phó từ '一定' (nhất định) đứng trước động từ/động từ năng nguyện để nhấn mạnh quyết tâm/suy đoán.",
+    "必须": "Phó từ '必须' (nhất thiết phải) đứng trước động từ vị ngữ.",
+    "还是": "Liên từ/Phó từ '还是' đứng giữa hai vế lựa chọn hoặc trước vị ngữ mang nghĩa 'vẫn nên'.",
+    "或者": "Liên từ '或者' nối hai thành phần lựa chọn trong câu trần thuật.",
+    "把": "Giới từ '把' đứng trước tân ngữ bị tác động và đặt trước động từ xử lý.",
+    "被": "Giới từ bị động '被' đứng sau chủ ngữ chịu tác động và trước tác nhân/động từ.",
+    "比": "Giới từ so sánh '比' đứng giữa đối tượng A và đối tượng B (A 比 B + Tính từ).",
+    "给": "Giới từ '给' đứng trước đối tượng tiếp nhận và đặt trước động từ chính.",
+    "对": "Giới từ '对' dẫn đối tượng hướng tới, đặt trước động từ/tính từ chính.",
+    "从": "Giới từ '从' dẫn điểm khởi đầu (thời gian/nơi chốn), đặt trước động từ.",
+    "向": "Giới từ '向' dẫn phương hướng/đối tượng, đặt trước động từ.",
+    "替": "Giới từ '替' (thay cho ai) đứng trước đối tượng được làm thay và trước động từ.",
+    "帮": "Động từ/Giới từ '帮' đứng trước đối tượng được giúp đỡ.",
+    "没": "Phó từ phủ định '没' đứng trước động từ để phủ định sự việc đã xảy ra (hoặc trước 有).",
+    "没有": "Phó từ/Động từ '没有' đứng trước động từ hoặc danh từ để biểu thị sự phủ định.",
+    "不": "Phó từ phủ định '不' đứng ngay trước động từ, tính từ hoặc động từ năng nguyện.",
+    "了": "Trợ từ động thái '了' đứng ngay sau động từ (hoặc cuối câu biểu thị thay đổi trạng thái).",
+    "着": "Trợ từ động thái '着' gắn ngay sau động từ biểu thị trạng thái duy trì.",
+    "过": "Trợ từ động thái '过' đứng ngay sau động từ biểu thị kinh nghiệm đã từng trải qua.",
+    "先": "Phó từ '先' (trước hết) đứng sau chủ ngữ và trước động từ hành động đầu tiên.",
+    "再": "Phó từ '再' (lại / rồi mới) đứng trước động từ chưa xảy ra."
+  };
+
+  function explainPosRule(word, lesson) {
+    if (POS_FUNCTION_WORDS[word]) return POS_FUNCTION_WORDS[word];
+    const info = lookupWordInfo(word, lesson);
+    if (info && info.pos) {
+      return `Từ "${word}" (${info.py || ""}${info.pos ? " — " + info.pos : ""}${info.vi ? ": " + info.vi : ""}) cần đặt đúng vị trí ngữ pháp này để câu tự nhiên, đúng trật tự tiếng Trung.`;
+    }
+    return `Đặt "${word}" tại vị trí này đảm bảo đúng trật tự Chủ ngữ – Trạng ngữ – Động từ – Tân ngữ của câu tiếng Trung chuẩn.`;
+  }
+
+  function buildPart4Items(l) {
+    const items = [];
+    const seenSent = new Set();
+    const vocabSet = new Set((l.vocab || []).map(function (v) { return v.word; }).filter(Boolean));
+    const candidates = [];
+
+    (l.dialogue || []).forEach(function (d) {
+      if (d && d.zh) candidates.push({ zh: d.zh, py: d.py || autoPinyinForZh(d.zh, l), vi: d.vi || "" });
+    });
+    (l.rightWrong || []).forEach(function (rw) {
+      if (rw && rw.right) {
+        const cz = extractZh(rw.right);
+        if (cz) candidates.push({ zh: cz, py: autoPinyinForZh(cz, l), vi: rw.note || "" });
+      }
+    });
+
+    for (let ci = 0; ci < candidates.length && items.length < 3; ci++) {
+      const sent = candidates[ci];
+      const pureSent = String(sent.zh || "").trim();
+      if (!pureSent || seenSent.has(pureSent)) continue;
+      const segs = segmentZhWithGloss(pureSent, l).map(function (t) { return t.zh; }).filter(Boolean);
+      if (segs.length < 4) continue;
+
+      // Pick best target token: priority 1 = function word, priority 2 = lesson vocab (>=2 chars), priority 3 = middle token
+      let targetIdx = -1;
+      for (let i = 0; i < segs.length; i++) {
+        if (POS_FUNCTION_WORDS[segs[i]]) { targetIdx = i; break; }
+      }
+      if (targetIdx === -1) {
+        for (let i = 0; i < segs.length; i++) {
+          if (vocabSet.has(segs[i]) && segs[i].length >= 2) { targetIdx = i; break; }
+        }
+      }
+      if (targetIdx === -1) {
+        targetIdx = Math.min(segs.length - 1, Math.max(1, Math.floor(segs.length / 2)));
+      }
+
+      const targetWord = segs[targetIdx];
+      const restTokens = segs.slice(0, targetIdx).concat(segs.slice(targetIdx + 1));
+      const correctSlot = targetIdx; // 0..restTokens.length
+      if (restTokens.length < 3) continue;
+
+      // Choose 4 distinct slot indices in 0..restTokens.length, always including correctSlot
+      const allSlots = [];
+      for (let s = 0; s <= restTokens.length; s++) {
+        if (s !== correctSlot) allSlots.push(s);
+      }
+      const distractors = seededShuffle(allSlots, (l.id || "l") + "_p4_" + items.length).slice(0, 3);
+      if (distractors.length < 3) continue;
+
+      const slots = [correctSlot].concat(distractors).sort(function (a, b) { return a - b; });
+      const letters = ["A", "B", "C", "D"];
+      const ansLetter = letters[slots.indexOf(correctSlot)];
+      const tInfo = lookupWordInfo(targetWord, l);
+
+      seenSent.add(pureSent);
+      items.push({
+        targetWord: targetWord,
+        targetPy: (tInfo && tInfo.py) || autoPinyinForZh(targetWord, l),
+        targetVi: (tInfo && tInfo.vi) || "",
+        restTokens: restTokens,
+        slots: slots, // 4 sorted insertion indices corresponding to A, B, C, D
+        ansLetter: ansLetter,
+        fullZh: pureSent,
+        py: sent.py || "",
+        vi: sent.vi || "",
+        exp: explainPosRule(targetWord, l)
+      });
+    }
+
+    // Fallback curated items for lessons with very short dialogues (e.g. Chương 0)
+    if (!items.length) {
+      const fallbacks = [
+        { targetWord: "也", targetPy: "yě", targetVi: "cũng", restTokens: ["我", "是", "中国", "学生"], slots: [0, 1, 2, 3], ansLetter: "B", fullZh: "我也是中国学生。", py: "Wǒ yě shì Zhōngguó xuésheng.", vi: "Tôi cũng là học sinh Trung Quốc.", exp: POS_FUNCTION_WORDS["也"] },
+        { targetWord: "很", targetPy: "hěn", targetVi: "rất", restTokens: ["今天", "天气", "好", "啊"], slots: [0, 1, 2, 4], ansLetter: "C", fullZh: "今天天气很好啊。", py: "Jīntiān tiānqì hěn hǎo a.", vi: "Thời tiết hôm nay rất đẹp.", exp: POS_FUNCTION_WORDS["很"] },
+        { targetWord: "都", targetPy: "dōu", targetVi: "đều", restTokens: ["我们", "喜欢", "学习", "汉语"], slots: [0, 1, 2, 3], ansLetter: "B", fullZh: "我们都喜欢学习汉语。", py: "Wǒmen dōu xǐhuan xuéxí Hànyǔ.", vi: "Chúng tôi đều thích học tiếng Hán.", exp: POS_FUNCTION_WORDS["都"] }
+      ];
+      return fallbacks;
+    }
+    return items;
+  }
+
+  function checkAndMarkWbDone(lesson, wbSt, p1Items, p2Items, p3Items, p4Items) {
     const p1Ready = !p1Items.length || wbSt.p1Graded;
     const p2Ready = !p2Items.length || p2Items.every(function (_, i) { return wbSt.p2Picked[i] !== undefined; });
     const p3Ready = !p3Items.length || p3Items.some(function (_, i) { return wbSt.p3GradedByQ[i] === true; });
-    if (p1Ready && p2Ready && p3Ready) {
+    const p4Ready = !p4Items || !p4Items.length || wbSt.p4Graded;
+    if (p1Ready && p2Ready && p3Ready && p4Ready) {
       if (!state.wbDone[lesson.id]) {
         state.wbDone[lesson.id] = true;
         saveWbDone();
@@ -1715,6 +2374,7 @@
     const p1Items = buildPart1Items(lesson);
     const p2Items = buildPart2Items(lesson);
     const p3Items = buildPart3Items(lesson);
+    const p4Items = buildPart4Items(lesson);
     const isWbDone = Boolean(state.wbDone[lesson.id]);
 
     // Part 1 HTML
@@ -1727,8 +2387,8 @@
     const p1Html = p1Items.length ? `
       <div class="wb-sec">
         <div class="wb-sec-head">
-          <h3 class="wb-sec-title">1️⃣ Phần 1 — Điền từ trọng tâm (选词填空)</h3>
-          ${wbSt.p1Graded ? `<span class="sl-counter-pill">✅ Kết quả: ${p1Score}/${p1Items.length}</span>` : `<span style="font-size:12px;color:var(--muted);">${p1Items.length} câu</span>`}
+          <h3 class="wb-sec-title wb-inline-icon">${wbIcon("edit", 15)}<span>Phần 1 — Điền từ trọng tâm (选词填空)</span></h3>
+          ${wbSt.p1Graded ? `<span class="sl-counter-pill">${wbIcon("check", 13)} Kết quả: ${p1Score}/${p1Items.length}</span>` : `<span style="font-size:12px;color:var(--muted);">${p1Items.length} câu</span>`}
         </div>
         ${p1Items.map(function (it, idx) {
           const pickedWord = wbSt.p1Picked[idx] || "";
@@ -1755,11 +2415,12 @@
               ${wbSt.p1Graded ? `
                 <div class="wb-fb ${isOk ? "ok" : "bad"}">
                   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-                    <div>
-                      <b>${isOk ? "✅ Chính xác!" : "❌ Đáp án đúng: " + esc(it.ansWord)}</b>
-                      <span style="color:var(--muted);"> (${esc(it.ansObj.pinyin)} — ${esc(it.ansObj.vi)})</span>
+                    <div class="wb-inline-icon">
+                      ${isOk ? wbIcon("check", 14) : wbIcon("x", 14)}
+                      <span><b>${isOk ? "Chính xác!" : "Đáp án đúng: " + esc(it.ansWord)}</b>
+                      <span style="color:var(--muted);"> (${esc(it.ansObj.pinyin)} — ${esc(it.ansObj.vi)})</span></span>
                     </div>
-                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.fullZh)}')" title="Nghe câu chuẩn">🔊</button>
+                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.fullZh)}')" title="Nghe câu chuẩn">${wbIcon("volume", 14)}</button>
                   </div>
                   ${it.kind === "cloze" ? `<div style="margin-top:4px;"><b>Câu chuẩn:</b> ${esc(it.fullZh)}${it.py ? ` <span class="py-text" style="color:var(--accent);">(${esc(it.py)})</span>` : ""}${it.vi ? `<div class="vi-text" style="color:var(--muted);">${esc(it.vi)}</div>` : ""}</div>` : ""}
                 </div>
@@ -1769,8 +2430,8 @@
         }).join("")}
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           ${wbSt.p1Graded
-            ? `<button class="ctrl-btn" onclick="window.HskLessonSlidesWorkbook.resetP1('${escJsAttr(lesson.id)}')">↺ Làm lại Phần 1</button>`
-            : `<button class="ctrl-btn on" onclick="window.HskLessonSlidesWorkbook.gradeP1('${escJsAttr(lesson.id)}')">✔️ Chấm &amp; Xem giải thích Phần 1</button>`}
+            ? `<button class="ctrl-btn" onclick="window.HskLessonSlidesWorkbook.resetP1('${escJsAttr(lesson.id)}')">${wbIcon("refresh", 13)} Làm lại Phần 1</button>`
+            : `<button class="ctrl-btn on" onclick="window.HskLessonSlidesWorkbook.gradeP1('${escJsAttr(lesson.id)}')">${wbIcon("check", 13)} Chấm &amp; Xem giải thích Phần 1</button>`}
         </div>
       </div>
     ` : "";
@@ -1779,7 +2440,7 @@
     const p2Html = p2Items.length ? `
       <div class="wb-sec">
         <div class="wb-sec-head">
-          <h3 class="wb-sec-title">2️⃣ Phần 2 — Bắt lỗi &amp; Sửa câu sai (改错句)</h3>
+          <h3 class="wb-sec-title wb-inline-icon">${wbIcon("target", 15)}<span>Phần 2 — Bắt lỗi &amp; Sửa câu sai (改错句)</span></h3>
           <span style="font-size:12px;color:var(--muted);">Chọn câu sửa đúng từ lỗi thường gặp</span>
         </div>
         ${p2Items.map(function (it, idx) {
@@ -1805,10 +2466,10 @@
               ${answered ? `
                 <div class="wb-fb ${isOk ? "ok" : "bad"}">
                   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-                    <b>${isOk ? "✅ Chuẩn xác!" : "❌ Chưa đúng. Đáp án chuẩn: " + esc(it.right)}</b>
-                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(extractZh(it.right))}')" title="Nghe câu chuẩn">🔊</button>
+                    <span class="wb-inline-icon">${isOk ? wbIcon("check", 14) : wbIcon("x", 14)}<b>${isOk ? "Chuẩn xác!" : "Chưa đúng. Đáp án chuẩn: " + esc(it.right)}</b></span>
+                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(extractZh(it.right))}')" title="Nghe câu chuẩn">${wbIcon("volume", 14)}</button>
                   </div>
-                  ${it.note ? `<div style="margin-top:5px;"><b>👨‍🏫 Giáo viên giải thích:</b> ${esc(it.note)}</div>` : ""}
+                  ${it.note ? `<div style="margin-top:5px;"><b>Giải thích:</b> ${esc(it.note)}</div>` : ""}
                 </div>
               ` : ""}
             </div>
@@ -1817,54 +2478,169 @@
       </div>
     ` : "";
 
-    // Part 3 HTML
+    // Part 3 HTML (Supports BOTH Tile Assembly & Typed Translation Hanzi/Pinyin)
     const p3Html = p3Items.length ? `
       <div class="wb-sec">
         <div class="wb-sec-head">
-          <h3 class="wb-sec-title">3️⃣ Phần 3 — Dịch &amp; Ghép câu Việt → Trung (翻译造句)</h3>
-          <span style="font-size:12px;color:var(--muted);">Bấm mảnh từ để ghép thành câu hoàn chỉnh</span>
+          <h3 class="wb-sec-title wb-inline-icon">${wbIcon("keyboard", 15)}<span>Phần 3 — Dịch Việt → Trung: Ghép thẻ hoặc Tự gõ (翻译造句)</span></h3>
+          <span style="font-size:12px;color:var(--muted);">Chuyển linh hoạt giữa Ghép thẻ &amp; Tự gõ Hán tự / Pinyin</span>
         </div>
         ${p3Items.map(function (it, qIdx) {
+          const mode = wbSt.p3ModeByQ[qIdx] || "tile";
           const pickedOrder = wbSt.p3PickedByQ[qIdx] || [];
+          const typedVal = wbSt.p3TypedByQ[qIdx] || "";
           const isGraded = Boolean(wbSt.p3GradedByQ[qIdx]);
-          const userStr = pickedOrder.map(function (bIdx) { return it.bank[bIdx] ? it.bank[bIdx].txt : ""; }).join("");
-          const isOk = isGraded && normZh(userStr) === normZh(it.answerZh);
+
+          let isOk = false;
+          let evalRes = null;
+          if (isGraded) {
+            if (mode === "type") {
+              evalRes = evaluateTranslationInput(typedVal, it.answerZh, it.py || autoPinyinForZh(it.answerZh, lesson), esc);
+              isOk = evalRes.exact || evalRes.pct >= 85;
+            } else {
+              const userStr = pickedOrder.map(function (bIdx) { return it.bank[bIdx] ? it.bank[bIdx].txt : ""; }).join("");
+              isOk = normZh(userStr) === normZh(it.answerZh);
+            }
+          }
 
           return `
             <div class="wb-item">
-              <div style="font-size:14.5px;font-weight:700;">🇻🇳 Câu ${qIdx + 1}: "${esc(it.vi)}"</div>
-              <div class="wb-tray">
-                ${pickedOrder.length
-                  ? pickedOrder.map(function (bIdx, pos) {
-                      return `<button class="wb-tile placed" onclick="window.HskLessonSlidesWorkbook.unpickP3('${escJsAttr(lesson.id)}',${qIdx},${pos})">${esc(it.bank[bIdx].txt)}</button>`;
-                    }).join("")
-                  : `<span style="font-size:13px;color:var(--muted);">Bấm lần lượt vào các thẻ chữ bên dưới để ghép câu...</span>`}
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                <div style="font-size:14.5px;font-weight:700;">Câu ${qIdx + 1}: “${esc(it.vi)}”</div>
+                <div class="wb-mode-bar" role="group" aria-label="Chế độ trả lời câu ${qIdx + 1}">
+                  <button type="button" class="wb-mode-btn ${mode === "tile" ? "on" : ""}" onclick="window.HskLessonSlidesWorkbook.setP3Mode('${escJsAttr(lesson.id)}',${qIdx},'tile')">${wbIcon("layers", 12)} Ghép thẻ</button>
+                  <button type="button" class="wb-mode-btn ${mode === "type" ? "on" : ""}" onclick="window.HskLessonSlidesWorkbook.setP3Mode('${escJsAttr(lesson.id)}',${qIdx},'type')">${wbIcon("keyboard", 12)} Tự gõ</button>
+                </div>
               </div>
-              <div class="wb-opts-row">
-                ${it.bank.map(function (bItem, bIdx) {
-                  const used = pickedOrder.includes(bIdx);
-                  return `<button class="wb-tile ${used ? "used" : ""}" onclick="window.HskLessonSlidesWorkbook.pickP3('${escJsAttr(lesson.id)}',${qIdx},${bIdx})">${esc(bItem.txt)}</button>`;
-                }).join("")}
-              </div>
+
+              ${mode === "type" ? `
+                <input type="text" class="wb-type-input" value="${esc(typedVal)}"
+                  placeholder="Gõ Chữ Hán (VD: 你好) hoặc Pinyin (VD: ni hao / nǐ hǎo) rồi nhấn Enter..."
+                  oninput="window.HskLessonSlidesWorkbook.setP3Typed('${escJsAttr(lesson.id)}',${qIdx},this.value)"
+                  onkeydown="if(event.key==='Enter'&&!event.isComposing&&event.keyCode!==229){event.preventDefault();window.HskLessonSlidesWorkbook.gradeP3('${escJsAttr(lesson.id)}',${qIdx});}">
+                <div class="wb-type-hint">Chấm linh hoạt cả Chữ Hán lẫn Pinyin (có dấu thanh, số thanh 1–5 hoặc không dấu đều được nhận diện).</div>
+              ` : `
+                <div class="wb-tray">
+                  ${pickedOrder.length
+                    ? pickedOrder.map(function (bIdx, pos) {
+                        return `<button class="wb-tile placed" onclick="window.HskLessonSlidesWorkbook.unpickP3('${escJsAttr(lesson.id)}',${qIdx},${pos})">${esc(it.bank[bIdx].txt)}</button>`;
+                      }).join("")
+                    : `<span style="font-size:13px;color:var(--muted);">Bấm lần lượt vào các thẻ chữ bên dưới để ghép câu...</span>`}
+                </div>
+                <div class="wb-opts-row">
+                  ${it.bank.map(function (bItem, bIdx) {
+                    const used = pickedOrder.includes(bIdx);
+                    return `<button class="wb-tile ${used ? "used" : ""}" onclick="window.HskLessonSlidesWorkbook.pickP3('${escJsAttr(lesson.id)}',${qIdx},${bIdx})">${esc(bItem.txt)}</button>`;
+                  }).join("")}
+                </div>
+              `}
+
               <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button class="ctrl-btn on" onclick="window.HskLessonSlidesWorkbook.gradeP3('${escJsAttr(lesson.id)}',${qIdx})">✔️ Kiểm tra câu ${qIdx + 1}</button>
-                <button class="ctrl-btn" onclick="window.HskLessonSlidesWorkbook.resetP3('${escJsAttr(lesson.id)}',${qIdx})">↺ Ghép lại</button>
+                <button class="ctrl-btn on" onclick="window.HskLessonSlidesWorkbook.gradeP3('${escJsAttr(lesson.id)}',${qIdx})">${wbIcon("check", 13)} Kiểm tra câu ${qIdx + 1}</button>
+                <button class="ctrl-btn" onclick="window.HskLessonSlidesWorkbook.resetP3('${escJsAttr(lesson.id)}',${qIdx})">${wbIcon("refresh", 13)} Làm lại</button>
               </div>
               ${isGraded ? `
                 <div class="wb-fb ${isOk ? "ok" : "bad"}">
                   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-                    <div>
-                      <b>${isOk ? "✅ Chính xác tuyệt đối!" : "❌ Chưa khớp đáp án chuẩn."}</b>
+                    <div style="min-width:0;">
+                      <div class="wb-inline-icon">
+                        ${isOk ? wbIcon("check", 14) : wbIcon("x", 14)}
+                        <b>${mode === "type" && evalRes
+                          ? (evalRes.exact ? "Chính xác tuyệt đối (100%)!" : (isOk ? "Đạt yêu cầu (" + evalRes.pct + "%)!" : "Chưa khớp (" + evalRes.pct + "%)."))
+                          : (isOk ? "Chính xác tuyệt đối!" : "Chưa khớp đáp án chuẩn.")}</b>
+                      </div>
+                      ${mode === "type" && evalRes && evalRes.diffHtml ? `<div style="margin-top:4px;font-size:14px;">Đối chiếu (${evalRes.mode === "py" ? "Pinyin" : "Hán tự"}): ${evalRes.diffHtml}</div>` : ""}
                       <div style="margin-top:3px;"><b>Đáp án chuẩn:</b> ${esc(it.answerZh)}</div>
                       ${it.py ? `<div class="py-text" style="color:var(--accent);font-size:13px;">${esc(it.py)}</div>` : ""}
                     </div>
-                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.answerZh)}')" title="Nghe câu chuẩn">🔊</button>
+                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.answerZh)}')" title="Nghe câu chuẩn">${wbIcon("volume", 14)}</button>
                   </div>
                 </div>
               ` : ""}
             </div>
           `;
         }).join("")}
+      </div>
+    ` : "";
+
+    // Part 4 HTML — Choose exact [A][B][C][D] position for word/function word
+    let p4Score = 0;
+    if (wbSt.p4Graded) {
+      p4Items.forEach(function (it, i) {
+        if (wbSt.p4Picked[i] === it.ansLetter) p4Score++;
+      });
+    }
+    const p4Html = p4Items.length ? `
+      <div class="wb-sec">
+        <div class="wb-sec-head">
+          <h3 class="wb-sec-title wb-inline-icon">${wbIcon("split", 15)}<span>Phần 4 — Chọn đúng vị trí [A] [B] [C] [D] trong câu (语序填空)</span></h3>
+          ${wbSt.p4Graded ? `<span class="sl-counter-pill">${wbIcon("check", 13)} Kết quả: ${p4Score}/${p4Items.length}</span>` : `<span style="font-size:12px;color:var(--muted);">Chuẩn Sách Bài Tập HSK • ${p4Items.length} câu</span>`}
+        </div>
+        ${p4Items.map(function (it, idx) {
+          const pickedLetter = wbSt.p4Picked[idx] || "";
+          const isOk = wbSt.p4Graded && pickedLetter === it.ansLetter;
+          const letters = ["A", "B", "C", "D"];
+
+          // Build sentence with inline [A] [B] [C] [D] buttons
+          let sentHtml = "";
+          for (let pos = 0; pos <= it.restTokens.length; pos++) {
+            const slotIdx = it.slots.indexOf(pos);
+            if (slotIdx !== -1) {
+              const lt = letters[slotIdx];
+              let sCls = "wb-slot-btn";
+              if (wbSt.p4Graded) {
+                if (lt === it.ansLetter) sCls += " ok";
+                else if (lt === pickedLetter) sCls += " bad";
+              } else if (lt === pickedLetter) {
+                sCls += " sel";
+              }
+              const slotLabel = (wbSt.p4Graded && lt === it.ansLetter) ? `${lt}: ${it.targetWord}` : lt;
+              sentHtml += `<button type="button" class="${sCls}" ${wbSt.p4Graded ? "disabled" : ""} onclick="window.HskLessonSlidesWorkbook.pickP4('${escJsAttr(lesson.id)}',${idx},'${lt}')">${esc(slotLabel)}</button>`;
+            }
+            if (pos < it.restTokens.length) {
+              sentHtml += esc(it.restTokens[pos]);
+            }
+          }
+
+          return `
+            <div class="wb-item">
+              <div class="wb-pos-word-row">
+                <b>Câu ${idx + 1}:</b> Đặt từ/hư từ sau vào đúng vị trí trong câu:
+                <span class="wb-pos-word-pill">${esc(it.targetWord)}${it.targetPy ? ` <small class="py-text" style="font-weight:700;opacity:0.85;">(${esc(it.targetPy)})</small>` : ""}</span>
+                ${it.targetVi ? `<span class="vi-text" style="font-size:12.5px;">— ${esc(it.targetVi)}</span>` : ""}
+              </div>
+              <div class="wb-pos-sent">${sentHtml}</div>
+              <div class="wb-opts-row">
+                ${letters.map(function (lt) {
+                  let cls = "wb-opt-pill";
+                  if (wbSt.p4Graded) {
+                    if (lt === it.ansLetter) cls += " ok";
+                    else if (lt === pickedLetter) cls += " bad";
+                  } else if (lt === pickedLetter) {
+                    cls += " sel";
+                  }
+                  return `<button type="button" class="${cls}" ${wbSt.p4Graded ? "disabled" : ""} onclick="window.HskLessonSlidesWorkbook.pickP4('${escJsAttr(lesson.id)}',${idx},'${lt}')">Vị trí [${lt}]</button>`;
+                }).join("")}
+              </div>
+              ${wbSt.p4Graded ? `
+                <div class="wb-fb ${isOk ? "ok" : "bad"}">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span class="wb-inline-icon">${isOk ? wbIcon("check", 14) : wbIcon("x", 14)}<b>${isOk ? "Chính xác! Vị trí [" + it.ansLetter + "]" : "Đáp án đúng: Vị trí [" + it.ansLetter + "]"}</b></span>
+                    <button class="spk-btn" onclick="window.HskLessonSlidesWorkbook.speakRaw('${escJsAttr(it.fullZh)}')" title="Nghe câu hoàn chỉnh">${wbIcon("volume", 14)}</button>
+                  </div>
+                  <div style="margin-top:4px;"><b>Câu chuẩn:</b> ${highlightZhMatch(it.fullZh, it.targetWord, esc)}${it.py ? ` <span class="py-text" style="color:var(--accent);">(${esc(it.py)})</span>` : ""}</div>
+                  ${it.vi ? `<div class="vi-text" style="color:var(--muted);margin-top:2px;">${esc(it.vi)}</div>` : ""}
+                  <div style="margin-top:5px;"><b>Quy tắc ngữ pháp:</b> ${esc(it.exp)}</div>
+                </div>
+              ` : ""}
+            </div>
+          `;
+        }).join("")}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${wbSt.p4Graded
+            ? `<button class="ctrl-btn" onclick="window.HskLessonSlidesWorkbook.resetP4('${escJsAttr(lesson.id)}')">${wbIcon("refresh", 13)} Làm lại Phần 4</button>`
+            : `<button class="ctrl-btn on" onclick="window.HskLessonSlidesWorkbook.gradeP4('${escJsAttr(lesson.id)}')">${wbIcon("check", 13)} Chấm &amp; Xem giải thích Phần 4</button>`}
+        </div>
       </div>
     ` : "";
 
@@ -1872,18 +2648,19 @@
     const pureTitleZh = (lesson.title || "").split("(")[0].trim();
     const ytSearchUrl = "https://www.youtube.com/results?search_query=" + encodeURIComponent((lesson.level === 0 ? "Pinyin tiếng Trung " : ("Giáo trình chuẩn HSK " + lesson.level + " ")) + pureTitleZh);
     const ytCourseAudio = (lesson.level === 0 || lesson.level === 1)
-      ? `<a class="wb-ext-btn" href="https://www.youtube.com/watch?v=VLgbV1ZFlX8&list=PLDCzZfh3IvCOOwtcpBCtsBi67yNIkJ-kO" target="_blank" rel="noopener noreferrer">🎧 Playlist File Nghe HSK 1 (Công khai)</a>`
+      ? `<a class="wb-ext-btn" href="https://www.youtube.com/watch?v=VLgbV1ZFlX8&list=PLDCzZfh3IvCOOwtcpBCtsBi67yNIkJ-kO" target="_blank" rel="noopener noreferrer">${wbIcon("headphones", 13)} Playlist File Nghe HSK 1 (Công khai)</a>`
       : (lesson.level === 2
-        ? `<a class="wb-ext-btn" href="https://www.youtube.com/playlist?list=PLDCzZfh3IvCM5MFPF2U_L6VcCVJf4jNWi" target="_blank" rel="noopener noreferrer">🎧 Playlist File Nghe HSK 2 (Công khai)</a>`
+        ? `<a class="wb-ext-btn" href="https://www.youtube.com/playlist?list=PLDCzZfh3IvCM5MFPF2U_L6VcCVJf4jNWi" target="_blank" rel="noopener noreferrer">${wbIcon("headphones", 13)} Playlist File Nghe HSK 2 (Công khai)</a>`
         : "");
 
     const wbDoneBanner = `
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 13px;border-radius:12px;background:var(--bg);border:1px solid ${isWbDone ? "#16a34a" : "var(--border)"};">
-        <span style="font-size:13.5px;font-weight:800;color:${isWbDone ? "var(--ok)" : "var(--text)"};">
-          ${isWbDone ? "✅ Bạn đã hoàn thành phần Chữa bài tập của bài này!" : "📝 Hãy làm hết 3 phần thực chiến bên dưới rồi bấm Hoàn thành."}
+        <span class="wb-inline-icon" style="font-size:13.5px;font-weight:800;color:${isWbDone ? "var(--ok)" : "var(--text)"};">
+          ${isWbDone ? wbIcon("check", 15) : wbIcon("edit", 15)}
+          <span>${isWbDone ? "Bạn đã hoàn thành phần Chữa bài tập của bài này!" : "Hãy làm hết 4 phần thực chiến bên dưới rồi bấm Hoàn thành."}</span>
         </span>
         <button class="ctrl-btn ${isWbDone ? "on" : ""}" onclick="window.HskLessonSlidesWorkbook.toggleWbDone('${escJsAttr(lesson.id)}')">
-          ${isWbDone ? "✅ Đã xong Bài tập" : "○ Đánh dấu xong Bài tập"}
+          ${isWbDone ? wbIcon("check", 13) + " Đã xong Bài tập" : wbIcon("circle", 13) + " Đánh dấu xong Bài tập"}
         </button>
       </div>
     `;
@@ -1894,14 +2671,15 @@
         ${p1Html}
         ${p2Html}
         ${p3Html}
+        ${p4Html}
         <div class="wb-ext-card">
-          <div style="font-size:13.5px;font-weight:800;">🎧 Nguồn nghe &amp; Video giảng công khai mở rộng</div>
+          <div class="wb-inline-icon" style="font-size:13.5px;font-weight:800;">${wbIcon("headphones", 15)}<span>Nguồn nghe &amp; Video giảng công khai mở rộng</span></div>
           <div style="font-size:12.5px;color:var(--muted);line-height:1.5;">
-            Các video/slide gốc trong khóa riêng tư đã được chuyển hóa thành <b>Slide giảng tương tác</b> &amp; <b>3 phần Chữa bài tập</b> ngay trên app. Nếu bạn muốn nghe thêm bài giảng video công khai trên YouTube:
+            Các bài học đã được chuyển hóa thành <b>Slide giảng tương tác</b> &amp; <b>4 phần Chữa bài tập chuẩn Sách Bài Tập HSK</b> ngay trên app. Nếu bạn muốn nghe thêm bài giảng video công khai trên YouTube:
           </div>
           <div class="wb-ext-links">
             ${ytCourseAudio}
-            <a class="wb-ext-btn" href="${ytSearchUrl}" target="_blank" rel="noopener noreferrer">📺 Tìm video giảng bài này trên YouTube</a>
+            <a class="wb-ext-btn" href="${ytSearchUrl}" target="_blank" rel="noopener noreferrer">${wbIcon("play", 13)} Tìm video giảng bài này trên YouTube</a>
           </div>
         </div>
       </div>
@@ -1943,7 +2721,7 @@
     wbSt.p1Graded = true;
     const l = state.lastHelpers && typeof state.lastHelpers.getCurrentLesson === "function" ? state.lastHelpers.getCurrentLesson() : null;
     if (l && l.id === lessonId) {
-      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l));
+      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l), buildPart4Items(l));
     }
     refreshStage();
   }
@@ -1960,7 +2738,7 @@
     wbSt.p2Picked[idx] = optIdx;
     const l = state.lastHelpers && typeof state.lastHelpers.getCurrentLesson === "function" ? state.lastHelpers.getCurrentLesson() : null;
     if (l && l.id === lessonId) {
-      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l));
+      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l), buildPart4Items(l));
     }
     refreshStage();
   }
@@ -1981,12 +2759,24 @@
     refreshStage();
   }
 
+  function setP3Mode(lessonId, qIdx, mode) {
+    const wbSt = ensureWbLessonState(lessonId);
+    wbSt.p3ModeByQ[qIdx] = mode === "type" ? "type" : "tile";
+    wbSt.p3GradedByQ[qIdx] = false;
+    refreshStage();
+  }
+
+  function setP3Typed(lessonId, qIdx, val) {
+    const wbSt = ensureWbLessonState(lessonId);
+    wbSt.p3TypedByQ[qIdx] = String(val || "");
+  }
+
   function gradeP3(lessonId, qIdx) {
     const wbSt = ensureWbLessonState(lessonId);
     wbSt.p3GradedByQ[qIdx] = true;
     const l = state.lastHelpers && typeof state.lastHelpers.getCurrentLesson === "function" ? state.lastHelpers.getCurrentLesson() : null;
     if (l && l.id === lessonId) {
-      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l));
+      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l), buildPart4Items(l));
     }
     refreshStage();
   }
@@ -1994,7 +2784,32 @@
   function resetP3(lessonId, qIdx) {
     const wbSt = ensureWbLessonState(lessonId);
     wbSt.p3PickedByQ[qIdx] = [];
+    wbSt.p3TypedByQ[qIdx] = "";
     wbSt.p3GradedByQ[qIdx] = false;
+    refreshStage();
+  }
+
+  function pickP4(lessonId, idx, letter) {
+    const wbSt = ensureWbLessonState(lessonId);
+    if (wbSt.p4Graded) return;
+    wbSt.p4Picked[idx] = letter;
+    refreshStage();
+  }
+
+  function gradeP4(lessonId) {
+    const wbSt = ensureWbLessonState(lessonId);
+    wbSt.p4Graded = true;
+    const l = state.lastHelpers && typeof state.lastHelpers.getCurrentLesson === "function" ? state.lastHelpers.getCurrentLesson() : null;
+    if (l && l.id === lessonId) {
+      checkAndMarkWbDone(l, wbSt, buildPart1Items(l), buildPart2Items(l), buildPart3Items(l), buildPart4Items(l));
+    }
+    refreshStage();
+  }
+
+  function resetP4(lessonId) {
+    const wbSt = ensureWbLessonState(lessonId);
+    wbSt.p4Picked = {};
+    wbSt.p4Graded = false;
     refreshStage();
   }
 
@@ -2020,6 +2835,7 @@
     renderRichGrammarSection: renderRichGrammarSection,
     renderRichDialogueSection: renderRichDialogueSection,
     renderRichRightWrongSection: renderRichRightWrongSection,
+    renderConfusableSection: renderConfusableSection,
     toggleWbw: toggleWbw,
     scrollToSec: scrollToSec,
     resetForLesson: resetForLesson,
@@ -2036,8 +2852,13 @@
     pickP2: pickP2,
     pickP3: pickP3,
     unpickP3: unpickP3,
+    setP3Mode: setP3Mode,
+    setP3Typed: setP3Typed,
     gradeP3: gradeP3,
     resetP3: resetP3,
+    pickP4: pickP4,
+    gradeP4: gradeP4,
+    resetP4: resetP4,
     toggleWbDone: toggleWbDone,
     isWbDone: isWbDone
   };

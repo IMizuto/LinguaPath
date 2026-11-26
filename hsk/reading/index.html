@@ -875,7 +875,7 @@
               ${info.radical ? `<span class="lp-rtag">Bộ: ${esc(info.radical)}</span>` : ""}
             </div>
           </div>
-          <button type="button" class="lp-rpop-close" onclick="closeReadingPopup()" aria-label="Đóng">✕</button>
+          <button type="button" class="lp-rpop-close" onclick="closeReadingPopup()" aria-label="Đóng">${hIcon("close", 14)}</button>
         </div>
         <div class="lp-rpop-vi">
           <b>Nghĩa:</b> ${info.vi ? esc(info.vi) : '<span style="color:var(--muted);">Chưa có nghĩa tóm tắt riêng — bạn có thể bấm Tập viết để xem nét bút thuận.</span>'}
@@ -891,8 +891,8 @@
           </div>
         ` : ""}
         <div class="lp-rpop-actions">
-          <button type="button" class="lp-rpop-btn" onclick="speakZh('${escJsAttr(info.word)}','${escJsAttr(info.py)}')">🔊 Nghe phát âm</button>
-          <a class="lp-rpop-btn primary" href="${wUrl}">✍️ Tập viết chữ này</a>
+          <button type="button" class="lp-rpop-btn" onclick="speakZh('${escJsAttr(info.word)}','${escJsAttr(info.py)}')">${hIcon("volume", 14)} Nghe phát âm</button>
+          <a class="lp-rpop-btn primary" href="${wUrl}">${hIcon("edit", 14)} Tập viết chữ này</a>
         </div>
       `;
       dom.bd.classList.add("show");
@@ -1028,7 +1028,7 @@
         const map = {
           fill: "Điền từ vào chỗ trống",
           order: "Sắp xếp câu A–B–C",
-          error: "Tìm câu bệnh ngữ",
+          error: "Tìm câu bệnh ngữ (语病题)",
           insert: "Điền câu vào đoạn",
           tf: "Đúng / Sai",
           match: "Ghép nối thông tin",

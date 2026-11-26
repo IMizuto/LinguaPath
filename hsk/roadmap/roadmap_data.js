@@ -97,48 +97,48 @@
     "hsk6_11", "hsk6_12", "hsk6_13", "hsk6_14", "hsk6_15"
   ];
 
-  // ID thật 108 chuyên đề ngữ pháp (grammar_data.js + grammar_data_adv.js)
+  // ID thật 120 chuyên đề ngữ pháp (grammar_data.js + grammar_data_adv.js)
   var HSK1_GRAMMAR_IDS = [
     "hsk1_shi_you_zai", "hsk1_ma_ne_ba", "hsk1_de_pos", "hsk1_time_place_order",
     "hsk1_interrogative_pronouns", "hsk1_v_bu_v_questions", "hsk1_numbers_liang_er", "hsk1_time_date_money",
     "hsk1_measure_words_intro", "hsk1_bu_mei_negation", "hsk1_adj_predicate_hen", "hsk1_he_gen_ye_dou",
     "hsk1_modal_xiang_yao_hui_neng", "hsk1_duo_adj_age", "hsk1_verb_reduplication_yi", "hsk1_le_end_of_sentence",
-    "hsk1_qu_lai_serial_verbs", "hsk1_location_nouns"
+    "hsk1_qu_lai_serial_verbs", "hsk1_location_nouns", "hsk1_tone_sandhi_erhua", "hsk1_clock_age_price"
   ];
   var HSK2_GRAMMAR_IDS = [
     "hsk2_bi_meiyou", "hsk2_le_guo", "hsk2_de_degree_manner", "hsk2_zhengzai_zhe",
     "hsk2_shi_de_emphasis", "hsk2_cong_li_wang", "hsk2_gen_yiyang", "hsk2_haishi_huozhe",
     "hsk2_youdianr_yidianr", "hsk2_yao_kuaiyao_le", "hsk2_bie_buyao_imperative", "hsk2_yinwei_suoyi",
     "hsk2_suiran_danshi", "hsk2_ruguo_jiu", "hsk2_yi_jiu_sequence", "hsk2_hai_zai_you_freq",
-    "hsk2_chang_yiban_frequency", "hsk2_neng_keyi_hui"
+    "hsk2_chang_yiban_frequency", "hsk2_neng_keyi_hui", "hsk2_separable_verbs", "hsk2_prepositions_bang_ti_yong"
   ];
   var HSK3_GRAMMAR_IDS = [
     "hsk3_result_complement", "hsk3_direction_complement", "hsk3_ba_sentence", "hsk3_bei_passive",
     "hsk3_potential_complement", "hsk3_duration_complement", "hsk3_frequency_complement", "hsk3_yibian_yibian",
     "hsk3_yue_yue", "hsk3_chule_yiwai", "hsk3_lian_dou_emphasis", "hsk3_jiu_cai_basic",
     "hsk3_gang_gangcai", "hsk3_budan_erqie_ji_you", "hsk3_zhiyou_zhiyao", "hsk3_xian_zai_ranhou",
-    "hsk3_existential_sentences", "hsk3_interrogative_indefinite"
+    "hsk3_existential_sentences", "hsk3_interrogative_indefinite", "hsk3_five_tiers_comparison", "hsk3_polyphonic_words"
   ];
   var HSK4_GRAMMAR_IDS = [
     "hsk4_jiu_cai", "hsk4_zai_you", "hsk4_complex_conj", "hsk4_pivotal_serial",
     "hsk4_ji_you_he", "hsk4_jiran_jiu", "hsk4_jishi_napa", "hsk4_chufei_fouze",
     "hsk4_bushi_ershi", "hsk4_faner_que", "hsk4_daodi_jiujing", "hsk4_xiang_dangran",
     "hsk4_ba_bei_adv", "hsk4_direction_comp_basic", "hsk4_result_state_comp", "hsk4_shihe_heshi",
-    "hsk4_zhongyu_daodi", "hsk4_zhishi_zhiyou"
+    "hsk4_zhongyu_daodi", "hsk4_zhishi_zhiyou", "hsk4_measure_reduplication", "hsk4_correlative_interrogatives"
   ];
   var HSK5_GRAMMAR_IDS = [
     "hsk5_reduplication", "hsk5_rhetorical_question", "hsk5_potential_complement", "hsk5_confusable_adv",
     "hsk5_yuqi_ningke", "hsk5_bujin_shenzhi", "hsk5_wulun_buguan", "hsk5_dui_guanyu_zhanyu",
     "hsk5_youyu_yinci", "hsk5_chong_direction_ext", "hsk5_degree_possibility_comp", "hsk5_jianzhi_shizai",
     "hsk5_jurang_jingran_ouran", "hsk5_baochi_weichi_jianchi", "hsk5_jieguo_houguo_chengguo", "hsk5_chengyu_study_effort",
-    "hsk5_chengyu_life_social", "hsk5_chengyu_nature_emotion"
+    "hsk5_chengyu_life_social", "hsk5_chengyu_nature_emotion", "hsk5_synonyms_action_state", "hsk5_synonyms_cognition_eval"
   ];
   var HSK6_GRAMMAR_IDS = [
     "hsk6_formal_conj", "hsk6_classical_patterns", "hsk6_emphasis_inversion", "hsk6_confusable_words",
     "hsk6_zhisuoyi_eryan", "hsk6_wubu_wufei_wuyi", "hsk6_zhi_suo_zhe", "hsk6_sentence_errors_1",
     "hsk6_sentence_errors_2", "hsk6_yizhi_conger", "hsk6_jiezhi_bixu", "hsk6_nanmian_weimian",
     "hsk6_yihan_quexi_juedui", "hsk6_aspect_register_comp", "hsk6_chengyu_strategy", "hsk6_chengyu_logic_irony",
-    "hsk6_chengyu_virtue_talent", "hsk6_chengyu_society_change"
+    "hsk6_chengyu_virtue_talent", "hsk6_chengyu_society_change", "hsk6_synonyms_formal_verbs", "hsk6_synonyms_abstract_nouns"
   ];
 
   // ID thật 36 đề Nghe (hsk/listening/listening_data.js)
@@ -189,7 +189,7 @@
       levelRange: "Pinyin → HSK 1",
       baseWeeksMin: 4,
       baseWeeksMax: 5,
-      goal: "Đọc chuẩn 21 thanh mẫu, 36 vận mẫu, nắm 150 từ cốt lõi, 50 bộ thủ và 18 cấu trúc câu đơn.",
+      goal: "Đọc chuẩn 21 thanh mẫu, 36 vận mẫu, nắm 150 từ cốt lõi, 50 bộ thủ và 20 cấu trúc câu đơn.",
       tip: "Hoàn thành 3 bài Chương 0 Pinyin và 20 cặp thanh điệu trước khi vào bài khóa HSK 1.",
       tasks: [
         {
@@ -250,7 +250,7 @@
           id: "hsk1_grammar",
           module: "grammar",
           moduleLabel: "Ngữ pháp",
-          title: "18 chuyên đề Ngữ pháp HSK 1",
+          title: "20 chuyên đề Ngữ pháp HSK 1",
           desc: "Câu chữ 是/有/在, câu hỏi 吗/呢/吧, từ để hỏi và phủ định 不/没.",
           evalType: "id_list",
           storageKey: "lp_hsk_grammar_done_v1",
@@ -289,14 +289,14 @@
           id: "hsk1_chars",
           module: "writing",
           moduleLabel: "Luyện viết",
-          title: "20 chữ Hán khung chữ Mễ cơ bản",
-          desc: "Luyện đúng thứ tự nét bút thuận của 20 chữ Hán mở đầu.",
+          title: "40 chữ Hán khung chữ Mễ HSK 1",
+          desc: "Luyện đúng thứ tự nét bút thuận của 40 chữ Hán nền tảng HSK 1.",
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "chars",
           offset: 0,
-          target: 20,
-          defaultUrl: "hsk/writing/index.html?level=1",
+          target: 40,
+          defaultUrl: "hsk/writing/index.html?tab=canvas&level=1",
           unitLabel: "chữ"
         },
         {
@@ -395,7 +395,7 @@
           id: "hsk2_grammar",
           module: "grammar",
           moduleLabel: "Ngữ pháp",
-          title: "18 chuyên đề Ngữ pháp HSK 2",
+          title: "20 chuyên đề Ngữ pháp HSK 2",
           desc: "So sánh 比, trợ từ 了/过/着, cấu trúc 是…的 và liên từ cơ bản.",
           evalType: "id_list",
           storageKey: "lp_hsk_grammar_done_v1",
@@ -434,14 +434,14 @@
           id: "hsk2_chars",
           module: "writing",
           moduleLabel: "Luyện viết",
-          title: "20 chữ Hán khung chữ Mễ HSK 2",
-          desc: "Luyện viết cân đối các chữ ghép 2 bộ thủ trái-phải và trên-dưới.",
+          title: "40 chữ Hán khung chữ Mễ HSK 2",
+          desc: "Luyện viết cân đối 40 chữ ghép 2 bộ thủ và cặp dễ nhầm (买/卖, 人/入, 午/牛).",
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "chars",
-          offset: 20,
-          target: 20,
-          defaultUrl: "hsk/writing/index.html?level=2",
+          offset: 40,
+          target: 40,
+          defaultUrl: "hsk/writing/index.html?tab=canvas&level=2",
           unitLabel: "chữ"
         },
         {
@@ -552,7 +552,7 @@
           id: "hsk3_grammar",
           module: "grammar",
           moduleLabel: "Ngữ pháp",
-          title: "18 chuyên đề Ngữ pháp HSK 3",
+          title: "20 chuyên đề Ngữ pháp HSK 3",
           desc: "Bổ ngữ kết quả/xu hướng/khả năng, câu chữ 把, bị động 被 và liên từ kép.",
           evalType: "id_list",
           storageKey: "lp_hsk_grammar_done_v1",
@@ -606,15 +606,15 @@
           id: "hsk3_pinyin_write",
           module: "writing",
           moduleLabel: "Luyện viết",
-          title: "10 bài Nhìn Pinyin viết chữ HSK 3",
-          desc: "Luyện nhớ mặt chữ và điền chữ Hán vào câu theo gợi ý Pinyin.",
+          title: "10 bài Nhìn Pinyin viết chữ HSK 3 (trong bộ 40 bài)",
+          desc: "Luyện nhớ mặt chữ và điền chữ Hán vào câu theo gợi ý Pinyin (bộ 40 bài HSK 1–3).",
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "pinyinWrite",
           prefix: "pw3_",
           offset: 0,
           target: 10,
-          defaultUrl: "hsk/writing/index.html?level=3",
+          defaultUrl: "hsk/writing/index.html?tab=pinyin&level=3",
           unitLabel: "bài"
         },
         {
@@ -725,7 +725,7 @@
           id: "hsk4_grammar",
           module: "grammar",
           moduleLabel: "Ngữ pháp",
-          title: "18 chuyên đề Ngữ pháp HSK 4",
+          title: "20 chuyên đề Ngữ pháp HSK 4",
           desc: "Cặp liên từ 既然…就, 即使…也, 除非…否则 và phân biệt cặp từ gần nghĩa.",
           evalType: "id_list",
           storageKey: "lp_hsk_grammar_done_v1",
@@ -913,7 +913,7 @@
           id: "hsk5_grammar",
           module: "grammar",
           moduleLabel: "Ngữ pháp",
-          title: "18 chuyên đề Ngữ pháp HSK 5",
+          title: "20 chuyên đề Ngữ pháp HSK 5",
           desc: "Câu phản vấn, cặp phó từ dễ nhầm, phân biệt động từ và 3 nhóm thành ngữ.",
           evalType: "id_list",
           storageKey: "lp_hsk_grammar_done_v1",
@@ -1057,7 +1057,7 @@
           id: "hsk6_grammar",
           module: "grammar",
           moduleLabel: "Ngữ pháp",
-          title: "18 chuyên đề Ngữ pháp HSK 6",
+          title: "20 chuyên đề Ngữ pháp HSK 6",
           desc: "Cấu trúc cổ văn, nhận diện 2 dạng câu bệnh và 4 nhóm thành ngữ cao cấp.",
           evalType: "id_list",
           storageKey: "lp_hsk_grammar_done_v1",
@@ -1069,14 +1069,14 @@
           id: "hsk6_chars",
           module: "writing",
           moduleLabel: "Luyện viết",
-          title: "20 chữ Hán phức tạp (Đủ 60 chữ Mễ)",
-          desc: "Củng cố chính xác nét viết tay các chữ Hán nhiều nét hay viết nhầm.",
+          title: "40 chữ Hán mở rộng & dễ nhầm (Đủ 120 chữ Mễ)",
+          desc: "Củng cố chính xác nét viết tay 40 chữ HSK 3 kèm cặp dễ nhầm (大/太/犬, 己/已/巳, 未/末).",
           evalType: "hsk_writing_bucket",
           storageKey: "lp_hsk_writing_done_v1",
           bucket: "chars",
-          offset: 40,
-          target: 20,
-          defaultUrl: "hsk/writing/index.html?level=6",
+          offset: 80,
+          target: 40,
+          defaultUrl: "hsk/writing/index.html?tab=canvas&level=3",
           unitLabel: "chữ"
         },
         {

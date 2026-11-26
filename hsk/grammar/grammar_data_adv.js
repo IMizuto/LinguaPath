@@ -1,4 +1,4 @@
-/* LinguaPath — HSK 4–6 Advanced Grammar Handbook Data (54 Core & Advanced Topics) */
+/* LinguaPath — HSK 4–6 Advanced Grammar Handbook Data (60 Advanced Topics) */
 window.LP_HSK_GRAMMAR_ADV_DATA = [
   {
     "id": "hsk4_jiu_cai",
@@ -1473,6 +1473,170 @@ window.LP_HSK_GRAMMAR_ADV_DATA = [
         ],
         "ans": 1,
         "exp": "特别 đứng trước tính từ 好 để tăng mức độ (cực kỳ đẹp)."
+      }
+    ]
+  },
+  {
+    "id": "hsk4_measure_reduplication",
+    "level": 4,
+    "category": "Phó từ & Hư từ",
+    "title": "Lặp lại lượng từ & danh từ (一个一个 / 天天 / 年年 / 人人)",
+    "formula": "Lượng từ lặp (AA / 一AA): 'mỗi/từng...' | Danh từ đơn âm (天天/年年/人人/家家): 'mọi/hằng...'",
+    "summary": "Trong tiếng Trung, lặp lại lượng từ (个个, 件件, 一个一个) hoặc một số danh từ đơn âm đặc biệt (天天, 年年, 人人, 家家, 处处) tạo sắc thái 'tất cả, từng cái một, không sót cái nào' cực kỳ sinh động. Khác biệt quan trọng là 'AA' thường đi với 都 (nhấn mạnh toàn bộ), còn '一AA / 一个一个' đứng trước động từ nhấn mạnh thứ tự lần lượt từng cái một.",
+    "deepNotesHtml": "<p><strong>1. Ba dạng lặp lại phổ biến ở HSK 4:</strong></p><ul><li><em>Dạng AA (个个, 句句, 条条, 次次):</em> Mang nghĩa <strong>“cái nào cũng / mỗi một... đều”</strong>, làm chủ ngữ hoặc định ngữ, thường kết hợp phó từ <code>都</code>: <code>他们班学生个个都很优秀</code> (Học sinh lớp họ em nào cũng xuất sắc).</li><li><em>Dạng 一AA / 一个一个(地):</em> Làm trạng ngữ trước động từ chỉ <strong>thứ tự lần lượt</strong>: <code>请大家一个一个进教室</code> (Mời mọi người vào lớp từng người một); hoặc làm định ngữ nhấn mạnh <strong>số lượng nhiều</strong>: <code>一座座高楼</code> (từng tòa nhà cao tầng san sát).</li><li><em>Danh từ đơn âm lặp lại (天天, 年年, 人人, 家家, 处处, 时时):</em> Mang nghĩa “ngày nào cũng, năm nào cũng, người người, nhà nhà, khắp nơi”. Lưu ý: KHÔNG phải danh từ nào cũng lặp được (không nói <em>书书</em> hay <em>桌子桌子</em>).</li></ul><p><strong>2. Bẫy thi HSK 4:</strong> Sau danh từ lặp như <code>天天 / 人人</code> không thêm <code>每</code> (không nói <em>每天天天</em>), và trước <code>个个 / 人人</code> không thêm số từ.</p>",
+    "examples": [
+      {
+        "zh": "这个问题很复杂，我们得一个一个地解决。",
+        "py": "Zhège wèntí hěn fùzá, wǒmen děi yígè yígè de jiějué.",
+        "vi": "Vấn đề này rất phức tạp, chúng ta phải giải quyết từng cái một."
+      },
+      {
+        "zh": "她做的菜道道都色香味俱全。",
+        "py": "Tā zuò de cài dàodào dōu sè xiāng wèi jù quán.",
+        "vi": "Món ăn cô ấy nấu món nào cũng đủ sắc hương vị."
+      },
+      {
+        "zh": "保护环境，人人有责。",
+        "py": "Bǎohù huánjìng, rénrén yǒu zé.",
+        "vi": "Bảo vệ môi trường, người người đều có trách nhiệm."
+      },
+      {
+        "zh": "他为了准备比赛，天天坚持练习三个小时。",
+        "py": "Tā wèile zhǔnbèi bǐsài, tiāntiān jiānchí liànxí sān gè xiǎoshí.",
+        "vi": "Để chuẩn bị cho cuộc thi, anh ấy ngày nào cũng kiên trì luyện tập ba tiếng."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 我每天天天都锻炼身体 → Đúng: 我天天都锻炼身体 / 我每天都锻炼身体 (天天 đã nghĩa là 'mỗi ngày', không dùng thừa 每).",
+      "Sai: 这家店的苹果每个个都很甜 → Đúng: 这家店的苹果个个都很甜 (Lượng từ lặp 个个 đã bao hàm nghĩa 'mỗi', bỏ 每).",
+      "Sai: 书书我都看完了 → Đúng: 每本书我都看完了 / 这些书本本我都看完了 (Danh từ 书 không tự lặp, phải lặp lượng từ 本本)."
+    ],
+    "quiz": [
+      {
+        "q": "Chọn câu diễn đạt đúng 'Xin mọi người lần lượt xếp hàng vào từng người một':",
+        "opts": [
+          "请大家一个人一个人进去。",
+          "请大家一个一个地进去。",
+          "请大家每人人进去。",
+          "请大家个个每进去。"
+        ],
+        "ans": 1,
+        "exp": "Mẫu '一 + Lượng từ + 一 + Lượng từ (+ 地) + V' diễn tả thứ tự lần lượt từng đối tượng."
+      },
+      {
+        "q": "Câu nào sau đây SAI ngữ pháp?",
+        "opts": [
+          "这里的风景处处都很美。",
+          "老师讲的句子句句都有道理。",
+          "他每天天天都在图书馆学习。",
+          "春节到了，家家户户都贴春联。"
+        ],
+        "ans": 2,
+        "exp": "Thừa '每天' đi cùng '天天' vì cả hai đều mang nghĩa 'mỗi ngày'."
+      },
+      {
+        "q": "Điền cụm từ thích hợp: 经过十年的发展，这座城市建起了___现代化的高楼。",
+        "opts": [
+          "一座座",
+          "座座每",
+          "天天",
+          "人人"
+        ],
+        "ans": 0,
+        "exp": "Mẫu '一AA' (一座座) làm định ngữ miêu tả số lượng nhiều, nối tiếp nhau (từng tòa cao ốc)."
+      },
+      {
+        "q": "Trong câu '全班同学个个都通过了考试', từ '个个' mang nghĩa gì?",
+        "opts": [
+          "Chỉ một vài người",
+          "Từng người một bước vào",
+          "Ai nấy đều / Người nào cũng",
+          "Hai người một nhóm"
+        ],
+        "ans": 2,
+        "exp": "Lượng từ lặp AA + 都 nhấn mạnh toàn bộ không sót ai ('người nào cũng')."
+      }
+    ]
+  },
+  {
+    "id": "hsk4_correlative_interrogatives",
+    "level": 4,
+    "category": "Cấu trúc câu",
+    "title": "Đại từ nghi vấn liên đới (谁…谁… / 哪儿…哪儿… / 什么…什么…)",
+    "formula": "谁 + V1，谁 + (就)V2 | 哪儿 + V1，哪儿 + V2 | 什么 + V1，什么 + V2 | 怎么 + V1，怎么 + V2",
+    "summary": "Cấu trúc lặp đôi cùng một đại từ nghi vấn ở hai vế câu (谁…谁…, 哪儿…哪儿…, 什么…什么…, 怎么…怎么…, 多少…多少…) không dùng để hỏi mà tạo quan hệ tương ứng 'ai… thì người ấy…', 'đâu… thì đó…', 'cái gì… thì cái ấy…'. Đây là mẫu câu cực kỳ tự nhiên trong khẩu ngữ và rất hay xuất hiện trong đề đọc hiểu HSK 4–5.",
+    "deepNotesHtml": "<p><strong>1. Cơ chế liên đới (Hô ứng hai vế):</strong> Hai đại từ nghi vấn giống hệt nhau ở hai vế cùng chỉ <strong>một đối tượng bất kỳ nhưng đồng nhất</strong>. Vế sau thường đi kèm phó từ <code>就</code> để tăng độ chặt chẽ.</p><p><strong>2. Năm cặp liên đới hay gặp nhất:</strong></p><ul><li><code>谁…谁…</code> (Ai… thì người ấy…): <code>谁先到，谁就先选座位</code> (Ai đến trước thì người ấy chọn chỗ trước).</li><li><code>哪儿…哪儿…</code> (Ở đâu… thì ở đó…): <code>哪儿有困难，我们就去哪儿</code> (Ở đâu có khó khăn, chúng tôi đến đó).</li><li><code>什么…什么…</code> (Gì… thì nấy…): <code>你想吃什么，就点什么</code> (Bạn muốn ăn gì thì gọi món đó).</li><li><code>怎么…怎么…</code> (Thế nào… thì thế ấy…): <code>怎么方便就怎么来</code> (Thế nào tiện thì cứ làm thế ấy).</li><li><code>多少…多少…</code> (Bao nhiêu… thì bấy nhiêu…): <code>你能喝多少就喝多少</code> (Bạn uống được bao nhiêu thì uống bấy nhiêu).</li></ul><p><strong>3. Lưu ý dấu câu &amp; bẫy HSK:</strong> Câu liên đới là câu trần thuật, cuối câu dùng <strong>dấu chấm (。)</strong> chứ không dùng dấu chấm hỏi (？), và hai vế phải dùng <strong>cùng một đại từ nghi vấn</strong>.</p>",
+    "examples": [
+      {
+        "zh": "谁做的决定，谁就要负责任。",
+        "py": "Shéi zuò de juédìng, shéi jiù yào fù zérèn.",
+        "vi": "Ai là người ra quyết định thì người đó phải chịu trách nhiệm."
+      },
+      {
+        "zh": "别客气，你想喝什么就自己倒什么。",
+        "py": "Bié kèqi, nǐ xiǎng hē shénme jiù zìjǐ dào shénme.",
+        "vi": "Đừng khách sáo, bạn muốn uống gì thì cứ tự rót thứ đó."
+      },
+      {
+        "zh": "哪儿环境好，大家就喜欢往哪儿去。",
+        "py": "Nǎr huánjìng hǎo, dàjiā jiù xǐhuan wǎng nǎr qù.",
+        "vi": "Ở đâu môi trường tốt thì mọi người thích đến đó."
+      },
+      {
+        "zh": "这件事你觉得怎么处理合适，就怎么处理吧。",
+        "py": "Zhè jiàn shì nǐ juéde zěnme chǔlǐ héshì, jiù zěnme chǔlǐ ba.",
+        "vi": "Việc này bạn thấy xử lý thế nào hợp lý thì cứ xử lý như thế nhé."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 谁先完成，他就先下班 (phá vỡ cấu trúc đối xứng) → Đúng: 谁先完成，谁就先下班 (Hai vế lặp cùng đại từ 谁).",
+      "Sai: 你想去哪儿就去什么 → Đúng: 你想去哪儿就去哪儿 (Phải lặp đúng cùng một loại đại từ nghi vấn).",
+      "Sai: 什么便宜我买什么？ (đặt nhầm dấu hỏi) → Đúng: 什么便宜我就买什么。 (Đây là câu trần thuật chỉ sự tương ứng)."
+    ],
+    "quiz": [
+      {
+        "q": "Điền vào chỗ trống: 别勉强自己，你能吃___就盛___。",
+        "opts": [
+          "多少 — 多少",
+          "什么 — 哪儿",
+          "谁 — 谁",
+          "怎么 — 多少"
+        ],
+        "ans": 0,
+        "exp": "Cặp liên đới chỉ số lượng tương ứng dùng 多少…多少… (ăn được bao nhiêu thì xới bấy nhiêu)."
+      },
+      {
+        "q": "Câu nào sử dụng đúng cấu trúc đại từ nghi vấn liên đới?",
+        "opts": [
+          "谁迟到了，哪儿就罚站。",
+          "哪儿风景美，我就去哪儿拍照。",
+          "你想买什么，就买谁。",
+          "怎么快，我就什么时候做。"
+        ],
+        "ans": 1,
+        "exp": "Hai vế dùng cùng đại từ 哪儿…哪儿… để chỉ nơi chốn tương ứng."
+      },
+      {
+        "q": "Câu '你什么时候有空，我们就什么时候出发。' có nghĩa là gì?",
+        "opts": [
+          "Hỏi xem khi nào bạn rảnh để xuất phát?",
+          "Bạn rảnh lúc nào thì chúng ta xuất phát lúc ấy.",
+          "Chúng ta chưa bao giờ có thời gian xuất phát.",
+          "Bạn không rảnh lúc nào cả."
+        ],
+        "ans": 1,
+        "exp": "什么时候…什么时候… diễn tả thời điểm tương ứng tùy theo vế điều kiện."
+      },
+      {
+        "q": "Điền từ thích hợp: 这道菜没有固定做法，大家___喜欢吃，就___做。",
+        "opts": [
+          "谁 — 谁",
+          "哪儿 — 哪儿",
+          "怎么 — 怎么",
+          "多少 — 多少"
+        ],
+        "ans": 2,
+        "exp": "Chỉ cách thức chế biến tương ứng dùng 怎么…怎么…."
       }
     ]
   },
@@ -2953,6 +3117,170 @@ window.LP_HSK_GRAMMAR_ADV_DATA = [
     ]
   },
   {
+    "id": "hsk5_synonyms_action_state",
+    "level": 5,
+    "category": "Từ đồng nghĩa",
+    "title": "Phân biệt từ cận nghĩa HSK 5 (1): 改善/改变/改进 · 发挥/发扬/发展 · 实现/实行/实施",
+    "formula": "改善(điều kiện/quan hệ) vs 改进(kỹ thuật/phương pháp) | 发挥(tác dụng/năng lực) vs 发扬(truyền thống) | 实行(chế độ) vs 实施(kế hoạch/luật)",
+    "summary": "Ba bộ ba động từ song âm tiết có chữ đầu giống hệt nhau (改-, 发-, 实-) chiếm tỉ lệ ra đề cực cao ở phần Điền từ HSK 5. Chìa khóa phân biệt không nằm ở dịch tiếng Việt chung chung mà nằm ở 'tân ngữ cố định' (collocation) đi phía sau từng từ.",
+    "deepNotesHtml": "<p><strong>1. Nhóm 改 (Sửa đổi):</strong></p><ul><li><code>改变</code> (gǎibiàn — thay đổi): Thay đổi bản chất, trạng thái, thói quen, thái độ (trung tính, có thể tốt lên hoặc xấu đi): <code>改变看法 / 改变命运 / 改变主意</code>.</li><li><code>改善</code> (gǎishàn — cải thiện): Làm tốt hơn về mặt <strong>điều kiện sống, môi trường, quan hệ, sức khỏe</strong>: <code>改善生活 / 改善环境 / 改善关系</code>.</li><li><code>改进</code> (gǎijìn — cải tiến): Nâng cấp về mặt <strong>kỹ thuật, phương pháp, công tác, sản phẩm</strong>: <code>改进技术 / 改进方法 / 改进工作</code>.</li></ul><p><strong>2. Nhóm 发 (Phát huy/triển):</strong></p><ul><li><code>发挥</code> (fāhuī — phát huy năng lực nội tại): Đi với <code>作用</code> (tác dụng), <code>优势</code> (ưu thế), <code>水平</code> (trình độ), <code>创造力</code>.</li><li><code>发扬</code> (fāyáng — phát dương, kế thừa &amp; lan tỏa): Đi với <code>传统</code> (truyền thống), <code>精神</code> (tinh thần), <code>民主</code>, <code>优点</code>.</li><li><code>发展</code> (fāzhǎn — phát triển từ nhỏ đến lớn): Đi với <code>经济</code>, <code>事业</code>, <code>关系</code>, <code>科技</code>.</li></ul><p><strong>3. Nhóm 实 (Thực hiện):</strong></p><ul><li><code>实现</code> (shíxiàn — hiện thực hóa mục tiêu/ước mơ): <code>实现梦想 / 实现目标 / 实现愿望</code>.</li><li><code>实行</code> (shíxíng — thi hành chế độ, chính sách quy mô rộng): <code>实行改革 / 实行新制度 / 实行免费政策</code>.</li><li><code>实施</code> (shíshī — triển khai cụ thể kế hoạch, pháp luật, dự án): <code>实施计划 / 实施法律 / 实施方案</code>.</li></ul>",
+    "examples": [
+      {
+        "zh": "通过改进生产技术，工厂大幅降低了成本。",
+        "py": "Tōngguò gǎijìn shēngchǎn jìshù, gōngchǎng dàfú jiàngdī le chéngběn.",
+        "vi": "Thông qua cải tiến kỹ thuật sản xuất, nhà máy đã giảm mạnh chi phí."
+      },
+      {
+        "zh": "新政策实施以后，当地居民的生活条件得到了明显改善。",
+        "py": "Xīn zhèngcè shíshī yǐhòu, dāngdì jūmín de shēnghuó tiáojiàn dédào le míngxiǎn gǎishàn.",
+        "vi": "Sau khi chính sách mới được triển khai, điều kiện sống của người dân địa phương đã cải thiện rõ rệt."
+      },
+      {
+        "zh": "我们既要发扬优良传统，又要充分发挥年轻人的创造力。",
+        "py": "Wǒmen jì yào fāyáng yōuliáng chuántǒng, yòu yào chōngfèn fāhuī niánqīngrén de chuàngzàolì.",
+        "vi": "Chúng ta vừa phải phát huy truyền thống tốt đẹp, vừa phải phát huy tối đa sức sáng tạo của giới trẻ."
+      },
+      {
+        "zh": "只要脚踏实地，你一定能实现自己的理想。",
+        "py": "Zhǐyào jiǎotàshídì, nǐ yídìng néng shíxiàn zìjǐ de lǐxiǎng.",
+        "vi": "Chỉ cần làm việc thực tế từng bước, bạn nhất định sẽ hiện thực hóa được lý tưởng của mình."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 改善工作方法 → Đúng: 改进工作方法 (Phương pháp, kỹ thuật dùng 改进; điều kiện sống, môi trường mới dùng 改善).",
+      "Sai: 发扬他的最高水平 → Đúng: 发挥他的最高水平 (Trình độ, tác dụng, ưu thế dùng 发挥; truyền thống, tinh thần dùng 发扬).",
+      "Sai: 实行我的梦想 → Đúng: 实现我的梦想 (Ước mơ, mục tiêu dùng 实现; chế độ, chính sách dùng 实行)."
+    ],
+    "quiz": [
+      {
+        "q": "Điền từ đúng: 这项新措施旨在___城市空气质量。",
+        "opts": [
+          "改进",
+          "改善",
+          "改变",
+          "改建"
+        ],
+        "ans": 1,
+        "exp": "Làm tốt lên chất lượng không khí/môi trường sống dùng 改善 (改善空气质量)."
+      },
+      {
+        "q": "Điền từ đúng: 志愿者们在这次救灾活动中___了重要作用。",
+        "opts": [
+          "发扬",
+          "发展",
+          "发挥",
+          "发现"
+        ],
+        "ans": 2,
+        "exp": "Cụm cố định: 发挥重要作用 (phát huy vai trò quan trọng)."
+      },
+      {
+        "q": "Điền từ đúng: 新修订的交通法规将于下月一日起正式___。",
+        "opts": [
+          "实现",
+          "实施",
+          "实际",
+          "实用"
+        ],
+        "ans": 1,
+        "exp": "Pháp luật, phương án, kế hoạch chính thức đưa vào triển khai dùng 实施."
+      },
+      {
+        "q": "Chọn cặp kết hợp từ ĐÚNG nhất:",
+        "opts": [
+          "改善方法 / 发扬作用",
+          "改进技术 / 发扬精神",
+          "实现制度 / 实行理想",
+          "改变生活条件 / 发挥传统"
+        ],
+        "ans": 1,
+        "exp": "改进技术 (cải tiến kỹ thuật) và 发扬精神 (phát huy tinh thần) là hai kết hợp chuẩn 100%."
+      }
+    ]
+  },
+  {
+    "id": "hsk5_synonyms_cognition_eval",
+    "level": 5,
+    "category": "Từ đồng nghĩa",
+    "title": "Phân biệt từ cận nghĩa HSK 5 (2): 体会/体验 · 了解/理解 · 反映/反应 · 克服/征服",
+    "formula": "体会(chiêm nghiệm) vs 体验(trực tiếp trải nghiệm) | 反映(phản ánh/báo cáo) vs 反应(phản ứng)",
+    "summary": "Bốn cặp từ cận nghĩa về nhận thức, trải nghiệm và hành động thường xuyên gây mất điểm ở HSK 5 vì mặt chữ gần giống hoặc nghĩa tiếng Việt giao thoa. Nắm rõ hướng tác động và đối tượng đi kèm sẽ giúp bạn chọn đáp án chỉ trong 3 giây.",
+    "deepNotesHtml": "<p><strong>1. 体会 (tǐhuì) vs. 体验 (tǐyàn):</strong></p><ul><li><code>体会</code>: Chiêm nghiệm, thấu hiểu sâu sắc bằng tâm trí (cũng dùng làm danh từ: <code>心得体会</code>). Đi với <code>心情 / 道理 / 意义 / 父母的辛苦</code>.</li><li><code>体验</code>: Tự mình trực tiếp trải qua bằng thực tế, giác quan: <code>体验生活 / 体验当地文化 / 用户体验</code>.</li></ul><p><strong>2. 了解 (liǎojiě) vs. 理解 (lǐjiě):</strong></p><ul><li><code>了解</code>: Biết rõ thông tin, nắm tình hình bên ngoài (<code>了解情况 / 了解历史 / 互相了解</code>).</li><li><code>理解</code>: Thấu hiểu bản chất, lý lẽ hoặc cảm thông sâu sắc (<code>理解意思 / 互相理解 / 难以理解</code>).</li></ul><p><strong>3. 反映 (fǎnyìng) vs. 反应 (fǎnyìng — đồng âm!):</strong></p><ul><li><code>反映</code> (chữ 映 = chiếu sáng): Phản ánh hiện thực khách quan, hoặc báo cáo ý kiến lên cấp trên (<code>反映问题 / 反映社会现实 / 向领导反映意见</code>).</li><li><code>反应</code> (chữ 应 = đáp lại): Phản ứng sinh lý, hóa học, tâm lý trước kích thích (<code>化学反应 / 反应很快 / 没有反应</code>).</li></ul><p><strong>4. 克服 (kèfú) vs. 征服 (zhēngfú):</strong></p><ul><li><code>克服</code>: Khắc phục, vượt qua khó khăn, khuyết điểm của bản thân (<code>克服困难 / 克服缺点 / 克服恐惧</code>).</li><li><code>征服</code>: Chinh phục bằng sức mạnh hoặc tài năng (<code>征服自然 / 征服高峰 / 征服观众</code>).</li></ul>",
+    "examples": [
+      {
+        "zh": "只有亲自去农村住一段时间，才能真正体验那里的生活。",
+        "py": "Zhǐyǒu qīnzì qù nóngcūn zhù yí duàn shíjiān, cáinéng zhēnzhèng tǐyàn nàlǐ de shēnghuó.",
+        "vi": "Chỉ có tự mình về nông thôn sống một thời gian mới có thể thực sự trải nghiệm cuộc sống ở đó."
+      },
+      {
+        "zh": "这部电影真实地反映了普通人的喜怒哀乐。",
+        "py": "Zhè bù diànyǐng zhēnshí de fǎnyìng le pǔtōngrén de xǐ nù āi lè.",
+        "vi": "Bộ phim này phản ánh chân thực nỗi buồn vui của những người bình thường."
+      },
+      {
+        "zh": "吃药以后如果出现不良反应，请立刻停药并就医。",
+        "py": "Chī yào yǐhòu rúguǒ chūxiàn bùliáng fǎnyìng, qǐng lìkè tíngyào bìng jiùyī.",
+        "vi": "Sau khi uống thuốc nếu xuất hiện phản ứng phụ, xin hãy ngừng thuốc ngay và đi khám."
+      },
+      {
+        "zh": "她凭着惊人的毅力克服了重重困难，最终登上了领奖台。",
+        "py": "Tā píngzhe jīngrén de yìlì kèfú le chóngchóng kùnnan, zuìzhōng dēngshàng le lǐngjiǎngtái.",
+        "vi": "Cô ấy nhờ nghị lực phi thường đã vượt qua muôn vàn khó khăn, cuối cùng bước lên bục nhận giải."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 向经理反应情况 → Đúng: 向经理反映情况 (Báo cáo, phản ánh ý kiến/tình hình lên cấp trên dùng 反映).",
+      "Sai: 征服自己的懒惰缺点 → Đúng: 克服自己的缺点 (Khắc phục khuyết điểm, khó khăn dùng 克服; chinh phục thiên nhiên/khán giả dùng 征服).",
+      "Sai: 我非常了解你的痛苦 (hơi hời hợt) → Đúng: 我非常理解/体会你的痛苦 (Cảm thông sâu sắc dùng 理解 hoặc 体会)."
+    ],
+    "quiz": [
+      {
+        "q": "Điền từ đúng: 居民们已经把噪音问题向社区___了好几次。",
+        "opts": [
+          "反应",
+          "反映",
+          "反对",
+          "反复"
+        ],
+        "ans": 1,
+        "exp": "Phản ánh, báo cáo vấn đề lên cơ quan/cấp trên dùng 反映 (chữ 映)."
+      },
+      {
+        "q": "Điền từ đúng: 这款VR游戏能让玩家身临其境地___太空漫步的感觉。",
+        "opts": [
+          "体会",
+          "体验",
+          "体谅",
+          "体现"
+        ],
+        "ans": 1,
+        "exp": "Trực tiếp trải nghiệm bằng giác quan/thực tế dùng 体验."
+      },
+      {
+        "q": "Điền từ đúng: 他的精彩演讲深深地___了在场的每一位听众。",
+        "opts": [
+          "克服",
+          "征服",
+          "说服",
+          "佩服"
+        ],
+        "ans": 1,
+        "exp": "Chinh phục hoàn toàn khán giả/người nghe dùng 征服."
+      },
+      {
+        "q": "Điền từ đúng: 我只是大概___这个项目的背景，但有些专业细节还不太___。",
+        "opts": [
+          "理解 — 了解",
+          "了解 — 理解",
+          "体会 — 体验",
+          "反映 — 反应"
+        ],
+        "ans": 1,
+        "exp": "Nắm thông tin sơ bộ dùng 了解; hiểu sâu bản chất chi tiết chuyên môn dùng 理解."
+      }
+    ]
+  },
+  {
     "id": "hsk6_formal_conj",
     "level": 6,
     "category": "Cấu trúc câu",
@@ -4425,6 +4753,170 @@ window.LP_HSK_GRAMMAR_ADV_DATA = [
         ],
         "ans": 2,
         "exp": "与日俱增 (tăng dần lên theo từng ngày)."
+      }
+    ]
+  },
+  {
+    "id": "hsk6_synonyms_formal_verbs",
+    "level": 6,
+    "category": "Từ đồng nghĩa",
+    "title": "Phân biệt từ cận nghĩa HSK 6 (1): 促使/促进/推动 · 维护/维持/保持 · 抵制/抵抗/反抗",
+    "formula": "促使(thúc khiến+ai+làm) vs 促进(thúc đẩy+sự phát triển) | 维护(bảo vệ quyền/hòa bình) vs 维持(duy trì tối thiểu)",
+    "summary": "Ba bộ động từ học thuật cốt lõi xuất hiện liên tục trong đề HSK 6 phần Chọn từ điền đoạn và Bệnh câu (语病). Khác biệt nằm ở cấu trúc kiêm ngữ (促使 đòi hỏi có đối tượng + hành động theo sau), sắc thái giá trị (维护 mang nghĩa tích cực bảo vệ, 维持 thường chỉ sự duy trì ở mức cầm cự) và đối tượng chống trả của nhóm 抵制/抵抗/反抗.",
+    "deepNotesHtml": "<p><strong>1. 促使 vs. 促进 vs. 推动:</strong></p><ul><li><code>促使</code> (cùshǐ — thúc đẩy khiến cho): Thường là động từ kiêm ngữ <code>促使 + A + V</code> (nguyên nhân khiến ai/cái gì chuyển biến hành động): <code>激烈的竞争促使企业不断创新</code>.</li><li><code>促进</code> (cùjìn — xúc tiến, thúc đẩy): Mang tân ngữ trừu tượng chỉ sự phát triển, hợp tác, tiến bộ: <code>促进经济发展 / 促进文化交流 / 促进消化</code>.</li><li><code>推动</code> (tuīdòng — thúc đẩy chuyển động tiến lên): Mang tính động lực mạnh mẽ, đi với <code>社会进步 / 改革 / 历史车轮</code>.</li></ul><p><strong>2. 维护 vs. 维持 vs. 保持:</strong></p><ul><li><code>维护</code> (wéihù — bảo vệ, giữ gìn khỏi bị xâm hại): Đi với <code>和平 / 权益 / 秩序 / 尊严 / 系统维护</code>.</li><li><code>维持</code> (wéichí — duy trì tiếp diễn, thường ở mức cơ bản/cầm cự): <code>维持生计</code> (mưu sinh), <code>维持现状</code> (giữ nguyên hiện trạng), <code>维持秩序</code>.</li><li><code>保持</code> (bǎochí — giữ vững trạng thái vốn có): <code>保持冷静 / 保持联系 / 保持纪录 / 保持清洁</code>.</li></ul><p><strong>3. 抵制 vs. 抵抗 vs. 反抗:</strong></p><ul><li><code>抵制</code> (dǐzhì — tẩy chay, ngăn chặn từ chối tiếp nhận): Đi với <code>不良风气 / 诱惑 / 假冒伪劣产品</code>.</li><li><code>抵抗</code> (dǐkàng — đề kháng, chống cự trước sự tấn công từ ngoài): <code>抵抗侵略 / 抵抗病毒 / 抵抗力</code>.</li><li><code>反抗</code> (fǎnkàng — phản kháng, vùng lên chống áp bức): <code>反抗压迫 / 反抗剥削</code>.</li></ul>",
+    "examples": [
+      {
+        "zh": "市场需求的变化促使这家老字号企业加快了数字化转型。",
+        "py": "Shìchǎng xūqiú de biànhuà cùshǐ zhè jiā lǎozìhào qǐyè jiākuài le shùzìhuà zhuǎnxíng.",
+        "vi": "Sự thay đổi nhu cầu thị trường đã thúc đẩy doanh nghiệp lâu đời này đẩy nhanh chuyển đổi số."
+      },
+      {
+        "zh": "消费者应当自觉抵制假冒伪劣商品，维护自身合法权益。",
+        "py": "Xiāofèizhě yīngdāng zìjué dǐzhì jiǎmào wěiliè shāngpǐn, wéihù zìshēn héfǎ quányì.",
+        "vi": "Người tiêu dùng cần tự giác tẩy chay hàng giả hàng nhái, bảo vệ quyền lợi hợp pháp của bản thân."
+      },
+      {
+        "zh": "在资源极其有限的情况下，他们勉强维持着基本运转。",
+        "py": "Zài zīyuán jíqí yǒuxiàn de qíngkuàng xià, tāmen miǎnqiáng wéichí zhe jīběn yùnzhuǎn.",
+        "vi": "Trong điều kiện nguồn lực cực kỳ hạn hẹp, họ miễn cưỡng duy trì hoạt động cơ bản."
+      },
+      {
+        "zh": "规律作息与均衡饮食能够有效增强人体抵抗疾病的能力。",
+        "py": "Guīlǜ zuòxī yǔ jūnhéng yǐnshí nénggòu yǒuxiào zēngqiáng réntǐ dǐkàng jíbìng de nénglì.",
+        "vi": "Sinh hoạt điều độ và ăn uống cân bằng có thể tăng cường hiệu quả khả năng đề kháng bệnh tật của cơ thể."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 这件事促进他改变了想法 → Đúng: 这件事促使他改变了想法 (Cấu trúc kiêm ngữ 'khiến ai làm gì' phải dùng 促使, không dùng 促进).",
+      "Sai: 维持世界和平和国家主权 → Đúng: 维护世界和平和国家主权 (Bảo vệ hòa bình, chủ quyền, quyền lợi dùng 维护).",
+      "Sai: 人民起来抵制封建压迫 → Đúng: 人民起来反抗封建压迫 (Vùng lên chống áp bức dùng 反抗; 抵制 là tẩy chay, ngăn chặn ảnh hưởng xấu)."
+    ],
+    "quiz": [
+      {
+        "q": "Điền từ đúng: 这次失败的经历___他深刻反思了自己的决策方式。",
+        "opts": [
+          "促进",
+          "促使",
+          "推动",
+          "催促"
+        ],
+        "ans": 1,
+        "exp": "Cấu trúc kiêm ngữ '促使 + Ai + Động từ' (khiến anh ấy suy ngẫm sâu sắc)."
+      },
+      {
+        "q": "Điền từ đúng: 双方签署合作协议，旨在___两国在新能源领域的深度合作。",
+        "opts": [
+          "促使",
+          "促进",
+          "迫使",
+          "维持"
+        ],
+        "ans": 1,
+        "exp": "Thúc đẩy sự hợp tác/giao lưu phát triển dùng 促进."
+      },
+      {
+        "q": "Điền từ đúng: 面对网络上的低俗信息，青少年要学会主动___。",
+        "opts": [
+          "反抗",
+          "抵抗",
+          "抵制",
+          "对抗"
+        ],
+        "ans": 2,
+        "exp": "Từ chối, tẩy chay thông tin xấu/lối sống tiêu cực dùng 抵制."
+      },
+      {
+        "q": "Điền cặp từ đúng: 我们不仅要___现有的良好生态，还要依法___公民的环保知情权。",
+        "opts": [
+          "保持 — 维护",
+          "维持 — 保持",
+          "维护 — 维持",
+          "保护 — 维持"
+        ],
+        "ans": 0,
+        "exp": "Giữ vững trạng thái tốt sẵn có dùng 保持; bảo vệ quyền lợi hợp pháp theo luật dùng 维护."
+      }
+    ]
+  },
+  {
+    "id": "hsk6_synonyms_abstract_nouns",
+    "level": 6,
+    "category": "Từ đồng nghĩa",
+    "title": "Phân biệt từ cận nghĩa HSK 6 (2): 趋势/倾向/趋向 · 局面/局势/形势 · 宗旨/原则/准则",
+    "formula": "趋势(xu thế khách quan) vs 倾向(khuynh hướng chủ quan) | 局面(cục diện cụ thể) vs 形势(tình hình chung) | 宗旨(tôn chỉ/mục đích) vs 原则(nguyên tắc)",
+    "summary": "Ba bộ danh từ trừu tượng trọng điểm trong văn nghị luận, báo chí và bài đọc HSK 6. Phân biệt rõ mức độ khách quan/chủ quan, phạm vi vĩ mô/vi mô và vai trò 'mục đích tối thượng' (宗旨) với 'nguyên tắc hành xử' (原则/准则) giúp xử lý chính xác các câu chọn từ khó nhất.",
+    "deepNotesHtml": "<p><strong>1. 趋势 vs. 倾向 vs. 趋向:</strong></p><ul><li><code>趋势</code> (qūshì — xu thế lớn): Xu thế phát triển khách quan, mang tính tất yếu vĩ mô (chỉ là danh từ): <code>发展趋势 / 必然趋势 / 全球化趋势</code>.</li><li><code>倾向</code> (qīngxiàng — khuynh hướng, thiên hướng): Thiên về một phía nào đó (thường mang màu sắc tâm lý, tư tưởng, đôi khi tiêu cực; có thể làm động từ <code>倾向于</code>): <code>消极倾向 / 暴力倾向 / 政治倾向</code>.</li><li><code>趋向</code> (qūxiàng — chiều hướng tiến tới): Nhấn mạnh hướng đi về phía một kết cục (vừa là danh từ vừa là động từ: <code>趋向稳定 / 趋向一致</code>).</li></ul><p><strong>2. 局面 vs. 局势 vs. 形势:</strong></p><ul><li><code>局面</code> (júmiàn — cục diện): Trạng thái hình thành ở một giai đoạn/lĩnh vực cụ thể, hay đi với động từ <code>打开 / 打破 / 扭转 / 形成</code> (<code>打开新局面 / 尴尬局面</code>).</li><li><code>局势</code> (júshì — cục thế, tình hình chính trị/quân sự): Phạm vi lớn, hay nói đến độ ổn định: <code>国际局势 / 局势动荡 / 稳定局势</code>.</li><li><code>形势</code> (xíngshì — tình thế, tình hình chung): Xu thế phát triển của hoàn cảnh (kinh tế, việc làm, dịch bệnh): <code>就业形势 / 经济形势 / 形势严峻</code>.</li></ul><p><strong>3. 宗旨 vs. 原则 vs. 准则:</strong></p><ul><li><code>宗旨</code> (zōngzhǐ — tôn chỉ, mục đích cốt lõi): Mục đích tối cao của một tổ chức/sự nghiệp (<code>服务宗旨 / 办学宗旨</code>).</li><li><code>原则</code> (yuánzé — nguyên tắc): Quy tắc nền tảng trong hành động/xử sự (<code>基本原则 / 坚持原则 / 原则问题</code>).</li><li><code>准则</code> (zhǔnzé — chuẩn mực, quy chuẩn): Thước đo chuẩn mực về đạo đức, hành vi (<code>行为准则 / 道德准则 / 国际准则</code>).</li></ul>",
+    "examples": [
+      {
+        "zh": "绿色低碳转型已经成为全球经济发展的必然趋势。",
+        "py": "Lǜsè dītàn zhuǎnxíng yǐjīng chéngwéi quánqiú jīngjì fāzhǎn de bìrán qūshì.",
+        "vi": "Chuyển đổi xanh và phát thải thấp đã trở thành xu thế tất yếu của phát triển kinh tế toàn cầu."
+      },
+      {
+        "zh": "经过多轮协商，双方终于打破了长达半年的僵持局面。",
+        "py": "Jīngguò duō lún xiéshāng, shuangfāng zhōngyú dǎpò le cháng dá bàn nián de jiāngchí júmiàn.",
+        "vi": "Sau nhiều vòng thương lượng, hai bên cuối cùng đã phá vỡ cục diện bế tắc kéo dài nửa năm."
+      },
+      {
+        "zh": "诚实守信不仅是做人的基本原则，也是商业社会的重要道德准则。",
+        "py": "Chéngshí shǒuxìn bùjǐn shì zuòrén de jīběn yuánzé, yě shì shāngyè shèhuì de zhòngyào dàodé zhǔnzé.",
+        "vi": "Trung thực giữ chữ tín không chỉ là nguyên tắc cơ bản làm người mà còn là chuẩn mực đạo đức quan trọng của xã hội thương mại."
+      },
+      {
+        "zh": "这家公益机构始终坚持‘教育公平、免费共享’的创办宗旨。",
+        "py": "Zhè jiā gōngyì jīgòu shǐzhōng jiānchí 'jiàoyù gōngpíng, miǎnfèi gòngxiǎng' de chuàngbàn zōngzhǐ.",
+        "vi": "Tổ chức phi lợi nhuận này luôn kiên định tôn chỉ thành lập 'công bằng giáo dục, chia sẻ miễn phí'."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 人工智能普及是不可逆转的倾向 → Đúng: 人工智能普及是不可逆转的趋势 (Xu thế phát triển tất yếu dùng 趋势, không dùng 倾向).",
+      "Sai: 打开国际局势 → Đúng: 打开工作新局面 / 稳定国际局势 (Động từ 打开/打破/扭转 kết hợp cố định với 局面).",
+      "Sai: 这家医院的道德原则是救死扶伤 → Đúng: 这家医院的办院宗旨是救死扶伤 (Mục đích cốt lõi khi thành lập một tổ chức dùng 宗旨)."
+    ],
+    "quiz": [
+      {
+        "q": "Điền từ đúng: 团队凭借创新产品成功___了此前被动落后的___。",
+        "opts": [
+          "扭转 — 局面",
+          "稳定 — 趋势",
+          "坚持 — 倾向",
+          "打破 — 宗旨"
+        ],
+        "ans": 0,
+        "exp": "Cụm kết hợp chuẩn HSK 6: 扭转被动局面 (đảo ngược cục diện bị động)."
+      },
+      {
+        "q": "Điền từ đúng: 心理专家指出，过度依赖短视频容易让人产生注意力分散的___。",
+        "opts": [
+          "趋势",
+          "倾向",
+          "局势",
+          "宗旨"
+        ],
+        "ans": 1,
+        "exp": "Khuynh hướng tâm lý/hành vi nghiêng về mặt tiêu cực dùng 倾向."
+      },
+      {
+        "q": "Điền từ đúng: 今年高校毕业生人数再创新高，整体就业___依然比较严峻。",
+        "opts": [
+          "形势",
+          "宗旨",
+          "准则",
+          "趋向"
+        ],
+        "ans": 0,
+        "exp": "Cụm cố định: 就业形势严峻 (tình hình việc làm nghiêm trọng/khó khăn)."
+      },
+      {
+        "q": "Điền từ đúng: ‘以读者为中心、传播优质知识’是我们出版社一贯的办社___。",
+        "opts": [
+          "准则",
+          "宗旨",
+          "局势",
+          "倾向"
+        ],
+        "ans": 1,
+        "exp": "Mục đích tối cao của nhà xuất bản/tổ chức dùng 宗旨 (办社宗旨)."
       }
     ]
   }

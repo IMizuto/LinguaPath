@@ -3395,3 +3395,257 @@ body.s4-cbt-mode #practiceZoneContainer {
     margin-bottom: 8px;
   }
 }
+
+
+/* =========================================================================
+   IELTS B2: CÔNG TẮC GỢI Ý 3 TẦNG WRITING PRACTICE ZONE (LIQUID GLASS)
+   ========================================================================= */
+.w-pz-hint-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--box-sub);
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.w-pz-hint-toggle:hover {
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.w-pz-hint-toggle.is-on {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 182, 212, 0.16));
+  border-color: rgba(16, 185, 129, 0.55);
+  color: var(--primary);
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.18);
+}
+
+.w-pz-hint-panel {
+  margin-top: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.w-pz-hint-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--box-sub);
+}
+
+.w-pz-hint-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.w-pz-tier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.w-pz-tier-pill.t1 {
+  background: rgba(16, 185, 129, 0.16);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.w-pz-tier-pill.t2 {
+  background: rgba(59, 130, 246, 0.14);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.w-pz-tier-pill.t3 {
+  background: rgba(168, 85, 247, 0.14);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.w-pz-hint-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+.w-pz-hint-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--box-sub);
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.w-pz-hint-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.w-pz-hint-body {
+  padding: 13px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.w-pz-hint-section {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--box-sub);
+  border: 1px solid var(--border);
+}
+
+.w-pz-hint-section h4 {
+  margin: 0 0 7px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.w-pz-hint-list {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12.5px;
+}
+
+.w-pz-hint-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .w-pz-hint-grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.w-pz-colloc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.w-pz-colloc-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.w-pz-colloc-chip strong {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.w-pz-colloc-chip span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.w-pz-topic-select {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.w-pz-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12.5px;
+  cursor: pointer;
+  padding: 3px 0;
+}
+
+.w-pz-check-item input {
+  margin-top: 3px;
+  accent-color: var(--primary);
+}
+
+.w-pz-ai-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.w-pz-ai-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.w-pz-ai-key-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.w-pz-ai-key-input {
+  flex: 1;
+  min-width: 160px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 12px;
+}

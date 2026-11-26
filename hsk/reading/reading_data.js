@@ -3856,7 +3856,7 @@ window.LP_HSK_READING_DATA = [
     "badge": "HSK 6 • Cao cấp 2",
     "title": "Bài 6: Bài đọc học thuật — Nghệ thuật 'Tạm Dừng' & Đổi Mới",
     "subtitle": "Phân tích văn bản HSK 6: nhận diện ẩn dụ, cấu trúc tu từ, câu bị lược và hàm ý triết lý.",
-    "taskTypeLabel": "Đọc hiểu học thuật & Phân tích cấu trúc",
+    "taskTypeLabel": "Tìm câu bệnh ngữ + Đọc hiểu học thuật & Phân tích cấu trúc",
     "paragraphs": [
       {
         "zh": "在崇尚“唯快不破”的现代商业社会里，“快”似乎成了衡量一切效率的最高准则。然而，许多突破性的创新，恰恰诞生于刻意的“慢”与“停顿”之中。当所有人都在惯性赛道上蒙眼狂奔时，敢于按暂停键的人，才有机会看清真正的方向。",
@@ -3901,6 +3901,45 @@ window.LP_HSK_READING_DATA = [
       }
     ],
     "questions": [
+      {
+        "id": "r6_err1",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "在快节奏的竞争环境中，适时放慢脚步往往有助于我们重新校准人生的方向。",
+          "心理学研究表明，短暂脱离高强度工作状态能够让潜意识在后台整合零散信息。",
+          "经过长达三个月的反复实验与数据分析，这支年轻的科研团队终于具有了独立研发高精度传感器。",
+          "有价值的“留白”并非逃避责任的借口，而是建立在前期深厚积累之上的蓄力。"
+        ],
+        "ans": 2,
+        "exp": "[Nhóm 1 — Thiếu thành phần (成分残缺: thiếu tân ngữ trung tâm)] Câu C dùng động từ '具有' (có được) nhưng phía sau chỉ có cụm định ngữ '独立研发高精度传感器' mà thiếu danh từ trung tâm. Cấu trúc sai: '具有了独立研发高精度传感器' → Sửa đúng: thêm '的能力' ở cuối câu ('具有了独立研发高精度传感器的能力')."
+      },
+      {
+        "id": "r6_err2",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "为了改善团队的整体研发效率，公司决定在每周五下午设立两小时的深度思考时间。",
+          "面对突发变故，保持冷静的头脑比盲目加快行动节奏显得更为关键。",
+          "许多经典著作的诞生，都凝聚着作者经年累月的沉淀与反复推敲。",
+          "散步、听音乐等轻松的活动，有时反而能在不经意间触发灵感的火花。"
+        ],
+        "ans": 0,
+        "exp": "[Nhóm 2 — Kết hợp sai (搭配不当: động từ – tân ngữ)] Câu A ghép '改善' (cải thiện: thường đi với 条件, 环境, 生活, 关系) với '效率' (hiệu suất) là sai kết hợp. Cấu trúc sai: '改善……效率' → Sửa đúng: đổi thành '提高团队的整体研发效率' (nâng cao hiệu suất)."
+      },
+      {
+        "id": "r6_err3",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "一旦陷入惯性思维的泥潭，再勤奋的努力也难以带来真正的突破。",
+          "之所以会出现思路枯竭的瓶颈，其根本原因是由于长期缺乏高质量的休息与反思造成的。",
+          "唯有在前期投入足够的心血与钻研，后续的短暂抽离才可能促成顿悟。",
+          "现代管理学越来越重视为员工留出自由探索与试错的弹性空间。"
+        ],
+        "ans": 1,
+        "exp": "[Nhóm 5 — Lẫn lộn cấu trúc (句式杂糅)] Câu B trộn lẫn 3 mẫu câu giải thích nguyên nhân: '之所以……是因为……', '其根本原因是……' và '是由……造成的'. Cấu trúc sai: '根本原因是由于……造成的' → Sửa đúng: giữ một mẫu duy nhất, VD '其根本原因是长期缺乏高质量的休息与反思' hoặc '是由长期缺乏高质量的休息与反思造成的'."
+      },
       {
         "id": "r6_q1",
         "kind": "mcq",
@@ -4036,7 +4075,33 @@ window.LP_HSK_READING_DATA = [
           "许多科研团队正尝试借助智能模型缩短新药研发的周期。"
         ],
         "ans": 0,
-        "exp": "Câu A mắc lỗi kinh điển HSK 6: thiếu chủ ngữ do dùng cặp '通过……，使……' cùng lúc. Cần bỏ '通过' hoặc bỏ '使'."
+        "exp": "[Nhóm 1 — Thiếu thành phần (成分残缺: thiếu chủ ngữ)] Câu A mắc lỗi kinh điển HSK 6 khi dùng đồng thời giới từ '通过' và động từ sai khiến '使', khiến chủ ngữ bị nuốt mất. Cấu trúc sai: '通过……，使我们……' → Sửa đúng: bỏ '通过' hoặc bỏ '使' (VD: '这次关于人工智能的专题讲座，使我们清晰地认识到了……')."
+      },
+      {
+        "id": "r6_02_err2",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "不仅算法能在数秒内完成海量文献的筛选，而且还能辅助研究者总结核心趋势。",
+          "在艺术创作领域，真实的情感共鸣始终是打动观众不可或缺的精神内核。",
+          "如果把工具的便利性误当作人类的原创力，人们便容易丧失主动追问的习惯。",
+          "科研人员正在探索如何将生成式模型安全地应用于临床诊断辅助系统。"
+        ],
+        "ans": 0,
+        "exp": "[Nhóm 4 — Trật tự từ sai (语序不当: vị trí liên từ cùng chủ ngữ)] Hai vế trong câu A có chung một chủ ngữ là '算法', theo quy tắc ngữ pháp tiếng Trung liên từ '不仅' phải đứng SAU chủ ngữ. Cấu trúc sai: '不仅算法能……，而且还能……' → Sửa đúng: '算法不仅能在数秒内完成海量文献的筛选，而且还能辅助研究者总结核心趋势。'"
+      },
+      {
+        "id": "r6_02_err3",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "这场围绕人工智能伦理边界展开的圆桌论坛，吸引了来自十余所高校的学者。",
+          "机器可以承担繁复的数据推演任务，从而把人类从机械重复的劳动中解放出来。",
+          "昨天下午，几个科技公司的负责人在峰会上就数据隐私保护方案达成了共识。",
+          "技术本身并无善恶之分，关键在于使用者如何设定价值准则与监管机制。"
+        ],
+        "ans": 2,
+        "exp": "[Nhóm 7 — Mơ hồ đa nghĩa (表意不明 / 歧义)] Cụm '几个科技公司的负责人' trong câu C gây hiểu nhầm hai nghĩa: (1) mấy công ty công nghệ (mỗi công ty có người phụ trách), hay (2) mấy người phụ trách của cùng một/các công ty công nghệ. Cấu trúc sai: '几个科技公司的负责人' → Sửa đúng: tách rõ lượng từ, VD '几家科技公司的负责人' hoặc '科技公司的几位负责人'."
       },
       {
         "id": "r6_02_q2",
@@ -4160,7 +4225,33 @@ window.LP_HSK_READING_DATA = [
           "越来越多的现代设计师开始从传统榫卯工艺中汲取结构灵感。"
         ],
         "ans": 2,
-        "exp": "Câu C mắc lỗi phủ định kép sai nghĩa: '防止……不再……' (ngăn chặn đừng không bị mục nát nữa -> nghĩa bị đảo thành muốn nó tiếp tục mục!). Phải bỏ chữ '不' hoặc '再', viết thành '防止……受潮腐朽'."
+        "exp": "[Nhóm 6 — Phủ định sai (否定失当)] Câu C mắc lỗi phủ định kép làm đảo ngược nghĩa: '防止' đã mang nghĩa 'ngăn chặn không cho xảy ra', đi thêm '不再' thành 'ngăn chặn việc không mục nữa' (= muốn nó tiếp tục mục!). Cấu trúc sai: '防止……不再受潮腐朽' → Sửa đúng: bỏ '不再', viết thành '为了防止珍贵的古建筑木构件受潮腐朽……'."
+      },
+      {
+        "id": "r6_03_err2",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "古代木构建筑之所以能历经千年风雨而屹立不倒，离不开工匠对木材特性的深刻把握。",
+          "这部纪录片围绕以传统榫卯技艺的传承与创新为中心，全面展现了东方匠心精神。",
+          "与刚性金属连接件不同，榫卯节点在地震发生时可以通过微小形变消耗外部能量。",
+          "若个别木构件因年久失修出现松动，修复人员能够精准拆换而无需破坏整体结构。"
+        ],
+        "ans": 1,
+        "exp": "[Nhóm 5 — Lẫn lộn cấu trúc (句式杂糅)] Câu B trộn lẫn hai khuôn mẫu độc lập là '围绕……' (xoay quanh…) và '以……为中心' (lấy… làm trung tâm). Cấu trúc sai: '围绕以……为中心' → Sửa đúng: chọn 1 trong 2 mẫu, VD '这部纪录片围绕传统榫卯技艺的传承与创新' hoặc '这部纪录片以传统榫卯技艺的传承与创新为中心'."
+      },
+      {
+        "id": "r6_03_err3",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "为了抢救濒临失传的古建营造法式，研究团队对全国多座古塔进行了三维激光测绘。",
+          "展厅中央陈列着一件明代工匠精心雕琢的、巧夺天工的珍贵紫檀木榫卯模型。",
+          "文物保护部门已经正式实施并认真讨论了这座千年木塔的年度防潮修缮方案。",
+          "越来越多的年轻设计师尝试把传统木作理念融入当代环保建筑之中。"
+        ],
+        "ans": 2,
+        "exp": "[Nhóm 4 — Trật tự từ sai (语序不当: đảo ngược trình tự logic hành động)] Câu C đặt '正式实施' (chính thức triển khai) trước '认真讨论' (thảo luận nghiêm túc) là ngược trình tự thực tế — phải thảo luận trước rồi mới triển khai. Cấu trúc sai: '实施并讨论了' → Sửa đúng: '认真讨论并正式实施了这座千年木塔的年度防潮修缮方案'."
       },
       {
         "id": "r6_03_q2",
@@ -4284,7 +4375,33 @@ window.LP_HSK_READING_DATA = [
           "是否打破单一的算法推荐，直接决定了我们的视野能否变得更加开阔和多元。"
         ],
         "ans": 0,
-        "exp": "Câu A mắc lỗi kinh điển HSK 6 '两面对一面' (hai mặt đối một mặt): vế đầu dùng '能否' (có thể hay không — 2 mặt), nhưng vế sau chỉ dùng '具备成熟判断力' (1 mặt). Cần thêm '是否' vào trước '具备'."
+        "exp": "[Nhóm 2 — Kết hợp sai (搭配不当: 两面对一面 — hai mặt đối một mặt)] Vế đầu câu A dùng '能否' (có thể hay không — 2 mặt), nhưng vế sau chỉ nêu 1 mặt '具备成熟判断力'. Cấu trúc sai: '能否……，是衡量一个人具备……' → Sửa đúng: thêm '是否' vào trước '具备' ('是衡量一个人是否具备成熟判断力的重要标志')."
+      },
+      {
+        "id": "r6_04_err2",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "长期沉浸在高度同质化的资讯流里，很容易让人对不同立场产生本能排斥。",
+          "这种只追求点击率的推荐算法对许多追求深度阅读的青年读者非常不感兴趣。",
+          "要走出信息茧房，除了平台优化推送机制外，读者自身更需培养核查信源的习惯。",
+          "与持不同观点的理性人士展开坦诚对话，有助于拓宽我们看待问题的格局。"
+        ],
+        "ans": 1,
+        "exp": "[Nhóm 8 — Dùng sai hư từ / giới từ (介词误用: đảo chủ – khách với 对)] Trong câu B, chủ thể cảm thấy 'không hứng thú' phải là '青年读者' chứ không phải '推荐算法'. Cấu trúc sai: '算法对青年读者非常不感兴趣' → Sửa đúng: đảo chủ-khách thành '许多追求深度阅读的青年读者对这种只追求点击率的推荐算法非常不感兴趣'."
+      },
+      {
+        "id": "r6_04_err3",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "调查数据显示，受碎片化浏览习惯影响，受访者每周阅读深度长文的时间比五年前减少了两倍。",
+          "面对真假难辨的网络传言，等待权威机构核实后再作判断才是更为审慎的态度。",
+          "公共讨论空间若想保持健康活力，就必须容许建立在事实基础上的多元声音并存。",
+          "这本传播学专著通过大量实证案例，系统剖析了群体极化现象的演变路径。"
+        ],
+        "ans": 0,
+        "exp": "[Nhóm 6 — Logic mâu thuẫn (不合逻辑: giảm đi dùng bội số 倍)] Trong tiếng Trung chuẩn, tăng lên mới dùng '倍' (gấp bao nhiêu lần), còn giảm đi (减少/下降/缩短) TUYỆT ĐỐI không dùng '倍' mà phải dùng phân số hoặc phần trăm. Cấu trúc sai: '减少了两倍' → Sửa đúng: '减少了三分之二' hoặc '减少了百分之五十'."
       },
       {
         "id": "r6_04_q2",
@@ -4408,7 +4525,33 @@ window.LP_HSK_READING_DATA = [
           "透水路面能够让雨水迅速渗入地下，从而降低行人和车辆在雨天打滑的风险。"
         ],
         "ans": 2,
-        "exp": "Câu C mắc lỗi lặp từ trùng nghĩa (语义重复): đã có '大约' (khoảng chừng) lại dùng thêm '左右' (khoảng chừng). Cần bỏ một trong hai từ."
+        "exp": "[Nhóm 3 — Thừa / Lặp nghĩa (成分赘余 / 语义重复)] Câu C dùng đồng thời hai từ ước lượng đồng nghĩa '大约' (khoảng chừng) và '左右' (xấp xỉ). Cấu trúc sai: '大约花费了半年左右' → Sửa đúng: bỏ một trong hai từ, viết thành '大约花费了半年时间' hoặc '花费了半年左右时间'."
+      },
+      {
+        "id": "r6_05_err2",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "海绵城市的建设并非推倒重来，而是通过因地制宜的生态微改造逐步完善水循环。",
+          "下沉式绿地与雨水花园在强降雨期间能有效滞留地表径流，减轻市政管网压力。",
+          "这一系列生态治水举措，极大地提高了老城区的防洪排涝能力和整体生态景观。",
+          "在干旱少雨的季节，前期收集并净化的雨水可用于道路清扫与园林灌溉。"
+        ],
+        "ans": 2,
+        "exp": "[Nhóm 2 — Kết hợp sai (搭配不当: một động từ kéo hai tân ngữ không tương thích)] Động từ '提高' (nâng cao) đi đúng với '防洪排涝能力', nhưng KHÔNG thể đi với '生态景观' (cảnh quan sinh thái). Cấu trúc sai: '提高了……能力和整体生态景观' → Sửa đúng: tách động từ phù hợp cho vế sau, VD '极大地提高了老城区的防洪排涝能力，并美化了整体生态景观'."
+      },
+      {
+        "id": "r6_05_err3",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "不管昨晚市区突降了一场持续数小时的特大暴雨，新建的海绵社区路面依然没有出现积水。",
+          "如果城市地面全部被不透水的混凝土覆盖，雨水就很难渗入地下补充地下水资源。",
+          "通过合理布局湿地公园与透水铺装，许多城市成功缓解了内涝频发的顽疾。",
+          "只有在规划阶段就尊重自然地形与水系脉络，城市才能具备应对极端气候的韧性。"
+        ],
+        "ans": 0,
+        "exp": "[Nhóm 8 — Dùng sai liên từ (关联词误用: 不管 vs 尽管)] Liên từ '不管' (bất kể) chỉ dùng với điều kiện chưa xác định / mở (thường đi với từ nghi vấn 怎么, 多么, 还是…), không dùng cho một sự thật cụ thể đã xảy ra ('昨晚突降了一场特大暴雨'). Cấu trúc sai: '不管昨晚市区突降了……' → Sửa đúng: đổi '不管' thành '尽管' (mặc dù)."
       },
       {
         "id": "r6_05_q2",
@@ -4532,7 +4675,33 @@ window.LP_HSK_READING_DATA = [
           "良好的跨文化沟通不仅需要流利的语言能力，更需要对不同习俗的真诚尊重。"
         ],
         "ans": 2,
-        "exp": "Câu C mắc lỗi lặp nghĩa kinh điển HSK 6: '忍俊不禁' vốn đã có nghĩa là 'không nhịn được cười', nên không đi kèm thêm '地笑了起来'. Chỉ cần viết '全都忍俊不禁'."
+        "exp": "[Nhóm 3 — Thừa / Lặp nghĩa (成分赘余 / 语义重复)] Thành ngữ '忍俊不禁' vốn đã có nghĩa là 'không nhịn được cười', nên thêm '地笑了起来' bị trùng nghĩa nghiêm trọng. Cấu trúc sai: '忍俊不禁地笑了起来' → Sửa đúng: bỏ '地笑了起来', chỉ viết '全都忍俊不禁'."
+      },
+      {
+        "id": "r6_06_err2",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "在昨天的跨文化研讨会上，主持人委婉地批评了小王和小李关于传统礼仪的片面观点。",
+          "就像酸甜苦辣按比例调和才能煮出佳肴一样，不同文明的互鉴也能激发出新的创造力。",
+          "单调地重复同一个音符无法构成交响乐，唯有多种乐器彼此呼应才能奏出动人旋律。",
+          "面对文化习俗的差异，保持开放包容的心态往往比急于评判对错更有建设性。"
+        ],
+        "ans": 0,
+        "exp": "[Nhóm 7 — Mơ hồ đa nghĩa (表意不明 / 歧义)] Cụm '批评了小王和小李关于传统礼仪的片面观点' trong câu A có thể hiểu theo hai cách: (1) phê bình cả Tiểu Vương lẫn quan điểm của Tiểu Lý, hoặc (2) phê bình quan điểm của cả hai người (Tiểu Vương và Tiểu Lý). Cấu trúc sai: thiếu dấu hiệu phân định phạm vi '和' → Sửa đúng: viết rõ '批评了小王与小李二人关于传统礼仪的片面观点' hoặc tách vế rõ ràng."
+      },
+      {
+        "id": "r6_06_err3",
+        "kind": "error",
+        "q": "Tìm câu có LỖI BỆNH NGỮ (找病句 - chọn 1 câu sai ngữ pháp/nghĩa):",
+        "opts": [
+          "“和而不同”的精髓在于尊重个体差异，同时在平等对话中寻求共识与互补。",
+          "在全球化交流日益频繁的今天，理解他国历史背景有助于避免不必要的误解与隔阂。",
+          "在参与国际学术合作与文化对话时，我们切忌不要带着刻板印象去草率评判他人。",
+          "优秀的跨文化沟通者既能清晰表达自身立场，也善于耐心倾听对方的不同声音。"
+        ],
+        "ans": 2,
+        "exp": "[Nhóm 6 — Phủ định sai (否定失当)] Động từ '切忌' đã mang nghĩa phủ định tuyệt đối ('tuyệt đối tránh / chớ nên'), đi kèm thêm '不要' tạo thành phủ định kép khiến nghĩa bị đảo ngược. Cấu trúc sai: '切忌不要带着刻板印象' → Sửa đúng: bỏ '不要', viết thành '我们切忌带着刻板印象去草率评判他人'."
       },
       {
         "id": "r6_06_q2",

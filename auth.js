@@ -70,7 +70,7 @@
   const TOTAL_SPEAKING_VOCAB = 9214;
   const TOTAL_TED_LESSONS = 202;
   const TOTAL_HSK_VOCAB = 5112;
-  const TOTAL_HSK_ITEMS = 764;
+  const TOTAL_HSK_ITEMS = 876;
 
   const AVATAR_PRESETS = ["🎓", "🦊", "🐼", "🦁", "🐯", "🐨", "🦉", "🦄", "🐲", "🚀", "⚡", "🌟", "💎", "🔥", "🍀", "🎯"];
 
@@ -1042,7 +1042,7 @@
 
   function countHskWritingEntries(raw) {
     const hw = parseJ(raw, {});
-    const caps = { chars: 60, radicals: 214, reorder: 40, pinyinWrite: 20, makeSentence: 20, essays: 20 };
+    const caps = { chars: 120, radicals: 214, reorder: 40, pinyinWrite: 40, makeSentence: 40, essays: 20 };
     return Object.keys(caps).reduce((sum, bk) => {
       const b = hw && hw[bk];
       const cnt = b && typeof b === "object" ? Object.values(b).filter(Boolean).length : 0;

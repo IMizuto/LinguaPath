@@ -1,4 +1,4 @@
-/* LinguaPath — HSK 1–3 Grammar Handbook Data (54 Core Topics) */
+/* LinguaPath — HSK 1–3 Grammar Handbook Data (60 Core Topics) */
 window.LP_HSK_GRAMMAR_DATA = [
   {
     "id": "hsk1_shi_you_zai",
@@ -1473,6 +1473,170 @@ window.LP_HSK_GRAMMAR_DATA = [
         ],
         "ans": 1,
         "exp": "Bên trong khuôn viên bệnh viện không có cửa hàng hoa quả dùng 里边 (hoặc 里)."
+      }
+    ]
+  },
+  {
+    "id": "hsk1_tone_sandhi_erhua",
+    "level": 1,
+    "category": "Phó từ & Hư từ",
+    "title": "Biến điệu 一, 不, 3 thanh 3 & Nhi hóa (儿化)",
+    "formula": "一 + T4 → yí | 一 + T1/2/3 → yì | 不 + T4 → bú | T3+T3 → T2+T3 | Danh từ + 儿 (uốn lưỡi)",
+    "summary": "Bốn quy tắc biến âm sống còn giúp phát âm tự nhiên như người bản xứ và nghe đúng 100% trong đề HSK 1–2. '一' giữ nguyên yī khi đếm số hoặc đứng cuối từ, đọc thành yí trước thanh 4 và yì trước thanh 1/2/3. '不' đọc bú trước thanh 4. Khi 3 thanh 3 đi liền nhau, chia cụm ý 2+1 (T2+T2+T3) hoặc 1+2 (T3+T2+T3). Hậu tố 儿 (er) không tạo âm tiết mới mà uốn cong đầu lưỡi ngay cuối vần trước đó.",
+    "deepNotesHtml": "<p><strong>1. Tư duy phát âm:</strong> Nhiều người học phát âm từng chữ đúng nhưng ghép câu lại nghe cứng vì đọc nguyên thanh gốc của <code>一</code> (yī), <code>不</code> (bù) và chuỗi thanh 3. Lưu ý: khi viết Pinyin trên đề thi, sách thường giữ thanh gốc hoặc đánh dấu biến điệu, nhưng khi <strong>nói và nghe</strong> luôn áp dụng âm biến điệu.</p><p><strong>2. Ba quy tắc biến điệu cốt lõi:</strong></p><ul><li><em>Biến điệu 一 (yī):</em> Đếm số, số thứ tự giữ <code>yī</code> (第一 dì-yī, 一二三); trước thanh 4 đọc <code>yí</code> (一个 yí gè, 一样 yíyàng); trước thanh 1/2/3 đọc <code>yì</code> (一天 yì tiān, 一起 yìqǐ).</li><li><em>Biến điệu 不 (bù):</em> Trước thanh 4 đọc <code>bú</code> (不是 bú shì, 不对 bú duì); trước thanh 1/2/3 giữ <code>bù</code> (不吃 bù chī, 不忙 bù máng).</li><li><em>Chuỗi 3 thanh 3 liên tiếp:</em> Chia theo nhịp nghĩa. Nhóm 2+1 (vd. <code>展览馆</code> zhǎnlǎn + guǎn) đọc thành <code>T2 + T2 + T3</code> (zhánlán guǎn). Nhóm 1+2 (vd. <code>我很好</code> wǒ + hěnhǎo) đọc <code>nửa T3 + T2 + T3</code> (wǒ hén hǎo).</li><li><em>Nhi hóa (儿化):</em> <code>这儿</code> (zhèr), <code>哪儿</code> (nǎr), <code>一点儿</code> (yìdiǎnr), <code>玩儿</code> (wánr) chỉ đọc thành 1 âm tiết uốn lưỡi duy nhất, không tách thành 2 tiếng.</li></ul><p><strong>3. Bẫy thi HSK:</strong> Khi nghe <code>yí kuài</code> (一块), <code>bú yào</code> (不要) hay <code>yìdiǎnr</code> (一点儿), đừng bị đánh lừa bởi thanh điệu đã biến đổi mà nhầm sang chữ khác.</p>",
+    "examples": [
+      {
+        "zh": "我买了一个苹果和一杯茶。",
+        "py": "Wǒ mǎi le yí gè píngguǒ hé yì bēi chá.",
+        "vi": "Tôi đã mua một quả táo và một cốc trà."
+      },
+      {
+        "zh": "今天不是星期二，我不去学校。",
+        "py": "Jīntiān bú shì xīngqī'èr, wǒ bú qù xuéxiào.",
+        "vi": "Hôm nay không phải thứ Ba, tôi không đến trường."
+      },
+      {
+        "zh": "我很好，你也很好吗？",
+        "py": "Wǒ hén hǎo, nǐ yě hén hǎo ma?",
+        "vi": "Tôi rất khỏe, bạn cũng rất khỏe chứ?"
+      },
+      {
+        "zh": "这儿的天气有一点儿冷。",
+        "py": "Zhèr de tiānqì yǒu yìdiǎnr lěng.",
+        "vi": "Thời tiết ở đây hơi lạnh một chút."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: Đọc '一个' thành yī gè hoặc '不是' thành bù shì → Đúng: Đọc yí gè, bú shì (一 và 不 trước thanh 4 bắt buộc đổi sang thanh 2).",
+      "Sai: Đọc tách '哪儿' thành hai âm tiết nǎ + ér → Đúng: Đọc liền một âm tiết uốn lưỡi nǎr.",
+      "Sai: Đọc cả 3 thanh 3 '我很好' xuống giọng 3 lần liên tiếp → Đúng: Chia cụm 1+2 thành wǒ (nửa thanh 3) + hén + hǎo."
+    ],
+    "quiz": [
+      {
+        "q": "Trong cụm từ '一起去' (đi cùng nhau), chữ 一 được phát âm là gì?",
+        "opts": [
+          "yī",
+          "yí",
+          "yì",
+          "yi"
+        ],
+        "ans": 2,
+        "exp": "Trước thanh 3 (起 qǐ), 一 biến điệu thành thanh 4: yìqǐ."
+      },
+      {
+        "q": "Cụm từ nào sau đây có chữ 不 đổi thành thanh 2 (bú)?",
+        "opts": [
+          "不好 (hǎo)",
+          "不忙 (máng)",
+          "不对 (duì)",
+          "不多 (duō)"
+        ],
+        "ans": 2,
+        "exp": "对 (duì) là thanh 4 nên 不 biến điệu thành bú duì."
+      },
+      {
+        "q": "Khi đọc cụm 3 thanh 3 '我很好' (cấu trúc 1+2), biến điệu tự nhiên nhất là:",
+        "opts": [
+          "wó hén hǎo",
+          "wǒ hén hǎo",
+          "wǒ hěn háo",
+          "wó hěn hǎo"
+        ],
+        "ans": 1,
+        "exp": "Nhóm 1+2 (我 + 很好): 很 đứng trước 好 đổi thành thanh 2 (hén), 我 giữ nửa thanh 3."
+      },
+      {
+        "q": "Từ '一点儿' (một chút) có bao nhiêu âm tiết khi phát âm chuẩn Bắc Kinh?",
+        "opts": [
+          "1 âm tiết",
+          "2 âm tiết (yì + diǎnr)",
+          "3 âm tiết (yì + diǎn + ér)",
+          "4 âm tiết"
+        ],
+        "ans": 1,
+        "exp": "点儿 đọc gộp thành 1 âm tiết uốn lưỡi diǎnr, nên 一点儿 chỉ có 2 âm tiết."
+      }
+    ]
+  },
+  {
+    "id": "hsk1_clock_age_price",
+    "level": 1,
+    "category": "Cấu trúc câu",
+    "title": "Giờ kém (差…分…点) & Hỏi tuổi, giá tiền thực chiến",
+    "formula": "X点半 / X点Y刻 / 差X分Y点 | 你今年多大(了)？ / 几岁了？ | 这个多少钱？ / 怎么卖？",
+    "summary": "Cách nói giờ chi tiết vượt ngoài giờ chẵn: '半' (rưỡi), '一刻' (15 phút), '三刻' (45 phút) và mẫu giờ kém '差 + phút + 点'. Đồng thời phân biệt 3 cách hỏi tuổi theo đối tượng (trẻ em dưới 10 tuổi dùng 几岁, người trẻ/ngang hàng dùng 多大, người cao tuổi dùng 您多大年纪) và các mẫu hỏi giá thực tế khi mua sắm.",
+    "deepNotesHtml": "<p><strong>1. Cách nói giờ chi tiết:</strong></p><ul><li><em>Giờ lẻ dưới 10 phút:</em> Thêm <code>零</code> (líng): <code>八点零五分</code> (8:05).</li><li><em>Giờ rưỡi &amp; 15 phút:</em> <code>九点半</code> (9:30), <code>十点一刻</code> (10:15), <code>十点三刻</code> (10:45).</li><li><em>Giờ kém:</em> Dùng <code>差 + số phút + 分 + giờ sắp tới + 点</code> hoặc đảo giờ lên trước: <code>差十分八点</code> = <code>七点五十分</code> (8 giờ kém 10 = 7:50). Riêng kém 15 phút hay nói <code>差一刻八点</code>.</li></ul><p><strong>2. Ba tầng hỏi tuổi lịch sự:</strong></p><ul><li>Trẻ em (dưới ~10 tuổi): <code>你今年几岁了？</code> (Nǐ jīnnián jǐ suì le?)</li><li>Thanh niên, bạn bè, người trung niên: <code>你今年多大(了)？</code> (Nǐ jīnnián duō dà le?)</li><li>Người lớn tuổi (kính trọng): <code>您今年多大年纪了？</code> hoặc <code>您高寿？</code></li></ul><p><strong>3. Hỏi giá &amp; đơn vị tiền tệ:</strong> Khẩu ngữ dùng <code>块</code> (kuài — tệ/đồng), <code>毛</code> (máo — hào), <code>分</code> (fēn — xu); văn viết dùng <code>元</code>, <code>角</code>, <code>分</code>. Hỏi tổng giá dùng <code>一共多少钱？</code>, hỏi đơn giá theo cân dùng <code>苹果怎么卖？</code> (Táo bán thế nào?).</p>",
+    "examples": [
+      {
+        "zh": "现在差五分九点，我们快进教室吧。",
+        "py": "Xiànzài chà wǔ fēn jiǔ diǎn, wǒmen kuài jìn jiàoshì ba.",
+        "vi": "Bây giờ là 9 giờ kém 5 phút rồi, chúng ta mau vào lớp thôi."
+      },
+      {
+        "zh": "电影七点一刻开始，九点半结束。",
+        "py": "Diànyǐng qī diǎn yí kè kāishǐ, jiǔ diǎn bàn jiéshù.",
+        "vi": "Phim bắt đầu lúc 7 giờ 15 phút và kết thúc lúc 9 giờ rưỡi."
+      },
+      {
+        "zh": "请问，你女儿今年几岁了？——她六岁了。",
+        "py": "Qǐngwèn, nǐ nǚ'ér jīnnián jǐ suì le? — Tā liù suì le.",
+        "vi": "Xin hỏi, con gái chị năm nay mấy tuổi rồi? — Cháu 6 tuổi rồi."
+      },
+      {
+        "zh": "老板，这斤苹果怎么卖？——八块五毛一斤。",
+        "py": "Lǎobǎn, zhè jīn píngguǒ zěnme mài? — Bā kuài wǔ máo yì jīn.",
+        "vi": "Ông chủ ơi, táo này bán thế nào? — Tám tệ rưỡi một cân."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 现在九点差五分 (dễ nhầm thứ tự trong khẩu ngữ cơ bản) → Đúng: Chuẩn giáo trình HSK đặt 差 lên trước: 差五分九点 (8:55).",
+      "Sai: Hỏi thầy giáo 40 tuổi '老师，你今年几岁了？' → Đúng: '老师，您今年多大了？' (几岁 chỉ dùng cho trẻ nhỏ).",
+      "Sai: 三块五分 để nói 3.5 tệ → Đúng: 三块五 (hoặc 三块五毛), vì 0.5 tệ = 5 hào (五毛), còn 五分 chỉ là 0.05 tệ."
+    ],
+    "quiz": [
+      {
+        "q": "'差一刻十点' tương ứng với mấy giờ?",
+        "opts": [
+          "10:15",
+          "9:45",
+          "9:15",
+          "10:45"
+        ],
+        "ans": 1,
+        "exp": "一刻 = 15 phút; 差一刻十点 = 10 giờ kém 15 = 9:45."
+      },
+      {
+        "q": "Hỏi tuổi một bạn sinh viên đại học mới quen, câu nào tự nhiên nhất?",
+        "opts": [
+          "你今年几岁了？",
+          "你今年多大了？",
+          "你今年多少岁？",
+          "你今年高寿？"
+        ],
+        "ans": 1,
+        "exp": "Với người trẻ/bạn bè ngang hàng dùng 多大(了)."
+      },
+      {
+        "q": "Giá niêm yết '12.50元' đọc theo khẩu ngữ tự nhiên là:",
+        "opts": [
+          "十二块五分",
+          "十二块五(毛)",
+          "十二元五分",
+          "十二毛五块"
+        ],
+        "ans": 1,
+        "exp": "Số thập phân đầu tiên sau 元/块 là 角/毛 (hào): 12.50元 = 十二块五(毛)."
+      },
+      {
+        "q": "Muốn hỏi người bán hàng 'Cam bán bao nhiêu tiền một cân?', câu nào tự nhiên nhất?",
+        "opts": [
+          "橘子怎么卖？",
+          "橘子几岁？",
+          "橘子几点？",
+          "橘子在哪儿卖？"
+        ],
+        "ans": 0,
+        "exp": "'Danh từ + 怎么卖？' là mẫu hỏi đơn giá thông dụng nhất khi đi chợ/mua sắm."
       }
     ]
   },
@@ -2953,6 +3117,170 @@ window.LP_HSK_GRAMMAR_DATA = [
     ]
   },
   {
+    "id": "hsk2_separable_verbs",
+    "level": 2,
+    "category": "Cấu trúc câu",
+    "title": "Động từ ly hợp (离合词: 见面, 帮忙, 睡觉, 唱歌…)",
+    "formula": "V + O (hợp) ↔ V + 了/过/着 / Thời lượng / Số lượng / Định ngữ + O (ly) | KHÔNG + Tân ngữ trực tiếp",
+    "summary": "Động từ ly hợp (离合词) là động từ 2 âm tiết có cấu tạo Động từ + Tân ngữ sẵn bên trong (như 见面, 帮忙, 睡觉, 唱歌, 结婚, 生气, 游泳, 散步). Vì bản thân đã chứa tân ngữ nên tuyệt đối KHÔNG được thêm tân ngữ nữa ngay phía sau, và khi chèn 了/过/thời lượng/số lượng phải tách đôi chèn vào giữa!",
+    "deepNotesHtml": "<p><strong>1. Bản chất Động từ ly hợp:</strong> Trong <code>见面</code> (jiànmiàn — gặp mặt), <code>见</code> là động từ (gặp), <code>面</code> là tân ngữ (mặt). Do đó nói <em>“见面他”</em> bị thừa 2 tân ngữ! Phải đưa đối tượng lên trước bằng giới từ <code>跟/和</code>: <code>跟他见面</code> (gặp mặt anh ấy).</p><p><strong>2. Ba quy tắc tách đôi (Ly) bắt buộc nhớ:</strong></p><ul><li><em>Chèn trợ từ động thái 了 / 过 / 着:</em> Tách vào giữa: <code>睡了一觉</code>, <code>游过泳</code>, <code>洗着澡</code> (trợ từ đứng sau phần động từ).</li><li><em>Chèn bổ ngữ thời lượng / số lượng / định ngữ:</em> <code>睡了八个小时觉</code> (ngủ 8 tiếng), <code>唱一首中文歌</code> (hát 1 bài hát tiếng Trung), <code>帮了我一个大忙</code> (giúp tôi một việc lớn).</li><li><em>Lặp lại động từ:</em> Chỉ lặp phần động từ đầu theo mẫu <strong>AAB</strong>: <code>散散步</code> (đi dạo chút), <code>游游泳</code> (bơi chút), <code>聊聊天</code> (tán gẫu chút) — KHÔNG lặp ABAB.</li></ul><p><strong>3. Bẫy thi HSK 2–4:</strong> Bốn từ hay bẫy nhất là <code>见面</code> (跟A见面), <code>结婚</code> (跟A结婚), <code>生气</code> (生A的气 / 对A生气), và <code>帮忙</code> (帮A的忙).</p>",
+    "examples": [
+      {
+        "zh": "我明天下午跟王老师见面。",
+        "py": "Wǒ míngtiān xiàwǔ gēn Wáng lǎoshī jiànmiàn.",
+        "vi": "Chiều mai tôi sẽ gặp mặt thầy Vương."
+      },
+      {
+        "zh": "昨晚我只睡了五个小时觉。",
+        "py": "Zuówǎn wǒ zhǐ shuì le wǔ gè xiǎoshí jiào.",
+        "vi": "Tối qua tôi chỉ ngủ có năm tiếng đồng hồ."
+      },
+      {
+        "zh": "谢谢你帮了我这么大的忙！",
+        "py": "Xièxie nǐ bāng le wǒ zhème dà de máng!",
+        "vi": "Cảm ơn bạn đã giúp tôi một việc lớn như vậy!"
+      },
+      {
+        "zh": "吃完晚饭，我们去公园散散步吧。",
+        "py": "Chī wán wǎnfàn, wǒmen qù gōngyuán sànsanbù ba.",
+        "vi": "Ăn tối xong, chúng ta ra công viên đi dạo một chút nhé."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 我昨天见面了我的老朋友 → Đúng: 我昨天跟我的老朋友见面了 (见面 là từ ly hợp, không mang tân ngữ trực tiếp phía sau).",
+      "Sai: 你可以帮忙我一下吗？ → Đúng: 你可以帮我一下吗？ / 你可以帮我的忙吗？ (Tân ngữ người phải kẹp giữa 帮 và 忙).",
+      "Sai: 他昨天睡觉了十个小时 → Đúng: 他昨天睡了十个小时觉 (Thời lượng kẹp giữa 睡 và 觉)."
+    ],
+    "quiz": [
+      {
+        "q": "Câu nào sau đây ĐÚNG ngữ pháp với động từ ly hợp '结婚' (kết hôn)?",
+        "opts": [
+          "他去年结婚了小李。",
+          "他去年跟小李结婚了。",
+          "他去年结婚小李了。",
+          "他去年结了婚小李。"
+        ],
+        "ans": 1,
+        "exp": "结婚 là động từ ly hợp, đối tượng kết hôn đặt trước bằng 跟/和: 跟小李结婚."
+      },
+      {
+        "q": "Dạng lặp lại đúng của động từ ly hợp '游泳' (bơi lội) là:",
+        "opts": [
+          "游泳游泳",
+          "游游泳",
+          "游泳泳",
+          "游一游泳"
+        ],
+        "ans": 1,
+        "exp": "Động từ ly hợp lặp theo dạng AAB (lặp phần động từ đầu): 游游泳."
+      },
+      {
+        "q": "Chọn câu diễn đạt đúng 'Hôm qua cô ấy hát hai bài hát':",
+        "opts": [
+          "她昨天唱歌了两首。",
+          "她昨天唱了两首歌。",
+          "她昨天两首唱歌了。",
+          "她昨天唱了歌两首。"
+        ],
+        "ans": 1,
+        "exp": "Số lượng từ '两首' chèn vào giữa động từ 唱 và tân ngữ 歌: 唱了两首歌."
+      },
+      {
+        "q": "Sửa câu sai '他生气了我' thành câu đúng tự nhiên:",
+        "opts": [
+          "他生我的气了。",
+          "他生气着我。",
+          "他生了气我。",
+          "他气生我了。"
+        ],
+        "ans": 0,
+        "exp": "生气 tách thành 生 + Ai + 的气 (giận ai), hoặc dùng 对 + Ai + 生气."
+      }
+    ]
+  },
+  {
+    "id": "hsk2_prepositions_bang_ti_yong",
+    "level": 2,
+    "category": "Phó từ & Hư từ",
+    "title": "Giới từ thực chiến 帮, 替, 顺便, 用 (Giúp, thay & công cụ)",
+    "formula": "S + 帮/替 + Ai + V | S + 顺便 + V | S + 用 + Công cụ/Ngôn ngữ + V",
+    "summary": "Bốn từ nối hành động cực kỳ phổ biến trong giao tiếp hằng ngày nhưng người Việt hay đặt sai vị trí. Trong tiếng Trung, cụm 'Giới từ + Tân ngữ' phải đứng TRƯỚC động từ chính: '用筷子吃饭' (dùng đũa ăn cơm), không nói '吃饭用筷子'. Đồng thời phân biệt rõ '帮' (giúp cùng làm hoặc làm hộ) và '替' (làm thay hoàn toàn cho người khác), cùng phó từ '顺便' (tiện thể).",
+    "deepNotesHtml": "<p><strong>1. Quy tắc vàng về vị trí (Ngược tiếng Việt):</strong> Tiếng Việt nói <em>“ăn cơm bằng đũa”</em>, <em>“viết thư bằng tiếng Trung”</em> (động từ trước, công cụ sau). Tiếng Trung bắt buộc đưa công cụ lên trước: <code>用 + Công cụ + Động từ</code>.</p><p><strong>2. Phân biệt sắc thái 4 từ:</strong></p><ul><li><code>帮</code> (bāng — giúp): Giúp đỡ trực tiếp (có thể làm cùng hoặc làm giúp): <code>请帮我拿一下行李</code> (Làm ơn giúp tôi xách hành lý chút).</li><li><code>替</code> (tì — thay, hộ): Thay mặt, thế chỗ hoàn toàn khi người kia không làm được: <code>你替我去开会吧</code> (Cậu đi họp thay tôi nhé); <code>替我向你妈妈问好</code> (Cho tôi gửi lời hỏi thăm mẹ bạn).</li><li><code>顺便</code> (shùnbiàn — tiện thể, nhân tiện): Phó từ đứng trước động từ để chỉ việc làm kèm theo việc chính, không tốn thêm công đi lại: <code>你去超市时顺便买瓶牛奶</code>.</li><li><code>用</code> (yòng — dùng, bằng): Chỉ công cụ, phương tiện, nguyên liệu hoặc ngôn ngữ: <code>用手机付钱</code>, <code>用汉语回答</code>.</li></ul><p><strong>3. Bẫy thi HSK:</strong> <code>顺便</code> là phó từ nên không mang tân ngữ trực tiếp (không nói <em>顺便牛奶</em> mà phải là <code>顺便买牛奶</code>).</p>",
+    "examples": [
+      {
+        "zh": "中国人习惯用筷子吃饭。",
+        "py": "Zhōngguórén xíguàn yòng kuàizi chīfàn.",
+        "vi": "Người Trung Quốc quen ăn cơm bằng đũa."
+      },
+      {
+        "zh": "我今天有点儿发烧，你能替我去上课吗？",
+        "py": "Wǒ jīntiān yǒudiǎnr fāshāo, nǐ néng tì wǒ qù shàngkè ma?",
+        "vi": "Hôm nay tôi hơi sốt, bạn có thể đi học thay tôi không?"
+      },
+      {
+        "zh": "请帮我把窗户打开一下，房间里太热了。",
+        "py": "Qǐng bāng wǒ bǎ chuānghu dǎkāi yíxià, fángjiān lǐ tài rè le.",
+        "vi": "Làm ơn mở giúp tôi cửa sổ chút, trong phòng nóng quá."
+      },
+      {
+        "zh": "你下楼拿快递的时候，顺便把垃圾扔了吧。",
+        "py": "Nǐ xià lóu ná kuàidì de shíhou, shùnbiàn bǎ lājī rēng le ba.",
+        "vi": "Lúc bạn xuống lầu lấy hàng chuyển phát, tiện thể vứt rác luôn nhé."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 我写汉字用毛笔 → Đúng: 我用毛笔写汉字 (Cụm 用 + công cụ luôn đứng trước động từ chính).",
+      "Sai: 你帮我向你爸爸问好 (ít tự nhiên bằng 替) → Đúng: 请替我向你爸爸问好 (Thay mặt gửi lời thăm dùng 替).",
+      "Sai: 你顺便一瓶水吧 → Đúng: 你顺便买/带一瓶水吧 (顺便 là phó từ, sau nó bắt buộc phải có động từ)."
+    ],
+    "quiz": [
+      {
+        "q": "Sắp xếp đúng câu 'Tôi trả lời câu hỏi bằng tiếng Trung':",
+        "opts": [
+          "我回答问题用汉语。",
+          "我用汉语回答问题。",
+          "用我汉语回答问题。",
+          "我回答用汉语问题。"
+        ],
+        "ans": 1,
+        "exp": "Trạng ngữ chỉ công cụ/ngôn ngữ '用汉语' đặt trước động từ '回答问题'."
+      },
+      {
+        "q": "Điền từ phù hợp: 我嗓子疼，今天麻烦你___我给学生们讲课吧。",
+        "opts": [
+          "用",
+          "顺便",
+          "替",
+          "把"
+        ],
+        "ans": 2,
+        "exp": "Giảng bài thay/thế chỗ người đang đau họng dùng giới từ 替 (làm thay)."
+      },
+      {
+        "q": "Điền từ thích hợp: 去邮局寄信时，我___去旁边的书店买了两本书。",
+        "opts": [
+          "替",
+          "顺便",
+          "用",
+          "帮"
+        ],
+        "ans": 1,
+        "exp": "Nhân tiện đi bưu điện thì ghé hiệu sách bên cạnh mua sách → dùng phó từ 顺便."
+      },
+      {
+        "q": "Câu nào sau đây SAI ngữ pháp?",
+        "opts": [
+          "你可以帮我查一下这个词吗？",
+          "请用黑色笔填写表格。",
+          "他顺便超市买水果了。",
+          "我替大家谢谢你的热情招待。"
+        ],
+        "ans": 2,
+        "exp": "顺便 là phó từ, phải đứng trước động từ 去 (顺便去超市买水果), không đứng trực tiếp trước danh từ 超市."
+      }
+    ]
+  },
+  {
     "id": "hsk3_result_complement",
     "level": 3,
     "category": "Bổ ngữ",
@@ -4425,6 +4753,170 @@ window.LP_HSK_GRAMMAR_DATA = [
         ],
         "ans": 0,
         "exp": "'什么时候 + 都' diễn tả ý nghĩa 'bất cứ lúc nào cũng...'."
+      }
+    ]
+  },
+  {
+    "id": "hsk3_five_tiers_comparison",
+    "level": 3,
+    "category": "Cấu trúc câu",
+    "title": "5 tầng Câu So Sánh tiếng Trung (比 / 没有 / 跟…一样 / 不如 / 越来越)",
+    "formula": "1. A比B + Adj(+Chênh lệch) | 2. A没有B(+那么)Adj | 3. A跟B一样(+Adj) | 4. A不如B(+Adj) | 5. 越来越Adj",
+    "summary": "Hệ thống hóa trọn bộ 5 tầng câu so sánh từ HSK 2 đến HSK 4 giúp diễn đạt mọi sắc thái hơn, kém, bằng và biến đổi theo thời gian. Đặc biệt làm rõ quy tắc không dùng 很/非常 trong câu chữ 比 (thay bằng 多了/得多/一点儿/更/还), và cách dùng 不如 để chê nhẹ hoặc đưa ra lựa chọn tốt hơn.",
+    "deepNotesHtml": "<p><strong>1. Bảng 5 tầng so sánh hệ thống:</strong></p><ul><li><em>Tầng 1 (So sánh hơn — 比):</em> <code>A 比 B + Adj + 一点儿 / 得多 / 多了 / Số cụ thể</code>. Ví dụ: <code>今天比昨天冷得多</code> (Hôm nay lạnh hơn hôm qua nhiều). Cấm dùng <code>很/非常/真</code> sau 比!</li><li><em>Tầng 2 (Phủ định của 比 — 没有):</em> <code>A 没有 B (这么/那么) + Adj</code> = A không ... bằng B. Ví dụ: <code>汉语没有我想象的那么难</code>.</li><li><em>Tầng 3 (So sánh ngang bằng — 跟/和…一样):</em> <code>A 跟 B 一样 (+ Adj)</code>. Phủ định: <code>A 跟 B 不一样</code>.</li><li><em>Tầng 4 (So sánh kém / Đề xuất — 不如):</em> <code>A 不如 B (+ Adj)</code> (A không bằng B, văn phong gọn &amp; trang trọng hơn 没有). Mở rộng: <code>与其A，不如B</code> (Thà B còn hơn A).</li><li><em>Tầng 5 (So sánh biến đổi — 越来越):</em> <code>S + 越来越 + Adj / Động từ tâm lý</code> (càng ngày càng...). Ví dụ: <code>天气越来越暖和了</code>.</li></ul><p><strong>2. Bẫy thi HSK 3–4:</strong> Khi có động từ mang bổ ngữ trạng thái <code>得</code>, có 2 vị trí đặt <code>比B</code>: <code>他跑得比我快</code> hoặc <code>他比我跑得快</code> (đều đúng).</p>",
+    "examples": [
+      {
+        "zh": "坐高铁比坐普通火车快多了。",
+        "py": "Zuò gāotiě bǐ zuò pǔtōng huǒchē kuài duō le.",
+        "vi": "Đi tàu cao tốc nhanh hơn đi tàu thường rất nhiều."
+      },
+      {
+        "zh": "这里的冬天没有北方那么冷。",
+        "py": "Zhèlǐ de dōngtiān méiyǒu běifāng nàme lěng.",
+        "vi": "Mùa đông ở đây không lạnh bằng miền Bắc."
+      },
+      {
+        "zh": "我觉得在外面吃不如在家里自己做健康。",
+        "py": "Wǒ juéde zài wàimiàn chī bùrú zài jiālǐ zìjǐ zuò jiànkāng.",
+        "vi": "Tôi thấy ăn ở ngoài không lành mạnh bằng tự nấu ở nhà."
+      },
+      {
+        "zh": "她的汉语说得越来越流利了。",
+        "py": "Tā de Hànyǔ shuō de yuèláiyuè liúlì le.",
+        "vi": "Tiếng Trung của cô ấy nói càng ngày càng lưu loát."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: 他比我很高 → Đúng: 他比我高得多 / 他比我高一点儿 (Câu chữ 比 tuyệt đối không đi với phó từ mức độ 很/非常).",
+      "Sai: 我没有他很高 → Đúng: 我没有他(那么)高 (Câu so sánh 没有 cũng không dùng 很, chỉ dùng 这么/那么).",
+      "Sai: 天气越来越很热了 → Đúng: 天气越来越热了 (越来越 đã mang nghĩa mức độ tăng dần nên không thêm 很)."
+    ],
+    "quiz": [
+      {
+        "q": "Câu so sánh nào sau đây ĐÚNG ngữ pháp?",
+        "opts": [
+          "这件衣服比那件很贵。",
+          "这件衣服比那件贵得多。",
+          "这件衣服比那件非常贵。",
+          "这件衣服贵比那件多了。"
+        ],
+        "ans": 1,
+        "exp": "Trong câu chữ 比, muốn nhấn mạnh mức độ chênh lệch lớn dùng 多了 / 得多 đặt sau tính từ."
+      },
+      {
+        "q": "Câu '坐公交车没有坐地铁快' đồng nghĩa nhất với câu nào?",
+        "opts": [
+          "坐公交车跟坐地铁一样快。",
+          "坐公交车不如坐地铁快。",
+          "坐公交车比坐地铁快。",
+          "坐公交车越来越快。"
+        ],
+        "ans": 1,
+        "exp": "'A 没有 B + Adj' và 'A 不如 B + Adj' đều có nghĩa là A không ... bằng B."
+      },
+      {
+        "q": "Điền cụm từ đúng: 这两个方案各有优点，但从长远来看，第一个方案___第二个。",
+        "opts": [
+          "不如",
+          "一样",
+          "越来越",
+          "比"
+        ],
+        "ans": 0,
+        "exp": "A 不如 B có thể đứng không cần tính từ phía sau (nghĩa là A không bằng B)."
+      },
+      {
+        "q": "Chọn câu đặt vị trí so sánh đúng khi có bổ ngữ trạng thái 得:",
+        "opts": [
+          "他写汉字比我写好。",
+          "他写汉字写得比我漂亮。",
+          "他写得汉字比我漂亮。",
+          "他比我漂亮写汉字。"
+        ],
+        "ans": 1,
+        "exp": "Động từ có tân ngữ + bổ ngữ trạng thái lặp động từ: 写汉字写得比我漂亮."
+      }
+    ]
+  },
+  {
+    "id": "hsk3_polyphonic_words",
+    "level": 3,
+    "category": "Từ đồng nghĩa",
+    "title": "Từ đa âm thông dụng (多音字: 长, 行, 还, 重, 觉, 乐, 只, 干)",
+    "formula": "Cùng 1 chữ Hán → Khác Pinyin → Khác Từ loại & Ý nghĩa hoàn toàn",
+    "summary": "Tiếng Trung có một nhóm chữ Hán cực kỳ thông dụng mang 2 cách đọc (Pinyin) khác nhau tùy ngữ cảnh và từ loại (gọi là 多音字). Nắm vững 8 chữ đa âm cốt lõi HSK 1–3 giúp bạn tránh đọc nhầm khi giao tiếp, nghe hiểu chính xác và không mất điểm oan ở phần điền Pinyin hay đọc hiểu.",
+    "deepNotesHtml": "<p><strong>1. Bảng 8 chữ đa âm (多音字) bắt buộc thuộc ở HSK 3:</strong></p><ul><li><code>长</code>: <strong>cháng</strong> (tính từ: dài — 很长, 长城) vs. <strong>zhǎng</strong> (động từ: lớn lên, mọc — 长大, 校长 hiệu trưởng).</li><li><code>行</code>: <strong>xíng</strong> (được, đi — 不行, 旅行) vs. <strong>háng</strong> (ngành nghề, hàng lối — 银行 ngân hàng, 行业).</li><li><code>还</code>: <strong>hái</strong> (phó từ: vẫn, còn — 还有, 还没来) vs. <strong>huán</strong> (động từ: trả lại — 还书, 还钱).</li><li><code>重</code>: <strong>zhòng</strong> (nặng, quan trọng — 很重, 重要) vs. <strong>chóng</strong> (lặp lại — 重新 làm lại, 重复 lặp lại).</li><li><code>觉</code>: <strong>jué</strong> (cảm thấy — 觉得, 感觉) vs. <strong>jiào</strong> (giấc ngủ — 睡觉, 午觉).</li><li><code>乐</code>: <strong>lè</strong> (vui vẻ — 快乐, 可乐) vs. <strong>yuè</strong> (âm nhạc — 音乐, 乐器).</li><li><code>只</code>: <strong>zhǐ</strong> (phó từ: chỉ — 只有, 只要) vs. <strong>zhī</strong> (lượng từ: con, chiếc — 一只猫, 一只鞋).</li><li><code>干</code>: <strong>gān</strong> (khô, sạch — 干净, 饼干) vs. <strong>gàn</strong> (làm việc — 干活, 干什么).</li></ul><p><strong>2. Mẹo nhớ nhanh:</strong> Hầu hết các chữ đa âm tách biệt theo <strong>từ loại</strong> (ví dụ: phó từ <code>还 hái / 只 zhǐ</code> đối lập với động từ/lượng từ <code>还 huán / 只 zhī</code>). Luôn nhìn từ đi kèm để chốt Pinyin!</p>",
+    "examples": [
+      {
+        "zh": "这本从图书馆借的书，你什么时候还？——我还没看完呢。",
+        "py": "Zhè běn cóng túshūguǎn jiè de shū, nǐ shénme shíhou huán? — Wǒ hái méi kàn wán ne.",
+        "vi": "Quyển sách mượn ở thư viện này khi nào bạn trả? — Tôi vẫn chưa đọc xong."
+      },
+      {
+        "zh": "我每天听着音乐，心情就特别快乐。",
+        "py": "Wǒ měitiān tīng zhe yīnyuè, xīnqíng jiù tèbié kuàilè.",
+        "vi": "Mỗi ngày tôi nghe nhạc thì tâm trạng lại vô cùng vui vẻ."
+      },
+      {
+        "zh": "孩子长大以后，头发留得很长。",
+        "py": "Háizi zhǎngdà yǐhòu, tóufa liú de hěn cháng.",
+        "vi": "Sau khi đứa trẻ lớn lên, tóc nuôi rất dài."
+      },
+      {
+        "zh": "他去银行办完事，问我这样行不行。",
+        "py": "Tā qù yínháng bàn wán shì, wèn wǒ zhèyàng xíng bu xíng.",
+        "vi": "Anh ấy đi ngân hàng làm xong việc, hỏi tôi làm thế này có được không."
+      }
+    ],
+    "commonMistakes": [
+      "Sai: Đọc '还书' (trả sách) thành hái shū → Đúng: Đọc huán shū (động từ trả lại đọc huán, phó từ 'vẫn còn' mới đọc hái).",
+      "Sai: Đọc '银行' (ngân hàng) thành yínxíng → Đúng: Đọc yínháng (chỉ ngành nghề, hàng ngũ đọc háng).",
+      "Sai: Đọc '睡觉' thành shuìjué → Đúng: Đọc shuìjiào (giấc ngủ đọc jiào; '觉得' cảm thấy mới đọc juéde)."
+    ],
+    "quiz": [
+      {
+        "q": "Trong câu '这个问题很重要，我们需要重新讨论', hai chữ 重 lần lượt đọc là:",
+        "opts": [
+          "chóng — zhòng",
+          "zhòng — chóng",
+          "zhòng — zhòng",
+          "chóng — chóng"
+        ],
+        "ans": 1,
+        "exp": "重要 (quan trọng) đọc zhòngyào; 重新 (làm lại từ đầu) đọc chóngxīn."
+      },
+      {
+        "q": "Chữ '干' trong từ '干净' (sạch sẽ) và '干什么' (làm gì) lần lượt đọc là:",
+        "opts": [
+          "gān — gàn",
+          "gàn — gān",
+          "gān — gān",
+          "gàn — gàn"
+        ],
+        "ans": 0,
+        "exp": "干净 (khô ráo, sạch sẽ) đọc gānjìng; 干什么 (làm gì) đọc gàn shénme."
+      },
+      {
+        "q": "Trong câu '我家只有一只小猫', hai chữ 只 lần lượt đọc là:",
+        "opts": [
+          "zhī — zhǐ",
+          "zhǐ — zhī",
+          "zhǐ — zhǐ",
+          "zhī — zhī"
+        ],
+        "ans": 1,
+        "exp": "只有 (chỉ có) là phó từ đọc zhǐ; 一只猫 (một con mèo) là lượng từ đọc zhī."
+      },
+      {
+        "q": "Cặp từ nào sau đây có chữ gạch chân đọc GIỐNG nhau?",
+        "opts": [
+          "音乐 — 快乐",
+          "长大 — 校长",
+          "还钱 — 还是",
+          "旅行 — 银行"
+        ],
+        "ans": 1,
+        "exp": "长大 (zhǎngdà) và 校长 (xiàozhǎng) đều đọc là zhǎng."
       }
     ]
   }

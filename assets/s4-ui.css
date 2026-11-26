@@ -122,38 +122,51 @@ html.theme-ghibli.dark {
   --lg-blur: blur(12px) saturate(140%);
 }
 
-/* Tầng portal (data-glass-tier="portal": Trang chủ, HSK Home & Roadmap) — Kính trong suốt alpha ~32-48% thấy rõ nền Ghibli/Aurora */
+/* Tầng portal (data-glass-tier="portal": Trang chủ, HSK Home & Roadmap) — Kính kem sữa / rừng đêm rõ chữ trên tranh nền Ghibli */
 html[data-glass-tier="portal"]:not(.dark):not(.theme-ghibli) {
-  --lg-surface: linear-gradient(155deg, rgba(255, 255, 255, 0.44) 0%, rgba(248, 250, 252, 0.32) 100%);
-  --lg-surface-strong: linear-gradient(160deg, rgba(255, 255, 255, 0.56) 0%, rgba(248, 250, 252, 0.44) 100%);
-  --lg-wash: rgba(255, 255, 255, 0.36);
-  --lg-wash-hover: rgba(255, 255, 255, 0.58);
-  --lg-text-halo: 0 1px 2px rgba(255, 255, 255, 0.72);
-  --lg-blur: blur(10px) saturate(145%);
+  --lg-surface: linear-gradient(155deg, rgba(255, 255, 255, 0.82) 0%, rgba(248, 250, 252, 0.76) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(255, 255, 255, 0.90) 0%, rgba(248, 250, 252, 0.84) 100%);
+  --lg-wash: rgba(241, 245, 249, 0.68);
+  --lg-wash-hover: rgba(255, 255, 255, 0.88);
+  --lg-ink: #0f172a;
+  --lg-ink-sub: #1e293b;
+  --lg-ink-muted: #334155;
+  --lg-text-halo: none;
+  --lg-blur: blur(16px) saturate(150%);
 }
 html.theme-ghibli[data-glass-tier="portal"]:not(.dark) {
-  --lg-surface: linear-gradient(155deg, rgba(254, 249, 236, 0.46) 0%, rgba(246, 237, 214, 0.34) 100%);
-  --lg-surface-strong: linear-gradient(160deg, rgba(254, 249, 236, 0.58) 0%, rgba(246, 237, 214, 0.46) 100%);
-  --lg-wash: rgba(252, 245, 226, 0.34);
-  --lg-wash-hover: rgba(254, 249, 236, 0.58);
-  --lg-text-halo: 0 1px 2px rgba(254, 249, 236, 0.78);
-  --lg-blur: blur(10px) saturate(140%);
+  --lg-surface: linear-gradient(155deg, rgba(254, 250, 240, 0.84) 0%, rgba(248, 241, 224, 0.78) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(255, 252, 244, 0.92) 0%, rgba(249, 243, 228, 0.86) 100%);
+  --lg-wash: rgba(244, 235, 212, 0.68);
+  --lg-wash-hover: rgba(252, 247, 235, 0.88);
+  --lg-ink: #132219;
+  --lg-ink-sub: #22382b;
+  --lg-ink-muted: #395042;
+  --lg-hairline: rgba(186, 162, 120, 0.64);
+  --lg-text-halo: none;
+  --lg-blur: blur(16px) saturate(148%);
 }
 html.dark[data-glass-tier="portal"]:not(.theme-ghibli) {
-  --lg-surface: linear-gradient(155deg, rgba(20, 32, 50, 0.46) 0%, rgba(12, 20, 36, 0.34) 100%);
-  --lg-surface-strong: linear-gradient(160deg, rgba(20, 32, 50, 0.58) 0%, rgba(12, 20, 36, 0.46) 100%);
-  --lg-wash: rgba(255, 255, 255, 0.08);
-  --lg-wash-hover: rgba(255, 255, 255, 0.14);
-  --lg-text-halo: 0 1px 2px rgba(0, 0, 0, 0.55);
-  --lg-blur: blur(10px) saturate(145%);
+  --lg-surface: linear-gradient(155deg, rgba(18, 30, 48, 0.82) 0%, rgba(12, 20, 36, 0.76) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(20, 34, 54, 0.90) 0%, rgba(13, 22, 38, 0.84) 100%);
+  --lg-wash: rgba(255, 255, 255, 0.10);
+  --lg-wash-hover: rgba(255, 255, 255, 0.16);
+  --lg-ink: #f8fafc;
+  --lg-ink-sub: #dce6f2;
+  --lg-ink-muted: #b0c2d8;
+  --lg-text-halo: none;
+  --lg-blur: blur(16px) saturate(150%);
 }
 html.theme-ghibli.dark[data-glass-tier="portal"] {
-  --lg-surface: linear-gradient(155deg, rgba(20, 36, 28, 0.48) 0%, rgba(12, 24, 18, 0.34) 100%);
-  --lg-surface-strong: linear-gradient(160deg, rgba(20, 36, 28, 0.60) 0%, rgba(12, 24, 18, 0.46) 100%);
-  --lg-wash: rgba(255, 245, 225, 0.08);
-  --lg-wash-hover: rgba(255, 245, 225, 0.14);
-  --lg-text-halo: 0 1px 2px rgba(0, 0, 0, 0.58);
-  --lg-blur: blur(10px) saturate(140%);
+  --lg-surface: linear-gradient(155deg, rgba(18, 33, 26, 0.84) 0%, rgba(11, 22, 17, 0.78) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(20, 37, 29, 0.92) 0%, rgba(13, 25, 19, 0.86) 100%);
+  --lg-wash: rgba(255, 245, 225, 0.10);
+  --lg-wash-hover: rgba(255, 245, 225, 0.16);
+  --lg-ink: #f4f1e8;
+  --lg-ink-sub: #d7e7dd;
+  --lg-ink-muted: #a6beaf;
+  --lg-text-halo: none;
+  --lg-blur: blur(16px) saturate(145%);
 }
 
 /* Tông màu nhấn theo phân hệ: IELTS (mặc định), HSK (Đỏ Chu Sa), TED Talks (Đỏ Cam) */
@@ -205,6 +218,14 @@ html.theme-ghibli.dark {
 
 html.ghibli-lite {
   --lg-blur: blur(6px) saturate(125%);
+}
+html.ghibli-lite[data-glass-tier="portal"]:not(.dark) {
+  --lg-surface: linear-gradient(155deg, rgba(254, 251, 243, 0.92) 0%, rgba(248, 242, 226, 0.88) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(255, 253, 247, 0.96) 0%, rgba(250, 245, 232, 0.92) 100%);
+}
+html.ghibli-lite.dark[data-glass-tier="portal"] {
+  --lg-surface: linear-gradient(155deg, rgba(18, 33, 26, 0.92) 0%, rgba(11, 22, 17, 0.88) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(20, 37, 29, 0.96) 0%, rgba(13, 25, 19, 0.92) 100%);
 }
 
 /* Nền Pastel Aurora 3 quầng cho chế độ Gốc (khi tắt Ghibli) để kính luôn xuyên màu đẹp */
@@ -280,6 +301,7 @@ html:not(.theme-ghibli) .lp-aurora-layer {
   gap: 8px;
   min-width: 0;
   flex: 1 1 auto;
+  overflow: hidden;
 }
 .lp-top-center {
   display: flex;
@@ -318,19 +340,24 @@ html:not(.theme-ghibli) .lp-aurora-layer {
 .lp-brand {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 7px;
   min-width: 0;
+  overflow: hidden;
 }
 .lp-brand-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
-  display: flex;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--lg-accent-soft);
   color: var(--lg-accent);
   flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
 }
 .lp-brand-text { min-width: 0; }
 .lp-brand-title {

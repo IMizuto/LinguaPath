@@ -81,13 +81,20 @@
     .level-bar::-webkit-scrollbar { display: none; }
 
     .sec-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.55px;
-      color: var(--lg-ink-muted);
-      margin: 14px 0 10px 2px;
-      display: flex;
+      color: var(--lg-ink);
+      margin: 14px 0 10px 0;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--lg-surface-strong);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      border: 1px solid var(--lg-hairline);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+      display: inline-flex;
       align-items: center;
       gap: 7px;
     }
@@ -286,7 +293,7 @@
         <div class="lp-sum-lbl">Cần ôn hôm nay</div>
       </a>
       <div class="lp-sum-cell">
-        <div class="lp-sum-num is-stage" id="hskStatLessons">0 / 764</div>
+        <div class="lp-sum-num is-stage" id="hskStatLessons">0 / 876</div>
         <div class="lp-sum-lbl">Tổng mục hoàn thành</div>
       </div>
     </section>
@@ -387,14 +394,14 @@
             <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
           </div>
           <div>
-            <span class="card-tag tag-grammar">108 CHUYÊN ĐỀ • 168 LƯỢNG TỪ</span>
+            <span class="card-tag tag-grammar">120 CHUYÊN ĐỀ • 168 LƯỢNG TỪ</span>
             <h3 class="card-title">Ngữ pháp &amp; Lượng từ HSK</h3>
             <p class="card-desc">Công thức 3 thể, lỗi hay gặp, lượng từ và quiz tự chấm.</p>
           </div>
         </div>
         <div class="card-footer">
           <div class="prog-row">
-            <span id="grammarProgText">Đã học: 0/108 chuyên đề (0%)</span>
+            <span id="grammarProgText">Đã học: 0/120 chuyên đề (0%)</span>
             <span class="card-cta-lbl" style="color:#0f766e;">
               <span>Vào học</span>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -410,14 +417,14 @@
             <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
           </div>
           <div>
-            <span class="card-tag tag-writing">374 MỤC • 214 BỘ THỦ &amp; CHỮ MỄ</span>
+            <span class="card-tag tag-writing">474 MỤC • 214 BỘ THỦ &amp; 120 CHỮ MỄ</span>
             <h3 class="card-title">Luyện viết chữ Hán</h3>
             <p class="card-desc">Viết nét khung chữ Mễ, xếp câu HSK 3–4 và viết đoạn HSK 5–6.</p>
           </div>
         </div>
         <div class="card-footer">
           <div class="prog-row">
-            <span id="writingProgText">Đã luyện: 0/374 mục (0%)</span>
+            <span id="writingProgText">Đã luyện: 0/474 mục (0%)</span>
             <span class="card-cta-lbl" style="color:#c2410c;">
               <span>Vào học</span>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -530,8 +537,8 @@
 
       var LEVEL_TOTALS = { all: 5112, 1: 150, 2: 147, 3: 301, 4: 609, 5: 1397, 6: 2508 };
       var ACTIVE_LESSONS_COUNT = 106;
-      var TOTAL_GRAMMAR_COUNT = 108;
-      var TOTAL_WRITING_COUNT = 374;
+      var TOTAL_GRAMMAR_COUNT = 120;
+      var TOTAL_WRITING_COUNT = 474;
       var TOTAL_LISTENING_COUNT = 36;
       var TOTAL_READING_COUNT = 36;
       var TOTAL_SPEAKING_COUNT = 92;
@@ -631,7 +638,7 @@
         document.getElementById("grammarProgFill").style.width = gPct + "%";
 
         var wDone = safeJson("lp_hsk_writing_done_v1", {});
-        var wCaps = { chars: 60, radicals: 214, reorder: 40, pinyinWrite: 20, makeSentence: 20, essays: 20 };
+        var wCaps = { chars: 120, radicals: 214, reorder: 40, pinyinWrite: 40, makeSentence: 40, essays: 20 };
         var wCount = Object.keys(wCaps).reduce(function (sum, bucket) {
           var b = wDone && wDone[bucket];
           var cnt = b && typeof b === "object" ? Object.values(b).filter(Boolean).length : 0;

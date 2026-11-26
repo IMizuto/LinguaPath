@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v129";
+const CACHE_NAME = "linguapath-cache-v130";
 const OFFLINE_CACHE = "linguapath-offline-packs-v1";
 const WHISPER_CACHE = "lp-whisper-runtime-v1";
 const CORE_ASSETS = [
@@ -66,15 +66,19 @@ const OFFLINE_PACKS = {
   foundation: [
     "./ielts/foundation/index.html", "./ielts/foundation/foundation_data.js",
     "./ielts/listening/index.html", "./ielts/listening/data/listening_manifest.js",
-    "./ielts/listening/data/listening_u_2.js"
+    "./ielts/listening/data/listening_u_2.js",
+    "./ielts/vocab/vocab_collocations.js",
+    "./ielts/grammar/grammar_explanations.js",
+    "./ielts/writing/data/writing_toolkit_data.js"
   ],
   hsk: [
     "./hsk/lessons/index.html", "./hsk/lessons/lessons_data.js", "./hsk/lessons/lessons-slides-workbook.js",
+    "./hsk/vocab/vocab_examples_vi.js",
     "./hsk/speaking/index.html", "./hsk/speaking/speaking_data.js", "./hsk/hsk-tts.js"
   ],
   speaking: [
-    "./ielts/speaking/index.html", "./ielts/speaking/speaking_data.js", "./ielts/speaking/speaking.js",
-    "./ielts/speaking/speaking_parser.js", "./ielts/speaking/speaking.css"
+    "./ielts/speaking/index.html", "./ielts/speaking/speaking_data.js", "./ielts/speaking/speaking_toolkit_data.js",
+    "./ielts/speaking/speaking.js", "./ielts/speaking/speaking_parser.js", "./ielts/speaking/speaking.css"
   ],
   ted: ["./tedtalks/index.html", "./tedtalks/tedtalks_data.js"]
 };

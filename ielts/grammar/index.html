@@ -205,6 +205,42 @@
     .g-problem-explanation-wrapper a[data-toggle="collapse"] { display: inline-flex; align-items: center; gap: 6px; background: var(--lg-amber-soft); color: var(--lg-amber); padding: 8px 14px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 13.5px; cursor: pointer; }
     .g-problem-explanation-wrapper .collapse { display: none; margin-top: 12px; padding: 14px 18px; background: var(--lg-wash); border-radius: 14px; border-left: 4px solid #f59e0b; }
     .g-problem-explanation-wrapper .collapse.show { display: block; }
+    .g-exp-rich p { margin: 0 0 8px 0; font-size: 14.2px; line-height: 1.6; }
+    .g-exp-rich p:last-child { margin-bottom: 0; }
+    .g-exp-sub { font-size: 13px; font-weight: 700; color: var(--lg-accent); margin: 8px 0 4px 0; }
+    .g-exp-list { margin: 0 0 8px 0; padding-left: 18px; columns: 2; column-gap: 18px; font-size: 13.5px; line-height: 1.55; }
+    .g-exp-list li { margin-bottom: 3px; break-inside: avoid; }
+    .g-exp-idx { color: var(--lg-ink-muted); font-weight: 700; margin-right: 3px; }
+    .g-exp-tip { padding: 8px 11px; border-radius: 10px; background: var(--lg-accent-soft); color: var(--lg-ink); font-size: 13.5px !important; }
+    /* Cheat Sheet & Bảng Lỗi Ngữ Pháp IELTS (Modal nổi rõ nét mọi vị trí) */
+    .unit-cs-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-surface); color: var(--lg-accent); font-size: 10.5px; font-weight: 800; cursor: pointer; text-transform: none; letter-spacing: 0; }
+    .unit-cs-btn:hover { background: var(--lg-accent); color: #fff; border-color: transparent; }
+    .btn-cheatsheet { background: var(--lg-accent-soft); color: var(--lg-accent); border-color: rgba(15, 118, 110, 0.28); }
+    .btn-cheatsheet:hover, .btn-cheatsheet.active { background: var(--lg-accent); color: #fff; border-color: transparent; }
+    .lp-icon-btn.btn-top-cheatsheet { background: var(--lg-accent-soft); color: var(--lg-accent); border-color: rgba(45, 106, 79, 0.34); padding: 0 12px; }
+    .lp-icon-btn.btn-top-cheatsheet:hover, .lp-icon-btn.btn-top-cheatsheet.active { background: var(--lg-accent); color: #fff; border-color: transparent; }
+    .g-cs-backdrop { position: fixed; inset: 0; z-index: 10200; background: var(--lg-modal-backdrop, rgba(15, 23, 42, 0.45)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 16px; }
+    .g-cs-backdrop.open { display: flex; }
+    .g-cs-panel { width: 100%; max-width: 860px; max-height: 86vh; overflow-y: auto; padding: 18px 20px; border-radius: 22px; background: var(--lg-modal-surface, var(--lg-surface-strong)); border: 1px solid var(--lg-hairline); box-shadow: 0 22px 54px rgba(15, 23, 42, 0.28), inset 0 1px 0 var(--lg-rim-top, rgba(255,255,255,0.45)); color: var(--lg-ink); }
+    .g-cs-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--lg-divider); position: sticky; top: -18px; background: var(--lg-modal-surface, var(--lg-surface-strong)); z-index: 2; padding-top: 4px; }
+    .g-cs-title { font-size: 15px; font-weight: 800; color: var(--lg-accent); display: inline-flex; align-items: center; gap: 7px; }
+    .g-cs-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .g-cs-tab { padding: 5px 11px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-surface); color: var(--lg-ink-sub); font-size: 12px; font-weight: 700; cursor: pointer; }
+    .g-cs-tab.active { background: var(--lg-accent); color: #fff; border-color: transparent; }
+    .g-cs-summary { font-size: 13.5px; color: var(--lg-ink-muted); margin: 0 0 12px 0; line-height: 1.5; }
+    .g-cs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+    .g-cs-node { padding: 12px 13px; border-radius: 14px; background: var(--lg-surface); border: 1px solid var(--lg-hairline); }
+    .g-cs-node h4 { margin: 0 0 7px 0; font-size: 13.5px; font-weight: 800; color: var(--lg-accent); display: flex; align-items: center; gap: 6px; }
+    .g-cs-node ul { margin: 0; padding-left: 16px; font-size: 13px; line-height: 1.55; color: var(--lg-ink); }
+    .g-cs-node li { margin-bottom: 5px; }
+    .g-pitfall-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--lg-surface); border-radius: 12px; overflow: hidden; }
+    .g-pitfall-table th, .g-pitfall-table td { border: 1px solid var(--lg-divider); padding: 9px 10px; text-align: left; vertical-align: top; line-height: 1.5; }
+    .g-pitfall-table th { background: var(--lg-accent-soft); color: var(--lg-accent); font-weight: 800; }
+    .g-pf-wrong { color: #dc2626; text-decoration: line-through; display: block; margin-bottom: 4px; }
+    .g-pf-right { color: #059669; font-weight: 700; display: block; }
+    html.dark .g-pf-wrong { color: #fca5a5; }
+    html.dark .g-pf-right { color: #6ee7b7; }
+    @media (max-width: 640px) { .g-exp-list { columns: 1; } }
     .nav-footer.lp-lesson-nav { margin-top: 24px; padding: 12px 14px; border-radius: 18px; background: var(--lg-wash); border: 1px solid var(--lg-divider); }
     @media (min-width: 1025px) {
       .sidebar-backdrop { display: none !important; pointer-events: none !important; }
@@ -223,6 +259,8 @@
     }
     @media (max-width: 580px) {
       .gr-topbar-wrap { padding: calc(6px + var(--s4-safe-top, 0px)) 8px 0; }
+      .lp-brand { display: none; }
+      .lp-icon-btn.btn-top-cheatsheet { padding: 0 9px; font-size: 12px; }
       .main { padding: 10px 8px calc(18px + env(safe-area-inset-bottom, 8px)); }
       .nav-footer.lp-lesson-nav { gap: 8px; }
       .nav-footer.lp-lesson-nav .btn { padding: 7px 11px; font-size: 12px; }
@@ -282,6 +320,10 @@
           </div>
         </div>
         <div class="lp-top-actions">
+          <button type="button" class="lp-icon-btn btn-top-cheatsheet" id="btnTopbarCheatSheet" onclick="toggleCheatSheetPanel()" title="Mở Cheat Sheet / Mind Map tóm tắt 4 chương &amp; Lỗi IELTS">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <span>Cheat Sheet</span>
+          </button>
           <button type="button" class="lp-icon-btn donate" id="btnGrammarDonate" title="Ủng hộ dự án">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
             <span class="lp-hide-xs">Ủng hộ</span>
@@ -295,9 +337,14 @@
     </div>
   </div>
 
+  <div class="g-cs-backdrop" id="cheatSheetModal" role="dialog" aria-modal="true" aria-label="Cheat Sheet Ngữ pháp IELTS">
+    <div id="cheatSheetHost" style="width:100%;max-width:860px;"></div>
+  </div>
+
   <script src="../../assets/s4-ui.js?v=67"></script>
   <script src="../../auth.js?v=33"></script>
   <script src="grammar_data.js"></script>
+  <script src="grammar_explanations.js"></script>
   <script>
     window.LINGUAPATH_GRAMMAR_DATA = window.STUDY4_GRAMMAR_DATA;
     (function () {
@@ -469,7 +516,8 @@
           unitDone += arr.filter(x => completedMap[x.id]).length;
         });
 
-        gDiv.innerHTML = `<div class="unit-title"><span>${uTitle.replace("[Grammar] ", "")}</span><span>${unitDone}/${unitTotal}</span></div>`;
+        const uEsc = uTitle.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        gDiv.innerHTML = `<div class="unit-title"><span>${uTitle.replace("[Grammar] ", "")}</span><span style="display:inline-flex;align-items:center;gap:6px;"><button type="button" class="unit-cs-btn" onclick="openUnitCheatSheet('${uEsc}')" title="Mở Cheat Sheet tóm tắt chương">${svgIcon("layers", 11)}<span>Cheat Sheet</span></button><span>${unitDone}/${unitTotal}</span></span></div>`;
 
         let secIndex = 0;
         secMap.forEach((lessons, secName) => {
@@ -756,6 +804,9 @@ function selectItem(id, resetScroll = true) {
 
       const isDone = !!completedMap[l.id];
       let btnsHtml = '<button id="btnToggleDone" class="btn btn-done ' + (isDone ? 'completed' : '') + '" onclick="toggleDone(\'' + l.id + '\')">' + renderDoneBtnHtml(isDone) + '</button>';
+      if (window.LINGUAPATH_GRAMMAR_SIDECAR && window.LINGUAPATH_GRAMMAR_SIDECAR.cheatSheets) {
+        btnsHtml += '<button type="button" class="btn btn-cheatsheet" id="btnToggleCheatSheet" onclick="toggleCheatSheetPanel()">' + svgIcon("layers", 14) + '<span>Cheat Sheet &amp; Lỗi IELTS</span></button>';
+      }
       if (l.localPdfPath) {
         btnsHtml += '<button class="btn btn-pdf" id="btnTogglePdf" onclick="togglePdf()">' + svgIcon("layers", 14) + '<span>Xem Slide PDF</span></button>';
         btnsHtml += '<a class="btn btn-pdf" style="background:#0284c7;" href="' + l.localPdfPath + '" target="_blank" title="Mở slide trong tab mới toàn màn hình">' + svgIcon("external", 14) + '<span>Mở tab mới</span></a>';
@@ -828,7 +879,17 @@ function selectItem(id, resetScroll = true) {
         ).join("") + '</div>';
       }
 
-      const hasExplanation = /g-problem-explanation-wrapper|gproblemexplanation/i.test(q.bodyHtml || "");
+      const sidecarExpl = window.LINGUAPATH_GRAMMAR_SIDECAR && window.LINGUAPATH_GRAMMAR_SIDECAR.explanations
+        ? window.LINGUAPATH_GRAMMAR_SIDECAR.explanations[String(q.problemId)]
+        : "";
+      const hasBuiltInExpl = /g-problem-explanation-wrapper|gproblemexplanation/i.test(q.bodyHtml || "");
+      const hasExplanation = hasBuiltInExpl || !!sidecarExpl;
+      const sidecarBlockHtml = (!hasBuiltInExpl && sidecarExpl)
+        ? `<div class="g-problem-explanation-wrapper">
+            <a href="#gproblemexplanation" data-toggle="collapse" aria-expanded="false">${svgIcon("lightbulb", 14)}<span>Giải thích chi tiết đáp án</span></a>
+            <div class="collapse" id="gproblemexplanation">${sidecarExpl}</div>
+          </div>`
+        : "";
 
       box.innerHTML = `
         <div class="practice-card">
@@ -842,7 +903,7 @@ function selectItem(id, resetScroll = true) {
             <button class="btn btn-clear" onclick="clearPracticeAnswers()">${svgIcon("refresh", 14)}<span>Làm lại</span></button>
           </div>
           <div id="scoreBanner" class="score-banner"></div>
-          <div class="practice-body" id="practiceBody">${window.S4FormatTheoryHtml(q.bodyHtml)}</div>
+          <div class="practice-body" id="practiceBody">${window.S4FormatTheoryHtml(q.bodyHtml)}${sidecarBlockHtml}</div>
         </div>
       `;
 
@@ -1039,6 +1100,91 @@ function selectItem(id, resetScroll = true) {
       const banner = document.getElementById("scoreBanner");
       if (banner) banner.style.display = "none";
     };
+
+    let activeCheatSheetTab = "";
+    function renderCheatSheetContent(tabKey) {
+      const host = document.getElementById("cheatSheetHost");
+      const sidecar = window.LINGUAPATH_GRAMMAR_SIDECAR;
+      if (!host || !sidecar || !sidecar.cheatSheets) return;
+      const units = Object.keys(sidecar.cheatSheets);
+      const curLesson = ITEMS.find(x => x.id === activeId);
+      const key = tabKey || activeCheatSheetTab || (curLesson && sidecar.cheatSheets[curLesson.unitTitle] ? curLesson.unitTitle : units[0]);
+      activeCheatSheetTab = key;
+
+      const tabsHtml = units.map(u => {
+        const label = UNIT_SHORT[u] || u.replace("[Grammar] ", "");
+        const uEsc = u.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        return `<button type="button" class="g-cs-tab ${key === u ? "active" : ""}" onclick="renderCheatSheetContent('${uEsc}')">${label}</button>`;
+      }).join("") + `<button type="button" class="g-cs-tab ${key === "PITFALLS" ? "active" : ""}" onclick="renderCheatSheetContent('PITFALLS')">Lỗi hay mất điểm IELTS</button>`;
+
+      let bodyHtml = "";
+      if (key === "PITFALLS") {
+        const rows = (sidecar.ieltsPitfalls || []).map(p => `
+          <tr>
+            <td><strong>${p.category}</strong></td>
+            <td>${p.rule}</td>
+            <td><span class="g-pf-wrong">${p.wrong}</span><span class="g-pf-right">${p.right}</span></td>
+          </tr>`).join("");
+        bodyHtml = `<p class="g-cs-summary">4 nhóm lỗi ngữ pháp phổ biến nhất khiến thí sinh IELTS Writing &amp; Speaking bị kẹt ở Band 6.0–6.5.</p>
+          <div style="overflow-x:auto;"><table class="g-pitfall-table"><thead><tr><th>Chủ điểm lỗi</th><th>Quy tắc vàng</th><th>Sai &rarr; Đúng</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      } else {
+        const cs = sidecar.cheatSheets[key] || sidecar.cheatSheets[units[0]];
+        const nodesHtml = (cs.nodes || []).map(n => `
+          <div class="g-cs-node">
+            <h4>${svgIcon("sparkle", 13)}<span>${n.group}</span></h4>
+            <ul>${(n.formulas || []).map(f => `<li>${f}</li>`).join("")}</ul>
+          </div>`).join("");
+        bodyHtml = `<p class="g-cs-summary"><strong>${cs.shortTitle}:</strong> ${cs.summary}</p><div class="g-cs-grid">${nodesHtml}</div>`;
+      }
+
+      host.innerHTML = `<div class="g-cs-panel">
+        <div class="g-cs-head">
+          <div class="g-cs-title">${svgIcon("layers", 15)}<span>Cheat Sheet / Mind Map Ngữ pháp IELTS</span></div>
+          <button type="button" class="btn btn-done" style="padding:4px 10px;font-size:12px;" onclick="toggleCheatSheetPanel(false)">${svgIcon("close", 13)}<span>Đóng</span></button>
+        </div>
+        <div class="g-cs-tabs">${tabsHtml}</div>
+        ${bodyHtml}
+      </div>`;
+    }
+    window.renderCheatSheetContent = renderCheatSheetContent;
+    window.toggleCheatSheetPanel = function(forceOpen, tabKey) {
+      const modal = document.getElementById("cheatSheetModal");
+      const btn = document.getElementById("btnToggleCheatSheet");
+      const topBtn = document.getElementById("btnTopbarCheatSheet");
+      if (!modal) return;
+      const isOpen = modal.classList.contains("open");
+      const shouldOpen = typeof forceOpen === "boolean" ? forceOpen : !isOpen;
+      if (shouldOpen) {
+        renderCheatSheetContent(tabKey);
+        modal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        if (btn) btn.classList.add("active");
+        if (topBtn) topBtn.classList.add("active");
+      } else {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+        if (btn) btn.classList.remove("active");
+        if (topBtn) topBtn.classList.remove("active");
+      }
+    };
+    window.openUnitCheatSheet = function(unitTitle) {
+      window.toggleMenu(false);
+      window.toggleCheatSheetPanel(true, unitTitle);
+    };
+    (function bindCheatSheetModalEvents() {
+      const modal = document.getElementById("cheatSheetModal");
+      if (modal) {
+        modal.addEventListener("click", function(e) {
+          if (e.target === modal) window.toggleCheatSheetPanel(false);
+        });
+      }
+      document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+          const m = document.getElementById("cheatSheetModal");
+          if (m && m.classList.contains("open")) window.toggleCheatSheetPanel(false);
+        }
+      });
+    })();
 
     window.togglePdf = function() {
       const wrap = document.getElementById("pdfWrapper");

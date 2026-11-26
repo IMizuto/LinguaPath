@@ -1804,8 +1804,9 @@
           toc.push({ id: "sec-main", label: "4. Cô giáo giảng sâu & Phát âm" });
         }
         if (fullPageMode && dLen) toc.push({ id: "sec-dlg", label: `5. Bài khóa & Mổ xẻ từ (${dLen})` });
-        if (l.rightWrong && l.rightWrong.length) toc.push({ id: "sec-rw", label: "6. Hay sai/Chuẩn" });
-        toc.push({ tab: "workbook", label: "7. Bài tập" });
+        if (sw && typeof sw.renderConfusableSection === "function") toc.push({ id: "sec-bianxi", label: "6. Phân biệt (辨析)" });
+        if (l.rightWrong && l.rightWrong.length) toc.push({ id: "sec-rw", label: "7. Hay sai/Chuẩn" });
+        toc.push({ tab: "workbook", label: "8. Bài tập" });
       }
 
       let html = `<div class="prose">`;
@@ -1956,6 +1957,13 @@
         return b ? `<div id="sec-main">${b}</div>` : "";
       }
 
+      function buildBianxiBlock() {
+        if (!sw || typeof sw.renderConfusableSection !== "function") return "";
+        const bxInner = sw.renderConfusableSection(l, swHelpers);
+        if (!bxInner) return "";
+        return `<div id="sec-bianxi"><div class="sec-block-title">${lIcon("layers", 16)}<span>Phân biệt từ dễ nhầm &amp; Từ đa âm (辨析)</span></div>${bxInner}</div>`;
+      }
+
       function buildRwBlock() {
         if (!l.rightWrong || !l.rightWrong.length) return "";
         const inner = (sw && typeof sw.renderRichRightWrongSection === "function")
@@ -1989,9 +1997,11 @@
           html += `<div class="fullpage-divider"><h3>Bước 4 — Cô giáo giảng sâu &amp; Mẹo phát âm</h3><span>Phân tích tình huống &amp; khẩu hình</span></div>`;
           html += buildMainAndCharBlock(true);
           if (dLen) html += `<div id="sec-dlg" class="fullpage-divider"><h3>Bước 5 — Bài khóa song ngữ &amp; Mổ xẻ từng từ</h3><span>${dLen} câu hội thoại</span></div>${renderDialogueTab(l, swHelpers)}`;
+          html += buildBianxiBlock();
           html += buildRwBlock();
         } else {
           html += buildMainAndCharBlock(true);
+          html += buildBianxiBlock();
           html += buildRwBlock();
         }
       }
@@ -2010,6 +2020,12 @@
             /<div class="sound-tip-box"[\s\S]*?<\/div>\s*<\/div>/,
             `<div class="sound-tip-label" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;width:100%;border-radius:12px;padding:8px 12px;"><span style="display:inline-flex;align-items:center;gap:6px;">${lIcon("book", 13)}<span>${vCount} từ trọng tâm</span></span><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="ctrl-btn on" onclick="launchLessonSrs('${lidAttr}')">${lIcon("sparkles", 13)}<span>Ôn SRS bài này (${vCount})</span></button><button class="ctrl-btn" onclick="launchLessonShooter('${lidAttr}')">${lIcon("target", 13)}<span>Bắn từ (${vCount})</span></button></div></div>`
           );
+        }
+        if (activeTab === "vocab" && typeof window.HskLessonSlidesWorkbook.renderConfusableSection === "function") {
+          const bxHtml = window.HskLessonSlidesWorkbook.renderConfusableSection(l, swHelpers);
+          if (bxHtml) {
+            out += `<div class="sec-block-title" style="margin-top:20px;">${lIcon("layers", 16)}<span>Phân biệt từ dễ nhầm &amp; Từ đa âm (辨析)</span></div>${bxHtml}`;
+          }
         }
         return out;
       }

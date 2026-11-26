@@ -7313,6 +7313,7 @@
   };
 
   global.startSpeakingPracticeExam = function () {
+    if (global.closeSpeakingToolkit) global.closeSpeakingToolkit();
     var target = getSelectedPzLessonTarget();
     if (!target) return;
     selectedPzLessonId = target.id;
@@ -8987,6 +8988,7 @@
       + '    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
       + '      <button type="button" class="btn mini-btn" onclick="window.exitPzExamToLobby()">' + spIcon('arrowLeft', 13) + '<span>Về Sảnh Practice Zone</span></button>'
       + '      <div style="display:flex;gap:8px;flex-wrap:wrap;">'
+      + '        <button type="button" class="btn mini-btn" onclick="window.openSpeakingToolkit && window.openSpeakingToolkit()">' + spIcon('book', 13) + '<span>Cẩm nang Công thức</span></button>'
       + '        <button type="button" class="btn mini-btn" onclick="window.startRandomSpeakingExam()">' + spIcon('refresh', 13) + '<span>Thi thử đề Ngẫu nhiên khác</span></button>'
       + '        <button type="button" class="btn btn-primary" onclick="window._spSavePzReport()">' + spIcon(pzExam.savedToHistory ? 'check' : 'backup', 14) + '<span>' + (pzExam.savedToHistory ? 'Đã lưu Báo cáo' : 'Lưu Báo cáo Mock Test') + '</span></button>'
       + '      </div>'
@@ -9789,6 +9791,131 @@
     } else {
       setTimeout(loadScript, 0);
     }
+  }
+
+  // =========================================================================
+  // 14. IELTS B3: CẨM NANG CÔNG THỨC SPEAKING (MẶC ĐỊNH ĐÓNG — STUDIO/LOBBY/REPORT)
+  // =========================================================================
+  var spToolkitActiveTab = 'markers';
+
+  function isSpeakingLiveExamDialogue() {
+    return Boolean(pzExam && pzExam.active && pzExam.phase && pzExam.phase !== 'report');
+  }
+
+  global.closeSpeakingToolkit = function () {
+    var modal = document.getElementById('speakingToolkitModal');
+    if (modal) modal.style.display = 'none';
+  };
+
+  global.openSpeakingToolkit = function (initialTab) {
+    if (isSpeakingLiveExamDialogue()) {
+      global.closeSpeakingToolkit();
+      return;
+    }
+    if (initialTab) spToolkitActiveTab = initialTab;
+    var modal = document.getElementById('speakingToolkitModal');
+    if (!modal) return;
+    modal.style.display = 'flex';
+    renderSpeakingToolkitBody();
+  };
+
+  global.setSpeakingToolkitTab = function (tab) {
+    spToolkitActiveTab = tab || 'markers';
+    renderSpeakingToolkitBody();
+  };
+
+  global.playSpeakingToolkitPron = function (idx, speakExample) {
+    var tk = global.LP_SPEAKING_TOOLKIT;
+    var item = tk && Array.isArray(tk.pronunciationDrill) ? tk.pronunciationDrill[idx] : null;
+    if (!item) return;
+    var text = speakExample ? item.example : item.word;
+    if (!text) return;
+    if (typeof TtsEngine !== 'undefined' && TtsEngine && typeof TtsEngine.speak === 'function') {
+      TtsEngine.speak(text, { rate: speakExample ? 0.95 : 0.88 });
+    } else if (global.speechSynthesis) {
+      try {
+        global.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = voiceAccent || 'en-GB';
+        u.rate = speakExample ? 0.95 : 0.88;
+        global.speechSynthesis.speak(u);
+      } catch (e) {}
+    }
+  };
+
+  function renderSpeakingToolkitBody() {
+    var body = document.getElementById('speakingToolkitBody');
+    var tabsWrap = document.getElementById('speakingToolkitTabs');
+    if (tabsWrap) {
+      tabsWrap.querySelectorAll('.sp-tk-tab').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-tktab') === spToolkitActiveTab);
+      });
+    }
+    if (!body) return;
+    var tk = global.LP_SPEAKING_TOOLKIT;
+    if (!tk) {
+      body.innerHTML = '<div class="sp-tk-card">Chưa nạp dữ liệu Cẩm nang Speaking. Hãy tải lại trang.</div>';
+      return;
+    }
+
+    if (spToolkitActiveTab === 'markers') {
+      body.innerHTML = '<div class="sp-tk-grid">' + (tk.discourseMarkers || []).map(function (grp) {
+        return '<article class="sp-tk-card">'
+          + '<div class="sp-tk-card-head"><h4>' + escHtml(grp.title) + '</h4></div>'
+          + '<div class="sp-tk-sub">' + escHtml(grp.target || '') + '</div>'
+          + (grp.items || []).map(function (it) {
+            return '<div class="sp-tk-phrase-row">'
+              + '<span class="sp-tk-phrase-en">' + escHtml(it.phrase) + '</span>'
+              + '<span class="sp-tk-phrase-vi">' + escHtml(it.vi) + '</span>'
+              + '</div>';
+          }).join('')
+          + '</article>';
+      }).join('') + '</div>';
+      return;
+    }
+
+    if (spToolkitActiveTab === 'part1') {
+      body.innerHTML = '<div class="sp-tk-grid">' + (tk.part1Formulas || []).map(function (f) {
+        return '<article class="sp-tk-card">'
+          + '<h4>' + escHtml(f.name) + '</h4>'
+          + '<div class="sp-tk-sub">Khi nào dùng: ' + escHtml(f.when) + '</div>'
+          + '<div class="sp-tk-skeleton">' + escHtml(f.skeleton) + '</div>'
+          + '<div class="sp-tk-sample-box"><div><strong>Q:</strong> ' + escHtml(f.sampleQ) + '</div><div style="margin-top:4px;"><strong>A:</strong> ' + escHtml(f.sampleA) + '</div></div>'
+          + '<div class="sp-tk-chips">' + (f.highlights || []).map(function (h) { return '<span class="sp-tk-chip">' + escHtml(h) + '</span>'; }).join('') + '</div>'
+          + '</article>';
+      }).join('') + '</div>';
+      return;
+    }
+
+    if (spToolkitActiveTab === 'part2') {
+      body.innerHTML = '<div class="sp-tk-grid">' + (tk.part2CoreStories || []).map(function (st) {
+        return '<article class="sp-tk-card">'
+          + '<h4>' + escHtml(st.category) + '</h4>'
+          + '<div class="sp-tk-sub">Hình mẫu lõi: ' + escHtml(st.archetype) + '</div>'
+          + '<div style="font-size:12px;color:var(--lg-ink-muted);"><strong>Tái sử dụng cho:</strong> ' + escHtml(st.adaptsTo) + '</div>'
+          + '<ol style="margin:0;padding-left:17px;font-size:12.5px;line-height:1.55;display:flex;flex-direction:column;gap:4px;">'
+          + (st.structure || []).map(function (s) { return '<li>' + escHtml(s) + '</li>'; }).join('')
+          + '</ol>'
+          + '<div class="sp-tk-chips">' + (st.vocab || []).map(function (v) { return '<span class="sp-tk-chip">' + escHtml(v) + '</span>'; }).join('') + '</div>'
+          + '</article>';
+      }).join('') + '</div>';
+      return;
+    }
+
+    body.innerHTML = '<div style="display:flex;flex-direction:column;gap:9px;">' + (tk.pronunciationDrill || []).map(function (p, idx) {
+      return '<div class="sp-tk-pron-row">'
+        + '<div style="flex:1;min-width:0;">'
+        + '  <div><span class="sp-tk-pron-word">' + (idx + 1) + '. ' + escHtml(p.word) + '</span><span class="sp-tk-pron-ipa">' + escHtml(p.ipa) + '</span></div>'
+        + '  <div class="sp-tk-pron-mistake">Lỗi phổ biến: ' + escHtml(p.mistake) + '</div>'
+        + '  <div class="sp-tk-pron-tip">Mẹo sửa: ' + escHtml(p.tip) + '</div>'
+        + '  <div class="sp-tk-pron-ex">"' + escHtml(p.example) + '"</div>'
+        + '</div>'
+        + '<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">'
+        + '  <button type="button" class="btn mini-btn" onclick="window.playSpeakingToolkitPron(' + idx + ', false)" title="Nghe phát âm từ">' + spIcon('volume', 13) + '<span>Nghe từ</span></button>'
+        + '  <button type="button" class="btn mini-btn" onclick="window.playSpeakingToolkitPron(' + idx + ', true)" title="Nghe câu ví dụ">' + spIcon('volume', 13) + '<span>Nghe câu</span></button>'
+        + '</div>'
+        + '</div>';
+    }).join('') + '</div>';
   }
 
   if (document.readyState === 'loading') {
