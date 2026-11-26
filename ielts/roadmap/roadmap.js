@@ -632,7 +632,7 @@
 
     var overallPct = activeStageCount > 0 ? Math.min(100, Math.round(sumStagePct / activeStageCount)) : 100;
 
-    // Xây dựng danh sách "Hôm nay học gì?" (tối đa 4 mục: ưu tiên ôn SRS đến hạn + đa dạng kỹ năng trong mốc hiện tại)
+    // Xây dựng danh sách "Hôm nay học gì?" (ưu tiên dải ôn SRS đến hạn + đủ 1 mục cho MỖI kỹ năng chưa xong của mốc hiện tại)
     var dailyFocus = [];
     if (dueWordsTotal > 0) {
       dailyFocus.push({
@@ -653,21 +653,26 @@
     if (activeStage) {
       var seenModules = {};
       var pendingTasks = activeStage.tasks.filter(function (tk) {
-        return !tk.isEffectiveDone && tk.evalType !== "due_review";
+        if (tk.isEffectiveDone || tk.evalType === "due_review") return false;
+        if (tk.module === "vocab" || tk.evalType === "vocab_range" || tk.evalType === "srs_quota") return false;
+        return true;
       });
-      // Lượt 1: lấy mỗi kỹ năng khác nhau 1 mục chưa xong
-      for (var p1 = 0; p1 < pendingTasks.length && dailyFocus.length < 4; p1++) {
+      var studyCount = 0;
+      // Lượt 1: lấy đủ 1 mục chưa xong cho MỖI kỹ năng khác nhau có trong mốc hiện tại
+      for (var p1 = 0; p1 < pendingTasks.length; p1++) {
         var tk1 = pendingTasks[p1];
         if (!seenModules[tk1.module]) {
           seenModules[tk1.module] = true;
           dailyFocus.push(tk1);
+          studyCount++;
         }
       }
-      // Lượt 2: nếu vẫn chưa đủ 4 mục thì lấy tiếp bài chưa xong kế tiếp
-      for (var p2 = 0; p2 < pendingTasks.length && dailyFocus.length < 4; p2++) {
+      // Lượt 2: nếu mốc hiện tại còn ít hơn 4 kỹ năng chưa xong thì lấy thêm bài chưa xong kế tiếp cho đủ 4 thẻ bài mới
+      for (var p2 = 0; p2 < pendingTasks.length && studyCount < 4; p2++) {
         var tk2 = pendingTasks[p2];
         if (dailyFocus.indexOf(tk2) === -1) {
           dailyFocus.push(tk2);
+          studyCount++;
         }
       }
     }
