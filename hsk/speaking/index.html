@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="study" data-course="hsk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      if (s === "ghibli") document.documentElement.classList.add("theme-ghibli");
+      if (isDark) document.documentElement.classList.add("dark");
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <title>Luyện Nói &amp; Khẩu ngữ HSKK | LinguaPath</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: var(--lg-surface, rgba(255, 255, 255, 0.72));
+      --text: var(--lg-ink, #0f172a);
+      --muted: var(--lg-ink-sub, #475569);
+      --border: var(--lg-hairline, rgba(15, 23, 42, 0.1));
+      --primary: var(--lg-accent, #be185d);
+      --ok: var(--lg-green, #16a34a);
+      --danger: var(--lg-rose, #dc2626);
+      --wash: var(--lg-wash, rgba(15, 23, 42, 0.045));
+      --divider: var(--lg-divider, rgba(15, 23, 42, 0.09));
+      color-scheme: light;
+    }
+    html.dark, body.dark {
+      --bg: #0f172a;
+      --card: var(--lg-surface, rgba(24, 34, 48, 0.72));
+      --text: var(--lg-ink, #f8fafc);
+      --muted: var(--lg-ink-sub, #94a3b8);
+      --border: var(--lg-hairline, rgba(255, 255, 255, 0.14));
+      --primary: var(--lg-accent, #fb7185);
+      --ok: var(--lg-green, #4ade80);
+      --danger: var(--lg-rose, #f87171);
+      --wash: var(--lg-wash, rgba(255, 255, 255, 0.055));
+      --divider: var(--lg-divider, rgba(255, 255, 255, 0.1));
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; width: 100%; max-width: 100%; overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent; color: var(--text); min-height: 100vh;
+    }
+
+    .lp-svg { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
+    .container { max-width: 1060px; margin: 0 auto; padding: 14px 14px 72px; position: relative; z-index: 1; }
+    .hero-card, .card {
+      background: var(--lg-surface, var(--card));
+      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      border: 1px solid var(--lg-hairline, var(--border));
+      box-shadow: var(--lg-shadow, 0 12px 32px rgba(15, 23, 42, 0.08)),
+        inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.75)),
+        inset 1px 0 0 var(--lg-rim-side, rgba(255, 255, 255, 0.22)),
+        inset 0 -1px 0 var(--lg-rim-bot, rgba(15, 23, 42, 0.06));
+      border-radius: 18px;
+      padding: 16px 18px;
+      min-width: 0;
+    }
+    .hero-card {
+      margin-bottom: 14px;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .hero-card h1 {
+      margin: 0 0 4px; font-size: 19px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .hero-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .prog-pill {
+      padding: 7px 13px; border-radius: 999px; background: var(--wash);
+      border: 1px solid var(--divider); font-size: 12.5px; font-weight: 700;
+      white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    .notice-box {
+      background: var(--lg-amber-soft, rgba(245,158,11,0.12));
+      border: 1px solid rgba(245,158,11,0.36);
+      border-radius: 13px; padding: 11px 13px; font-size: 12.8px; line-height: 1.5;
+      margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px;
+    }
+    .tab-intro {
+      margin: 0 0 10px; font-size: 12.8px; color: var(--muted); line-height: 1.45;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .tabs {
+      display: flex; flex-wrap: wrap; gap: 7px; padding-bottom: 4px; margin-bottom: 12px;
+    }
+    .tab-btn {
+      padding: 9px 13px; border-radius: 12px; border: 1px solid var(--divider);
+      background: var(--lg-seg-track, var(--wash)); color: var(--text); font-weight: 700; font-size: 13px;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 6px; transition: background 0.16s ease, border-color 0.16s ease;
+    }
+    .tab-btn:hover { background: var(--lg-wash-hover, var(--wash)); }
+    .tab-btn.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+      box-shadow: 0 4px 14px var(--lg-accent-soft, rgba(225, 29, 72, 0.26));
+    }
+
+    .ctrl-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+    .rate-group {
+      display: inline-flex; border: 1px solid var(--divider); border-radius: 10px;
+      overflow: hidden; background: var(--lg-seg-track, var(--wash));
+    }
+    .rate-btn {
+      padding: 7px 11px; border: none; background: transparent; color: var(--text);
+      font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .rate-btn.on { background: var(--primary); color: #fff; }
+    .ctrl-btn {
+      padding: 7px 11px; border-radius: 10px; border: 1px solid var(--divider);
+      background: var(--wash); color: var(--text); font-size: 12.5px; font-weight: 700;
+      cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .ctrl-btn.on { background: var(--lg-accent-soft, rgba(225,29,72,0.14)); border-color: var(--primary); color: var(--primary); }
+
+    .pair-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .card.is-target-item { border-color: var(--primary); box-shadow: 0 0 0 2px var(--lg-accent-soft, rgba(225,29,72,0.2)); }
+    .pair-head {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      margin-bottom: 10px; font-size: 13px; font-weight: 800; color: var(--primary);
+    }
+    .pair-sides { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 10px; }
+    .side-box {
+      background: var(--wash); border: 1px solid var(--divider); border-radius: 12px; padding: 11px; min-width: 0;
+    }
+    .big-zh { font-size: 23px; font-weight: 800; line-height: 1.3; }
+    .py-line { font-size: 13px; font-weight: 700; color: #2563eb; margin-top: 2px; }
+    html.dark .py-line { color: #60a5fa; }
+    .hv-line { font-size: 11.5px; color: #d97706; font-weight: 700; margin-top: 2px; }
+    .vi-line { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+    .hide-py .py-text { display: none; }
+    .hide-vi .vi-text { display: none; }
+
+    .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+    .spk-btn {
+      padding: 6px 10px; border-radius: 9px; border: 1px solid var(--divider);
+      background: var(--lg-seg-active, var(--wash)); color: var(--text); font-size: 12px; font-weight: 700;
+      cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .spk-btn:hover { background: var(--lg-wash-hover, var(--wash)); border-color: var(--primary); }
+    .mic-btn {
+      padding: 7px 12px; border-radius: 9px; border: none;
+      background: linear-gradient(135deg, #be185d, #e11d48); color: #fff;
+      font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .mic-btn.recording { background: #dc2626; animation: pulseMic 1s infinite; }
+    @keyframes pulseMic { 0%,100% { opacity: 1; } 50% { opacity: 0.72; } }
+
+    .sr-result {
+      margin-top: 9px; padding: 10px 12px; border-radius: 11px;
+      background: var(--wash); border: 1px solid var(--divider); font-size: 13px; line-height: 1.5;
+    }
+    .sr-f0-box {
+      margin-top: 8px; padding: 8px 10px; border-radius: 10px;
+      background: var(--wash); border: 1px solid var(--divider);
+    }
+    .sr-rec-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 99px;
+      background: #dc2626; margin-right: 4px; vertical-align: middle;
+    }
+    .score-ok { color: var(--ok); font-weight: 800; }
+    .score-mid { color: #d97706; font-weight: 800; }
+    .score-low { color: var(--danger); font-weight: 800; }
+
+    .pill-row { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+    .sel-pill {
+      padding: 7px 11px; border-radius: 11px; border: 1px solid var(--divider);
+      background: var(--wash); color: var(--text); font-size: 12.8px; font-weight: 700;
+      cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .sel-pill.active { background: var(--lg-accent-soft, rgba(225,29,72,0.14)); border-color: var(--primary); color: var(--primary); }
+
+    .line-card {
+      background: var(--wash); border: 1px solid var(--divider); border-radius: 13px;
+      padding: 13px; margin-bottom: 10px; min-width: 0;
+    }
+    .timer-box {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 11px 13px; border-radius: 13px; background: var(--wash);
+      border: 1px solid var(--divider); margin: 12px 0;
+    }
+    .timer-num { font-size: 22px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--primary); }
+    .done-btn {
+      padding: 7px 12px; border-radius: 10px; border: 1px solid var(--divider);
+      background: var(--wash); color: var(--text); font-weight: 700; font-size: 12.5px;
+      cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .done-btn.is-done { background: var(--lg-green-soft, rgba(22,163,74,0.16)); border-color: var(--ok); color: var(--ok); }
+
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px;
+    }
+    .search-wrap {
+      position: relative; flex: 1 1 220px; min-width: 0; max-width: 100%; display: flex; align-items: center;
+    }
+    .search-icon {
+      position: absolute; left: 11px; color: var(--muted); pointer-events: none;
+      display: inline-flex; align-items: center;
+    }
+    .search-inp {
+      width: 100%; min-width: 0;
+      padding: 8px 12px 8px 34px; border-radius: 10px; border: 1px solid var(--divider);
+      background: var(--wash); color: var(--text); font-size: 13.5px; font-family: inherit;
+    }
+    .search-inp:focus { outline: none; border-color: var(--primary); }
+    .nav-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .nav-btn {
+      padding: 7px 12px; border-radius: 10px; border: 1px solid var(--divider);
+      background: var(--wash); color: var(--text); font-size: 12.5px; font-weight: 700;
+      cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .nav-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .nav-meta { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+    .tip-box {
+      padding: 10px 12px; border-radius: 11px; background: var(--lg-amber-soft, rgba(245,158,11,0.1));
+      border: 1px solid rgba(245,158,11,0.34); font-size: 12.8px; line-height: 1.5; margin-bottom: 12px;
+      display: flex; align-items: flex-start; gap: 7px;
+    }
+    .masked-box {
+      padding: 12px; border-radius: 10px; border: 1px dashed var(--divider);
+      background: var(--wash); color: var(--muted); font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .scene-card {
+      background: var(--wash); border: 1.5px solid rgba(225,29,72,0.26);
+      border-radius: 14px; padding: 14px; margin-bottom: 12px;
+    }
+    .scene-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .scene-emoji {
+      padding: 10px 12px; border-radius: 14px; color: var(--primary);
+      background: var(--lg-accent-soft, rgba(225,29,72,0.12)); border: 1px solid var(--divider);
+      flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+    }
+    .scene-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px;
+    }
+    .scene-cell {
+      background: var(--lg-seg-track, rgba(15, 23, 42, 0.03)); border: 1px solid var(--divider); border-radius: 10px;
+      padding: 9px 11px; font-size: 12.8px; line-height: 1.45; min-width: 0;
+    }
+    .scene-cell b {
+      display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--primary); margin-bottom: 3px;
+    }
+    .scene-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .scene-chip {
+      font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 8px;
+      background: var(--wash); border: 1px solid var(--divider); display: inline-flex; align-items: center; gap: 4px;
+    }
+    .draft-area {
+      width: 100%; min-height: 82px; margin-top: 10px; padding: 10px 12px;
+      border-radius: 10px; border: 1px solid var(--divider); background: var(--wash);
+      color: var(--text); font-size: 13.5px; line-height: 1.5; font-family: inherit; resize: vertical;
+    }
+    .draft-area:focus { outline: none; border-color: var(--primary); }
+
+    @media (max-width: 820px) {
+      .pair-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .tabs { gap: 6px; }
+      .tab-btn { padding: 8px 10px; font-size: 12px; }
+    }
+    @media (max-width: 560px) {
+      .container { padding: 12px 10px 64px; }
+      .pair-sides { grid-template-columns: minmax(0, 1fr); }
+      .scene-grid { grid-template-columns: minmax(0, 1fr); }
+      .card, .hero-card { padding: 14px; border-radius: 15px; }
+      .sel-pill { padding: 7px 10px; font-size: 12px; }
+      .tab-intro { white-space: normal; }
+    }
+    .spk-filter-glass {
+      background: var(--lg-surface, var(--card));
+      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      border: 1px solid var(--lg-hairline, var(--border));
+      box-shadow: var(--lg-shadow, 0 12px 32px rgba(15, 23, 42, 0.08)),
+        inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.75)),
+        inset 1px 0 0 var(--lg-rim-side, rgba(255, 255, 255, 0.22)),
+        inset 0 -1px 0 var(--lg-rim-bot, rgba(15, 23, 42, 0.06));
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      min-width: 0;
+    }
+    .spk-filter-glass .tab-intro { margin: 0 0 10px; color: var(--text); font-weight: 600; }
+    .spk-filter-glass .pill-row:last-child,
+    .spk-filter-glass .filter-bar:last-child,
+    .spk-filter-glass .nav-row:last-child { margin-bottom: 0; }
+    .spk-count-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 999px; margin-bottom: 10px;
+      font-size: 12.5px; font-weight: 600; color: var(--text);
+      background: var(--lg-surface, var(--card));
+      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      border: 1px solid var(--lg-hairline, var(--border));
+    }
+    .lp-top-left, .lp-brand, .lp-brand-text { min-width: 0; overflow: hidden; }
+    .lp-brand-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 480px) {
+      .lp-hide-sm { display: none !important; }
+      .lp-brand-icon { width: 30px; height: 30px; border-radius: 10px; }
+      .lp-brand-title { font-size: 14px; }
+      .lp-back-pill { padding: 0 10px; font-size: 12.5px; }
+      .spk-filter-glass { padding: 10px 11px; border-radius: 14px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+
+  <header class="lp-topbar lp-glass" id="hskSpkTopbar">
+    <div class="lp-top-left">
+      <a id="lpBackBtn" class="lp-back-pill" href="../index.html">HSK</a>
+      <div class="lp-brand">
+        <span class="lp-brand-icon" id="spkBrandIcon" aria-hidden="true"></span>
+        <div class="lp-brand-text">
+          <span class="lp-brand-title">Luyện Nói HSKK</span>
+        </div>
+      </div>
+    </div>
+    <div class="lp-top-actions">
+      <a class="lp-icon-btn lp-hide-sm" href="../lessons/index.html" title="Bài giảng HSK">
+        <span id="spkLessonsIcon" aria-hidden="true"></span>
+        <span class="lp-hide-xs">Bài giảng</span>
+      </a>
+      <button type="button" class="lp-icon-btn donate" id="btnDonate" title="Ủng hộ duy trì LinguaPath">
+        <span id="spkDonateIcon" aria-hidden="true"></span>
+        <span class="lp-hide-xs">Ủng hộ</span>
+      </button>
+      <button type="button" class="lp-icon-btn" id="btnTheme" data-lp-theme-toggle="1" title="Đổi Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+    </div>
+  </header>
+
+  <div class="container" id="appStage"></div>
+
+  <script src="../hsk-tts.js?v=2"></script>
+  <script src="../../assets/s4-whisper.js?v=6"></script>
+  <script src="./speaking_data.js?v=2"></script>
+  <script>
+    const DONE_KEY = "lp_hsk_speaking_done_v1";
+    const RAW_DATA = window.LP_HSK_SPEAKING_DATA || {};
+    const DATA = {
+      tonePairs: Array.isArray(RAW_DATA.tonePairs) ? RAW_DATA.tonePairs : [],
+      shadowingLessons: Array.isArray(RAW_DATA.shadowingLessons) ? RAW_DATA.shadowingLessons : [],
+      hskkRepeatSets: Array.isArray(RAW_DATA.hskkRepeatSets) ? RAW_DATA.hskkRepeatSets : [],
+      hskkPrompts: Array.isArray(RAW_DATA.hskkPrompts) ? RAW_DATA.hskkPrompts : []
+    };
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+
+    let doneMap = {};
+    try { doneMap = JSON.parse(localStorage.getItem(DONE_KEY) || "{}") || {}; } catch (e) {}
+
+    const qsSpk = new URLSearchParams(location.search);
+    const reqSpkLv = Number(qsSpk.get("level") || 0);
+    const reqSpkId = (qsSpk.get("id") || "").trim();
+    const hitTone = reqSpkId ? DATA.tonePairs.find((x) => x.id === reqSpkId) : null;
+    const hitShadow = reqSpkId ? DATA.shadowingLessons.find((x) => x.id === reqSpkId) : null;
+    const hitRepeat = reqSpkId ? DATA.hskkRepeatSets.find((x) => x.id === reqSpkId) : null;
+    const hitHskk = reqSpkId ? DATA.hskkPrompts.find((x) => x.id === reqSpkId) : null;
+
+    let activeTab = hitTone
+      ? "tones"
+      : (hitShadow
+        ? "shadowing"
+        : (hitRepeat
+          ? "repeat"
+          : (hitHskk
+            ? "hskk"
+            : (reqSpkLv >= 4 ? "hskk" : ((reqSpkLv === 2 || reqSpkLv === 3) ? "shadowing" : "tones")))));
+    let toneSearch = "";
+    let activeToneId = hitTone ? hitTone.id : "";
+    let shadowLevelFilter = "all";
+    let activeShadowId = (() => {
+      if (hitShadow) return hitShadow.id;
+      if (reqSpkLv >= 1 && reqSpkLv <= 6) {
+        const hit = DATA.shadowingLessons.find((s) => Number(s.level) === reqSpkLv);
+        if (hit) return hit.id;
+      }
+      return DATA.shadowingLessons[0] ? DATA.shadowingLessons[0].id : "";
+    })();
+    let repeatLevelFilter = "all";
+    let activeRepeatId = hitRepeat
+      ? hitRepeat.id
+      : (DATA.hskkRepeatSets[0] ? DATA.hskkRepeatSets[0].id : "");
+    let repeatExamMode = false;
+    let repeatRevealed = {};
+    let hskkLevelFilter = "all";
+    let hskkPartFilter = "all";
+    let hskkSearch = "";
+    let activeHskkId = (() => {
+      if (hitHskk) return hitHskk.id;
+      if (reqSpkLv >= 4) {
+        const wantLv = reqSpkLv >= 5 ? "Cao cấp" : "Trung cấp";
+        const lvHit = DATA.hskkPrompts.find((p) => p.level === wantLv);
+        if (lvHit) return lvHit.id;
+      }
+      return DATA.hskkPrompts[0] ? DATA.hskkPrompts[0].id : "";
+    })();
+    let hskkPromptRevealed = {};
+    let hskkPassageRevealed = {};
+    let hskkNotes = {};
+    let playRate = 1.0;
+    let showPinyin = true;
+    let showVi = true;
+    let showHskkSample = {};
+
+    let recResults = {}; // key -> { mode, transcript, pct, error, audioUrl, spokenChars, durationSec, cpm, matchedKeywords, totalKeywords, minChars }
+    let recordingKey = null;
+    let activeRec = null;
+    let activeMediaRec = null;
+    let activeMediaStream = null;
+    let activeMediaChunks = [];
+    let recStartTs = 0;
+    let recSessionMeta = null;
+
+    let warmMediaStream = null;
+    let warmIdleTimer = null;
+    let warmAcquireGen = 0;
+    let isStoppingRec = false;
+    let tailFlushTimer = null;
+    const TAIL_FLUSH_MS = 180;
+    const WARM_IDLE_MS = 180000;
+    const HSK_VOICE_CONSTRAINTS = {
+      channelCount: { ideal: 1 },
+      echoCancellation: { ideal: true },
+      noiseSuppression: { ideal: true },
+      autoGainControl: { ideal: true },
+      sampleRate: { ideal: 48000 }
+    };
+    const HSK_MIME_CANDIDATES = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4;codecs=mp4a.40.2",
+      "audio/mp4",
+      "audio/ogg;codecs=opus",
+      "audio/ogg"
+    ];
+
+    function isIosSafariLike() {
+      try {
+        const ua = String((typeof navigator !== "undefined" && navigator.userAgent) || "");
+        const maxTouch = (typeof navigator !== "undefined" && navigator.maxTouchPoints) || 0;
+        return /iPad|iPhone|iPod/i.test(ua) || (/Macintosh/i.test(ua) && maxTouch > 1);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function isAndroidMobile() {
+      try {
+        return /Android/i.test(String((typeof navigator !== "undefined" && navigator.userAgent) || ""));
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function isWarmStreamHealthy(s) {
+      return Boolean(
+        s
+        && s.active
+        && typeof s.getAudioTracks === "function"
+        && s.getAudioTracks().some((t) => t.readyState === "live" && t.enabled !== false)
+      );
+    }
+
+    function releaseWarmMicStream() {
+      if (warmIdleTimer) {
+        clearTimeout(warmIdleTimer);
+        warmIdleTimer = null;
+      }
+      if (warmMediaStream) {
+        try { warmMediaStream.getTracks().forEach((t) => t.stop()); } catch (e) {}
+        warmMediaStream = null;
+      }
+      activeMediaStream = null;
+    }
+
+    function scheduleWarmMicIdleRelease() {
+      if (warmIdleTimer) clearTimeout(warmIdleTimer);
+      warmIdleTimer = setTimeout(() => {
+        warmIdleTimer = null;
+        if (!recordingKey) releaseWarmMicStream();
+      }, WARM_IDLE_MS);
+    }
+
+    function acquireHskVoiceStream() {
+      if (isWarmStreamHealthy(warmMediaStream)) {
+        scheduleWarmMicIdleRelease();
+        return Promise.resolve(warmMediaStream);
+      }
+      if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function") {
+        return Promise.reject(new Error("getUserMedia unsupported"));
+      }
+      releaseWarmMicStream();
+      const gen = ++warmAcquireGen;
+      return navigator.mediaDevices.getUserMedia({ audio: Object.assign({}, HSK_VOICE_CONSTRAINTS) }).catch((err) => {
+        if (err && (err.name === "OverconstrainedError" || err.name === "ConstraintNotSatisfiedError" || err.name === "TypeError")) {
+          return navigator.mediaDevices.getUserMedia({ audio: true });
+        }
+        throw err;
+      }).then((stream) => {
+        if (!stream) return null;
+        if (gen !== warmAcquireGen) {
+          try { stream.getTracks().forEach((t) => t.stop()); } catch (e) {}
+          return null;
+        }
+        warmMediaStream = stream;
+        activeMediaStream = stream;
+        scheduleWarmMicIdleRelease();
+        return stream;
+      });
+    }
+
+    function createHskVoiceRecorder(stream) {
+      let mime = "";
+      if (typeof window.MediaRecorder === "function" && typeof window.MediaRecorder.isTypeSupported === "function") {
+        for (let i = 0; i < HSK_MIME_CANDIDATES.length; i++) {
+          try {
+            if (window.MediaRecorder.isTypeSupported(HSK_MIME_CANDIDATES[i])) {
+              mime = HSK_MIME_CANDIDATES[i];
+              break;
+            }
+          } catch (e) {}
+        }
+      }
+      let mr = null;
+      try {
+        mr = mime
+          ? new window.MediaRecorder(stream, { mimeType: mime, audioBitsPerSecond: 48000 })
+          : new window.MediaRecorder(stream, { audioBitsPerSecond: 48000 });
+      } catch (e1) {
+        try {
+          mr = mime
+            ? new window.MediaRecorder(stream, { mimeType: mime })
+            : new window.MediaRecorder(stream);
+        } catch (e2) {
+          mr = new window.MediaRecorder(stream);
+        }
+      }
+      mr._lpPreferredMime = mr.mimeType || mime || "audio/webm";
+      return mr;
+    }
+
+    // Timer state for HSKK
+    let timerHandle = null;
+    let timerPhase = "idle"; // idle | prep | speak
+    let timerLeft = 0;
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+    function escJsAttr(s) {
+      return esc(
+        String(s == null ? "" : s)
+          .replace(/\\/g, "\\\\")
+          .replace(/\r?\n/g, " ")
+          .replace(/'/g, "\\'")
+      );
+    }
+
+    const SPK_ICON_PATHS = {
+      mic: '<rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v5"/><path d="M8 22h8"/>',
+      stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
+      volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
+      play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+      clock: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>',
+      search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+      close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+      heart: '<path d="M19 14c1.5-1.4 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/>',
+      sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+      moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+      check: '<polyline points="20 6 9 17 4 12"/>',
+      circle: '<circle cx="12" cy="12" r="8"/>',
+      lightbulb: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.1 14c.2-.9.7-1.7 1.5-2.5 1-.9 1.5-2.2 1.4-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>',
+      arrowLeft: '<path d="m15 18-6-6 6-6"/>',
+      arrowRight: '<path d="m9 18 6-6-6-6"/>',
+      eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>',
+      eyeOff: '<path d="M9.9 4.2A10.9 10.9 0 0 1 12 4c6.5 0 10 8 10 8a18.5 18.5 0 0 1-2.2 3.2"/><path d="M6.6 6.6A16 16 0 0 0 2 12s3.5 8 10 8a9.8 9.8 0 0 0 5.4-1.6"/><path d="m2 2 20 20"/>',
+      refresh: '<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>',
+      award: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13.9 17 22l-5-3-5 3 1.5-8.1"/>',
+      target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+      edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+      alert: '<path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/><path d="M12 9v4"/><circle cx="12" cy="17" r=".6"/>',
+      info: '<circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r=".6"/>',
+      graduation: '<path d="m22 10-10-5-10 5 10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+      sparkle: '<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/>',
+      book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>',
+      image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>',
+      mapPin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+      users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+      film: '<rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20"/><path d="M17 2v20"/><path d="M2 12h20"/>',
+      music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+      zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+      compass: '<circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+      fileText: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'
+    };
+
+    function spkSvg(name, size) {
+      const s = size || 15;
+      if (window.S4UI && typeof window.S4UI.icon === "function") {
+        const out = window.S4UI.icon(name, s);
+        if (out && out.indexOf("<svg") !== -1) return out;
+      }
+      const p = SPK_ICON_PATHS[name] || SPK_ICON_PATHS.info;
+      return `<span class="lp-svg" aria-hidden="true"><svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span>`;
+    }
+
+    function syncThemeBtn() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const btn = document.getElementById("btnTheme");
+      if (!btn) return;
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+        window.S4UI.renderThemeButton(btn, isDark);
+      } else {
+        btn.innerHTML = spkSvg(isDark ? "sun" : "moon", 16);
+      }
+    }
+
+    function toggleDarkMode() {
+      if (typeof window.toggleDarkModeOnly === "function") {
+        window.toggleDarkModeOnly();
+        syncThemeBtn();
+        return;
+      }
+      const isDark = document.documentElement.classList.toggle("dark");
+      if (document.body) document.body.classList.toggle("dark", isDark);
+      try { localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0"); } catch (e) {}
+      syncThemeBtn();
+    }
+
+    function speakZh(text, customRate, pyOpts) {
+      if (window.HskTTS) {
+        const opts = { rate: customRate || playRate };
+        if (pyOpts && typeof pyOpts === "object") {
+          if (pyOpts.pinyin) opts.pinyin = pyOpts.pinyin;
+          if (pyOpts.pinyinNum) opts.pinyinNum = pyOpts.pinyinNum;
+        } else if (typeof pyOpts === "string" && pyOpts.trim()) {
+          opts.pinyin = pyOpts.trim();
+        }
+        window.HskTTS.speak(text, opts);
+      }
+    }
+
+    function stopZh() {
+      if (window.HskTTS) window.HskTTS.stop();
+    }
+
+    function normalizeZh(str) {
+      return String(str || "")
+        .replace(/[\s，。？！、；：“”‘’（）()《》〈〉—…·,.?!;:'"-]/g, "")
+        .trim();
+    }
+
+    function calcMatchPct(targetZh, spokenZh) {
+      const t = Array.from(normalizeZh(targetZh));
+      const s = Array.from(normalizeZh(spokenZh));
+      if (!t.length || !s.length) return 0;
+      // Longest Common Subsequence length for fair Mandarin char matching
+      const dp = Array.from({ length: t.length + 1 }, () => new Array(s.length + 1).fill(0));
+      for (let i = 1; i <= t.length; i++) {
+        for (let j = 1; j <= s.length; j++) {
+          if (t[i - 1] === s[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+          else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+        }
+      }
+      return Math.min(100, Math.round((dp[t.length][s.length] / t.length) * 100));
+    }
+
+    function markDone(id, val) {
+      doneMap[id] = val === undefined ? !doneMap[id] : Boolean(val);
+      try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+      render();
+    }
+
+    function revokeKeyAudioUrl(key) {
+      if (recResults[key] && recResults[key].audioUrl) {
+        try { URL.revokeObjectURL(recResults[key].audioUrl); } catch (e) {}
+        recResults[key].audioUrl = "";
+      }
+    }
+
+    function revokeAllAudioUrls() {
+      Object.keys(recResults).forEach(revokeKeyAudioUrl);
+    }
+
+    function evaluateHskkSpeech(transcript, meta, durationSec) {
+      const clean = normalizeZh(transcript);
+      const spokenChars = Array.from(clean).length;
+      const minChars = Number((meta && meta.minChars) || 25);
+      const kwList = Array.isArray(meta && meta.keyVocab) ? meta.keyVocab : [];
+      const matchedKeywords = [];
+      kwList.forEach((rawKw) => {
+        const zhOnly = String(rawKw || "").replace(/[^\u4e00-\u9fff\u3400-\u4dbf\u2e80-\u2eff]/g, "");
+        if (zhOnly && clean.includes(zhOnly) && !matchedKeywords.includes(zhOnly)) {
+          matchedKeywords.push(zhOnly);
+        }
+      });
+      const lenRatio = Math.min(1, spokenChars / Math.max(10, minChars));
+      const kwDenom = Math.max(1, Math.min(4, kwList.length));
+      const kwRatio = kwList.length ? Math.min(1, matchedKeywords.length / kwDenom) : 1;
+      const pct = spokenChars === 0 ? 0 : Math.min(100, Math.round(lenRatio * 65 + kwRatio * 35));
+      const sec = Math.max(1, Math.round(durationSec || 1));
+      const cpm = Math.round((spokenChars / sec) * 60);
+      return {
+        mode: "hskk",
+        transcript,
+        pct,
+        spokenChars,
+        minChars,
+        durationSec: sec,
+        cpm,
+        matchedKeywords,
+        totalKeywords: kwList.length,
+        error: ""
+      };
+    }
+
+    const PINYIN_TONE_CHARS = {
+      "ā": 1, "ē": 1, "ī": 1, "ō": 1, "ū": 1, "ǖ": 1,
+      "á": 2, "é": 2, "í": 2, "ó": 2, "ú": 2, "ǘ": 2,
+      "ǎ": 3, "ě": 3, "ǐ": 3, "ǒ": 3, "ǔ": 3, "ǚ": 3,
+      "à": 4, "è": 4, "ì": 4, "ò": 4, "ù": 4, "ǜ": 4
+    };
+    const TONE_LABELS = {
+      0: "Thanh nhẹ (˙)",
+      1: "Thanh 1 (Ngang cao ˉ)",
+      2: "Thanh 2 (Đi lên ˊ)",
+      3: "Thanh 3 (Trầm-lên ˇ)",
+      4: "Thanh 4 (Giáng mạnh ˋ)"
+    };
+    const TONE_SHORT = { 0: "T0", 1: "T1", 2: "T2", 3: "T3", 4: "T4" };
+    const VOWEL_OR_TONE_RE = "[aāáǎàeēéěèoōóǒòiīíǐìuūúǔùüǖǘǚǜv]";
+    const PINYIN_SYL_RE = new RegExp(
+      "(?:zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])?" +
+      "[iīíǐìuūúǔùüǖǘǚǜv]?" +
+      VOWEL_OR_TONE_RE + "+" +
+      "(?:ng(?!" + VOWEL_OR_TONE_RE + ")|n(?!" + VOWEL_OR_TONE_RE + ")|r(?!" + VOWEL_OR_TONE_RE + "))?",
+      "gi"
+    );
+
+    function extractPinyinToneList(pyStr) {
+      const parts = String(pyStr || "").toLowerCase().trim().split(/[\s,，。？！·'‘’\-_]+/).filter(Boolean);
+      const tones = [];
+      parts.forEach((chunk) => {
+        const numMatch = /^([a-züv]+)([1-5])$/i.exec(chunk);
+        if (numMatch) {
+          const t = Number(numMatch[2]);
+          tones.push(t === 5 ? 0 : t);
+          return;
+        }
+        const syls = chunk.match(PINYIN_SYL_RE);
+        if (!syls || !syls.length) {
+          let fallbackTone = 0;
+          for (let i = 0; i < chunk.length; i++) {
+            if (PINYIN_TONE_CHARS[chunk[i]]) {
+              fallbackTone = PINYIN_TONE_CHARS[chunk[i]];
+              break;
+            }
+          }
+          if (/[a-z]/i.test(chunk)) tones.push(fallbackTone);
+          return;
+        }
+        syls.forEach((syl) => {
+          let t = 0;
+          for (let i = 0; i < syl.length; i++) {
+            if (PINYIN_TONE_CHARS[syl[i]]) {
+              t = PINYIN_TONE_CHARS[syl[i]];
+              break;
+            }
+          }
+          tones.push(t);
+        });
+      });
+      return tones;
+    }
+
+    function applyMandarinToneSandhi(rawTones) {
+      const out = Array.isArray(rawTones) ? rawTones.slice() : [];
+      for (let i = 0; i + 1 < out.length; i++) {
+        if (out[i] === 3 && out[i + 1] === 3) {
+          out[i] = 2;
+        }
+      }
+      return out;
+    }
+
+    function extractPinyinTargetTone(pyStr) {
+      const eff = applyMandarinToneSandhi(extractPinyinToneList(pyStr));
+      for (let i = 0; i < eff.length; i++) {
+        if (eff[i] >= 1 && eff[i] <= 4) return eff[i];
+      }
+      return 0;
+    }
+
+    function resolveTargetTonesForKey(key, opts) {
+      let rawTones = [];
+      if (opts && Array.isArray(opts.targetTones) && opts.targetTones.length) {
+        rawTones = opts.targetTones.map((n) => Number(n) || 0);
+      } else if (opts && opts.targetPinyin) {
+        rawTones = extractPinyinToneList(opts.targetPinyin);
+      } else if (opts && Number(opts.targetTone) >= 1 && Number(opts.targetTone) <= 4) {
+        rawTones = [Number(opts.targetTone)];
+      } else {
+        const tpMatch = /^tp_(\d+)_([ab])$/.exec(String(key || ""));
+        if (tpMatch) {
+          const pair = (DATA.tonePairs || [])[Number(tpMatch[1])];
+          const side = pair && pair[tpMatch[2]];
+          if (side && side.py) rawTones = extractPinyinToneList(side.py);
+        } else {
+          const shMatch = /^sh_(.+)_(\d+)$/.exec(String(key || ""));
+          if (shMatch) {
+            const lesson = (DATA.shadowingLessons || []).find((x) => x.id === shMatch[1]);
+            const ln = lesson && lesson.lines && lesson.lines[Number(shMatch[2])];
+            if (ln && ln.py) rawTones = extractPinyinToneList(ln.py);
+          } else {
+            const repMatch = /^rep_(.+)_(\d+)$/.exec(String(key || ""));
+            if (repMatch) {
+              const rSet = (DATA.hskkRepeatSets || []).find((x) => x.id === repMatch[1]);
+              const it = rSet && rSet.items && rSet.items[Number(repMatch[2])];
+              if (it && it.py) rawTones = extractPinyinToneList(it.py);
+            }
+          }
+        }
+      }
+      const effectiveTones = applyMandarinToneSandhi(rawTones);
+      const sandhiApplied = rawTones.some((t, idx) => t !== effectiveTones[idx]);
+      let primaryTone = 0;
+      for (let i = 0; i < effectiveTones.length; i++) {
+        if (effectiveTones[i] >= 1 && effectiveTones[i] <= 4) {
+          primaryTone = effectiveTones[i];
+          break;
+        }
+      }
+      return { rawTones, effectiveTones, sandhiApplied, primaryTone };
+    }
+
+    function resolveTargetToneForKey(key, opts) {
+      return resolveTargetTonesForKey(key, opts).primaryTone;
+    }
+
+    function segmentVoicedContour(contour, kCount) {
+      const pts = Array.isArray(contour) ? contour : [];
+      const clusters = [];
+      let cur = [];
+      for (let i = 0; i < pts.length; i++) {
+        if (pts[i] > 0) {
+          cur.push(pts[i]);
+        } else if (cur.length) {
+          if (cur.length >= 2) clusters.push(cur);
+          cur = [];
+        }
+      }
+      if (cur.length >= 2) clusters.push(cur);
+
+      if (clusters.length === kCount) {
+        return clusters;
+      }
+
+      const voiced = pts.filter((v) => v > 0);
+      if (voiced.length < kCount * 2) return null;
+      const segs = [];
+      for (let s = 0; s < kCount; s++) {
+        const a = Math.floor((s * voiced.length) / kCount);
+        const b = Math.floor(((s + 1) * voiced.length) / kCount);
+        segs.push(voiced.slice(a, Math.max(a + 2, b)));
+      }
+      return segs;
+    }
+
+    function analyzePitchSegmentStats(vals, globalMeanHz) {
+      const n = vals.length;
+      if (n < 2 || !(globalMeanHz > 0)) {
+        return { detected: 0, slopeSemi: 0, dipSemi: 0, stdSemi: 0, relSemi: 0, minRelSemi: 0, rangeSemi: 0, turnPos: 0.5 };
+      }
+      let sum = 0;
+      let minHz = vals[0];
+      let maxHz = vals[0];
+      let minIdx = 0;
+      for (let i = 0; i < n; i++) {
+        const v = vals[i];
+        sum += v;
+        if (v < minHz) { minHz = v; minIdx = i; }
+        if (v > maxHz) maxHz = v;
+      }
+      const meanHz = sum / n;
+      const tSpan = Math.max(1, n - 1);
+      let varSemi = 0;
+      let sumU = 0, sumS = 0, sumUU = 0, sumUS = 0;
+      for (let i = 0; i < n; i++) {
+        const semi = 12 * Math.log(vals[i] / meanHz) / Math.LN2;
+        const u = i / tSpan;
+        varSemi += semi * semi;
+        sumU += u;
+        sumS += semi;
+        sumUU += u * u;
+        sumUS += u * semi;
+      }
+      const stdSemi = Math.sqrt(varSemi / n);
+      const denom = n * sumUU - sumU * sumU;
+      const slopeSemi = denom > 1e-6 ? ((n * sumUS - sumU * sumS) / denom) : 0;
+      const turnPos = minIdx / tSpan;
+      const edge = Math.max(1, Math.floor(n / 4));
+      let sAvg = 0, eAvg = 0;
+      for (let i = 0; i < edge; i++) {
+        sAvg += vals[i];
+        eAvg += vals[n - 1 - i];
+      }
+      sAvg /= edge;
+      eAvg /= edge;
+      const lowEdge = Math.min(sAvg, eAvg);
+      const dipSemi = (minHz > 0 && lowEdge > minHz) ? (12 * Math.log(lowEdge / minHz) / Math.LN2) : 0;
+      const relSemi = 12 * Math.log(meanHz / globalMeanHz) / Math.LN2;
+      const minRelSemi = 12 * Math.log(minHz / globalMeanHz) / Math.LN2;
+      const rangeSemi = (minHz > 0 && maxHz > minHz) ? (12 * Math.log(maxHz / minHz) / Math.LN2) : 0;
+
+      let detected = 1;
+      if (dipSemi >= 1.3 && turnPos >= 0.16 && turnPos <= 0.88) detected = 3;
+      else if (slopeSemi >= 1.8) detected = 2;
+      else if (slopeSemi <= -1.8) detected = 4;
+      else if (Math.abs(slopeSemi) < 1.8 && stdSemi < 1.7) detected = 1;
+      else detected = slopeSemi > 0 ? 2 : 4;
+
+      return { detected, slopeSemi, dipSemi, stdSemi, relSemi, minRelSemi, rangeSemi, turnPos };
+    }
+
+    function scoreSingleToneSegment(stats, targetTone, isFinalSyllable) {
+      const clampPct = (v, lo, hi) => Math.round(Math.max(lo, Math.min(hi, v)));
+      if (targetTone === 0) {
+        if (stats.slopeSemi >= 2.2) {
+          return { detected: 2, pct: clampPct(48 - stats.slopeSemi * 4, 15, 45) };
+        }
+        if (stats.slopeSemi <= -2.2 && stats.rangeSemi >= 3.8 && stats.relSemi > 0.5) {
+          return { detected: 4, pct: clampPct(58 - (-stats.slopeSemi) * 4, 18, 52) };
+        }
+        if (stats.relSemi <= 1.2 && stats.rangeSemi < 3.8) {
+          return { detected: 0, pct: clampPct(92 - Math.max(0, stats.relSemi) * 10 - stats.rangeSemi * 3, 72, 97) };
+        }
+        return { detected: stats.detected, pct: clampPct(72 - Math.abs(stats.relSemi) * 6, 35, 76) };
+      }
+      if (targetTone === 1) {
+        if (stats.detected === 1) return { detected: 1, pct: clampPct(96 - Math.abs(stats.slopeSemi) * 10 - stats.stdSemi * 8, 76, 98) };
+        return { detected: stats.detected, pct: clampPct(78 - Math.abs(stats.slopeSemi) * 10 - stats.stdSemi * 8, 12, 75) };
+      }
+      if (targetTone === 2) {
+        if (stats.detected === 2) return { detected: 2, pct: clampPct(74 + Math.min(24, stats.slopeSemi * 4.5), 76, 99) };
+        return { detected: stats.detected, pct: stats.slopeSemi > 0 ? clampPct(48 + stats.slopeSemi * 10, 32, 74) : clampPct(34 + stats.slopeSemi * 4, 10, 34) };
+      }
+      if (targetTone === 3) {
+        if (stats.detected === 3) return { detected: 3, pct: clampPct(76 + stats.dipSemi * 4.5, 78, 99) };
+        // Nửa Thanh 3 (Half-3rd [21]): khi đứng trước âm tiết khác (1/2/4/0), giọng trầm thấp xuống đáy là đạt chuẩn bản ngữ
+        const isHalfThird = !isFinalSyllable && stats.minRelSemi <= -0.9 && stats.relSemi <= 1.0 && stats.slopeSemi <= 1.5;
+        if (isHalfThird) {
+          return { detected: 3, pct: clampPct(82 - Math.max(0, stats.relSemi) * 8 + Math.min(12, Math.abs(stats.minRelSemi) * 4), 74, 95) };
+        }
+        if (stats.relSemi <= -1.2 && stats.slopeSemi < 1.2) {
+          return { detected: stats.detected, pct: clampPct(66 + Math.min(12, Math.abs(stats.minRelSemi) * 3), 45, 78) };
+        }
+        return { detected: stats.detected, pct: clampPct(38 + stats.dipSemi * 8, 12, 62) };
+      }
+      if (targetTone === 4) {
+        if (stats.detected === 4) return { detected: 4, pct: clampPct(74 + Math.min(24, (-stats.slopeSemi) * 4.5), 76, 99) };
+        return { detected: stats.detected, pct: stats.slopeSemi < 0 ? clampPct(48 + (-stats.slopeSemi) * 10, 32, 74) : clampPct(34 - stats.slopeSemi * 4, 10, 34) };
+      }
+      return { detected: stats.detected, pct: 0 };
+    }
+
+    function evaluateMultiSyllableTones(acoustic, rawTonesInput) {
+      const rawTones = Array.isArray(rawTonesInput) ? rawTonesInput : [];
+      if (rawTones.length < 2 || rawTones.length > 6 || !acoustic || !Array.isArray(acoustic.pitchContour)) {
+        return null;
+      }
+      const effectiveTones = applyMandarinToneSandhi(rawTones);
+      const segments = segmentVoicedContour(acoustic.pitchContour, effectiveTones.length);
+      if (!segments) return null;
+
+      const voicedAll = acoustic.pitchContour.filter((v) => v > 0);
+      const globalMean = acoustic.pitchMeanHz > 0
+        ? acoustic.pitchMeanHz
+        : (voicedAll.reduce((a, b) => a + b, 0) / Math.max(1, voicedAll.length));
+
+      let sumPct = 0;
+      const perSyllable = effectiveTones.map((tgt, idx) => {
+        const stats = analyzePitchSegmentStats(segments[idx], globalMean);
+        const scored = scoreSingleToneSegment(stats, tgt, idx === effectiveTones.length - 1);
+        sumPct += scored.pct;
+        return {
+          target: tgt,
+          rawTarget: rawTones[idx],
+          detected: scored.detected,
+          pct: scored.pct,
+          slopeSemi: Math.round(stats.slopeSemi * 10) / 10
+        };
+      });
+
+      return {
+        rawTones,
+        effectiveTones,
+        sandhiApplied: rawTones.some((t, i) => t !== effectiveTones[i]),
+        perSyllable,
+        detectedTones: perSyllable.map((x) => x.detected),
+        overallMatchPct: Math.round(sumPct / effectiveTones.length)
+      };
+    }
+
+    function renderPitchContourSvg(acoustic, targetTone, targetTonesOpt) {
+      if (!acoustic || !(acoustic.voicedFrames > 0)) return "";
+      const pts = Array.isArray(acoustic.pitchContour) ? acoustic.pitchContour : [];
+      const voiced = pts.filter((v) => v > 0);
+      if (voiced.length < 2) return "";
+
+      const rawList = Array.isArray(targetTonesOpt) && targetTonesOpt.length
+        ? targetTonesOpt
+        : (Array.isArray(acoustic.targetTones) && acoustic.targetTones.length
+          ? acoustic.targetTones
+          : ((targetTone >= 1 && targetTone <= 4) ? [targetTone] : []));
+      const multiEval = (rawList.length >= 2 && rawList.length <= 6)
+        ? (acoustic.multiToneEval || evaluateMultiSyllableTones(acoustic, rawList))
+        : null;
+
+      const W = 260;
+      const H = 64;
+      const padX = 8;
+      const padY = 8;
+      const minHz = Math.max(55, (acoustic.pitchMinHz || Math.min(...voiced)) - 15);
+      const maxHz = Math.min(520, Math.max(minHz + 30, (acoustic.pitchMaxHz || Math.max(...voiced)) + 15));
+      const spanHz = maxHz - minHz;
+      const stepX = pts.length > 1 ? (W - padX * 2) / (pts.length - 1) : 0;
+
+      const segments = [];
+      let curSeg = [];
+      let dotsHtml = "";
+      pts.forEach((f0, idx) => {
+        if (f0 > 0) {
+          const x = (padX + idx * stepX).toFixed(1);
+          const y = (H - padY - ((f0 - minHz) / spanHz) * (H - padY * 2)).toFixed(1);
+          curSeg.push(`${x},${y}`);
+          if (idx % Math.max(1, Math.floor(pts.length / 16)) === 0) {
+            dotsHtml += `<circle cx="${x}" cy="${y}" r="2.1" fill="#ec4899"></circle>`;
+          }
+        } else if (curSeg.length) {
+          segments.push(curSeg);
+          curSeg = [];
+        }
+      });
+      if (curSeg.length) segments.push(curSeg);
+
+      const polylines = segments
+        .filter((seg) => seg.length >= 2)
+        .map((seg) => `<polyline fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="${seg.join(" ")}"></polyline>`)
+        .join("");
+
+      const detectedTone = Number(acoustic.detectedTone) || 0;
+      let detectedLabel = TONE_LABELS[detectedTone] || "Đo đường nét F0";
+      let tgtLabel = (targetTone >= 1 && targetTone <= 4) ? TONE_LABELS[targetTone] : "";
+      let matchPctVal = (typeof acoustic.toneMatchPct === "number" && targetTone >= 1 && targetTone <= 4) ? acoustic.toneMatchPct : null;
+
+      if (multiEval) {
+        detectedLabel = multiEval.detectedTones.map((t) => TONE_SHORT[t] || "T?").join(" → ");
+        const tgtStr = multiEval.effectiveTones.map((t) => TONE_SHORT[t] || "T?").join(" + ");
+        tgtLabel = multiEval.sandhiApplied ? `${tgtStr} (biến điệu ${multiEval.rawTones.join("+")})` : tgtStr;
+        matchPctVal = multiEval.overallMatchPct;
+      }
+
+      const matchBadge = typeof matchPctVal === "number"
+        ? `<span class="${matchPctVal >= 75 ? "score-ok" : (matchPctVal >= 50 ? "score-mid" : "score-low")}">Khớp thanh điệu: ${matchPctVal}%</span>`
+        : "";
+
+      return `
+        <div class="sr-f0-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;margin-bottom:5px;">
+            <span style="display:inline-flex;align-items:center;gap:5px;">${spkSvg("music", 13)} <b>Đường nét F0 (Wasm):</b> ${esc(detectedLabel)}${(!multiEval && acoustic.toneConfidence) ? ` (${acoustic.toneConfidence}%)` : ""}${tgtLabel ? ` • Mục tiêu: <b>${esc(tgtLabel)}</b>` : ""}</span>
+            ${matchBadge}
+          </div>
+          <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:360px;height:64px;display:block;background:var(--wash);border-radius:8px;border:1px solid var(--divider);" aria-label="Biểu đồ cao độ F0">
+            <line x1="0" y1="16" x2="${W}" y2="16" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="3 3"></line>
+            <line x1="0" y1="32" x2="${W}" y2="32" stroke="currentColor" stroke-opacity="0.1" stroke-dasharray="3 3"></line>
+            <line x1="0" y1="48" x2="${W}" y2="48" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="3 3"></line>
+            ${polylines}
+            ${dotsHtml}
+          </svg>
+          <div style="margin-top:4px;font-size:11.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;">
+            <span>Cao độ TB: <b>${acoustic.pitchMeanHz || 0} Hz</b> (±${acoustic.pitchStdSemitones || 0} ST)</span>
+            <span>Độ dốc: <b>${acoustic.pitchSlopeSemitones > 0 ? "+" : ""}${acoustic.pitchSlopeSemitones || 0} ST</b></span>
+            <span>Trôi chảy: <b>${acoustic.fluencySignalScore || 0}%</b></span>
+            <span>Độ rõ: <b>${acoustic.snrDb || 0} dB</b></span>
+          </div>
+        </div>
+      `;
+    }
+
+    function stopMediaRecorderOnly(releaseHardware) {
+      if (activeMediaRec) {
+        try {
+          if (activeMediaRec.state === "recording" && typeof activeMediaRec.requestData === "function") {
+            activeMediaRec.requestData();
+          }
+          if (activeMediaRec.state !== "inactive") activeMediaRec.stop();
+        } catch (e) {}
+      }
+      if (releaseHardware) {
+        releaseWarmMicStream();
+      } else if (warmMediaStream) {
+        scheduleWarmMicIdleRelease();
+      }
+    }
+
+    function startAudioCapture(key, doneIdToMark, targetTone, targetTonesList) {
+      if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function" || typeof window.MediaRecorder === "undefined") {
+        return;
+      }
+      const rawTonesSnap = Array.isArray(targetTonesList) ? targetTonesList.slice() : [];
+      activeMediaChunks = [];
+      acquireHskVoiceStream().then((stream) => {
+        if (!stream || recordingKey !== key) {
+          if (warmMediaStream) scheduleWarmMicIdleRelease();
+          return;
+        }
+        activeMediaStream = stream;
+        try {
+          const mr = createHskVoiceRecorder(stream);
+          activeMediaRec = mr;
+          mr.ondataavailable = (ev) => {
+            if (ev.data && ev.data.size > 0) activeMediaChunks.push(ev.data);
+          };
+          mr.onstop = () => {
+            const chunks = activeMediaChunks.slice();
+            activeMediaChunks = [];
+            activeMediaRec = null;
+            const recMime = mr.mimeType || mr._lpPreferredMime || "audio/webm";
+            const durSec = Math.max(1, Math.round((Date.now() - recStartTs) / 1000));
+            if (chunks.length) {
+              const blob = new Blob(chunks, { type: recMime });
+              const url = URL.createObjectURL(blob);
+              revokeKeyAudioUrl(key);
+              if (!recResults[key] || recResults[key].mode === "audio_only") {
+                const prevAc = recResults[key] && recResults[key].acoustic ? recResults[key].acoustic : null;
+                recResults[key] = { mode: "audio_only", transcript: "", pct: 0, error: "", audioUrl: url, durationSec: durSec, targetTone: targetTone || 0, targetTones: rawTonesSnap, acoustic: prevAc };
+              } else {
+                recResults[key].audioUrl = url;
+                if (!recResults[key].durationSec) recResults[key].durationSec = durSec;
+                if (targetTone && !recResults[key].targetTone) recResults[key].targetTone = targetTone;
+                if (rawTonesSnap.length && (!recResults[key].targetTones || !recResults[key].targetTones.length)) recResults[key].targetTones = rawTonesSnap;
+              }
+              render();
+
+              if (window.S4Whisper && typeof window.S4Whisper.analyzeBlobAcoustics === "function") {
+                window.S4Whisper.analyzeBlobAcoustics(blob, {
+                  targetTone: targetTone || 0,
+                  maxContourPoints: 84
+                }).then((acRes) => {
+                  if (!acRes || !acRes.acoustic || !recResults[key] || recResults[key].audioUrl !== url) return;
+                  const ac = acRes.acoustic;
+                  if (rawTonesSnap.length >= 2 && rawTonesSnap.length <= 6) {
+                    const multi = evaluateMultiSyllableTones(ac, rawTonesSnap);
+                    if (multi) ac.multiToneEval = multi;
+                  }
+                  recResults[key].acoustic = ac;
+                  recResults[key].targetTone = targetTone || 0;
+                  recResults[key].targetTones = rawTonesSnap;
+                  if (recResults[key].mode === "audio_only" && !acRes.silent && ac.voicedFrames >= 3) {
+                    const effectiveMatchPct = ac.multiToneEval
+                      ? ac.multiToneEval.overallMatchPct
+                      : (typeof ac.toneMatchPct === "number" ? ac.toneMatchPct : null);
+                    const acPct = (effectiveMatchPct !== null)
+                      ? Math.round(effectiveMatchPct * 0.72 + (ac.clarityScore || 0) * 0.28)
+                      : Math.round((ac.fluencySignalScore || 0) * 0.55 + (ac.clarityScore || 0) * 0.45);
+                    recResults[key].pct = Math.max(1, Math.min(100, acPct));
+                    if (doneIdToMark && recResults[key].pct >= 65) {
+                      doneMap[doneIdToMark] = true;
+                      try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+                    }
+                  }
+                  render();
+                }).catch(() => {});
+              }
+            }
+          };
+          mr.start(250);
+        } catch (e) {
+          releaseWarmMicStream();
+        }
+      }).catch(() => {});
+    }
+
+    function finalizeContinuousHskk(key, curMeta, doneIdToMark) {
+      if (!curMeta) return;
+      const finalTxt = ((curMeta.committedBuf || "") + (curMeta.sessionFinalBuf || "") + (curMeta.interimBuf || "")).trim();
+      const elapsed = Math.max(1, (Date.now() - recStartTs) / 1000);
+      if (finalTxt) {
+        const prevUrl = recResults[key] && recResults[key].audioUrl ? recResults[key].audioUrl : "";
+        const prevAc = recResults[key] && recResults[key].acoustic ? recResults[key].acoustic : null;
+        if (curMeta.mode === "match") {
+          const pct = calcMatchPct(curMeta.targetZh || "", finalTxt);
+          recResults[key] = {
+            mode: "match",
+            transcript: finalTxt,
+            pct,
+            error: "",
+            audioUrl: prevUrl,
+            durationSec: Math.max(1, Math.round(elapsed)),
+            targetTone: curMeta.targetTone || 0,
+            targetTones: Array.isArray(curMeta.targetTones) ? curMeta.targetTones.slice() : [],
+            acoustic: prevAc
+          };
+          if (doneIdToMark && pct >= 60) {
+            doneMap[doneIdToMark] = true;
+            try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+          }
+          return;
+        }
+        const evalRes = evaluateHskkSpeech(finalTxt, curMeta, elapsed);
+        evalRes.audioUrl = prevUrl;
+        evalRes.acoustic = prevAc;
+        evalRes.targetTone = curMeta.targetTone || 0;
+        evalRes.targetTones = Array.isArray(curMeta.targetTones) ? curMeta.targetTones.slice() : [];
+        recResults[key] = evalRes;
+        if (doneIdToMark && (evalRes.spokenChars >= Math.min(15, evalRes.minChars) || evalRes.pct >= 55)) {
+          doneMap[doneIdToMark] = true;
+          try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+        }
+      }
+    }
+
+    function stopRecording(graceful) {
+      if (tailFlushTimer) {
+        clearTimeout(tailFlushTimer);
+        tailFlushTimer = null;
+      }
+      isStoppingRec = false;
+      if (recSessionMeta && recSessionMeta.restartTimer) {
+        clearTimeout(recSessionMeta.restartTimer);
+        recSessionMeta.restartTimer = null;
+      }
+      if (recSessionMeta) {
+        recSessionMeta.userStopped = true;
+      }
+      if (activeRec) {
+        try {
+          if (graceful && typeof activeRec.stop === "function") activeRec.stop();
+          else activeRec.abort();
+        } catch (e) {}
+        if (!graceful) activeRec = null;
+      }
+      stopMediaRecorderOnly(false);
+      if (!graceful) {
+        recordingKey = null;
+        recSessionMeta = null;
+      }
+    }
+
+    function startSpeechCheck(key, targetZh, doneIdToMark, opts) {
+      if (recordingKey === key) {
+        if (isStoppingRec) return;
+        const doGracefulStop = () => {
+          tailFlushTimer = null;
+          isStoppingRec = false;
+          if (recordingKey !== key) return;
+          const wasContinuous = Boolean(recSessionMeta && recSessionMeta.continuous);
+          const curMeta = recSessionMeta;
+          if (wasContinuous && curMeta) {
+            finalizeContinuousHskk(key, curMeta, doneIdToMark);
+          }
+          recordingKey = null;
+          stopRecording(true);
+          activeRec = null;
+          recSessionMeta = null;
+          render();
+        };
+        if ((Date.now() - recStartTs) >= 400) {
+          isStoppingRec = true;
+          const activeBtn = document.querySelector(".mic-btn.recording");
+          if (activeBtn) activeBtn.innerHTML = `${spkSvg("clock", 14)} Đang chốt âm...`;
+          tailFlushTimer = setTimeout(doGracefulStop, TAIL_FLUSH_MS);
+        } else {
+          doGracefulStop();
+        }
+        return;
+      }
+      stopZh();
+      stopRecording(false);
+
+      const isHskk = Boolean(opts && opts.mode === "hskk");
+      const isContinuousMatch = Boolean(opts && opts.mode === "continuous_match");
+      const isContinuous = isHskk || isContinuousMatch;
+      const toneMeta = resolveTargetTonesForKey(key, opts);
+      const targetTone = toneMeta.primaryTone;
+      const targetTonesList = toneMeta.rawTones;
+      recStartTs = Date.now();
+      recSessionMeta = {
+        key,
+        doneIdToMark,
+        targetZh: targetZh || "",
+        targetTone,
+        targetTones: targetTonesList,
+        mode: isHskk ? "hskk" : "match",
+        continuous: isContinuous,
+        keyVocab: (opts && opts.keyVocab) || [],
+        minChars: (opts && opts.minChars) || 25,
+        committedBuf: "",
+        sessionFinalBuf: "",
+        interimBuf: "",
+        userStopped: false,
+        sttFatal: false,
+        emptyRestarts: 0,
+        restartTimer: null
+      };
+
+      if (!SpeechRec) {
+        if (navigator.mediaDevices && typeof window.MediaRecorder !== "undefined") {
+          recordingKey = key;
+          recResults[key] = {
+            mode: "audio_only",
+            transcript: "",
+            pct: 0,
+            audioUrl: "",
+            targetTone,
+            targetTones: targetTonesList,
+            acoustic: null,
+            error: ""
+          };
+          startAudioCapture(key, doneIdToMark, targetTone, targetTonesList);
+          render();
+          return;
+        }
+        recResults[key] = {
+          transcript: "",
+          pct: 0,
+          error: "Trình duyệt hiện tại chưa hỗ trợ Web Speech API (nhận diện giọng nói). Hãy dùng Chrome / Edge / Android Chrome hoặc bấm nút Đánh dấu hoàn thành bên cạnh."
+        };
+        recSessionMeta = null;
+        render();
+        return;
+      }
+
+      try {
+        const rec = new SpeechRec();
+        rec.lang = "zh-CN";
+        rec.continuous = isContinuous;
+        rec.interimResults = isContinuous;
+        rec.maxAlternatives = 1;
+        recordingKey = key;
+        activeRec = rec;
+        startAudioCapture(key, doneIdToMark, targetTone, targetTonesList);
+        render();
+
+        rec.onresult = (ev) => {
+          if (isContinuous) {
+            let fin = "";
+            let inter = "";
+            for (let i = 0; i < ev.results.length; i++) {
+              const seg = (ev.results[i][0] && ev.results[i][0].transcript) || "";
+              if (ev.results[i].isFinal) fin += seg;
+              else inter += seg;
+            }
+            if (recSessionMeta && recSessionMeta.key === key) {
+              recSessionMeta.sessionFinalBuf = fin;
+              recSessionMeta.interimBuf = inter;
+              if (fin || inter) recSessionMeta.emptyRestarts = 0;
+            }
+            const combined = ((recSessionMeta ? recSessionMeta.committedBuf : "") + fin + inter).trim();
+            const liveEl = document.getElementById("srLive_" + key);
+            if (liveEl) {
+              liveEl.textContent = combined || "Đang lắng nghe tiếng Trung (zh-CN)...";
+            }
+            return;
+          }
+          const transcript = (ev.results && ev.results[0] && ev.results[0][0] && ev.results[0][0].transcript) || "";
+          const pct = calcMatchPct(targetZh, transcript);
+          const prevUrl = recResults[key] && recResults[key].audioUrl ? recResults[key].audioUrl : "";
+          const prevAc = recResults[key] && recResults[key].acoustic ? recResults[key].acoustic : null;
+          recResults[key] = { mode: "match", transcript, pct, error: "", audioUrl: prevUrl, targetTone, targetTones: targetTonesList, acoustic: prevAc };
+          if (doneIdToMark && pct >= 60) {
+            doneMap[doneIdToMark] = true;
+            try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+          }
+          recordingKey = null;
+          activeRec = null;
+          recSessionMeta = null;
+          stopMediaRecorderOnly(false);
+          render();
+        };
+
+        rec.onerror = (ev) => {
+          if (isContinuous && recordingKey === key && recSessionMeta && !recSessionMeta.userStopped) {
+            if (ev.error === "no-speech" || ev.error === "aborted") {
+              return;
+            }
+            if (activeMediaRec && activeMediaRec.state === "recording" && (ev.error === "audio-capture" || ev.error === "service-not-allowed" || (isAndroidMobile() && ev.error === "network"))) {
+              recSessionMeta.sttFatal = true;
+              activeRec = null;
+              return;
+            }
+            const existingSpoken = ((recSessionMeta.committedBuf || "") + (recSessionMeta.sessionFinalBuf || "")).trim();
+            if (existingSpoken.length > 0) {
+              finalizeContinuousHskk(key, recSessionMeta, doneIdToMark);
+              recordingKey = null;
+              activeRec = null;
+              recSessionMeta = null;
+              stopMediaRecorderOnly(false);
+              render();
+              return;
+            }
+          }
+          if (!isContinuous && activeMediaRec && activeMediaRec.state === "recording" && (ev.error === "audio-capture" || ev.error === "service-not-allowed")) {
+            activeRec = null;
+            return;
+          }
+          let msg = "Không thu được giọng nói. Vui lòng kiểm tra micro và thử lại.";
+          if (ev.error === "not-allowed" || ev.error === "service-not-allowed") {
+            msg = "Trình duyệt chưa được cấp quyền Micro. Hãy bấm biểu tượng ổ khóa trên thanh địa chỉ để cho phép Micro (hoặc mở qua localhost/HTTPS).";
+          } else if (ev.error === "no-speech") {
+            msg = "Không phát hiện thấy tiếng nói. Hãy đưa micro lại gần và nói rõ thanh điệu tiếng Trung.";
+          } else if (ev.error === "network") {
+            msg = "Web Speech Recognition cần kết nối mạng để nhận diện giọng nói zh-CN.";
+          }
+          const prevUrl = recResults[key] && recResults[key].audioUrl ? recResults[key].audioUrl : "";
+          const prevAc = recResults[key] && recResults[key].acoustic ? recResults[key].acoustic : null;
+          recResults[key] = { transcript: "", pct: 0, error: msg, audioUrl: prevUrl, targetTone, targetTones: targetTonesList, acoustic: prevAc };
+          recordingKey = null;
+          activeRec = null;
+          recSessionMeta = null;
+          stopMediaRecorderOnly(false);
+          render();
+        };
+
+        rec.onend = () => {
+          if (recordingKey === key) {
+            if (isContinuous && recSessionMeta && recSessionMeta.key === key) {
+              if (recSessionMeta.sessionFinalBuf) {
+                recSessionMeta.committedBuf += recSessionMeta.sessionFinalBuf;
+                recSessionMeta.sessionFinalBuf = "";
+              } else {
+                recSessionMeta.emptyRestarts = (recSessionMeta.emptyRestarts || 0) + 1;
+              }
+              recSessionMeta.interimBuf = "";
+              const hasActiveMr = Boolean(activeMediaRec && activeMediaRec.state === "recording");
+              if (!recSessionMeta.userStopped && !recSessionMeta.sttFatal && !isIosSafariLike() && recSessionMeta.emptyRestarts <= 8) {
+                const snapMeta = recSessionMeta;
+                snapMeta.restartTimer = setTimeout(() => {
+                  if (recordingKey !== key || recSessionMeta !== snapMeta || snapMeta.userStopped || snapMeta.sttFatal) return;
+                  try {
+                    rec.start();
+                  } catch (e) {
+                    snapMeta.sttFatal = true;
+                  }
+                }, 160);
+                return;
+              }
+              if (isIosSafariLike() && !recSessionMeta.userStopped && hasActiveMr) {
+                recSessionMeta.sttFatal = true;
+                activeRec = null;
+                return;
+              }
+              finalizeContinuousHskk(key, recSessionMeta, doneIdToMark);
+            }
+            recordingKey = null;
+            activeRec = null;
+            recSessionMeta = null;
+            stopMediaRecorderOnly(false);
+            render();
+          }
+        };
+
+        rec.start();
+      } catch (err) {
+        recResults[key] = {
+          transcript: "",
+          pct: 0,
+          error: "Không thể khởi động nhận diện giọng nói trên trình duyệt này. Bạn vẫn có thể nghe mẫu và tự luyện đọc."
+        };
+        recordingKey = null;
+        activeRec = null;
+        recSessionMeta = null;
+        stopMediaRecorderOnly(false);
+        render();
+      }
+    }
+
+    function stripSearchAccents(s) {
+      return String(s || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "D")
+        .toLowerCase()
+        .trim();
+    }
+
+    function matchSearchText(fields, rawQuery) {
+      const qRaw = String(rawQuery || "").trim().toLowerCase();
+      if (!qRaw) return true;
+      const qNorm = stripSearchAccents(qRaw);
+      const joinedRaw = fields.map((f) => String(f || "")).join(" ").toLowerCase();
+      if (joinedRaw.includes(qRaw)) return true;
+      if (qNorm && stripSearchAccents(joinedRaw).includes(qNorm)) return true;
+      return false;
+    }
+
+    function updateTimerDom() {
+      const lbl = document.getElementById("hskkTimerLabel");
+      const num = document.getElementById("hskkTimerNum");
+      const stopBtn = document.getElementById("hskkTimerStopBtn");
+      let curTimerItem = null;
+      if (activeTab === "repeat") {
+        curTimerItem = DATA.hskkRepeatSets.find((r) => r.id === activeRepeatId) || DATA.hskkRepeatSets[0];
+      } else {
+        curTimerItem = DATA.hskkPrompts.find((p) => p.id === activeHskkId) || DATA.hskkPrompts[0];
+      }
+      if (lbl) {
+        lbl.innerHTML = timerPhase === "prep"
+          ? `${spkSvg("clock", 14)} Đang chuẩn bị:`
+          : (timerPhase === "speak" ? `${spkSvg("mic", 14)} Đang trả lời:` : `${spkSvg("clock", 14)} Đồng hồ thi HSKK:`);
+      }
+      if (num) {
+        const pSec = curTimerItem && curTimerItem.prepSeconds ? curTimerItem.prepSeconds : 60;
+        const sSec = curTimerItem && curTimerItem.speakSeconds ? curTimerItem.speakSeconds : 120;
+        num.textContent = timerPhase === "idle"
+          ? (curTimerItem ? `${pSec}s / ${sSec}s` : "0s")
+          : `${timerLeft}s`;
+      }
+      if (stopBtn) {
+        stopBtn.style.display = timerPhase !== "idle" ? "" : "none";
+      }
+    }
+
+    function stopTimer() {
+      if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
+      timerPhase = "idle";
+      timerLeft = 0;
+      updateTimerDom();
+    }
+
+    function startTimer(phase, seconds) {
+      stopTimer();
+      timerPhase = phase;
+      timerLeft = seconds;
+      updateTimerDom();
+      timerHandle = setInterval(() => {
+        timerLeft--;
+        if (timerLeft <= 0) {
+          stopTimer();
+          if (window.S4UI && window.S4UI.toast) {
+            window.S4UI.toast("info", phase === "prep" ? "Hết giờ chuẩn bị! Bắt đầu nói." : "Hết giờ trả lời!");
+          }
+          return;
+        }
+        updateTimerDom();
+      }, 1000);
+    }
+
+    function renderSrBox(key) {
+      if (recordingKey === key && recSessionMeta && recSessionMeta.continuous) {
+        const recTitle = recSessionMeta.mode === "match"
+          ? "Đang thu âm đoạn văn..."
+          : "Đang thu âm liên tục (HSKK)...";
+        return `<div class="sr-result" style="border-color:rgba(220,38,38,0.45);">
+          <div><span class="sr-rec-dot" aria-hidden="true"></span><b>${recTitle}</b> Bấm <b>Dừng thu âm</b> khi nói xong để chấm điểm &amp; nghe lại giọng.</div>
+          <div id="srLive_${esc(key)}" style="margin-top:6px;font-size:15px;color:var(--muted);">${esc(((recSessionMeta.committedBuf || "") + (recSessionMeta.sessionFinalBuf || "") + (recSessionMeta.interimBuf || "")) || "Đang lắng nghe tiếng Trung (zh-CN)...")}</div>
+        </div>`;
+      }
+      const r = recResults[key];
+      if (!r) return "";
+      const audioHtml = r.audioUrl
+        ? `<div style="margin-top:8px;"><audio controls src="${esc(r.audioUrl)}" style="width:100%;max-width:380px;height:34px;"></audio></div>`
+        : "";
+      const contourHtml = renderPitchContourSvg(r.acoustic, r.targetTone || 0, r.targetTones);
+      if (r.error) {
+        return `<div class="sr-result" style="border-color:rgba(245,158,11,0.5);"><div style="display:flex;align-items:flex-start;gap:6px;">${spkSvg("alert", 15)}<span>${esc(r.error)}</span></div>${contourHtml}${audioHtml}</div>`;
+      }
+      if (r.mode === "hskk") {
+        const cls = r.pct >= 75 ? "score-ok" : (r.pct >= 45 ? "score-mid" : "score-low");
+        const fluencyHint = r.cpm >= 90 ? "Tốc độ nói tự nhiên" : (r.cpm >= 55 ? "Nhịp nói ổn định" : "Nên nói liền mạch hơn");
+        const kwHtml = r.totalKeywords > 0
+          ? ` • Từ khóa gợi ý: <b>${r.matchedKeywords.length}/${r.totalKeywords}</b>${r.matchedKeywords.length ? ` (${esc(r.matchedKeywords.join("、"))})` : ""}`
+          : "";
+        return `
+          <div class="sr-result">
+            <div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;">${spkSvg("mic", 14)}<span><b>Nội dung bạn vừa nói:</b> <span style="font-size:15.5px;">${esc(r.transcript || "(trống)")}</span></span></div>
+            <div style="margin-top:5px;">
+              Đánh giá khẩu ngữ mở: <span class="${cls}">${r.pct}%</span> —
+              Độ dài: <b>${r.spokenChars}</b>/${r.minChars}+ chữ Hán •
+              Tốc độ: <b>~${r.cpm} chữ/phút</b> (${fluencyHint})${kwHtml}
+            </div>
+            ${contourHtml}
+            ${audioHtml}
+          </div>
+        `;
+      }
+      if (r.mode === "audio_only") {
+        const cls = r.pct >= 75 ? "score-ok" : (r.pct >= 50 ? "score-mid" : "score-low");
+        const scoreLine = r.pct > 0
+          ? `<div style="margin-top:4px;">Chấm thanh điệu &amp; độ rõ sóng âm (Wasm): <span class="${cls}">${r.pct}%</span></div>`
+          : `<div style="margin-top:4px;font-size:12.5px;color:var(--muted);">Đang thu nhận hoặc chưa có thanh điệu rõ — hãy bấm nghe lại bản thu bên dưới.</div>`;
+        return `<div class="sr-result"><div style="display:flex;align-items:center;gap:6px;">${spkSvg("mic", 14)}<span>Bản ghi âm của bạn (${r.durationSec || 1}s):</span></div>${scoreLine}${contourHtml}${audioHtml}</div>`;
+      }
+      const cls = r.pct >= 80 ? "score-ok" : (r.pct >= 50 ? "score-mid" : "score-low");
+      const badge = r.pct >= 80 ? "Tuyệt vời!" : (r.pct >= 50 ? "Khá tốt, thử rõ thanh điệu hơn!" : "Thử nghe chậm 0.72x rồi đọc lại nhé!");
+      return `
+        <div class="sr-result">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">${spkSvg("mic", 14)}<span>Nhận diện được: <b style="font-size:16px;">${esc(r.transcript || "(trống)")}</b></span></div>
+          <div style="margin-top:4px;">Độ khớp với câu mẫu: <span class="${cls}">${r.pct}%</span> — ${badge}</div>
+          ${contourHtml}
+          ${audioHtml}
+        </div>
+      `;
+    }
+
+    function buildToneGridHtml() {
+      const filtered = DATA.tonePairs
+        .map((p, idx) => ({ p, idx }))
+        .filter(({ p }) => matchSearchText([
+          p.title, p.tip,
+          p.a && p.a.zh, p.a && p.a.py, p.a && p.a.hv, p.a && p.a.vi,
+          p.b && p.b.zh, p.b && p.b.py, p.b && p.b.hv, p.b && p.b.vi
+        ], toneSearch));
+
+      if (!filtered.length) {
+        return `<div class="card" style="text-align:center;padding:24px;color:var(--muted);">
+          Không tìm thấy cặp thanh điệu nào khớp với "<b>${esc(toneSearch)}</b>".
+          <div style="margin-top:10px;"><button class="spk-btn" onclick="toneSearch='';render();">${spkSvg("refresh", 14)} Hiện tất cả ${DATA.tonePairs.length} cặp</button></div>
+        </div>`;
+      }
+
+      let html = `<div class="spk-count-pill">Hiển thị <b>${filtered.length}/${DATA.tonePairs.length}</b> cặp thanh điệu</div>`;
+      html += `<div class="pair-grid">`;
+      filtered.forEach(({ p, idx }) => {
+        const isDone = Boolean(doneMap[p.id]);
+        const isTarget = activeToneId && activeToneId === p.id;
+        const kA = `tp_${idx}_a`;
+        const kB = `tp_${idx}_b`;
+        html += `
+          <div class="card tone-card ${isTarget ? "is-target-item" : ""}" id="toneCard_${escAttr(p.id)}" data-tone-id="${escAttr(p.id)}">
+            <div class="pair-head">
+              <span>Cặp ${idx + 1}: ${esc(p.title)}</span>
+              <button class="done-btn ${isDone ? "is-done" : ""}" onclick="markDone('${escJsAttr(p.id)}')">
+                ${isDone ? `${spkSvg("check", 14)} Đã luyện` : `${spkSvg("circle", 13)} Đánh dấu`}
+              </button>
+            </div>
+            <div class="pair-sides">
+              <div class="side-box">
+                <div class="big-zh">${esc(p.a.zh)}</div>
+                <div class="py-line py-text">${esc(p.a.py)}</div>
+                <div class="hv-line">HV: ${esc(p.a.hv)}</div>
+                <div class="vi-line vi-text">${esc(p.a.vi)}</div>
+                <div class="btn-row">
+                  <button class="spk-btn" onclick="speakZh(DATA.tonePairs[${idx}].a.zh, null, DATA.tonePairs[${idx}].a.py)">${spkSvg("volume", 14)} Nghe A</button>
+                  <button class="mic-btn ${recordingKey === kA ? "recording" : ""}" onclick="startSpeechCheck('${kA}', DATA.tonePairs[${idx}].a.zh, '${escJsAttr(p.id)}')">
+                    ${recordingKey === kA ? `${spkSvg("stop", 14)} Đang nghe...` : `${spkSvg("mic", 14)} Nói A`}
+                  </button>
+                </div>
+              </div>
+              <div class="side-box">
+                <div class="big-zh">${esc(p.b.zh)}</div>
+                <div class="py-line py-text">${esc(p.b.py)}</div>
+                <div class="hv-line">HV: ${esc(p.b.hv)}</div>
+                <div class="vi-line vi-text">${esc(p.b.vi)}</div>
+                <div class="btn-row">
+                  <button class="spk-btn" onclick="speakZh(DATA.tonePairs[${idx}].b.zh, null, DATA.tonePairs[${idx}].b.py)">${spkSvg("volume", 14)} Nghe B</button>
+                  <button class="mic-btn ${recordingKey === kB ? "recording" : ""}" onclick="startSpeechCheck('${kB}', DATA.tonePairs[${idx}].b.zh, '${escJsAttr(p.id)}')">
+                    ${recordingKey === kB ? `${spkSvg("stop", 14)} Đang nghe...` : `${spkSvg("mic", 14)} Nói B`}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:12.5px;color:var(--muted);line-height:1.5;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;">
+              <span style="display:inline-flex;align-items:center;gap:4px;flex:1 1 240px;">${spkSvg("lightbulb", 14)} <span><b>Mẹo phân biệt:</b> ${esc(p.tip)}</span></span>
+              <button class="spk-btn" onclick="speakZh(DATA.tonePairs[${idx}].a.zh + '，' + DATA.tonePairs[${idx}].b.zh)">${spkSvg("volume", 14)} Nghe so sánh A–B</button>
+            </div>
+            ${renderSrBox(kA)}
+            ${renderSrBox(kB)}
+          </div>
+        `;
+      });
+      html += `</div>`;
+      return html;
+    }
+
+    function updateToneGridOnly() {
+      const wrap = document.getElementById("tonesGridWrap");
+      if (wrap) wrap.innerHTML = buildToneGridHtml();
+    }
+
+    function renderTonesTab() {
+      return `
+        <div class="spk-filter-glass">
+          <p class="tab-intro">Luyện phân biệt các cặp thanh điệu dễ nhầm qua biểu đồ cao độ F0.</p>
+          <div class="filter-bar">
+            <div class="search-wrap">
+              <span class="search-icon">${spkSvg("search", 15)}</span>
+              <input id="toneSearchInp" class="search-inp" type="search" value="${esc(toneSearch)}"
+                placeholder="Tìm cặp thanh điệu (chữ Hán, Pinyin, Hán Việt, tiếng Việt)..."
+                oninput="toneSearch=this.value;updateToneGridOnly();">
+            </div>
+            ${toneSearch ? `<button class="ctrl-btn" onclick="toneSearch='';render();">${spkSvg("close", 14)} Xóa lọc</button>` : ""}
+          </div>
+        </div>
+        <div id="tonesGridWrap">${buildToneGridHtml()}</div>
+      `;
+    }
+
+    function renderShadowingTab() {
+      const all = DATA.shadowingLessons || [];
+      if (!all.length) return `<div class="card">Chưa có bài Shadowing.</div>`;
+
+      const lvCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+      all.forEach((s) => { const lv = Number(s.level); if (lvCounts[lv] !== undefined) lvCounts[lv]++; });
+
+      const list = shadowLevelFilter === "all"
+        ? all
+        : all.filter((s) => String(s.level) === String(shadowLevelFilter));
+      let curIdx = list.findIndex((s) => s.id === activeShadowId);
+      if (curIdx < 0) curIdx = 0;
+      const cur = list[curIdx] || all[0];
+      if (!cur) return "";
+      activeShadowId = cur.id;
+      const isDone = Boolean(doneMap[cur.id]);
+      const prevItem = curIdx > 0 ? list[curIdx - 1] : null;
+      const nextItem = curIdx + 1 < list.length ? list[curIdx + 1] : null;
+
+      let html = `<div class="spk-filter-glass">`;
+      html += `<p class="tab-intro">Nghe câu mẫu bản xứ và đọc nhại theo ngữ điệu từng lượt thoại.</p>`;
+      html += `<div class="pill-row">`;
+      html += `<button class="sel-pill ${shadowLevelFilter === "all" ? "active" : ""}" onclick="stopZh();stopRecording();shadowLevelFilter='all';render();">Tất cả (${all.length})</button>`;
+      for (let lv = 1; lv <= 6; lv++) {
+        html += `<button class="sel-pill ${shadowLevelFilter === String(lv) ? "active" : ""}" onclick="stopZh();stopRecording();shadowLevelFilter='${lv}';render();">HSK ${lv} (${lvCounts[lv]})</button>`;
+      }
+      html += `</div>`;
+
+      html += `<div class="pill-row">`;
+      list.forEach((s, i) => {
+        const done = Boolean(doneMap[s.id]);
+        html += `<button class="sel-pill ${s.id === cur.id ? "active" : ""}" onclick="stopZh();stopRecording();activeShadowId='${escJsAttr(s.id)}';render();">
+          ${done ? spkSvg("check", 13) : spkSvg("mic", 13)} Bài ${i + 1} (HSK ${s.level})
+        </button>`;
+      });
+      html += `</div>`;
+
+      html += `
+        <div class="nav-row">
+          <button class="nav-btn" ${prevItem ? `onclick="stopZh();stopRecording();activeShadowId='${escJsAttr(prevItem.id)}';render();"` : "disabled"}>${spkSvg("arrowLeft", 14)} Bài trước</button>
+          <span class="nav-meta">Bài ${curIdx + 1} / ${list.length}</span>
+          <button class="nav-btn" ${nextItem ? `onclick="stopZh();stopRecording();activeShadowId='${escJsAttr(nextItem.id)}';render();"` : "disabled"}>Bài tiếp theo ${spkSvg("arrowRight", 14)}</button>
+        </div>
+      </div>`;
+
+      html += `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+            <div>
+              <div style="font-size:12px;font-weight:800;color:var(--primary);margin-bottom:4px;">${esc(cur.badge)}</div>
+              <h2 style="margin:0 0 4px;font-size:19px;">${esc(cur.title)}</h2>
+              <div style="font-size:13px;color:var(--muted);">${esc(cur.desc)}</div>
+            </div>
+            <button class="done-btn ${isDone ? "is-done" : ""}" onclick="markDone('${escJsAttr(cur.id)}')">
+              ${isDone ? `${spkSvg("check", 14)} Đã hoàn thành` : `${spkSvg("circle", 13)} Đánh dấu hoàn thành`}
+            </button>
+          </div>
+          <div class="btn-row" style="margin-bottom:14px;">
+            <button class="spk-btn" onclick="speakZh(DATA.shadowingLessons.find(x=>x.id==='${escJsAttr(cur.id)}').lines.map(l=>l.zh).join(' '))">${spkSvg("play", 14)} Nghe cả bài (${playRate}x)</button>
+            <button class="spk-btn" onclick="speakZh(DATA.shadowingLessons.find(x=>x.id==='${escJsAttr(cur.id)}').lines.map(l=>l.zh).join(' '), 0.72)">${spkSvg("clock", 14)} Nghe chậm 0.72x</button>
+            <button class="spk-btn" onclick="stopZh()">${spkSvg("stop", 14)} Dừng</button>
+          </div>
+      `;
+
+      cur.lines.forEach((ln, idx) => {
+        const key = `sh_${cur.id}_${idx}`;
+        html += `
+          <div class="line-card">
+            <div style="font-size:11.5px;font-weight:800;color:var(--primary);margin-bottom:3px;">${esc(ln.speaker)}</div>
+            <div style="font-size:19px;font-weight:700;line-height:1.45;">${esc(ln.zh)}</div>
+            <div class="py-line py-text">${esc(ln.py)}</div>
+            <div class="vi-line vi-text">${esc(ln.vi)}</div>
+            <div class="btn-row">
+              <button class="spk-btn" onclick="speakZh(DATA.shadowingLessons.find(x=>x.id==='${escJsAttr(cur.id)}').lines[${idx}].zh, null, DATA.shadowingLessons.find(x=>x.id==='${escJsAttr(cur.id)}').lines[${idx}].py)">${spkSvg("volume", 14)} Nghe mẫu</button>
+              <button class="mic-btn ${recordingKey === key ? "recording" : ""}" onclick="startSpeechCheck('${key}', DATA.shadowingLessons.find(x=>x.id==='${escJsAttr(cur.id)}').lines[${idx}].zh, '${escJsAttr(cur.id)}', { targetPinyin: DATA.shadowingLessons.find(x=>x.id==='${escJsAttr(cur.id)}').lines[${idx}].py })">
+                ${recordingKey === key ? `${spkSvg("stop", 14)} Dừng thu âm...` : `${spkSvg("mic", 14)} Đọc nhại câu này`}
+              </button>
+            </div>
+            ${renderSrBox(key)}
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      return html;
+    }
+
+    function renderRepeatTab() {
+      const all = DATA.hskkRepeatSets || [];
+      if (!all.length) return `<div class="card">Chưa có bộ đề Nghe nhắc lại &amp; Đọc đoạn văn.</div>`;
+
+      const lvList = ["Sơ cấp", "Trung cấp", "Cao cấp"];
+      const lvCounts = { "Sơ cấp": 0, "Trung cấp": 0, "Cao cấp": 0 };
+      all.forEach((r) => { if (lvCounts[r.level] !== undefined) lvCounts[r.level]++; });
+
+      const list = repeatLevelFilter === "all"
+        ? all
+        : all.filter((r) => r.level === repeatLevelFilter);
+      let curIdx = list.findIndex((r) => r.id === activeRepeatId);
+      if (curIdx < 0) curIdx = 0;
+      const cur = list[curIdx] || all[0];
+      if (!cur) return "";
+      activeRepeatId = cur.id;
+      const isDone = Boolean(doneMap[cur.id]);
+      const prevItem = curIdx > 0 ? list[curIdx - 1] : null;
+      const nextItem = curIdx + 1 < list.length ? list[curIdx + 1] : null;
+      const items = Array.isArray(cur.items) ? cur.items : [];
+
+      let html = `<div class="spk-filter-glass">`;
+      html += `<p class="tab-intro">Luyện nghe nhắc lại câu ngắn (Sơ–Trung cấp) và đọc diễn cảm đoạn văn (Cao cấp).</p>`;
+      html += `<div class="pill-row">`;
+      html += `<button class="sel-pill ${repeatLevelFilter === "all" ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();repeatLevelFilter='all';render();">Tất cả (${all.length})</button>`;
+      lvList.forEach((lv) => {
+        html += `<button class="sel-pill ${repeatLevelFilter === lv ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();repeatLevelFilter='${lv}';render();">${lv} (${lvCounts[lv]})</button>`;
+      });
+      html += `</div>`;
+
+      html += `<div class="pill-row">`;
+      list.forEach((r, i) => {
+        const done = Boolean(doneMap[r.id]);
+        const icon = done ? spkSvg("check", 13) : (r.mode === "read_aloud" ? spkSvg("book", 13) : spkSvg("refresh", 13));
+        html += `<button class="sel-pill ${r.id === cur.id ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();activeRepeatId='${escJsAttr(r.id)}';render();">
+          ${icon} Bộ ${i + 1} (${esc(r.level)})
+        </button>`;
+      });
+      html += `</div>`;
+
+      html += `
+        <div class="nav-row">
+          <button class="nav-btn" ${prevItem ? `onclick="stopZh();stopRecording();stopTimer();activeRepeatId='${escJsAttr(prevItem.id)}';render();"` : "disabled"}>${spkSvg("arrowLeft", 14)} Bộ trước</button>
+          <span class="nav-meta">Bộ ${curIdx + 1} / ${list.length}</span>
+          <button class="nav-btn" ${nextItem ? `onclick="stopZh();stopRecording();stopTimer();activeRepeatId='${escJsAttr(nextItem.id)}';render();"` : "disabled"}>Bộ tiếp theo ${spkSvg("arrowRight", 14)}</button>
+        </div>
+      </div>`;
+
+      html += `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <div>
+              <div style="font-size:12px;font-weight:800;color:var(--primary);margin-bottom:4px;">${esc(cur.badge)}</div>
+              <h2 style="margin:0 0 4px;font-size:19px;">${esc(cur.title)}</h2>
+              <div style="font-size:13px;color:var(--muted);">${esc(cur.desc)}</div>
+            </div>
+            <button class="done-btn ${isDone ? "is-done" : ""}" onclick="markDone('${escJsAttr(cur.id)}')">
+              ${isDone ? `${spkSvg("check", 14)} Đã hoàn thành` : `${spkSvg("circle", 13)} Đánh dấu hoàn thành`}
+            </button>
+          </div>
+          ${cur.tip ? `<div class="tip-box">${spkSvg("lightbulb", 15)} <span><b>Mẹo luyện tập:</b> ${esc(cur.tip)}</span></div>` : ""}
+      `;
+
+      if (cur.mode === "read_aloud") {
+        const fullZh = items.map((x) => x.zh).join("");
+        const fullPy = items.map((x) => x.py).join(" ");
+        const fullVi = items.map((x) => x.vi).join(" ");
+        const pSec = cur.prepSeconds || 60;
+        const sSec = cur.speakSeconds || 120;
+        const fullKey = `rep_full_${cur.id}`;
+        const timerLabel = timerPhase === "prep"
+          ? `${spkSvg("clock", 14)} Đang chuẩn bị:`
+          : (timerPhase === "speak" ? `${spkSvg("mic", 14)} Đang đọc đoạn:` : `${spkSvg("clock", 14)} Đồng hồ đọc đoạn văn:`);
+
+        html += `
+          <div class="timer-box">
+            <span id="hskkTimerLabel" style="font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:5px;">${timerLabel}</span>
+            <span id="hskkTimerNum" class="timer-num">${timerPhase === "idle" ? `${pSec}s / ${sSec}s` : `${timerLeft}s`}</span>
+            <button class="spk-btn" onclick="startTimer('prep', ${pSec})">${spkSvg("clock", 14)} Chuẩn bị (${pSec}s)</button>
+            <button class="spk-btn" onclick="startTimer('speak', ${sSec})">${spkSvg("mic", 14)} Bấm giờ đọc (${sSec}s)</button>
+            <button id="hskkTimerStopBtn" class="spk-btn" style="${timerPhase !== "idle" ? "" : "display:none;"}" onclick="stopTimer()">${spkSvg("stop", 14)} Dừng đồng hồ</button>
+          </div>
+
+          <div class="line-card" style="border-color:rgba(225,29,72,0.28);">
+            <div style="font-size:11.5px;font-weight:800;color:var(--primary);margin-bottom:6px;">ĐOẠN VĂN ĐỌC THÀNH TIẾNG (朗读)</div>
+            <div style="font-size:18px;font-weight:700;line-height:1.68;">${esc(fullZh)}</div>
+            <div class="py-line py-text" style="margin-top:6px;line-height:1.55;">${esc(fullPy)}</div>
+            <div class="vi-line vi-text" style="margin-top:6px;line-height:1.55;">${esc(fullVi)}</div>
+            <div class="btn-row" style="margin-top:10px;">
+              <button class="spk-btn" onclick="speakZh(DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items.map(i=>i.zh).join(''))">${spkSvg("volume", 14)} Nghe cả đoạn</button>
+              <button class="spk-btn" onclick="speakZh(DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items.map(i=>i.zh).join(''), 0.72)">${spkSvg("clock", 14)} Nghe chậm 0.72x</button>
+              <button class="spk-btn" onclick="stopZh()">${spkSvg("stop", 14)} Dừng</button>
+              <button class="mic-btn ${recordingKey === fullKey ? "recording" : ""}" onclick="startSpeechCheck('${escJsAttr(fullKey)}', DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items.map(i=>i.zh).join(''), '${escJsAttr(cur.id)}', { mode: 'continuous_match' })">
+                ${recordingKey === fullKey ? `${spkSvg("stop", 14)} Dừng thu âm &amp; Chấm khớp` : `${spkSvg("mic", 14)} Đọc cả đoạn (chấm độ khớp)`}
+              </button>
+            </div>
+            ${renderSrBox(fullKey)}
+          </div>
+
+          <div style="font-size:13px;font-weight:800;color:var(--muted);margin:14px 0 8px;">Luyện tách từng câu trong đoạn (${items.length} câu):</div>
+        `;
+
+        items.forEach((it, idx) => {
+          const key = `rep_${cur.id}_${idx}`;
+          html += `
+            <div class="line-card">
+              <div style="font-size:11.5px;font-weight:800;color:var(--primary);margin-bottom:3px;">Câu ${idx + 1}</div>
+              <div style="font-size:18px;font-weight:700;line-height:1.45;">${esc(it.zh)}</div>
+              <div class="py-line py-text">${esc(it.py)}</div>
+              <div class="vi-line vi-text">${esc(it.vi)}</div>
+              <div class="btn-row">
+                <button class="spk-btn" onclick="speakZh(DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].zh, null, DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].py)">${spkSvg("volume", 14)} Nghe mẫu</button>
+                <button class="mic-btn ${recordingKey === key ? "recording" : ""}" onclick="startSpeechCheck('${escJsAttr(key)}', DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].zh, '${escJsAttr(cur.id)}', { targetPinyin: DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].py })">
+                  ${recordingKey === key ? `${spkSvg("stop", 14)} Dừng thu âm...` : `${spkSvg("mic", 14)} Đọc câu này`}
+                </button>
+              </div>
+              ${renderSrBox(key)}
+            </div>
+          `;
+        });
+      } else {
+        html += `
+          <div class="btn-row" style="margin-bottom:12px;">
+            <button class="ctrl-btn ${repeatExamMode ? "on" : ""}" onclick="repeatExamMode=!repeatExamMode;render();">
+              ${spkSvg("target", 14)} ${repeatExamMode ? "Chế độ Thi thử (Ẩn chữ): ĐANG BẬT" : "Bật Chế độ Thi thử (Ẩn chữ khi nghe)"}
+            </button>
+            <button class="spk-btn" onclick="speakZh(DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items.map(i=>i.zh).join(' '))">${spkSvg("play", 14)} Nghe cả bộ</button>
+            <button class="spk-btn" onclick="stopZh()">${spkSvg("stop", 14)} Dừng</button>
+          </div>
+        `;
+
+        items.forEach((it, idx) => {
+          const key = `rep_${cur.id}_${idx}`;
+          const isShown = repeatExamMode ? Boolean(repeatRevealed[key]) : (repeatRevealed[key] !== false);
+          html += `
+            <div class="line-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="font-size:11.5px;font-weight:800;color:var(--primary);">Câu ${idx + 1} / ${items.length}</span>
+                <button class="spk-btn" onclick="repeatRevealed['${escJsAttr(key)}']=${isShown ? "false" : "true"};render();">
+                  ${isShown ? `${spkSvg("eyeOff", 14)} Ẩn chữ` : `${spkSvg("eye", 14)} Hiện chữ`}
+                </button>
+              </div>
+              ${isShown ? `
+                <div style="font-size:19px;font-weight:700;line-height:1.45;">${esc(it.zh)}</div>
+                <div class="py-line py-text">${esc(it.py)}</div>
+                <div class="vi-line vi-text">${esc(it.vi)}</div>
+              ` : `
+                <div class="masked-box">${spkSvg("volume", 15)} <span>Đang ẩn chữ để luyện nghe nhắc lại — Bấm <b>Nghe mẫu</b> rồi bấm <b>Nhắc lại</b>.</span></div>
+              `}
+              <div class="btn-row">
+                <button class="spk-btn" onclick="speakZh(DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].zh, null, DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].py)">${spkSvg("volume", 14)} Nghe mẫu</button>
+                <button class="mic-btn ${recordingKey === key ? "recording" : ""}" onclick="startSpeechCheck('${escJsAttr(key)}', DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].zh, '${escJsAttr(cur.id)}', { targetPinyin: DATA.hskkRepeatSets.find(x=>x.id==='${escJsAttr(cur.id)}').items[${idx}].py })">
+                  ${recordingKey === key ? `${spkSvg("stop", 14)} Dừng thu âm...` : `${spkSvg("mic", 14)} Nhắc lại`}
+                </button>
+              </div>
+              ${renderSrBox(key)}
+            </div>
+          `;
+        });
+      }
+
+      html += `</div>`;
+      return html;
+    }
+
+    function getFilteredHskkPrompts() {
+      return (DATA.hskkPrompts || []).filter((p) => {
+        if (hskkLevelFilter !== "all" && p.level !== hskkLevelFilter) return false;
+        const pPart = p.part || "p3_talk";
+        if (hskkPartFilter !== "all" && pPart !== hskkPartFilter) return false;
+        if (hskkSearch && !matchSearchText([
+          p.title, p.badge, p.promptZh, p.promptPy, p.promptVi,
+          p.listenPassageZh, p.listenPassageVi,
+          p.sceneCard && p.sceneCard.sceneTitle,
+          Array.isArray(p.keyVocab) ? p.keyVocab.join(" ") : ""
+        ], hskkSearch)) return false;
+        return true;
+      });
+    }
+
+    function buildHskkBodyHtml() {
+      const list = getFilteredHskkPrompts();
+      if (!list.length) {
+        return `<div class="card" style="text-align:center;padding:24px;color:var(--muted);">
+          Không tìm thấy đề HSKK phù hợp với bộ lọc hiện tại.
+          <div style="margin-top:10px;"><button class="spk-btn" onclick="hskkLevelFilter='all';hskkPartFilter='all';hskkSearch='';render();">${spkSvg("refresh", 14)} Đặt lại bộ lọc</button></div>
+        </div>`;
+      }
+
+      let curIdx = list.findIndex((p) => p.id === activeHskkId);
+      if (curIdx < 0) curIdx = 0;
+      const cur = list[curIdx];
+      activeHskkId = cur.id;
+
+      const isDone = Boolean(doneMap[cur.id]);
+      const sampleOpen = Boolean(showHskkSample[cur.id]);
+      const key = `hskk_${cur.id}`;
+      const prevItem = curIdx > 0 ? list[curIdx - 1] : null;
+      const nextItem = curIdx + 1 < list.length ? list[curIdx + 1] : null;
+      const curPart = cur.part || "p3_talk";
+
+      let html = `<div class="spk-filter-glass"><div class="pill-row">`;
+      list.forEach((p, i) => {
+        const done = Boolean(doneMap[p.id]);
+        html += `<button class="sel-pill ${p.id === cur.id ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();activeHskkId='${escJsAttr(p.id)}';render();">
+          ${done ? spkSvg("check", 13) : spkSvg("mic", 13)} Đề ${i + 1} (${esc(p.level)})
+        </button>`;
+      });
+      html += `</div>`;
+
+      html += `
+        <div class="nav-row">
+          <button class="nav-btn" ${prevItem ? `onclick="stopZh();stopRecording();stopTimer();activeHskkId='${escJsAttr(prevItem.id)}';render();"` : "disabled"}>${spkSvg("arrowLeft", 14)} Đề trước</button>
+          <span class="nav-meta">Đề ${curIdx + 1} / ${list.length}</span>
+          <button class="nav-btn" ${nextItem ? `onclick="stopZh();stopRecording();stopTimer();activeHskkId='${escJsAttr(nextItem.id)}';render();"` : "disabled"}>Đề tiếp theo ${spkSvg("arrowRight", 14)}</button>
+        </div>
+      </div>`;
+
+      const promptHidden = curPart === "p2_qa" && cur.hidePromptDefault && !hskkPromptRevealed[cur.id];
+      const passageRevealed = Boolean(hskkPassageRevealed[cur.id]);
+      const timerLabel = timerPhase === "prep"
+        ? `${spkSvg("clock", 14)} Đang chuẩn bị:`
+        : (timerPhase === "speak" ? `${spkSvg("mic", 14)} Đang trả lời:` : `${spkSvg("clock", 14)} Đồng hồ thi HSKK:`);
+
+      html += `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <div>
+              <div style="font-size:12px;font-weight:800;color:var(--primary);margin-bottom:4px;">${esc(cur.badge)}</div>
+              <h2 style="margin:0 0 4px;font-size:19px;">${esc(cur.title)}</h2>
+            </div>
+            <button class="done-btn ${isDone ? "is-done" : ""}" onclick="markDone('${escJsAttr(cur.id)}')">
+              ${isDone ? `${spkSvg("check", 14)} Đã hoàn thành` : `${spkSvg("circle", 13)} Đánh dấu hoàn thành`}
+            </button>
+          </div>
+
+          <div class="line-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+              <span style="font-size:11.5px;font-weight:800;color:var(--muted);">ĐỀ BÀI KHẨU NGỮ</span>
+              ${(curPart === "p2_qa" && cur.hidePromptDefault) ? `
+                <button class="spk-btn" onclick="hskkPromptRevealed['${escJsAttr(cur.id)}']=!hskkPromptRevealed['${escJsAttr(cur.id)}'];render();">
+                  ${promptHidden ? `${spkSvg("eye", 14)} Xem văn bản câu hỏi` : `${spkSvg("eyeOff", 14)} Ẩn văn bản câu hỏi`}
+                </button>
+              ` : ""}
+            </div>
+            ${promptHidden ? `
+              <div class="masked-box">${spkSvg("volume", 15)} <span>Câu hỏi đang được ẩn để luyện phản xạ nghe-đáp thật. Bấm <b>Nghe câu hỏi</b> rồi trả lời ngay.</span></div>
+            ` : `
+              <div style="font-size:19px;font-weight:800;line-height:1.45;">${esc(cur.promptZh)}</div>
+              <div class="py-line py-text">${esc(cur.promptPy)}</div>
+              <div class="vi-line vi-text">${esc(cur.promptVi)}</div>
+            `}
+            <div class="btn-row">
+              <button class="spk-btn" onclick="speakZh(DATA.hskkPrompts.find(x=>x.id==='${escJsAttr(cur.id)}').promptZh)">${spkSvg("volume", 14)} ${curPart === "p2_qa" ? "Nghe câu hỏi" : "Nghe đề bài"}</button>
+            </div>
+          </div>
+
+          ${(curPart === "p2_picture" && cur.sceneCard) ? `
+            <div class="scene-card">
+              <div class="scene-head">
+                <div class="scene-emoji">${spkSvg("image", 24)}</div>
+                <div style="min-width:0;flex:1;">
+                  <div style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.4px;">Khung tranh minh họa (看图说话)</div>
+                  <div style="font-size:16px;font-weight:800;margin-top:2px;">${esc(cur.sceneCard.sceneTitle)}</div>
+                </div>
+              </div>
+              <div class="scene-grid">
+                <div class="scene-cell"><b>${spkSvg("mapPin", 13)} Bối cảnh</b>${esc(cur.sceneCard.setting)}</div>
+                <div class="scene-cell"><b>${spkSvg("users", 13)} Nhân vật</b>${esc(cur.sceneCard.actors)}</div>
+                <div class="scene-cell"><b>${spkSvg("film", 13)} Hành động</b>${esc(cur.sceneCard.action)}</div>
+                <div class="scene-cell"><b>${spkSvg("sparkle", 13)} Không khí</b>${esc(cur.sceneCard.mood)}</div>
+              </div>
+              ${Array.isArray(cur.sceneCard.details) && cur.sceneCard.details.length ? `
+                <div class="scene-chips">
+                  ${cur.sceneCard.details.map((d) => `<span class="scene-chip">${esc(d)}</span>`).join("")}
+                </div>
+              ` : ""}
+            </div>
+          ` : ""}
+
+          ${(curPart === "p1_retell" && cur.listenPassageZh) ? `
+            <div class="line-card" style="border-color:rgba(225,29,72,0.28);">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                <span style="font-size:12px;font-weight:800;color:var(--primary);display:inline-flex;align-items:center;gap:5px;">${spkSvg("volume", 14)} BĂNG NGHE THUẬT LẠI (听后复述)</span>
+                <button class="spk-btn" onclick="hskkPassageRevealed['${escJsAttr(cur.id)}']=!hskkPassageRevealed['${escJsAttr(cur.id)}'];render();">
+                  ${passageRevealed ? `${spkSvg("eyeOff", 14)} Ẩn đoạn văn gốc` : `${spkSvg("eye", 14)} Xem đoạn văn gốc`}
+                </button>
+              </div>
+              <div class="btn-row" style="margin-top:0;margin-bottom:10px;">
+                <button class="spk-btn" onclick="speakZh(DATA.hskkPrompts.find(x=>x.id==='${escJsAttr(cur.id)}').listenPassageZh)">${spkSvg("play", 14)} Nghe đoạn văn</button>
+                <button class="spk-btn" onclick="speakZh(DATA.hskkPrompts.find(x=>x.id==='${escJsAttr(cur.id)}').listenPassageZh, 0.82)">${spkSvg("clock", 14)} Nghe chậm 0.82x</button>
+                <button class="spk-btn" onclick="stopZh()">${spkSvg("stop", 14)} Dừng</button>
+              </div>
+              ${passageRevealed ? `
+                <div style="font-size:17px;font-weight:700;line-height:1.62;">${esc(cur.listenPassageZh)}</div>
+                <div class="py-line py-text" style="margin-top:6px;line-height:1.5;">${esc(cur.listenPassagePy || "")}</div>
+                <div class="vi-line vi-text" style="margin-top:6px;line-height:1.5;">${esc(cur.listenPassageVi || "")}</div>
+              ` : `
+                <div class="masked-box">${spkSvg("volume", 15)} <span>Văn bản băng nghe đang được ẩn. Nghe 1–2 lần và ghi nhanh từ khóa chính vào ô nháp bên dưới.</span></div>
+              `}
+              <textarea class="draft-area" placeholder="Ghi chú nháp nhanh từ khóa (ai, ở đâu, diễn biến, kết quả/bài học)..."
+                oninput="hskkNotes['${escJsAttr(cur.id)}']=this.value;">${esc(hskkNotes[cur.id] || "")}</textarea>
+            </div>
+          ` : ""}
+
+          <div class="timer-box">
+            <span id="hskkTimerLabel" style="font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:5px;">${timerLabel}</span>
+            <span id="hskkTimerNum" class="timer-num">${timerPhase === "idle" ? `${cur.prepSeconds}s / ${cur.speakSeconds}s` : `${timerLeft}s`}</span>
+            <button class="spk-btn" onclick="startTimer('prep', ${cur.prepSeconds})">${spkSvg("clock", 14)} Bắt đầu chuẩn bị (${cur.prepSeconds}s)</button>
+            <button class="spk-btn" onclick="startTimer('speak', ${cur.speakSeconds})">${spkSvg("mic", 14)} Bấm giờ nói (${cur.speakSeconds}s)</button>
+            <button id="hskkTimerStopBtn" class="spk-btn" style="${timerPhase !== "idle" ? "" : "display:none;"}" onclick="stopTimer()">${spkSvg("stop", 14)} Dừng đồng hồ</button>
+          </div>
+
+          <div class="line-card">
+            <div style="font-weight:800;font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:6px;">${spkSvg("compass", 14)} Dàn ý gợi ý &amp; Từ khóa nên dùng:</div>
+            <ul style="margin:0 0 8px;padding-left:18px;font-size:13.5px;line-height:1.6;">
+              ${(cur.outline || []).map((o) => `<li>${esc(o)}</li>`).join("")}
+            </ul>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              ${(cur.keyVocab || []).map((w) => `<button class="spk-btn" onclick="speakZh('${escJsAttr(w)}')">${spkSvg("volume", 13)} ${esc(w)}</button>`).join("")}
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top:12px;">
+            <button class="mic-btn ${recordingKey === key ? "recording" : ""}" onclick="startHskkSpeechCheck('${escJsAttr(key)}', '${escJsAttr(cur.id)}')">
+              ${recordingKey === key ? `${spkSvg("stop", 14)} Dừng thu âm &amp; Chấm điểm` : `${spkSvg("mic", 14)} Thu âm bài nói mở (zh-CN)`}
+            </button>
+            <button class="spk-btn" onclick="showHskkSample['${escJsAttr(cur.id)}']=!showHskkSample['${escJsAttr(cur.id)}'];render();">
+              ${sampleOpen ? `${spkSvg("eyeOff", 14)} Ẩn bài mẫu` : `${spkSvg("fileText", 14)} Xem &amp; Nghe bài mẫu`}
+            </button>
+          </div>
+          ${renderSrBox(key)}
+
+          ${sampleOpen ? `
+            <div class="line-card" style="margin-top:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:12px;font-weight:800;color:var(--primary);">BÀI NÓI MẪU THAM KHẢO</span>
+                <button class="spk-btn" onclick="speakZh(DATA.hskkPrompts.find(x=>x.id==='${escJsAttr(cur.id)}').sampleZh)">${spkSvg("volume", 14)} Nghe bài mẫu</button>
+              </div>
+              <div style="font-size:17px;font-weight:700;line-height:1.6;">${esc(cur.sampleZh)}</div>
+              <div class="py-line py-text" style="margin-top:5px;">${esc(cur.samplePy)}</div>
+              <div class="vi-line vi-text" style="margin-top:5px;">${esc(cur.sampleVi)}</div>
+            </div>
+          ` : ""}
+        </div>
+      `;
+      return html;
+    }
+
+    function updateHskkBodyOnly() {
+      const wrap = document.getElementById("hskkBodyWrap");
+      if (wrap) wrap.innerHTML = buildHskkBodyHtml();
+    }
+
+    function renderHskkTab() {
+      const all = DATA.hskkPrompts || [];
+      const lvCounts = { "Sơ cấp": 0, "Trung cấp": 0, "Cao cấp": 0 };
+      const partCounts = { p2_qa: 0, p2_picture: 0, p1_retell: 0, p3_talk: 0 };
+      all.forEach((p) => {
+        if (lvCounts[p.level] !== undefined) lvCounts[p.level]++;
+        const pt = p.part || "p3_talk";
+        if (partCounts[pt] !== undefined) partCounts[pt]++;
+      });
+
+      const partOptions = [
+        { k: "all", label: `Tất cả phần (${all.length})` },
+        { k: "p2_qa", label: `Nghe trả lời (${partCounts.p2_qa})` },
+        { k: "p2_picture", label: `Miêu tả tranh (${partCounts.p2_picture})` },
+        { k: "p1_retell", label: `Nghe thuật lại (${partCounts.p1_retell})` },
+        { k: "p3_talk", label: `Trả lời/Hùng biện (${partCounts.p3_talk})` }
+      ];
+
+      let html = `<div class="spk-filter-glass">`;
+      html += `<p class="tab-intro">Bấm giờ chuẩn bị/trả lời và chấm độ trôi chảy theo chuẩn thi máy HSKK.</p>`;
+      html += `<div class="pill-row" style="margin-bottom:8px;">`;
+      html += `<button class="sel-pill ${hskkLevelFilter === "all" ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();hskkLevelFilter='all';render();">Tất cả cấp (${all.length})</button>`;
+      ["Sơ cấp", "Trung cấp", "Cao cấp"].forEach((lv) => {
+        html += `<button class="sel-pill ${hskkLevelFilter === lv ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();hskkLevelFilter='${lv}';render();">${lv} (${lvCounts[lv]})</button>`;
+      });
+      html += `</div>`;
+
+      html += `<div class="pill-row" style="margin-bottom:10px;">`;
+      partOptions.forEach((opt) => {
+        html += `<button class="sel-pill ${hskkPartFilter === opt.k ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();hskkPartFilter='${opt.k}';render();">${opt.label}</button>`;
+      });
+      html += `</div>`;
+
+      html += `
+        <div class="filter-bar">
+          <div class="search-wrap">
+            <span class="search-icon">${spkSvg("search", 15)}</span>
+            <input id="hskkSearchInp" class="search-inp" type="search" value="${esc(hskkSearch)}"
+              placeholder="Tìm đề HSKK theo chủ đề, câu hỏi, từ khóa..."
+              oninput="hskkSearch=this.value;updateHskkBodyOnly();">
+          </div>
+          ${hskkSearch ? `<button class="ctrl-btn" onclick="hskkSearch='';render();">${spkSvg("close", 14)} Xóa tìm</button>` : ""}
+        </div>
+      </div>
+        <div id="hskkBodyWrap">${buildHskkBodyHtml()}</div>
+      `;
+      return html;
+    }
+
+    function render() {
+      const totalItems = DATA.tonePairs.length + DATA.shadowingLessons.length + DATA.hskkRepeatSets.length + DATA.hskkPrompts.length;
+      const doneCount = [
+        ...DATA.tonePairs.map((x) => x.id),
+        ...DATA.shadowingLessons.map((x) => x.id),
+        ...DATA.hskkRepeatSets.map((x) => x.id),
+        ...DATA.hskkPrompts.map((x) => x.id)
+      ].filter((id) => doneMap[id]).length;
+
+      let tabBody = "";
+      if (activeTab === "tones") tabBody = renderTonesTab();
+      else if (activeTab === "shadowing") tabBody = renderShadowingTab();
+      else if (activeTab === "repeat") tabBody = renderRepeatTab();
+      else tabBody = renderHskkTab();
+
+      const srSupportBanner = SpeechRec ? "" : `
+        <div class="notice-box">
+          ${spkSvg("info", 16)}
+          <span><b>Lưu ý nhận diện giọng nói:</b> Trình duyệt hiện chưa bật API <code>SpeechRecognition</code> (nên dùng Chrome / Edge để chấm <code>zh-CN</code> tự động). Bạn vẫn nghe mẫu và tự đánh dấu hoàn thành bình thường.</span>
+        </div>
+      `;
+
+      const stage = document.getElementById("appStage");
+      stage.className = "container" + (showPinyin ? "" : " hide-py") + (showVi ? "" : " hide-vi");
+      stage.innerHTML = `
+        <div class="hero-card">
+          <div>
+            <h1>${spkSvg("mic", 19)} Luyện Phát âm, Shadowing &amp; Khẩu ngữ HSKK</h1>
+            <p>4 phần luyện tập chuẩn HSKK từ thanh điệu đến phòng thi thực chiến (${totalItems} mục).</p>
+          </div>
+          <div class="prog-pill">${spkSvg("award", 15)} Tiến độ: ${doneCount}/${totalItems} mục</div>
+        </div>
+
+        ${srSupportBanner}
+
+        <div class="tabs">
+          <button class="tab-btn ${activeTab === "tones" ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();activeTab='tones';render();">${spkSvg("target", 14)} Thanh điệu (${DATA.tonePairs.length})</button>
+          <button class="tab-btn ${activeTab === "shadowing" ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();activeTab='shadowing';render();">${spkSvg("mic", 14)} Shadowing (${DATA.shadowingLessons.length})</button>
+          <button class="tab-btn ${activeTab === "repeat" ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();activeTab='repeat';render();">${spkSvg("refresh", 14)} Nhắc lại &amp; Đọc (${DATA.hskkRepeatSets.length})</button>
+          <button class="tab-btn ${activeTab === "hskk" ? "active" : ""}" onclick="stopZh();stopRecording();stopTimer();activeTab='hskk';render();">${spkSvg("award", 14)} Phòng Thi HSKK (${DATA.hskkPrompts.length})</button>
+        </div>
+
+        <div class="ctrl-bar">
+          <div class="rate-group">
+            <button class="rate-btn ${playRate === 0.72 ? "on" : ""}" onclick="playRate=0.72;render();">${spkSvg("clock", 13)} 0.72x</button>
+            <button class="rate-btn ${playRate === 1.0 ? "on" : ""}" onclick="playRate=1.0;render();">${spkSvg("zap", 13)} 1.0x</button>
+          </div>
+          <button class="ctrl-btn ${showPinyin ? "on" : ""}" onclick="showPinyin=!showPinyin;render();">${spkSvg("eye", 14)} Pinyin: ${showPinyin ? "Hiện" : "Ẩn"}</button>
+          <button class="ctrl-btn ${showVi ? "on" : ""}" onclick="showVi=!showVi;render();">${spkSvg("book", 14)} Dịch Việt: ${showVi ? "Hiện" : "Ẩn"}</button>
+          <button class="ctrl-btn" onclick="stopZh()">${spkSvg("stop", 14)} Dừng phát</button>
+        </div>
+
+        ${tabBody}
+      `;
+    }
+
+    function stepSpkItem(delta) {
+      if (activeTab === "shadowing") {
+        const all = DATA.shadowingLessons || [];
+        const list = shadowLevelFilter === "all" ? all : all.filter((s) => String(s.level) === String(shadowLevelFilter));
+        if (!list.length) return;
+        let idx = list.findIndex((s) => s.id === activeShadowId);
+        if (idx < 0) idx = 0;
+        const next = idx + delta;
+        if (next < 0 || next >= list.length) return;
+        stopZh(); stopRecording();
+        activeShadowId = list[next].id;
+        render();
+        return;
+      }
+      if (activeTab === "repeat") {
+        const all = DATA.hskkRepeatSets || [];
+        const list = repeatLevelFilter === "all" ? all : all.filter((r) => r.level === repeatLevelFilter);
+        if (!list.length) return;
+        let idx = list.findIndex((r) => r.id === activeRepeatId);
+        if (idx < 0) idx = 0;
+        const next = idx + delta;
+        if (next < 0 || next >= list.length) return;
+        stopZh(); stopRecording(); stopTimer();
+        activeRepeatId = list[next].id;
+        render();
+        return;
+      }
+      if (activeTab === "hskk") {
+        const list = getFilteredHskkPrompts();
+        if (!list.length) return;
+        let idx = list.findIndex((p) => p.id === activeHskkId);
+        if (idx < 0) idx = 0;
+        const next = idx + delta;
+        if (next < 0 || next >= list.length) return;
+        stopZh(); stopRecording(); stopTimer();
+        activeHskkId = list[next].id;
+        render();
+        return;
+      }
+      if (activeTab === "tones") {
+        const cards = Array.from(document.querySelectorAll(".tone-card"));
+        if (!cards.length) return;
+        let idx = cards.findIndex((c) => c.getAttribute("data-tone-id") === activeToneId);
+        if (idx < 0) idx = 0;
+        const next = Math.max(0, Math.min(cards.length - 1, idx + delta));
+        const targetCard = cards[next];
+        if (!targetCard) return;
+        activeToneId = targetCard.getAttribute("data-tone-id") || "";
+        cards.forEach((c) => c.classList.toggle("is-target-item", c === targetCard));
+        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      if (document.querySelector(".modal-backdrop, .s4-modal-backdrop")) return;
+      const ae = document.activeElement;
+      const tag = ae && ae.tagName ? ae.tagName.toUpperCase() : "";
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (ae && ae.isContentEditable)) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        stepSpkItem(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        stepSpkItem(1);
+      }
+    });
+
+    function startHskkSpeechCheck(key, promptId) {
+      const cur = (DATA.hskkPrompts || []).find((x) => x.id === promptId);
+      if (!cur) return;
+      const lv = String(cur.level || "");
+      const minChars = /cao/i.test(lv) ? 55 : (/trung/i.test(lv) ? 35 : (cur.part === "p2_qa" ? 15 : 20));
+      startSpeechCheck(key, cur.sampleZh || "", cur.id, {
+        mode: "hskk",
+        keyVocab: cur.keyVocab || [],
+        minChars
+      });
+    }
+
+    syncThemeBtn();
+    render();
+    if (activeTab === "tones" && activeToneId) {
+      setTimeout(() => {
+        const el = document.getElementById("toneCard_" + activeToneId);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 60);
+    }
+    window.addEventListener("pagehide", () => {
+      warmAcquireGen++;
+      stopZh();
+      stopRecording(false);
+      releaseWarmMicStream();
+      stopTimer();
+      revokeAllAudioUrls();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        warmAcquireGen++;
+        if (recordingKey && recSessionMeta && recSessionMeta.continuous) {
+          finalizeContinuousHskk(recordingKey, recSessionMeta, recSessionMeta.doneIdToMark);
+        }
+        stopRecording(false);
+        releaseWarmMicStream();
+        render();
+      }
+    });
+  </script>
+  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
+  <script>
+    (function initHskSpkChrome() {
+      var bIcon = document.getElementById("spkBrandIcon");
+      var lIcon = document.getElementById("spkLessonsIcon");
+      var dIcon = document.getElementById("spkDonateIcon");
+      if (window.S4UI && typeof window.S4UI.icon === "function") {
+        if (bIcon) bIcon.innerHTML = window.S4UI.icon("mic", 16);
+        if (lIcon) lIcon.innerHTML = window.S4UI.icon("graduation", 15);
+        if (dIcon) dIcon.innerHTML = window.S4UI.icon("heart", 15);
+        if (typeof window.S4UI.initSmartBackButton === "function") {
+          window.S4UI.initSmartBackButton({
+            element: "#lpBackBtn",
+            defaultUrl: "../index.html",
+            defaultLabel: "HSK",
+            roadmapUrl: "../roadmap/index.html",
+            roadmapLabel: "Lộ trình HSK"
+          });
+        }
+      }
+      var btnDonate = document.getElementById("btnDonate");
+      if (btnDonate && !btnDonate.dataset.lpBound) {
+        btnDonate.dataset.lpBound = "1";
+        btnDonate.addEventListener("click", function () {
+          if (window.S4Auth && typeof window.S4Auth.openDonateModal === "function") {
+            window.S4Auth.openDonateModal();
+          }
+        });
+      }
+      var btnTheme = document.getElementById("btnTheme");
+      if (btnTheme && !btnTheme.dataset.lpBound) {
+        btnTheme.dataset.lpBound = "1";
+        btnTheme.addEventListener("click", function () {
+          if (typeof window.toggleDarkMode === "function") window.toggleDarkMode();
+        });
+      }
+      if (typeof window.syncThemeBtn === "function") window.syncThemeBtn();
+    })();
+  </script>
+</body>
+</html>

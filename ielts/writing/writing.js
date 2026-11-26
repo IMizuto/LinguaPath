@@ -59,13 +59,74 @@
   let autoSaveTimeout = null;
   let isAllFoldersCollapsed = false;
 
+  const W_SVG = {
+    chart: '<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>',
+    lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+    video: '<polygon points="6 3 20 12 6 21 6 3"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+    award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    sparkles: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',
+    refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+    copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+    book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+    file: '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/>',
+    folder: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+    zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    shuffle: '<polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/>',
+    maximize: '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>',
+    minimize: '<path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>',
+    volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+    alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    archive: '<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/>',
+    calendar: '<rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+    eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    pin: '<line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/>',
+    tag: '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/>',
+    arrowDown: '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+    chevronLeft: '<path d="m15 18-6-6 6-6"/>',
+    chevronRight: '<path d="m9 18 6-6-6-6"/>',
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
+  };
+
+  function wIcon(name, size) {
+    const s = size || 14;
+    if (global.S4UI && typeof global.S4UI.icon === 'function' && !W_SVG[name]) {
+      return global.S4UI.icon(name, s);
+    }
+    const body = W_SVG[name];
+    if (body) {
+      return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;" aria-hidden="true">${body}</svg>`;
+    }
+    if (global.S4UI && typeof global.S4UI.icon === 'function') {
+      return global.S4UI.icon(name, s);
+    }
+    return '';
+  }
+
   function escHtml(str) {
-    return String(str || '')
+    return String(str == null ? '' : str)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+
+  function escJsAttr(str) {
+    return escHtml(
+      String(str == null ? '' : str)
+        .replace(/\\/g, '\\\\')
+        .replace(/\r?\n/g, ' ')
+        .replace(/'/g, "\\'")
+    );
   }
 
   function formatPlainTextToHtml(text) {
@@ -96,7 +157,7 @@
       const safeSrc = escHtml(src);
       const label = list.length > 1 ? ` (Hình ${idx + 1}/${list.length})` : '';
       return `
-        <img src="${safeSrc}" alt="${escHtml(altText || 'Biểu đồ đề thi')}${label}" class="${imgClass || 'w-chart-img'}" onclick="window.openLightbox('${safeSrc}')" onerror="this.alt='⚠️ Không tải được ảnh biểu đồ từ nguồn ngoài — kiểm tra kết nối mạng';this.style.minHeight='64px';">
+        <img src="${safeSrc}" alt="${escHtml(altText || 'Biểu đồ đề thi')}${label}" class="${imgClass || 'w-chart-img'}" onclick="window.openLightbox('${safeSrc}')" onerror="this.alt='Không tải được ảnh biểu đồ từ nguồn ngoài — kiểm tra kết nối mạng';this.style.minHeight='64px';">
       `;
     }).join('');
   }
@@ -142,7 +203,11 @@
     WritingParser.init();
     allLessons = WritingParser.getAllLessons();
 
-    const lastId = localStorage.getItem(STORAGE_KEY_LAST) || new URLSearchParams(window.location.search).get('id');
+    const urlParams = new URLSearchParams(window.location.search);
+    const reqId = (urlParams.get('id') || '').trim();
+    const reqUnit = (urlParams.get('unit') || '').trim();
+    const reqPz = urlParams.get('pz') === '1' || urlParams.get('mode') === 'pz' || reqUnit === 'u_6';
+    const lastId = reqId || (!reqUnit && !reqPz ? localStorage.getItem(STORAGE_KEY_LAST) : '');
     const isDeferredPzId = !!(lastId && (lastId.startsWith('writing_pz_part_') || lastId.startsWith('writing_pz_pair_')));
     if (lastId) {
       const found = WritingParser.getLessonById(lastId);
@@ -163,18 +228,89 @@
           }
         });
       }
+    } else if (reqPz) {
+      const pzFound = allLessons.find(l => l.unitId === 'u_6');
+      if (pzFound) {
+        currentUnitId = 'u_6';
+        activeLesson = pzFound;
+      }
+    } else if (reqUnit) {
+      const unitFound = (reqUnit === 'theory')
+        ? allLessons.find(l => l.type === 'theory')
+        : allLessons.find(l => l.unitId === reqUnit);
+      if (unitFound) {
+        currentUnitId = (unitFound.type === 'theory') ? 'theory' : unitFound.unitId;
+        activeLesson = unitFound;
+      }
     }
 
     if (!activeLesson && allLessons.length > 0) {
       activeLesson = allLessons.find(l => l.unitId === 'u_3') || allLessons[0];
     }
 
+    setupWritingShellUi();
     setupTopSwitch();
     updateTopProgress();
     renderSidebar();
     renderLobbyHistory();
     if (activeLesson) {
       loadLessonToStudio(activeLesson);
+    }
+  }
+
+  function syncWritingDarkButton() {
+    const btn = document.getElementById('btnWritingDark');
+    if (!btn) return;
+    const isDark = document.documentElement.classList.contains('dark');
+    if (global.S4UI && typeof global.S4UI.renderThemeButton === 'function') {
+      global.S4UI.renderThemeButton(btn, isDark);
+    }
+  }
+
+  function handleWritingDarkToggle() {
+    if (typeof global.toggleDarkModeOnly === 'function') {
+      global.toggleDarkModeOnly();
+    } else {
+      const curD = localStorage.getItem('s4_vocab_dark');
+      const nextDark = (curD === '0' || curD === 'false');
+      localStorage.setItem('s4_vocab_dark', nextDark ? '1' : '0');
+      document.documentElement.classList.toggle('dark', nextDark);
+      if (document.body) document.body.classList.toggle('dark', nextDark);
+      const mt = document.getElementById('metaThemeColor');
+      if (mt) {
+        const isGhibli = document.documentElement.classList.contains('theme-ghibli');
+        mt.setAttribute('content', nextDark ? (isGhibli ? '#0d1813' : '#0b1120') : (isGhibli ? '#efe8d5' : '#eaf1fb'));
+      }
+    }
+    syncWritingDarkButton();
+  }
+
+  function setupWritingShellUi() {
+    if (global.S4UI && typeof global.S4UI.initSmartBackButton === 'function') {
+      global.S4UI.initSmartBackButton({
+        element: '#lpBackBtn',
+        defaultUrl: '../../index.html#ielts',
+        defaultLabel: 'IELTS',
+        roadmapUrl: '../roadmap/index.html',
+        roadmapLabel: 'Lộ trình'
+      });
+    }
+    const btnSidebar = document.getElementById('btnToggleSidebar');
+    if (btnSidebar) {
+      btnSidebar.addEventListener('click', () => global.toggleWritingSidebar && global.toggleWritingSidebar());
+    }
+    const btnDonate = document.getElementById('btnWritingDonate');
+    if (btnDonate) {
+      btnDonate.addEventListener('click', () => {
+        if (global.S4Auth && typeof global.S4Auth.openDonateModal === 'function') {
+          global.S4Auth.openDonateModal();
+        }
+      });
+    }
+    const btnDark = document.getElementById('btnWritingDark');
+    if (btnDark) {
+      btnDark.addEventListener('click', handleWritingDarkToggle);
+      syncWritingDarkButton();
     }
   }
 
@@ -321,9 +457,9 @@
     if (statusEl) {
       if (evalData.updatedAt) {
         const d = new Date(evalData.updatedAt);
-        statusEl.innerHTML = `<span style="color:#10b981;font-weight:700;">✓ Đã lưu điểm số ${evalData.bandOverall ? `Band ${evalData.bandOverall}` : ''} (${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')})</span>`;
+        statusEl.innerHTML = `<span style="color:var(--hl-green,#10b981);font-weight:700;display:inline-flex;align-items:center;gap:4px;">${wIcon('check', 13)}<span>Đã lưu điểm số ${evalData.bandOverall ? `Band ${escHtml(evalData.bandOverall)}` : ''} (${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')})</span></span>`;
       } else {
-        statusEl.innerHTML = `<span>💡 Nhập điểm hoặc dán nhận xét của AI rồi bấm "Lưu Đánh Giá Của AI Vào Lịch Sử".</span>`;
+        statusEl.innerHTML = `<span>Nhập điểm hoặc dán nhận xét AI rồi bấm Lưu đánh giá.</span>`;
       }
     }
   }
@@ -363,7 +499,7 @@
     const statusEl = document.getElementById('aiSaveStatus');
     if (statusEl) {
       const now = new Date();
-      statusEl.innerHTML = `<span style="color:#10b981;font-weight:700;">✓ Đã lưu thành công điểm số ${overall ? `Band ${overall}` : ''} và nhận xét của AI vào Lịch sử! (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span>`;
+      statusEl.innerHTML = `<span style="color:var(--hl-green,#10b981);font-weight:700;display:inline-flex;align-items:center;gap:4px;">${wIcon('check', 13)}<span>Đã lưu điểm số ${overall ? `Band ${escHtml(overall)}` : ''} và nhận xét AI (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span></span>`;
     }
   };
 
@@ -469,7 +605,7 @@
         <div style="padding:10px 12px;border-radius:10px;background:rgba(37, 99, 235, 0.1);border:1.5px solid rgba(37,99,235,0.45);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.2s;"
              onclick="window.openWritingTestPicker();"
              title="Mở Kho đề Practice Zone đầy đủ (1,183 đề Study4 + lọc theo nguồn/dạng bài)">
-          <span style="font-size:21px;">📚</span>
+          <span style="display:inline-flex;align-items:center;color:var(--primary);">${wIcon('book', 19)}</span>
           <div style="line-height:1.25;min-width:0;">
             <div style="font-size:12.5px;font-weight:800;color:var(--text);">Duyệt Kho 1,183 Đề Study4</div>
             <div style="font-size:11px;color:var(--muted);">${t1Total} Task 1 • ${t2Total} Task 2 • Lọc theo kỳ thi</div>
@@ -478,7 +614,7 @@
         <div style="padding:10px 12px;border-radius:10px;background:rgba(147, 51, 234, 0.12);border:1.5px dashed #9333ea;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.2s;"
              onclick="window.generateRandomWritingTest();"
              title="Tự động bốc ngẫu nhiên 1 Task 1 và 1 Task 2 từ kho Study4">
-          <span style="font-size:21px;">🎲</span>
+          <span style="display:inline-flex;align-items:center;color:#9333ea;">${wIcon('shuffle', 19)}</span>
           <div style="line-height:1.25;min-width:0;">
             <div style="font-size:12.5px;font-weight:800;color:var(--text);">Bốc đề Full Exam ngẫu nhiên</div>
             <div style="font-size:11px;color:var(--muted);">Kho ${comboCount} tổ hợp (Task 1 + 2)</div>
@@ -510,7 +646,7 @@
       html += `
         <div class="folder-group">
           <div class="folder-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
-            <span>📁 🎯 Đề Full Chuẩn + Bài mẫu (${curatedTests.length})</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;">${wIcon('folder', 13)}<span>Đề Full Chuẩn + Bài mẫu (${curatedTests.length})</span></span>
             <span style="font-size:10px;opacity:0.7;">▼</span>
           </div>
           <div class="folder-items" style="display:${isOpen ? 'flex' : 'none'};">
@@ -521,9 +657,9 @@
                 <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="window.selectWritingLesson('${it.id}')">
                   <div style="min-width:0;flex:1;">
                     <div class="lesson-item-title">${escHtml(it.title)}</div>
-                    <div class="lesson-item-sub">⏱️ 60p • 2 Tasks • 🏆 Bài mẫu Simon Band 8+</div>
+                    <div class="lesson-item-sub">60p • 2 Tasks • Bài mẫu Simon Band 8+</div>
                   </div>
-                  <div class="done-badge">${isDone ? '✓' : '•'}</div>
+                  <div class="done-badge">${isDone ? wIcon('check', 11) : '•'}</div>
                 </div>
               `;
             }).join('')}
@@ -536,7 +672,7 @@
     if (activeLesson && activeLesson.pzSource === 'study4') {
       html += `
         <div style="margin:6px 0 8px;padding:8px 10px;border-radius:8px;border:1.5px solid var(--primary);background:rgba(37,99,235,0.08);font-size:11.5px;">
-          <div style="font-weight:800;color:var(--primary);margin-bottom:2px;">📌 Đang chọn Practice Zone:</div>
+          <div style="font-weight:800;color:var(--primary);margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;">${wIcon('target', 12)}<span>Đang chọn Practice Zone:</span></div>
           <div style="font-weight:700;color:var(--text);line-height:1.35;">${escHtml(activeLesson.title)}</div>
         </div>
       `;
@@ -544,7 +680,7 @@
 
     if (sidebarPzFilter !== 'full') {
       if (!pzCatalog.length) {
-        html += `<div style="padding:18px 10px;text-align:center;color:var(--muted);font-size:12px;">⏳ Đang tải kho 1,183 đề Study4...</div>`;
+        html += `<div style="padding:18px 10px;text-align:center;color:var(--muted);font-size:12px;">Đang tải kho 1,183 đề Study4...</div>`;
         ensureWritingPzLoaded(() => { if (currentUnitId === 'u_6') renderSidebar(); });
       } else {
         const filteredPz = pzCatalog.filter(p => {
@@ -558,16 +694,16 @@
         const isOpen = !isAllFoldersCollapsed || query.length > 0 || sidebarPzFilter !== 'all';
         if (filteredPz.length === 0) {
           html += `<div class="s4-empty-state" style="margin-top:8px;padding:22px 12px;">
-            <div style="font-size:24px;">🔍</div>
+            <div style="color:var(--muted);">${wIcon('search', 24)}</div>
             <div style="font-size:13px;font-weight:800;color:var(--text);">Không tìm thấy đề Practice Zone</div>
             ${query ? `<div style="font-size:12px;">Từ khóa "<strong>${escHtml(query)}</strong>" không khớp đề nào.</div>` : ''}
-            ${query ? `<button type="button" class="s4-pz-clear-chip" onclick="window.clearWritingSidebarSearch()">✕ Xóa tìm kiếm</button>` : ''}
+            ${query ? `<button type="button" class="s4-pz-clear-chip" onclick="window.clearWritingSidebarSearch()">Xóa tìm kiếm</button>` : ''}
           </div>`;
         } else {
           html += `
             <div class="folder-group">
               <div class="folder-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
-                <span>📁 🌐 Kho Study4 (${filteredPz.length.toLocaleString('en-US')} đề)</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;">${wIcon('globe', 13)}<span>Kho Study4 (${filteredPz.length.toLocaleString('en-US')} đề)</span></span>
                 <span style="font-size:10px;opacity:0.7;">▼</span>
               </div>
               <div class="folder-items" style="display:${isOpen ? 'flex' : 'none'};">
@@ -575,21 +711,21 @@
                   const pid = `writing_pz_part_${p.id}`;
                   const isActive = activeLesson && activeLesson.id === pid;
                   const isDone = doneList.includes(pid);
-                  const badge = p.tag === 'Task 1' ? '📊 T1' : '💡 T2';
-                  const extra = [p.seriesLabel, p.sampleId ? '🏆 Bài mẫu' : '', p.partnerId ? '🔗 Cặp Full' : ''].filter(Boolean).join(' • ');
+                  const badge = p.tag === 'Task 1' ? 'T1' : 'T2';
+                  const extra = [p.seriesLabel, p.sampleId ? 'Bài mẫu' : '', p.partnerId ? 'Cặp Full' : ''].filter(Boolean).join(' • ');
                   return `
                     <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="window.selectWritingLesson('${pid}')">
                       <div style="min-width:0;flex:1;">
-                        <div class="lesson-item-title">${badge} ${escHtml(p.title)}</div>
+                        <div class="lesson-item-title">[${badge}] ${escHtml(p.title)}</div>
                         <div class="lesson-item-sub">${escHtml(extra)}</div>
                       </div>
-                      <div class="done-badge">${isDone ? '✓' : '•'}</div>
+                      <div class="done-badge">${isDone ? wIcon('check', 11) : '•'}</div>
                     </div>
                   `;
                 }).join('')}
                 ${filteredPz.length > visiblePz.length ? `
                   <button type="button" class="btn mini-btn" style="width:100%;margin-top:6px;justify-content:center;font-weight:700;" onclick="window.loadMoreSidebarPz()">
-                    ⬇ Xem thêm (${Math.min(40, filteredPz.length - visiblePz.length)}/${(filteredPz.length - visiblePz.length).toLocaleString('en-US')} đề còn lại)
+                    ${wIcon('arrowDown', 13)}<span>Xem thêm (${Math.min(40, filteredPz.length - visiblePz.length)}/${(filteredPz.length - visiblePz.length).toLocaleString('en-US')} đề còn lại)</span>
                   </button>
                 ` : ''}
               </div>
@@ -618,15 +754,15 @@
     (lessons || []).forEach(l => {
       let groupName = 'Chung';
       if (l.type === 'theory') {
-        groupName = (l.unitId === 'u_1') ? '📘 Lý thuyết Task 1' : '📙 Lý thuyết Task 2';
+        groupName = (l.unitId === 'u_1') ? 'Lý thuyết Task 1' : 'Lý thuyết Task 2';
       } else if (l.chartType) {
-        groupName = `📊 Dạng ${l.chartType}`;
+        groupName = `Dạng ${l.chartType}`;
       } else if (l.questionType) {
-        groupName = `💡 ${l.questionType}`;
+        groupName = `${l.questionType}`;
       } else if (l.topic) {
-        groupName = `🌐 ${l.topic}`;
+        groupName = `${l.topic}`;
       } else if (l.unitId === 'u_6') {
-        groupName = '🎯 Đề Thi Thử Full Exam';
+        groupName = 'Đề Thi Thử Full Exam';
       }
       if (!folders[groupName]) folders[groupName] = [];
       folders[groupName].push(l);
@@ -647,15 +783,26 @@
   function updateWritingLessonNav(lesson) {
     const prevBtn = document.getElementById('btnPrevWritingLesson');
     const nextBtn = document.getElementById('btnNextWritingLesson');
-    if (!prevBtn || !nextBtn) return;
+    const footerPrev = document.getElementById('btnFooterPrevLesson');
+    const footerNext = document.getElementById('btnFooterNextLesson');
+    const footerDone = document.getElementById('btnFooterMarkDone');
+    const footerNav = document.getElementById('studioBottomLessonNav');
     const ordered = getOrderedUnitLessons(lesson);
     const idx = lesson ? ordered.findIndex(l => l.id === lesson.id) : -1;
     const hasPrev = idx > 0;
     const hasNext = idx >= 0 && idx < ordered.length - 1;
-    prevBtn.disabled = !hasPrev;
-    nextBtn.disabled = !hasNext;
-    prevBtn.title = hasPrev ? `Bài trước: ${ordered[idx - 1].title}` : 'Đã ở bài đầu tiên của mục này';
-    nextBtn.title = hasNext ? `Bài tiếp: ${ordered[idx + 1].title}` : 'Đã ở bài cuối cùng của mục này';
+    const prevTitle = hasPrev ? `Bài trước: ${ordered[idx - 1].title}` : 'Đã ở bài đầu tiên của mục này';
+    const nextTitle = hasNext ? `Bài tiếp: ${ordered[idx + 1].title}` : 'Đã ở bài cuối cùng của mục này';
+    if (prevBtn) { prevBtn.disabled = !hasPrev; prevBtn.title = prevTitle; }
+    if (nextBtn) { nextBtn.disabled = !hasNext; nextBtn.title = nextTitle; }
+    if (footerPrev) { footerPrev.disabled = !hasPrev; footerPrev.title = prevTitle; }
+    if (footerNext) { footerNext.disabled = !hasNext; footerNext.title = nextTitle; }
+    if (footerNav) footerNav.style.display = (lesson && lesson.type === 'practice_full') ? 'none' : 'flex';
+    if (footerDone && lesson) {
+      const isDone = getCompletedLessons().includes(lesson.id);
+      footerDone.classList.toggle('completed', isDone);
+      footerDone.innerHTML = `${wIcon('check', 14)}<span>${isDone ? 'Đã hoàn thành' : 'Đánh dấu Đã học'}</span>`;
+    }
   }
 
   global.navigateWritingLesson = function (delta) {
@@ -700,10 +847,10 @@
     if (Object.keys(folders).length === 0) {
       listEl.innerHTML = `
         <div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">
-          <div style="font-size:26px;">🔍</div>
+          <div style="color:var(--muted);">${wIcon('search', 26)}</div>
           <div style="font-size:13.5px;font-weight:800;color:var(--text);">Không tìm thấy bài học phù hợp</div>
           ${query ? `<div style="font-size:12px;">Từ khóa "<strong>${escHtml(query)}</strong>" không khớp bài nào.</div>` : ''}
-          ${query ? `<button type="button" class="s4-pz-clear-chip" onclick="window.clearWritingSidebarSearch()">✕ Xóa tìm kiếm</button>` : ''}
+          ${query ? `<button type="button" class="s4-pz-clear-chip" onclick="window.clearWritingSidebarSearch()">Xóa tìm kiếm</button>` : ''}
         </div>
       `;
       return;
@@ -716,7 +863,7 @@
       html += `
         <div class="folder-group">
           <div class="folder-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
-            <span>📁 ${folderName} (${items.length})</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;">${wIcon('folder', 13)}<span>${folderName} (${items.length})</span></span>
             <span style="font-size:10px;opacity:0.7;">▼</span>
           </div>
           <div class="folder-items" style="display:${isOpen ? 'flex' : 'none'};">
@@ -725,8 +872,8 @@
               const isDone = doneList.includes(it.id);
               const draft = essays[it.id];
               const subText = (it.type === 'theory')
-                ? '🎬 Video bài giảng & Slide'
-                : (it.unitId === 'u_6' ? '⏱️ Thi thử 60 phút • 2 Tasks' : (draft ? `✍️ Đã viết ${draft.wordCount} từ` : `Mẫu: ${it.sampleWordCount} từ • ${it.topic || it.chartType || ''}`));
+                ? 'Video bài giảng & Slide'
+                : (it.unitId === 'u_6' ? 'Thi thử 60 phút • 2 Tasks' : (draft ? `Đã viết ${draft.wordCount} từ` : `Mẫu: ${it.sampleWordCount} từ • ${it.topic || it.chartType || ''}`));
 
               return `
                 <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="window.selectWritingLesson('${it.id}')">
@@ -735,7 +882,7 @@
                     <div class="lesson-item-sub">${subText}</div>
                   </div>
                   <div class="done-badge" title="${isDone ? 'Đã hoàn thành' : 'Chưa hoàn thành'}">
-                    ${isDone ? '✓' : '•'}
+                    ${isDone ? wIcon('check', 11) : '•'}
                   </div>
                 </div>
               `;
@@ -790,7 +937,7 @@
     activeLesson = lesson;
     localStorage.setItem(STORAGE_KEY_LAST, sid);
 
-    if (window.innerWidth <= 860) {
+    if (window.innerWidth <= 1024) {
       global.toggleWritingSidebar(false);
     }
 
@@ -850,11 +997,12 @@
       if (modeTabs) modeTabs.style.display = 'none';
       if (timerBox) timerBox.style.display = 'none';
       if (submitBtn) {
-        submitBtn.textContent = '✓ Đã hiểu bài giảng';
+        submitBtn.innerHTML = `${wIcon('check', 14)}<span>Đã hiểu bài giảng</span>`;
         submitBtn.onclick = () => {
           markLessonCompleted(lesson.id);
-          if (window.S4UI) window.S4UI.toast('success', '🎉 Đã ghi nhận hoàn thành bài học lý thuyết này!');
-          else alert('🎉 Đã ghi nhận hoàn thành bài học lý thuyết này!');
+          updateWritingLessonNav(lesson);
+          if (window.S4UI) window.S4UI.toast('success', 'Đã ghi nhận hoàn thành bài học lý thuyết này!');
+          else alert('Đã ghi nhận hoàn thành bài học lý thuyết này!');
         };
       }
       renderTheoryContent(lesson);
@@ -867,7 +1015,7 @@
     if (modeTabs) modeTabs.style.display = 'flex';
     if (timerBox) timerBox.style.display = (currentLessonMode === 'essay') ? 'inline-flex' : 'none';
     if (submitBtn) {
-      submitBtn.textContent = 'Nộp bài & Đối chiếu ➜';
+      submitBtn.textContent = 'Nộp bài & Đối chiếu';
       submitBtn.onclick = submitEssayAndReview;
     }
     if (submitBottomBtn) {
@@ -989,7 +1137,7 @@
       let roleBadge = '';
       if (showSampleRoles && s.roleLabel) {
         const roleClass = `role-${s.role || 'detail'}`;
-        roleBadge = `<span class="sentence-role-tag ${roleClass}">🏷️ ${s.roleLabel}</span> `;
+        roleBadge = `<span class="sentence-role-tag ${roleClass}">${wIcon('tag', 11)} ${s.roleLabel}</span> `;
       }
 
       html += `
@@ -1009,7 +1157,9 @@
     showSampleMeaning = !showSampleMeaning;
     const btn = document.getElementById('btnToggleMeaning');
     if (btn) {
-      btn.textContent = showSampleMeaning ? '🇻🇳 Đang hiện nghĩa tiếng Việt' : '🇻🇳 Ẩn nghĩa tiếng Việt';
+      const span = btn.querySelector('span:last-child');
+      if (span) span.textContent = showSampleMeaning ? 'Đang hiện nghĩa tiếng Việt' : 'Ẩn nghĩa tiếng Việt';
+      else btn.textContent = showSampleMeaning ? 'Đang hiện nghĩa tiếng Việt' : 'Ẩn nghĩa tiếng Việt';
       btn.classList.toggle('active', showSampleMeaning);
     }
     if (activeLesson) renderSampleMode(activeLesson);
@@ -1019,7 +1169,9 @@
     showSampleRoles = !showSampleRoles;
     const btn = document.getElementById('btnToggleRoles');
     if (btn) {
-      btn.textContent = showSampleRoles ? '🏷️ Đang hiện vai trò câu' : '🏷️ Hiện vai trò câu';
+      const span = btn.querySelector('span:last-child');
+      if (span) span.textContent = showSampleRoles ? 'Đang hiện vai trò câu' : 'Hiện vai trò câu';
+      else btn.textContent = showSampleRoles ? 'Đang hiện vai trò câu' : 'Hiện vai trò câu';
       btn.classList.toggle('active', showSampleRoles);
     }
     if (activeLesson) renderSampleMode(activeLesson);
@@ -1028,8 +1180,8 @@
   global.copySampleEssay = function () {
     if (!activeLesson || !activeLesson.sampleText) return;
     navigator.clipboard.writeText(activeLesson.sampleText).then(() => {
-      if (window.S4UI) window.S4UI.toast('success', '📋 Đã sao chép toàn bộ bài mẫu Band 8.0+ vào bộ nhớ tạm!');
-      else alert('📋 Đã sao chép toàn bộ bài mẫu Band 8.0+ vào bộ nhớ tạm!');
+      if (window.S4UI) window.S4UI.toast('success', 'Đã sao chép toàn bộ bài mẫu Band 8.0+ vào bộ nhớ tạm!');
+      else alert('Đã sao chép toàn bộ bài mẫu Band 8.0+ vào bộ nhớ tạm!');
     }).catch(() => {
       if (window.S4UI) window.S4UI.prompt('Không thể sao chép tự động, hãy chọn và chép bài mẫu bên dưới:', activeLesson.sampleText, { title: 'Sao chép bài mẫu', multiline: true, readOnly: true, confirmText: 'Đóng' });
     });
@@ -1054,7 +1206,7 @@
 
     box.innerHTML = `
       <div class="w-write-header">
-        <span>✍️ BÀI TẬP VIẾT CÂU HOÀN CHỈNH</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;">${wIcon('edit', 14)}<span>BÀI TẬP VIẾT CÂU HOÀN CHỈNH</span></span>
         <span style="color:var(--primary);">Câu ${currentWriteIndex + 1} / ${exercises.length}</span>
       </div>
 
@@ -1070,12 +1222,12 @@
 
       <div class="w-write-actions">
         <div style="display:flex;gap:6px;">
-          <button class="btn btn-primary" onclick="window.checkWriteAnswer()">✓ Kiểm tra</button>
-          <button class="btn mini-btn" onclick="window.showWriteHint()">💡 Xem đáp án</button>
+          <button type="button" class="btn btn-primary" onclick="window.checkWriteAnswer()">${wIcon('check', 14)}<span>Kiểm tra</span></button>
+          <button type="button" class="btn mini-btn" onclick="window.showWriteHint()">${wIcon('lightbulb', 13)}<span>Xem đáp án</span></button>
         </div>
         <div style="display:flex;gap:6px;">
-          <button class="btn mini-btn" onclick="window.prevWriteExercise()" ${currentWriteIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
-          <button class="btn mini-btn" onclick="window.nextWriteExercise()" ${currentWriteIndex === exercises.length - 1 ? 'disabled' : ''}>Câu tiếp ➜</button>
+          <button type="button" class="btn mini-btn" onclick="window.prevWriteExercise()" ${currentWriteIndex === 0 ? 'disabled' : ''}>${wIcon('chevronLeft', 13)}<span>Câu trước</span></button>
+          <button type="button" class="btn mini-btn" onclick="window.nextWriteExercise()" ${currentWriteIndex === exercises.length - 1 ? 'disabled' : ''}><span>Câu tiếp</span>${wIcon('chevronRight', 13)}</button>
         </div>
       </div>
     `;
@@ -1099,10 +1251,10 @@
 
     if (cleanUser === cleanCorrect) {
       fb.className = 'w-write-feedback correct';
-      fb.innerHTML = `🎉 <strong>Chính xác xuất sắc!</strong> Câu viết rất chuẩn ngữ pháp và từ vựng.`;
+      fb.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;">${wIcon('check', 14)}<strong>Chính xác xuất sắc!</strong></span> Câu viết rất chuẩn ngữ pháp và từ vựng.`;
     } else {
       fb.className = 'w-write-feedback wrong';
-      fb.innerHTML = `❌ <strong>Chưa chính xác:</strong><br>• Đáp án đúng: <em style="color:#fff;">${correctVal}</em>`;
+      fb.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;">${wIcon('x', 14)}<strong>Chưa chính xác:</strong></span><br>• Đáp án đúng: <em style="color:#fff;">${correctVal}</em>`;
     }
   };
 
@@ -1113,7 +1265,7 @@
     const fb = document.getElementById('writeFeedbackBox');
     if (fb) {
       fb.className = 'w-write-feedback correct';
-      fb.innerHTML = `💡 <strong>Đáp án chuẩn:</strong><br><em style="color:#fff;">${ex.answer}</em>`;
+      fb.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;">${wIcon('lightbulb', 14)}<strong>Đáp án chuẩn:</strong></span><br><em style="color:#fff;">${ex.answer}</em>`;
     }
   };
 
@@ -1144,8 +1296,8 @@
     }
 
     let html = `
-      <div style="font-size:13px;font-weight:800;color:var(--primary);margin-bottom:12px;text-transform:uppercase;">
-        💎 TỔNG HỢP ${vocabList.length} CỤM TỪ VỰNG HỌC THUẬT GHI ĐIỂM TRONG BÀI MẪU
+      <div style="font-size:13px;font-weight:800;color:var(--primary);margin-bottom:12px;text-transform:uppercase;display:flex;align-items:center;gap:6px;">
+        ${wIcon('sparkles', 15)}<span>TỔNG HỢP ${vocabList.length} CỤM TỪ VỰNG HỌC THUẬT GHI ĐIỂM TRONG BÀI MẪU</span>
       </div>
       <div class="w-vocab-grid">
     `;
@@ -1155,7 +1307,7 @@
         <div class="w-vocab-item">
           <div class="w-vocab-item-en">
             <span>${v.word}</span>
-            <button style="background:none;border:none;cursor:pointer;font-size:14px;" onclick="window.speakText('${v.word.replace(/'/g, "\\'")}')" title="Phát âm">🔊</button>
+            <button type="button" style="background:none;border:none;cursor:pointer;color:var(--primary);display:inline-flex;align-items:center;" onclick="window.speakText('${v.word.replace(/'/g, "\\'")}')" title="Phát âm" aria-label="Phát âm">${wIcon('volume', 15)}</button>
           </div>
           <div class="w-vocab-item-vi">→ ${v.meaning || '(Chưa có nghĩa)'}</div>
         </div>
@@ -1166,10 +1318,16 @@
     box.innerHTML = html;
   }
 
-  global.speakText = function (text) {
+  global.speakText = function (text, lang) {
+    if (!text) return;
+    if (global.S4UI && typeof global.S4UI.speakEnglish === 'function') {
+      global.S4UI.speakEnglish(text, { lang: lang || 'en-US', rate: 0.95 });
+      return;
+    }
     if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-US';
+    utter.lang = lang || 'en-US';
     window.speechSynthesis.speak(utter);
   };
 
@@ -1199,8 +1357,9 @@
       .replace(/<\/div>\s*$/gi, '');
 
     box.innerHTML = `
-      <div style="font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.6;">
-        💡 <em>Hãy quan sát các ô trống trong bài văn dưới đây, phát hiện lỗi ngữ pháp (hoặc dạng từ sai) và gõ từ đúng vào ô trống, sau đó bấm <strong>✓ Kiểm tra</strong>:</em>
+      <div style="font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.6;display:flex;align-items:flex-start;gap:6px;">
+        <span style="color:var(--primary);margin-top:2px;">${wIcon('lightbulb', 14)}</span>
+        <em>Hãy quan sát các ô trống trong bài văn dưới đây, phát hiện lỗi ngữ pháp (hoặc dạng từ sai) và gõ từ đúng vào ô trống, sau đó bấm <strong>Kiểm tra</strong>:</em>
       </div>
       <div>${processedHtml}</div>
     `;
@@ -1245,12 +1404,12 @@
     if (window.S4UI) {
       window.S4UI.alert(`Đúng ${correctCount} / ${inputs.length} vị trí!`, {
         title: 'Kết quả kiểm tra ngữ pháp',
-        icon: '📊',
+        icon: 'chart',
         tone: correctCount === inputs.length ? 'success' : 'primary',
         confirmText: 'Đóng'
       });
     } else {
-      alert(`📊 Kết quả kiểm tra ngữ pháp: Đúng ${correctCount} / ${inputs.length} vị trí!`);
+      alert(`Kết quả kiểm tra ngữ pháp: Đúng ${correctCount} / ${inputs.length} vị trí!`);
     }
   };
 
@@ -1312,7 +1471,7 @@
       chartHtml = `
         <div class="w-chart-wrap">
           ${renderChartImagesHtml(lesson.images, 'w-chart-img', 'Biểu đồ đề bài')}
-          <div style="font-size:11px;color:var(--muted);margin-top:6px;">🔍 Nhấp vào ảnh để phóng to toàn màn hình</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px;display:inline-flex;align-items:center;gap:4px;">${wIcon('search', 12)}<span>Nhấp vào ảnh để phóng to toàn màn hình</span></div>
         </div>
       `;
     }
@@ -1322,7 +1481,7 @@
       outlineHtml = `
         <div class="w-collapse-box">
           <div class="w-collapse-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
-            <span>💡 Gợi ý Dàn ý 4 phần (Outline Strategy)</span>
+            <span style="display:inline-flex;align-items:center;gap:5px;">${wIcon('lightbulb', 13)}<span>Gợi ý Dàn ý 4 phần (Outline Strategy)</span></span>
             <span>▼</span>
           </div>
           <div class="w-collapse-body">
@@ -1338,7 +1497,7 @@
 
     pane.innerHTML = `
       <div class="w-prompt-card">
-        <div class="w-prompt-lbl">📋 ĐỀ BÀI (EXAM QUESTION)</div>
+        <div class="w-prompt-lbl" style="display:inline-flex;align-items:center;gap:5px;">${wIcon('file', 13)}<span>ĐỀ BÀI (EXAM QUESTION)</span></div>
         <div class="w-prompt-desc">${lesson.prompt || 'Đang cập nhật đề bài...'}</div>
       </div>
       ${chartHtml}
@@ -1368,7 +1527,7 @@
     if (lesson.images && lesson.images.length > 0) {
       slidesHtml = `
         <div style="margin-top:16px;">
-          <h4 style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);">🖼️ Slide & Sơ đồ Hướng dẫn:</h4>
+          <h4 style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);display:flex;align-items:center;gap:6px;">${wIcon('layers', 14)}<span>Slide & Sơ đồ Hướng dẫn:</span></h4>
           <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
             ${lesson.images.map(img => `
               <img src="${img}" alt="Slide" style="width:100%;border-radius:8px;border:1px solid var(--border);cursor:zoom-in;" onclick="window.openLightbox('${img}')">
@@ -1382,7 +1541,7 @@
       <div>
         ${videoHtml}
         <div class="w-prompt-card">
-          <div class="w-prompt-lbl">📖 Giáo Trình & Lý Thuyết Phương Pháp Viết</div>
+          <div class="w-prompt-lbl" style="display:inline-flex;align-items:center;gap:5px;">${wIcon('book', 13)}<span>Giáo Trình & Lý Thuyết Phương Pháp Viết</span></div>
           <div class="w-prompt-desc" style="font-size:14.5px;line-height:1.7;">
             ${lesson.htmlContent || '<p>Hãy xem kỹ video bài giảng phía trên để nắm trọn vẹn phương pháp làm bài.</p>'}
           </div>
@@ -1490,9 +1649,9 @@
     if (statusEl) {
       const now = new Date();
       if (persisted) {
-        statusEl.innerHTML = `<span style="color:var(--primary);">✓ Đã lưu (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span>`;
+        statusEl.innerHTML = `<span style="color:var(--primary);display:inline-flex;align-items:center;gap:4px;">${wIcon('check', 13)}<span>Đã lưu (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span></span>`;
       } else {
-        statusEl.innerHTML = `<span style="color:#f59e0b;">⚠️ Đầy bộ nhớ — đang giữ trên RAM (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span>`;
+        statusEl.innerHTML = `<span style="color:#f59e0b;display:inline-flex;align-items:center;gap:4px;">${wIcon('alert', 13)}<span>Đầy bộ nhớ — đang giữ trên RAM (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')})</span></span>`;
       }
     }
     return persisted;
@@ -1515,9 +1674,9 @@
 
     if (promptCard) promptCard.style.display = 'block';
     if (promptLbl) {
-      promptLbl.textContent = (taskKey === 'task1')
-        ? '📊 ĐỀ BÀI TASK 1 • ACADEMIC REPORT (20 PHÚT)'
-        : '💡 ĐỀ BÀI TASK 2 • DISCURSIVE ESSAY (40 PHÚT)';
+      promptLbl.innerHTML = (taskKey === 'task1')
+        ? `${wIcon('chart', 14)}<span>ĐỀ BÀI TASK 1 • ACADEMIC REPORT (20 PHÚT)</span>`
+        : `${wIcon('lightbulb', 14)}<span>ĐỀ BÀI TASK 2 • DISCURSIVE ESSAY (40 PHÚT)</span>`;
     }
     if (promptType) {
       promptType.textContent = (taskKey === 'task1')
@@ -1542,7 +1701,7 @@
         chartWrap.innerHTML = `
           <div class="w-review-chart-box">
             ${renderChartImagesHtml(safeTask.images, 'w-review-chart-img', 'Biểu đồ đề thi')}
-            <div class="w-review-chart-hint">🔍 Nhấp vào ảnh để phóng to toàn màn hình</div>
+            <div class="w-review-chart-hint" style="display:inline-flex;align-items:center;gap:4px;">${wIcon('search', 12)}<span>Nhấp vào ảnh để phóng to toàn màn hình</span></div>
           </div>
         `;
       } else {
@@ -1739,11 +1898,11 @@
     const btn = document.getElementById('s4CbtFsBtn');
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().then(() => {
-        if (btn) btn.innerHTML = '🗗<span class="s4-cbt-hide-mob"> Thoát Fullscreen</span>';
+        if (btn) btn.innerHTML = `${wIcon('minimize', 13)}<span class="s4-cbt-hide-mob"> Thoát Fullscreen</span>`;
       }).catch(() => {});
     } else {
       document.exitFullscreen().then(() => {
-        if (btn) btn.innerHTML = '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình</span>';
+        if (btn) btn.innerHTML = `${wIcon('maximize', 13)}<span class="s4-cbt-hide-mob"> Toàn màn hình</span>`;
       }).catch(() => {});
     }
   };
@@ -1752,9 +1911,9 @@
     const btn = document.getElementById('s4CbtFsBtn');
     if (!btn) return;
     if (document.fullscreenElement) {
-      btn.innerHTML = '🗗<span class="s4-cbt-hide-mob"> Thoát Fullscreen</span>';
+      btn.innerHTML = `${wIcon('minimize', 13)}<span class="s4-cbt-hide-mob"> Thoát Fullscreen</span>`;
     } else {
-      btn.innerHTML = '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình</span>';
+      btn.innerHTML = `${wIcon('maximize', 13)}<span class="s4-cbt-hide-mob"> Toàn màn hình</span>`;
     }
   });
 
@@ -1835,7 +1994,7 @@
     if (subs.length === 0) {
       listEl.innerHTML = `
         <div class="w-history-empty">
-          <span class="w-history-empty-icon">📭</span>
+          <span class="w-history-empty-icon" style="color:var(--muted);">${wIcon('archive', 28)}</span>
           <strong>Chưa có bài thi nào được nộp</strong>
           <p style="margin:4px 0 0;font-size:12px;opacity:0.8;">Hãy chọn cấu hình phía trên và bấm "Bắt đầu làm bài thi" để rèn luyện ngay!</p>
         </div>
@@ -1851,48 +2010,55 @@
     const hasScore = !!(ai.bandOverall && !isNaN(ai.bandOverall));
     const scoreVal = hasScore ? ai.bandOverall : null;
 
+    const safeSubIdHtml = escHtml(sub.id);
+    const safeSubIdJs = escJsAttr(sub.id);
     let scoreBadgeHtml = '';
     if (hasScore) {
       const subScoreDetails = [
-        ai.bandTR ? `TR ${ai.bandTR}` : '',
-        ai.bandCC ? `CC ${ai.bandCC}` : '',
-        ai.bandLR ? `LR ${ai.bandLR}` : '',
-        ai.bandGRA ? `GRA ${ai.bandGRA}` : ''
+        ai.bandTR ? `TR ${escHtml(ai.bandTR)}` : '',
+        ai.bandCC ? `CC ${escHtml(ai.bandCC)}` : '',
+        ai.bandLR ? `LR ${escHtml(ai.bandLR)}` : '',
+        ai.bandGRA ? `GRA ${escHtml(ai.bandGRA)}` : ''
       ].filter(Boolean).join(' • ');
 
       scoreBadgeHtml = `
         <div class="w-history-score-badge graded">
-          <div class="w-score-main">🏆 Band ${scoreVal}</div>
+          <div class="w-score-main" style="display:inline-flex;align-items:center;gap:4px;">${wIcon('award', 13)}<span>Band ${escHtml(scoreVal)}</span></div>
           <div class="w-score-sub">${subScoreDetails || 'Official Band'}</div>
         </div>
       `;
     } else {
       scoreBadgeHtml = `
-        <div class="w-history-score-badge pending" onclick="window.viewSubmissionDetail('${sub.id}')" style="cursor:pointer;" title="Bấm để nhập điểm & nhận xét AI">
-          <div class="w-score-main">⏳ Chưa chấm</div>
-          <div class="w-score-sub">Nhập điểm AI ➜</div>
+        <div class="w-history-score-badge pending" onclick="window.viewSubmissionDetail('${safeSubIdJs}')" style="cursor:pointer;" title="Bấm để nhập điểm & nhận xét AI">
+          <div class="w-score-main" style="display:inline-flex;align-items:center;gap:4px;">${wIcon('clock', 13)}<span>Chưa chấm</span></div>
+          <div class="w-score-sub">Nhập điểm AI →</div>
         </div>
       `;
     }
 
-    const t1Words = sub.task1 ? `${sub.task1.wordCount} từ` : null;
-    const t2Words = sub.task2 ? `${sub.task2.wordCount} từ` : null;
+    const t1Words = sub.task1 ? `${escHtml(sub.task1.wordCount)} từ` : null;
+    const t2Words = sub.task2 ? `${escHtml(sub.task2.wordCount)} từ` : null;
     let wordDetails = '';
-    if (t1Words && t2Words) wordDetails = `📝 Task 1: <strong>${t1Words}</strong> • 💡 Task 2: <strong>${t2Words}</strong>`;
-    else if (t1Words) wordDetails = `📊 Task 1: <strong>${t1Words}</strong>`;
-    else if (t2Words) wordDetails = `💡 Task 2: <strong>${t2Words}</strong>`;
+    if (t1Words && t2Words) wordDetails = `<span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('chart', 12)} Task 1: <strong>${t1Words}</strong></span> • <span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('lightbulb', 12)} Task 2: <strong>${t2Words}</strong></span>`;
+    else if (t1Words) wordDetails = `<span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('chart', 12)} Task 1: <strong>${t1Words}</strong></span>`;
+    else if (t2Words) wordDetails = `<span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('lightbulb', 12)} Task 2: <strong>${t2Words}</strong></span>`;
+
+    const safeCode = escHtml(sub.testCode || 'Đề thi');
+    const safeTitle = escHtml(sub.testTitle || '');
+    const safeDate = escHtml(sub.date || 'Vừa xong');
+    const safeDur = escHtml(sub.duration || '60 phút');
 
     return `
-      <div class="w-history-item" id="sub_item_${sub.id}">
+      <div class="w-history-item" id="sub_item_${safeSubIdHtml}">
         <div class="w-history-left">
           <div class="w-history-title-row">
-            <span class="w-history-code-tag">${sub.testCode || 'Đề thi'}</span>
-            <span class="w-history-title-text" title="${sub.testTitle}">${sub.testTitle}</span>
+            <span class="w-history-code-tag">${safeCode}</span>
+            <span class="w-history-title-text" title="${safeTitle}">${safeTitle}</span>
           </div>
           <div class="w-history-meta-row">
-            <span>📅 ${sub.date || 'Vừa xong'}</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('calendar', 12)}<span>${safeDate}</span></span>
             <span>•</span>
-            <span>⏱️ ${sub.duration || '60 phút'}</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('clock', 12)}<span>${safeDur}</span></span>
           </div>
           <div class="w-history-words-row">
             ${wordDetails}
@@ -1902,14 +2068,14 @@
         <div class="w-history-right">
           ${scoreBadgeHtml}
           <div class="w-history-actions">
-            <button type="button" class="w-history-btn-view" onclick="window.viewSubmissionDetail('${sub.id}')" title="Xem lại bài viết và đối chiếu bài mẫu kèm nhận xét AI">
-              👁️ Xem lại & AI sửa
+            <button type="button" class="w-history-btn-view" onclick="window.viewSubmissionDetail('${safeSubIdJs}')" title="Xem lại bài viết và đối chiếu bài mẫu kèm nhận xét AI">
+              ${wIcon('eye', 13)}<span>Xem lại & AI sửa</span>
             </button>
-            <button type="button" class="w-history-btn-icon" onclick="window.retakeSubmissionTest('${sub.id}')" title="Làm lại đề thi này">
-              🔄
+            <button type="button" class="w-history-btn-icon" onclick="window.retakeSubmissionTest('${safeSubIdJs}')" title="Làm lại đề thi này" aria-label="Làm lại đề thi này">
+              ${wIcon('refresh', 13)}
             </button>
-            <button type="button" class="w-history-btn-icon del" onclick="window.deleteSubmission('${sub.id}')" title="Xóa bản ghi này">
-              🗑️
+            <button type="button" class="w-history-btn-icon del" onclick="window.deleteSubmission('${safeSubIdJs}')" title="Xóa bản ghi này" aria-label="Xóa bản ghi này">
+              ${wIcon('trash', 13)}
             </button>
           </div>
         </div>
@@ -2240,7 +2406,7 @@
     if (filtered.length === 0) {
       listEl.innerHTML = `
         <div class="w-history-empty" style="padding:28px 14px;">
-          <span class="w-history-empty-icon">📭</span>
+          <span class="w-history-empty-icon" style="color:var(--muted);">${wIcon('archive', 28)}</span>
           <strong>Không tìm thấy bài thi nào phù hợp</strong>
         </div>
       `;
@@ -2533,7 +2699,7 @@
 
     const pzCatalog = WritingParser.getStudy4PzCatalog();
     if (!pzCatalog.length) {
-      bodyEl.innerHTML = `<div style="padding:36px 16px;text-align:center;color:var(--muted);font-weight:700;">⏳ Đang nạp kho 1,183 đề Writing Practice Zone từ Study4...</div>`;
+      bodyEl.innerHTML = `<div style="padding:36px 16px;text-align:center;color:var(--muted);font-weight:700;">Đang nạp kho 1,183 đề Writing Practice Zone từ Study4...</div>`;
       return;
     }
 
@@ -2550,16 +2716,16 @@
     const tabsHtml = `
       <div class="w-picker-tabs">
         <button type="button" class="w-filter-pill ${pickerState.tab === 'all' ? 'active' : ''}" onclick="window.setWritingPickerTab('all')">
-          🔥 Tất cả (${(res.fullCount + res.t1Count + res.t2Count).toLocaleString('en-US')})
+          ${wIcon('zap', 12)}<span>Tất cả (${(res.fullCount + res.t1Count + res.t2Count).toLocaleString('en-US')})</span>
         </button>
         <button type="button" class="w-filter-pill ${pickerState.tab === 'full' ? 'active' : ''}" onclick="window.setWritingPickerTab('full')">
-          🎯 Full Test chuẩn (${res.fullCount})
+          ${wIcon('target', 12)}<span>Full Test chuẩn (${res.fullCount})</span>
         </button>
         <button type="button" class="w-filter-pill ${pickerState.tab === 'task1' ? 'active' : ''}" onclick="window.setWritingPickerTab('task1')">
-          📊 Task 1 (${res.t1Count})
+          ${wIcon('chart', 12)}<span>Task 1 (${res.t1Count})</span>
         </button>
         <button type="button" class="w-filter-pill ${pickerState.tab === 'task2' ? 'active' : ''}" onclick="window.setWritingPickerTab('task2')">
-          💡 Task 2 (${res.t2Count})
+          ${wIcon('lightbulb', 12)}<span>Task 2 (${res.t2Count})</span>
         </button>
       </div>
     `;
@@ -2568,16 +2734,16 @@
       <div class="w-picker-random-box">
         <div style="flex:1;min-width:220px;">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <span style="font-size:11px;font-weight:900;color:#a855f7;text-transform:uppercase;">🎲 SMART MOCK TEST GENERATOR</span>
+            <span style="font-size:11px;font-weight:900;color:#a855f7;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px;">${wIcon('shuffle', 12)}<span>SMART MOCK TEST GENERATOR</span></span>
             <span style="font-size:10px;padding:2px 8px;border-radius:99px;background:#9333ea;color:#fff;font-weight:800;">${comboCount} TỔ HỢP ĐỀ</span>
           </div>
           <div style="font-size:13.5px;font-weight:800;color:var(--text);margin-top:3px;">Bốc ngẫu nhiên theo bộ lọc đang chọn</div>
           <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Ghép 1 Task 1 (${res.t1Count} đề) + 1 Task 2 (${res.t2Count} đề) hoặc luyện riêng từng Task</div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button type="button" class="btn btn-primary" style="background:#7c3aed;border-color:#7c3aed;font-weight:800;" onclick="window.generateRandomWritingTest('both', true)">🎲 Full Exam (60p)</button>
-          <button type="button" class="btn mini-btn" onclick="window.generateRandomWritingTest('task1', true)">📊 Ngẫu nhiên T1</button>
-          <button type="button" class="btn mini-btn" onclick="window.generateRandomWritingTest('task2', true)">💡 Ngẫu nhiên T2</button>
+          <button type="button" class="btn btn-primary" style="background:#7c3aed;border-color:#7c3aed;font-weight:800;color:#fff !important;" onclick="window.generateRandomWritingTest('both', true)">${wIcon('shuffle', 13)}<span>Full Exam (60p)</span></button>
+          <button type="button" class="btn mini-btn" onclick="window.generateRandomWritingTest('task1', true)">${wIcon('chart', 12)}<span>Ngẫu nhiên T1</span></button>
+          <button type="button" class="btn mini-btn" onclick="window.generateRandomWritingTest('task2', true)">${wIcon('lightbulb', 12)}<span>Ngẫu nhiên T2</span></button>
         </div>
       </div>
     `;
@@ -2586,10 +2752,10 @@
     if (pageItems.length === 0) {
       cardsHtml = `
         <div class="s4-empty-state" style="margin-top:6px;">
-          <div style="font-size:32px;">🔍</div>
+          <div style="color:var(--muted);">${wIcon('search', 30)}</div>
           <div style="font-size:14.5px;font-weight:800;color:var(--text);">Không có đề phù hợp với bộ lọc hiện tại</div>
           <div style="font-size:12.5px;">${pickerState.query ? `Từ khóa "<strong>${escHtml(pickerState.query)}</strong>" không khớp đề nào.` : 'Thử bỏ bớt điều kiện lọc nguồn hoặc bài mẫu.'}</div>
-          <button type="button" class="btn btn-primary" onclick="window.resetWritingPickerFilters()">↺ Xóa từ khóa & Xem tất cả</button>
+          <button type="button" class="btn btn-primary" onclick="window.resetWritingPickerFilters()">${wIcon('refresh', 13)}<span>Xóa từ khóa & Xem tất cả</span></button>
         </div>
       `;
     } else {
@@ -2601,11 +2767,11 @@
           return `
             <div class="w-picker-card ${isActive ? 'active' : ''}" onclick="window.selectWritingPzItem('${escHtml(t.id)}')">
               <div class="w-picker-card-top">
-                <span class="w-picker-tag full">🎯 FULL TEST • 60 PHÚT</span>
-                <span class="w-picker-sample-badge">🏆 Bài mẫu Simon 8.0+</span>
+                <span class="w-picker-tag full" style="display:inline-flex;align-items:center;gap:4px;">${wIcon('target', 11)}<span>FULL TEST • 60 PHÚT</span></span>
+                <span class="w-picker-sample-badge" style="display:inline-flex;align-items:center;gap:3px;">${wIcon('award', 11)}<span>Bài mẫu Simon 8.0+</span></span>
               </div>
               <div class="w-picker-card-title">${escHtml(t.title)}</div>
-              <div class="w-picker-card-meta">Task 1: ${escHtml(t.chartType || 'Chart')} • Task 2: ${escHtml(t.questionType || 'Essay')}${isDone ? ' • ✓ Đã hoàn thành' : ''}</div>
+              <div class="w-picker-card-meta">Task 1: ${escHtml(t.chartType || 'Chart')} • Task 2: ${escHtml(t.questionType || 'Essay')}${isDone ? ' • Đã hoàn thành' : ''}</div>
             </div>
           `;
         }
@@ -2616,12 +2782,12 @@
         return `
           <div class="w-picker-card ${isActive ? 'active' : ''}" onclick="window.selectWritingPzItem('writing_pz_part_${escHtml(p.id)}')">
             <div class="w-picker-card-top">
-              <span class="w-picker-tag ${isT1 ? 't1' : 't2'}">${isT1 ? '📊 TASK 1' : '💡 TASK 2'} • ${escHtml(p.seriesLabel)}</span>
-              ${p.sampleId ? '<span class="w-picker-sample-badge">🏆 Bài mẫu</span>' : (p.partnerId ? '<span class="w-picker-pair-badge">🔗 Ghép Full</span>' : '')}
+              <span class="w-picker-tag ${isT1 ? 't1' : 't2'}" style="display:inline-flex;align-items:center;gap:4px;">${wIcon(isT1 ? 'chart' : 'lightbulb', 11)}<span>${isT1 ? 'TASK 1' : 'TASK 2'} • ${escHtml(p.seriesLabel)}</span></span>
+              ${p.sampleId ? `<span class="w-picker-sample-badge" style="display:inline-flex;align-items:center;gap:3px;">${wIcon('award', 11)}<span>Bài mẫu</span></span>` : (p.partnerId ? `<span class="w-picker-pair-badge" style="display:inline-flex;align-items:center;gap:3px;">${wIcon('link', 11)}<span>Ghép Full</span></span>` : '')}
             </div>
             <div class="w-picker-card-title">${escHtml(p.title)}</div>
             <div class="w-picker-card-prev">${escHtml(shortPrev)}</div>
-            <div class="w-picker-card-meta">${escHtml(p.subType || p.tag)}${p.images && p.images.length ? ` • 🖼️ ${p.images.length} ảnh` : ''}${isDone ? ' • ✓ Đã làm' : ''}</div>
+            <div class="w-picker-card-meta">${escHtml(p.subType || p.tag)}${p.images && p.images.length ? ` • ${p.images.length} ảnh` : ''}${isDone ? ' • Đã làm' : ''}</div>
           </div>
         `;
       }).join('') + `</div>`;
@@ -2629,9 +2795,9 @@
 
     const pagerHtml = totalPages > 1 ? `
       <div class="w-picker-pager">
-        <button type="button" class="btn mini-btn" ${pickerState.page <= 1 ? 'disabled' : ''} onclick="window.setWritingPickerPage(${pickerState.page - 1})">◀ Trang trước</button>
+        <button type="button" class="btn mini-btn" ${pickerState.page <= 1 ? 'disabled' : ''} onclick="window.setWritingPickerPage(${pickerState.page - 1})">${wIcon('chevronLeft', 13)}<span>Trang trước</span></button>
         <span style="font-size:12px;font-weight:700;color:var(--muted);">Trang <strong style="color:var(--text);">${pickerState.page}</strong> / ${totalPages} (${res.combined.length.toLocaleString('en-US')} đề)</span>
-        <button type="button" class="btn mini-btn" ${pickerState.page >= totalPages ? 'disabled' : ''} onclick="window.setWritingPickerPage(${pickerState.page + 1})">Trang sau ▶</button>
+        <button type="button" class="btn mini-btn" ${pickerState.page >= totalPages ? 'disabled' : ''} onclick="window.setWritingPickerPage(${pickerState.page + 1})"><span>Trang sau</span>${wIcon('chevronRight', 13)}</button>
       </div>
     ` : '';
 
@@ -2741,29 +2907,29 @@
           onclear: 'window.clearWritingPickerSearch()',
           onsubmit: 'window.submitWritingPickerSearch()'
         })
-      : `<input type="text" id="wPickerSearchInput" class="search-box" style="flex:1;min-width:200px;margin:0;" placeholder="🔍 Tìm theo từ khóa, ngày [06/2020], biểu đồ Line Graph, Opinion..." value="${escHtml(pickerState.query)}" oninput="window.filterWritingPicker(this.value)">`;
+      : `<input type="text" id="wPickerSearchInput" class="search-box" style="flex:1;min-width:200px;margin:0;" placeholder="Tìm theo từ khóa, ngày [06/2020], biểu đồ Line Graph, Opinion..." value="${escHtml(pickerState.query)}" oninput="window.filterWritingPicker(this.value)">`;
     modal.innerHTML = `
       <div class="w-history-modal-box" style="max-width:980px;max-height:90vh;">
         <div class="w-history-modal-head">
           <div>
-            <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">📚 KHO ĐỀ WRITING PRACTICE ZONE (1,183 ĐỀ STUDY4 + 3 FULL TEST)</h3>
+            <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:7px;">${wIcon('book', 17)}<span>KHO ĐỀ WRITING PRACTICE ZONE (1,183 ĐỀ STUDY4 + 3 FULL TEST)</span></h3>
             <div style="font-size:12px;color:var(--muted);margin-top:2px;">497 đề Task 1 • 686 đề Task 2 • Luyện từng Task (20p/40p) hoặc ghép Full Exam (60p)</div>
           </div>
-          <button type="button" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);" onclick="document.getElementById('wTestPickerModal')?.remove()">✕</button>
+          <button type="button" style="background:none;border:none;cursor:pointer;color:var(--muted);display:inline-flex;align-items:center;" onclick="document.getElementById('wTestPickerModal')?.remove()" aria-label="Đóng">${wIcon('x', 20)}</button>
         </div>
         <div class="w-picker-controls">
           ${searchHtml}
           <select id="wPickerSeriesSelect" class="w-picker-select" onchange="window.setWritingPickerSeries(this.value)">
-            <option value="ALL" ${pickerState.series === 'ALL' ? 'selected' : ''}>🌐 Tất cả nguồn (1,183)</option>
-            <option value="actual_tests" ${pickerState.series === 'actual_tests' ? 'selected' : ''}>📅 Actual Tests theo ngày (632)</option>
-            <option value="sample_pack" ${pickerState.series === 'sample_pack' ? 'selected' : ''}>📦 IELTS Sample Pack 1 (313)</option>
-            <option value="sample_test" ${pickerState.series === 'sample_test' ? 'selected' : ''}>📝 Sample Tests 1–76 (152)</option>
-            <option value="recent_actual" ${pickerState.series === 'recent_actual' ? 'selected' : ''}>🔥 Recent Actual Tests (68)</option>
-            <option value="bc_ielts" ${pickerState.series === 'bc_ielts' ? 'selected' : ''}>🇬🇧 BC IELTS Writing (18)</option>
+            <option value="ALL" ${pickerState.series === 'ALL' ? 'selected' : ''}>Tất cả nguồn (1,183)</option>
+            <option value="actual_tests" ${pickerState.series === 'actual_tests' ? 'selected' : ''}>Actual Tests theo ngày (632)</option>
+            <option value="sample_pack" ${pickerState.series === 'sample_pack' ? 'selected' : ''}>IELTS Sample Pack 1 (313)</option>
+            <option value="sample_test" ${pickerState.series === 'sample_test' ? 'selected' : ''}>Sample Tests 1–76 (152)</option>
+            <option value="recent_actual" ${pickerState.series === 'recent_actual' ? 'selected' : ''}>Recent Actual Tests (68)</option>
+            <option value="bc_ielts" ${pickerState.series === 'bc_ielts' ? 'selected' : ''}>BC IELTS Writing (18)</option>
           </select>
           <label class="w-picker-check">
             <input type="checkbox" id="wPickerOnlySample" ${pickerState.onlySample ? 'checked' : ''} onchange="window.toggleWritingPickerSample(this.checked)">
-            <span>🏆 Có bài mẫu (218)</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;">${wIcon('award', 13)}<span>Có bài mẫu (218)</span></span>
           </label>
         </div>
         <div id="wPickerDynamicBody" class="w-picker-scroll"></div>
@@ -2911,8 +3077,10 @@
     const totalEl = document.getElementById('pzTotalWordCount');
     const mobEl = document.getElementById('pzMobWordCount');
 
-    if (sub1) sub1.textContent = `${t1Words}/150${t1Words >= 150 ? '✓' : ''}`;
-    if (sub2) sub2.textContent = `${t2Words}/250${t2Words >= 250 ? '✓' : ''}`;
+    if (sub1) sub1.textContent = `${t1Words}/150`;
+    if (sub2) sub2.textContent = `${t2Words}/250`;
+    document.getElementById('pzTabBtn_task1')?.classList.toggle('is-ready', t1Words >= 150);
+    document.getElementById('pzTabBtn_task2')?.classList.toggle('is-ready', t2Words >= 250);
     if (totalEl) totalEl.textContent = `${totalWords} từ`;
     if (mobEl) mobEl.textContent = `${currentPzTask === 'task1' ? t1Words : t2Words} từ`;
   }
@@ -2949,10 +3117,14 @@
     }
 
     if (leftHeader) {
-      leftHeader.textContent = (taskKey === 'task1') ? '📖 ĐỀ BÀI TASK 1 & DỮ LIỆU BIỂU ĐỒ (REPORT)' : '📖 ĐỀ BÀI TASK 2 (ESSAY PROMPT)';
+      leftHeader.innerHTML = (taskKey === 'task1')
+        ? `${wIcon('book', 13)}<span>ĐỀ BÀI TASK 1 & DỮ LIỆU BIỂU ĐỒ (REPORT)</span>`
+        : `${wIcon('book', 13)}<span>ĐỀ BÀI TASK 2 (ESSAY PROMPT)</span>`;
     }
     if (editorHeader) {
-      editorHeader.textContent = (taskKey === 'task1') ? '✍️ BÀI LÀM TASK 1 (YOUR REPORT)' : '✍️ BÀI LÀM TASK 2 (YOUR ESSAY)';
+      editorHeader.innerHTML = (taskKey === 'task1')
+        ? `${wIcon('edit', 13)}<span>BÀI LÀM TASK 1 (YOUR REPORT)</span>`
+        : `${wIcon('edit', 13)}<span>BÀI LÀM TASK 2 (YOUR ESSAY)</span>`;
     }
     if (minWEl) {
       minWEl.textContent = `(Mục tiêu: ${taskData.minWords} từ)`;
@@ -2964,7 +3136,7 @@
       chartHtml = `
         <div class="w-chart-wrap" style="margin-top:14px;">
           ${renderChartImagesHtml(taskImages, 'w-chart-img', 'Biểu đồ đề thi')}
-          <div style="font-size:11px;color:var(--muted);margin-top:6px;">🔍 Nhấp vào ảnh để phóng to toàn màn hình${taskImages.length > 1 ? ` (${taskImages.length} hình)` : ''}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px;display:inline-flex;align-items:center;gap:4px;">${wIcon('search', 12)}<span>Nhấp vào ảnh để phóng to toàn màn hình${taskImages.length > 1 ? ` (${taskImages.length} hình)` : ''}</span></div>
         </div>
       `;
     }
@@ -2974,8 +3146,9 @@
     if (pane) {
       pane.innerHTML = `
         <div class="w-prompt-card">
-          <div class="w-prompt-lbl" style="font-size:12px;color:var(--primary);margin-bottom:6px;">
-            ${(taskKey === 'task1') ? '📊 TASK 1 • ACADEMIC REPORT (20 PHÚT)' : '💡 TASK 2 • DISCURSIVE ESSAY (40 PHÚT)'}
+          <div class="w-prompt-lbl" style="font-size:12px;color:var(--primary);margin-bottom:6px;display:inline-flex;align-items:center;gap:5px;">
+            ${wIcon(taskKey === 'task1' ? 'chart' : 'lightbulb', 13)}
+            <span>${(taskKey === 'task1') ? 'TASK 1 • ACADEMIC REPORT (20 PHÚT)' : 'TASK 2 • DISCURSIVE ESSAY (40 PHÚT)'}</span>
           </div>
           <h2 style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:10px;">${escHtml(taskData.title)}</h2>
           <div class="w-prompt-desc" style="font-size:15px;line-height:1.7;">${promptHtml}</div>
@@ -3016,9 +3189,9 @@
     if (statusEl) {
       const now = new Date();
       if (persisted) {
-        statusEl.innerHTML = `<span style="color:var(--primary);">✓ Đã lưu tự động (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span>`;
+        statusEl.innerHTML = `<span style="color:var(--primary);display:inline-flex;align-items:center;gap:4px;">${wIcon('check', 13)}<span>Đã lưu tự động (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span></span>`;
       } else {
-        statusEl.innerHTML = `<span style="color:#f59e0b;">⚠️ Đầy bộ nhớ — đang giữ trên RAM (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span>`;
+        statusEl.innerHTML = `<span style="color:#f59e0b;display:inline-flex;align-items:center;gap:4px;">${wIcon('alert', 13)}<span>Đầy bộ nhớ — đang giữ trên RAM (${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')})</span></span>`;
       }
     }
   }
@@ -3122,7 +3295,9 @@
       ? (codeMatch ? `Đề ${codeMatch[0]}` : 'Full Test')
       : (includeT1 ? 'Task 1 PZ' : 'Task 2 PZ');
 
-    const totalSpentSec = Math.max(60, (lobbySelectedTimer > 0 ? lobbySelectedTimer * 60 : 3600) - pzTimerSecondsLeft);
+    const totalSpentSec = lobbySelectedTimer > 0
+      ? Math.max(60, (lobbySelectedTimer * 60) - pzTimerSecondsLeft)
+      : Math.max(60, pzTimerSecondsLeft);
     const spentMin = Math.max(1, Math.round(totalSpentSec / 60));
     const durationText = `${spentMin} phút`;
 
@@ -3228,7 +3403,7 @@
 
     if (reviewUser) reviewUser.textContent = userText || '(Chưa có bài làm cho Task này)';
     if (reviewSample) {
-      reviewSample.textContent = sampleText || '(Đề luyện tập Study4 Practice Zone — bấm nút "📋 Copy Prompt chấm AI" ở góc trên để gửi sang ChatGPT/Claude chấm điểm 4 tiêu chí IELTS & viết bài mẫu Band 8.0+ tham khảo.)';
+      reviewSample.textContent = sampleText || '(Đề luyện tập Study4 Practice Zone — bấm nút "Copy Prompt gửi ChatGPT / Gemini chấm" ở góc trên để gửi sang AI chấm điểm 4 tiêu chí IELTS & viết bài mẫu Band 8.0+ tham khảo.)';
     }
     if (userBadge) {
       const minW = taskData.minWords || (taskKey === 'task1' ? 150 : 250);
@@ -3302,8 +3477,8 @@ YÊU CẦU NHẬN XÉT & CHẤM ĐIỂM:
 3. Gợi ý các câu nâng cấp Band 8.0+ hoặc viết một bài mẫu Band 8.0+ tham khảo.`;
 
       navigator.clipboard.writeText(aiPrompt).then(() => {
-        if (window.S4UI) window.S4UI.toast('success', '📋 Đã sao chép trọn vẹn Prompt chấm AI vào bộ nhớ tạm!', { duration: 3200 });
-        else alert('📋 Đã sao chép trọn vẹn Prompt chấm AI vào bộ nhớ tạm! Bạn có thể dán (Ctrl + V) sang ChatGPT hoặc Claude để nhận nhận xét ngay!');
+        if (window.S4UI) window.S4UI.toast('success', 'Đã sao chép trọn vẹn Prompt chấm AI vào bộ nhớ tạm!', { duration: 3200 });
+        else alert('Đã sao chép trọn vẹn Prompt chấm AI vào bộ nhớ tạm! Bạn có thể dán (Ctrl + V) sang ChatGPT hoặc Claude để nhận nhận xét ngay!');
       }).catch(() => {
         if (window.S4UI) window.S4UI.prompt('Không thể sao chép tự động, hãy chọn và chép Prompt bên dưới:', aiPrompt, { title: 'Sao chép Prompt AI', multiline: true, readOnly: true, confirmText: 'Đóng' });
       });
@@ -3330,8 +3505,8 @@ Hãy chỉ rõ:
 3. Các gợi ý nâng cấp câu văn lên chuẩn Band 8.0+.`;
 
     navigator.clipboard.writeText(aiPrompt).then(() => {
-      if (window.S4UI) window.S4UI.toast('success', '📋 Đã sao chép prompt chấm AI hoàn chỉnh vào bộ nhớ tạm!', { duration: 3200 });
-      else alert('📋 Đã sao chép prompt chấm AI hoàn chỉnh vào bộ nhớ tạm! Bạn có thể dán (Ctrl + V) sang ChatGPT hoặc Claude để nhận nhận xét ngay!');
+      if (window.S4UI) window.S4UI.toast('success', 'Đã sao chép prompt chấm AI hoàn chỉnh vào bộ nhớ tạm!', { duration: 3200 });
+      else alert('Đã sao chép prompt chấm AI hoàn chỉnh vào bộ nhớ tạm! Bạn có thể dán (Ctrl + V) sang ChatGPT hoặc Claude để nhận nhận xét ngay!');
     }).catch(() => {
       if (window.S4UI) window.S4UI.prompt('Không thể sao chép tự động, hãy chọn và chép Prompt bên dưới:', aiPrompt, { title: 'Sao chép Prompt AI', multiline: true, readOnly: true, confirmText: 'Đóng' });
     });
@@ -3349,7 +3524,17 @@ Hãy chỉ rõ:
   }
 
   global.toggleWritingSidebar = function (forcedState) {
-    if (window.innerWidth <= 860) {
+    const isMobile = window.innerWidth <= 1024;
+    if (global.S4UI && typeof global.S4UI.toggleSidebar === 'function') {
+      const willOpen = global.S4UI.toggleSidebar(forcedState);
+      if (isMobile) {
+        document.body.classList.toggle('sidebar-open', !!willOpen);
+      } else {
+        closeWritingMobileDrawer();
+      }
+      return willOpen;
+    }
+    if (isMobile) {
       const sb = document.getElementById('writingSidebar');
       const bd = document.getElementById('sidebarBackdrop');
       if (!sb || !bd) return;
@@ -3363,16 +3548,16 @@ Hãy chỉ rõ:
       document.body.classList.toggle('sidebar-collapsed', nextCol);
       const lbl = document.querySelector('.s4-desk-sb-lbl');
       if (lbl) {
-        lbl.textContent = nextCol ? '▶ Hiện mục lục' : '◀ Ẩn mục lục';
+        lbl.textContent = nextCol ? 'Hiện mục lục' : 'Ẩn mục lục';
       }
     }
   };
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 860) closeWritingMobileDrawer();
+    if (window.innerWidth > 1024) closeWritingMobileDrawer();
   });
   if (typeof window.matchMedia === 'function') {
-    const wMq = window.matchMedia('(min-width: 861px)');
+    const wMq = window.matchMedia('(min-width: 1025px)');
     if (wMq.addEventListener) wMq.addEventListener('change', (e) => { if (e.matches) closeWritingMobileDrawer(); });
     else if (wMq.addListener) wMq.addListener((e) => { if (e.matches) closeWritingMobileDrawer(); });
   }
@@ -3458,8 +3643,19 @@ Hãy chỉ rõ:
     if (btnFinish) {
       btnFinish.addEventListener('click', () => {
         markLessonCompleted(activeLesson.id);
-        if (window.S4UI) window.S4UI.toast('success', '🎉 Đã ghi nhận hoàn thành bài viết này vào tiến độ học tập!');
-        else alert('🎉 Đã ghi nhận hoàn thành bài viết này vào tiến độ học tập!');
+        updateWritingLessonNav(activeLesson);
+        if (window.S4UI) window.S4UI.toast('success', 'Đã ghi nhận hoàn thành bài viết này vào tiến độ học tập!');
+        else alert('Đã ghi nhận hoàn thành bài viết này vào tiến độ học tập!');
+      });
+    }
+
+    const btnFooterMarkDone = document.getElementById('btnFooterMarkDone');
+    if (btnFooterMarkDone) {
+      btnFooterMarkDone.addEventListener('click', () => {
+        if (!activeLesson) return;
+        markLessonCompleted(activeLesson.id);
+        updateWritingLessonNav(activeLesson);
+        if (window.S4UI) window.S4UI.toast('success', 'Đã đánh dấu hoàn thành bài học này!');
       });
     }
 

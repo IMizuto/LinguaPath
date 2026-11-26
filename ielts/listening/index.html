@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-glass-tier="study" data-course="ielts">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
@@ -43,10 +43,10 @@
           localStorage.setItem("s4_vocab_dark", nextDark ? "1" : "0");
           document.documentElement.classList.toggle("dark", nextDark);
           if (document.body) document.body.classList.toggle("dark", nextDark);
-          document.querySelectorAll('.dark-btn').forEach(function(b) {
-            b.textContent = nextDark ? '☀️' : '🌙';
-            b.title = nextDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
-          });
+        }
+        var btn = document.getElementById("topDarkBtn_listen");
+        if (btn && window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+          window.S4UI.renderThemeButton(btn);
         }
       };
     } catch (e) {}
@@ -55,9 +55,14 @@
 <title>LinguaPath IELTS Listening — Free for Community</title>
   <link rel="icon" href="../../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../../icon-192.png">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
 <style>
   :root {
-    --bg: #0f172a;
+    --lp-sidebar-w: 336px;
+    --bg: transparent;
     --panel: #1e293b;
     --card: #334155;
     --border: rgba(148, 163, 184, 0.18);
@@ -77,11 +82,11 @@
     --vi-text: #bae6fd;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: transparent !important; color: var(--lg-ink, var(--text)); width: 100%; max-width: 100%; overflow: hidden; }
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
     height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -101,92 +106,111 @@
     75% { transform: translateX(5px); }
   }
 
-  /* Topbar */
-  .topbar {
-    min-height: 58px;
-    background:var(--box-sub);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 16px;
-    gap: 10px;
-    flex-wrap: wrap;
+  /* Topbar 1 hàng & Top-switch pill ngang */
+  .lp-study-topbar {
+    margin: calc(8px + var(--s4-safe-top, 0px)) 14px 6px;
+    width: auto;
+    max-width: calc(100% - 28px);
     flex-shrink: 0;
-    z-index: 20;
   }
-  .topbar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; min-width: 0; }
-  .back-btn {
-    text-decoration: none;
-    color: var(--text);
-    background: rgba(255,255,255,0.07);
-    padding: 7px 12px;
-    border-radius: 9px;
+  .lp-study-topbar .lp-top-left { gap: 7px; min-width: 0; flex: 1 1 auto; }
+  .lp-study-topbar .lp-top-actions { gap: 6px; flex-shrink: 0; }
+  .menu-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 36px;
+    padding: 0 11px;
+    border-radius: 999px;
+    border: 1px solid var(--lg-hairline, var(--border));
+    background: var(--lg-wash, rgba(255,255,255,0.06));
+    color: var(--lg-ink, var(--text));
     font-size: 12.5px;
-    font-weight: 600;
-    border: 1px solid var(--border);
-    transition: all 0.2s;
+    font-weight: 700;
+    cursor: pointer;
     white-space: nowrap;
+    flex-shrink: 0;
   }
-  .back-btn:hover { background: rgba(255,255,255,0.14); transform: translateX(-2px); }
-  .brand-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .menu-toggle-btn:hover { background: var(--lg-wash-hover, rgba(255,255,255,0.12)); }
+  .s4-mob-sb-lbl { display: none; }
+  .lp-study-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: 36px;
+    padding: 0 11px;
+    border-radius: 999px;
+    border: 1px solid var(--lg-hairline, var(--border));
+    background: var(--lg-wash, rgba(255,255,255,0.06));
+    color: var(--lg-ink, var(--text));
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .lp-study-pill-btn.hist { border-color: rgba(37,99,235,0.34); color: var(--lg-accent, #38bdf8); }
+  .lp-study-pill-btn.donate { background: var(--lg-rose-soft, rgba(225,29,72,0.14)); border-color: rgba(225,29,72,0.26); color: var(--lg-rose, #e11d48); }
+  .brand-title { font-size: 14.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--lg-ink, var(--text)); }
   .top-switch {
     display: flex;
-    background: rgba(30, 41, 59, 0.9);
-    padding: 4px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    gap: 4px;
+    align-items: center;
+    gap: 5px;
+    margin: 0 14px 8px;
+    padding: 5px 8px;
+    border-radius: 16px;
     overflow-x: auto;
     scrollbar-width: none;
-    flex: 1 1 auto;
-    min-width: 0;
-    max-width: 100%;
+    flex-shrink: 0;
+    width: auto;
+    max-width: calc(100% - 28px);
     -webkit-overflow-scrolling: touch;
   }
   .top-switch::-webkit-scrollbar { display: none; }
   .top-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 6px 10px;
-    border-radius: 7px;
-    font-size: 11.5px;
+    border-radius: 999px;
+    font-size: 12px;
     font-weight: 700;
-    border: none;
-    background: transparent;
-    color: var(--muted);
+    border: 1px solid transparent;
+    background: var(--lg-wash, rgba(148,163,184,0.1));
+    color: var(--lg-ink-sub, var(--muted));
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
-    transition: all 0.18s;
+    transition: all 0.16s ease;
   }
-  .topbar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  @media (max-width: 1520px) and (min-width: 769px) {
-    .topbar { padding: 6px 12px; gap: 6px 10px; }
-    .topbar-left { order: 1; }
-    .topbar-right { order: 2; margin-left: auto; }
-    .top-switch { order: 3; flex: 1 0 100%; width: 100%; }
-  }
+  .top-switch-btn:hover { border-color: var(--lg-accent, var(--primary)); color: var(--lg-ink, var(--text)); }
   .top-switch-btn.active {
     background: var(--primary);
     color: #0f172a;
+    border-color: var(--primary);
   }
   .prog-pill {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    padding: 5px 11px;
-    border-radius: 99px;
+    background: var(--lg-wash, rgba(255,255,255,0.06));
+    border: 1px solid var(--lg-hairline, var(--border));
+    padding: 6px 11px;
+    border-radius: 999px;
     font-size: 12px;
-    font-weight: 600;
-    color:var(--text);
+    font-weight: 700;
+    color: var(--lg-ink, var(--text));
     white-space: nowrap;
   }
+  body.s4-cbt-mode .lp-study-topbar,
+  body.s4-cbt-mode .top-switch { display: none !important; }
 
   /* Workspace */
-  .workspace { display: flex; flex: 1; min-height: 0; overflow: hidden; }
+  .workspace { display: flex; flex: 1; min-height: 0; overflow: hidden; position: relative; z-index: 1; }
   .sidebar {
-    width: 355px;
-    background: var(--panel);
-    border-right: 1px solid var(--border);
+    width: var(--lp-sidebar-w, 336px);
+    background: var(--lg-surface-strong, var(--panel)) !important;
+    backdrop-filter: var(--lg-blur, blur(12px)) !important;
+    -webkit-backdrop-filter: var(--lg-blur, blur(12px)) !important;
+    border-right: 1px solid var(--lg-hairline, var(--border)) !important;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -557,8 +581,19 @@
   .theory-card table { width: 100% !important; border-collapse: collapse; margin: 14px 0; }
   .theory-card td, .theory-card th { border: 1px solid var(--border) !important; padding: 8px 12px !important; }
 
+  .lp-chip-inline { display: inline-flex; align-items: center; gap: 5px; }
+  .btn, .mini-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+  .main-area { background: transparent !important; }
+  .dic-card, .theory-card, .smart-box, .drill-box, .passage-card, .audio-bar, .w-history-modal-box {
+    background: var(--lg-surface, var(--panel)) !important;
+    backdrop-filter: var(--lg-blur, blur(12px));
+    -webkit-backdrop-filter: var(--lg-blur, blur(12px));
+    border-color: var(--lg-hairline, var(--border)) !important;
+  }
+  .folder-box { background: var(--lg-wash, var(--box-sub)) !important; border-color: var(--lg-hairline, var(--border)) !important; }
+  .subfolder-box, .testfolder-box { background: transparent !important; border-color: var(--lg-hairline, var(--border)) !important; }
+
   /* Mobile Sidebar Drawer & Responsive Enhancements */
-  .menu-toggle-btn { display: none; }
   .close-sidebar-btn { display: none; }
   .sidebar-backdrop {
     display: none;
@@ -570,12 +605,17 @@
     -webkit-backdrop-filter: blur(3px);
   }
   .sidebar-backdrop.open { display: block; }
-  @media (min-width: 769px) {
+  @media (min-width: 1025px) {
     .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+    body.sidebar-collapsed .sidebar:not(.open) {
+      width: 0 !important; min-width: 0 !important; padding: 0 !important;
+      border-right: none !important; overflow: hidden !important; opacity: 0 !important; pointer-events: none !important;
+    }
   }
 
-  @media (max-width: 768px) {
-    .menu-toggle-btn { display: inline-flex !important; }
+  @media (max-width: 1024px) {
+    .s4-desk-sb-lbl { display: none !important; }
+    .s4-mob-sb-lbl { display: inline !important; }
     .close-sidebar-btn {
       display: inline-flex !important;
       align-items: center;
@@ -584,33 +624,19 @@
       height: 30px;
       padding: 0;
       flex-shrink: 0;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 18px;
-      line-height: 1;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline, var(--border));
+      background: var(--lg-wash, var(--card));
+      color: var(--lg-ink, var(--text));
       cursor: pointer;
     }
-    .topbar { padding: 8px 10px; gap: 6px; }
-    .brand-title { font-size: 13.5px; }
-    .top-switch {
-      max-width: 100%;
-      order: 3;
-      width: 100%;
-      margin-top: 4px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .top-switch::-webkit-scrollbar { display: none; }
     .sidebar {
       position: fixed !important;
       left: 0;
       top: 0;
       bottom: 0;
       width: 86% !important;
-      max-width: 320px !important;
+      max-width: var(--lp-sidebar-w, 336px) !important;
       z-index: 190 !important;
       transform: translateX(-100%);
       transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), visibility 0.22s;
@@ -622,15 +648,33 @@
       visibility: visible;
       box-shadow: 10px 0 32px rgba(0, 0, 0, 0.5);
     }
+  }
+
+  @media (max-width: 768px) {
+    .lp-study-topbar { margin: calc(6px + var(--s4-safe-top, 0px)) 8px 5px; max-width: calc(100% - 16px); padding: 6px 8px; gap: 5px; min-height: 46px; border-radius: 18px; }
+    .lp-study-topbar .lp-back-pill, .menu-toggle-btn, .lp-study-pill-btn { height: 32px; padding: 0 9px; font-size: 12px; }
+    .lp-study-pill-btn.donate { width: 32px; min-width: 32px; padding: 0; }
+    .lp-study-pill-btn.donate .s4-donate-lbl { display: none !important; }
+    .lp-study-topbar #topDarkBtn_listen { width: 32px; min-width: 32px; height: 32px; padding: 0; }
+    .prog-pill { display: none !important; }
+    .s4-hist-lbl { display: none !important; }
+    .brand-title { font-size: 13.5px; }
+    .top-switch {
+      margin: 0 8px 6px;
+      max-width: calc(100% - 16px);
+      padding: 4px 6px;
+      border-radius: 14px;
+    }
+    .top-switch-btn { padding: 5px 9px; font-size: 11.5px; }
     .main-area {
-      padding: 12px 10px calc(36px + env(safe-area-inset-bottom, 12px)) 10px !important;
+      padding: 10px 10px calc(36px + env(safe-area-inset-bottom, 12px)) 10px !important;
       width: 100%;
     }
     .lesson-header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .lesson-title { font-size: 17px; }
     .lesson-actions { width: 100%; }
     .btn-done { width: 100%; justify-content: center; }
-    .smart-box, .drill-box, .passage-card, .dic-card { padding: 14px 12px; border-radius: 12px; }
+    .smart-box, .drill-box, .passage-card, .dic-card { padding: 14px 12px; border-radius: 14px; }
     .dic-card { padding-bottom: 42vh !important; }
     .srs-stats-bar { grid-template-columns: repeat(2, 1fr); gap: 6px; }
     .srs-stat-card { padding: 8px 10px; }
@@ -650,10 +694,6 @@
   }
 
 </style>
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=66">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <script>
@@ -669,32 +709,47 @@
     })();
   </script>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
 
-<header class="topbar">
-  <div class="topbar-left">
-    <button class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" style="padding:6px 10px;font-size:12px;font-weight:700;" title="Thu gọn / Mở rộng danh sách bài bên trái"><span class="s4-desk-sb-lbl">◀ Ẩn mục lục</span><span class="s4-mob-sb-lbl">☰ Mục lục</span></button>
-    <a href="../../index.html#ielts" class="back-btn">← Khóa IELTS</a>
-    <button class="btn mini-btn dark-btn" id="topDarkBtn_listen" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối" style="padding:5px 9px;font-size:13px;border-radius:8px;cursor:pointer;flex-shrink:0;">☀️</button>
-    <script>(function(){ try { var d = localStorage.getItem("s4_vocab_dark"); var isD = !(d === "0" || d === "false"); var b = document.getElementById("topDarkBtn_listen"); if (b) b.textContent = isD ? '☀️' : '🌙'; } catch(e){} })();</script>
-    <div class="brand-title"><span>🎧 IELTS Intensive Listening</span></div>
+<header class="lp-topbar lp-glass lp-study-topbar">
+  <div class="lp-top-left">
+    <button type="button" class="menu-toggle-btn" id="btnToggleSidebar" onclick="toggleMobileSidebar()" title="Thu gọn / Mở rộng danh sách bài bên trái">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      <span class="s4-desk-sb-lbl">Ẩn mục lục</span><span class="s4-mob-sb-lbl">Mục lục</span>
+    </button>
+    <a href="../../index.html#ielts" class="lp-back-pill" id="lpBackBtn" title="Về Khóa học IELTS">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      <span>IELTS</span>
+    </a>
+    <div class="brand-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg>
+      <span>IELTS Listening</span>
+    </div>
   </div>
 
-  <div class="top-switch">
-    <button class="top-switch-btn active" id="topBtn_u_5" onclick="quickSwitchUnit('u_5')">🃏 Từ vựng Chủ đề & SRS (2,176 từ)</button>
-    <button class="top-switch-btn" id="topBtn_u_2" onclick="quickSwitchUnit('u_2')">✍️ Nghe từ vựng (4,632 từ)</button>
-    <button class="top-switch-btn" id="topBtn_u_3" onclick="quickSwitchUnit('u_3')">🎧 Nghe theo Chủ đề (66 bài)</button>
-    <button class="top-switch-btn" id="topBtn_u_4" onclick="quickSwitchUnit('u_4')">🏆 Đề thi IELTS (604 bài)</button>
-    <button class="top-switch-btn" id="topBtn_pz" onclick="activateListeningPzTab()">🎯 Practice Zone (133 đề)</button>
-    <button class="top-switch-btn" id="topBtn_u_1" onclick="quickSwitchUnit('u_1')">🎬 Chiến thuật (12 bài)</button>
-    <button class="top-switch-btn" id="topBtn_u_6" onclick="quickSwitchUnit('u_6')">📝 Chữa đề (775 video)</button>
-  </div>
-
-  <div class="topbar-right" style="display:flex;align-items:center;gap:6px;">
-    <button class="btn mini-btn" id="btnListeningHistory" onclick="window.S4PracticeZone && window.S4PracticeZone.openListeningHistoryModal ? window.S4PracticeZone.openListeningHistoryModal() : (window.S4UI ? window.S4UI.toast('info', 'Chưa có lịch sử làm bài') : alert('Chưa có lịch sử'))" style="border-color:#2563eb;color:#2563eb;font-weight:700;" title="Xem lại các bài thi thử Listening đã nộp & chấm điểm">📜 <span class="s4-hist-lbl">Lịch sử </span>(<span id="topListeningHistoryCount">0</span>)</button>
-    <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖<span class="s4-donate-lbl"> Ủng hộ</span></button>
+  <div class="lp-top-actions">
+    <button type="button" class="lp-study-pill-btn hist" id="btnListeningHistory" onclick="window.S4PracticeZone && window.S4PracticeZone.openListeningHistoryModal ? window.S4PracticeZone.openListeningHistoryModal() : (window.S4UI ? window.S4UI.toast('info', 'Chưa có lịch sử làm bài') : alert('Chưa có lịch sử'))" title="Xem lại các bài thi thử Listening đã nộp">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="s4-hist-lbl">Lịch sử </span>(<span id="topListeningHistoryCount">0</span>)
+    </button>
+    <button type="button" class="lp-study-pill-btn donate" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án & Mặt trận Tổ quốc" aria-label="Ủng hộ dự án">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      <span class="s4-donate-lbl">Ủng hộ</span>
+    </button>
     <span class="prog-pill" id="topProgText">Đã học: 0 bài</span>
+    <button type="button" class="lp-icon-btn" id="topDarkBtn_listen" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
   </div>
 </header>
+
+<nav class="top-switch lp-glass" aria-label="Phân mục Listening">
+  <button class="top-switch-btn active" id="topBtn_u_5" onclick="quickSwitchUnit('u_5')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg> Từ vựng (2.1k)</button>
+  <button class="top-switch-btn" id="topBtn_u_2" onclick="quickSwitchUnit('u_2')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Chính tả từ (4.6k)</button>
+  <button class="top-switch-btn" id="topBtn_u_3" onclick="quickSwitchUnit('u_3')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg> Chủ đề (66)</button>
+  <button class="top-switch-btn" id="topBtn_u_4" onclick="quickSwitchUnit('u_4')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> Đề thi (604)</button>
+  <button class="top-switch-btn" id="topBtn_pz" onclick="activateListeningPzTab()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Phòng CBT (133)</button>
+  <button class="top-switch-btn" id="topBtn_u_1" onclick="quickSwitchUnit('u_1')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Chiến thuật (12)</button>
+  <button class="top-switch-btn" id="topBtn_u_6" onclick="quickSwitchUnit('u_6')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/></svg> Video chữa (775)</button>
+</nav>
 
 <div class="workspace">
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar(false)"></div>
@@ -704,40 +759,30 @@
         <div class="s4-search-group is-compact">
           <div class="s4-search-field">
             <input type="text" id="searchInput" class="search-input s4-search-input" placeholder="Tìm chủ đề, đề Cam, bài giảng..." autocomplete="off">
-            <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+            <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
           </div>
-          <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+          <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
         </div>
         <button class="mini-btn" onclick="toggleAllFolders()" id="btnToggleAll">Thu gọn</button>
-        <button type="button" class="close-sidebar-btn" onclick="toggleMobileSidebar(false)" title="Đóng mục lục" aria-label="Đóng mục lục">×</button>
+        <button type="button" class="close-sidebar-btn" onclick="toggleMobileSidebar(false)" title="Đóng mục lục" aria-label="Đóng mục lục">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
       </div>
     </div>
     
     <div class="lesson-list" id="lessonList">
-      <script>
-        (function() {
-          try {
-            var sh = localStorage.getItem('s4_listen_last_sidebar_html');
-            if (sh) { document.write(sh); return; }
-          } catch(e) {}
-          document.write('<div style="padding:10px;display:flex;flex-direction:column;gap:8px;"><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div></div>');
-        })();
-      </script>
+      <div style="padding:10px;display:flex;flex-direction:column;gap:8px;"><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div><div style="height:42px;background:var(--box-sub);border-radius:8px;border:1px solid var(--border);"></div></div>
     </div>
   </aside>
 
   <main class="main-area" id="mainArea">
     
     <div class="lesson-container" id="lessonContainer">
-      <script>
-        (function() {
-          try {
-            var h = localStorage.getItem('s4_listen_last_rendered_html');
-            if (h) { document.write(h); return; }
-          } catch(e) {}
-          document.write('<div class="lesson-card-skeleton" style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:24px 22px;box-shadow:0 10px 28px rgba(0,0,0,0.12);display:flex;flex-direction:column;gap:16px;"><div style="width:100%;min-height:300px;background:var(--box-sub);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);"><div style="font-size:26px;">🌿</div><div style="font-size:14px;font-weight:700;color:var(--text);">Đang nạp bài học...</div></div></div>');
-        })();
-      </script>
+      <div class="lesson-card-skeleton" style="background:var(--lg-surface, var(--card));border:1px solid var(--lg-hairline, var(--border));border-radius:16px;padding:24px 22px;box-shadow:0 10px 28px rgba(0,0,0,0.12);display:flex;flex-direction:column;gap:16px;"><div style="width:100%;min-height:300px;background:var(--lg-wash, var(--box-sub));border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg><div style="font-size:14px;font-weight:700;color:var(--text);">Đang nạp bài học...</div></div></div>
     </div>
   </main>
 </div>
@@ -747,9 +792,68 @@
 </div>
 <audio id="ttsAudioPlayer" style="display:none;"></audio>
 <script src="data/listening_manifest.js"></script>
-<script src="../../assets/s4-ui.js?v=65"></script>
-<script src="../../assets/s4-vocab-engine.js?v=68"></script>
+<script src="../../assets/s4-ui.js?v=67"></script>
+<script src="../../assets/s4-search-engine.js?v=1"></script>
+<script src="../../assets/s4-vocab-engine.js?v=69"></script>
 <script>
+const L_FALLBACK_SVG = {
+  check: '<polyline points="20 6 9 17 4 12"/>',
+  close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+  listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+  edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+  reading: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  tedtalks: '<rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/>',
+  target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+  refresh: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+  zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  external: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
+  rewind: '<polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/>',
+  forward: '<polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/>',
+  pause: '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>',
+  sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>'
+};
+function cleanListenTitle(t) { return String(t || '').replace(/^\s*\u{1F31F}\s*/u, ''); }
+function formatListenTitleHtml(t, size) {
+  const raw = String(t || '');
+  const esc = (s) => (window.S4UI && window.S4UI.escapeHtml) ? window.S4UI.escapeHtml(s) : s;
+  if (/^\s*\u{1F31F}/u.test(raw)) {
+    return '<span class="lp-chip-inline">' + lIcon('sparkle', size || 13) + ' ' + esc(raw.replace(/^\s*\u{1F31F}\s*/u, '')) + '</span>';
+  }
+  return esc(raw);
+}
+function lIcon(name, size) {
+  if (window.S4UI && typeof window.S4UI.icon === 'function' && !['rewind', 'forward', 'pause'].includes(name)) {
+    return window.S4UI.icon(name, size);
+  }
+  const sz = Number(size) > 0 ? Number(size) : 14;
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${L_FALLBACK_SVG[name] || L_FALLBACK_SVG.info}</svg>`;
+}
+(function initListeningChrome() {
+  try {
+    var tBtn = document.getElementById('topDarkBtn_listen');
+    if (tBtn) {
+      tBtn.addEventListener('click', window.toggleDark);
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === 'function') window.S4UI.renderThemeButton(tBtn);
+    }
+    if (window.S4UI && typeof window.S4UI.initSmartBackButton === 'function') {
+      window.S4UI.initSmartBackButton({
+        element: '#lpBackBtn',
+        defaultUrl: '../../index.html#ielts',
+        defaultLabel: 'IELTS',
+        roadmapUrl: '../roadmap/index.html',
+        roadmapLabel: 'Lộ trình'
+      });
+    }
+  } catch (e) {}
+})();
+
 document.querySelectorAll('#lessonContainer #globalPassAudio').forEach(el => el.remove());
 const MANIFEST = window.STUDY4_LISTENING_MANIFEST || { units: [] };
 const DATA = {
@@ -1051,16 +1155,20 @@ function playWordAudio(v, lang = 'en-GB') {
   const wordText = v.origin || v.word || v.term || '';
   const url = lang === 'en-US' ? (v.usAudio || v.ukAudio || v.audio) : (v.ukAudio || v.audio || v.usAudio);
   const isPrivateTts = url && (url.includes('/ai_services/tts') || url.includes('study4.com/login'));
-  if ('speechSynthesis' in window) {
-    try { window.speechSynthesis.cancel(); } catch (e) {}
-  }
   const player = document.getElementById('ttsAudioPlayer');
   if (player) {
     try { player.pause(); } catch (e) {}
   }
-  if (url && !isPrivateTts && player) {
-    const fullUrl = url.startsWith('http') ? url : 'https://study4.com' + url;
-    player.src = fullUrl;
+  const directUrl = (url && !isPrivateTts) ? (url.startsWith('http') ? url : 'https://study4.com' + url) : '';
+  if (window.S4UI && typeof window.S4UI.speakEnglish === 'function') {
+    window.S4UI.speakEnglish(wordText, { lang, rate: 0.95, audioUrl: directUrl });
+    return;
+  }
+  if ('speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+  }
+  if (directUrl && player) {
+    player.src = directUrl;
     player.play().catch(() => {
       if (token !== wordAudioToken) return;
       speakWordFallback(wordText, lang, token);
@@ -1071,8 +1179,12 @@ function playWordAudio(v, lang = 'en-GB') {
 }
 
 function speakWordFallback(text, lang = 'en-GB', token = wordAudioToken) {
-  if (token !== wordAudioToken) return;
-  if (!('speechSynthesis' in window) || !text) return;
+  if (token !== wordAudioToken || !text) return;
+  if (window.S4UI && typeof window.S4UI.speakEnglish === 'function') {
+    window.S4UI.speakEnglish(text, { lang, rate: 0.95 });
+    return;
+  }
+  if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = lang;
@@ -1220,12 +1332,12 @@ window.renderSidebar = function() {
 
   const unitOrder = ['u_5', 'u_2', 'u_3', 'u_4', 'u_1', 'u_6'];
   const unitLabels = {
-    u_5: '📂 1. Từ vựng theo Chủ đề (2,176 từ)',
-    u_2: '📂 2. Nghe chính tả Từ vựng (4,632 từ)',
-    u_3: '📂 3. Luyện nghe theo Chủ đề (66 bài)',
-    u_4: '📂 4. Luyện nghe Đề IELTS (604 bài)',
-    u_1: '📂 5. Chiến thuật Listening (12 bài)',
-    u_6: '📂 6. Chữa đề chi tiết (775 video)'
+    u_5: '1. Từ vựng theo Chủ đề (2,176 từ)',
+    u_2: '2. Nghe chính tả Từ vựng (4,632 từ)',
+    u_3: '3. Luyện nghe theo Chủ đề (66 bài)',
+    u_4: '4. Luyện nghe Đề IELTS (604 bài)',
+    u_1: '5. Chiến thuật Listening (12 bài)',
+    u_6: '6. Chữa đề chi tiết (775 video)'
   };
 
   unitOrder.forEach(uid => {
@@ -1247,6 +1359,7 @@ window.renderSidebar = function() {
         <div class="folder-header" onclick="toggleUnitFolder('${uid}')">
           <div class="folder-title">
             <span class="folder-arrow">▸</span>
+            ${lIcon('folder', 14)}
             <span>${unitLabels[uid] || u.unitName}</span>
           </div>
           <span class="folder-meta">${doneInUnit}/${items.length}</span>
@@ -1258,7 +1371,7 @@ window.renderSidebar = function() {
       items.forEach(it => {
         const isDone = doneSet.has(it.id);
         const isActive = currentLesson && currentLesson.id === it.id;
-        let subText = '🎬 Video bài giảng & Lý thuyết';
+        let subText = 'Video bài giảng & Lý thuyết';
         if (uid === 'u_5') {
           const wCnt = it.wordCount || (it.problem?.words ? it.problem.words.length : 0);
           if (it.problem && it.problem.words) {
@@ -1267,21 +1380,21 @@ window.renderSidebar = function() {
               const s = srsMap[getWordKey(w)];
               return s && (s.reps > 0 || s.ignored);
             }).length;
-            subText = `🃏 ${wList.length.toLocaleString()} từ • Đã thuộc: ${learnedCnt}/${wList.length}`;
+            subText = `${wList.length.toLocaleString()} từ • Đã thuộc: ${learnedCnt}/${wList.length}`;
           } else {
-            subText = `🃏 ${wCnt.toLocaleString()} từ`;
+            subText = `${wCnt.toLocaleString()} từ`;
           }
         } else if (uid === 'u_2') {
           const cnt = it.wordCount || (POOLS[it.problem?.poolKey] || []).length || 0;
-          subText = `✍️ Nghe chính tả • ${cnt} từ`;
+          subText = `Nghe chính tả • ${cnt} từ`;
         }
         html += `
           <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
             <div>
-              <div class="lesson-item-title">${it.title}</div>
+              <div class="lesson-item-title">${formatListenTitleHtml(it.title, 13)}</div>
               <div class="lesson-item-sub">${subText}</div>
             </div>
-            <div class="done-badge">${isDone ? '✓' : ''}</div>
+            <div class="done-badge">${isDone ? lIcon('check', 11) : ''}</div>
           </div>
         `;
       });
@@ -1299,7 +1412,7 @@ window.renderSidebar = function() {
         html += `
           <div class="subfolder-box ${isBookCol ? 'collapsed' : ''}">
             <div class="subfolder-header" onclick="toggleBookFolder('${bKey}')">
-              <span><span class="folder-arrow">▸</span> 📁 ${lvName}</span>
+              <span class="lp-chip-inline"><span class="folder-arrow">▸</span> ${lIcon('folder', 13)} ${lvName}</span>
               <span style="font-size:10.5px;color:var(--hl-gold);">${lvItems.length} bài</span>
             </div>
             <div class="subfolder-body">
@@ -1307,14 +1420,14 @@ window.renderSidebar = function() {
                 const isDone = doneSet.has(it.id);
                 const isActive = currentLesson && currentLesson.id === it.id;
                 const sCnt = it.wordCount || (it.problem?.subs || []).filter(s => s.en).length || 0;
-                const subText = sCnt > 0 ? `🎧 Audio MP3 • ${sCnt} câu phụ đề` : `🎧 Audio MP3 • Luyện nghe & Note-taking`;
+                const subText = sCnt > 0 ? `Audio MP3 • ${sCnt} câu phụ đề` : `Audio MP3 • Luyện nghe & Note-taking`;
                 return `
                   <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
                     <div>
-                      <div class="lesson-item-title">${it.title}</div>
+                      <div class="lesson-item-title">${formatListenTitleHtml(it.title, 13)}</div>
                       <div class="lesson-item-sub">${subText}</div>
                     </div>
-                    <div class="done-badge">${isDone ? '✓' : ''}</div>
+                    <div class="done-badge">${isDone ? lIcon('check', 11) : ''}</div>
                   </div>
                 `;
               }).join('')}
@@ -1341,7 +1454,7 @@ window.renderSidebar = function() {
         html += `
           <div class="subfolder-box ${isBookCol ? 'collapsed' : ''}">
             <div class="subfolder-header" onclick="toggleBookFolder('${bKey}')">
-              <span><span class="folder-arrow">▸</span> 📁 ${bName}</span>
+              <span class="lp-chip-inline"><span class="folder-arrow">▸</span> ${lIcon('folder', 13)} ${bName}</span>
               <span style="font-size:10.5px;color:var(--hl-gold);">${totalInBook} bài</span>
             </div>
             <div class="subfolder-body">
@@ -1352,7 +1465,7 @@ window.renderSidebar = function() {
                 return `
                   <div class="testfolder-box ${isTestCol ? 'collapsed' : ''}">
                     <div class="testfolder-header" onclick="toggleTestFolder('${tKey.replace(/'/g, "\\'")}')">
-                      <span><span class="folder-arrow">▸</span> 📄 ${tName}</span>
+                      <span class="lp-chip-inline"><span class="folder-arrow">▸</span> ${lIcon('doc', 12)} ${tName}</span>
                       <span>${tItems.length} Section</span>
                     </div>
                     <div class="testfolder-body">
@@ -1363,7 +1476,7 @@ window.renderSidebar = function() {
                         return `
                           <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
                             <div class="lesson-item-title">${shortTitle}</div>
-                            <div class="done-badge">${isDone ? '✓' : ''}</div>
+                            <div class="done-badge">${isDone ? lIcon('check', 11) : ''}</div>
                           </div>
                         `;
                       }).join('')}
@@ -1394,7 +1507,7 @@ window.renderSidebar = function() {
         html += `
           <div class="subfolder-box ${isBookCol ? 'collapsed' : ''}">
             <div class="subfolder-header" onclick="toggleBookFolder('${bKey}')">
-              <span><span class="folder-arrow">▸</span> 📁 ${bName}</span>
+              <span class="lp-chip-inline"><span class="folder-arrow">▸</span> ${lIcon('folder', 13)} ${bName}</span>
               <span style="font-size:10.5px;color:var(--hl-cyan);">${Object.keys(bGroups).length} đề (${totalInBook} video)</span>
             </div>
             <div class="subfolder-body">
@@ -1405,7 +1518,7 @@ window.renderSidebar = function() {
                 return `
                   <div class="testfolder-box ${isTestCol ? 'collapsed' : ''}">
                     <div class="testfolder-header" onclick="toggleTestFolder('${tKey.replace(/'/g, "\\'")}')">
-                      <span><span class="folder-arrow">▸</span> 🎬 ${gName}</span>
+                      <span class="lp-chip-inline"><span class="folder-arrow">▸</span> ${lIcon('tedtalks', 13)} ${gName}</span>
                       <span>${tItems.length} phần</span>
                     </div>
                     <div class="testfolder-body">
@@ -1415,7 +1528,7 @@ window.renderSidebar = function() {
                         return `
                           <div class="lesson-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="selectLesson('${it.id}')">
                             <div class="lesson-item-title">${it.title}</div>
-                            <div class="done-badge">${isDone ? '✓' : ''}</div>
+                            <div class="done-badge">${isDone ? lIcon('check', 11) : ''}</div>
                           </div>
                         `;
                       }).join('')}
@@ -1434,10 +1547,10 @@ window.renderSidebar = function() {
 
   const safeQ = window.S4UI ? window.S4UI.escapeHtml(q) : q;
   listEl.innerHTML = html || `<div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">
-    <div style="font-size:26px;">🔍</div>
+    <div style="color:var(--muted);">${lIcon('search', 26)}</div>
     <div style="font-size:13.5px;font-weight:800;color:var(--text);">Không tìm thấy mục Listening phù hợp</div>
     ${q ? `<div style="font-size:12px;">Từ khóa "<strong>${safeQ}</strong>" không khớp mục nào.</div>` : ''}
-    <button type="button" class="s4-pz-clear-chip" onclick="window.clearListeningSidebarSearch()">✕ Xóa tìm kiếm</button>
+    <button type="button" class="s4-pz-clear-chip lp-chip-inline" onclick="window.clearListeningSidebarSearch()">${lIcon('close', 12)} Xóa tìm kiếm</button>
   </div>`;
   if (!q) saveCacheSafe('s4_listen_last_sidebar_html', listEl.innerHTML, 100000);
 };
@@ -1470,12 +1583,16 @@ function closeMobileDrawerState() {
 }
 
 window.toggleMobileSidebar = function(force) {
-  if (window.innerWidth > 768) {
+  if (window.S4UI && typeof window.S4UI.toggleSidebar === 'function') {
+    window.S4UI.toggleSidebar(force);
+    return;
+  }
+  if (window.innerWidth > 1024) {
     closeMobileDrawerState();
     const nextCol = (typeof force === 'boolean') ? !force : !document.body.classList.contains('sidebar-collapsed');
     document.body.classList.toggle('sidebar-collapsed', nextCol);
     const deskLbl = document.querySelector('#btnToggleSidebar .s4-desk-sb-lbl');
-    if (deskLbl) deskLbl.textContent = nextCol ? '☰ Mở mục lục' : '◀ Ẩn mục lục';
+    if (deskLbl) deskLbl.textContent = nextCol ? 'Hiện mục lục' : 'Ẩn mục lục';
     return;
   }
   const sb = document.querySelector('.sidebar');
@@ -1488,10 +1605,10 @@ window.toggleMobileSidebar = function(force) {
 };
 
 window.addEventListener('resize', function () {
-  if (window.innerWidth > 768) closeMobileDrawerState();
+  if (window.innerWidth > 1024) closeMobileDrawerState();
 });
 if (window.matchMedia) {
-  const lMq = window.matchMedia('(min-width: 769px)');
+  const lMq = window.matchMedia('(min-width: 1025px)');
   if (lMq.addEventListener) lMq.addEventListener('change', (e) => { if (e.matches) closeMobileDrawerState(); });
   else if (lMq.addListener) lMq.addListener((e) => { if (e.matches) closeMobileDrawerState(); });
 }
@@ -1694,7 +1811,7 @@ window.handleGlobalPassAudioError = function(audioEl) {
     const errDiv = document.createElement('div');
     errDiv.className = 's4-audio-err-msg';
     errDiv.style.cssText = 'font-size:12.5px;color:#ef4444;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:8px 12px;border-radius:8px;font-weight:600;';
-    errDiv.textContent = '⚠️ Không tải được tệp âm thanh từ máy chủ (có thể do thiết bị đang ngoại tuyến hoặc mạng chập chờn). Bạn vẫn có thể đọc Transcript và ôn từ vựng bình thường.';
+    errDiv.textContent = 'Không tải được tệp âm thanh từ máy chủ (có thể do thiết bị đang ngoại tuyến hoặc mạng chập chờn). Bạn vẫn có thể đọc Transcript và ôn từ vựng bình thường.';
     slot.appendChild(errDiv);
   }
   if (window.S4UI && typeof window.S4UI.toast === 'function') {
@@ -1728,13 +1845,20 @@ window.handleGlobalPassAudioError = function(audioEl) {
     });
   }
 
-  setInterval(() => {
-    if (isListeningPzMode) return;
+  let passAudioSyncTimer = null;
+  function stopPassAudioSync() {
+    if (passAudioSyncTimer) {
+      clearInterval(passAudioSyncTimer);
+      passAudioSyncTimer = null;
+    }
+  }
+  function tickPassAudioSync() {
+    if (isListeningPzMode) { stopPassAudioSync(); return; }
     const a = document.getElementById('globalPassAudio');
-    if (!a || a.paused) return;
-    if (!currentLesson || currentLesson.problem?.pType !== 'listen_passage') return;
+    if (!a || a.paused || a.ended) { stopPassAudioSync(); return; }
+    if (!currentLesson || currentLesson.problem?.pType !== 'listen_passage') { stopPassAudioSync(); return; }
     const subs = (currentLesson.problem.subs || []).filter(s => s.en);
-    if (!subs.length) return;
+    if (!subs.length) { stopPassAudioSync(); return; }
     const curMs = a.currentTime * 1000;
 
     if (passageMode === 'dictation' && autoPauseSub) {
@@ -1774,7 +1898,21 @@ window.handleGlobalPassAudioError = function(audioEl) {
         });
       }
     }
-  }, 45);
+  }
+  function startPassAudioSync() {
+    if (passAudioSyncTimer) return;
+    passAudioSyncTimer = setInterval(tickPassAudioSync, 45);
+  }
+  document.addEventListener('play', (e) => {
+    if (e && e.target && e.target.id === 'globalPassAudio') startPassAudioSync();
+  }, true);
+  document.addEventListener('pause', (e) => {
+    if (e && e.target && e.target.id === 'globalPassAudio') stopPassAudioSync();
+  }, true);
+  document.addEventListener('ended', (e) => {
+    if (e && e.target && e.target.id === 'globalPassAudio') stopPassAudioSync();
+  }, true);
+  window.addEventListener('pagehide', stopPassAudioSync);
 })();
 
 window.seekToTranscriptSub = function(idx) {
@@ -1806,14 +1944,16 @@ window.checkDictation = function() {
       allOk = false;
       const hint = document.createElement('span');
       hint.className = 'dic-ans-hint';
-      hint.textContent = '✓ ' + ans;
+      hint.textContent = ans;
       inp.insertAdjacentElement('afterend', hint);
     }
   });
   const rev = document.getElementById('dicAnsReveal');
   if (rev) {
     rev.style.color = allOk ? 'var(--hl-green)' : '#f87171';
-    rev.textContent = allOk ? `✓ Chính xác: ${sub.en}` : `✗ Chưa đúng — Đáp án đầy đủ: ${sub.en}`;
+    rev.innerHTML = allOk
+      ? `<span class="lp-chip-inline">${lIcon('check', 14)} Chính xác: ${sub.en}</span>`
+      : `<span class="lp-chip-inline">${lIcon('close', 14)} Chưa đúng — Đáp án đầy đủ: ${sub.en}</span>`;
   }
   if (allOk && currentSubIdx < subs.length - 1) {
     setTimeout(() => {
@@ -1847,7 +1987,7 @@ window.checkWordDictation = function() {
   inp.classList.add(ok ? 'correct' : 'wrong');
   if (ok) {
     fb.style.color = '#34d399';
-    fb.textContent = `✓ Chính xác! ${wObj.term} — ${wObj.definition}`;
+    fb.innerHTML = `<span class="lp-chip-inline">${lIcon('check', 14)} Chính xác! ${wObj.term} — ${wObj.definition}</span>`;
     playWordAudio(wObj, 'en-GB');
     setTimeout(() => {
       currentWordIdx = (currentWordIdx + 1) % words.length;
@@ -1856,7 +1996,7 @@ window.checkWordDictation = function() {
     }, 950);
   } else {
     fb.style.color = '#f87171';
-    fb.innerHTML = `✗ Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">✓ ${wObj.term}</span>`;
+    fb.innerHTML = `<span class="lp-chip-inline">${lIcon('close', 14)} Chưa đúng — Đáp án đúng: <span class="dic-ans-hint">${wObj.term}</span></span>`;
   }
 };
 
@@ -2018,7 +2158,7 @@ window.S4FormatTheoryHtml = function(rawHtml) {
 
     // 7a. Step Callout: "Bước 1: ...", "Bước 3 + Bước 4 + Bước 5"
     if (/^Bước\s*\d+/i.test(plain) && plain.length < 160) {
-      return '<div class="s4-step-callout"><span class="s4-step-icon">🧭</span><div class="s4-step-body">' + inner + '</div></div>';
+      return '<div class="s4-step-callout"><span class="s4-step-icon">' + lIcon('target', 15) + '</span><div class="s4-step-body">' + inner + '</div></div>';
     }
 
     // 7b. Question Card: "Question 14: ...", "Practice 1: ..."
@@ -2037,14 +2177,14 @@ window.S4FormatTheoryHtml = function(rawHtml) {
     if (/^(?:→|⇒|=>)\s*/i.test(plain) || /^Đáp án\s*:/i.test(plain)) {
       const isShortAnswer = /^(?:→|⇒|=>)\s*(?:Paragraph\s+[A-Z]|Đáp án|Key|Answer|Main topic)/i.test(plain) || /^Đáp án\s*:/i.test(plain) || plain.length < 75;
       if (isShortAnswer) {
-        return '<div class="s4-answer-wrap"><div class="s4-answer-pill">🎯 ' + inner.replace(/^(\s*(?:<[^>]+>\s*)*)(?:→|⇒|=>)\s*/, '$1') + '</div></div>';
+        return '<div class="s4-answer-wrap"><div class="s4-answer-pill">' + lIcon('check', 13) + ' ' + inner.replace(/^(\s*(?:<[^>]+>\s*)*)(?:→|⇒|=>)\s*/, '$1') + '</div></div>';
       }
       return '<div class="s4-conclusion-box">' + inner + '</div>';
     }
 
     // 7e. Note Callout: starts with "Lưu ý:", "Chú ý:"
     if (/^(?:Lưu ý|Chú ý|Mẹo)\s*:/i.test(plain)) {
-      return '<div class="s4-note-callout">💡 ' + inner + '</div>';
+      return '<div class="s4-note-callout">' + lIcon('lightbulb', 14) + ' ' + inner + '</div>';
     }
 
     return full;
@@ -2178,16 +2318,16 @@ function renderMain() {
           <span>Từ ${currentWordIdx + 1} / ${words.length}</span>
           <span>Nghe phát âm và gõ lại từ tiếng Anh</span>
         </div>
-        <button class="btn btn-primary" style="padding:14px 26px;font-size:16px;border-radius:99px;margin-bottom:14px;" onclick="playWordAudio(POOLS['${currentLesson.problem.poolKey}'][${currentWordIdx}], 'en-GB')">
-          🔊 Bấm nghe phát âm từ
+        <button class="btn btn-primary lp-chip-inline" style="padding:14px 26px;font-size:16px;border-radius:99px;margin-bottom:14px;" onclick="playWordAudio(POOLS['${currentLesson.problem.poolKey}'][${currentWordIdx}], 'en-GB')">
+          ${lIcon('volume', 18)} Nghe phát âm từ
         </button>
-        <div style="font-size:18px;font-weight:800;color:var(--hl-gold);margin-bottom:8px;">🇻🇳 ${wObj.definition || ''} <small style="color:var(--hl-cyan);">/${wObj.pronunciation || ''}/</small></div>
+        <div style="font-size:18px;font-weight:800;color:var(--hl-gold);margin-bottom:8px;">[VI] ${wObj.definition || ''} <small style="color:var(--hl-cyan);">/${wObj.pronunciation || ''}/</small></div>
         <input type="text" id="wordDicInput" class="spell-input" style="text-align:center;" placeholder="Gõ từ tiếng Anh và nhấn Enter..." onkeydown="if(event.key==='Enter') checkWordDictation()">
         <div id="wordDicFeedback" style="min-height:22px;font-weight:700;margin-bottom:10px;"></div>
-        <div style="display:flex;justify-content:center;gap:10px;">
+        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
           <button class="btn" onclick="currentWordIdx=Math.max(0,currentWordIdx-1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{wordIdx:currentWordIdx});renderMain();">← Từ trước</button>
-          <button class="btn btn-primary" onclick="checkWordDictation()">✔️ Kiểm tra (Enter)</button>
-          <button class="btn" onclick="document.getElementById('wordDicInput').value='${(wObj.term || '').replace(/'/g, "\\'")}'">💡 Đáp án</button>
+          <button class="btn btn-primary lp-chip-inline" onclick="checkWordDictation()">${lIcon('check', 14)} Kiểm tra (Enter)</button>
+          <button class="btn lp-chip-inline" onclick="document.getElementById('wordDicInput').value='${(wObj.term || '').replace(/'/g, "\\'")}'">${lIcon('lightbulb', 14)} Đáp án</button>
           <button class="btn" onclick="currentWordIdx=(currentWordIdx+1)%${words.length || 1};if(currentLesson)saveListeningLessonPos(currentLesson.id,{wordIdx:currentWordIdx});renderMain();">Từ tiếp →</button>
         </div>
       </div>
@@ -2210,11 +2350,11 @@ function renderMain() {
     );
     const relatedExplainsHtml = relatedExplains.length ? `
       <div class="dic-card" id="u4RelatedExplainsBox" style="margin-top:14px;">
-        <div style="font-size:13px;font-weight:800;color:var(--hl-cyan);margin-bottom:8px;">🎬 Video Chữa Đề Chi Tiết của bài thi này (${relatedExplains.length} phần):</div>
+        <div class="lp-chip-inline" style="font-size:13px;font-weight:800;color:var(--hl-cyan);margin-bottom:8px;">${lIcon('tedtalks', 15)} Video Chữa Đề Chi Tiết của bài thi này (${relatedExplains.length} phần):</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
           ${relatedExplains.map(ex => `
-            <button class="btn" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${ex.id}')">
-              ▶️ ${ex.title}
+            <button class="btn lp-chip-inline" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${ex.id}')">
+              ${lIcon('play', 13)} ${ex.title}
             </button>
           `).join('')}
         </div>
@@ -2224,19 +2364,19 @@ function renderMain() {
     bodyHtml = `
       <div class="audio-bar" id="audioSlot">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-          <span class="bg-badge">🟢 AUDIO MP3 CHUẨN GỐC • HỖ TRỢ NGHE NỀN TẮT MÀN HÌNH</span>
+          <span class="bg-badge lp-chip-inline">${lIcon('volume', 13)} AUDIO MP3 CHUẨN GỐC • HỖ TRỢ NGHE NỀN</span>
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-            <button class="btn" onclick="seekPassAudio(-5)" title="Tua lùi 5 giây">⏪ -5s</button>
-            <button class="btn" onclick="seekPassAudio(5)" title="Tua tới 5 giây">⏩ +5s</button>
+            <button class="btn lp-chip-inline" onclick="seekPassAudio(-5)" title="Tua lùi 5 giây">${lIcon('rewind', 13)} -5s</button>
+            <button class="btn lp-chip-inline" onclick="seekPassAudio(5)" title="Tua tới 5 giây">${lIcon('forward', 13)} +5s</button>
             <button class="btn speed-btn" data-rate="0.75" onclick="setPassSpeed(0.75)">0.75x</button>
             <button class="btn speed-btn btn-primary" data-rate="1" onclick="setPassSpeed(1)">1.0x</button>
             <button class="btn speed-btn" data-rate="1.25" onclick="setPassSpeed(1.25)">1.25x</button>
             ${hasSubs ? `
-              <button class="btn ${passageMode === 'dictation' ? 'btn-primary' : ''}" onclick="passageMode='dictation';renderMain();">✍️ Chép chính tả</button>
-              <button class="btn ${passageMode === 'transcript' ? 'btn-primary' : ''}" onclick="passageMode='transcript';renderMain();">📜 Transcript (${subs.length} câu)</button>
+              <button class="btn lp-chip-inline ${passageMode === 'dictation' ? 'btn-primary' : ''}" onclick="passageMode='dictation';renderMain();">${lIcon('edit', 13)} Chép chính tả</button>
+              <button class="btn lp-chip-inline ${passageMode === 'transcript' ? 'btn-primary' : ''}" onclick="passageMode='transcript';renderMain();">${lIcon('reading', 13)} Transcript (${subs.length} câu)</button>
             ` : ''}
             ${hasPzTest ? `
-              <button class="btn" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);" onclick="openListeningPzFromLesson()">🎯 Làm đề & Chấm điểm</button>
+              <button class="btn lp-chip-inline" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);" onclick="openListeningPzFromLesson()">${lIcon('target', 13)} Làm đề &amp; Chấm điểm</button>
             ` : ''}
           </div>
         </div>
@@ -2245,19 +2385,19 @@ function renderMain() {
         <div class="dic-card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <span style="font-size:13px;font-weight:800;color:var(--hl-gold);">Câu ${currentSubIdx + 1} / ${subs.length} <small style="color:var(--hl-cyan);font-weight:600;">(${fmtTime(sub.time)} ➔ ${fmtTime(getSubEndMs(subs, currentSubIdx))})</small></span>
-              <button class="mini-btn" style="${autoPauseSub ? 'border-color:#10b981;color:var(--hl-green);background:rgba(16,185,129,0.14);' : ''}" onclick="autoPauseSub=!autoPauseSub;renderMain();">⏸️ Tự dừng hết câu: ${autoPauseSub ? 'BẬT' : 'TẮT'}</button>
-              <button class="mini-btn" style="${autoLoopSub ? 'border-color:#f59e0b;color:var(--hl-gold);background:rgba(245,158,11,0.14);' : ''}" onclick="autoLoopSub=!autoLoopSub;if(autoLoopSub)autoPauseSub=true;renderMain();">🔁 Lặp lại câu: ${autoLoopSub ? 'BẬT' : 'TẮT'}</button>
-              <button class="mini-btn" style="${showViSub ? 'border-color:var(--hl-cyan);color:var(--vi-text);' : ''}" onclick="showViSub=!showViSub;renderMain();">🇻🇳 Nghĩa Việt: ${showViSub ? 'BẬT' : 'TẮT'}</button>
-              <button class="mini-btn" onclick="dicLevel=(dicLevel==='word'?'word_hard':'word');renderMain();">🎯 Độ khó: ${dicLevel === 'word' ? 'Vừa' : 'Khó'}</button>
+              <span style="font-size:13px;font-weight:800;color:var(--hl-gold);">Câu ${currentSubIdx + 1} / ${subs.length} <small style="color:var(--hl-cyan);font-weight:600;">(${fmtTime(sub.time)} -> ${fmtTime(getSubEndMs(subs, currentSubIdx))})</small></span>
+              <button class="mini-btn lp-chip-inline" style="${autoPauseSub ? 'border-color:#10b981;color:var(--hl-green);background:rgba(16,185,129,0.14);' : ''}" onclick="autoPauseSub=!autoPauseSub;renderMain();">${lIcon('pause', 12)} Tự dừng hết câu: ${autoPauseSub ? 'BẬT' : 'TẮT'}</button>
+              <button class="mini-btn lp-chip-inline" style="${autoLoopSub ? 'border-color:#f59e0b;color:var(--hl-gold);background:rgba(245,158,11,0.14);' : ''}" onclick="autoLoopSub=!autoLoopSub;if(autoLoopSub)autoPauseSub=true;renderMain();">${lIcon('refresh', 12)} Lặp lại câu: ${autoLoopSub ? 'BẬT' : 'TẮT'}</button>
+              <button class="mini-btn" style="${showViSub ? 'border-color:var(--hl-cyan);color:var(--vi-text);' : ''}" onclick="showViSub=!showViSub;renderMain();">Nghĩa Việt: ${showViSub ? 'BẬT' : 'TẮT'}</button>
+              <button class="mini-btn lp-chip-inline" onclick="dicLevel=(dicLevel==='word'?'word_hard':'word');renderMain();">${lIcon('target', 12)} Độ khó: ${dicLevel === 'word' ? 'Vừa' : 'Khó'}</button>
             </div>
             <div style="display:flex;gap:6px;">
-              <button class="btn" onclick="currentSubIdx=Math.max(0,currentSubIdx-1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">◀ Câu trước</button>
-              <button class="btn btn-primary" onclick="playCurrentSub()">🔊 Nghe câu này (\\)</button>
-              <button class="btn" onclick="currentSubIdx=Math.min(${subs.length - 1},currentSubIdx+1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">Câu sau ▶</button>
+              <button class="btn" onclick="currentSubIdx=Math.max(0,currentSubIdx-1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">← Câu trước</button>
+              <button class="btn btn-primary lp-chip-inline" onclick="playCurrentSub()">${lIcon('volume', 14)} Nghe câu này (\\)</button>
+              <button class="btn" onclick="currentSubIdx=Math.min(${subs.length - 1},currentSubIdx+1);if(currentLesson)saveListeningLessonPos(currentLesson.id,{subIdx:currentSubIdx});renderMain();playCurrentSub();">Câu sau →</button>
             </div>
           </div>
-          ${(showViSub && sub.vi) ? `<div style="padding:9px 13px;background:var(--vi-bg);border-left:3px solid #38bdf8;border-radius:6px;font-size:13.5px;color:var(--vi-text);margin-bottom:10px;">🇻🇳 ${sub.vi}</div>` : ''}
+          ${(showViSub && sub.vi) ? `<div style="padding:9px 13px;background:var(--vi-bg);border-left:3px solid #38bdf8;border-radius:6px;font-size:13.5px;color:var(--vi-text);margin-bottom:10px;"><strong>Nghĩa Việt:</strong> ${sub.vi}</div>` : ''}
           <div class="dic-sentence">
             ${buildDictationTokens(sub.en, currentSubIdx, dicLevel).map(tk => {
               if (!tk.isBlank) return `<span>${tk.raw} </span>`;
@@ -2268,8 +2408,8 @@ function renderMain() {
           <div id="dicAnsReveal" style="min-height:20px;font-size:13.5px;font-weight:700;color:var(--hl-green);margin:8px 0;"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
             <div style="display:flex;gap:8px;">
-              <button class="btn btn-primary" onclick="checkDictation()">✔️ Kiểm tra (Enter)</button>
-              <button class="btn" onclick="revealDictation()">💡 Hiện đáp án</button>
+              <button class="btn btn-primary lp-chip-inline" onclick="checkDictation()">${lIcon('check', 14)} Kiểm tra (Enter)</button>
+              <button class="btn lp-chip-inline" onclick="revealDictation()">${lIcon('lightbulb', 14)} Hiện đáp án</button>
             </div>
             <span style="font-size:11.5px;color:var(--muted);">Mẹo: Nhấn <strong>Space / Tab</strong> qua ô kế • <strong>\\</strong> nghe lại câu • <strong>Enter</strong> chấm & tự qua câu</span>
           </div>
@@ -2281,7 +2421,7 @@ function renderMain() {
               <span class="sub-time">${fmtTime(s.time)}</span>
               <div>
                 <div style="font-weight:600;color:var(--text);">${s.en}</div>
-                ${s.vi ? `<div style="font-size:13px;color:var(--muted);margin-top:3px;">🇻🇳 ${s.vi}</div>` : ''}
+                ${s.vi ? `<div style="font-size:13px;color:var(--muted);margin-top:3px;">${s.vi}</div>` : ''}
               </div>
             </div>
           `).join('')}
@@ -2290,10 +2430,10 @@ function renderMain() {
         <div class="dic-card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
             <div>
-              <div style="font-size:15px;font-weight:800;color:var(--hl-gold);">✍️ Bàn Luyện Nghe Chép Chính Tả & Note-Taking</div>
-              <div style="font-size:12.5px;color:var(--muted);margin-top:2px;">Bấm Play trên thanh Audio phía trên (hoặc dùng nút ⏪ -5s / ⏩ +5s) để nghe và gõ lại nội dung / từ khóa nghe được. Nội dung tự động lưu.</div>
+              <div class="lp-chip-inline" style="font-size:15px;font-weight:800;color:var(--hl-gold);">${lIcon('edit', 15)} Bàn Luyện Nghe Chép Chính Tả &amp; Note-Taking</div>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:2px;">Bấm Play trên thanh Audio phía trên (hoặc nút -5s / +5s) để nghe và gõ lại nội dung / từ khóa nghe được. Nội dung tự động lưu.</div>
             </div>
-            <button class="btn btn-primary" onclick="const a=document.getElementById('globalPassAudio'); if(a){if(a.paused)a.play();else a.pause();}">⏯️ Phát / Tạm dừng Audio</button>
+            <button class="btn btn-primary lp-chip-inline" onclick="const a=document.getElementById('globalPassAudio'); if(a){if(a.paused)a.play();else a.pause();}">${lIcon('play', 14)} Phát / Tạm dừng Audio</button>
           </div>
           <textarea class="spell-input" style="min-height:170px;font-size:15px;font-weight:500;line-height:1.65;resize:vertical;letter-spacing:normal;" placeholder="Gõ nội dung nghe chép chính tả hoặc ghi chú từ khóa (Note-taking) của bạn tại đây..." oninput="saveListeningNote(this.value)">${savedNote.replace(/</g, '&lt;')}</textarea>
         </div>
@@ -2308,12 +2448,12 @@ function renderMain() {
       <div class="dic-card" id="u6ReverseLinksBox" style="margin-bottom:14px;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
           <div>
-            <div style="font-size:13.5px;font-weight:800;color:var(--hl-cyan);">🔗 Luyện đề gốc: ${u6Sources.ident.label}</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chuyển nhanh sang luyện Nghe & Chép chính tả từng Section hoặc làm Full Test chuẩn phòng thi máy.</div>
+            <div class="lp-chip-inline" style="font-size:13.5px;font-weight:800;color:var(--hl-cyan);">${lIcon('external', 14)} Luyện đề gốc: ${u6Sources.ident.label}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Chuyển nhanh sang luyện Nghe &amp; Chép chính tả từng Section hoặc làm Full Test chuẩn phòng thi máy.</div>
           </div>
           ${u6Sources.hasPz ? `
-            <button class="btn" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);font-weight:800;" onclick="openListeningPzByKey('${u6Sources.ident.key}')">
-              🚀 Làm đề Full Test (Practice Zone)
+            <button class="btn lp-chip-inline" style="background:rgba(16,185,129,0.16);border-color:rgba(16,185,129,0.45);color:var(--hl-green);font-weight:800;" onclick="openListeningPzByKey('${u6Sources.ident.key}')">
+              ${lIcon('zap', 14)} Làm đề Full Test (CBT)
             </button>
           ` : ''}
         </div>
@@ -2323,8 +2463,8 @@ function renderMain() {
               const sm = String(u4.title || '').match(/Section\s*(\d+)/i);
               const secLabel = sm ? `Section ${sm[1]}` : `Phần ${idx + 1}`;
               return `
-                <button class="btn" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${u4.id}')">
-                  🎧 Chép chính tả ${secLabel}
+                <button class="btn lp-chip-inline" style="background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.35);color:var(--vi-text);" onclick="selectLesson('${u4.id}')">
+                  ${lIcon('listening', 14)} Chép chính tả ${secLabel}
                 </button>
               `;
             }).join('')}
@@ -2338,8 +2478,8 @@ function renderMain() {
           <iframe src="https://www.youtube.com/embed/${currentLesson.youtubeId}?rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:-12px;margin-bottom:16px;">
-          <a href="https://www.youtube.com/watch?v=${currentLesson.youtubeId}" target="_blank" rel="noopener noreferrer" class="btn mini-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;">
-            <span>📺 Mở xem trực tiếp trên YouTube</span> ↗
+          <a href="https://www.youtube.com/watch?v=${currentLesson.youtubeId}" target="_blank" rel="noopener noreferrer" class="btn mini-btn lp-chip-inline" style="text-decoration:none;font-size:12px;font-weight:700;">
+            ${lIcon('tedtalks', 13)} Mở xem trên YouTube ${lIcon('external', 12)}
           </a>
         </div>
       ` : ''}
@@ -2352,7 +2492,7 @@ function renderMain() {
   const navIdx = navPool.findIndex(x => x.id === currentLesson.id);
   const prevLessonObj = navIdx > 0 ? navPool[navIdx - 1] : null;
   const nextLessonObj = (navIdx >= 0 && navIdx + 1 < navPool.length) ? navPool[navIdx + 1] : null;
-  const escNavTitle = (t) => String(t || '').replace(/"/g, '&quot;');
+  const escNavTitle = (t) => cleanListenTitle(t).replace(/"/g, '&quot;');
   const prevBtnAttrs = prevLessonObj
     ? `title="Bài trước: ${escNavTitle(prevLessonObj.title)}" onclick="stepListeningLesson(-1)"`
     : 'disabled title="Đã ở bài đầu tiên"';
@@ -2364,23 +2504,23 @@ function renderMain() {
     <div class="lesson-header">
       <div>
         <div class="lesson-unit-tag">${currentLesson.group || currentLesson.unitName}</div>
-        <h1 class="lesson-title">${currentLesson.title}</h1>
+        <h1 class="lesson-title">${formatListenTitleHtml(currentLesson.title, 18)}</h1>
       </div>
       <div class="lesson-actions" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
         <span class="s4-lesson-nav-group">
-          <button type="button" class="btn mini-btn" id="btnPrevListenLesson" ${prevBtnAttrs}>◀ Bài trước</button>
-          <button type="button" class="btn mini-btn" id="btnNextListenLesson" ${nextBtnAttrs}>Bài tiếp theo ▶</button>
+          <button type="button" class="btn mini-btn" id="btnPrevListenLesson" ${prevBtnAttrs}>← Bài trước</button>
+          <button type="button" class="btn mini-btn" id="btnNextListenLesson" ${nextBtnAttrs}>Bài tiếp →</button>
         </span>
-        <button class="btn btn-done ${isDone ? 'completed' : ''}" onclick="toggleDoneCurrent()">
-          ${isDone ? '✓ Đã hoàn thành' : '○ Đánh dấu hoàn thành'}
+        <button class="btn btn-done lp-chip-inline ${isDone ? 'completed' : ''}" onclick="toggleDoneCurrent()">
+          ${isDone ? `${lIcon('check', 14)} Đã hoàn thành` : 'Đánh dấu hoàn thành'}
         </button>
       </div>
     </div>
     ${bodyHtml}
     <div class="s4-lesson-footer-nav">
-      <button type="button" class="btn mini-btn" ${prevBtnAttrs}>◀ Bài trước</button>
+      <button type="button" class="btn mini-btn" ${prevBtnAttrs}>← Bài trước</button>
       <span class="s4-lesson-footer-pos">${navIdx >= 0 ? `Bài ${navIdx + 1}/${navPool.length}` : ''}</span>
-      <button type="button" class="btn btn-primary" ${nextBtnAttrs}>Bài tiếp theo ▶</button>
+      <button type="button" class="btn btn-primary" ${nextBtnAttrs}>Bài tiếp theo →</button>
     </div>
   `;
 
@@ -2388,7 +2528,7 @@ function renderMain() {
     const modeMap = { smart_learn: 'smart', srs_review: 'flashcard', flashcards: 'list', matching: 'match', spelling: 'cloze' };
     const mappedMode = modeMap[currentMode] || currentMode;
     const forceVocabMode = (currentMode === 'smart_learn' || mappedMode === 'smart') ? null : mappedMode;
-    window.S4VocabEngine.mount('s4VocabMount', currentLesson.id, getActiveVocabList(), currentLesson.title, forceVocabMode);
+    window.S4VocabEngine.mount('s4VocabMount', currentLesson.id, getActiveVocabList(), cleanListenTitle(currentLesson.title), forceVocabMode);
   }
   saveCacheSafe('s4_listen_last_rendered_html', container.innerHTML, 120000);
 
@@ -2410,9 +2550,16 @@ function renderMain() {
 }
 
 updateTopProgress();
+const urlParams = new URLSearchParams(window.location.search);
+const reqId = (urlParams.get('id') || '').trim();
+const reqUnit = (urlParams.get('unit') || '').trim();
+const reqPz = urlParams.get('pz') === '1' || urlParams.get('mode') === 'pz';
 const lastId = localStorage.getItem(LAST_KEY);
 const defaultLesson = ALL_LESSONS.find(x => x.unitId === 'u_5') || ALL_LESSONS[0];
-const initialLesson = ALL_LESSONS.find(x => x.id === lastId) || defaultLesson;
+const initialLesson = (reqId && ALL_LESSONS.find(x => x.id === reqId))
+  || (reqUnit && ALL_LESSONS.find(x => x.unitId === reqUnit))
+  || ALL_LESSONS.find(x => x.id === lastId)
+  || defaultLesson;
 
 // Instant restore from cache if matches
 let cachedLesson = null;
@@ -2451,6 +2598,17 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
   selectLesson(initialLesson.id);
 }
 
+if (reqPz) {
+  const openPzOnReady = () => {
+    if (typeof activateListeningPzTab === 'function') activateListeningPzTab();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', openPzOnReady);
+  } else {
+    setTimeout(openPzOnReady, 0);
+  }
+}
+
 </script>
   <script src="../../assets/s4-practice-zone.js?v=67"></script>
   <script src="../../auth.js?v=33"></script>
@@ -2461,19 +2619,19 @@ if (cachedLesson && initialLesson && cachedLesson.id === initialLesson.id) {
     <div class="w-history-modal-box">
       <div class="w-history-modal-head">
         <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:22px;">📜</span>
+          <span class="lp-chip-inline" style="color:var(--primary);">${lIcon('history', 20)}</span>
           <div>
             <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch Sử Làm Bài IELTS Listening</h3>
             <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Danh sách các đề thi thử Listening bạn đã nộp và chấm điểm</p>
           </div>
         </div>
-        <button type="button" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;" onclick="window.S4PracticeZone.closeListeningHistoryModal()">✕</button>
+        <button type="button" class="lp-chip-inline" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;" aria-label="Đóng" onclick="window.S4PracticeZone.closeListeningHistoryModal()">${lIcon('close', 18)}</button>
       </div>
 
       <div class="w-history-filter-bar">
         <button type="button" class="w-filter-pill l-filter-pill active" id="lFilter_all" onclick="window.S4PracticeZone.filterListeningHistoryModal('all')">Tất cả đề</button>
-        <button type="button" class="w-filter-pill l-filter-pill" id="lFilter_high" onclick="window.S4PracticeZone.filterListeningHistoryModal('high')">🏆 Band 7.0+ (Mục tiêu cao)</button>
-        <button type="button" class="w-filter-pill l-filter-pill" id="lFilter_low" onclick="window.S4PracticeZone.filterListeningHistoryModal('low')">⚡ Dưới Band 7.0 (Cần ôn lại)</button>
+        <button type="button" class="w-filter-pill l-filter-pill lp-chip-inline" id="lFilter_high" onclick="window.S4PracticeZone.filterListeningHistoryModal('high')">${lIcon('award', 13)} Band 7.0+ (Mục tiêu cao)</button>
+        <button type="button" class="w-filter-pill l-filter-pill lp-chip-inline" id="lFilter_low" onclick="window.S4PracticeZone.filterListeningHistoryModal('low')">${lIcon('zap', 13)} Dưới Band 7.0 (Cần ôn lại)</button>
       </div>
 
       <div class="w-history-list modal-scroll" id="listeningModalHistoryList">

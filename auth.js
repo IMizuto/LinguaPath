@@ -32,7 +32,11 @@
   const P_WDONE = "s4_writing_done", P_WLAST = "s4_writing_last_v1", P_WESSAYS = "s4_writing_essays_v1", P_WNOTES = "s4_writing_notes_v1", P_WSUBS = "lp_submissions_history";
   const P_SDONE = "lp_speaking_done_v1", P_SLAST = "lp_speaking_last_v1", P_SNOTES = "lp_speaking_notes_v1", P_SSUBS = "lp_speaking_submissions_v1", P_SPREFS = "lp_speaking_prefs_v1";
   const P_SSRS = "lp_speaking_vocab_srs_v1", P_SDAYS = "lp_speaking_vocab_days_v1", P_SSET = "lp_speaking_vocab_settings_v1", P_SSES = "lp_speaking_vocab_session_v1";
-  const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos", P_TSUBVI = "s4_ted_show_vi";
+  const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos", P_TSUBVI = "s4_ted_show_vi", P_TSHADLANG = "lp_ted_shadow_lang";
+  const P_IELTS_RM = "lp_ielts_roadmap_v1", P_HSK_RM = "lp_hsk_roadmap_v1", P_HMOCK = "lp_hsk_mock_results_v1", P_HMWDONE = "lp_hsk_mw_done_v1";
+  const P_HVSRS = "lp_hsk_vocab_srs_v1", P_HVDAYS = "lp_hsk_vocab_days_v1", P_HVSET = "lp_hsk_vocab_settings_v1", P_HVSES = "lp_hsk_vocab_session_v1";
+  const P_HLDONE = "lp_hsk_lessons_done_v1", P_HLLAST = "lp_hsk_lessons_last_v1", P_HWBDONE = "lp_hsk_workbook_done_v1";
+  const P_HGDONE = "lp_hsk_grammar_done_v1", P_HGLAST = "lp_hsk_grammar_last_v1", P_HWDONE = "lp_hsk_writing_done_v1", P_HWDRAFTS = "lp_hsk_writing_drafts_v1", P_HLISDONE = "lp_hsk_listening_done_v1", P_HLISLAST = "lp_hsk_listening_last_v1", P_HRDONE = "lp_hsk_reading_done_v1", P_HRLAST = "lp_hsk_reading_last_v1", P_HSDONE = "lp_hsk_speaking_done_v1", P_HSHOOT = "lp_hsk_shooter_best_v1", P_HSHOOTPREF = "lp_hsk_shooter_prefs_v1";
   const PROGRESS_KEYS = [
     P_SRS, P_DAYS, P_SET, P_VSES,
     P_GDONE, P_GLAST,
@@ -41,8 +45,15 @@
     P_PZFLAGS,
     P_WDONE, P_WLAST, P_WESSAYS, P_WNOTES, P_WSUBS,
     P_SDONE, P_SLAST, P_SNOTES, P_SSUBS, P_SPREFS, P_SSRS, P_SDAYS, P_SSET, P_SSES,
-    P_TDONE, P_TLAST, P_TPOS, P_TSUBVI
+    P_IELTS_RM, P_HSK_RM, P_HMOCK, P_HMWDONE,
+    P_TDONE, P_TLAST, P_TPOS, P_TSUBVI, P_TSHADLANG,
+    P_HVSRS, P_HVDAYS, P_HVSET, P_HVSES, P_HLDONE, P_HLLAST, P_HWBDONE,
+    P_HGDONE, P_HGLAST, P_HWDONE, P_HWDRAFTS, P_HLISDONE, P_HLISLAST, P_HRDONE, P_HRLAST, P_HSDONE, P_HSHOOT, P_HSHOOTPREF
   ];
+  const SUBMISSION_KEYS = [P_SSUBS, P_WSUBS, P_RSUBS, P_LSUBS];
+  const DONE_MAP_KEYS = [P_GDONE, P_TDONE, P_HLDONE, P_HWBDONE, P_HGDONE, P_HLISDONE, P_HRDONE, P_HSDONE, P_HMWDONE];
+  const DONE_ARR_KEYS = [P_LDONE, P_RDONE, P_WDONE, P_SDONE];
+  const DELETABLE_MAP_KEYS = [P_WESSAYS, P_HWDRAFTS, P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES, P_RPZANS, P_LPZANS, P_PZFLAGS];
   const isPzDraftKey = k => typeof k === "string" && /^lp_pz_draft_[A-Za-z0-9_-]+$/.test(k);
   const HTML_CACHE_KEYS = [
     "s4_listen_last_rendered_html", "s4_listen_last_sidebar_html", "s4_listen_last_lesson_cache",
@@ -58,6 +69,8 @@
   const TOTAL_SPEAKING_LESSONS = 2490;
   const TOTAL_SPEAKING_VOCAB = 9214;
   const TOTAL_TED_LESSONS = 202;
+  const TOTAL_HSK_VOCAB = 5112;
+  const TOTAL_HSK_ITEMS = 764;
 
   const AVATAR_PRESETS = ["🎓", "🦊", "🐼", "🦁", "🐯", "🐨", "🦉", "🦄", "🐲", "🚀", "⚡", "🌟", "💎", "🔥", "🍀", "🎯"];
 
@@ -160,16 +173,54 @@
     h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return ((h2 >>> 0).toString(16).padStart(8, "0") + (h1 >>> 0).toString(16).padStart(8, "0")).toUpperCase();
   }
-  async function hashPw(username, pw) {
-    const s = "s4|" + username + "|" + pw;
+  async function sha256Hex(str) {
     if (window.crypto && crypto.subtle && window.TextEncoder) {
-      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
     }
-    return "L" + simpleHash(s);
+    return "L" + simpleHash(str);
+  }
+  async function hashPwLegacy(username, pw) {
+    return sha256Hex("s4|" + username + "|" + pw);
+  }
+  async function hashPwV2(username, pw) {
+    if (window.crypto && crypto.subtle && typeof crypto.subtle.importKey === "function" && window.TextEncoder) {
+      try {
+        const enc = new TextEncoder();
+        const baseKey = await crypto.subtle.importKey("raw", enc.encode(String(pw || "")), "PBKDF2", false, ["deriveBits"]);
+        const bits = await crypto.subtle.deriveBits(
+          { name: "PBKDF2", salt: enc.encode("lp-v2|" + username), iterations: 100000, hash: "SHA-256" },
+          baseKey,
+          256
+        );
+        const hex = Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, "0")).join("");
+        return "v2_" + hex;
+      } catch (e) {}
+    }
+    return hashPwLegacy(username, pw);
+  }
+  async function hashPw(username, pw) {
+    return hashPwV2(username, pw);
+  }
+  async function deriveReadKey(username, ph) {
+    return sha256Hex("lp-read|" + username + "|" + ph);
+  }
+  function makeWriteProofToken(ph) {
+    let rand = "";
+    try {
+      if (window.crypto && typeof crypto.getRandomValues === "function") {
+        const arr = new Uint8Array(6);
+        crypto.getRandomValues(arr);
+        rand = Array.from(arr).map(b => b.toString(16).padStart(2, "0")).join("");
+      }
+    } catch (e) {}
+    if (!rand) rand = Math.random().toString(36).slice(2, 12);
+    return String(ph || "") + "|" + Date.now() + "_" + rand;
   }
 
-  /* ---------- Firebase REST & Xác thực Chữ ký Bảo mật (authProof) ---------- */
+  /* ---------- Firebase REST & Ghi Nguyên tử Chống lộ authProof ---------- */
+  let legacyFirebaseRulesActive = false;
+
   async function db(path, method, body, opts) {
     opts = opts || {};
     const ctl = typeof AbortController !== "undefined" ? new AbortController() : null;
@@ -179,26 +230,80 @@
       if (body !== undefined) { init.headers = { "Content-Type": "application/json" }; init.body = JSON.stringify(body); }
       if (ctl) init.signal = ctl.signal;
       if (opts.keepalive) init.keepalive = true;
-      const res = await fetch(`${DB}/${path}.json`, init);
+      const url = path ? `${DB}/${path}.json` : `${DB}/.json`;
+      const res = await fetch(url, init);
       if (!res.ok) throw new Error("HTTP " + res.status);
       return await res.json();
     } finally { clearTimeout(timer); }
   }
 
-  // Lưu mã băm mật khẩu sang nhánh bảo mật riêng (study4_auth/$username có .read: false)
-  // và tự động gỡ passwordHash khỏi nhánh hồ sơ công khai study4_users/$username khi Rules mới đã bật.
+  function isAuthDeniedErr(e) {
+    const msg = String((e && e.message) || "");
+    return msg.includes("HTTP 401") || msg.includes("HTTP 403");
+  }
+
+  function stripSensitiveFields(obj) {
+    const out = {};
+    Object.keys(obj || {}).forEach(k => {
+      if (k !== "authProof" && k !== "passwordHash") out[k] = obj[k];
+    });
+    return out;
+  }
+
+  // Ghi nguyên tử (Multi-location PATCH /.json): đẩy mã chứng thực dùng 1 lần vào nhánh ẩn
+  // study4_write_proof/$actor (.read: false) và tuyệt đối KHÔNG lưu authProof/passwordHash vào nút công khai.
+  async function dbSecureWrite(actor, targetPath, payload, proofPh, opts) {
+    opts = opts || {};
+    const normActor = actor || (session && session.username) || "";
+    const ph = proofPh || (session && session.ph) || "";
+    const multi = {};
+    if (normActor && ph) {
+      multi[`study4_write_proof/${normActor}`] = makeWriteProofToken(ph);
+    }
+    if (opts.delete) {
+      multi[targetPath] = null;
+    } else if (opts.replace) {
+      multi[targetPath] = stripSensitiveFields(payload);
+    } else {
+      const clean = stripSensitiveFields(payload);
+      Object.keys(clean).forEach(k => {
+        multi[`${targetPath}/${k}`] = clean[k];
+      });
+      multi[`${targetPath}/authProof`] = null;
+      if (targetPath.startsWith("study4_users/")) {
+        multi[`${targetPath}/passwordHash`] = null;
+      }
+    }
+
+    try {
+      return await db("", "PATCH", multi, opts);
+    } catch (e) {
+      if (!isAuthDeniedErr(e) || opts.allowLegacyFallback === false) throw e;
+      legacyFirebaseRulesActive = true;
+      if (opts.delete) {
+        return await db(targetPath, "DELETE", undefined, opts);
+      }
+      const legacyBody = Object.assign({}, stripSensitiveFields(payload));
+      if (ph && !opts.omitLegacyProof) legacyBody.authProof = ph;
+      return await db(targetPath, opts.replace ? "PUT" : "PATCH", legacyBody, opts);
+    }
+  }
+
+  // Lưu mã băm mật khẩu & readKey sang nhánh bảo mật riêng (study4_auth/$username có .read: false)
+  // và tự động gỡ passwordHash + authProof khỏi nhánh hồ sơ công khai study4_users/$username.
   async function syncAuthSecret(uname, newPh, proofPh) {
     if (!uname || !newPh) return false;
     try {
+      const readKey = await deriveReadKey(uname, newPh);
       await db(`study4_auth/${uname}`, "PUT", {
         passwordHash: newPh,
+        readKey: readKey,
         prevPh: proofPh || newPh,
         updatedAt: Date.now()
       });
-      db(`study4_users/${uname}`, "PATCH", {
-        passwordHash: null,
-        authProof: newPh
-      }).catch(() => {});
+      const actor = (isAdmin() && uname !== "admin") ? "admin" : uname;
+      const writePh = (actor === "admin" && proofPh) ? proofPh : newPh;
+      dbSecureWrite(actor, `study4_users/${uname}`, {}, writePh, { allowLegacyFallback: false }).catch(() => {});
       return true;
     } catch (e) {
       return false;
@@ -218,10 +323,59 @@
       await db(`study4_auth/${uname}/check/${ph}`);
       return true;
     } catch (e) {
-      const msg = String((e && e.message) || "");
-      if (msg.includes("HTTP 401") || msg.includes("HTTP 403")) return false;
+      if (isAuthDeniedErr(e)) return false;
       throw e;
     }
+  }
+
+  async function readRemoteProgress(uname, ph) {
+    const activePh = ph || (session && session.ph) || "";
+    if (activePh) {
+      try {
+        const rk = await deriveReadKey(uname, activePh);
+        const priv = await db(`study4_progress_priv/${uname}/${rk}`);
+        if (priv && typeof priv === "object") return priv;
+      } catch (e) {
+        if (!isAuthDeniedErr(e)) throw e;
+      }
+    }
+    try {
+      const leg = await db(`study4_progress/${uname}`);
+      if (leg && typeof leg === "object") {
+        leg._fromLegacy = true;
+        return leg;
+      }
+    } catch (e) {
+      if (!isAuthDeniedErr(e)) throw e;
+    }
+    return null;
+  }
+
+  async function writeRemoteProgress(uname, body, ph, opts) {
+    const activePh = ph || (session && session.ph) || "";
+    const cleanBody = stripSensitiveFields(body);
+    if (activePh) {
+      try {
+        const rk = await deriveReadKey(uname, activePh);
+        const multi = {
+          [`study4_write_proof/${uname}`]: makeWriteProofToken(activePh),
+          [`study4_progress_priv/${uname}/${rk}`]: cleanBody
+        };
+        if (opts && opts.scrubLegacy) {
+          multi[`study4_progress/${uname}`] = null;
+        }
+        const small = JSON.stringify(multi).length < 60000;
+        await db("", "PATCH", multi, { keepalive: !!(opts && opts.keepalive && small) });
+        return true;
+      } catch (e) {
+        if (!isAuthDeniedErr(e)) throw e;
+        legacyFirebaseRulesActive = true;
+      }
+    }
+    const legacyBody = Object.assign({}, cleanBody, { authProof: activePh });
+    const small = JSON.stringify(legacyBody).length < 60000;
+    await db(`study4_progress/${uname}`, "PUT", legacyBody, { keepalive: !!(opts && opts.keepalive && small) });
+    return true;
   }
 
   /* ---------- Người dùng hiện tại ---------- */
@@ -298,9 +452,145 @@
       Object.keys(map || {}).forEach(k => {
         if (isPzDraftKey(k) && map[k] !== undefined && map[k] !== null && map[k] !== "") rawSet(k, String(map[k]));
       });
+      HTML_CACHE_KEYS.forEach(k => rawRemove(k));
     } finally { hookSuspended = false; }
   }
   function parseJ(s, fb) { try { const o = JSON.parse(s); return o && typeof o === "object" ? o : fb; } catch (e) { return fb; } }
+
+  /* ---------- Tombstone chống hồi sinh dữ liệu đã xóa khi đồng bộ Cloud ---------- */
+  const TOMB_TTL_MS = 90 * 86400000;
+  function emptyTombs() { return { subs: {}, done: {}, maps: {}, drafts: {} }; }
+  function normalizeTombs(raw) {
+    const src = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+    const now = Date.now();
+    const out = emptyTombs();
+    const copyNested = (bn, limit) => {
+      const b = src[bn];
+      if (!b || typeof b !== "object" || Array.isArray(b)) return;
+      Object.keys(b).forEach(k => {
+        const sub = b[k];
+        if (!sub || typeof sub !== "object" || Array.isArray(sub)) return;
+        const pairs = Object.keys(sub)
+          .map(id => [id, Number(sub[id] || 0)])
+          .filter(([, ts]) => ts > 0 && (now - ts) < TOMB_TTL_MS)
+          .sort((a, z) => z[1] - a[1])
+          .slice(0, limit || 200);
+        if (pairs.length) {
+          out[bn][k] = {};
+          pairs.forEach(([id, ts]) => { out[bn][k][id] = ts; });
+        }
+      });
+    };
+    copyNested("subs", 200);
+    copyNested("done", 250);
+    copyNested("maps", 250);
+    if (src.drafts && typeof src.drafts === "object" && !Array.isArray(src.drafts)) {
+      Object.keys(src.drafts)
+        .map(k => [k, Number(src.drafts[k] || 0)])
+        .filter(([k, ts]) => isPzDraftKey(k) && ts > 0 && (now - ts) < TOMB_TTL_MS)
+        .sort((a, z) => z[1] - a[1])
+        .slice(0, 200)
+        .forEach(([k, ts]) => { out.drafts[k] = ts; });
+    }
+    return out;
+  }
+  function getTombstones(u) {
+    if (!u) return emptyTombs();
+    return normalizeTombs(loadObj("s4_auth_tombs_" + u, emptyTombs()));
+  }
+  function setTombstones(u, t) {
+    if (!u) return;
+    rawSet("s4_auth_tombs_" + u, JSON.stringify(normalizeTombs(t)));
+  }
+  function mergeTombstones(aRaw, bRaw) {
+    const a = normalizeTombs(aRaw), b = normalizeTombs(bRaw);
+    const out = emptyTombs();
+    ["subs", "done", "maps"].forEach(bn => {
+      new Set(Object.keys(a[bn]).concat(Object.keys(b[bn]))).forEach(k => {
+        const sa = a[bn][k] || {}, sb = b[bn][k] || {};
+        const merged = {};
+        new Set(Object.keys(sa).concat(Object.keys(sb))).forEach(id => {
+          merged[id] = Math.max(Number(sa[id] || 0), Number(sb[id] || 0));
+        });
+        if (Object.keys(merged).length) out[bn][k] = merged;
+      });
+    });
+    new Set(Object.keys(a.drafts).concat(Object.keys(b.drafts))).forEach(k => {
+      out.drafts[k] = Math.max(Number(a.drafts[k] || 0), Number(b.drafts[k] || 0));
+    });
+    return normalizeTombs(out);
+  }
+  function extractDoneIdSet(raw) {
+    const parsed = parseJ(raw, null);
+    const set = new Set();
+    if (Array.isArray(parsed)) parsed.forEach(id => { if (id) set.add(String(id)); });
+    else if (parsed && typeof parsed === "object") Object.keys(parsed).forEach(k => { if (parsed[k]) set.add(String(k)); });
+    return set;
+  }
+  function recordLocalDeletionDelta(uname, k, prevVal, nextVal) {
+    if (!uname) return;
+    const now = Date.now();
+    let changed = false;
+    const tombs = getTombstones(uname);
+    const ensureBucket = (bn, key) => {
+      if (!tombs[bn][key]) tombs[bn][key] = {};
+      return tombs[bn][key];
+    };
+    const isNonEmptyMapVal = v => v !== undefined && v !== null && v !== "" && v !== false;
+
+    if (SUBMISSION_KEYS.indexOf(k) >= 0) {
+      const prevArr = parseJ(prevVal, []);
+      const nextArr = parseJ(nextVal, []);
+      const nextIds = new Set((Array.isArray(nextArr) ? nextArr : []).map(it => it && it.id ? String(it.id) : "").filter(Boolean));
+      const b = ensureBucket("subs", k);
+      (Array.isArray(prevArr) ? prevArr : []).forEach(it => {
+        const id = it && it.id ? String(it.id) : "";
+        if (id && !nextIds.has(id)) { b[id] = now; changed = true; }
+      });
+      nextIds.forEach(id => { if (b[id]) { delete b[id]; changed = true; } });
+    } else if (DONE_MAP_KEYS.indexOf(k) >= 0 || DONE_ARR_KEYS.indexOf(k) >= 0) {
+      const prevSet = extractDoneIdSet(prevVal);
+      const nextSet = extractDoneIdSet(nextVal);
+      const b = ensureBucket("done", k);
+      prevSet.forEach(id => { if (!nextSet.has(id)) { b[id] = now; changed = true; } });
+      nextSet.forEach(id => { if (b[id]) { delete b[id]; changed = true; } });
+    } else if (k === P_HWDONE) {
+      const pa = parseJ(prevVal, {}), na = parseJ(nextVal, {});
+      const b = ensureBucket("done", P_HWDONE);
+      const buckets = new Set(["chars", "radicals", "reorder", "pinyinWrite", "makeSentence", "essays"].concat(Object.keys(pa || {}), Object.keys(na || {})));
+      buckets.forEach(bk => {
+        const prevB = pa && pa[bk] && typeof pa[bk] === "object" ? pa[bk] : {};
+        const nextB = na && na[bk] && typeof na[bk] === "object" ? na[bk] : {};
+        Object.keys(prevB).forEach(id => {
+          const tk = bk + ":" + id;
+          if (prevB[id] && !nextB[id]) { b[tk] = now; changed = true; }
+        });
+        Object.keys(nextB).forEach(id => {
+          const tk = bk + ":" + id;
+          if (nextB[id] && b[tk]) { delete b[tk]; changed = true; }
+        });
+      });
+    } else if (DELETABLE_MAP_KEYS.indexOf(k) >= 0) {
+      const prevObj = parseJ(prevVal, {}), nextObj = parseJ(nextVal, {});
+      const b = ensureBucket("maps", k);
+      Object.keys(prevObj || {}).forEach(sk => {
+        if (isNonEmptyMapVal(prevObj[sk]) && !isNonEmptyMapVal(nextObj[sk])) {
+          b[sk] = now; changed = true;
+        }
+      });
+      Object.keys(nextObj || {}).forEach(sk => {
+        if (isNonEmptyMapVal(nextObj[sk]) && b[sk]) {
+          delete b[sk]; changed = true;
+        }
+      });
+    } else if (isPzDraftKey(k)) {
+      const hadPrev = prevVal !== null && prevVal !== undefined && String(prevVal) !== "";
+      const hasNext = nextVal !== null && nextVal !== undefined && String(nextVal) !== "";
+      if (hadPrev && !hasNext) { tombs.drafts[k] = now; changed = true; }
+      else if (hasNext && tombs.drafts[k]) { delete tombs.drafts[k]; changed = true; }
+    }
+    if (changed) setTombstones(uname, tombs);
+  }
   function canon(v) {
     if (Array.isArray(v)) return "[" + v.map(canon).join(",") + "]";
     if (v && typeof v === "object") return "{" + Object.keys(v).sort().map(k => JSON.stringify(k) + ":" + canon(v[k])).join(",") + "}";
@@ -332,18 +622,124 @@
     });
     return JSON.stringify(m);
   }
-  function mergeDoneListOrMap(aStr, bStr, asArray) {
+  function mergeDoneListOrMap(aStr, bStr, asArray, localTombs, remoteTombs, localTs) {
     const toIds = raw => {
       const parsed = parseJ(raw, asArray ? [] : {});
-      if (Array.isArray(parsed)) return parsed.filter(Boolean);
-      if (parsed && typeof parsed === "object") return Object.keys(parsed).filter(k => parsed[k]);
+      if (Array.isArray(parsed)) return parsed.filter(Boolean).map(String);
+      if (parsed && typeof parsed === "object") return Object.keys(parsed).filter(k => parsed[k]).map(String);
       return [];
     };
-    const mergedIds = Array.from(new Set(toIds(aStr).concat(toIds(bStr))));
-    if (asArray) return JSON.stringify(mergedIds);
+    const lSet = new Set(toIds(aStr));
+    const rSet = new Set(toIds(bStr));
+    const lt = localTombs || {};
+    const rt = remoteTombs || {};
+    const outIds = [];
+    const seen = new Set();
+    const keepId = id => {
+      if (seen.has(id)) return;
+      const inLocal = lSet.has(id);
+      const inRemote = rSet.has(id);
+      if (!inLocal && inRemote && (lt[id] || rt[id])) return;
+      if (inLocal && !inRemote && rt[id] && Number(rt[id]) > Number(localTs || 0)) return;
+      seen.add(id);
+      outIds.push(id);
+    };
+    lSet.forEach(keepId);
+    rSet.forEach(keepId);
+    if (asArray) return JSON.stringify(outIds);
     const outObj = {};
-    mergedIds.forEach(id => { outObj[id] = true; });
+    outIds.forEach(id => { outObj[id] = true; });
     return JSON.stringify(outObj);
+  }
+  function mergeHskWritingDone(aStr, bStr, localTombs, remoteTombs, localTs) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    const lt = localTombs || {}, rt = remoteTombs || {};
+    const out = { chars: {}, radicals: {}, reorder: {}, pinyinWrite: {}, makeSentence: {}, essays: {} };
+    const buckets = new Set(["chars", "radicals", "reorder", "pinyinWrite", "makeSentence", "essays"].concat(Object.keys(a), Object.keys(b)));
+    buckets.forEach(bk => {
+      const ba = a && a[bk] && typeof a[bk] === "object" && !Array.isArray(a[bk]) ? a[bk] : {};
+      const bb = b && b[bk] && typeof b[bk] === "object" && !Array.isArray(b[bk]) ? b[bk] : {};
+      const merged = {};
+      new Set(Object.keys(ba).concat(Object.keys(bb))).forEach(k => {
+        const tk = bk + ":" + k;
+        const inL = Boolean(ba[k]), inR = Boolean(bb[k]);
+        if (!inL && !inR) return;
+        if (!inL && inR && (lt[tk] || rt[tk])) return;
+        if (inL && !inR && rt[tk] && Number(rt[tk]) > Number(localTs || 0)) return;
+        merged[k] = true;
+      });
+      out[bk] = merged;
+    });
+    return JSON.stringify(out);
+  }
+  function mergeRoadmapState(aStr, bStr, preferLocalScalar) {
+    const a = parseJ(aStr, null), b = parseJ(bStr, null);
+    const oa = a && typeof a === "object" && !Array.isArray(a) ? a : null;
+    const ob = b && typeof b === "object" && !Array.isArray(b) ? b : null;
+    if (!oa && !ob) return undefined;
+    if (!oa) return JSON.stringify(ob);
+    if (!ob) return JSON.stringify(oa);
+    const toTs = v => {
+      if (typeof v === "number" && Number.isFinite(v)) return v;
+      if (typeof v === "string" && v.trim()) {
+        const n = Number(v);
+        if (Number.isFinite(n)) return n;
+        const p = Date.parse(v);
+        return Number.isFinite(p) ? p : 0;
+      }
+      return 0;
+    };
+    const ta = toTs(oa.updatedAt), tb = toTs(ob.updatedAt);
+    const useLocal = tb !== ta ? (ta > tb) : Boolean(preferLocalScalar);
+    const newer = useLocal ? oa : ob;
+    const older = useLocal ? ob : oa;
+    const sa = oa.skipped && typeof oa.skipped === "object" && !Array.isArray(oa.skipped) ? oa.skipped : {};
+    const sb = ob.skipped && typeof ob.skipped === "object" && !Array.isArray(ob.skipped) ? ob.skipped : {};
+    const skipped = {};
+    new Set(Object.keys(sa).concat(Object.keys(sb))).forEach(k => {
+      if (sa[k] || sb[k]) skipped[k] = true;
+    });
+    const out = Object.assign({}, older, newer, { skipped });
+    if (newer.startLevel !== undefined) out.startLevel = newer.startLevel;
+    if (newer.pace !== undefined) out.pace = newer.pace;
+    out.updatedAt = tb > ta ? ob.updatedAt : (ta > tb ? oa.updatedAt : (newer.updatedAt || older.updatedAt || ""));
+    return JSON.stringify(out);
+  }
+  function mergeHskMock(aStr, bStr) {
+    const a = parseJ(aStr, {}) || {}, b = parseJ(bStr, {}) || {};
+    const ba = a.bestById && typeof a.bestById === "object" ? a.bestById : {};
+    const bb = b.bestById && typeof b.bestById === "object" ? b.bestById : {};
+    const best = {};
+    new Set(Object.keys(ba).concat(Object.keys(bb))).forEach(id => {
+      const x = ba[id], y = bb[id];
+      if (!x) { best[id] = y; return; }
+      if (!y) { best[id] = x; return; }
+      const sx = Number(x.score) || 0, sy = Number(y.score) || 0;
+      if (sx !== sy) best[id] = sx > sy ? x : y;
+      else best[id] = (y.passed && !x.passed) ? y : x;
+      if (sx === sy && (x.passed || y.passed)) best[id] = Object.assign({}, best[id], { passed: true });
+    });
+    const seen = new Set(), hist = [];
+    []
+      .concat(Array.isArray(a.history) ? a.history : [], Array.isArray(b.history) ? b.history : [])
+      .forEach(h => {
+        if (!h || typeof h !== "object") return;
+        const key = String(h.id) + "|" + String(h.dateIso);
+        if (seen.has(key)) return;
+        seen.add(key); hist.push(h);
+      });
+    hist.sort((p, q) => String(q.dateIso || "").localeCompare(String(p.dateIso || "")));
+    return JSON.stringify({ bestById: best, history: hist.slice(0, 30) });
+  }
+  function mergeHskShooterBest(aStr, bStr) {
+    const a = parseJ(aStr, {}), b = parseJ(bStr, {});
+    return JSON.stringify({
+      bestScore: Math.max(Number(a.bestScore || 0), Number(b.bestScore || 0)),
+      bestCombo: Math.max(Number(a.bestCombo || 0), Number(b.bestCombo || 0)),
+      totalKills: Math.max(Number(a.totalKills || 0), Number(b.totalKills || 0)),
+      gamesPlayed: Math.max(Number(a.gamesPlayed || 0), Number(b.gamesPlayed || 0)),
+      updatedAt: Math.max(Number(a.updatedAt || 0), Number(b.updatedAt || 0))
+    });
   }
   function isDraftDoneInSrs(id, draft, srsObj, now) {
     if (!draft || typeof draft !== "object") return true;
@@ -480,68 +876,106 @@
     Number(it && it.createdAt || 0),
     Number(it && it.aiEvaluation && it.aiEvaluation.updatedAt || 0)
   );
-  function mergeSubmissionHistory(aStr, bStr, maxKeep) {
+  function mergeSubmissionHistory(aStr, bStr, maxKeep, localTombs, remoteTombs) {
     const a = parseJ(aStr, []), b = parseJ(bStr, []);
+    const lt = localTombs || {}, rt = remoteTombs || {};
     const map = {};
     [].concat(Array.isArray(a) ? a : [], Array.isArray(b) ? b : []).forEach(it => {
       if (!it || typeof it !== "object" || !it.id) return;
-      const prev = map[it.id];
-      if (!prev || submissionStamp(it) >= submissionStamp(prev)) map[it.id] = it;
+      const id = String(it.id);
+      const delTs = Math.max(Number(lt[id] || 0), Number(rt[id] || 0));
+      if (delTs > 0 && delTs >= submissionStamp(it)) return;
+      const prev = map[id];
+      if (!prev || submissionStamp(it) >= submissionStamp(prev)) map[id] = it;
     });
     const list = Object.values(map).sort((x, y) => submissionStamp(y) - submissionStamp(x));
     return JSON.stringify(list.slice(0, maxKeep || 80));
   }
   /**
-   * Merge per-lesson text notes so non-empty local notes override empty remote entries.
+   * Merge per-lesson text notes respecting local/remote tombstones so cleared notes stay deleted.
    */
-  function mergeNotesMap(localStr, remoteStr) {
+  function mergeNotesMap(localStr, remoteStr, localTombs, remoteTombs, localTs) {
     const rNotes = parseJ(remoteStr, {}), lNotes = parseJ(localStr, {});
-    const out = Object.assign({}, rNotes);
-    Object.keys(lNotes).forEach(id => {
-      if (lNotes[id] || out[id] === undefined) out[id] = lNotes[id];
+    const lt = localTombs || {}, rt = remoteTombs || {};
+    const out = {};
+    new Set(Object.keys(rNotes).concat(Object.keys(lNotes))).forEach(id => {
+      const lv = lNotes[id], rv = rNotes[id];
+      const hasL = Boolean(lv), hasR = Boolean(rv);
+      if (!hasL && hasR && (lt[id] || rt[id])) return;
+      if (hasL && !hasR && rt[id] && Number(rt[id]) > Number(localTs || 0)) return;
+      if (hasL) out[id] = lv;
+      else if (hasR) out[id] = rv;
     });
     return JSON.stringify(out);
   }
   /**
-   * Merge two key-value maps (answers, flags, prefs) preserving non-empty local entries on conflict.
+   * Merge two key-value maps (answers, flags, prefs, drafts) respecting tombstones so retakes/deletions persist.
    */
-  function mergeKeyMap(localStr, remoteStr) {
+  function mergeKeyMap(localStr, remoteStr, localTombs, remoteTombs, localTs) {
     const r = parseJ(remoteStr, {}), l = parseJ(localStr, {});
-    const out = Object.assign({}, r);
-    Object.keys(l).forEach(k => {
-      if (l[k] !== undefined && (l[k] !== "" || out[k] === undefined)) out[k] = l[k];
+    const lt = localTombs || {}, rt = remoteTombs || {};
+    const isFilled = v => v !== undefined && v !== null && v !== "" && v !== false;
+    const out = {};
+    new Set(Object.keys(r).concat(Object.keys(l))).forEach(k => {
+      const hasL = isFilled(l[k]), hasR = isFilled(r[k]);
+      if (!hasL && hasR && (lt[k] || rt[k])) return;
+      if (hasL && !hasR && rt[k] && Number(rt[k]) > Number(localTs || 0)) return;
+      if (hasL) out[k] = l[k];
+      else if (r[k] !== undefined) out[k] = r[k];
+      else if (l[k] !== undefined) out[k] = l[k];
     });
     return JSON.stringify(out);
   }
-  function mergeProgress(local, remote, sync, rts) {
+  function mergeProgress(local, remote, sync, rts, localTombsRaw, remoteTombsRaw) {
     const out = {};
-    const preferLocalScalar = Boolean(sync && sync.dirty && Number(sync.localTs || 0) >= Number(rts || 0));
-    // 1. SRS Maps (Vocab, Listening, Reading, Speaking)
-    [P_SRS, P_LSRS, P_RSRS, P_SSRS].forEach(k => {
+    const localTs = Number((sync && sync.localTs) || 0);
+    const preferLocalScalar = Boolean(sync && sync.dirty && localTs >= Number(rts || 0));
+    const lT = normalizeTombs(localTombsRaw);
+    const rT = normalizeTombs(remoteTombsRaw);
+    // 1. SRS Maps (Vocab, Listening, Reading, Speaking, HSK Vocab)
+    [P_SRS, P_LSRS, P_RSRS, P_SSRS, P_HVSRS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSrsMap(local[k], remote[k]);
     });
-    // 2. Study Days Maps (Vocab, Listening, Reading, Speaking)
-    [P_DAYS, P_LDAYS, P_RDAYS, P_SDAYS].forEach(k => {
+    // 2. Study Days Maps (Vocab, Listening, Reading, Speaking, HSK Vocab)
+    [P_DAYS, P_LDAYS, P_RDAYS, P_SDAYS, P_HVDAYS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDaysMap(local[k], remote[k]);
     });
-    // 3. Done Maps / Lists (Grammar & TED as Object maps; Listening, Reading, Writing & Speaking as Arrays)
-    [P_GDONE, P_TDONE].forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], false);
+    // 3. Done Maps / Lists (respecting tombstones)
+    DONE_MAP_KEYS.forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], false, lT.done[k], rT.done[k], localTs);
     });
-    [P_LDONE, P_RDONE, P_WDONE, P_SDONE].forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], true);
+    if (local[P_HWDONE] !== undefined || remote[P_HWDONE] !== undefined) {
+      out[P_HWDONE] = mergeHskWritingDone(local[P_HWDONE], remote[P_HWDONE], lT.done[P_HWDONE], rT.done[P_HWDONE], localTs);
+    }
+    [P_IELTS_RM, P_HSK_RM].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) {
+        const v = mergeRoadmapState(local[k], remote[k], preferLocalScalar);
+        if (v !== undefined) out[k] = v;
+      }
+    });
+    if (local[P_HMOCK] !== undefined || remote[P_HMOCK] !== undefined) {
+      out[P_HMOCK] = mergeHskMock(local[P_HMOCK], remote[P_HMOCK]);
+    }
+    if (local[P_HSHOOT] !== undefined || remote[P_HSHOOT] !== undefined) {
+      out[P_HSHOOT] = mergeHskShooterBest(local[P_HSHOOT], remote[P_HSHOOT]);
+    }
+    DONE_ARR_KEYS.forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDoneListOrMap(local[k], remote[k], true, lT.done[k], rT.done[k], localTs);
     });
     if (local[P_WESSAYS] !== undefined || remote[P_WESSAYS] !== undefined) {
-      out[P_WESSAYS] = mergeKeyMap(local[P_WESSAYS], remote[P_WESSAYS]);
+      out[P_WESSAYS] = mergeKeyMap(local[P_WESSAYS], remote[P_WESSAYS], lT.maps[P_WESSAYS], rT.maps[P_WESSAYS], localTs);
+    }
+    if (local[P_HWDRAFTS] !== undefined || remote[P_HWDRAFTS] !== undefined) {
+      out[P_HWDRAFTS] = mergeKeyMap(local[P_HWDRAFTS], remote[P_HWDRAFTS], lT.maps[P_HWDRAFTS], rT.maps[P_HWDRAFTS], localTs);
     }
     [P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES].forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeNotesMap(local[k], remote[k]);
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeNotesMap(local[k], remote[k], lT.maps[k], rT.maps[k], localTs);
     });
     [P_SPREFS, P_RPZANS, P_LPZANS, P_PZFLAGS, P_LUNIT, P_RUNIT].forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeKeyMap(local[k], remote[k]);
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeKeyMap(local[k], remote[k], lT.maps[k], rT.maps[k], localTs);
     });
-    [P_SSUBS, P_WSUBS, P_RSUBS, P_LSUBS].forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSubmissionHistory(local[k], remote[k], 80);
+    SUBMISSION_KEYS.forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSubmissionHistory(local[k], remote[k], 80, lT.subs[k], rT.subs[k]);
     });
     // 4. TED Subtitle Position Map (keep max subtitle index per video)
     if (local[P_TPOS] !== undefined || remote[P_TPOS] !== undefined) {
@@ -551,7 +985,7 @@
       out[P_TPOS] = JSON.stringify(m);
     }
     // 5. Last Lesson & Settings keys
-    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_WLAST, P_SLAST, P_SSET, P_TLAST, P_TSUBVI].forEach(k => {
+    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_WLAST, P_SLAST, P_SSET, P_TLAST, P_TSUBVI, P_TSHADLANG, P_HVSET, P_HLLAST, P_HGLAST, P_HLISLAST, P_HRLAST, P_HSHOOTPREF].forEach(k => {
       const v = preferLocalScalar
         ? (local[k] !== undefined ? local[k] : remote[k])
         : (remote[k] !== undefined ? remote[k] : local[k]);
@@ -562,7 +996,7 @@
       const mergedVses = mergeVocabActiveSession(local[P_VSES], remote[P_VSES], out[P_SRS], preferLocalScalar);
       if (mergedVses !== undefined) out[P_VSES] = mergedVses;
     }
-    [[P_LSES, P_LSRS], [P_RSES, P_RSRS], [P_SSES, P_SSRS]].forEach(([k, srsKey]) => {
+    [[P_LSES, P_LSRS], [P_RSES, P_RSRS], [P_SSES, P_SSRS], [P_HVSES, P_HVSRS]].forEach(([k, srsKey]) => {
       if (local[k] !== undefined || remote[k] !== undefined) {
         const mergedEses = mergeEngineSessionStore(local[k], remote[k], out[srsKey], preferLocalScalar);
         if (mergedEses !== undefined) out[k] = mergedEses;
@@ -571,15 +1005,19 @@
     if (local[P_LPOS] !== undefined || remote[P_LPOS] !== undefined) {
       out[P_LPOS] = mergeLessonPosMap(local[P_LPOS], remote[P_LPOS]);
     }
-    // 7. Writing Practice Zone per-task text drafts (lp_pz_draft_*)
-    const draftKeys = new Set(
+    // 7. Writing Practice Zone per-task text drafts (lp_pz_draft_*), capped at 120 keys & respecting tombstones
+    const draftKeys = Array.from(new Set(
       Object.keys(local || {}).concat(Object.keys(remote || {})).filter(isPzDraftKey)
-    );
+    ));
+    let keptDrafts = 0;
     draftKeys.forEach(k => {
+      if (keptDrafts >= 120) return;
       const lv = local && local[k] ? String(local[k]) : "";
       const rv = remote && remote[k] ? String(remote[k]) : "";
+      if (!lv && rv && (lT.drafts[k] || rT.drafts[k])) return;
+      if (lv && !rv && rT.drafts[k] && Number(rT.drafts[k]) > localTs) return;
       const chosen = preferLocalScalar ? (lv || rv) : (rv || lv);
-      if (chosen) out[k] = chosen;
+      if (chosen) { out[k] = chosen; keptDrafts++; }
     });
     return out;
   }
@@ -599,7 +1037,17 @@
     const ids = Array.isArray(parsed)
       ? parsed.filter(Boolean)
       : (parsed && typeof parsed === "object" ? Object.keys(parsed).filter(k => parsed[k]) : []);
-    return ids.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_[1-3]$/.test(String(id))).length;
+    return ids.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_(?:[1-3]|part_|pair_)/.test(String(id))).length;
+  }
+
+  function countHskWritingEntries(raw) {
+    const hw = parseJ(raw, {});
+    const caps = { chars: 60, radicals: 214, reorder: 40, pinyinWrite: 20, makeSentence: 20, essays: 20 };
+    return Object.keys(caps).reduce((sum, bk) => {
+      const b = hw && hw[bk];
+      const cnt = b && typeof b === "object" ? Object.values(b).filter(Boolean).length : 0;
+      return sum + Math.min(caps[bk], cnt);
+    }, 0);
   }
 
   function countSrsEntries(raw, maxVocabIdx) {
@@ -641,28 +1089,46 @@
     const readingWords = readSrsStat.totalDone;
     const speakingWords = speakSrsStat.totalDone;
 
-    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords + speakingWords;
-    const totalLessonsAll = grammarDone + listeningDone + readingDone + writingDone + speakingDone + tedDone;
-    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due + speakSrsStat.due;
+    // HSK 1-6 (Từ vựng SRS + 6 phân hệ bài giảng/kỹ năng)
+    const hskSrsStat = countSrsEntries(map[P_HVSRS]);
+    const hskWords = hskSrsStat.totalDone;
+    const hskDue = hskSrsStat.due;
+    const hskLessons = countDoneEntries(map[P_HLDONE]);
+    const hskGrammar = countDoneEntries(map[P_HGDONE]);
+    const hskWriting = countHskWritingEntries(map[P_HWDONE]);
+    const hskListening = countDoneEntries(map[P_HLISDONE]);
+    const hskReading = countDoneEntries(map[P_HRDONE]);
+    const hskSpeaking = countDoneEntries(map[P_HSDONE]);
+    const hskMockBest = (parseJ(map[P_HMOCK], {}) || {}).bestById;
+    const hskMockPassed = Math.min(12, hskMockBest && typeof hskMockBest === "object" ? Object.values(hskMockBest).filter(r => r && r.passed === true).length : 0);
+    const hskMwDone = countDoneEntries(map[P_HMWDONE]);
+    const hskDoneItems = hskLessons + hskGrammar + hskWriting + hskListening + hskReading + hskSpeaking + hskMockPassed;
+    const hskPct = Math.min(100, Math.round(((hskWords + hskDoneItems * 10) / (TOTAL_HSK_VOCAB + TOTAL_HSK_ITEMS * 10)) * 100));
+
+    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords + speakingWords + hskWords;
+    const totalLessonsAll = grammarDone + listeningDone + readingDone + writingDone + speakingDone + tedDone + hskDoneItems;
+    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due + speakSrsStat.due + hskDue;
 
     const vocabPct = Math.min(100, Math.round(((vocabLearned + vocabIgnored) / TOTAL_VOCAB) * 100));
     const grammarPct = Math.min(100, Math.round((grammarDone / TOTAL_GRAMMAR) * 100));
     const overallPct = Math.min(100, Math.round(
-      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_SPEAKING_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_WRITING_LESSONS + TOTAL_SPEAKING_LESSONS + TOTAL_TED_LESSONS)) * 100
+      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_SPEAKING_VOCAB + TOTAL_HSK_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_WRITING_LESSONS + TOTAL_SPEAKING_LESSONS + TOTAL_TED_LESSONS + TOTAL_HSK_ITEMS)) * 100
     ));
 
-    // Merge study days across Vocab, Listening, Reading, Speaking for accurate streak
+    // Merge study days across IELTS Vocab, Listening, Reading, Speaking & HSK Vocab for accurate streak
     const daysV = parseJ(map[P_DAYS], {});
     const daysL = parseJ(map[P_LDAYS], {});
     const daysR = parseJ(map[P_RDAYS], {});
     const daysS = parseJ(map[P_SDAYS], {});
+    const daysH = parseJ(map[P_HVDAYS], {});
     const days = {};
-    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR), Object.keys(daysS))).forEach(d => {
+    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR), Object.keys(daysS), Object.keys(daysH))).forEach(d => {
       days[d] = Array.from(new Set([].concat(
         Array.isArray(daysV[d]) ? daysV[d] : [],
         Array.isArray(daysL[d]) ? daysL[d] : [],
         Array.isArray(daysR[d]) ? daysR[d] : [],
-        Array.isArray(daysS[d]) ? daysS[d] : []
+        Array.isArray(daysS[d]) ? daysS[d] : [],
+        Array.isArray(daysH[d]) ? daysH[d] : []
       )));
     });
 
@@ -702,6 +1168,11 @@
       speakingDone,
       speakingWords,
       tedDone,
+      hskWords,
+      hskDue,
+      hskDoneItems,
+      hskMwDone,
+      hskPct,
       totalWordsAll,
       totalLessonsAll,
       totalDueAll,
@@ -728,6 +1199,9 @@
       speakingDone: st.speakingDone,
       speakingWords: st.speakingWords,
       tedDone: st.tedDone,
+      hskWords: st.hskWords,
+      hskDoneItems: st.hskDoneItems,
+      hskPct: st.hskPct,
       totalWordsAll: st.totalWordsAll,
       totalLessonsAll: st.totalLessonsAll,
       overallPct: st.overallPct,
@@ -743,12 +1217,29 @@
     if (parsed && typeof parsed === "object") return Object.keys(parsed).some(k => Boolean(parsed[k]));
     return String(raw).trim().length > 0;
   }
+  function hasRoadmapData(raw) {
+    const rm = parseJ(raw, null);
+    if (!rm || typeof rm !== "object" || Array.isArray(rm)) return false;
+    if (rm.updatedAt) return true;
+    if (rm.skipped && typeof rm.skipped === "object" && Object.keys(rm.skipped).some(k => rm.skipped[k])) return true;
+    if (rm.startLevel && rm.startLevel !== "foundation") return true;
+    if (rm.pace && rm.pace !== "standard") return true;
+    return false;
+  }
+  function hasHskMockData(raw) {
+    const m = parseJ(raw, null);
+    if (!m || typeof m !== "object" || Array.isArray(m)) return false;
+    if (m.bestById && typeof m.bestById === "object" && Object.keys(m.bestById).length > 0) return true;
+    if (Array.isArray(m.history) && m.history.length > 0) return true;
+    return false;
+  }
   function hasProgress(map) {
     if (!map || typeof map !== "object") return false;
     const s = progressStats(map);
-    if (s.totalWordsAll > 0 || s.totalLessonsAll > 0) return true;
-    if (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_SSES] || map[P_LPOS]) return true;
-    if ([P_WESSAYS, P_LSUBS, P_RSUBS, P_WSUBS, P_SSUBS, P_LNOTES, P_RNOTES, P_WNOTES, P_SNOTES].some(k => hasNonEmptyData(map[k]))) return true;
+    if (s.totalWordsAll > 0 || s.totalLessonsAll > 0 || s.hskWords > 0 || s.hskDoneItems > 0 || s.hskMwDone > 0) return true;
+    if (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_SSES] || map[P_HVSES] || map[P_LPOS]) return true;
+    if ([P_WDONE, P_WESSAYS, P_LSUBS, P_RSUBS, P_WSUBS, P_SSUBS, P_LNOTES, P_RNOTES, P_WNOTES, P_SNOTES, P_HWDRAFTS, P_HSHOOT, P_RPZANS, P_LPZANS, P_HMWDONE].some(k => hasNonEmptyData(map[k]))) return true;
+    if (hasHskMockData(map[P_HMOCK]) || hasRoadmapData(map[P_IELTS_RM]) || hasRoadmapData(map[P_HSK_RM])) return true;
     return Object.keys(map).some(k => isPzDraftKey(k) && Boolean(map[k]));
   }
 
@@ -776,12 +1267,22 @@
     pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, hasOw ? 250 : 3500);
   }
   Storage.prototype.setItem = function (k, v) {
+    const isTracked = !hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k));
+    const prevVal = isTracked ? localStorage.getItem(k) : null;
     _setItem.call(this, k, v);
-    if (!hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k))) onProgressChanged();
+    if (isTracked) {
+      if (session && session.username) recordLocalDeletionDelta(session.username, k, prevVal, String(v));
+      onProgressChanged();
+    }
   };
   Storage.prototype.removeItem = function (k) {
+    const isTracked = !hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k));
+    const prevVal = isTracked ? localStorage.getItem(k) : null;
     _removeItem.call(this, k);
-    if (!hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k))) onProgressChanged();
+    if (isTracked) {
+      if (session && session.username) recordLocalDeletionDelta(session.username, k, prevVal, null);
+      onProgressChanged();
+    }
   };
 
   async function pushProgress(opts) {
@@ -790,6 +1291,7 @@
     const mark = changeCounter;
     const ts = Date.now();
     let data = readProgress();
+    let mergedTombs = getTombstones(uname);
     const rawSync = getSync(uname);
     const sync = rawSync || {};
     const memOw = (pendingOverwriteMem && pendingOverwriteMem.expiresAt > ts && (!pendingOverwriteMem.user || pendingOverwriteMem.user === uname))
@@ -801,22 +1303,27 @@
     let nextResetAt = Number(sync.resetAt || 0);
     let nextVocabResetAt = Number(sync.vocabResetAt || 0);
     let remoteReadOk = false;
+    let fromLegacy = false;
 
     try {
-      const remote = await db(`study4_progress/${uname}`);
+      const remote = await readRemoteProgress(uname, session.ph);
       remoteReadOk = true;
+      fromLegacy = Boolean(remote && remote._fromLegacy);
       const rdata = (remote && remote.data) || {};
+      const rtombs = (remote && remote.tombstones) || emptyTombs();
       const rResetAt = Number((remote && remote.resetAt) || 0);
       const rVocabResetAt = Number((remote && remote.vocabResetAt) || 0);
 
       if (ow && ow.scope === "all") {
         nextResetAt = Math.max(ts, rResetAt + 1);
         nextVocabResetAt = Math.max(ts, rVocabResetAt + 1);
+        mergedTombs = emptyTombs();
       } else if (ow && ow.scope === "vocab") {
+        mergedTombs = mergeTombstones(mergedTombs, rtombs);
         if (hasProgress(rdata)) {
           const rNonVocab = Object.assign({}, rdata);
           VOCAB_SCOPE_KEYS.forEach(k => delete rNonVocab[k]);
-          const merged = mergeProgress(data, rNonVocab, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
+          const merged = mergeProgress(data, rNonVocab, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0, mergedTombs, rtombs);
           VOCAB_SCOPE_KEYS.forEach(k => {
             if (data[k] !== undefined) merged[k] = data[k];
             else delete merged[k];
@@ -828,12 +1335,14 @@
       } else if (rawSync && remote && rResetAt > nextResetAt) {
         data = Object.assign({}, rdata);
         writeProgress(data);
+        mergedTombs = normalizeTombs(rtombs);
         nextResetAt = rResetAt;
         nextVocabResetAt = Math.max(nextVocabResetAt, rVocabResetAt);
       } else if (rawSync && remote && rVocabResetAt > nextVocabResetAt) {
+        mergedTombs = mergeTombstones(mergedTombs, rtombs);
         const lWithoutVocab = Object.assign({}, data);
         VOCAB_SCOPE_KEYS.forEach(k => delete lWithoutVocab[k]);
-        const merged = mergeProgress(lWithoutVocab, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
+        const merged = mergeProgress(lWithoutVocab, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0, mergedTombs, rtombs);
         VOCAB_SCOPE_KEYS.forEach(k => {
           if (rdata[k] !== undefined) merged[k] = rdata[k];
           else delete merged[k];
@@ -842,8 +1351,10 @@
         nextResetAt = Math.max(nextResetAt, rResetAt);
         nextVocabResetAt = rVocabResetAt;
       } else {
+        const localTombsBefore = mergedTombs;
+        mergedTombs = mergeTombstones(localTombsBefore, rtombs);
         if (hasProgress(rdata)) {
-          const merged = mergeProgress(data, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0);
+          const merged = mergeProgress(data, rdata, { dirty: true, localTs: ts }, (remote && remote.updatedAt) || 0, localTombsBefore, rtombs);
           if (!sameProgress(merged, data)) { data = merged; writeProgress(merged); }
         }
         nextResetAt = Math.max(nextResetAt, rResetAt);
@@ -860,12 +1371,15 @@
       }
     }
 
+    setTombstones(uname, mergedTombs);
     const authProof = (session && session.ph) || "";
-    const body = { data: data, updatedAt: ts, authProof: authProof };
+    const body = { data: data, tombstones: mergedTombs, updatedAt: ts };
     if (nextResetAt > 0) body.resetAt = nextResetAt;
     if (nextVocabResetAt > 0) body.vocabResetAt = nextVocabResetAt;
-    const small = JSON.stringify(body).length < 60000;
-    await db(`study4_progress/${uname}`, "PUT", body, { keepalive: !!(opts && opts.keepalive && small) });
+    await writeRemoteProgress(uname, body, authProof, {
+      keepalive: !!(opts && opts.keepalive),
+      scrubLegacy: fromLegacy
+    });
     pendingOverwriteMem = null;
     setSync(uname, {
       base: ts,
@@ -875,7 +1389,7 @@
       pendingOverwrite: null
     });
     const st = progressStats(data);
-    db(`study4_users/${uname}`, "PATCH", Object.assign(buildProgressStatsPatch(st), { authProof: authProof })).catch(() => {});
+    dbSecureWrite(uname, `study4_users/${uname}`, buildProgressStatsPatch(st), authProof).catch(() => {});
     return true;
   }
 
@@ -905,20 +1419,24 @@
       await pushProgress();
       return;
     }
-    const remote = await db(`study4_progress/${uname}`);
+    const remote = await readRemoteProgress(uname, session.ph);
     const local = readProgress();
+    const localTombs = getTombstones(uname);
     const rdata = (remote && remote.data) || {};
+    const rtombs = (remote && remote.tombstones) || emptyTombs();
     const rts = (remote && remote.updatedAt) || 0;
     const rResetAt = Number((remote && remote.resetAt) || 0);
     const rVocabResetAt = Number((remote && remote.vocabResetAt) || 0);
     const lResetAt = Number((sync && sync.resetAt) || 0);
     const lVocabResetAt = Number((sync && sync.vocabResetAt) || 0);
     let target = null, needPush = false;
+    let nextTombs = mergeTombstones(localTombs, rtombs);
 
     if (!remote) {
       if (hasProgress(local)) needPush = true;
     } else if (sync && rResetAt > lResetAt) {
       target = Object.assign({}, rdata);
+      nextTombs = normalizeTombs(rtombs);
       needPush = false;
     } else if (sync && rVocabResetAt > lVocabResetAt) {
       if (!sync.dirty) {
@@ -926,7 +1444,7 @@
       } else {
         const lWithoutVocab = Object.assign({}, local);
         VOCAB_SCOPE_KEYS.forEach(k => delete lWithoutVocab[k]);
-        target = mergeProgress(lWithoutVocab, rdata, sync, rts);
+        target = mergeProgress(lWithoutVocab, rdata, sync, rts, localTombs, rtombs);
         VOCAB_SCOPE_KEYS.forEach(k => {
           if (rdata[k] !== undefined) target[k] = rdata[k];
           else delete target[k];
@@ -934,17 +1452,18 @@
         needPush = !sameProgress(target, rdata);
       }
     } else if (forceMerge || !sync) {
-      target = mergeProgress(local, rdata, sync, rts);
-      needPush = !sameProgress(target, rdata);
+      target = mergeProgress(local, rdata, sync, rts, localTombs, rtombs);
+      needPush = !sameProgress(target, rdata) || Boolean(remote._fromLegacy);
     } else if (!sync.dirty) {
       if (rts > (sync.base || 0)) target = rdata;
     } else if (rts > (sync.base || 0)) {
-      target = mergeProgress(local, rdata, sync, rts);
+      target = mergeProgress(local, rdata, sync, rts, localTombs, rtombs);
       needPush = true;
     } else {
       needPush = true;
     }
 
+    setTombstones(uname, nextTombs);
     let changedLocal = false;
     if (target && !sameProgress(target, local)) { writeProgress(target); changedLocal = true; }
     if (needPush) {
@@ -961,7 +1480,7 @@
         vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt)
       });
       const st = progressStats(readProgress());
-      db(`study4_users/${uname}`, "PATCH", Object.assign(buildProgressStatsPatch(st), { authProof: (session && session.ph) || "" })).catch(() => {});
+      dbSecureWrite(uname, `study4_users/${uname}`, buildProgressStatsPatch(st), (session && session.ph) || "").catch(() => {});
     }
     if (changedLocal) refreshAfterDataChange("progress");
   }
@@ -991,7 +1510,7 @@
     return changed;
   }
   async function pushConfig() {
-    await db("study4_config", "PATCH", {
+    await dbSecureWrite("admin", "study4_config", {
       contactNote: config.contactNote,
       bankCode: config.bankCode,
       bankAccount: config.bankAccount,
@@ -999,9 +1518,8 @@
       transferMemo: config.transferMemo,
       adminVerified: true,
       updatedBy: "admin",
-      authProof: (session && session.ph) || "",
       updatedAt: new Date().toISOString()
-    });
+    }, (session && session.ph) || "");
   }
 
   /* ---------- Kiểm tra phiên đăng nhập với cloud ---------- */
@@ -1045,7 +1563,7 @@
     const before = canon(effective(cache[session.username] || {}));
     cacheUserRecord(rec, session.ph);
     const eff = effective(cache[session.username]);
-    if (rec.role === "vip" && eff.role === "basic") db(`study4_users/${session.username}`, "PATCH", { role: "basic", authProof: session.ph }).catch(() => {});
+    if (rec.role === "vip" && eff.role === "basic") dbSecureWrite(session.username, `study4_users/${session.username}`, { role: "basic" }, session.ph).catch(() => {});
     if (before !== canon(eff)) {
       renderTopBar();
       if (!isHomePage()) reloadOnce("role");
@@ -1068,28 +1586,53 @@
   }
 
   async function doLogin(uname, pass) {
-    const ph = await hashPw(uname, pass);
+    const phV2 = await hashPwV2(uname, pass);
+    const phV1 = await hashPwLegacy(uname, pass);
     let rec = null;
     try {
       rec = await db(`study4_users/${uname}`);
     } catch (e) {
       const c = cache[uname];
-      if (c && c.passwordHash === ph && c.status !== "blocked") { await startSession(c, ph); return { ok: true }; }
+      if (c && (c.passwordHash === phV2 || c.passwordHash === phV1) && c.status !== "blocked") {
+        await startSession(c, c.passwordHash);
+        return { ok: true };
+      }
       return { ok: false, msg: "Không kết nối được máy chủ. Hãy bật mạng để đăng nhập (lần đầu trên thiết bị này cần có mạng)." };
     }
     if (uname === "admin" && (!rec || (!rec.passwordHash && !rec.username && !rec.role))) return { ok: false, needSetup: true };
     if (!rec || rec.deleted) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
-    let pwOk = false;
+
+    let matchedPh = "";
     try {
-      pwOk = await verifyAuthSecret(uname, ph, rec);
+      if (await verifyAuthSecret(uname, phV2, rec)) {
+        matchedPh = phV2;
+      } else if (phV1 !== phV2 && await verifyAuthSecret(uname, phV1, rec)) {
+        matchedPh = phV1;
+        // Tự động nâng cấp mật khẩu cũ (SHA-256 v1) sang PBKDF2-SHA256 (v2) không gián đoạn
+        const prevRemote = await readRemoteProgress(uname, phV1).catch(() => null);
+        const upgraded = await syncAuthSecret(uname, phV2, phV1);
+        if (upgraded) {
+          matchedPh = phV2;
+          if (prevRemote && prevRemote.data) {
+            await writeRemoteProgress(uname, {
+              data: prevRemote.data,
+              tombstones: prevRemote.tombstones || emptyTombs(),
+              updatedAt: prevRemote.updatedAt || Date.now()
+            }, phV2, { scrubLegacy: Boolean(prevRemote._fromLegacy) }).catch(() => {});
+          }
+        }
+      }
     } catch (e) {
       const c = cache[uname];
-      if (c && c.passwordHash === ph && c.status !== "blocked") { await startSession(c, ph); return { ok: true }; }
+      if (c && (c.passwordHash === phV2 || c.passwordHash === phV1) && c.status !== "blocked") {
+        await startSession(c, c.passwordHash);
+        return { ok: true };
+      }
       return { ok: false, msg: "Không kết nối được máy chủ xác thực. Vui lòng thử lại." };
     }
-    if (!pwOk) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
+    if (!matchedPh) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
     if (rec.status === "blocked") return { ok: false, msg: "Tài khoản này đã bị quản trị viên khóa." };
-    await startSession(rec, ph);
+    await startSession(rec, matchedPh);
     return { ok: true };
   }
 
@@ -1098,12 +1641,15 @@
     if (rec && (rec.passwordHash || rec.role === "admin")) return { ok: false, msg: "Tài khoản admin đã được thiết lập trước đó." };
     const ph = await hashPw("admin", pass);
     const migrated = await syncAuthSecret("admin", ph, ph);
-    const full = Object.assign({}, rec || {}, {
+    const full = Object.assign({}, stripSensitiveFields(rec || {}), {
       username: "admin", displayName: "Quản trị viên", avatar: "🛡️", targetBand: "8.0+", role: "admin", status: "active",
-      expiresAt: "PERM", authProof: ph, createdAt: new Date().toISOString().slice(0, 10)
+      expiresAt: "PERM", createdAt: new Date().toISOString().slice(0, 10)
     });
-    if (!migrated) full.passwordHash = ph;
-    await db("study4_users/admin", "PUT", full);
+    if (migrated) {
+      await dbSecureWrite("admin", "study4_users/admin", full, ph, { replace: true });
+    } else {
+      await db("study4_users/admin", "PUT", Object.assign({}, full, { passwordHash: ph, authProof: ph }));
+    }
     await startSession(full, ph);
     return { ok: true };
   }
@@ -1131,6 +1677,13 @@
   window.addEventListener("resize", updateSafeAreaVar);
   window.addEventListener("orientationchange", () => setTimeout(updateSafeAreaVar, 80));
 
+  function uiIcon(name, size, fallback) {
+    if (window.S4UI && typeof window.S4UI.icon === "function") {
+      return window.S4UI.icon(name, size || 15);
+    }
+    return fallback || "";
+  }
+
   function injectStyles() {
     updateSafeAreaVar();
     if (document.getElementById("s4AuthStyles")) return;
@@ -1155,8 +1708,8 @@
       html.dark .s4-role-basic, body.dark .s4-role-basic { background: #334155; color: #cbd5e1; }
       .s4-role-free { background: #0d9488; color: #fff; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 0; }
       .s4-free-compact { display: none; }
-      .s4-top-btn { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.15s; white-space: nowrap; font-family: inherit; flex-shrink: 0; }
-      html.dark .s4-top-btn, body.dark .s4-top-btn { background: #0f172a; color: #f8fafc; border-color: #334155; }
+      .s4-top-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; background: var(--lg-wash, #f1f5f9); color: var(--lg-ink, #0f172a); border: 1px solid var(--lg-hairline, #cbd5e1); padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.15s; white-space: nowrap; font-family: inherit; flex-shrink: 0; }
+      html.dark .s4-top-btn, body.dark .s4-top-btn { background: var(--lg-wash, #0f172a); color: var(--lg-ink, #f8fafc); border-color: var(--lg-hairline, #334155); }
       .s4-top-btn:hover { border-color: #2563eb; }
       .s4-top-btn.gold { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #fff; }
       .s4-top-btn.donate { background: linear-gradient(135deg, #ec4899, #e11d48); border: none; color: #fff; box-shadow: 0 2px 8px rgba(225,29,72,0.25); }
@@ -1171,8 +1724,8 @@
       .s4-badge-admin { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
       .s4-badge-warn { background: #fef3c7; color: #b45309; }
       .s4-menu-wrap { position: relative; flex-shrink: 0; }
-      .s4-dropdown { position: absolute; right: 0; top: calc(100% + 8px); width: min(245px, calc(100vw - 20px)); background: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 999; overscroll-behavior: contain; touch-action: manipulation; }
-      html.dark .s4-dropdown, body.dark .s4-dropdown { background: #1e293b; color: #f8fafc; border-color: #334155; box-shadow: 0 14px 36px rgba(0,0,0,0.45); }
+      .s4-dropdown { position: absolute; right: 0; top: calc(100% + 8px); width: min(245px, calc(100vw - 20px)); background: var(--lg-surface-strong, #ffffff); backdrop-filter: var(--lg-blur, none); -webkit-backdrop-filter: var(--lg-blur, none); color: var(--lg-ink, #0f172a); border: 1px solid var(--lg-hairline, #e2e8f0); border-radius: 16px; box-shadow: var(--lg-shadow, 0 14px 36px rgba(0,0,0,0.18)); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 999; overscroll-behavior: contain; touch-action: manipulation; }
+      html.dark .s4-dropdown, body.dark .s4-dropdown { background: var(--lg-surface-strong, #1e293b); color: var(--lg-ink, #f8fafc); border-color: var(--lg-hairline, #334155); box-shadow: var(--lg-shadow, 0 14px 36px rgba(0,0,0,0.45)); }
       .s4-dropdown.open { display: flex; }
       .s4-dd-item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 11px; border: none; background: transparent; color: inherit; font-family: inherit; font-size: 13px; font-weight: 600; text-align: left; border-radius: 9px; cursor: pointer; }
       .s4-dd-item:hover { background: rgba(37,99,235,0.09); color: #2563eb; }
@@ -1180,7 +1733,7 @@
       .s4-dd-sep { height: 1px; background: #e2e8f0; margin: 4px 6px; }
       html.dark .s4-dd-sep, body.dark .s4-dd-sep { background: #334155; }
       .s4-modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.78); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: calc(12px + var(--s4-top-inset, 0px)) calc(12px + env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px)); overscroll-behavior: contain; touch-action: none; box-sizing: border-box; }
-      .s4-modal { background: #ffffff; color: #0f172a; width: 100%; max-width: 520px; border-radius: 18px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); max-height: calc(100dvh - var(--s4-top-inset, 0px) - env(safe-area-inset-bottom, 0px) - 24px); overflow-y: auto; overflow-x: hidden; border: 1px solid #e2e8f0; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; box-sizing: border-box; }
+      .s4-modal { background: var(--lg-surface-strong, #ffffff); backdrop-filter: var(--lg-blur, none); -webkit-backdrop-filter: var(--lg-blur, none); color: var(--lg-ink, #0f172a); width: 100%; max-width: 520px; border-radius: 24px; padding: 20px; box-shadow: inset 0 1.5px 0 var(--lg-rim-top, transparent), 0 20px 50px rgba(0,0,0,0.32); max-height: calc(100dvh - var(--s4-top-inset, 0px) - env(safe-area-inset-bottom, 0px) - 24px); overflow-y: auto; overflow-x: hidden; border: 1px solid var(--lg-hairline, #e2e8f0); overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; box-sizing: border-box; }
       @media (max-width: 500px) {
         .s4-user-bar { padding: calc(6px + var(--s4-top-inset, 0px)) calc(8px + env(safe-area-inset-right, 0px)) 6px calc(8px + env(safe-area-inset-left, 0px)); gap: 4px; }
         .s4-hide-sm { display: none !important; }
@@ -1197,16 +1750,16 @@
         .s4-modal { padding: 16px 14px; border-radius: 16px; }
         .s4-donate-grid { grid-template-columns: minmax(0, 1fr); padding: 12px 10px; gap: 12px; }
       }
-      html.dark .s4-modal, body.dark .s4-modal { background: #1e293b; color: #f8fafc; border-color: #334155; }
+      html.dark .s4-modal, body.dark .s4-modal { background: var(--lg-surface-strong, #1e293b); color: var(--lg-ink, #f8fafc); border-color: var(--lg-hairline, #334155); }
       .s4-modal h3 { margin: 0 0 6px 0; font-size: 19px; }
       .s4-input { width: 100%; padding: 10px 13px; border-radius: 10px; border: 1.5px solid #cbd5e1; background: #f8fafc; color: #0f172a; font-size: 14px; margin-bottom: 10px; outline: none; box-sizing: border-box; }
       html.dark .s4-input, body.dark .s4-input { background: #0f172a; color: #f8fafc; border-color: #334155; }
       .s4-input:focus { border-color: #2563eb; }
-      .s4-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; background: #2563eb; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 4px; }
+      .s4-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 12px; border-radius: 12px; border: none; background: #2563eb; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 4px; }
       .s4-btn:disabled { opacity: .6; cursor: wait; }
-      .s4-tabs { display: flex; gap: 6px; margin: 12px 0 16px 0; background: #f1f5f9; padding: 4px; border-radius: 10px; }
-      html.dark .s4-tabs, body.dark .s4-tabs { background: #0f172a; }
-      .s4-tab { flex: 1; text-align: center; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; border: none; background: transparent; color: #64748b; }
+      .s4-tabs { display: flex; gap: 6px; margin: 12px 0 16px 0; background: var(--lg-seg-track, #f1f5f9); padding: 4px; border-radius: 12px; }
+      html.dark .s4-tabs, body.dark .s4-tabs { background: var(--lg-seg-track, #0f172a); }
+      .s4-tab { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 5px; text-align: center; padding: 8px; border-radius: 9px; font-weight: 700; font-size: 13px; cursor: pointer; border: none; background: transparent; color: var(--lg-ink-muted, #64748b); }
       .s4-tab.active { background: #2563eb; color: #fff; }
       .s4-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
       .s4-table th, .s4-table td { border-bottom: 1px solid #e2e8f0; padding: 9px 6px; text-align: left; vertical-align: middle; }
@@ -1281,44 +1834,44 @@
       bar.innerHTML = `
         <div class="s4-user-left">
           ${logoImg}
-          <span class="s4-role-badge s4-role-free"><span class="s4-free-full">🌿 Mở miễn phí 100%</span><span class="s4-free-compact">🌿 Miễn phí</span></span>
+          <span style="font-weight:800;font-size:13px;letter-spacing:-0.01em;">LinguaPath</span>
         </div>
         <div class="s4-user-right">
-          <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ</button>
-          <button class="s4-top-btn" onclick="window.S4Auth.openLoginModal(false)">👤 Đăng nhập</button>
-          <button class="s4-top-btn" onclick="window.S4Auth.openInstallModal()">📲 Cài App</button>
+          <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">${uiIcon("heart", 14, "💖")} Ủng hộ</button>
+          <button class="s4-top-btn" onclick="window.S4Auth.openLoginModal(false)">${uiIcon("user", 14, "👤")} Đăng nhập</button>
+          <button class="s4-top-btn" onclick="window.S4Auth.openInstallModal()">${uiIcon("download", 14, "📲")} Cài App</button>
         </div>`;
       return;
     }
 
     const badge = u.role === "admin"
-      ? `<span class="s4-role-badge s4-role-admin">🛡️ Admin</span>`
-      : `<span class="s4-role-badge s4-role-free">🌿 Học viên</span>`;
+      ? `<span class="s4-role-badge s4-role-admin" style="display:inline-flex;align-items:center;gap:4px;">${uiIcon("shield", 12, "🛡️")} Admin</span>`
+      : `<span class="s4-role-badge s4-role-free" style="display:inline-flex;align-items:center;gap:4px;">${uiIcon("leaf", 12, "🌿")} Học viên</span>`;
 
     bar.innerHTML = `
       <div class="s4-user-left">
         <button class="s4-profile-trigger" onclick="window.S4Auth.openProfileModal()" title="Bấm để mở Hồ sơ cá nhân & Theo dõi tiến độ">
           ${renderAvatarHtml(u.avatar, 24)}
           <span class="s4-profile-name">${esc(u.displayName)}</span>
-          ${u.targetBand ? `<span class="s4-hide-sm" style="font-size:11px;opacity:.85;background:rgba(37,99,235,0.12);color:#2563eb;padding:1px 6px;border-radius:6px;font-weight:700;flex-shrink:0;">🎯 ${esc(u.targetBand)}</span>` : ""}
+          ${u.targetBand ? `<span class="s4-hide-sm" style="display:inline-flex;align-items:center;gap:3px;font-size:11px;opacity:.85;background:rgba(37,99,235,0.12);color:#2563eb;padding:1px 6px;border-radius:6px;font-weight:700;flex-shrink:0;">${uiIcon("target", 11, "🎯")} ${esc(u.targetBand)}</span>` : ""}
         </button>
         ${badge}
       </div>
       <div class="s4-user-right">
-        <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ</button>
-        ${u.role === "admin" ? `<button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">🛡️ Quản trị</button>` : ""}
+        <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">${uiIcon("heart", 14, "💖")} Ủng hộ</button>
+        ${u.role === "admin" ? `<button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">${uiIcon("shield", 14, "🛡️")} Quản trị</button>` : ""}
         <div class="s4-menu-wrap">
-          <button class="s4-top-btn" id="s4MenuToggle" onclick="event.stopPropagation();document.getElementById('s4TopDropdown').classList.toggle('open')">☰ Mục ▾</button>
+          <button class="s4-top-btn" id="s4MenuToggle" onclick="event.stopPropagation();document.getElementById('s4TopDropdown').classList.toggle('open')">${uiIcon("menu", 14, "☰")} Mục ${uiIcon("chevronDown", 12, "▾")}</button>
           <div class="s4-dropdown" id="s4TopDropdown">
-            <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('overview')">📊 Hồ sơ &amp; Tiến độ cá nhân</button>
-            <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('edit')">🎨 Đổi Tên, Avatar &amp; Mục tiêu</button>
-            <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('pw')">🔐 Đổi mật khẩu</button>
+            <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('overview')">${uiIcon("chart", 15, "📊")} Hồ sơ &amp; Tiến độ</button>
+            <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('edit')">${uiIcon("edit", 15, "🎨")} Đổi Tên &amp; Avatar</button>
+            <button class="s4-dd-item" onclick="window.S4Auth.openProfileModal('pw')">${uiIcon("lock", 15, "🔐")} Đổi mật khẩu</button>
             <div class="s4-dd-sep"></div>
-            ${u.role === "admin" ? `<button class="s4-dd-item" onclick="window.S4Auth.openAdminModal()">🛡️ Trung tâm Quản trị</button>` : ""}
-            <button class="s4-dd-item" style="color:#e11d48;font-weight:700;" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ dự án &amp; Mặt trận Tổ quốc</button>
-            <button class="s4-dd-item" onclick="window.S4Auth.openInstallModal()">📲 Cài App vào Màn hình chính</button>
+            ${u.role === "admin" ? `<button class="s4-dd-item" onclick="window.S4Auth.openAdminModal()">${uiIcon("shield", 15, "🛡️")} Trung tâm Quản trị</button>` : ""}
+            <button class="s4-dd-item" style="color:#e11d48;font-weight:700;" onclick="window.S4Auth.openDonateModal()">${uiIcon("heart", 15, "💖")} Ủng hộ dự án</button>
+            <button class="s4-dd-item" onclick="window.S4Auth.openInstallModal()">${uiIcon("download", 15, "📲")} Cài App vào MH chính</button>
             <div class="s4-dd-sep"></div>
-            <button class="s4-dd-item" style="color:#dc2626;" onclick="window.S4Auth.logout()">🚪 Đăng xuất tài khoản</button>
+            <button class="s4-dd-item" style="color:#dc2626;" onclick="window.S4Auth.logout()">${uiIcon("logout", 15, "🚪")} Đăng xuất</button>
           </div>
         </div>
       </div>`;
@@ -1398,36 +1951,6 @@
     function render() {
       const curU = getCurrentUser() || u;
       const st = progressStats(readProgress());
-      const rem = daysRemaining(curU.expiresAt);
-      let vipCardHtml = "";
-
-      if (curU.role === "admin") {
-        vipCardHtml = `
-          <div class="s4-stat-box" style="background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border:none;margin-bottom:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              <div>
-                <div style="font-size:12px;opacity:.8;">Vai trò hệ thống</div>
-                <div style="font-size:17px;font-weight:800;">🛡️ Quản Trị Viên Hệ Thống</div>
-                <div style="font-size:12px;color:#4ade80;margin-top:2px;">🌱 Đang mở khóa miễn phí 100% cho cộng đồng</div>
-              </div>
-              <div style="display:flex;gap:6px;">
-                <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 QR Ủng hộ</button>
-                <button class="s4-top-btn gold" onclick="window.S4Auth.openAdminModal()">🛡️ Quản Trị</button>
-              </div>
-            </div>
-          </div>`;
-      } else {
-        vipCardHtml = `
-          <div class="s4-stat-box" style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1.5px solid #fda4af;color:#881337;margin-bottom:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              <div style="max-width:340px;">
-                <div style="font-size:14.5px;font-weight:800;color:#9f1239;">🌿 Tài khoản Học Viên (Mở khóa 100% trọn bộ)</div>
-                <div style="font-size:12px;margin-top:3px;line-height:1.45;">🌱 20% tiền ủng hộ (Donate) được chuyển trực tiếp tới <b>Mặt trận Tổ quốc Việt Nam</b>.</div>
-              </div>
-              <button class="s4-top-btn donate" onclick="window.S4Auth.openDonateModal()">💖 Ủng hộ dự án</button>
-            </div>
-          </div>`;
-      }
 
       let bodyHtml = "";
       if (tab === "overview") {
@@ -1450,12 +1973,11 @@
         const tedPct = Math.min(100, Math.round((st.tedDone / TOTAL_TED_LESSONS) * 100));
 
         bodyHtml = `
-          ${vipCardHtml}
           <div class="s4-stat-box" style="margin-bottom:12px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
-              <span style="font-weight:800;font-size:14px;">📈 Tổng tiến độ khóa học</span>
+              <span style="font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:6px;">${uiIcon("chart", 15, "📈")} Tổng tiến độ khóa học</span>
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-size:11.5px;background:rgba(217,119,6,0.12);color:#d97706;padding:2px 8px;border-radius:999px;font-weight:700;">🔥 Chuỗi học: ${st.streakDays} ngày (Tổng ${st.totalStudyDays} ngày)</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;background:rgba(217,119,6,0.12);color:#d97706;padding:2px 8px;border-radius:999px;font-weight:700;">${uiIcon("flame", 12, "🔥")} Chuỗi học: ${st.streakDays} ngày (Tổng ${st.totalStudyDays} ngày)</span>
                 <span style="font-weight:800;color:#2563eb;font-size:15px;">${st.overallPct}%</span>
               </div>
             </div>
@@ -1509,12 +2031,18 @@
                   Từ vựng SRS: <b>${st.speakingWords} / ${TOTAL_SPEAKING_VOCAB} từ</b>
                 </div>
               </div>
-              <div style="padding:10px;border-radius:10px;background:rgba(220,38,38,0.08);grid-column:1 / -1;">
-                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
-                  <div style="font-size:12px;color:#64748b;font-weight:600;">🎙️ TED Talks Song ngữ (Dictation &amp; Shadowing)</div>
-                  <div style="font-size:14.5px;font-weight:800;color:#dc2626;">${st.tedDone} / ${TOTAL_TED_LESSONS} bài <span style="font-size:12px;">(${tedPct}%)</span></div>
-                </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(220,38,38,0.08);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;">🎙️ TED Talks Song ngữ</div>
+                <div style="font-size:15.5px;font-weight:800;color:#dc2626;margin:2px 0;">${st.tedDone} / ${TOTAL_TED_LESSONS} bài <span style="font-size:12px;">(${tedPct}%)</span></div>
                 <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${tedPct}%;background:#dc2626;"></div></div>
+              </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(185,28,28,0.08);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;">🏮 Tiếng Trung HSK 1–6</div>
+                <div style="font-size:15.5px;font-weight:800;color:#b91c1c;margin:2px 0;">${st.hskDoneItems} / ${TOTAL_HSK_ITEMS} bài <span style="font-size:12px;">(${st.hskPct}%)</span></div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.hskPct}%;background:#b91c1c;"></div></div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px;">
+                  Từ vựng SRS: <b>${st.hskWords} / ${TOTAL_HSK_VOCAB} từ</b>${st.hskDue ? ` • Cần ôn: <b style="color:#dc2626">${st.hskDue}</b>` : ""}
+                </div>
               </div>
             </div>
           </div>
@@ -1533,8 +2061,8 @@
             <div id="avtPreview">${renderAvatarHtml(selAvatar, 56)}</div>
             <div style="flex:1;">
               <div style="font-weight:700;font-size:13.5px;margin-bottom:4px;">Ảnh đại diện (Avatar)</div>
-              <label class="s4-top-btn" style="background:#2563eb;color:#fff;display:inline-block;cursor:pointer;">
-                📷 Tải ảnh từ máy lên
+              <label class="s4-top-btn" style="background:#2563eb;color:#fff;display:inline-flex;cursor:pointer;">
+                ${uiIcon("upload", 14, "📷")} Tải ảnh từ máy lên
                 <input type="file" id="inpAvtFile" accept="image/*" style="display:none;">
               </label>
             </div>
@@ -1547,25 +2075,25 @@
           <select class="s4-input" id="profBand">${bands}</select>
           <label style="font-size:12.5px;font-weight:700;">Châm ngôn / Ghi chú học tập cá nhân:</label>
           <input class="s4-input" id="profBio" value="${esc(curU.bio || "")}" maxlength="100" placeholder="VD: Quyết tâm đạt IELTS 7.5 trước tháng 12!">
-          <button class="s4-btn" id="btnSaveProfile">💾 Lưu Thông Tin Cá Nhân</button>`;
+          <button class="s4-btn" id="btnSaveProfile">${uiIcon("backup", 15, "💾")} Lưu Thông Tin Cá Nhân</button>`;
       } else {
         bodyHtml = `
           <label style="font-size:12.5px;font-weight:700;">Mật khẩu hiện tại:</label>
           <div class="s4-pass-wrap">
             <input class="s4-input" id="pwOld" type="password" placeholder="Nhập mật khẩu hiện tại" autocomplete="current-password">
-            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button>
           </div>
           <label style="font-size:12.5px;font-weight:700;">Mật khẩu mới (tối thiểu 6 ký tự):</label>
           <div class="s4-pass-wrap">
             <input class="s4-input" id="pwNew" type="password" placeholder="Nhập mật khẩu mới" autocomplete="new-password">
-            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button>
           </div>
           <label style="font-size:12.5px;font-weight:700;">Xác nhận mật khẩu mới:</label>
           <div class="s4-pass-wrap">
             <input class="s4-input" id="pwNew2" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
-            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button>
           </div>
-          <button class="s4-btn" id="btnChangePw">Cập Nhật Mật Khẩu Mới</button>`;
+          <button class="s4-btn" id="btnChangePw">${uiIcon("lock", 15, "")} Cập Nhật Mật Khẩu Mới</button>`;
       }
 
       box.innerHTML = `
@@ -1575,21 +2103,21 @@
             <div>
               <h3 style="margin:0;display:flex;align-items:center;gap:6px;">
                 ${esc(curU.displayName)}
-                <span style="font-size:12px;font-weight:700;background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:999px;">🎯 Band ${esc(curU.targetBand || "7.0")}</span>
+                <span style="display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:700;background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:999px;">${uiIcon("target", 12, "🎯")} Band ${esc(curU.targetBand || "7.0")}</span>
               </h3>
               <div style="font-size:12.5px;color:#64748b;">@${esc(curU.username)} ${curU.createdAt ? "• Tham gia: " + esc(curU.createdAt) : ""}</div>
               ${curU.bio ? `<div style="font-size:12px;color:#0d9488;margin-top:2px;font-style:italic;">“${esc(curU.bio)}”</div>` : ""}
             </div>
           </div>
-          <button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>
+          <button class="s4-top-btn" style="color:inherit;padding:6px 8px;" id="s4Close">${uiIcon("close", 15, "✕")}</button>
         </div>
         <div class="s4-tabs">
-          <button class="s4-tab ${tab === "overview" ? "active" : ""}" data-t="overview">📊 Tiến độ học tập</button>
-          <button class="s4-tab ${tab === "edit" ? "active" : ""}" data-t="edit">🎨 Đổi tên &amp; Avatar</button>
-          <button class="s4-tab ${tab === "pw" ? "active" : ""}" data-t="pw">🔐 Đổi mật khẩu</button>
+          <button class="s4-tab ${tab === "overview" ? "active" : ""}" data-t="overview">${uiIcon("chart", 14, "📊")} Tiến độ học tập</button>
+          <button class="s4-tab ${tab === "edit" ? "active" : ""}" data-t="edit">${uiIcon("edit", 14, "🎨")} Đổi tên &amp; Avatar</button>
+          <button class="s4-tab ${tab === "pw" ? "active" : ""}" data-t="pw">${uiIcon("lock", 14, "🔐")} Đổi mật khẩu</button>
         </div>
-        ${msg ? `<div class="s4-ok">✅ ${esc(msg)}</div>` : ""}
-        ${err ? `<div class="s4-err">⚠️ ${esc(err)}</div>` : ""}
+        ${msg ? `<div class="s4-ok" style="display:flex;align-items:center;gap:6px;">${uiIcon("check", 15, "✅")} <span>${esc(msg)}</span></div>` : ""}
+        ${err ? `<div class="s4-err" style="display:flex;align-items:center;gap:6px;">${uiIcon("alert", 15, "⚠️")} <span>${esc(err)}</span></div>` : ""}
         ${bodyHtml}`;
 
       const cTop = box.querySelector("#s4Close");
@@ -1623,8 +2151,8 @@
           const newBio = box.querySelector("#profBio").value.trim().slice(0, 100);
           btn.disabled = true; btn.textContent = "⏳ Đang lưu...";
           try {
-            const patch = { displayName: newName, avatar: selAvatar, targetBand: newBand, bio: newBio, authProof: (session && session.ph) || "" };
-            await db(`study4_users/${curU.username}`, "PATCH", patch);
+            const patch = { displayName: newName, avatar: selAvatar, targetBand: newBand, bio: newBio };
+            await dbSecureWrite(curU.username, `study4_users/${curU.username}`, patch, (session && session.ph) || "");
             Object.assign(cache[curU.username], { displayName: newName, avatar: selAvatar, targetBand: newBand, bio: newBio });
             saveCache();
             renderTopBar();
@@ -1644,19 +2172,22 @@
           if (!oldP || !newP) { err = "Vui lòng nhập đầy đủ mật khẩu hiện tại và mật khẩu mới."; return render(); }
           if (newP.length < 6) { err = "Mật khẩu mới phải từ 6 ký tự trở lên."; return render(); }
           if (newP !== newP2) { err = "Mật khẩu mới nhập lại chưa khớp."; return render(); }
-          const oldHash = await hashPw(curU.username, oldP);
-          if (oldHash !== session.ph) { err = "Mật khẩu hiện tại không đúng."; return render(); }
+          const oldHashV2 = await hashPwV2(curU.username, oldP);
+          const oldHashV1 = await hashPwLegacy(curU.username, oldP);
+          if (oldHashV2 !== session.ph && oldHashV1 !== session.ph) { err = "Mật khẩu hiện tại không đúng."; return render(); }
+          const activeOldHash = session.ph;
           const btn = box.querySelector("#btnChangePw");
           btn.disabled = true; btn.textContent = "⏳ Đang cập nhật...";
           try {
             const newHash = await hashPw(curU.username, newP);
-            const migrated = await syncAuthSecret(curU.username, newHash, oldHash);
+            const migrated = await syncAuthSecret(curU.username, newHash, activeOldHash);
             if (!migrated) {
-              await db(`study4_users/${curU.username}`, "PATCH", { passwordHash: newHash, authProof: oldHash });
+              await db(`study4_users/${curU.username}`, "PATCH", { passwordHash: newHash, authProof: activeOldHash });
             }
             session.ph = newHash;
             saveSession();
             if (cache[curU.username]) { cache[curU.username].passwordHash = newHash; saveCache(); }
+            pushProgress().catch(() => {});
             msg = "Đã đổi mật khẩu thành công!";
           } catch (e) {
             err = "Lỗi kết nối mạng khi đổi mật khẩu, vui lòng thử lại.";
@@ -1679,7 +2210,7 @@
         if (!inp) return;
         const isPass = inp.type === "password";
         inp.type = isPass ? "text" : "password";
-        btn.textContent = isPass ? "🙈" : "👁️";
+        btn.innerHTML = isPass ? uiIcon("eyeOff", 15, "🙈") : uiIcon("eye", 15, "👁️");
         btn.title = isPass ? "Ẩn mật khẩu" : "Hiện mật khẩu";
       };
     });
@@ -1712,8 +2243,8 @@
         `;
       } else {
         bodyHtml = `
-          <p style="font-size:13px;color:#64748b;margin:8px 0 12px 0;">
-            Toàn bộ bài học đều được mở miễn phí 100%. Đăng nhập giúp bạn lưu trữ và đồng bộ tiến độ học tập tự động trên mọi thiết bị.
+          <p style="font-size:13px;color:var(--lg-ink-muted,#64748b);margin:8px 0 12px 0;">
+            Đăng nhập để lưu trữ và đồng bộ tiến độ học tập trên mọi thiết bị.
           </p>
           ${setupMode ? "" : `<div class="s4-tabs">
             <button class="s4-tab ${mode === "login" ? "active" : ""}" id="tabLogin" type="button">Đăng nhập</button>
@@ -1724,9 +2255,9 @@
             <input class="s4-input" id="inpUser" placeholder="Tên đăng nhập (chữ thường, số, _ ; 3-20 ký tự)" autocomplete="username" autocapitalize="off" required value="${setupMode ? "admin" : ""}" ${setupMode ? "readonly" : ""}>
             <div class="s4-pass-wrap">
               <input class="s4-input" id="inpPass" type="password" placeholder="${setupMode ? "Đặt mật khẩu Admin mới (từ 6 ký tự)" : "Mật khẩu"}" autocomplete="${mode === "login" && !setupMode ? "current-password" : "new-password"}" required>
-              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button>
             </div>
-            ${setupMode ? `<div class="s4-pass-wrap"><input class="s4-input" id="inpPass2" type="password" placeholder="Nhập lại mật khẩu Admin" autocomplete="new-password" required><button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button></div>` : ""}
+            ${setupMode ? `<div class="s4-pass-wrap"><input class="s4-input" id="inpPass2" type="password" placeholder="Nhập lại mật khẩu Admin" autocomplete="new-password" required><button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button></div>` : ""}
             ${mode === "login" && !setupMode ? `<div style="display:flex;justify-content:flex-end;margin-top:-4px;margin-bottom:10px;"><a href="#" id="linkForgot" style="font-size:12px;color:#2563eb;text-decoration:none;font-weight:600;">Quên mật khẩu?</a></div>` : ""}
             <button type="submit" class="s4-btn" id="s4Submit">${setupMode ? "Thiết lập mật khẩu Admin" : mode === "login" ? "Đăng nhập vào học" : "Đăng ký & Vào học"}</button>
           </form>
@@ -1737,13 +2268,13 @@
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div style="display:flex;align-items:center;gap:10px;">
             <img src="${getLogoPath()}" alt="Logo" style="width:34px;height:34px;border-radius:9px;">
-            <div style="display:flex;align-items:center;gap:6px;"><h3 style="margin:0;font-size:18px;font-weight:800;">LinguaPath</h3><span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:999px;background:rgba(16,185,129,0.18);color:#10b981;border:1px solid rgba(16,185,129,0.3);">Community</span></div>
+            <h3 style="margin:0;font-size:18px;font-weight:800;">LinguaPath</h3>
           </div>
-          ${canClose ? `<button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>` : ""}
+          ${canClose ? `<button class="s4-top-btn" style="color:inherit;padding:6px 8px;" id="s4Close">${uiIcon("close", 15, "✕")}</button>` : ""}
         </div>
-        ${flash ? `<div class="s4-info">ℹ️ ${esc(flash)}</div>` : ""}
-        ${infoMsg ? `<div class="s4-info">ℹ️ ${esc(infoMsg)}</div>` : ""}
-        ${errMsg ? `<div class="s4-err">⚠️ ${esc(errMsg)}</div>` : ""}
+        ${flash ? `<div class="s4-info" style="display:flex;align-items:center;gap:6px;">${uiIcon("info", 15, "ℹ️")} <span>${esc(flash)}</span></div>` : ""}
+        ${infoMsg ? `<div class="s4-info" style="display:flex;align-items:center;gap:6px;">${uiIcon("info", 15, "ℹ️")} <span>${esc(infoMsg)}</span></div>` : ""}
+        ${errMsg ? `<div class="s4-err" style="display:flex;align-items:center;gap:6px;">${uiIcon("alert", 15, "⚠️")} <span>${esc(errMsg)}</span></div>` : ""}
         ${bodyHtml}
       `;
 
@@ -1761,27 +2292,24 @@
         forgotForm.onsubmit = async (e) => {
           e.preventDefault();
           const uInp = (box.querySelector("#inpForgotUser").value || "").trim().toLowerCase();
-          const nInp = (box.querySelector("#inpForgotName").value || "").trim();
+          const nInp = (box.querySelector("#inpForgotName").value || "").trim().slice(0, 60);
           if (!USER_RE.test(uInp) || uInp === "admin") {
             return render("Tên đăng nhập không hợp lệ hoặc không hỗ trợ tự đặt lại.");
           }
+          if (nInp.length < 2) {
+            return render("Vui lòng nhập họ tên hiển thị đã đăng ký để Quản trị viên xác minh.");
+          }
           try {
-            const userRec = await db("study4_users/" + uInp);
-            if (!userRec || (!userRec.username && !userRec.passwordHash)) {
-              return render("Không tìm thấy tài khoản @" + uInp);
-            }
-            const savedName = (userRec.displayName || userRec.username || "").trim().toLowerCase();
-            if (savedName !== nInp.toLowerCase()) {
-              return render("Họ tên hiển thị xác minh chưa khớp với thông tin đã đăng ký.");
-            }
+            // Không đọc hồ sơ study4_users ở phía client để tránh dò tên tài khoản / hiển thị công khai
             await db("study4_reset_requests/" + uInp, "PUT", {
               username: uInp,
-              displayName: userRec.displayName || uInp,
+              claimedDisplayName: nInp,
+              displayName: nInp,
               requestedAt: new Date().toISOString()
             });
             mode = "login";
-            render("", "Đã gửi yêu cầu tới Quản trị viên. Quản trị viên sẽ hỗ trợ cấp lại mật khẩu cho tài khoản @" + uInp + ".");
-          } catch(e) {
+            render("", "Đã tiếp nhận yêu cầu. Nếu tài khoản @" + uInp + " tồn tại và thông tin xác minh khớp, Quản trị viên sẽ hỗ trợ cấp lại mật khẩu.");
+          } catch (e) {
             render("Lỗi kết nối máy chủ khi gửi yêu cầu đặt lại mật khẩu.");
           }
         };
@@ -1824,14 +2352,16 @@
           const ph = await hashPw(raw, pass);
           const migrated = await syncAuthSecret(raw, ph, ph);
           const st = progressStats(readProgress());
-          const rec = {
+          const rec = Object.assign({
             username: raw, displayName: disp, avatar: "🎓", targetBand: "7.0", bio: "",
-            role: "basic", status: "active", expiresAt: "PERM", authProof: ph,
-            vocabLearned: st.vocabLearned, grammarDone: st.grammarDone, overallPct: st.overallPct,
-            createdAt: new Date().toISOString().slice(0, 10), lastActive: new Date().toISOString()
-          };
-          if (!migrated) rec.passwordHash = ph;
-          await db("study4_users/" + raw, "PUT", rec);
+            role: "basic", status: "active", expiresAt: "PERM",
+            createdAt: new Date().toISOString().slice(0, 10)
+          }, buildProgressStatsPatch(st));
+          if (migrated) {
+            await dbSecureWrite(raw, "study4_users/" + raw, rec, ph, { replace: true });
+          } else {
+            await db("study4_users/" + raw, "PUT", Object.assign({}, rec, { passwordHash: ph, authProof: ph }));
+          }
           await startSession(rec, ph);
           closeModals(); location.reload();
         }
@@ -1857,41 +2387,34 @@
       const qrUrl = "https://img.vietqr.io/image/" + encodeURIComponent(bank) + "-" + encodeURIComponent(acc) + "-compact2.svg?addInfo=" + encodeURIComponent(memo) + "&accountName=" + encodeURIComponent(owner);
 
       box.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <h3 style="margin:0;font-size:18px;display:flex;align-items:center;gap:8px;color:#e11d48;">
-            <span>💖</span> <span>Ủng Hộ Dự Án (Donate) &amp; Chung Tay Thiện Nguyện</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <h3 style="margin:0;font-size:17.5px;display:flex;align-items:center;gap:8px;color:#e11d48;">
+            ${uiIcon("heart", 18, "💖")} <span>Ủng hộ dự án</span>
           </h3>
-          <button type="button" class="s4-top-btn" style="color:inherit;font-size:16px;padding:4px 10px;cursor:pointer;" id="s4Close" onclick="window.S4Auth.closeModals()">✕</button>
+          <button type="button" class="s4-top-btn" style="color:inherit;padding:6px 8px;cursor:pointer;" id="s4Close" onclick="window.S4Auth.closeModals()">${uiIcon("close", 15, "✕")}</button>
         </div>
 
-        <div style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1.5px solid #fda4af;color:#881337;padding:12px 14px;border-radius:12px;margin-bottom:14px;line-height:1.55;">
-          <div style="font-weight:800;font-size:14px;color:#9f1239;margin-bottom:4px;">
-            Cam Kết Đồng Hành Cùng Mặt Trận Tổ Quốc Việt Nam
-          </div>
-          <div style="font-size:13px;">
-            Toàn bộ kho từ vựng, ngữ pháp và luyện 4 kỹ năng IELTS trên hệ thống đều được <b>mở miễn phí 100%</b> cho cộng đồng.<br>
-            🌱 <b>${esc(noteText)}</b>
-          </div>
+        <div style="background:linear-gradient(135deg,#fff1f2,#fef3c7);border:1px solid #fda4af;color:#881337;padding:9px 12px;border-radius:12px;margin-bottom:12px;font-size:12.5px;font-weight:600;line-height:1.45;">
+          Miễn phí 100% cho cộng đồng — ${esc(noteText)}
         </div>
 
         <div class="s4-donate-grid">
           <div style="text-align:center;">
             <div id="qrBox" style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.08);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:192px;min-height:224px;max-width:100%;color:#0f172a;">
-              <div id="qrLoading" style="font-size:12px;font-weight:600;color:#475569;padding:8px 4px;">⏳ Đang tải mã VietQR...</div>
+              <div id="qrLoading" style="font-size:12px;font-weight:600;color:#475569;padding:8px 4px;">Đang tải mã VietQR...</div>
               <img src="${qrUrl}" alt="VietQR Donate" referrerpolicy="no-referrer" decoding="async" style="width:176px;height:208px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;" id="qrImg">
               <div id="qrFallback" style="display:none;width:176px;min-height:196px;padding:12px 8px;border:1.5px dashed #cbd5e1;border-radius:8px;background:#f8fafc;color:#0f172a;flex-direction:column;align-items:center;justify-content:center;gap:6px;line-height:1.45;">
-                <div style="font-size:13px;font-weight:800;color:#be123c;">🏦 ${esc(bank)}</div>
+                <div style="font-size:13px;font-weight:800;color:#be123c;">${esc(bank)}</div>
                 <div style="font-size:13px;font-weight:800;color:#1d4ed8;word-break:break-all;">STK: ${esc(acc)}</div>
-                <div style="font-size:11px;color:#475569;">Chưa tải được ảnh QR lúc này. Bạn hãy dùng nút <b>Sao chép</b> thông tin bên cạnh để chuyển khoản nhanh.</div>
-                <button type="button" id="btnRetryQr" class="s4-top-btn" style="margin-top:4px;font-size:11.5px;padding:5px 10px;background:#fff;color:#0f172a;border:1px solid #cbd5e1;cursor:pointer;">🔄 Thử tải lại mã QR</button>
+                <div style="font-size:11px;color:#475569;">Chưa tải được QR. Dùng nút Sao chép bên cạnh để chuyển khoản nhanh.</div>
+                <button type="button" id="btnRetryQr" class="s4-top-btn" style="margin-top:4px;font-size:11.5px;padding:5px 10px;background:#fff;color:#0f172a;border:1px solid #cbd5e1;cursor:pointer;">${uiIcon("refresh", 13, "🔄")} Thử lại</button>
               </div>
             </div>
-            <div style="font-size:11px;color:var(--muted,#64748b);margin-top:6px;">Quét mã VietQR bằng mọi ứng dụng Ngân hàng / Ví điện tử</div>
           </div>
 
           <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px;min-width:0;">
             <div class="s4-donate-row">
-              <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;"><span style="color:var(--muted,#64748b);font-size:11px;">Ngân hàng thụ hưởng:</span><br><b style="font-size:13.5px;">${esc(bank)}</b></div>
+              <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;"><span style="color:var(--muted,#64748b);font-size:11px;">Ngân hàng:</span><br><b style="font-size:13.5px;">${esc(bank)}</b></div>
               <button class="s4-top-btn" data-copy="${esc(bank)}" style="font-size:11px;padding:4px 9px;">Sao chép</button>
             </div>
 
@@ -1907,7 +2430,7 @@
 
             <div class="s4-donate-row-memo">
               <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;">
-                <span style="color:#9f1239;font-size:11px;font-weight:700;">Nội dung chuyển khoản gợi ý:</span><br>
+                <span style="color:#9f1239;font-size:11px;font-weight:700;">Nội dung CK:</span><br>
                 <b style="font-size:13px;color:#e11d48;font-family:monospace;word-break:break-all;">${esc(memo)}</b>
               </div>
               <button class="s4-top-btn donate" data-copy="${esc(memo)}" style="font-size:11px;padding:4px 9px;">Sao chép</button>
@@ -1915,12 +2438,8 @@
           </div>
         </div>
 
-        <div style="margin-top:12px;padding:10px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;font-size:12.5px;color:#166534;text-align:center;font-weight:600;">
-          Cảm ơn tấm lòng của bạn! Mọi sự ủng hộ đều là động lực quý báu để duy trì và hoàn thiện sớm nhất các học phần mới cho cộng đồng.
-        </div>
-
         <div style="margin-top:10px;display:flex;justify-content:flex-end;">
-          <button type="button" class="s4-top-btn" id="s4CloseBottom" onclick="window.S4Auth.closeModals()" style="padding:8px 18px;font-size:13px;cursor:pointer;">Đóng</button>
+          <button type="button" class="s4-top-btn" id="s4CloseBottom" onclick="window.S4Auth.closeModals()" style="padding:7px 16px;font-size:13px;cursor:pointer;">Đóng</button>
         </div>
       `;
 
@@ -2023,6 +2542,8 @@
       const speakingDone = Number(u.speakingDone) || 0;
       const speakingWords = Number(u.speakingWords) || 0;
       const tedDone = Number(u.tedDone) || 0;
+      const hskWords = Number(u.hskWords) || 0;
+      const hskDoneItems = Number(u.hskDoneItems) || 0;
 
       const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
       const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
@@ -2075,6 +2596,10 @@
               <div style="font-size:11px;color:#64748b;">TED Talks</div>
               <div style="font-size:14.5px;font-weight:800;color:#e11d48;">${tedDone} / ${TOTAL_TED_LESSONS} bài</div>
             </div>
+            <div style="padding:8px 10px;background:rgba(185,28,28,0.08);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">HSK 1–6</div>
+              <div style="font-size:14.5px;font-weight:800;color:#b91c1c;">${hskDoneItems} bài • ${hskWords} từ</div>
+            </div>
           </div>
         </div>`;
     }
@@ -2126,7 +2651,7 @@
           <td>
             ${isAdm ? '<span class="s4-badge s4-badge-admin">Quản trị viên</span>' :
               it.status === "blocked" ? '<span class="s4-badge s4-badge-blocked">Đã khóa</span>' :
-              hasReset ? '<span class="s4-badge s4-badge-warn">Yêu cầu đặt lại MK</span>' :
+              hasReset ? `<span class="s4-badge s4-badge-warn" title="Tên khai báo xác minh: ${esc(hasReset.claimedDisplayName || hasReset.displayName || '')}">Yêu cầu đặt lại MK${hasReset.claimedDisplayName ? ` (${esc(hasReset.claimedDisplayName)})` : ""}</span>` :
               '<span class="s4-badge s4-badge-active">Hoạt động</span>'}
           </td>
           <td>
@@ -2184,6 +2709,7 @@
 
     function settingsHtml() {
       return `
+        ${legacyFirebaseRulesActive ? `<div class="s4-err" style="line-height:1.5;">🔒 <b>Cảnh báo bảo mật Firebase Rules:</b> Hệ thống phát hiện Firebase Console vẫn đang dùng bộ Rules cũ (còn lưu <code>authProof</code> trên nhánh đọc công khai). Hãy dán tệp <code>firebase-database.rules.json</code> vào <b>Firebase Console ➔ Realtime Database ➔ Rules</b> rồi đổi mật khẩu Admin mới ngay bên dưới để khóa triệt để.</div>` : `<div class="s4-info" style="line-height:1.5;">🛡️ Chế độ ghi nguyên tử chống lộ <code>authProof</code> đã bật. Nhớ cập nhật tệp <code>firebase-database.rules.json</code> lên Firebase Console để bảo vệ tối đa QR Donate &amp; dữ liệu riêng tư.</div>`}
         <div style="font-weight:800;font-size:14.5px;color:#2563eb;margin-bottom:8px;">Cấu hình Thông tin QR Ủng hộ (Donate):</div>
         <div style="margin-bottom:8px;">
           <label style="font-size:12px;font-weight:700;">Thông điệp thiện nguyện (Hiển thị nổi bật trong popup Donate):</label>
@@ -2215,7 +2741,7 @@
         <div style="margin-bottom:12px;">
           <div class="s4-pass-wrap">
             <input class="s4-input" id="admNewPass" type="password" placeholder="Nhập mật khẩu Admin mới (tối thiểu 6 ký tự, để trống nếu không đổi)" autocomplete="new-password">
-            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">👁️</button>
+            <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button>
           </div>
         </div>
 
@@ -2229,13 +2755,13 @@
             <img src="${getLogoPath()}" alt="Logo" style="width:30px;height:30px;border-radius:8px;">
             <h3 style="margin:0;font-size:17.5px;">Quản Trị Hệ Thống</h3>
           </div>
-          <button class="s4-top-btn" style="color:inherit;" data-act="close">✕</button>
+          <button class="s4-top-btn" style="color:inherit;padding:6px 8px;" data-act="close">${uiIcon("close", 15, "✕")}</button>
         </div>
         <div class="s4-tabs">
-          <button class="s4-tab ${tab === "users" ? "active" : ""}" data-act="tab" data-v="users">👥 Quản lý học viên</button>
-          <button class="s4-tab ${tab === "settings" ? "active" : ""}" data-act="tab" data-v="settings">⚙️ Cài đặt hệ thống &amp; QR Donate</button>
+          <button class="s4-tab ${tab === "users" ? "active" : ""}" data-act="tab" data-v="users">${uiIcon("user", 14, "👥")} Quản lý học viên</button>
+          <button class="s4-tab ${tab === "settings" ? "active" : ""}" data-act="tab" data-v="settings">${uiIcon("settings", 14, "⚙️")} Cài đặt &amp; QR Donate</button>
         </div>
-        ${msg ? `<div class="s4-err">⚠️ ${esc(msg)}</div>` : ""}
+        ${msg ? `<div class="s4-err" style="display:flex;align-items:center;gap:6px;">${uiIcon("alert", 15, "⚠️")} <span>${esc(msg)}</span></div>` : ""}
         ${loading ? `<div style="padding:20px;text-align:center;color:#64748b;">Đang tải dữ liệu từ máy chủ...</div>`
           : tab === "users" ? (users ? usersHtml() : "") : settingsHtml()}
       `;
@@ -2291,6 +2817,7 @@
               grammarDone: st.grammarDone, listeningDone: st.listeningDone, listeningWords: st.listeningWords,
               readingDone: st.readingDone, readingWords: st.readingWords, writingDone: st.writingDone,
               speakingDone: st.speakingDone, speakingWords: st.speakingWords, tedDone: st.tedDone,
+              hskWords: st.hskWords, hskDoneItems: st.hskDoneItems,
               overallPct: st.overallPct, streakDays: st.streakDays, totalStudyDays: st.totalStudyDays
             });
             render();
@@ -2303,7 +2830,7 @@
       if (act === "block") {
         const nx = users[v].status === "blocked" ? "active" : "blocked";
         if (await guard(async () => {
-          await db("study4_users/" + v, "PATCH", { status: nx, authProof: (session && session.ph) || "" });
+          await dbSecureWrite("admin", "study4_users/" + v, { status: nx }, (session && session.ph) || "");
           users[v].status = nx;
         })) render();
         return;
@@ -2326,7 +2853,7 @@
           if (!migrated) {
             await db("study4_users/" + v, "PATCH", { passwordHash: ph, authProof: adminProof });
           }
-          await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
+          await dbSecureWrite("admin", "study4_reset_requests/" + v, null, adminProof, { delete: true }).catch(() => {});
           if (resetRequests) delete resetRequests[v];
           if (session && session.username === v) { session.ph = ph; saveSession(); if (cache[v]) { cache[v].passwordHash = ph; saveCache(); } }
         })) {
@@ -2354,12 +2881,12 @@
           const adminProof = (session && session.ph) || "";
           await db("study4_auth/" + v, "PUT", { passwordHash: "DELETED_" + Date.now(), prevPh: adminProof, updatedAt: Date.now() }).catch(() => {});
           try {
-            await db("study4_users/" + v, "DELETE");
+            await dbSecureWrite("admin", "study4_users/" + v, null, adminProof, { delete: true });
           } catch (e) {
-            await db("study4_users/" + v, "PUT", { username: v, deleted: true, status: "blocked", role: "basic", authProof: adminProof });
+            await dbSecureWrite("admin", "study4_users/" + v, { username: v, deleted: true, status: "blocked", role: "basic" }, adminProof, { replace: true });
           }
-          await db("study4_progress/" + v, "PUT", { data: { _deleted: true }, updatedAt: Date.now(), authProof: adminProof }).catch(() => {});
-          await db("study4_reset_requests/" + v, "DELETE").catch(() => {});
+          await dbSecureWrite("admin", "study4_progress/" + v, null, adminProof, { delete: true }).catch(() => {});
+          await dbSecureWrite("admin", "study4_reset_requests/" + v, null, adminProof, { delete: true }).catch(() => {});
           delete users[v];
           if (resetRequests) delete resetRequests[v];
           if (inspectUser === v) inspectUser = null;
@@ -2420,24 +2947,22 @@
     box.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div style="display:flex;align-items:center;gap:10px;">
-          <img src="${getLogoPath()}" alt="Logo" style="width:36px;height:36px;border-radius:9px;">
-          <h3 style="margin:0;">📲 Cài App vào Màn Hình Chính</h3>
+          <img src="${getLogoPath()}" alt="Logo" style="width:32px;height:32px;border-radius:9px;">
+          <h3 style="margin:0;font-size:17px;display:flex;align-items:center;gap:6px;">${uiIcon("smartphone", 17, "📲")} Cài App vào Màn hình chính</h3>
         </div>
-        <button class="s4-top-btn" style="color:inherit;" id="s4Close">✕</button>
+        <button class="s4-top-btn" style="color:inherit;padding:6px 8px;" id="s4Close">${uiIcon("close", 15, "✕")}</button>
       </div>
-      <div style="margin-top:12px;font-size:14px;line-height:1.6;">
-        <div style="background:#eff6ff;color:#1e3a8a;padding:12px 14px;border-radius:12px;margin-bottom:12px;">
-          <b>🍎 Trên iPhone / iPad (iOS):</b><br>
-          1. Mở đường link này bằng trình duyệt <b>Safari</b>.<br>
-          2. Bấm nút <b>Chia sẻ (ô vuông có mũi tên ⬆️)</b> ở thanh dưới cùng.<br>
-          3. Chọn <b>"Thêm vào Màn hình chính"</b> ➔ bấm <b>Thêm</b>.
+      <div style="margin-top:12px;font-size:13.5px;line-height:1.55;display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.18);padding:11px 13px;border-radius:12px;">
+          <b>iPhone / iPad (iOS — Safari):</b><br>
+          1. Mở trang bằng <b>Safari</b> → bấm <b>Chia sẻ</b>.<br>
+          2. Chọn <b>"Thêm vào Màn hình chính"</b> → <b>Thêm</b>.
         </div>
-        <div style="background:#f0fdf4;color:#14532d;padding:12px 14px;border-radius:12px;">
-          <b>🤖 Trên điện thoại Android:</b><br>
-          1. Mở đường link bằng trình duyệt <b>Chrome</b>.<br>
-          2. Bấm biểu tượng <b>3 chấm dọc (⋮)</b> ở góc trên bên phải.<br>
-          3. Chọn <b>"Thêm vào màn hình chính"</b> hoặc <b>"Cài đặt ứng dụng"</b>.
-          ${deferredPrompt ? `<button class="s4-btn" style="background:#16a34a;margin-top:10px;" id="btnNativeInstall">⚡ Cài đặt App ngay (1 chạm)</button>` : ""}
+        <div style="background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.18);padding:11px 13px;border-radius:12px;">
+          <b>Android (Chrome):</b><br>
+          1. Mở trang bằng <b>Chrome</b> → bấm menu <b>⋮</b>.<br>
+          2. Chọn <b>"Thêm vào màn hình chính"</b> / <b>"Cài đặt ứng dụng"</b>.
+          ${deferredPrompt ? `<button class="s4-btn" style="background:#16a34a;margin-top:10px;" id="btnNativeInstall">${uiIcon("zap", 15, "⚡")} Cài đặt App ngay (1 chạm)</button>` : ""}
         </div>
       </div>`;
     box.querySelector("#s4Close").onclick = closeModals;
@@ -2456,7 +2981,10 @@
       clearTimeout(pushTimer);
       try { pushed = await pushProgress(); } catch (e) {}
       if (!pushed) { try { rawSet("s4_auth_profile_" + cur.username, JSON.stringify(readProgress())); } catch (e) {} }
-      else rawRemove("s4_auth_sync_" + cur.username);
+      else {
+        rawRemove("s4_auth_sync_" + cur.username);
+        rawRemove("s4_auth_tombs_" + cur.username);
+      }
       hookSuspended = true;
       clearLocalProgressKeys();
       hookSuspended = false;
@@ -2477,42 +3005,32 @@
     allowOverwriteOnce: allowOverwriteOnce
   };
 
-  /* ---------- Khởi động ---------- */
+  /* ---------- Khởi động (Không chặn hiển thị bởi mạng) ---------- */
   async function boot() {
-
     try {
       if (!isHomePage()) {
         document.documentElement.lang = 'en';
       }
     } catch (e) {}
 
-    let firstConfigChanged = false;
-    if (!hadCachedConfig) {
-      try { firstConfigChanged = await Promise.race([fetchConfig(), new Promise((_, rej) => setTimeout(rej, 4000))]); } catch (e) {}
-    }
+    // Vẽ thanh tài khoản & kiểm tra thông báo bản quyền NGAY LẬP TỨC (0ms chờ mạng)
     renderTopBar();
-    /* Mở tự do 100% không ép đăng nhập */
+    setTimeout(checkFirstTimeCommunityDisclaimer, 250);
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       const swPath = resolveFromRoot("sw.js", isHomePage() ? "./sw.js" : "../sw.js");
       navigator.serviceWorker.register(swPath).then(reg => reg.update()).catch(() => {});
     }
 
-    if (hadCachedConfig) {
-      fetchConfig().then(changed => {
-        if (!changed) return;
-        renderTopBar();
-        if (!isHomePage()) reloadOnce("cfg");
-      }).catch(() => {});
-    } else if (firstConfigChanged && !isHomePage()) {
-      reloadOnce("cfg0");
-    }
+    // Tải cấu hình QR Donate ngầm ở nền, không làm đứng trang 4 giây hay reload bất ngờ
+    fetchConfig().then(changed => {
+      if (changed) renderTopBar();
+    }).catch(() => {});
 
     if (session) {
       refreshSession().catch(() => {});
       syncProgress(false).catch(() => {});
     }
-    setTimeout(checkFirstTimeCommunityDisclaimer, 250);
   }
 
   document.addEventListener("visibilitychange", () => {
@@ -2557,37 +3075,33 @@
     modal.id = "lpDisclaimerModal";
     modal.style.cssText = "display:flex;align-items:center;justify-content:center;z-index:2147483647;position:fixed;inset:0;background:rgba(15,23,42,0.74);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:16px;box-sizing:border-box;";
     modal.innerHTML = `
-      <div class="s4-disc-dialog" role="dialog" aria-modal="true" style="max-width:540px;width:100%;max-height:90vh;overflow-y:auto;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.45);animation:s4ModalIn 0.24s cubic-bezier(0.16,1,0.3,1);font-family:inherit;box-sizing:border-box;">
-        <div style="padding:20px 22px 14px;background:linear-gradient(135deg, rgba(16,185,129,0.16), rgba(245,158,11,0.12));border-bottom:1px solid var(--border, rgba(148,163,184,0.22));display:flex;align-items:center;gap:12px;">
-          <div style="width:42px;height:42px;border-radius:12px;background:var(--primary, #10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
-            🌿
+      <div class="s4-disc-dialog" role="dialog" aria-modal="true" style="max-width:500px;width:100%;max-height:90vh;overflow-y:auto;border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,0.45);animation:s4ModalIn 0.24s cubic-bezier(0.16,1,0.3,1);font-family:inherit;box-sizing:border-box;">
+        <div style="padding:18px 20px 12px;background:linear-gradient(135deg, rgba(16,185,129,0.14), rgba(245,158,11,0.1));border-bottom:1px solid var(--border, rgba(148,163,184,0.22));display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:12px;background:var(--primary, #10b981);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+            ${uiIcon("leaf", 20, "🌿")}
           </div>
           <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <h2 style="margin:0;font-size:17.5px;font-weight:800;letter-spacing:-0.01em;">LinguaPath</h2>
+              <h2 style="margin:0;font-size:17px;font-weight:800;letter-spacing:-0.01em;">LinguaPath</h2>
               <span class="s4-disc-badge" style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;">Free for Community</span>
             </div>
-            <p style="margin:2px 0 0;font-size:12px;color:var(--muted, #64748b);font-weight:600;">Thông báo Tôn trọng Bản quyền &amp; Sứ mệnh Chia sẻ</p>
+            <p style="margin:2px 0 0;font-size:12px;color:var(--muted, #64748b);font-weight:600;">Thông báo Bản quyền &amp; Sứ mệnh Phi lợi nhuận</p>
           </div>
         </div>
         
-        <div class="s4-disc-body" style="padding:18px 22px;font-size:13.5px;line-height:1.6;">
-          <div class="s4-disc-box-green" style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border-left:3.5px solid #10b981;">
-            <strong>🤝 Sứ mệnh phi lợi nhuận:</strong> Nền tảng được xây dựng hoàn toàn phi thương mại nhằm hỗ trợ học sinh, sinh viên và cộng đồng có môi trường mô phỏng phòng thi máy tính để tự rèn luyện kỹ năng mọi lúc, mọi nơi.
-          </div>
-          
-          <div class="s4-disc-box-amber" style="margin-bottom:12px;padding:12px 14px;border-radius:10px;border-left:3.5px solid #f59e0b;">
-            <strong>📚 Nguồn gốc tài liệu:</strong> Dữ liệu học thuật trong hệ thống được tham khảo và biên soạn dựa trên các khóa <strong>IELTS Fundamentals</strong> và <strong>IELTS 4 Kỹ Năng</strong> của nền tảng <strong>STUDY4</strong>.
-          </div>
-          
-          <div class="s4-disc-box-blue" style="padding:12px 14px;border-radius:10px;border-left:3.5px solid #3b82f6;font-size:13px;">
-            <strong>💎 Tôn trọng tác giả:</strong> Để trải nghiệm trọn vẹn 100% dữ liệu gốc, kho đề mới nhất, bài giảng chuyên sâu và hệ thống giáo viên chấm bài tương tác, chúng tôi <strong>khuyến khích bạn đăng ký mua khóa học chính thức trực tiếp tại website chính hãng của STUDY4</strong> (<a href="https://study4.com" target="_blank" rel="noopener" class="s4-disc-link">study4.com</a>).
+        <div class="s4-disc-body" style="padding:16px 20px;font-size:13.5px;line-height:1.58;">
+          <div style="padding:13px 15px;border-radius:14px;background:var(--lg-wash, rgba(16,185,129,0.08));border:1px solid var(--lg-hairline, rgba(16,185,129,0.25));">
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
+              <li><strong>Sứ mệnh phi lợi nhuận:</strong> Hỗ trợ cộng đồng luyện thi máy tính miễn phí mọi lúc, mọi nơi.</li>
+              <li><strong>Nguồn gốc tài liệu:</strong> Tham khảo và biên soạn dựa trên các khóa <strong>IELTS Fundamentals</strong> &amp; <strong>IELTS 4 Kỹ Năng</strong> của <strong>STUDY4</strong>.</li>
+              <li><strong>Tôn trọng tác giả:</strong> Khuyến khích đăng ký khóa học chính thức tại <a href="https://study4.com" target="_blank" rel="noopener" class="s4-disc-link">study4.com</a> để trải nghiệm trọn vẹn dữ liệu gốc và giảng viên chấm bài.</li>
+            </ul>
           </div>
         </div>
         
-        <div class="s4-disc-foot" style="padding:14px 22px 18px;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
-          <button type="button" id="lpDisclaimerBtn" style="padding:10px 20px;border-radius:10px;background:linear-gradient(135deg, #10b981, #059669);color:#ffffff;border:none;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);transition:all 0.15s ease;">
-            🚀 Tôi đã hiểu &amp; Bắt đầu học miễn phí
+        <div class="s4-disc-foot" style="padding:12px 20px 16px;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
+          <button type="button" id="lpDisclaimerBtn" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:12px;background:linear-gradient(135deg, #10b981, #059669);color:#ffffff;border:none;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);transition:all 0.15s ease;">
+            ${uiIcon("check", 15, "🚀")} Tôi đã hiểu &amp; Bắt đầu học
           </button>
         </div>
       </div>

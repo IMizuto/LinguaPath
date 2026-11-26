@@ -37,6 +37,10 @@ html:not(.theme-ghibli):not(.dark) body {
   background: #f1f5f9 !important;
   color: #0f172a !important;
 }
+html:not(.theme-ghibli):not(.dark):has(.lp-aurora-layer, .rm-aurora-layer),
+html:not(.theme-ghibli):not(.dark) body:has(.lp-aurora-layer, .rm-aurora-layer) {
+  background: transparent !important;
+}
 
 /* --------------------------------------------------------------------------
    2. DEFAULT THEME + DARK MODE (🎨 Mặc định + 🌙 Tối)
@@ -59,6 +63,10 @@ html.dark:not(.theme-ghibli) body {
   --vi-text: #bae6fd;
   color-scheme: dark;
 }
+html.dark:not(.theme-ghibli):has(.lp-aurora-layer, .rm-aurora-layer),
+html.dark:not(.theme-ghibli) body:has(.lp-aurora-layer, .rm-aurora-layer) {
+  background: transparent !important;
+}
 
 /* --------------------------------------------------------------------------
    3. STUDIO GHIBLI + LIGHT MODE (🌿 Ghibli + ☀️ Sáng — Nắng Thảo Nguyên)
@@ -67,9 +75,9 @@ html.dark:not(.theme-ghibli) body {
 html.theme-ghibli:not(.dark),
 html.theme-ghibli:not(.dark) body {
   --bg: #efe8d5 !important;
-  --panel: rgba(253, 250, 242, 0.92) !important;
-  --panel-hover: rgba(245, 237, 218, 0.96) !important;
-  --card: rgba(254, 252, 246, 0.94) !important;
+  --panel: rgba(253, 250, 242, 0.80) !important;
+  --panel-hover: rgba(245, 237, 218, 0.90) !important;
+  --card: rgba(254, 252, 246, 0.82) !important;
   --text: #16261c !important;
   --sub-text: #2c4033 !important;
   --muted: #4e6355 !important;
@@ -85,7 +93,7 @@ html.theme-ghibli:not(.dark) body {
   --hl-gold: #9a3412 !important;
   --hl-green: #1b5e3a !important;
   --hl-cyan: #0369a1 !important;
-  --box-sub: #f2ead8 !important;
+  --box-sub: rgba(242, 234, 216, 0.72) !important;
   --vi-bg: rgba(45, 106, 79, 0.10) !important;
   --vi-text: #14452f !important;
   color-scheme: light !important;
@@ -102,9 +110,9 @@ html.theme-ghibli:not(.dark) body {
 html.theme-ghibli.dark,
 html.theme-ghibli.dark body {
   --bg: #0d1813 !important;
-  --panel: rgba(18, 31, 25, 0.90) !important;
-  --panel-hover: rgba(26, 44, 36, 0.95) !important;
-  --card: rgba(21, 36, 29, 0.92) !important;
+  --panel: rgba(18, 31, 25, 0.78) !important;
+  --panel-hover: rgba(26, 44, 36, 0.88) !important;
+  --card: rgba(21, 36, 29, 0.80) !important;
   --text: #f1ede4 !important;
   --sub-text: #cfe2d5 !important;
   --muted: #8ca896 !important;
@@ -120,7 +128,7 @@ html.theme-ghibli.dark body {
   --hl-gold: #f6bd60 !important;
   --hl-green: #74c69d !important;
   --hl-cyan: #64dfdf !important;
-  --box-sub: rgba(10, 19, 15, 0.78) !important;
+  --box-sub: rgba(10, 19, 15, 0.68) !important;
   --vi-bg: rgba(82, 183, 136, 0.12) !important;
   --vi-text: #b7e4c7 !important;
   color-scheme: dark !important;
@@ -131,6 +139,8 @@ html.theme-ghibli.dark body {
 
 /* --------------------------------------------------------------------------
    DEDICATED FIXED GHIBLI WATERCOLOR BACKDROP LAYER (#ghibliBackdropLayer)
+   - Tầng portal: giảm sương mù phủ để tranh nền hiển thị trong trẻo sau kính
+   - Tầng study (mặc định): giữ lớp phủ dịu nhẹ bảo vệ mắt khi đọc lâu
    -------------------------------------------------------------------------- */
 .ghibli-backdrop-layer {
   position: fixed;
@@ -148,27 +158,48 @@ html.theme-ghibli .ghibli-backdrop-layer {
   display: block;
 }
 
-/* Ghibli Day Backdrop: Warm sunlit watercolor meadow clearly visible in margins */
+/* Ghibli Day Backdrop (Study tier default): gentle eye-care parchment wash */
 html.theme-ghibli:not(.dark) .ghibli-backdrop-layer {
   background-image:
-    linear-gradient(180deg, rgba(252, 248, 236, 0.22) 0%, rgba(244, 238, 220, 0.36) 55%, rgba(235, 226, 202, 0.45) 100%),
+    linear-gradient(180deg, rgba(252, 248, 236, 0.20) 0%, rgba(244, 238, 220, 0.34) 55%, rgba(235, 226, 202, 0.42) 100%),
     url('ghibli_bg.jpg');
   filter: saturate(1.12) contrast(1.02);
 }
 
-/* Ghibli Night Backdrop: Tranquil moonlit forest night with warm lantern vignette */
+/* Ghibli Day Backdrop (Portal tier): crystal clear painting behind 32-48% glass */
+html.theme-ghibli[data-glass-tier="portal"]:not(.dark) .ghibli-backdrop-layer {
+  background-image:
+    linear-gradient(180deg, rgba(252, 248, 236, 0.06) 0%, rgba(244, 238, 220, 0.12) 60%, rgba(235, 226, 202, 0.18) 100%),
+    url('ghibli_bg.jpg');
+  filter: saturate(1.14) contrast(1.03);
+}
+
+/* Ghibli Night Backdrop (Study tier default): tranquil forest night with eye-care scrim */
 html.theme-ghibli.dark .ghibli-backdrop-layer {
   background-image:
     radial-gradient(circle at 82% 15%, rgba(246, 189, 96, 0.14) 0%, transparent 45%),
-    linear-gradient(180deg, rgba(9, 18, 14, 0.68) 0%, rgba(12, 24, 19, 0.76) 60%, rgba(10, 20, 16, 0.85) 100%),
+    linear-gradient(180deg, rgba(9, 18, 14, 0.64) 0%, rgba(12, 24, 19, 0.72) 60%, rgba(10, 20, 16, 0.80) 100%),
     url('ghibli_bg.jpg');
-  filter: brightness(0.68) saturate(0.85);
+  filter: brightness(0.70) saturate(0.88);
+}
+
+/* Ghibli Night Backdrop (Portal tier): rich moonlit artwork clearly visible behind glass */
+html.theme-ghibli[data-glass-tier="portal"].dark .ghibli-backdrop-layer {
+  background-image:
+    radial-gradient(circle at 82% 15%, rgba(246, 189, 96, 0.18) 0%, transparent 48%),
+    linear-gradient(180deg, rgba(8, 16, 12, 0.32) 0%, rgba(10, 21, 16, 0.42) 60%, rgba(9, 18, 14, 0.52) 100%),
+    url('ghibli_bg.jpg');
+  filter: brightness(0.84) saturate(0.96);
 }
 
 html.theme-ghibli .main-wrap,
 html.theme-ghibli .workspace,
 html.theme-ghibli .main,
-html.theme-ghibli .main-area {
+html.theme-ghibli .main-area,
+html:has(.lp-aurora-layer, .rm-aurora-layer) .main-wrap,
+html:has(.lp-aurora-layer, .rm-aurora-layer) .workspace,
+html:has(.lp-aurora-layer, .rm-aurora-layer) .main,
+html:has(.lp-aurora-layer, .rm-aurora-layer) .main-area {
   background: transparent !important;
 }
 
@@ -183,14 +214,12 @@ html.theme-ghibli .lesson-container {
    -------------------------------------------------------------------------- */
 html:not(.dark) .topbar,
 html:not(.dark) header.topbar {
-  background: rgba(253, 250, 242, 0.94) !important;
-  border-bottom: 1.5px solid var(--border) !important;
-  color: var(--text) !important;
-  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.05) !important;
-}
-html:not(.theme-ghibli):not(.dark) .topbar,
-html:not(.theme-ghibli):not(.dark) header.topbar {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: var(--lg-surface-strong, rgba(253, 250, 242, 0.86)) !important;
+  backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  border-bottom: 1px solid var(--lg-hairline, var(--border)) !important;
+  color: var(--lg-ink, var(--text)) !important;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.06) !important;
 }
 
 html:not(.dark) .prog-pill {
@@ -403,49 +432,83 @@ html.theme-ghibli .hero {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22) !important;
 }
 
-html.theme-ghibli .course-card,
-html.theme-ghibli .summary-bar,
-html.theme-ghibli .passage-card,
-html.theme-ghibli .vocab-inspector,
-html.theme-ghibli .smart-box,
-html.theme-ghibli .drill-box,
-html.theme-ghibli .dic-card,
-html.theme-ghibli .dic-box,
-html.theme-ghibli .shad-card,
-html.theme-ghibli .theory-card,
-html.theme-ghibli .audio-bar,
-html.theme-ghibli .mode-bar,
-html.theme-ghibli .srs-stat-card,
-html.theme-ghibli .vocab-card-item,
-html.theme-ghibli .stats-card,
-html.theme-ghibli .cat-group,
-html.theme-ghibli .sec-group,
-html.theme-ghibli .practice-card,
-html.theme-ghibli .topic-banner,
-html.theme-ghibli .content-card,
-html.theme-ghibli .exercise-box,
-html.theme-ghibli .video-panel,
-html.theme-ghibli .content-panel,
-html.theme-ghibli .s4v-mode-bar,
-html.theme-ghibli .s4v-stats-card,
-html.theme-ghibli .s4v-card-box,
-html.theme-ghibli .s4v-word-card {
-  background: var(--card) !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
-  color: var(--text) !important;
+html .course-card,
+html .summary-bar,
+html .surface-card,
+html .panel-card,
+html .roadmap-card,
+html .pillar-featured,
+html .passage-card,
+html .vocab-inspector,
+html .smart-box,
+html .drill-box,
+html .dic-card,
+html .dic-box,
+html .shad-card,
+html .theory-card,
+html .audio-bar,
+html .mode-bar,
+html .srs-stat-card,
+html .vocab-card-item,
+html .stats-card,
+html .practice-card,
+html .topic-banner,
+html .content-card,
+html .exercise-box,
+html .video-panel,
+html .content-panel,
+html .s4v-mode-bar,
+html .s4v-stats-card,
+html .s4v-card-box,
+html .s4v-word-card,
+html .w-lobby-card,
+html .w-ai-eval-card,
+html .s4-pz-hub-card,
+html .sp-theory-card,
+html .sp-checklist-card,
+html .sp-quiz-card,
+html .sp-prompt-card,
+html .sp-lobby-card,
+html #lessonContent.container,
+html .card {
+  background: var(--lg-surface, var(--card)) !important;
+  backdrop-filter: var(--lg-blur, blur(12px) saturate(145%)) !important;
+  -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%)) !important;
+  border: 1px solid var(--lg-hairline, var(--border)) !important;
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.36)),
+    inset 1px 0 0 var(--lg-rim-side, rgba(255, 255, 255, 0.16)),
+    inset 0 -1px 0 var(--lg-rim-bot, rgba(0, 0, 0, 0.08)),
+    var(--lg-shadow, 0 8px 24px rgba(0, 0, 0, 0.12)) !important;
+  color: var(--lg-ink, var(--text)) !important;
+}
+
+/* Chống lồng kính mờ trong sidebar, #lessonContent.container hoặc .lp-glass */
+html .cat-group,
+html .sec-group,
+html #lessonContent.container .practice-card,
+html .lp-glass .card,
+html .lp-glass .surface-card,
+html .lp-glass .panel-card {
+  background: var(--lg-wash, var(--box-sub)) !important;
+  border: 1px solid var(--lg-hairline, var(--border)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  color: var(--lg-ink, var(--text)) !important;
 }
 
 /* Ghibli Dark specific subtle adjustments for cards, topbar & sidebar */
 html.theme-ghibli.dark .topbar,
 html.theme-ghibli.dark header.topbar {
-  background: rgba(15, 27, 22, 0.94) !important;
-  border-bottom: 1.5px solid rgba(212, 163, 115, 0.3) !important;
+  background: var(--lg-surface-strong, rgba(15, 27, 22, 0.84)) !important;
+  backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  border-bottom: 1px solid var(--lg-hairline, rgba(212, 163, 115, 0.3)) !important;
 }
 html.theme-ghibli.dark .sidebar {
-  background: rgba(16, 28, 23, 0.96) !important;
-  border-right: 1.5px solid rgba(212, 163, 115, 0.28) !important;
+  background: rgba(16, 28, 23, 0.88) !important;
+  border-right: 1px solid var(--lg-hairline, rgba(212, 163, 115, 0.28)) !important;
 }
 html.theme-ghibli.dark .folder-box {
   background: rgba(22, 38, 31, 0.78) !important;
@@ -536,21 +599,8 @@ html.theme-ghibli .course-card:hover {
   transform: translateY(-4px) !important;
   border-color: var(--primary) !important;
 }
-html.theme-ghibli .course-card .card-top {
-  padding-right: 24px;
-}
-html.theme-ghibli .course-card::after {
-  content: "🌿";
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  font-size: 12px;
-  opacity: 0.28;
-  pointer-events: none;
-}
-
 /* --------------------------------------------------------------------------
-   SEPARATED DUAL-CONTROL DOCK (Theme: 🌿 Ghibli / 🎨 Mặc định | Mode: ☀️ Sáng / 🌙 Tối)
+   SEPARATED DUAL-CONTROL DOCK (Liquid Glass + SVG Icons)
    & SOOT SPRITES MOVED TO BOTTOM-RIGHT SO SIDEBAR IS NEVER BLOCKED
    -------------------------------------------------------------------------- */
 .s4-theme-dock {
@@ -560,43 +610,61 @@ html.theme-ghibli .course-card::after {
   z-index: 9990;
   display: flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(254, 251, 243, 0.96);
-  border: 1.5px solid #cbb894;
+  gap: 4px;
+  background: var(--lg-surface-strong, rgba(254, 251, 243, 0.78));
+  border: 1px solid var(--lg-hairline, rgba(203, 184, 148, 0.56));
   border-radius: 999px;
-  padding: 5px 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(10px);
+  padding: 4px 6px;
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.78)),
+    inset 1px 0 0 var(--lg-rim-side, rgba(255, 255, 255, 0.28)),
+    inset 0 -1px 0 var(--lg-rim-bot, rgba(0, 0, 0, 0.08)),
+    var(--lg-shadow, 0 8px 24px rgba(0, 0, 0, 0.18));
+  backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
   font-family: 'Quicksand', -apple-system, sans-serif;
 }
 html.dark .s4-theme-dock {
-  background: rgba(18, 30, 26, 0.96);
-  border-color: rgba(212, 163, 115, 0.4);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  background: var(--lg-surface-strong, rgba(18, 30, 26, 0.78));
+  border-color: var(--lg-hairline, rgba(212, 163, 115, 0.34));
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, rgba(246, 220, 175, 0.18)),
+    inset 1px 0 0 var(--lg-rim-side, rgba(212, 163, 115, 0.10)),
+    inset 0 -1px 0 var(--lg-rim-bot, rgba(0, 0, 0, 0.22)),
+    var(--lg-shadow, 0 10px 28px rgba(0, 0, 0, 0.42));
 }
 .s4-dock-sep {
-  width: 1.5px;
-  height: 18px;
-  background: rgba(148, 163, 184, 0.35);
+  width: 1px;
+  height: 16px;
+  background: var(--lg-divider, rgba(148, 163, 184, 0.32));
   margin: 0 2px;
+  flex-shrink: 0;
 }
 .s4-theme-opt {
   border: 1px solid transparent;
   background: transparent;
-  padding: 5px 10px;
+  padding: 5px 9px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;
-  color: #334155;
-  transition: all 0.16s ease;
+  color: var(--lg-ink-sub, #334155);
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   white-space: nowrap;
+  line-height: 1;
+}
+.s4-opt-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
 }
 html.dark .s4-theme-opt {
-  color: #cbd5e1;
+  color: var(--lg-ink-sub, #cbd5e1);
 }
 .s4-theme-opt:hover {
   background: rgba(148, 163, 184, 0.14);
@@ -750,17 +818,25 @@ html.theme-ghibli .ghibli-sky-layer {
   justify-content: center;
   background: transparent;
   border: none;
-  font-size: 11px;
   cursor: pointer;
-  color: var(--muted);
-  padding: 3px 6px;
+  color: var(--lg-ink-muted, var(--muted));
+  width: 26px;
+  height: 26px;
+  padding: 0;
   border-radius: 999px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.16s ease, color 0.16s ease;
+  flex-shrink: 0;
+}
+.s4-dock-toggle:hover {
+  background: var(--lg-wash-hover, rgba(148, 163, 184, 0.16));
+  color: var(--lg-ink, var(--text));
 }
 .s4-theme-dock.minimized {
   padding: 0 !important;
   border-radius: 999px !important;
   background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
 }
@@ -769,25 +845,27 @@ html.theme-ghibli .ghibli-sky-layer {
   display: none !important;
 }
 .s4-theme-dock.minimized .s4-dock-toggle {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-  font-size: 15px;
-  opacity: 0.9;
-}
-.s4-theme-dock.minimized .s4-dock-toggle::before {
-  content: "🌿";
-}
-html:not(.theme-ghibli) .s4-theme-dock.minimized .s4-dock-toggle::before {
-  content: "🎨";
+  width: 36px;
+  height: 36px;
+  background: var(--lg-surface-strong, var(--card));
+  backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  -webkit-backdrop-filter: var(--lg-blur, blur(12px) saturate(145%));
+  border: 1px solid var(--lg-hairline, var(--border));
+  color: var(--lg-accent, var(--primary));
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.65)),
+    inset 1px 0 0 var(--lg-rim-side, rgba(255, 255, 255, 0.24)),
+    inset 0 -1px 0 var(--lg-rim-bot, rgba(0, 0, 0, 0.10)),
+    var(--lg-shadow, 0 6px 18px rgba(0, 0, 0, 0.22));
+  opacity: 0.94;
 }
 body.in-cbt-mode .s4-theme-dock,
 body.in-cbt-mode .ghibli-sprites-stage,
+body.s4-cbt-mode .s4-theme-dock,
+body.s4-cbt-mode .ghibli-sprites-stage,
 body.s4-kbd-open .s4-theme-dock,
 body.s4-kbd-open .ghibli-sprites-stage {
   display: none !important;
@@ -797,7 +875,7 @@ body.s4-kbd-open .ghibli-sprites-stage {
   body:not(.s4-cbt-mode):not(.in-cbt-mode) .main-area,
   body:not(.s4-cbt-mode):not(.in-cbt-mode) .main,
   body:not(.s4-cbt-mode):not(.in-cbt-mode) .s4v-wrap {
-    padding-bottom: 68px !important;
+    padding-bottom: 92px !important;
   }
 }
 
@@ -805,14 +883,9 @@ body.s4-kbd-open .ghibli-sprites-stage {
   .s4-theme-dock {
     bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
     right: 10px !important;
-    padding: 3px 6px !important;
-    gap: 3px !important;
+    padding: 3px 5px !important;
+    gap: 2px !important;
     border-radius: 999px !important;
-    background: rgba(254, 251, 243, 0.94) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.24) !important;
-  }
-  html.dark .s4-theme-dock {
-    background: rgba(18, 30, 26, 0.95) !important;
   }
   .s4-theme-opt {
     padding: 4px 6px !important;
@@ -854,13 +927,12 @@ html.ghibli-lite .ghibli-sprites-stage {
   display: none !important;
 }
 
-html.ghibli-lite *,
-html.ghibli-lite .card,
-html.ghibli-lite .sidebar,
-html.ghibli-lite .topbar,
-html.ghibli-lite .s4-theme-dock,
-html.ghibli-lite .video-panel,
-html.ghibli-lite .content-panel, html.ghibli-lite .w-lobby-card, html.ghibli-lite .w-lightbox, html.ghibli-lite .w-modal-backdrop, html.ghibli-lite .sidebar-backdrop {
+html.ghibli-lite {
+  --lg-blur: blur(6px) saturate(120%);
+}
+html.ghibli-lite .s4-ui-backdrop,
+html.ghibli-lite .w-modal-backdrop,
+html.ghibli-lite .sidebar-backdrop {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -1736,6 +1808,7 @@ body.s4-cbt-mode {
   width: 100vw !important;
   max-width: 100vw !important;
   height: 100vh !important;
+  height: 100dvh !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -1761,6 +1834,7 @@ body.s4-cbt-mode .main-area {
   padding: 0 !important;
   overflow: hidden !important;
   height: 100vh !important;
+  height: 100dvh !important;
   width: 100vw !important;
   max-width: 100vw !important;
   margin: 0 !important;
@@ -1770,6 +1844,7 @@ body.s4-cbt-mode .lesson-container {
   max-width: 100vw !important;
   width: 100vw !important;
   height: 100vh !important;
+  height: 100dvh !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -1783,7 +1858,9 @@ body.s4-cbt-mode .s4-cbt-shell {
   width: 100vw !important;
   max-width: 100vw !important;
   height: 100vh !important;
+  height: 100dvh !important;
   max-height: 100vh !important;
+  max-height: 100dvh !important;
   background: var(--bg);
   color: var(--text);
   overflow: hidden !important;
@@ -2298,9 +2375,14 @@ html:not(.dark) .s4-cbt-user-hl {
   position: relative;
 }
 .s4-cbt-user-note::after {
-  content: "📝";
-  font-size: 11px;
-  margin-left: 2px;
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0284c7;
+  margin-left: 4px;
+  vertical-align: super;
 }
 .s4-cbt-hl-popup {
   position: fixed;

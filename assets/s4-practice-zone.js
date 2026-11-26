@@ -58,6 +58,88 @@
     return true;
   }
 
+  function escHtml(str) {
+    if (typeof window !== 'undefined' && window.S4UI && typeof window.S4UI.escapeHtml === 'function') {
+      return window.S4UI.escapeHtml(str);
+    }
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function escJsAttr(str) {
+    return escHtml(
+      String(str == null ? '' : str)
+        .replace(/\\/g, '\\\\')
+        .replace(/\r?\n/g, ' ')
+        .replace(/'/g, "\\'")
+    );
+  }
+
+  const PZ_FALLBACK_SVG = {
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    refresh: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    reading: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',
+    play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+    volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+    brush: '<path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/>',
+    edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+    grid: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>',
+    award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    calendar: '<rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+    chart: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    tedtalks: '<rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/>',
+    keyboard: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.001"/><path d="M10 8h.001"/><path d="M14 8h.001"/><path d="M18 8h.001"/><path d="M8 12h.001"/><path d="M12 12h.001"/><path d="M16 12h.001"/><path d="M7 16h10"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+    expand: '<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>',
+    minimize: '<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>',
+    split: '<rect width="18" height="18" x="3" y="3" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/>',
+    rewind: '<polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/>',
+    forward: '<polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/>',
+    inbox: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>'
+  };
+
+  function pzIcon(name, size) {
+    if (typeof window !== 'undefined' && window.S4UI && typeof window.S4UI.icon === 'function' && !['expand', 'minimize', 'split', 'rewind', 'forward', 'inbox'].includes(name)) {
+      return window.S4UI.icon(name, size);
+    }
+    const sz = Number(size) > 0 ? Number(size) : 14;
+    const body = PZ_FALLBACK_SVG[name] || PZ_FALLBACK_SVG.sparkle;
+    return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+  }
+
+  (function ensurePzGlassStyles() {
+    if (typeof document === 'undefined' || document.getElementById('s4PzStudyGlassStyles')) return;
+    const st = document.createElement('style');
+    st.id = 's4PzStudyGlassStyles';
+    st.textContent = `
+      .s4-pz-chip-strip { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+      .s4-pz-feat-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; background: var(--lg-wash, rgba(148,163,184,0.12)); border: 1px solid var(--lg-hairline, var(--border)); color: var(--lg-ink-sub, var(--text)); font-size: 12px; font-weight: 700; white-space: nowrap; }
+      .s4-pz-feat-chip svg { color: var(--lg-accent, var(--primary)); flex-shrink: 0; }
+      .s4-pz-inline-chip { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+      .s4-cbt-ctrl-btn, .s4-cbt-submit-btn, .s4-cbt-mob-tab, .w-history-btn-view, .w-history-btn-icon, .s4-pz-clear-chip, .s4-cbt-hl-popup button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+      .w-lobby-chip, .w-lobby-icon, .w-lobby-start-btn > span { display: inline-flex; align-items: center; gap: 6px; }
+      .s4-cbt-header, .s4-cbt-bottom-bar, .s4-cbt-part-banner { background: var(--lg-surface-strong, var(--panel)) !important; backdrop-filter: var(--lg-blur, blur(12px)); -webkit-backdrop-filter: var(--lg-blur, blur(12px)); border-color: var(--lg-hairline, var(--border)) !important; }
+      .s4-cbt-pane-left, .s4-cbt-pane-right, .s4-pz-test-item, .w-history-item { background: var(--lg-surface, var(--card)) !important; border-color: var(--lg-hairline, var(--border)) !important; }
+    `;
+    document.head.appendChild(st);
+  })();
+
   // =========================================================================
   // 1. UNIVERSAL IELTS ANSWER GRADER & BAND CALCULATOR
   // =========================================================================
@@ -177,6 +259,40 @@
     return `${m < 10 ? '0' + m : m}:${r < 10 ? '0' + r : r}`;
   }
 
+  function getElapsedExamMinutes() {
+    const elapsedSec = timerLimitSeconds > 0
+      ? Math.max(0, timerLimitSeconds - timerSeconds)
+      : Math.max(0, timerSeconds);
+    return Math.max(1, Math.round(elapsedSec / 60));
+  }
+
+  function handleExamTimerExpired() {
+    if (typeof window !== 'undefined' && window.S4UI && typeof window.S4UI.toast === 'function') {
+      window.S4UI.toast('warn', '⏰ Đã hết giờ làm bài! Hãy nộp bài để chấm điểm.', { duration: 5000 });
+    }
+    const readRoot = document.getElementById('s4PzExamRoot');
+    const listenRoot = document.getElementById('s4PzListenExamRoot');
+    const isReading = Boolean(readRoot && lastReadingSessionContext && !readSubmittedMap[lastReadingSessionContext.sessionKey]);
+    const isListening = Boolean(listenRoot && activeListenTestId);
+    if (!isReading && !isListening) return;
+    confirmCbtAction('⏰ Đã hết thời gian làm bài! Bạn có muốn nộp bài và xem điểm ngay bây giờ không?', {
+      title: 'Hết giờ làm bài',
+      tone: 'warn',
+      confirmText: 'Nộp bài ngay',
+      cancelText: 'Xem thêm một chút'
+    }).then(ok => {
+      if (!ok) return;
+      if (isReading && lastReadingSessionContext) {
+        window.s4PzSubmitReading(lastReadingSessionContext.sessionKey, { skipConfirm: true });
+      } else if (isListening) {
+        const sKey = 'listen_' + activeListenTestId;
+        if (!listenSubmittedMap[sKey]) {
+          window.s4PzSubmitListening(sKey, activeListenTestId, { skipConfirm: true });
+        }
+      }
+    });
+  }
+
   function startExamTimer(limitMinutes) {
     stopExamTimer();
     timerLimitSeconds = (limitMinutes && limitMinutes > 0) ? limitMinutes * 60 : 0;
@@ -186,7 +302,10 @@
       if (!timerRunning) return;
       if (timerLimitSeconds > 0) {
         timerSeconds = Math.max(0, timerSeconds - 1);
-        if (timerSeconds === 0) stopExamTimer();
+        if (timerSeconds === 0) {
+          stopExamTimer();
+          handleExamTimerExpired();
+        }
       } else {
         timerSeconds++;
       }
@@ -194,7 +313,7 @@
       if (el) el.textContent = formatTimer(timerSeconds);
       const box = document.getElementById('s4CbtTimerBox');
       if (box && timerLimitSeconds > 0) {
-        box.classList.toggle('warn-5m', timerSeconds > 0 && timerSeconds <= 300);
+        box.classList.toggle('warn-5m', timerSeconds <= 300);
         box.classList.toggle('warn-10m', timerSeconds > 300 && timerSeconds <= 600);
       }
     }, 1000);
@@ -267,7 +386,9 @@
     const btn = document.getElementById('s4CbtFsBtn');
     if (!btn) return;
     const isFs = !!document.fullscreenElement;
-    btn.innerHTML = isFs ? '🗗<span class="s4-cbt-hide-mob"> Thoát Fullscreen (Esc)</span>' : '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình (F11)</span>';
+    btn.innerHTML = isFs
+      ? `${pzIcon('minimize', 14)}<span class="s4-cbt-hide-mob"> Thoát FS</span>`
+      : `${pzIcon('expand', 14)}<span class="s4-cbt-hide-mob"> Toàn màn hình</span>`;
     btn.classList.toggle('active', isFs);
   }
 
@@ -318,7 +439,7 @@
 
   window.s4CbtQuickHighlight = function () {
     if (!getActiveSplitRange()) {
-      showCbtToast('🖍️ Hãy bôi đen một đoạn văn bản trước rồi bấm nút để Highlight!');
+      showCbtToast('Hãy bôi đen một đoạn văn bản trước rồi bấm Highlight!');
       return;
     }
     applySelectionHighlight(false);
@@ -328,7 +449,7 @@
 
   window.s4CbtQuickNote = function () {
     if (!getActiveSplitRange()) {
-      showCbtToast('📝 Hãy bôi đen một đoạn văn bản trước rồi bấm nút để thêm Ghi chú!');
+      showCbtToast('Hãy bôi đen một đoạn văn bản trước rồi bấm Ghi chú!');
       return;
     }
     applySelectionHighlight(true);
@@ -449,9 +570,9 @@
     hlPopupEl.className = 's4-cbt-hl-popup';
     hlPopupEl.id = 's4CbtHlPopup';
     hlPopupEl.innerHTML = `
-      <button type="button" id="s4BtnDoHl">🖍️ Highlight</button>
-      <button type="button" id="s4BtnDoNote">📝 Ghi chú</button>
-      <button type="button" id="s4BtnClearHl">🧹 Xóa</button>
+      <button type="button" id="s4BtnDoHl">${pzIcon('brush', 13)} Highlight</button>
+      <button type="button" id="s4BtnDoNote">${pzIcon('edit', 13)} Ghi chú</button>
+      <button type="button" id="s4BtnClearHl">${pzIcon('trash', 13)} Xóa</button>
     `;
     document.body.appendChild(hlPopupEl);
 
@@ -476,6 +597,73 @@
     if (hlPopupEl) hlPopupEl.style.display = 'none';
   }
 
+  // Lưu tạm Highlight & Ghi chú theo từng Part/Passage trong phiên thi hiện tại (chỉ giữ trong RAM)
+  const cbtMarksCache = {};
+  let activeMarksCacheKey = '';
+
+  function getActiveLeftMarksHost() {
+    return document.getElementById('synLeftCol') || document.getElementById('s4CbtListenLeftBody');
+  }
+
+  function snapshotCurrentCbtMarks() {
+    if (!activeMarksCacheKey) return;
+    const host = getActiveLeftMarksHost();
+    if (!host) return;
+    if (host.querySelector('.s4-cbt-user-hl, .s4-cbt-user-note')) {
+      cbtMarksCache[activeMarksCacheKey] = host.innerHTML;
+    } else {
+      delete cbtMarksCache[activeMarksCacheKey];
+    }
+  }
+
+  function clearCbtMarksForSession(sessionPrefix) {
+    Object.keys(cbtMarksCache).forEach(k => {
+      if (!sessionPrefix || k.startsWith(sessionPrefix)) delete cbtMarksCache[k];
+    });
+  }
+
+  function bindHighlightMarkSpan(span) {
+    if (!span) return;
+    if (span.classList.contains('s4-cbt-user-note')) {
+      span.onclick = async (e) => {
+        e.stopPropagation();
+        const cur = span.getAttribute('data-note') || '';
+        const updated = (window.S4UI && typeof window.S4UI.prompt === 'function')
+          ? await window.S4UI.prompt('Xem / Sửa ghi chú (Xóa trắng để gỡ):', cur, {
+              title: 'Ghi chú đoạn văn',
+              icon: 'edit',
+              placeholder: 'Nhập ghi chú...',
+              confirmText: 'Lưu ghi chú',
+              cancelText: 'Đóng'
+            })
+          : window.prompt('Xem / Sửa ghi chú (Xóa trắng để gỡ):', cur);
+        if (updated === null) return;
+        if (!updated.trim()) {
+          unwrapElement(span);
+        } else {
+          span.setAttribute('data-note', updated);
+          span.title = 'Ghi chú: ' + updated;
+        }
+        snapshotCurrentCbtMarks();
+      };
+    } else if (span.classList.contains('s4-cbt-user-hl')) {
+      span.onclick = (e) => {
+        e.stopPropagation();
+        unwrapElement(span);
+        snapshotCurrentCbtMarks();
+      };
+    }
+  }
+
+  function restoreCbtMarksForKey(cacheKey) {
+    activeMarksCacheKey = cacheKey || '';
+    if (!activeMarksCacheKey || !cbtMarksCache[activeMarksCacheKey]) return;
+    const host = getActiveLeftMarksHost();
+    if (!host) return;
+    host.innerHTML = cbtMarksCache[activeMarksCacheKey];
+    host.querySelectorAll('.s4-cbt-user-hl, .s4-cbt-user-note').forEach(bindHighlightMarkSpan);
+  }
+
   async function applySelectionHighlight(withNote) {
     const savedRange = getActiveSplitRange();
     if (!savedRange) return;
@@ -484,52 +672,30 @@
       const entered = (window.S4UI && typeof window.S4UI.prompt === 'function')
         ? await window.S4UI.prompt('Nhập nội dung ghi chú cho cụm từ này:', '', {
             title: 'Ghi chú đoạn văn',
-            icon: '📝',
+            icon: 'edit',
             placeholder: 'Nhập ghi chú...',
             confirmText: 'Lưu ghi chú',
             cancelText: 'Hủy'
           })
-        : window.prompt('📝 Nhập nội dung ghi chú cho cụm từ này:', '');
+        : window.prompt('Nhập nội dung ghi chú cho cụm từ này:', '');
       noteText = entered || '';
       if (!noteText.trim()) return;
     }
     const span = document.createElement('span');
     span.className = withNote ? 's4-cbt-user-note' : 's4-cbt-user-hl';
     if (withNote) {
-      span.title = '📝 Ghi chú: ' + noteText;
+      span.title = 'Ghi chú: ' + noteText;
       span.setAttribute('data-note', noteText);
-      span.onclick = async (e) => {
-        e.stopPropagation();
-        const cur = span.getAttribute('data-note') || '';
-        const updated = (window.S4UI && typeof window.S4UI.prompt === 'function')
-          ? await window.S4UI.prompt('Xem / Sửa ghi chú (Xóa trắng để gỡ):', cur, {
-              title: 'Ghi chú đoạn văn',
-              icon: '📝',
-              placeholder: 'Nhập ghi chú...',
-              confirmText: 'Lưu ghi chú',
-              cancelText: 'Đóng'
-            })
-          : window.prompt('📝 Xem / Sửa ghi chú (Xóa trắng để gỡ):', cur);
-        if (updated === null) return;
-        if (!updated.trim()) {
-          unwrapElement(span);
-        } else {
-          span.setAttribute('data-note', updated);
-          span.title = '📝 Ghi chú: ' + updated;
-        }
-      };
     } else {
       span.title = 'Bấm để xóa Highlight này';
-      span.onclick = (e) => {
-        e.stopPropagation();
-        unwrapElement(span);
-      };
     }
+    bindHighlightMarkSpan(span);
     try {
       savedRange.surroundContents(span);
       lastValidSplitRange = null;
       const curSel = window.getSelection();
       if (curSel) curSel.removeAllRanges();
+      snapshotCurrentCbtMarks();
     } catch (e) {
       // Cross-element selection fallback
       try {
@@ -539,6 +705,7 @@
         lastValidSplitRange = null;
         const curSel = window.getSelection();
         if (curSel) curSel.removeAllRanges();
+        snapshotCurrentCbtMarks();
       } catch (err) {}
     }
   }
@@ -557,6 +724,7 @@
     lastValidSplitRange = null;
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
+    snapshotCurrentCbtMarks();
   }
 
   function getSafePopupTopBound() {
@@ -707,9 +875,9 @@
         const numEl = qw.querySelector('.question-number');
         const qNum = numEl ? numEl.innerText.trim() : '';
         const corrEl = qw.querySelector('.question-correct');
-        const correctRaw = corrEl ? corrEl.innerText.replace(/^(?:✓\s*Đáp án chuẩn:\s*|Đáp án đúng:\s*)+/i, '').trim() : '';
+        const correctRaw = corrEl ? corrEl.innerText.replace(/^(?:\u2713\s*)?(?:Đáp án chuẩn:\s*|Đáp án đúng:\s*)+/i, '').trim() : '';
         if (corrEl) {
-          corrEl.innerHTML = `✓ Đáp án chuẩn: <strong>${correctRaw}</strong>`;
+          corrEl.innerHTML = `<span class="s4-pz-inline-chip">${pzIcon('check', 13)} Đáp án chuẩn: <strong>${correctRaw}</strong></span>`;
         }
 
         const userVal = ansStore[qid] || '';
@@ -888,15 +1056,15 @@
           if (gradeRes.isCorrect) {
             qw.classList.add('pz-correct');
             fbEl.style.color = '#34d399';
-            fbEl.innerHTML = `✓ Chính xác! Bạn trả lời: <strong>${ansStore[qid]}</strong>`;
+            fbEl.innerHTML = `<span class="s4-pz-inline-chip">${pzIcon('check', 13)} Chính xác! Bạn trả lời: <strong>${escHtml(ansStore[qid])}</strong></span>`;
           } else if (gradeRes.isAnswered) {
             qw.classList.add('pz-wrong');
             fbEl.style.color = '#f87171';
-            fbEl.innerHTML = `✗ Chưa đúng (Bạn chọn: <del>${ansStore[qid]}</del>)`;
+            fbEl.innerHTML = `<span class="s4-pz-inline-chip">${pzIcon('close', 13)} Chưa đúng (Bạn chọn: <del>${escHtml(ansStore[qid])}</del>)</span>`;
           } else {
             qw.classList.add('pz-wrong');
             fbEl.style.color = '#f59e0b';
-            fbEl.innerHTML = `○ Chưa trả lời câu này`;
+            fbEl.innerHTML = `Chưa trả lời câu này`;
           }
         } else if (fbEl) {
           fbEl.remove();
@@ -1019,7 +1187,7 @@
         <div class="s4-cbt-bottom-actions">
           <label class="s4-cbt-ctrl-btn" style="cursor:pointer;" title="Đánh dấu câu hỏi này để kiểm tra lại trước khi nộp bài (giống thi máy IDP/BC)">
             <input type="checkbox" id="s4CbtReviewChk" onchange="window.s4CbtToggleReviewCurrent()" ${currentFocusedQid && reviewFlags[currentFocusedQid] ? 'checked' : ''} style="accent-color:#f59e0b;cursor:pointer;">
-            <span>🚩 Review</span>
+            <span class="s4-pz-inline-chip">${pzIcon('flag', 13)} Review</span>
           </label>
           <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtStepQuestion(-1)" title="Câu trước">←</button>
           <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtStepQuestion(1)" title="Câu tiếp theo">→</button>
@@ -1227,30 +1395,30 @@
   }
 
   let readPzLoading = false;
+  let readPzWaiters = [];
+  function flushReadPzWaiters(data) {
+    const queue = readPzWaiters.slice();
+    readPzWaiters = [];
+    queue.forEach(fn => { try { fn(data); } catch (e) {} });
+  }
   function ensureReadingPzLoaded(cb) {
     if (window.__STUDY4_READ_PZ) {
       cb && cb(window.__STUDY4_READ_PZ);
       return;
     }
-    if (readPzLoading) {
-      const iv = setInterval(() => {
-        if (window.__STUDY4_READ_PZ) {
-          clearInterval(iv);
-          cb && cb(window.__STUDY4_READ_PZ);
-        }
-      }, 50);
-      return;
-    }
+    if (cb) readPzWaiters.push(cb);
+    if (readPzLoading) return;
     readPzLoading = true;
     const s = document.createElement('script');
     s.src = 'data/reading_practice_zone.js?v=26';
     s.onload = () => {
       readPzLoading = false;
-      cb && cb(window.__STUDY4_READ_PZ || []);
+      flushReadPzWaiters(window.__STUDY4_READ_PZ || []);
     };
     s.onerror = () => {
       readPzLoading = false;
-      cb && cb([]);
+      try { s.remove(); } catch (e) {}
+      flushReadPzWaiters([]);
     };
     document.head.appendChild(s);
   }
@@ -1307,7 +1475,7 @@
     while ((m = regex.exec(rightHtml)) !== null) {
       const qid = m[1];
       const qNum = m[2];
-      const correctRaw = m[3].replace(/<[^>]+>/g, '').replace(/^(?:✓\s*Đáp án chuẩn:\s*|Đáp án đúng:\s*)+/i, '').trim();
+      const correctRaw = m[3].replace(/<[^>]+>/g, '').replace(/^(?:\u2713\s*)?(?:Đáp án chuẩn:\s*|Đáp án đúng:\s*)+/i, '').trim();
       const userVal = store[qid] || '';
       const g = gradeIeltsAnswer(userVal, correctRaw);
       list.push({ qid, qNum, correctRaw, userVal, ...g });
@@ -1520,7 +1688,7 @@
 
           <div class="s4-cbt-header-center">
             <div class="s4-cbt-timer-box" id="s4CbtTimerBox">
-              <span>⏱️</span>
+              <span class="s4-pz-inline-chip">${pzIcon('clock', 14)}</span>
               <span id="s4PzTimerText">${formatTimer(timerSeconds)}</span>
               <select id="s4PzTimerSelect" style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.s4PzChangeTimer(Number(this.value))">
                 ${isFull ? `<option value="60" ${curTimerMins === 60 ? 'selected' : ''}>60 phút</option>` : ''}
@@ -1539,16 +1707,16 @@
               <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn ${cbtFontClass === 'cbt-font-xl' ? 'active' : ''}" data-font="cbt-font-xl" style="border:none;padding:4px 8px;font-size:15px;" onclick="window.s4CbtSetFont('cbt-font-xl')">A++</button>
             </div>
             <button type="button" class="s4-cbt-ctrl-btn s4-cbt-fs-btn ${isFs ? 'active' : ''}" id="s4CbtFsBtn" onclick="window.s4CbtToggleFullscreen()" title="Toàn màn hình">
-              ${isFs ? '🗗<span class="s4-cbt-hide-mob"> Thoát FS</span>' : '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình</span>'}
+              ${isFs ? `${pzIcon('minimize', 14)}<span class="s4-cbt-hide-mob"> Thoát FS</span>` : `${pzIcon('expand', 14)}<span class="s4-cbt-hide-mob"> Toàn màn hình</span>`}
             </button>
             ${!isSubmitted ? `
-              <button type="button" class="s4-cbt-submit-btn" onclick="window.s4PzSubmitReading('${sessionKey}')">✔ Nộp bài<span class="s4-cbt-hide-mob"> & Chấm điểm</span></button>
+              <button type="button" class="s4-cbt-submit-btn" onclick="window.s4PzSubmitReading('${sessionKey}')">${pzIcon('check', 14)} Nộp bài<span class="s4-cbt-hide-mob"> &amp; Chấm điểm</span></button>
             ` : `
-              <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetReading('${sessionKey}')">🔄 Làm lại</button>
+              <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetReading('${sessionKey}')">${pzIcon('refresh', 14)} Làm lại</button>
             `}
-            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openReadingHistoryModal()" title="Xem lịch sử bài thi đã nộp">📜<span class="s4-cbt-hide-mob"> Lịch sử</span></button>
-            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openReadingHub()" title="Đổi đề khác trong Kho 184 Đề">📚<span class="s4-cbt-hide-mob"> Đổi đề</span></button>
-            <button type="button" class="s4-cbt-ctrl-btn s4-cbt-exit-btn" onclick="window.s4PzExitExamToLobby()" title="Quay về Sảnh phòng thi">✕ <span class="s4-cbt-hide-mob">Về sảnh thi</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openReadingHistoryModal()" title="Xem lịch sử bài thi đã nộp">${pzIcon('clock', 14)}<span class="s4-cbt-hide-mob"> Lịch sử</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openReadingHub()" title="Đổi đề khác trong Kho 184 Đề">${pzIcon('reading', 14)}<span class="s4-cbt-hide-mob"> Đổi đề</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn s4-cbt-exit-btn" onclick="window.s4PzExitExamToLobby()" title="Quay về Sảnh phòng thi">← Sảnh thi</button>
           </div>
         </header>
 
@@ -1565,17 +1733,17 @@
                   Kết quả: Đúng <span style="color:#34d399;">${correctCount} / ${allQ.length}</span> câu (${Math.round((correctCount / Math.max(1, allQ.length)) * 100)}%)${isViewingHistory && viewingReadSub.date ? ` <span style="font-size:12px;font-weight:700;color:var(--hl-cyan);margin-left:6px;">• Đang xem lại bài nộp lúc ${escapeAttr(viewingReadSub.date)}</span>` : ''}
                 </div>
                 <div style="font-size:12.5px;color:var(--muted);">
-                  ${!isPzDirect ? '💡 Đã mở khóa <strong>Đáp án chuẩn</strong> và <strong>Dẫn chứng Paraphrase Q1..Q40</strong> bên bài đọc! Bấm nhãn <strong>Q1, Q2...</strong> để đối chiếu.' : `💡 Đã mở khóa <strong>Đáp án chuẩn</strong> và phản hồi chi tiết cho <strong>${allQ.length} câu hỏi</strong>! Bấm nút câu <strong>Q1..Q${allQ.length}</strong> bên dưới để xem lại.`}
+                  ${!isPzDirect ? 'Đã mở khóa <strong>Đáp án chuẩn</strong> &amp; <strong>Dẫn chứng Paraphrase Q1..Q40</strong>. Bấm <strong>Q1, Q2...</strong> để đối chiếu.' : `Đã mở khóa <strong>Đáp án chuẩn</strong> cho <strong>${allQ.length} câu hỏi</strong>. Bấm <strong>Q1..Q${allQ.length}</strong> để xem lại.`}
                 </div>
               </div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetReading('${sessionKey}')">🔄 Làm lại bài thi</button>
+              <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetReading('${sessionKey}')">${pzIcon('refresh', 14)} Làm lại bài thi</button>
               ${(!isPzDirect && synData.pairs && synData.pairs.length > 0) ? `
-                <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtExitReadingToMode('synonyms')">🔄 Xem Bảng Paraphrase</button>
+                <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtExitReadingToMode('synonyms')">${pzIcon('layers', 14)} Xem Bảng Paraphrase</button>
               ` : ''}
               ${explainLessons.length > 0 ? `
-                <button type="button" class="s4-cbt-submit-btn" style="background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%);box-shadow:0 3px 10px rgba(239,68,68,0.35);font-weight:800;" onclick="window.s4CbtExitReadingToExplain('${explainLessons[0].id}')">🎬 Xem Video Giải Chi Tiết (${explainLessons.length} video)</button>
+                <button type="button" class="s4-cbt-submit-btn" style="background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%);box-shadow:0 3px 10px rgba(239,68,68,0.35);font-weight:800;" onclick="window.s4CbtExitReadingToExplain('${explainLessons[0].id}')">${pzIcon('tedtalks', 14)} Xem Video Giải (${explainLessons.length} video)</button>
               ` : ''}
             </div>
           </div>
@@ -1585,26 +1753,26 @@
               <strong>Part ${displayPartNum} (${targetLesson.title.split(/[|-]/).pop().trim()}):</strong>
               Read the text below and answer questions <strong>${firstQNum}–${lastQNum}</strong>.
             </div>
-            <div class="s4-cbt-desktop-tip" style="font-size:12px;color:var(--muted);">
-              🖍️ <em>Mẹo phòng thi: Quét chuột bôi đen từ khóa bất kỳ để <strong>Highlight vàng</strong> hoặc tạo <strong>Ghi chú (Note)</strong> • Kéo thanh ngăn <strong>⋮</strong> ở giữa để chỉnh độ rộng 2 khung.</em>
+            <div class="s4-cbt-desktop-tip s4-pz-inline-chip" style="font-size:12px;color:var(--muted);">
+              ${pzIcon('brush', 13)} <span>Bôi đen từ khóa để Highlight / Ghi chú • Kéo thanh <strong>⋮</strong> chỉnh độ rộng</span>
             </div>
           </div>
         `}
 
         <!-- MOBILE VIEW SWITCHER (ONLY VISIBLE ON SCREENS <= 820px) -->
         <div class="s4-cbt-mobile-switcher" id="s4CbtMobileSwitcher">
-          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'split' ? 'active' : ''}" data-mview="split" onclick="window.s4CbtSetMobileView('split')">⬒ Chia đôi 50/50</button>
-          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'left' ? 'active' : ''}" data-mview="left" onclick="window.s4CbtSetMobileView('left')">📖 Bài đọc</button>
-          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'right' ? 'active' : ''}" data-mview="right" onclick="window.s4CbtSetMobileView('right')">✍️ Câu hỏi (<span id="s4CbtMobAnsCount">${answeredCount}/${allQ.length}</span>)</button>
-          <button type="button" class="s4-cbt-mob-tab s4-cbt-mob-hl-btn" onmousedown="event.preventDefault()" onclick="window.s4CbtMobileQuickHighlight()" title="Tô vàng cụm từ đang bôi đen">🖍️</button>
+          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'split' ? 'active' : ''}" data-mview="split" onclick="window.s4CbtSetMobileView('split')">${pzIcon('split', 14)} Chia đôi</button>
+          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'left' ? 'active' : ''}" data-mview="left" onclick="window.s4CbtSetMobileView('left')">${pzIcon('reading', 14)} Bài đọc</button>
+          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'right' ? 'active' : ''}" data-mview="right" onclick="window.s4CbtSetMobileView('right')">${pzIcon('edit', 14)} Câu hỏi (<span id="s4CbtMobAnsCount">${answeredCount}/${allQ.length}</span>)</button>
+          <button type="button" class="s4-cbt-mob-tab s4-cbt-mob-hl-btn" onmousedown="event.preventDefault()" onclick="window.s4CbtMobileQuickHighlight()" title="Tô vàng cụm từ đang bôi đen">${pzIcon('brush', 14)}</button>
         </div>
 
         <!-- RESIZABLE 2-COLUMN SPLIT SCREEN (LEFT: PASSAGE | RIGHT: QUESTIONS) -->
         <div class="s4-cbt-split-area ${cbtFontClass} mob-view-${cbtMobileView}" id="s4CbtSplitArea" lang="en">
           <div class="s4-cbt-pane-left" id="s4CbtLeftPane" style="--cbt-left-pct:${cbtLeftPct}%;">
             <div class="syn-col-title">
-              <span>📖 READING PASSAGE ${displayPartNum}: ${targetLesson.title.split(/[|-]/).pop().trim()}</span>
-              <span>${isSubmitted ? '🔍 Bấm Q1..Q40 để đối chiếu' : 'Bôi đen chữ để Highlight / Note'}</span>
+              <span class="s4-pz-inline-chip">${pzIcon('reading', 14)} READING PASSAGE ${displayPartNum}: ${targetLesson.title.split(/[|-]/).pop().trim()}</span>
+              <span>${isSubmitted ? 'Bấm Q1..Q40 để đối chiếu' : 'Bôi đen chữ để Highlight / Note'}</span>
             </div>
             <div id="synLeftCol">
               ${synData.leftHtml || '<div style="padding:20px;color:var(--muted);">Đang tải bài đọc...</div>'}
@@ -1617,7 +1785,7 @@
 
           <div class="s4-cbt-pane-right s4-pz-container" id="s4CbtRightPane" lang="en">
             <div class="syn-col-title">
-              <span>❓ QUESTIONS ${firstQNum}–${lastQNum}</span>
+              <span class="s4-pz-inline-chip">${pzIcon('help', 14)} QUESTIONS ${firstQNum}–${lastQNum}</span>
               <span>${isSubmitted ? 'Đã chấm điểm & hiện đáp án' : 'Chọn hoặc gõ đáp án (Enter qua câu kế)'}</span>
             </div>
             <div id="synRightCol">
@@ -1647,6 +1815,7 @@
     }, isSubmitted);
 
     initSplitResizer();
+    restoreCbtMarksForKey('read__' + sessionKey + '__p' + activePartIdx);
     bindHighlightPopupEvents();
 
     if (isSubmitted && typeof window.bindSynColumnClicks === 'function') {
@@ -1705,6 +1874,7 @@
   };
 
   window.s4PzSelectReadingPart = function (idx, scrollQid) {
+    snapshotCurrentCbtMarks();
     activePartIdx = idx;
     if (typeof window.renderMain === 'function') window.renderMain();
     if (scrollQid) {
@@ -1765,7 +1935,7 @@
       ctx.totalQuestions = totalQuestions;
       ctx.bandScore = bandScore;
 
-      const spentMin = Math.max(1, Math.round((timerLimitSeconds - timerSeconds) / 60));
+      const spentMin = getElapsedExamMinutes();
       const durationText = `${spentMin} phút`;
 
       const subRecord = {
@@ -1810,7 +1980,7 @@
       wrongListText = 'Thí sinh đã trả lời đúng toàn bộ 40/40 câu hỏi!';
     } else {
       wrongListText = wrongQs.map(q =>
-        `• Câu ${q.qNum}: Thí sinh điền "${q.userVal || '(bỏ trống)'}" ➔ Đáp án đúng: "${q.correctRaw}"`
+        `• Câu ${q.qNum}: Thí sinh điền "${q.userVal || '(bỏ trống)'}" → Đáp án đúng: "${q.correctRaw}"`
       ).join('\n');
     }
 
@@ -1831,9 +2001,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
     navigator.clipboard.writeText(aiPrompt).then(() => {
       if (window.S4UI && typeof window.S4UI.toast === 'function') {
-        window.S4UI.toast('success', '📋 Đã sao chép trọn vẹn Prompt giải thích câu sai vào bộ nhớ tạm!', { duration: 3200 });
+        window.S4UI.toast('success', 'Đã sao chép Prompt giải thích câu sai!', { duration: 3200 });
       } else {
-        alert('📋 Đã sao chép trọn vẹn Prompt chấm & giải thích câu sai vào bộ nhớ tạm! Bạn có thể dán (Ctrl + V) sang ChatGPT hoặc Claude để nhận giải thích chi tiết ngay!');
+        alert('Đã sao chép Prompt chấm & giải thích câu sai vào bộ nhớ tạm!');
       }
     }).catch(() => {
       if (window.S4UI && typeof window.S4UI.prompt === 'function') {
@@ -1870,6 +2040,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
 
     viewingReadSub = null;
     delete readSubmittedMap[sessionKey];
+    clearCbtMarksForSession('read__' + sessionKey + '__');
     if (lastReadingSessionContext && Array.isArray(lastReadingSessionContext.allQ)) {
       lastReadingSessionContext.allQ.forEach(q => {
         if (q && q.qid) {
@@ -1913,36 +2084,43 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     const hasBand = bandText !== null;
     const isPass = hasBand && Number(bandText) >= 6.5;
     const resultText = hasCounts ? `Đúng ${correct}/${total} câu (${Number.isFinite(accuracy) ? accuracy + '%' : '—'})` : 'Bản ghi cũ chưa có kết quả';
+    const safeSubIdHtml = escHtml(sub.id);
+    const safeSubIdJs = escJsAttr(sub.id);
+    const safeCode = escHtml(meta.testCode);
+    const safeTitle = escHtml(meta.title);
+    const safeDate = escHtml(sub.date || 'Vừa xong');
+    const safeDur = escHtml(sub.duration || '60 phút');
+    const safeBand = hasBand ? escHtml(bandText) : '';
     return `
-      <div class="w-history-item" id="r_sub_${sub.id}">
+      <div class="w-history-item" id="r_sub_${safeSubIdHtml}">
         <div class="w-history-left">
           <div class="w-history-title-row">
-            <span class="w-history-code-tag" style="background:rgba(16, 185, 129, 0.15);color:#059669;">${meta.testCode}</span>
-            <span class="w-history-title-text" title="${meta.title}">${meta.title}</span>
+            <span class="w-history-code-tag" style="background:rgba(16, 185, 129, 0.15);color:#059669;">${safeCode}</span>
+            <span class="w-history-title-text" title="${safeTitle}">${safeTitle}</span>
           </div>
           <div class="w-history-meta-row">
-            <span>📅 ${sub.date || 'Vừa xong'}</span>
+            <span class="s4-pz-inline-chip">${pzIcon('calendar', 12)} ${safeDate}</span>
             <span>•</span>
-            <span>⏱️ ${sub.duration || '60 phút'}</span>
+            <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} ${safeDur}</span>
             <span>•</span>
-            <span>🎯 ${resultText}</span>
+            <span class="s4-pz-inline-chip">${pzIcon('target', 12)} ${escHtml(resultText)}</span>
           </div>
         </div>
 
         <div class="w-history-right">
           <div class="w-history-score-badge graded">
-            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `🏆 Band ${bandText}` : '⏳ Thiếu điểm'}</div>
-            <div class="w-score-sub">${resultText}</div>
+            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `<span class="s4-pz-inline-chip">${pzIcon('award', 14)} Band ${safeBand}</span>` : `<span class="s4-pz-inline-chip">${pzIcon('clock', 14)} Thiếu điểm</span>`}</div>
+            <div class="w-score-sub">${escHtml(resultText)}</div>
           </div>
           <div class="w-history-actions">
-            <button type="button" class="w-history-btn-view" onclick="window.s4PzViewReadingSubmission('${sub.id}')" title="Xem lại bài làm & đối chiếu đáp án chi tiết">
-              👁️ Xem lại
+            <button type="button" class="w-history-btn-view" onclick="window.s4PzViewReadingSubmission('${safeSubIdJs}')" title="Xem lại bài làm & đối chiếu đáp án chi tiết">
+              ${pzIcon('eye', 14)} Xem lại
             </button>
-            <button type="button" class="w-history-btn-icon" onclick="window.s4PzRetakeReadingSubmission('${sub.id}')" title="Làm lại đề thi này">
-              🔄
+            <button type="button" class="w-history-btn-icon" onclick="window.s4PzRetakeReadingSubmission('${safeSubIdJs}')" title="Làm lại đề thi này" aria-label="Làm lại">
+              ${pzIcon('refresh', 14)}
             </button>
-            <button type="button" class="w-history-btn-icon del" onclick="window.s4PzDeleteReadingSubmission('${sub.id}')" title="Xóa bản ghi này">
-              🗑️
+            <button type="button" class="w-history-btn-icon del" onclick="window.s4PzDeleteReadingSubmission('${safeSubIdJs}')" title="Xóa bản ghi này" aria-label="Xóa">
+              ${pzIcon('trash', 14)}
             </button>
           </div>
         </div>
@@ -2025,9 +2203,8 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (subs.length === 0) {
       historyListHtml = `
         <div class="w-history-empty">
-          <span class="w-history-empty-icon">📭</span>
+          <span class="w-history-empty-icon">${pzIcon('inbox', 28)}</span>
           <strong>Chưa có bài thi Reading nào được nộp</strong>
-          <p style="margin:4px 0 0;font-size:12px;opacity:0.8;">Hãy chọn cấu hình phía trên và bấm "Bắt đầu làm bài thi" để rèn luyện ngay!</p>
         </div>
       `;
     } else {
@@ -2040,24 +2217,27 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
           <!-- TOP HEADER CỦA SẢNH -->
           <div class="w-lobby-header">
             <div class="w-lobby-header-badge">
-              <span class="w-lobby-chip" style="background:rgba(16,185,129,0.12);color:#059669;border-color:rgba(16,185,129,0.25);">📖 IELTS READING PRACTICE ZONE</span>
-              <span class="w-lobby-chip cbt">INSPERA CBT SIMULATOR</span>
+              <span class="w-lobby-chip" style="background:rgba(16,185,129,0.12);color:#059669;border-color:rgba(16,185,129,0.25);">${pzIcon('reading', 13)} IELTS READING PRACTICE ZONE</span>
+              <span class="w-lobby-chip cbt">INSPERA CBT</span>
             </div>
             <h1 class="w-lobby-title" id="rLobbyTestTitle">${currentTitle}</h1>
-            <p class="w-lobby-subtitle">
-              Phòng thi thử Reading mô phỏng 100% môi trường thi máy tính chính thức (Computer-Based Test). Vui lòng đọc kỹ hướng dẫn và tùy chỉnh cấu hình bài thi trước khi bắt đầu.
-            </p>
+            <div class="s4-pz-chip-strip">
+              <span class="s4-pz-feat-chip">${pzIcon('brush', 13)} Highlight &amp; Ghi chú</span>
+              <span class="s4-pz-feat-chip">${pzIcon('split', 13)} Chia đôi CBT</span>
+              <span class="s4-pz-feat-chip">${pzIcon('flag', 13)} Bảng câu Q1–Q40</span>
+              <span class="s4-pz-feat-chip">${pzIcon('award', 13)} Chấm Band tự động</span>
+            </div>
           </div>
 
           <!-- LOBBY CONTENT GRID 2 CỘT -->
           <div class="w-lobby-grid">
-            <!-- CỘT TRÁI: HƯỚNG DẪN & QUY CHẾ THI READING -->
+            <!-- CỘT TRÁI: CẤU TRÚC 3 PASSAGES -->
             <div class="w-lobby-card w-lobby-guide-col">
               <div class="w-lobby-card-head">
-                <span class="w-lobby-icon">📋</span>
+                <span class="w-lobby-icon">${pzIcon('reading', 18)}</span>
                 <div>
-                  <h3>Cấu trúc bài thi & Hướng dẫn làm bài</h3>
-                  <p>Official IELTS Academic Reading Format (3 Passages • 40 Questions)</p>
+                  <h3>Cấu trúc bài thi (3 Passages • 40 câu)</h3>
+                  <p>Official IELTS Academic Reading Format</p>
                 </div>
               </div>
 
@@ -2068,7 +2248,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                   <div class="w-lobby-task-info">
                     <strong>${siblings[0] ? siblings[0].title.split(/[|-]/).pop().trim() : 'Passage 1'}</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ 20 phút</span> • <span>❓ Q1–Q13 (13 câu)</span> • <span>📊 Mức độ: Khởi động / Cơ bản</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} 20 phút</span> • <span>Q1–Q13 (13 câu)</span> • <span>Cơ bản</span>
                     </div>
                   </div>
                 </div>
@@ -2078,7 +2258,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                   <div class="w-lobby-task-info">
                     <strong>${siblings[1] ? siblings[1].title.split(/[|-]/).pop().trim() : 'Passage 2'}</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ 20 phút</span> • <span>❓ Q14–Q26 (13 câu)</span> • <span>📊 Mức độ: Học thuật nâng cao</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} 20 phút</span> • <span>Q14–Q26 (13 câu)</span> • <span>Học thuật</span>
                     </div>
                   </div>
                 </div>
@@ -2088,35 +2268,8 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                   <div class="w-lobby-task-info">
                     <strong>${siblings[2] ? siblings[2].title.split(/[|-]/).pop().trim() : 'Passage 3'}</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ 20 phút</span> • <span>❓ Q27–Q40 (14 câu)</span> • <span>📊 Mức độ: Phân tích & Tranh luận</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} 20 phút</span> • <span>Q27–Q40 (14 câu)</span> • <span>Chuyên sâu</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Quy chế phòng thi CBT -->
-              <div class="w-lobby-rules">
-                <div class="w-lobby-rule-item">
-                  <span class="w-rule-icon">🖍️</span>
-                  <div>
-                    <strong>Tô vàng từ khóa (Highlight) & Ghi chú (Notes):</strong>
-                    <p>Quét chuột bôi đen cụm từ bất kỳ trong bài đọc để hiện popover tô vàng hoặc tạo ghi chú giống 100% phần mềm thi máy.</p>
-                  </div>
-                </div>
-
-                <div class="w-lobby-rule-item">
-                  <span class="w-rule-icon">⬒</span>
-                  <div>
-                    <strong>Chia đôi màn hình kéo thả tự do (Split Screen):</strong>
-                    <p>Nắm kéo thanh ngăn <strong>⋮</strong> ở giữa để điều chỉnh độ rộng giữa bài đọc và bảng câu hỏi theo ý muốn.</p>
-                  </div>
-                </div>
-
-                <div class="w-lobby-rule-item">
-                  <span class="w-rule-icon">📋</span>
-                  <div>
-                    <strong>Bảng điều hướng câu hỏi Q1..Q40 & Cắm cờ Review:</strong>
-                    <p>Dải câu hỏi nằm cố định ở đáy màn hình. Nhấp số câu để nhảy đến ngay câu đó, nhấp Review để cắm cờ xem lại trước khi nộp.</p>
                   </div>
                 </div>
               </div>
@@ -2125,10 +2278,10 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
             <!-- CỘT PHẢI: CẤU HÌNH PHÒNG THI (CANDIDATE SETTINGS) -->
             <div class="w-lobby-card w-lobby-config-col">
               <div class="w-lobby-card-head">
-                <span class="w-lobby-icon">⚙️</span>
+                <span class="w-lobby-icon">${pzIcon('settings', 18)}</span>
                 <div>
-                  <h3>Cấu hình phòng thi của bạn</h3>
-                  <p>Tùy chỉnh chế độ, thời gian & cỡ chữ trước khi vào thi</p>
+                  <h3>Cấu hình phòng thi</h3>
+                  <p>Chế độ, thời gian &amp; cỡ chữ</p>
                 </div>
               </div>
 
@@ -2193,14 +2346,14 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
                   <div>
                     <span style="font-size:13px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px;">
-                      💡 Bạn muốn đổi sang đề thi khác?
+                      ${pzIcon('lightbulb', 14)} Đổi đề thi khác
                     </span>
                     <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:2px;">
-                      Kho 184 đề thi chuẩn Cambridge & Simulation (chọn trên Sidebar hoặc mở Kho đề)
+                      Kho 184 đề Cambridge &amp; Simulation
                     </span>
                   </div>
                   <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openReadingHub()" style="padding:6px 14px;font-size:12.5px;font-weight:800;border-color:#059669;color:#059669;background:var(--card);">
-                    📚 Đổi đề thi khác
+                    ${pzIcon('reading', 14)} Đổi đề thi
                   </button>
                 </div>
               </div>
@@ -2211,14 +2364,11 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                   <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
                     <div>
                       <span style="font-weight:800;font-size:13px;color:#ef4444;display:flex;align-items:center;gap:6px;">
-                        🎬 Có Video Chữa Đề Chi Tiết (${explainLessons.length} video giải)
-                      </span>
-                      <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:2px;">
-                        Giáo viên giải thích chi tiết từng câu hỏi & dẫn chứng bài đọc
+                        ${pzIcon('tedtalks', 14)} Video Chữa Đề (${explainLessons.length} video)
                       </span>
                     </div>
                     <button type="button" class="s4-cbt-ctrl-btn" style="border-color:#ef4444;color:#ef4444;font-weight:700;background:var(--card);padding:5px 12px;" onclick="window.s4CbtExitReadingToExplain('${explainLessons[0].id}')" title="Xem video bài giảng chữa đề này">
-                      ▶ Xem Video Chữa Đề
+                      ${pzIcon('play', 13)} Xem Video
                     </button>
                   </div>
                 </div>
@@ -2227,11 +2377,11 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
               <!-- Nút Bắt đầu làm bài thi CTA -->
               <div class="w-lobby-cta-zone">
                 <button type="button" class="w-lobby-start-btn" onclick="window.s4PzStartReadingExamFromLobby()" style="background:linear-gradient(135deg, #059669 0%, #047857 100%);box-shadow:0 4px 14px rgba(5, 150, 105, 0.4);">
-                  <span>🚀 BẮT ĐẦU LÀM BÀI THI</span>
-                  <small>Tự động chuyển toàn màn hình (F11 Fullscreen)</small>
+                  <span>${pzIcon('play', 16)} BẮT ĐẦU LÀM BÀI THI</span>
+                  <small>Tự động bật toàn màn hình (F11)</small>
                 </button>
                 <button type="button" class="w-lobby-back-btn" onclick="${isPzTarget ? 'window.S4PracticeZone.openReadingHub()' : 'window.s4CbtExitReadingToLesson()'}">
-                  ${isPzTarget ? '← Quay lại Kho Đề Thi Reading' : '← Quay lại giao diện học từ vựng bài đọc'}
+                  ${isPzTarget ? '← Quay lại Kho Đề Thi Reading' : '← Quay lại bài đọc & từ vựng'}
                 </button>
               </div>
             </div>
@@ -2241,10 +2391,10 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
           <div class="w-lobby-card w-lobby-history-section" id="readingLobbyHistoryCard">
             <div class="w-lobby-card-head" style="justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:10px;">
-                <span class="w-lobby-icon">📜</span>
+                <span class="w-lobby-icon">${pzIcon('clock', 18)}</span>
                 <div>
-                  <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch Sử Các Bài Thi Reading Từng Làm</h3>
-                  <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Mã đề & thời gian bên trái • Điểm số Band bên phải • Xem lại bài làm & đối chiếu dẫn chứng</p>
+                  <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch sử bài thi Reading</h3>
+                  <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Xem lại bài làm &amp; đối chiếu dẫn chứng</p>
                 </div>
               </div>
               <span class="w-lobby-chip" style="background:rgba(16,185,129,0.12);color:#059669;">${subs.length} bài đã nộp</span>
@@ -2375,7 +2525,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (filtered.length === 0) {
       listEl.innerHTML = `
         <div class="w-history-empty" style="padding:28px 14px;">
-          <span class="w-history-empty-icon">📭</span>
+          <span class="w-history-empty-icon">${pzIcon('inbox', 28)}</span>
           <strong>Không tìm thấy bài thi Reading nào phù hợp</strong>
         </div>
       `;
@@ -2466,7 +2616,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
               <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="window.s4PzOpenReadingLobby('${escapeAttr(t.passages[0].id)}', true)">
-                🎯 Chọn đề này (Vào sảnh)
+                ${pzIcon('target', 14)} Vào sảnh thi
               </button>
               ${t.passages.map((p, idx) => `
                 <button class="btn" style="padding:6px 10px;font-size:12px;" onclick="window.s4PzOpenReadingLobby('${escapeAttr(p.id)}', false)" title="${escapeAttr(p.title)}">
@@ -2499,7 +2649,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
           </div>
           <div style="display:flex;align-items:center;gap:5px;margin-top:6px;">
             <button class="btn btn-primary" style="flex:1;min-width:0;justify-content:center;white-space:nowrap;padding:7px 6px;font-size:12px;font-weight:700;" onclick="window.S4PracticeZone.openListeningLobby(${t.id})">
-              🎯 Vào sảnh thi
+              ${pzIcon('target', 14)} Vào sảnh thi
             </button>
             ${(t.parts || []).map((p, idx) => `
               <button class="btn" style="padding:6px 8px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;" onclick="window.s4PzOpenListeningLobbySection(${t.id}, 's${idx + 1}')" title="${escapeAttr(p.name || 'Section ' + (idx + 1))}">
@@ -2526,12 +2676,12 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     const hasFilter = !!q || cfg.selectedBook !== 'ALL';
     const metaHtml = `
       <div class="s4-pz-search-meta">
-        <span>
+        <span class="s4-pz-inline-chip">
           ${hasFilter
-            ? `🔍 Tìm thấy <strong>${filtered.length}</strong> / ${tests.length} bộ đề${q ? ` cho "<strong>${escapeAttr(q)}</strong>"` : ''}${cfg.selectedBook !== 'ALL' ? ` • <strong>${escapeAttr(cfg.selectedBook)}</strong>` : ''}`
-            : `📚 Đang hiển thị toàn bộ <strong>${tests.length}</strong> bộ đề Full Test`}
+            ? `${pzIcon('search', 13)} Tìm thấy <strong>${filtered.length}</strong> / ${tests.length} bộ đề${q ? ` cho "<strong>${escapeAttr(q)}</strong>"` : ''}${cfg.selectedBook !== 'ALL' ? ` • <strong>${escapeAttr(cfg.selectedBook)}</strong>` : ''}`
+            : `${pzIcon('layers', 13)} Toàn bộ <strong>${tests.length}</strong> bộ đề Full Test`}
         </span>
-        ${hasFilter ? `<button type="button" class="s4-pz-clear-chip" onclick="window.s4PzResetHubSearch('${skill}')">✕ Xóa lọc</button>` : ''}
+        ${hasFilter ? `<button type="button" class="s4-pz-clear-chip" onclick="window.s4PzResetHubSearch('${skill}')">${pzIcon('close', 12)} Xóa lọc</button>` : ''}
       </div>
     `;
 
@@ -2539,10 +2689,10 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
       return `
         ${metaHtml}
         <div class="s4-empty-state">
-          <div style="font-size:34px;">🔍</div>
+          <div style="color:var(--muted);display:inline-flex;">${pzIcon('search', 30)}</div>
           <div style="font-size:15px;font-weight:800;color:var(--text);">Không tìm thấy đề ${cfg.label} phù hợp</div>
           <div style="font-size:13px;">${q ? `Từ khóa "<strong>${escapeAttr(q)}</strong>"` : 'Bộ lọc hiện tại'} không khớp với đề nào${cfg.selectedBook !== 'ALL' ? ` trong nhóm <strong>${escapeAttr(cfg.selectedBook)}</strong>` : ''}.</div>
-          <button type="button" class="btn btn-primary" onclick="window.s4PzResetHubSearch('${skill}')">↺ Xóa từ khóa & Xem tất cả (${tests.length} đề)</button>
+          <button type="button" class="btn btn-primary" onclick="window.s4PzResetHubSearch('${skill}')">${pzIcon('refresh', 14)} Xóa bộ lọc &amp; Xem tất cả (${tests.length} đề)</button>
         </div>
       `;
     }
@@ -2683,9 +2833,13 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
       <div class="s4-pz-hub-card">
         <div class="s4-pz-hub-top">
           <div style="flex:1;min-width:260px;">
-            <div class="lesson-unit-tag">🎯 IELTS ACADEMIC READING — COMPUTER-DELIVERED PRACTICE ZONE</div>
+            <div class="lesson-unit-tag s4-pz-inline-chip">${pzIcon('target', 13)} IELTS ACADEMIC READING — PRACTICE ZONE</div>
             <h1 class="lesson-title" id="s4PzReadHubTitle">${getReadingHubTitleText(tests)}</h1>
-            <p style="font-size:13.5px;color:var(--muted);margin-top:4px;">Giao diện chuẩn 100% phần mềm thi trên máy tính (Inspera Full-Screen, chia đôi màn hình kéo thả, Highlight vàng & Ghi chú, chấm Band Score tự động).</p>
+            <div class="s4-pz-chip-strip">
+              <span class="s4-pz-feat-chip">${pzIcon('split', 12)} Chia đôi CBT</span>
+              <span class="s4-pz-feat-chip">${pzIcon('brush', 12)} Highlight &amp; Ghi chú</span>
+              <span class="s4-pz-feat-chip">${pzIcon('award', 12)} Chấm Band tự động</span>
+            </div>
           </div>
           <div class="s4-pz-hub-search">
             ${renderHubSearchBar('reading', readHubSearch, 'Tìm tên bộ đề (VD: Actual 10, British Council)...')}
@@ -2803,36 +2957,46 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     const bandText = formatBandScore(sub.bandScore);
     const hasBand = bandText !== null;
     const isPass = hasBand && Number(bandText) >= 6.5;
+    const safeSubIdHtml = escHtml(sub.id);
+    const safeSubIdJs = escJsAttr(sub.id);
+    const safeCode = escHtml(sub.testCode || 'Listening');
+    const safeTitle = escHtml(sub.testTitle || '');
+    const safeDate = escHtml(sub.date || 'Vừa xong');
+    const safeDur = escHtml(sub.duration || '40 phút');
+    const safeCorrect = escHtml(sub.correctCount);
+    const safeTotal = escHtml(sub.totalQuestions);
+    const safeAcc = escHtml(sub.accuracy || 0);
+    const safeBand = hasBand ? escHtml(bandText) : '';
     return `
-      <div class="w-history-item" id="l_sub_${sub.id}">
+      <div class="w-history-item" id="l_sub_${safeSubIdHtml}">
         <div class="w-history-left">
           <div class="w-history-title-row">
-            <span class="w-history-code-tag" style="background:rgba(59, 130, 246, 0.15);color:#2563eb;">${sub.testCode || 'Listening'}</span>
-            <span class="w-history-title-text" title="${sub.testTitle}">${sub.testTitle}</span>
+            <span class="w-history-code-tag" style="background:rgba(59, 130, 246, 0.15);color:#2563eb;">${safeCode}</span>
+            <span class="w-history-title-text" title="${safeTitle}">${safeTitle}</span>
           </div>
           <div class="w-history-meta-row">
-            <span>📅 ${sub.date || 'Vừa xong'}</span>
+            <span class="s4-pz-inline-chip">${pzIcon('calendar', 12)} ${safeDate}</span>
             <span>•</span>
-            <span>⏱️ ${sub.duration || '40 phút'}</span>
+            <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} ${safeDur}</span>
             <span>•</span>
-            <span>🎯 Đúng: <strong>${sub.correctCount}/${sub.totalQuestions}</strong> câu (${sub.accuracy || 0}%)</span>
+            <span class="s4-pz-inline-chip">${pzIcon('target', 12)} Đúng: <strong>${safeCorrect}/${safeTotal}</strong> (${safeAcc}%)</span>
           </div>
         </div>
 
         <div class="w-history-right">
           <div class="w-history-score-badge graded">
-            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `🏆 Band ${bandText}` : '⏳ Thiếu điểm'}</div>
-            <div class="w-score-sub">${sub.correctCount}/${sub.totalQuestions} câu đúng</div>
+            <div class="w-score-main" style="color:${isPass ? '#10b981' : '#f59e0b'};">${hasBand ? `<span class="s4-pz-inline-chip">${pzIcon('award', 14)} Band ${safeBand}</span>` : `<span class="s4-pz-inline-chip">${pzIcon('clock', 14)} Thiếu điểm</span>`}</div>
+            <div class="w-score-sub">${safeCorrect}/${safeTotal} câu đúng</div>
           </div>
           <div class="w-history-actions">
-            <button type="button" class="w-history-btn-view" onclick="window.s4PzViewListeningSubmission('${sub.id}')" title="Xem lại bài làm & đối chiếu đáp án chi tiết">
-              👁️ Xem lại
+            <button type="button" class="w-history-btn-view" onclick="window.s4PzViewListeningSubmission('${safeSubIdJs}')" title="Xem lại bài làm & đối chiếu đáp án chi tiết">
+              ${pzIcon('eye', 14)} Xem lại
             </button>
-            <button type="button" class="w-history-btn-icon" onclick="window.s4PzRetakeListeningSubmission('${sub.id}')" title="Làm lại đề thi này">
-              🔄
+            <button type="button" class="w-history-btn-icon" onclick="window.s4PzRetakeListeningSubmission('${safeSubIdJs}')" title="Làm lại đề thi này" aria-label="Làm lại">
+              ${pzIcon('refresh', 14)}
             </button>
-            <button type="button" class="w-history-btn-icon del" onclick="window.s4PzDeleteListeningSubmission('${sub.id}')" title="Xóa bản ghi này">
-              🗑️
+            <button type="button" class="w-history-btn-icon del" onclick="window.s4PzDeleteListeningSubmission('${safeSubIdJs}')" title="Xóa bản ghi này" aria-label="Xóa">
+              ${pzIcon('trash', 14)}
             </button>
           </div>
         </div>
@@ -2935,7 +3099,7 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (filtered.length === 0) {
       el.innerHTML = `
         <div class="w-history-empty" style="padding:40px 20px;">
-          <span class="w-history-empty-icon">📭</span>
+          <span class="w-history-empty-icon">${pzIcon('inbox', 28)}</span>
           <strong>Không có bài thi nào phù hợp bộ lọc</strong>
           <p style="margin:4px 0 0;font-size:12px;opacity:0.8;">Hãy chọn bộ lọc khác hoặc bắt đầu một bài thi Listening mới.</p>
         </div>
@@ -2996,30 +3160,30 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     return [];
   }
 
+  let listenPzWaiters = [];
+  function flushListenPzWaiters(data) {
+    const queue = listenPzWaiters.slice();
+    listenPzWaiters = [];
+    queue.forEach(fn => { try { fn(data); } catch (e) {} });
+  }
   function ensureListeningPzLoaded(cb) {
     if (window.__STUDY4_LISTEN_PZ) {
       cb && cb(window.__STUDY4_LISTEN_PZ);
       return;
     }
-    if (listenPzLoading) {
-      const iv = setInterval(() => {
-        if (window.__STUDY4_LISTEN_PZ) {
-          clearInterval(iv);
-          cb && cb(window.__STUDY4_LISTEN_PZ);
-        }
-      }, 40);
-      return;
-    }
+    if (cb) listenPzWaiters.push(cb);
+    if (listenPzLoading) return;
     listenPzLoading = true;
     const s = document.createElement('script');
     s.src = 'data/listening_practice_zone.js?v=22';
     s.onload = () => {
       listenPzLoading = false;
-      cb && cb(window.__STUDY4_LISTEN_PZ || []);
+      flushListenPzWaiters(window.__STUDY4_LISTEN_PZ || []);
     };
     s.onerror = () => {
       listenPzLoading = false;
-      cb && cb([]);
+      try { s.remove(); } catch (e) {}
+      flushListenPzWaiters([]);
     };
     document.head.appendChild(s);
   }
@@ -3215,9 +3379,8 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
     if (subs.length === 0) {
       historyListHtml = `
         <div class="w-history-empty">
-          <span class="w-history-empty-icon">📭</span>
+          <span class="w-history-empty-icon">${pzIcon('inbox', 28)}</span>
           <strong>Chưa có bài thi Listening nào được nộp</strong>
-          <p style="margin:4px 0 0;font-size:12px;opacity:0.8;">Hãy chọn cấu hình phía trên và bấm "Bắt đầu làm bài thi" để rèn luyện ngay!</p>
         </div>
       `;
     } else {
@@ -3230,24 +3393,27 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
           <!-- TOP HEADER CỦA SẢNH -->
           <div class="w-lobby-header">
             <div class="w-lobby-header-badge">
-              <span class="w-lobby-chip" style="background:rgba(59,130,246,0.12);color:#2563eb;border-color:rgba(59,130,246,0.25);">🎧 IELTS LISTENING PRACTICE ZONE</span>
-              <span class="w-lobby-chip cbt">INSPERA CBT SIMULATOR</span>
+              <span class="w-lobby-chip" style="background:rgba(59,130,246,0.12);color:#2563eb;border-color:rgba(59,130,246,0.25);">${pzIcon('listening', 13)} IELTS LISTENING PRACTICE ZONE</span>
+              <span class="w-lobby-chip cbt">INSPERA CBT</span>
             </div>
             <h1 class="w-lobby-title" id="lLobbyTestTitle">${target.title} (Full Test 40 câu)</h1>
-            <p class="w-lobby-subtitle">
-              Phòng thi thử Listening mô phỏng 100% môi trường thi máy tính chính thức (Computer-Based Test). Vui lòng kiểm tra âm lượng tai nghe, đọc kỹ hướng dẫn trước khi bấm bắt đầu.
-            </p>
+            <div class="s4-pz-chip-strip">
+              <span class="s4-pz-feat-chip">${pzIcon('listening', 13)} Nghe chuẩn 1 lượt</span>
+              <span class="s4-pz-feat-chip">${pzIcon('keyboard', 13)} Phím Tab chuyển ô</span>
+              <span class="s4-pz-feat-chip">${pzIcon('flag', 13)} Bảng câu Q1–Q40</span>
+              <span class="s4-pz-feat-chip">${pzIcon('award', 13)} Chấm Band tự động</span>
+            </div>
           </div>
 
           <!-- LOBBY CONTENT GRID 2 CỘT -->
           <div class="w-lobby-grid">
-            <!-- CỘT TRÁI: HƯỚNG DẪN & CẤU TRÚC 4 RECORDINGS -->
+            <!-- CỘT TRÁI: CẤU TRÚC 4 RECORDINGS -->
             <div class="w-lobby-card w-lobby-guide-col">
               <div class="w-lobby-card-head">
-                <span class="w-lobby-icon">📋</span>
+                <span class="w-lobby-icon">${pzIcon('listening', 18)}</span>
                 <div>
-                  <h3>Cấu trúc bài thi & Hướng dẫn nghe</h3>
-                  <p>Official IELTS Listening Format (4 Recordings • 40 Questions • ~30 phút)</p>
+                  <h3>Cấu trúc bài thi (4 Recordings • 40 câu)</h3>
+                  <p>Official IELTS Listening Format</p>
                 </div>
               </div>
 
@@ -3256,9 +3422,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                 <div class="w-lobby-task-row">
                   <div class="w-lobby-task-tag t1" style="background:#2563eb;">SECTION 1</div>
                   <div class="w-lobby-task-info">
-                    <strong>${parts[0] ? parts[0].name : 'Recording 1'} (Hội thoại đời sống thường nhật)</strong>
+                    <strong>${parts[0] ? parts[0].name : 'Recording 1'} (Hội thoại đời sống)</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ ~7-8 phút</span> • <span>❓ Q1–Q10 (10 câu)</span> • <span>📊 Điền từ vào mẫu đơn/ghi chú</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} ~7-8 phút</span> • <span>Q1–Q10 (10 câu)</span> • <span>Điền từ mẫu đơn</span>
                     </div>
                   </div>
                 </div>
@@ -3266,9 +3432,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                 <div class="w-lobby-task-row">
                   <div class="w-lobby-task-tag t1" style="background:#0284c7;">SECTION 2</div>
                   <div class="w-lobby-task-info">
-                    <strong>${parts[1] ? parts[1].name : 'Recording 2'} (Độc thoại hướng dẫn công cộng)</strong>
+                    <strong>${parts[1] ? parts[1].name : 'Recording 2'} (Độc thoại công cộng)</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ ~7-8 phút</span> • <span>❓ Q11–Q20 (10 câu)</span> • <span>📊 Bản đồ, trắc nghiệm hoặc bảng</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} ~7-8 phút</span> • <span>Q11–Q20 (10 câu)</span> • <span>Bản đồ &amp; trắc nghiệm</span>
                     </div>
                   </div>
                 </div>
@@ -3276,9 +3442,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                 <div class="w-lobby-task-row">
                   <div class="w-lobby-task-tag t1" style="background:#0d9488;">SECTION 3</div>
                   <div class="w-lobby-task-info">
-                    <strong>${parts[2] ? parts[2].name : 'Recording 3'} (Thảo luận học thuật 2-4 người)</strong>
+                    <strong>${parts[2] ? parts[2].name : 'Recording 3'} (Thảo luận học thuật)</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ ~7-8 phút</span> • <span>❓ Q21–Q30 (10 câu)</span> • <span>📊 Trắc nghiệm nhiều lựa chọn & nối ý</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} ~7-8 phút</span> • <span>Q21–Q30 (10 câu)</span> • <span>Trắc nghiệm &amp; nối ý</span>
                     </div>
                   </div>
                 </div>
@@ -3286,37 +3452,10 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                 <div class="w-lobby-task-row">
                   <div class="w-lobby-task-tag t1" style="background:#7c3aed;">SECTION 4</div>
                   <div class="w-lobby-task-info">
-                    <strong>${parts[3] ? parts[3].name : 'Recording 4'} (Bài thuyết trình / Bài giảng học thuật)</strong>
+                    <strong>${parts[3] ? parts[3].name : 'Recording 4'} (Bài giảng học thuật)</strong>
                     <div class="w-lobby-task-meta">
-                      <span>⏱️ ~7-8 phút</span> • <span>❓ Q31–Q40 (10 câu)</span> • <span>📊 Ghi chép tóm tắt bài giảng khoa học</span>
+                      <span class="s4-pz-inline-chip">${pzIcon('clock', 12)} ~7-8 phút</span> • <span>Q31–Q40 (10 câu)</span> • <span>Tóm tắt bài giảng</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Quy chế thi Listening CBT -->
-              <div class="w-lobby-rules">
-                <div class="w-lobby-rule-item">
-                  <span class="w-rule-icon">🎧</span>
-                  <div>
-                    <strong>Quy chế nghe 1 lần duy nhất:</strong>
-                    <p>Trong bài thi thật, mỗi đoạn băng chỉ được phát đúng 1 lần. Bạn có thời gian đọc câu hỏi trước khi nghe và kiểm tra lại sau khi đoạn băng kết thúc.</p>
-                  </div>
-                </div>
-
-                <div class="w-lobby-rule-item">
-                  <span class="w-rule-icon">⌨️</span>
-                  <div>
-                    <strong>Điền trực tiếp trên màn hình:</strong>
-                    <p>Nhấp chuột vào ô trống để gõ câu trả lời hoặc bấm chọn phương án. Sử dụng phím <strong>Tab</strong> để chuyển nhanh sang ô trống tiếp theo.</p>
-                  </div>
-                </div>
-
-                <div class="w-lobby-rule-item">
-                  <span class="w-rule-icon">📋</span>
-                  <div>
-                    <strong>Bảng điều hướng câu hỏi Q1..Q40 & Cắm cờ Review:</strong>
-                    <p>Dải câu hỏi nằm cố định ở đáy màn hình. Nhấp số câu để nhảy đến ngay câu đó, nhấp Review để cắm cờ xem lại trước khi nộp.</p>
                   </div>
                 </div>
               </div>
@@ -3325,10 +3464,10 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
             <!-- CỘT PHẢI: CẤU HÌNH PHÒNG THI (CANDIDATE SETTINGS) -->
             <div class="w-lobby-card w-lobby-config-col">
               <div class="w-lobby-card-head">
-                <span class="w-lobby-icon">⚙️</span>
+                <span class="w-lobby-icon">${pzIcon('settings', 18)}</span>
                 <div>
-                  <h3>Cấu hình phòng thi của bạn</h3>
-                  <p>Tùy chỉnh chế độ, thời gian, âm lượng tai nghe & cỡ chữ</p>
+                  <h3>Cấu hình phòng thi</h3>
+                  <p>Chế độ, thời gian, âm lượng &amp; cỡ chữ</p>
                 </div>
               </div>
 
@@ -3388,9 +3527,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
               <div class="w-lobby-config-group">
                 <label class="w-config-label">3. Kiểm tra tai nghe & Âm lượng:</label>
                 <div style="display:flex;align-items:center;gap:12px;background:var(--box-sub);padding:10px 14px;border-radius:10px;border:1px solid var(--border);">
-                  <span>🔊</span>
+                  <span class="s4-pz-inline-chip">${pzIcon('volume', 15)}</span>
                   <input type="range" min="0" max="1" step="0.05" value="1" style="flex:1;accent-color:var(--primary);cursor:pointer;" oninput="window.s4CbtSetVolume(this.value)">
-                  <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzPlayTestSound()" style="font-size:12px;padding:4px 10px;">▶ Nghe thử âm mẫu</button>
+                  <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzPlayTestSound()" style="font-size:12px;padding:4px 10px;">${pzIcon('play', 12)} Nghe thử âm mẫu</button>
                 </div>
               </div>
 
@@ -3408,9 +3547,9 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
               <div class="w-lobby-config-group" style="background:rgba(37, 99, 235, 0.07);padding:10px 14px;border-radius:10px;border:1px dashed rgba(37, 99, 235, 0.3);">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
                   <span style="font-size:12.5px;color:var(--text);display:flex;align-items:center;gap:6px;">
-                    💡 <strong>Kho ${(window.__STUDY4_LISTEN_PZ || []).length || 133} Đề thi Listening:</strong> Chọn đề thi khác trên Sidebar hoặc bấm nút Đổi đề.
+                    ${pzIcon('lightbulb', 14)} <strong>Kho ${(window.__STUDY4_LISTEN_PZ || []).length || 133} Đề Listening</strong>
                   </span>
-                  <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openListeningHub()" style="padding:4px 10px;font-size:12px;font-weight:700;">📚 Đổi đề</button>
+                  <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openListeningHub()" style="padding:4px 10px;font-size:12px;font-weight:700;">${pzIcon('listening', 13)} Đổi đề</button>
                 </div>
               </div>
 
@@ -3420,14 +3559,11 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
                   <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
                     <div>
                       <span style="font-weight:800;font-size:13px;color:#ef4444;display:flex;align-items:center;gap:6px;">
-                        🎬 Có Video Chữa Đề Chi Tiết (${explainLessons.length} video giải)
-                      </span>
-                      <span style="font-size:11.5px;color:var(--muted);display:block;margin-top:2px;">
-                        Giáo viên giải thích chi tiết từng câu hỏi & phân tích bẫy nghe
+                        ${pzIcon('tedtalks', 14)} Video Chữa Đề (${explainLessons.length} video)
                       </span>
                     </div>
                     <button type="button" class="s4-cbt-ctrl-btn" style="border-color:#ef4444;color:#ef4444;font-weight:700;background:var(--card);padding:5px 12px;" onclick="window.s4CbtExitListeningToExplain('${explainLessons[0].id}')" title="Xem video bài giảng chữa đề này">
-                      ▶ Xem Video Chữa Đề
+                      ${pzIcon('play', 13)} Xem Video
                     </button>
                   </div>
                 </div>
@@ -3436,11 +3572,11 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
               <!-- Nút Bắt đầu làm bài thi CTA -->
               <div class="w-lobby-cta-zone">
                 <button type="button" class="w-lobby-start-btn" onclick="window.s4PzStartListeningExamFromLobby()" style="background:linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);box-shadow:0 4px 14px rgba(37, 99, 235, 0.4);">
-                  <span>🚀 BẮT ĐẦU LÀM BÀI THI</span>
-                  <small>Tự động chuyển toàn màn hình (F11 Fullscreen) & phát audio</small>
+                  <span>${pzIcon('play', 16)} BẮT ĐẦU LÀM BÀI THI</span>
+                  <small>Tự động bật toàn màn hình (F11)</small>
                 </button>
                 <button type="button" class="w-lobby-back-btn" onclick="window.s4CbtExitListeningToLesson()">
-                  ← Quay lại giao diện luyện nghe & chép chính tả
+                  ← Quay lại luyện nghe &amp; chép chính tả
                 </button>
               </div>
             </div>
@@ -3450,10 +3586,10 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
           <div class="w-lobby-card w-lobby-history-section" id="listeningLobbyHistoryCard">
             <div class="w-lobby-card-head" style="justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:10px;">
-                <span class="w-lobby-icon">📜</span>
+                <span class="w-lobby-icon">${pzIcon('clock', 18)}</span>
                 <div>
-                  <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch Sử Các Bài Thi Listening Từng Làm</h3>
-                  <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Mã đề & thời gian bên trái • Điểm số Band bên phải • Xem lại bài làm & đối chiếu đáp án</p>
+                  <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch sử bài thi Listening</h3>
+                  <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Xem lại bài làm &amp; đối chiếu đáp án</p>
                 </div>
               </div>
               <span class="w-lobby-chip" style="background:rgba(59,130,246,0.12);color:#2563eb;">${subs.length} bài đã nộp</span>
@@ -3487,9 +3623,13 @@ YÊU CẦU PHÂN TÍCH & HƯỚNG DẪN CỦA CHUYÊN GIA:
       <div class="s4-pz-hub-card">
         <div class="s4-pz-hub-top">
           <div style="flex:1;min-width:260px;">
-            <div class="lesson-unit-tag">🎯 IELTS LISTENING — COMPUTER-DELIVERED PRACTICE ZONE</div>
-            <h1 class="lesson-title">Kho Luyện Đề IELTS Listening Thực Chiến (${list.length} Đề Full Test • ${totalRecordings} Recordings • ${totalQ.toLocaleString()} Câu hỏi)</h1>
-            <p style="font-size:13.5px;color:var(--muted);margin-top:4px;">Giao diện chuẩn 100% phòng thi máy tính (Full-Screen, chia 2 khung Đề bài Note/Table/Map & Ô điền đáp án, chỉnh âm lượng, Highlight vàng & Ghi chú).</p>
+            <div class="lesson-unit-tag s4-pz-inline-chip">${pzIcon('target', 13)} IELTS LISTENING — PRACTICE ZONE</div>
+            <h1 class="lesson-title">Kho Đề IELTS Listening (${list.length} Đề • ${totalRecordings} Recordings • ${totalQ.toLocaleString()} Câu)</h1>
+            <div class="s4-pz-chip-strip">
+              <span class="s4-pz-feat-chip">${pzIcon('split', 12)} Chia đôi CBT</span>
+              <span class="s4-pz-feat-chip">${pzIcon('volume', 12)} Chỉnh âm lượng</span>
+              <span class="s4-pz-feat-chip">${pzIcon('brush', 12)} Highlight &amp; Ghi chú</span>
+            </div>
           </div>
           <div class="s4-pz-hub-search">
             ${renderHubSearchBar('listening', listenHubSearch, 'Tìm tên đề (VD: Collection 1, Actual 10)...')}
@@ -3577,7 +3717,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
           <div class="s4-cbt-header-center">
             <div class="s4-cbt-timer-box" id="s4CbtTimerBox">
-              <span>⏱️</span>
+              <span class="s4-pz-inline-chip">${pzIcon('clock', 14)}</span>
               <span id="s4PzTimerText">${formatTimer(timerSeconds)}</span>
               <select id="s4PzTimerSelect" style="background:transparent;border:none;color:inherit;font-weight:800;font-size:12px;cursor:pointer;outline:none;" onchange="window.s4PzChangeTimer(Number(this.value))">
                 <option value="40" ${curTimerMins === 40 ? 'selected' : ''}>40 phút</option>
@@ -3592,7 +3732,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
           <div class="s4-cbt-header-right">
             <div class="s4-cbt-vol-group" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:8px;background:var(--box-sub);border:1px solid var(--border);" title="Thanh điều chỉnh âm lượng tai nghe">
-              <span>🔊</span>
+              <span class="s4-pz-inline-chip">${pzIcon('volume', 14)}</span>
               <input type="range" min="0" max="1" step="0.05" value="1" style="width:60px;accent-color:var(--primary);cursor:pointer;" oninput="window.s4CbtSetVolume(this.value)">
             </div>
             <div class="s4-cbt-font-group" style="display:inline-flex;gap:3px;background:var(--box-sub);padding:2px;border-radius:8px;border:1px solid var(--border);" title="Chỉnh cỡ chữ bài thi">
@@ -3601,16 +3741,16 @@ function renderListeningExamView(testObj, allLessonsParam) {
               <button type="button" class="s4-cbt-ctrl-btn s4-cbt-font-btn ${cbtFontClass === 'cbt-font-xl' ? 'active' : ''}" data-font="cbt-font-xl" style="border:none;padding:4px 8px;font-size:15px;" onclick="window.s4CbtSetFont('cbt-font-xl')">A++</button>
             </div>
             <button type="button" class="s4-cbt-ctrl-btn s4-cbt-fs-btn ${isFs ? 'active' : ''}" id="s4CbtFsBtn" onclick="window.s4CbtToggleFullscreen()" title="Toàn màn hình">
-              ${isFs ? '🗗<span class="s4-cbt-hide-mob"> Thoát FS</span>' : '⛶<span class="s4-cbt-hide-mob"> Toàn màn hình</span>'}
+              ${isFs ? `${pzIcon('minimize', 14)}<span class="s4-cbt-hide-mob"> Thoát FS</span>` : `${pzIcon('expand', 14)}<span class="s4-cbt-hide-mob"> Toàn màn hình</span>`}
             </button>
             ${!isSubmitted ? `
-              <button type="button" class="s4-cbt-submit-btn" onclick="window.s4PzSubmitListening('${sessionKey}', ${testObj.id})">✔ Nộp bài<span class="s4-cbt-hide-mob"> & Chấm điểm</span></button>
+              <button type="button" class="s4-cbt-submit-btn" onclick="window.s4PzSubmitListening('${sessionKey}', ${testObj.id})">${pzIcon('check', 14)} Nộp bài<span class="s4-cbt-hide-mob"> &amp; Chấm điểm</span></button>
             ` : `
-              <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetListening('${sessionKey}', ${testObj.id})">🔄 Làm lại</button>
+              <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetListening('${sessionKey}', ${testObj.id})">${pzIcon('refresh', 14)} Làm lại</button>
             `}
-            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openListeningHistoryModal()" title="Xem lịch sử bài thi đã nộp">📜<span class="s4-cbt-hide-mob"> Lịch sử</span></button>
-            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openListeningHub()" title="Đổi đề khác trong Kho ${(window.__STUDY4_LISTEN_PZ || []).length || 133} Đề">📚<span class="s4-cbt-hide-mob"> Đổi đề</span></button>
-            <button type="button" class="s4-cbt-ctrl-btn s4-cbt-exit-btn" onclick="window.s4PzExitListeningExamToLobby()" title="Quay về Sảnh phòng thi">✕ <span class="s4-cbt-hide-mob">Về sảnh thi</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openListeningHistoryModal()" title="Xem lịch sử bài thi đã nộp">${pzIcon('clock', 14)}<span class="s4-cbt-hide-mob"> Lịch sử</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn" onclick="window.S4PracticeZone.openListeningHub()" title="Đổi đề khác trong Kho ${(window.__STUDY4_LISTEN_PZ || []).length || 133} Đề">${pzIcon('listening', 14)}<span class="s4-cbt-hide-mob"> Đổi đề</span></button>
+            <button type="button" class="s4-cbt-ctrl-btn s4-cbt-exit-btn" onclick="window.s4PzExitListeningExamToLobby()" title="Quay về Sảnh phòng thi">← <span class="s4-cbt-hide-mob">Về sảnh thi</span></button>
           </div>
         </header>
 
@@ -3630,15 +3770,15 @@ function renderListeningExamView(testObj, allLessonsParam) {
                     Kết quả đề ${testObj.title}: Đúng <span style="color:#34d399;">${correctCount} / ${allQ.length}</span> câu (${Math.round((correctCount / Math.max(1, allQ.length)) * 100)}%)${isViewingHistory && viewingListenSub.date ? ` <span style="font-size:12px;font-weight:700;color:var(--hl-cyan);margin-left:6px;">• Đang xem lại bài nộp lúc ${escapeAttr(viewingListenSub.date)}</span>` : ''}
                   </div>
                   <div style="font-size:12.5px;color:var(--muted);">
-                    ✓ Đã hiển thị toàn bộ <strong>Đáp án chuẩn</strong> bên dưới từng câu hỏi của cả 4 Recording!
+                    Đã hiển thị toàn bộ <strong>Đáp án chuẩn</strong> bên dưới từng câu hỏi của cả 4 Recording.
                   </div>
                 </div>
               </div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetListening('${sessionKey}', ${testObj.id})">🔄 Làm lại bài thi</button>
-                <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtExitListeningToLesson()">📜 Xem Transcript & Chép chính tả</button>
+                <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4PzResetListening('${sessionKey}', ${testObj.id})">${pzIcon('refresh', 14)} Làm lại bài thi</button>
+                <button type="button" class="s4-cbt-ctrl-btn" onclick="window.s4CbtExitListeningToLesson()">${pzIcon('reading', 14)} Xem Transcript &amp; Chép chính tả</button>
                 ${explainLessons.length > 0 ? `
-                  <button type="button" class="s4-cbt-submit-btn" style="background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%);box-shadow:0 3px 10px rgba(239,68,68,0.35);font-weight:800;" onclick="window.s4CbtExitListeningToExplain('${explainLessons[0].id}')">🎬 Xem Video Giải Chi Tiết (${explainLessons.length} video)</button>
+                  <button type="button" class="s4-cbt-submit-btn" style="background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%);box-shadow:0 3px 10px rgba(239,68,68,0.35);font-weight:800;" onclick="window.s4CbtExitListeningToExplain('${explainLessons[0].id}')">${pzIcon('tedtalks', 14)} Xem Video Giải (${explainLessons.length} video)</button>
                 ` : ''}
               </div>
             </div>
@@ -3647,10 +3787,10 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
         <div class="s4-cbt-part-banner" id="s4PzListenAudioSlot" style="gap:10px;">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <span class="bg-badge">🎧 Part ${activePartIdx + 1} (${curPart.name}) • Q${firstQNum}–${lastQNum}</span>
+            <span class="bg-badge s4-pz-inline-chip">${pzIcon('listening', 13)} Part ${activePartIdx + 1} (${curPart.name}) • Q${firstQNum}–${lastQNum}</span>
             <div style="display:inline-flex;gap:4px;">
-              <button type="button" class="s4-cbt-ctrl-btn" onclick="seekPassAudio(-5)">⏪ -5s</button>
-              <button type="button" class="s4-cbt-ctrl-btn" onclick="seekPassAudio(5)">⏩ +5s</button>
+              <button type="button" class="s4-cbt-ctrl-btn" onclick="seekPassAudio(-5)">${pzIcon('rewind', 12)} -5s</button>
+              <button type="button" class="s4-cbt-ctrl-btn" onclick="seekPassAudio(5)">${pzIcon('forward', 12)} +5s</button>
               <button type="button" class="s4-cbt-ctrl-btn speed-btn" data-rate="0.75" onclick="setPassSpeed(0.75)">0.75x</button>
               <button type="button" class="s4-cbt-ctrl-btn speed-btn btn-primary" data-rate="1" onclick="setPassSpeed(1)">1.0x</button>
               <button type="button" class="s4-cbt-ctrl-btn speed-btn" data-rate="1.25" onclick="setPassSpeed(1.25)">1.25x</button>
@@ -3661,17 +3801,17 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
         <!-- MOBILE VIEW SWITCHER (ONLY VISIBLE ON SCREENS <= 820px) -->
         <div class="s4-cbt-mobile-switcher" id="s4CbtMobileSwitcher">
-          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'split' ? 'active' : ''}" data-mview="split" onclick="window.s4CbtSetMobileView('split')">⬒ Chia đôi 50/50</button>
-          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'left' ? 'active' : ''}" data-mview="left" onclick="window.s4CbtSetMobileView('left')">📋 Đề bài</button>
-          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'right' ? 'active' : ''}" data-mview="right" onclick="window.s4CbtSetMobileView('right')">✍️ Đáp án (<span id="s4CbtMobAnsCount">${answeredCount}/${allQ.length}</span>)</button>
-          <button type="button" class="s4-cbt-mob-tab s4-cbt-mob-hl-btn" onmousedown="event.preventDefault()" onclick="window.s4CbtMobileQuickHighlight()" title="Tô vàng cụm từ đang bôi đen">🖍️</button>
+          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'split' ? 'active' : ''}" data-mview="split" onclick="window.s4CbtSetMobileView('split')">${pzIcon('split', 14)} Chia đôi</button>
+          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'left' ? 'active' : ''}" data-mview="left" onclick="window.s4CbtSetMobileView('left')">${pzIcon('reading', 14)} Đề bài</button>
+          <button type="button" class="s4-cbt-mob-tab ${cbtMobileView === 'right' ? 'active' : ''}" data-mview="right" onclick="window.s4CbtSetMobileView('right')">${pzIcon('edit', 14)} Đáp án (<span id="s4CbtMobAnsCount">${answeredCount}/${allQ.length}</span>)</button>
+          <button type="button" class="s4-cbt-mob-tab s4-cbt-mob-hl-btn" onmousedown="event.preventDefault()" onclick="window.s4CbtMobileQuickHighlight()" title="Tô vàng cụm từ đang bôi đen">${pzIcon('brush', 14)}</button>
         </div>
 
         <!-- RESIZABLE 2-COLUMN SPLIT SCREEN (LEFT: NOTES/TABLES/MAPS | RIGHT: ANSWER SHEET) -->
         <div class="s4-cbt-split-area ${cbtFontClass} mob-view-${cbtMobileView}" id="s4CbtSplitArea" lang="en">
           <div class="s4-cbt-pane-left" id="s4CbtLeftPane" style="--cbt-left-pct:${cbtLeftPct}%;">
             <div class="syn-col-title">
-              <span>📋 PART ${activePartIdx + 1}: QUESTION PROMPTS / NOTES / TABLES / MAPS</span>
+              <span class="s4-pz-inline-chip">${pzIcon('reading', 14)} PART ${activePartIdx + 1}: QUESTION PROMPTS / NOTES / TABLES / MAPS</span>
               <span>Bôi đen chữ để Highlight / Note</span>
             </div>
             <div id="s4CbtListenLeftBody"></div>
@@ -3683,7 +3823,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
           <div class="s4-cbt-pane-right s4-pz-container" id="s4CbtRightPane" lang="en">
             <div class="syn-col-title">
-              <span>✍️ ANSWER SHEET — QUESTIONS ${firstQNum}–${lastQNum}</span>
+              <span class="s4-pz-inline-chip">${pzIcon('edit', 14)} ANSWER SHEET — QUESTIONS ${firstQNum}–${lastQNum}</span>
               <span>${isSubmitted ? 'Đã chấm điểm & hiện đáp án' : 'Gõ đáp án & nhấn Enter qua câu kế'}</span>
             </div>
             <div id="s4CbtListenRightBody"></div>
@@ -3745,7 +3885,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
         const leftCard = document.createElement('div');
         leftCard.style.cssText = 'margin-bottom:20px;padding-bottom:16px;border-bottom:1px dashed var(--border);';
         leftCard.innerHTML = `
-          <div style="font-size:12.5px;font-weight:900;color:var(--hl-gold);text-transform:uppercase;margin-bottom:8px;">📌 ${rangeTitle}</div>
+          <div class="s4-pz-inline-chip" style="font-size:12.5px;font-weight:900;color:var(--hl-gold);text-transform:uppercase;margin-bottom:8px;">${pzIcon('reading', 13)} ${rangeTitle}</div>
           <div class="context-content">${ctxHtml || '<em style="color:var(--muted);">Nghe và chọn đáp án đúng ở khung bên phải.</em>'}</div>
         `;
         leftBody.appendChild(leftCard);
@@ -3760,8 +3900,9 @@ function renderListeningExamView(testObj, allLessonsParam) {
         rightGroup.appendChild(hiddenCtx);
 
         const rightHeader = document.createElement('div');
+        rightHeader.className = 's4-pz-inline-chip';
         rightHeader.style.cssText = 'font-size:12.5px;font-weight:900;color:var(--hl-cyan);text-transform:uppercase;margin-bottom:10px;';
-        rightHeader.textContent = `✍️ ${rangeTitle}`;
+        rightHeader.innerHTML = `${pzIcon('edit', 13)} ${escHtml(rangeTitle)}`;
         rightGroup.appendChild(rightHeader);
 
         // Also preserve any option pools (e.g. A-H boxes) in both Left and Right panes
@@ -3788,6 +3929,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     }
 
     initSplitResizer();
+    restoreCbtMarksForKey('listen__' + sessionKey + '__p' + activePartIdx);
     bindHighlightPopupEvents();
   }
 
@@ -3841,6 +3983,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
     if (typeof window.renderMain === 'function') window.renderMain();
   };
   window.s4PzSelectListeningPart = function (idx, scrollQid) {
+    snapshotCurrentCbtMarks();
     activePartIdx = idx;
     if (typeof window.renderMain === 'function') window.renderMain();
     if (scrollQid) {
@@ -3901,7 +4044,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
         sessionKey: sessionKey,
         testTitle: target.title,
         date: new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-        duration: '40 phút',
+        duration: `${getElapsedExamMinutes()} phút`,
         bandScore: String(bandScore),
         correctCount: correctCount,
         totalQuestions: allQ.length,
@@ -3924,6 +4067,7 @@ function renderListeningExamView(testObj, allLessonsParam) {
 
     viewingListenSub = null;
     delete listenSubmittedMap[sessionKey];
+    clearCbtMarksForSession('listen__' + sessionKey + '__');
     const list = window.__STUDY4_LISTEN_PZ || [];
     const testObj = list.find(t => t.id === Number(testId));
     if (testObj) {

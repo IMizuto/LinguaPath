@@ -31,11 +31,12 @@
     "i'd": 'i would', "you'd": 'you would', "we'd": 'we would', "they'd": 'they would',
     "i'll": 'i will', "you'll": 'you will', "we'll": 'we will', "they'll": 'they will',
     "don't": 'do not', "doesn't": 'does not', "didn't": 'did not',
-    "won't": 'will not', "wouldn't": 'would not', "can't": 'cannot',
+    "won't": 'will not', "wouldn't": 'would not', "can't": 'can not', 'cannot': 'can not',
     "couldn't": 'could not', "shouldn't": 'should not', "isn't": 'is not',
     "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not',
     "haven't": 'have not', "hasn't": 'has not', "hadn't": 'had not',
-    'gonna': 'going to', 'wanna': 'want to', 'gotta': 'got to', 'kinda': 'kind of'
+    'gonna': 'going to', 'wanna': 'want to', 'gotta': 'got to', 'kinda': 'kind of',
+    'sorta': 'sort of', 'outta': 'out of'
   };
 
   var NUMBER_WORD_MAP = {
@@ -107,6 +108,7 @@
     shadowSpokenText: '',
     shadowAudioUrl: '',
     shadowDurationSec: 0,
+    shadowAcoustic: null,
     shadowStatusKind: '',
     shadowStatusMsg: '',
     shadowListenAuto: false,
@@ -122,6 +124,7 @@
     recWpm: 0,
     recAudioId: null,
     recAudioUrl: '',
+    recAcoustic: null,
     scores: { fc: 0, lr: 0, gra: 0, pr: 0 },
     aiFeedback: '',
     aiFeedbackAuto: false,
@@ -213,6 +216,61 @@
         .replace(/\r?\n/g, ' ')
         .replace(/'/g, "\\'")
     );
+  }
+
+  var SP_SVG_MAP = {
+    menu: '<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>',
+    chevronLeft: '<path d="m15 18-6-6 6-6"/>',
+    chevronRight: '<path d="m9 18 6-6-6-6"/>',
+    chevronDown: '<path d="m6 9 6 6 6-6"/>',
+    arrowLeft: '<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',
+    arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    mic: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/>',
+    speaking: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/>',
+    stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
+    volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>',
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    restore: '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
+    backup: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+    download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',
+    eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+    eyeOff: '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>',
+    refresh: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+    play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+    chart: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    sliders: '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+    zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+    vocab: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>',
+    grammar: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/>',
+    graduation: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+    listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+    edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+    pause: '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>',
+    shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+    info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+    external: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>'
+  };
+
+  function spIcon(name, size) {
+    var sz = Number(size) > 0 ? Number(size) : 14;
+    if (global.S4UI && typeof global.S4UI.icon === 'function' && name !== 'copy' && name !== 'pause') {
+      return global.S4UI.icon(name, sz);
+    }
+    var body = SP_SVG_MAP[name] || SP_SVG_MAP.sparkle;
+    return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
   }
 
   function showToast(msg, type, customDuration) {
@@ -378,12 +436,45 @@
     saveJson(STORAGE_PREFS, prefs);
   }
 
+  function isSafeAiBaseUrl(raw) {
+    var s = String(raw || '').trim();
+    if (!s) return true;
+    try {
+      var u = new URL(s);
+      if (u.protocol === 'https:') return true;
+      if (u.protocol === 'http:' && (u.hostname === 'localhost' || u.hostname === '127.0.0.1')) return true;
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function isKeyPersistedInLocal() {
+    try { return Boolean(String(localStorage.getItem(STORAGE_GEMINI_KEY) || '').trim()); } catch (e) { return false; }
+  }
+
+  function shouldPersistAiKey() {
+    var chk = document.getElementById('pzRememberKeyCheck');
+    if (chk) return Boolean(chk.checked);
+    return isKeyPersistedInLocal();
+  }
+
   function getStoredGeminiKey() {
+    try {
+      var sv = String(sessionStorage.getItem(STORAGE_GEMINI_KEY) || '').trim();
+      if (sv) return sv;
+    } catch (e) {}
     try { return String(localStorage.getItem(STORAGE_GEMINI_KEY) || '').trim(); } catch (e) { return ''; }
   }
 
   function getStoredAiBaseUrl() {
-    try { return String(localStorage.getItem(STORAGE_AI_BASE) || '').trim().replace(/\/+$/, ''); } catch (e) { return ''; }
+    var raw = '';
+    try { raw = String(sessionStorage.getItem(STORAGE_AI_BASE) || '').trim(); } catch (e) {}
+    if (!raw) {
+      try { raw = String(localStorage.getItem(STORAGE_AI_BASE) || '').trim(); } catch (e) {}
+    }
+    var cleaned = raw.replace(/\/+$/, '');
+    return isSafeAiBaseUrl(cleaned) ? cleaned : '';
   }
 
   function syncWhisperCloudConfig() {
@@ -391,26 +482,52 @@
       try {
         global.S4Whisper.setCloudConfig({
           apiKey: getStoredGeminiKey(),
-          baseUrl: getStoredAiBaseUrl()
+          baseUrl: getStoredAiBaseUrl(),
+          persist: shouldPersistAiKey(),
+          useSharedSpeakingKey: true
         });
       } catch (e) {}
     }
   }
 
-  function setStoredGeminiKey(val) {
+  function setStoredGeminiKey(val, forcePersist) {
+    var clean = String(val || '').trim();
+    var persist = typeof forcePersist === 'boolean' ? forcePersist : shouldPersistAiKey();
     try {
-      var clean = String(val || '').trim();
-      if (clean) localStorage.setItem(STORAGE_GEMINI_KEY, clean);
-      else localStorage.removeItem(STORAGE_GEMINI_KEY);
+      localStorage.removeItem('lp_ai_api_key_v1');
+      sessionStorage.removeItem('lp_ai_api_key_v1');
+      if (!clean) {
+        localStorage.removeItem(STORAGE_GEMINI_KEY);
+        sessionStorage.removeItem(STORAGE_GEMINI_KEY);
+      } else if (persist) {
+        localStorage.setItem(STORAGE_GEMINI_KEY, clean);
+        sessionStorage.removeItem(STORAGE_GEMINI_KEY);
+      } else {
+        sessionStorage.setItem(STORAGE_GEMINI_KEY, clean);
+        localStorage.removeItem(STORAGE_GEMINI_KEY);
+      }
     } catch (e) {}
     syncWhisperCloudConfig();
   }
 
-  function setStoredAiBaseUrl(val) {
+  function setStoredAiBaseUrl(val, forcePersist) {
+    var clean = String(val || '').trim().replace(/\/+$/, '').replace(/\/chat\/completions$/i, '').replace(/\/audio\/transcriptions$/i, '');
+    if (clean && !isSafeAiBaseUrl(clean)) {
+      showToast('URL Proxy chỉ chấp nhận giao thức bảo mật https:// (hoặc http://localhost).', 'warn');
+      clean = '';
+    }
+    var persist = typeof forcePersist === 'boolean' ? forcePersist : shouldPersistAiKey();
     try {
-      var clean = String(val || '').trim().replace(/\/+$/, '').replace(/\/chat\/completions$/i, '').replace(/\/audio\/transcriptions$/i, '');
-      if (clean) localStorage.setItem(STORAGE_AI_BASE, clean);
-      else localStorage.removeItem(STORAGE_AI_BASE);
+      if (!clean) {
+        localStorage.removeItem(STORAGE_AI_BASE);
+        sessionStorage.removeItem(STORAGE_AI_BASE);
+      } else if (persist) {
+        localStorage.setItem(STORAGE_AI_BASE, clean);
+        sessionStorage.removeItem(STORAGE_AI_BASE);
+      } else {
+        sessionStorage.setItem(STORAGE_AI_BASE, clean);
+        localStorage.removeItem(STORAGE_AI_BASE);
+      }
     } catch (e) {}
     syncWhisperCloudConfig();
   }
@@ -458,15 +575,39 @@
       return dbPromise;
     }
 
+    var MAX_OBJECT_URLS = 15;
+
+    function cacheObjectUrl(id, blob) {
+      if (!id || !blob) return '';
+      if (objectUrls.has(id)) {
+        var existing = objectUrls.get(id);
+        objectUrls.delete(id);
+        objectUrls.set(id, existing);
+        return existing;
+      }
+      var url = '';
+      try {
+        url = URL.createObjectURL(blob);
+        objectUrls.set(id, url);
+        while (objectUrls.size > MAX_OBJECT_URLS) {
+          var oldestKey = objectUrls.keys().next().value;
+          if (!oldestKey) break;
+          var oldUrl = objectUrls.get(oldestKey);
+          objectUrls.delete(oldestKey);
+          if (oldUrl) {
+            try { URL.revokeObjectURL(oldUrl); } catch (e) {}
+          }
+        }
+      } catch (e) {}
+      return url;
+    }
+
     function saveBlob(id, blob) {
       if (!id || !blob) return Promise.resolve(null);
       cacheBlob(id, blob);
-      try {
-        var url = URL.createObjectURL(blob);
-        objectUrls.set(id, url);
-      } catch (e) {}
+      var url = cacheObjectUrl(id, blob);
       return openDb().then(function (db) {
-        if (!db) return objectUrls.get(id) || null;
+        if (!db) return url || null;
         return new Promise(function (resolve) {
           try {
             var tx = db.transaction(STORE_NAME, 'readwrite');
@@ -476,10 +617,10 @@
               mimeType: blob.type || 'audio/webm',
               createdAt: Date.now()
             });
-            tx.oncomplete = function () { resolve(objectUrls.get(id) || null); };
-            tx.onerror = function () { resolve(objectUrls.get(id) || null); };
+            tx.oncomplete = function () { resolve(url || objectUrls.get(id) || null); };
+            tx.onerror = function () { resolve(url || objectUrls.get(id) || null); };
           } catch (e) {
-            resolve(objectUrls.get(id) || null);
+            resolve(url || objectUrls.get(id) || null);
           }
         });
       });
@@ -487,7 +628,12 @@
 
     function getUrl(id) {
       if (!id) return Promise.resolve('');
-      if (objectUrls.has(id)) return Promise.resolve(objectUrls.get(id));
+      if (objectUrls.has(id)) {
+        var hit = objectUrls.get(id);
+        objectUrls.delete(id);
+        objectUrls.set(id, hit);
+        return Promise.resolve(hit);
+      }
       return openDb().then(function (db) {
         if (!db) return '';
         return new Promise(function (resolve) {
@@ -497,12 +643,11 @@
             req.onsuccess = function () {
               var res = req.result;
               if (res && res.blob) {
-                try {
-                  var url = URL.createObjectURL(res.blob);
-                  objectUrls.set(id, url);
-                  resolve(url);
+                var u = cacheObjectUrl(id, res.blob);
+                if (u) {
+                  resolve(u);
                   return;
-                } catch (e) {}
+                }
               }
               resolve('');
             };
@@ -554,7 +699,40 @@
       });
     }
 
-    return { saveBlob: saveBlob, getUrl: getUrl, getBlob: getBlob, remove: remove };
+    function pruneOrphans(keepIdsSet, minAgeMs) {
+      var cutoff = Date.now() - (typeof minAgeMs === 'number' ? minAgeMs : 3600000);
+      return openDb().then(function (db) {
+        if (!db) return 0;
+        return new Promise(function (resolve) {
+          var deleted = 0;
+          try {
+            var tx = db.transaction(STORE_NAME, 'readwrite');
+            var store = tx.objectStore(STORE_NAME);
+            var req = store.openCursor();
+            req.onsuccess = function (e) {
+              var cursor = e.target.result;
+              if (!cursor) return;
+              var val = cursor.value || {};
+              var recId = String(val.id || cursor.key || '');
+              var createdAt = Number(val.createdAt || 0);
+              if (recId && (!keepIdsSet || !keepIdsSet.has(recId)) && (!createdAt || createdAt < cutoff)) {
+                try { cursor.delete(); deleted++; } catch (err) {}
+                blobCache.delete(recId);
+                if (objectUrls.has(recId)) {
+                  try { URL.revokeObjectURL(objectUrls.get(recId)); } catch (err) {}
+                  objectUrls.delete(recId);
+                }
+              }
+              cursor.continue();
+            };
+            tx.oncomplete = function () { resolve(deleted); };
+            tx.onerror = function () { resolve(deleted); };
+          } catch (e) { resolve(deleted); }
+        });
+      });
+    }
+
+    return { saveBlob: saveBlob, getUrl: getUrl, getBlob: getBlob, remove: remove, pruneOrphans: pruneOrphans };
   })();
 
   // =========================================================================
@@ -902,8 +1080,55 @@
     var consecutiveSilentCount = 0;
     var micStartGen = 0;
     var MUTE_GRACE_MS = 2500;
+    var TAIL_FLUSH_MS = 180;
+    var WAVE_INTERVAL_MS = 50;
     var currentCallbacks = null;
     var onAutoStopCb = null;
+    var currentEphemeral = false;
+    var isStopping = false;
+    var stopPromise = null;
+    var tailTimerId = null;
+    var lastWavePaintTs = 0;
+    var peakSessionRms = 0;
+    var deadMicWarned = false;
+
+    function isAndroidMobile() {
+      try {
+        return /Android/i.test(String((typeof navigator !== 'undefined' && navigator.userAgent) || ''));
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function acquireMicStream() {
+      if (global.S4Whisper && typeof global.S4Whisper.acquireVoiceStream === 'function') {
+        return global.S4Whisper.acquireVoiceStream();
+      }
+      if (typeof navigator === 'undefined' || !navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+        return Promise.reject(new Error('getUserMedia unsupported'));
+      }
+      var constraints = {
+        channelCount: { ideal: 1 },
+        echoCancellation: { ideal: true },
+        noiseSuppression: { ideal: true },
+        autoGainControl: { ideal: true }
+      };
+      return navigator.mediaDevices.getUserMedia({ audio: constraints }).catch(function (err) {
+        if (err && (err.name === 'OverconstrainedError' || err.name === 'ConstraintNotSatisfiedError' || err.name === 'TypeError')) {
+          return navigator.mediaDevices.getUserMedia({ audio: true });
+        }
+        throw err;
+      });
+    }
+
+    function buildMediaRecorder(s) {
+      if (global.S4Whisper && typeof global.S4Whisper.createVoiceRecorder === 'function') {
+        return global.S4Whisper.createVoiceRecorder(s, { audioBitsPerSecond: 48000 });
+      }
+      var rec = new global.MediaRecorder(s);
+      rec._lpPreferredMime = rec.mimeType || 'audio/webm';
+      return rec;
+    }
 
     function isIosSafariLike() {
       try {
@@ -1027,9 +1252,13 @@
     if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
       document.addEventListener('visibilitychange', function () {
         if (document.hidden) {
-          micStartGen++;
-          if (isRecording) cancel();
-          releaseWarmStream();
+          if (isRecording) {
+            // Lưu giữ bản thu âm & transcript đang nói (stop tức thì thay vì cancel) khi màn hình điện thoại tự khóa
+            stop({ immediate: true }).catch(function () {});
+          } else {
+            micStartGen++;
+            releaseWarmStream();
+          }
         }
       });
     }
@@ -1125,15 +1354,40 @@
 
     function startWaveLoop(barSelector) {
       if (!analyser) return;
-      var dataArr = new Uint8Array(analyser.frequencyBinCount);
-      function tick() {
+      var freqArr = new Uint8Array(analyser.frequencyBinCount);
+      var timeArr = new Uint8Array(analyser.fftSize || 256);
+      function tick(now) {
         if (!isRecording || !analyser) return;
-        analyser.getByteFrequencyData(dataArr);
+        if (now && lastWavePaintTs && (now - lastWavePaintTs < WAVE_INTERVAL_MS)) {
+          rafId = requestAnimationFrame(tick);
+          return;
+        }
+        lastWavePaintTs = now || Date.now();
+
+        if (typeof analyser.getByteTimeDomainData === 'function') {
+          analyser.getByteTimeDomainData(timeArr);
+          var sumSq = 0;
+          for (var t = 0; t < timeArr.length; t++) {
+            var v = (timeArr[t] - 128) / 128;
+            sumSq += v * v;
+          }
+          var rms = Math.sqrt(sumSq / timeArr.length);
+          if (rms > peakSessionRms) peakSessionRms = rms;
+          if (!deadMicWarned && !isStopping && !hasSpeechResult && (Date.now() - startTs >= 3500) && peakSessionRms < 0.0035) {
+            deadMicWarned = true;
+            showToast('⚠️ Micro chưa thu được tín hiệu âm thanh nào — hãy kiểm tra nút Mute tai nghe/mic hoặc đưa micro lại gần hơn!', 'warn', 5200);
+            if (currentCallbacks && typeof currentCallbacks.onInputSilent === 'function') {
+              try { currentCallbacks.onInputSilent(); } catch (e) {}
+            }
+          }
+        }
+
+        analyser.getByteFrequencyData(freqArr);
         var bars = document.querySelectorAll(barSelector);
         if (bars && bars.length) {
-          var step = Math.max(1, Math.floor(dataArr.length / bars.length));
+          var step = Math.max(1, Math.floor(freqArr.length / bars.length));
           for (var i = 0; i < bars.length; i++) {
-            var val = dataArr[Math.min(dataArr.length - 1, i * step)] || 0;
+            var val = freqArr[Math.min(freqArr.length - 1, i * step)] || 0;
             var h = Math.max(6, Math.round((val / 255) * 34));
             bars[i].style.height = h + 'px';
           }
@@ -1145,7 +1399,7 @@
 
     function start(opts) {
       var o = opts || {};
-      if (isRecording) return Promise.resolve(false);
+      if (isRecording || isStopping) return Promise.resolve(false);
       TtsEngine.stop();
 
       currentCallbacks = o;
@@ -1159,6 +1413,11 @@
       hasSpeechResult = false;
       emptyRestartCount = 0;
       lastWarnedCode = '';
+      peakSessionRms = 0;
+      deadMicWarned = false;
+      lastWavePaintTs = 0;
+      isStopping = false;
+      stopPromise = null;
       startTs = Date.now();
 
       // Unlock shared AudioContext synchronously inside user click handler (iOS Safari fix)
@@ -1183,7 +1442,7 @@
         releaseWarmStream();
         consecutiveSilentCount = 0;
         streamPromise = canMedia
-          ? navigator.mediaDevices.getUserMedia({ audio: true })
+          ? acquireMicStream()
           : Promise.resolve(null);
       }
       var myStartGen = ++micStartGen;
@@ -1201,11 +1460,12 @@
           scheduleWarmIdleRelease();
         }
         isRecording = true;
+        currentEphemeral = Boolean(o.ephemeral);
         startTs = Date.now();
 
         if (stream && typeof global.MediaRecorder === 'function') {
           try {
-            mediaRecorder = new global.MediaRecorder(stream);
+            mediaRecorder = buildMediaRecorder(stream);
             mediaRecorder.ondataavailable = function (ev) {
               if (ev.data && ev.data.size > 0) audioChunks.push(ev.data);
             };
@@ -1236,7 +1496,7 @@
               }
               sourceNode = audioCtx.createMediaStreamSource(stream);
               analyser = audioCtx.createAnalyser();
-              analyser.fftSize = 64;
+              analyser.fftSize = 256;
               sourceNode.connect(analyser);
               startWaveLoop(o.waveSelector || '.sp-wave-bar');
             }
@@ -1269,16 +1529,26 @@
             };
             recognition.onerror = function (err) {
               var code = (err && err.error) ? String(err.error) : 'no-speech';
+              var hasActiveRecorder = Boolean(mediaRecorder && isRecording);
+              if (hasActiveRecorder && (code === 'audio-capture' || code === 'service-not-allowed' || (isAndroidMobile() && code === 'aborted'))) {
+                sttFatal = true;
+                try {
+                  recognition.onresult = null;
+                  recognition.onend = null;
+                  recognition.onerror = null;
+                } catch (e) {}
+                recognition = null;
+                return;
+              }
               if (STT_FATAL_CODES[code]) {
                 sttFatal = true;
-                var hasActiveRecorder = Boolean(mediaRecorder && isRecording);
                 var isLateStartNotAllowed = (code === 'not-allowed' && hasActiveRecorder && (audioChunks.length > 0 || (Date.now() - startTs) > 800 || isIosSafariLike()));
                 if (hasActiveRecorder && (code !== 'not-allowed' || isLateStartNotAllowed)) {
                   return;
                 }
                 emitSttWarning(code);
                 if (!mediaRecorder && isRecording) {
-                  stop();
+                  stop({ immediate: true });
                 }
                 return;
               }
@@ -1299,6 +1569,17 @@
               if (!isRecording || !recognition || sttFatal) return;
 
               if (isIosSafariLike()) {
+                sttFatal = true;
+                try {
+                  recognition.onresult = null;
+                  recognition.onend = null;
+                  recognition.onerror = null;
+                } catch (e) {}
+                recognition = null;
+                return;
+              }
+
+              if (isAndroidMobile() && mediaRecorder && isRecording && !hasSpeechResult && emptyRestartCount >= 1) {
                 sttFatal = true;
                 try {
                   recognition.onresult = null;
@@ -1347,7 +1628,7 @@
         }
 
         secTimerId = setInterval(function () {
-          if (!isRecording) return;
+          if (!isRecording || isStopping) return;
           var sec = Math.max(1, Math.round((Date.now() - startTs) / 1000));
           if (currentCallbacks && currentCallbacks.onTick) currentCallbacks.onTick(sec);
           if (o.maxSeconds && sec >= o.maxSeconds) {
@@ -1371,80 +1652,125 @@
       });
     }
 
-    function stop() {
+    function stop(stopOpts) {
+      if (isStopping && stopPromise) return stopPromise;
       if (!isRecording) return Promise.resolve(null);
+      var so = stopOpts || {};
+      var immediate = Boolean(so.immediate);
       var stopGen = micStartGen;
-      var elapsedMs = Math.max(0, Date.now() - startTs);
-      var elapsed = Math.max(1, Math.round(elapsedMs / 1000));
-      var transcript = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
-      var hadSttError = Boolean(sttFatal);
-      var recorderRef = mediaRecorder;
-      var chunksRef = audioChunks.slice();
-      var finishCb = onAutoStopCb;
-      mediaRecorder = null;
-      audioChunks = [];
-      onAutoStopCb = null;
-      currentCallbacks = null;
+      isStopping = true;
+      if (secTimerId) { clearInterval(secTimerId); secTimerId = null; }
+      var waitTail = (!immediate && (Date.now() - startTs) >= 400) ? TAIL_FLUSH_MS : 0;
 
-      return new Promise(function (resolve) {
+      stopPromise = new Promise(function (resolve) {
         var settled = false;
         var stopFallbackTimer = null;
-        var finalizeBlob = function (blob) {
-          if (settled) return;
-          settled = true;
-          if (stopFallbackTimer) {
-            clearTimeout(stopFallbackTimer);
-            stopFallbackTimer = null;
+
+        var runStopCapture = function () {
+          tailTimerId = null;
+          if (stopGen !== micStartGen) {
+            isStopping = false;
+            stopPromise = null;
+            resolve(null);
+            return;
           }
-          if (stopGen === micStartGen) stopResources(false);
-          var validBlob = (blob && blob.size >= 1024 && elapsedMs >= 500) ? blob : null;
-          var id = validBlob ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
-          var saveProm = (validBlob && id) ? AudioVault.saveBlob(id, validBlob) : Promise.resolve('');
-          saveProm.then(function (url) {
-            var payload = {
-              id: id,
-              url: url || '',
-              blob: validBlob,
-              mimeType: (validBlob && validBlob.type) ? validBlob.type : '',
-              durationSec: elapsed,
-              transcript: transcript,
-              sttErrored: hadSttError,
-              turnGen: stopGen,
-              wpm: computeWpm(transcript, elapsed)
-            };
-            if (finishCb && stopGen === micStartGen) finishCb(payload);
-            resolve(payload);
-          });
+
+          var elapsedMs = Math.max(0, Date.now() - startTs);
+          var elapsed = Math.max(1, Math.round(elapsedMs / 1000));
+          var transcript = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
+          var hadSttError = Boolean(sttFatal);
+          var recorderRef = mediaRecorder;
+          var chunksRef = audioChunks.slice();
+          var finishCb = onAutoStopCb;
+          var wasEphemeral = Boolean(currentEphemeral);
+          var recMime = (recorderRef && (recorderRef.mimeType || recorderRef._lpPreferredMime)) || 'audio/webm';
+          currentEphemeral = false;
+          mediaRecorder = null;
+          audioChunks = [];
+          onAutoStopCb = null;
+          currentCallbacks = null;
+
+          var finalizeBlob = function (blob) {
+            if (settled) return;
+            settled = true;
+            if (stopFallbackTimer) {
+              clearTimeout(stopFallbackTimer);
+              stopFallbackTimer = null;
+            }
+            isStopping = false;
+            stopPromise = null;
+            if (stopGen === micStartGen) stopResources(false);
+            var validBlob = (blob && blob.size >= 380 && elapsedMs >= 350) ? blob : null;
+            var id = (!wasEphemeral && validBlob) ? ('sp_rec_' + Date.now() + '_' + Math.floor(Math.random() * 1000)) : null;
+            var saveProm;
+            if (wasEphemeral) {
+              var tempUrl = '';
+              if (validBlob) {
+                try { tempUrl = URL.createObjectURL(validBlob); } catch (e) {}
+              }
+              saveProm = Promise.resolve(tempUrl);
+            } else {
+              saveProm = (validBlob && id) ? AudioVault.saveBlob(id, validBlob) : Promise.resolve('');
+            }
+            saveProm.then(function (url) {
+              var payload = {
+                id: id,
+                url: url || '',
+                blob: validBlob,
+                mimeType: (validBlob && validBlob.type) ? validBlob.type : '',
+                durationSec: elapsed,
+                transcript: transcript,
+                sttErrored: hadSttError,
+                turnGen: stopGen,
+                wpm: computeWpm(transcript, elapsed)
+              };
+              if (finishCb && stopGen === micStartGen) finishCb(payload);
+              resolve(payload);
+            });
+          };
+
+          if (recorderRef && recorderRef.state !== 'inactive') {
+            try {
+              stopFallbackTimer = setTimeout(function () {
+                var fallbackBlob = chunksRef.length ? new Blob(chunksRef, { type: recMime }) : null;
+                finalizeBlob(fallbackBlob);
+              }, 1200);
+              recorderRef.onstop = function () {
+                var blob = chunksRef.length ? new Blob(chunksRef, { type: recMime }) : null;
+                finalizeBlob(blob);
+              };
+              recorderRef.ondataavailable = function (ev) {
+                if (ev.data && ev.data.size > 0) chunksRef.push(ev.data);
+              };
+              try {
+                if (recorderRef.state === 'recording' && typeof recorderRef.requestData === 'function') {
+                  recorderRef.requestData();
+                }
+              } catch (e) {}
+              recorderRef.stop();
+              return;
+            } catch (e) {}
+          }
+          finalizeBlob(null);
         };
 
-        if (recorderRef && recorderRef.state !== 'inactive') {
-          try {
-            stopFallbackTimer = setTimeout(function () {
-              var fallbackBlob = chunksRef.length ? new Blob(chunksRef, { type: recorderRef.mimeType || 'audio/webm' }) : null;
-              finalizeBlob(fallbackBlob);
-            }, 1200);
-            recorderRef.onstop = function () {
-              var blob = chunksRef.length ? new Blob(chunksRef, { type: recorderRef.mimeType || 'audio/webm' }) : null;
-              finalizeBlob(blob);
-            };
-            recorderRef.ondataavailable = function (ev) {
-              if (ev.data && ev.data.size > 0) chunksRef.push(ev.data);
-            };
-            try {
-              if (recorderRef.state === 'recording' && typeof recorderRef.requestData === 'function') {
-                recorderRef.requestData();
-              }
-            } catch (e) {}
-            recorderRef.stop();
-            return;
-          } catch (e) {}
+        if (waitTail > 0) {
+          tailTimerId = setTimeout(runStopCapture, waitTail);
+        } else {
+          runStopCapture();
         }
-        finalizeBlob(null);
       });
+      return stopPromise;
     }
 
     function cancel() {
       micStartGen++;
+      if (tailTimerId) {
+        clearTimeout(tailTimerId);
+        tailTimerId = null;
+      }
+      isStopping = false;
+      stopPromise = null;
       onAutoStopCb = null;
       currentCallbacks = null;
       var recorderRef = mediaRecorder;
@@ -1520,6 +1846,73 @@
     return out;
   }
 
+  var HOMOPHONE_CANON_MAP = {
+    there: 'there', their: 'there', theyre: 'there',
+    to: 'to', too: 'to', two: 'to',
+    write: 'write', right: 'write', rite: 'write',
+    know: 'know', no: 'know',
+    hear: 'hear', here: 'hear',
+    sea: 'sea', see: 'sea',
+    wear: 'wear', where: 'wear', ware: 'wear',
+    weather: 'weather', whether: 'weather',
+    one: 'one', won: 'one',
+    four: 'four', for: 'four', fore: 'four',
+    eight: 'eight', ate: 'eight',
+    hour: 'hour', our: 'hour',
+    week: 'week', weak: 'week',
+    meet: 'meet', meat: 'meet',
+    role: 'role', roll: 'role',
+    whole: 'whole', hole: 'whole',
+    aloud: 'aloud', allowed: 'aloud',
+    past: 'past', passed: 'past',
+    affect: 'affect', effect: 'affect',
+    accept: 'accept', except: 'accept',
+    sight: 'sight', site: 'sight', cite: 'sight',
+    buy: 'buy', by: 'buy', bye: 'buy',
+    peace: 'peace', piece: 'peace',
+    break: 'break', brake: 'break',
+    wait: 'wait', weight: 'wait',
+    way: 'way', weigh: 'way',
+    new: 'new', knew: 'new',
+    sum: 'sum', some: 'sum',
+    son: 'son', sun: 'son',
+    plain: 'plain', plane: 'plain',
+    pair: 'pair', pear: 'pair', pare: 'pair',
+    tail: 'tail', tale: 'tail',
+    steal: 'steal', steel: 'steal',
+    bare: 'bare', bear: 'bare',
+    blue: 'blue', blew: 'blue',
+    read: 'read', red: 'read',
+    lead: 'lead', led: 'lead',
+    flour: 'flour', flower: 'flour',
+    principal: 'principal', principle: 'principal',
+    stationary: 'stationary', stationery: 'stationary',
+    complement: 'complement', compliment: 'complement'
+  };
+
+  function phoneticKeyEn(word) {
+    var w = String(word || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!w) return '';
+    w = w
+      .replace(/(?:tion|sion)$/, 'shn')
+      .replace(/^kn/, 'n')
+      .replace(/^wr/, 'r')
+      .replace(/^wh/, 'w')
+      .replace(/ph/g, 'f')
+      .replace(/dge/g, 'j')
+      .replace(/tch/g, 'ch')
+      .replace(/ck/g, 'k')
+      .replace(/qu/g, 'kw')
+      .replace(/gh(?=$|t)/g, '')
+      .replace(/([a-z])\1+/g, '$1');
+    if (w.length > 4) {
+      w = w.replace(/ies$/, 'y').replace(/ied$/, 'y').replace(/(?:es|ed|s|d)$/, '');
+    } else if (w.length > 3) {
+      w = w.replace(/s$/, '');
+    }
+    return w;
+  }
+
   function levenshteinDist(a, b) {
     var m = a.length;
     var n = b.length;
@@ -1538,60 +1931,132 @@
     return prev[n];
   }
 
+  function wordSimilarityScore(pw, sw) {
+    if (!pw || !sw) return 0;
+    if (pw === sw) return 1.0;
+    var hcP = HOMOPHONE_CANON_MAP[pw];
+    var hcS = HOMOPHONE_CANON_MAP[sw];
+    if (hcP && hcS && hcP === hcS) return 1.0;
+    if (pw.length >= 4 && (sw === pw + 's' || pw === sw + 's' || sw === pw + 'es' || pw === sw + 'es' || sw === pw + 'ed' || pw === sw + 'ed' || sw === pw + 'd' || pw === sw + 'd')) {
+      return 0.72;
+    }
+    if (pw.length >= 3 && sw.length >= 3 && phoneticKeyEn(pw) === phoneticKeyEn(sw)) {
+      return 0.72;
+    }
+    var dist = levenshteinDist(pw, sw);
+    if (pw.length >= 7 && dist <= 2) return 0.72;
+    if (pw.length >= 4 && dist <= 1) return 0.72;
+    return 0;
+  }
+
   function matchShadowSentence(targetSentence, spokenText) {
     var rawTargetWords = String(targetSentence || '').trim().split(/\s+/).filter(Boolean);
     var spokenTokens = expandTextTokens(spokenText);
-    var cursor = 0;
-    var matchedCount = 0;
 
-    var evaluated = rawTargetWords.map(function (origWord) {
+    var flatTargets = [];
+    var rawWordPartIndices = rawTargetWords.map(function (origWord, rawIdx) {
       var parts = expandTextTokens(origWord);
-      if (!parts.length) return { word: origWord, status: 'matched' };
-
-      // Check sequential match with small lookahead window for natural speech variations
-      var exactParts = 0;
-      var closeParts = 0;
-      var matchedSpanEnd = cursor;
+      var idxs = [];
       for (var p = 0; p < parts.length; p++) {
-        var pw = parts[p];
-        var foundAt = -1;
-        var exactHit = false;
-        var limit = Math.min(spokenTokens.length, cursor + 6);
-        for (var j = cursor; j < limit; j++) {
-          var sw = spokenTokens[j];
-          if (sw === pw) {
-            foundAt = j;
-            exactHit = true;
-            break;
+        idxs.push(flatTargets.length);
+        flatTargets.push({ rawIdx: rawIdx, text: parts[p] });
+      }
+      return idxs;
+    });
+
+    var T = flatTargets.length;
+    var S = spokenTokens.length;
+    var partScores = new Array(T);
+    for (var k = 0; k < T; k++) partScores[k] = 0;
+
+    if (T > 0 && S > 0) {
+      var cols = S + 1;
+      var dp = new Int32Array((T + 1) * cols);
+      var bt = new Uint8Array((T + 1) * cols);
+      for (var ti = 1; ti <= T; ti++) {
+        dp[ti * cols] = -ti;
+        bt[ti * cols] = 2;
+      }
+      for (var sj = 1; sj <= S; sj++) {
+        dp[sj] = -sj;
+        bt[sj] = 3;
+      }
+      for (var i = 1; i <= T; i++) {
+        var tw = flatTargets[i - 1].text;
+        var rowOff = i * cols;
+        var prevRowOff = (i - 1) * cols;
+        for (var j = 1; j <= S; j++) {
+          var skipT = dp[prevRowOff + j] - 1;
+          var skipS = dp[rowOff + j - 1] - 1;
+          var best = skipT;
+          var move = 2;
+          if (skipS > best) {
+            best = skipS;
+            move = 3;
           }
-          if (pw.length >= 4 && (sw === pw + 's' || pw === sw + 's' || levenshteinDist(pw, sw) <= 1)) {
-            foundAt = j;
+          var sim = wordSimilarityScore(tw, spokenTokens[j - 1]);
+          if (sim > 0) {
+            var align = dp[prevRowOff + j - 1] + Math.round(sim * 1000) + 10;
+            if (align >= best) {
+              best = align;
+              move = 1;
+            }
           }
-        }
-        if (foundAt !== -1) {
-          matchedSpanEnd = Math.max(matchedSpanEnd, foundAt + 1);
-          if (exactHit) exactParts++;
-          else closeParts++;
+          dp[rowOff + j] = best;
+          bt[rowOff + j] = move;
         }
       }
-      cursor = matchedSpanEnd;
+
+      var ci = T;
+      var cj = S;
+      while (ci > 0 || cj > 0) {
+        var mv = bt[ci * cols + cj];
+        if (mv === 1 && ci > 0 && cj > 0) {
+          partScores[ci - 1] = wordSimilarityScore(flatTargets[ci - 1].text, spokenTokens[cj - 1]);
+          ci--;
+          cj--;
+        } else if (mv === 2 && ci > 0) {
+          ci--;
+        } else if (cj > 0) {
+          cj--;
+        } else {
+          break;
+        }
+      }
+    }
+
+    var matchedCount = 0;
+    var realTargetCount = 0;
+    var evaluated = rawTargetWords.map(function (origWord, rawIdx) {
+      var idxs = rawWordPartIndices[rawIdx];
+      if (!idxs.length) {
+        return { word: origWord, status: 'neutral' };
+      }
+      realTargetCount++;
+      var exactParts = 0;
+      var closeParts = 0;
+      for (var p = 0; p < idxs.length; p++) {
+        var sc = partScores[idxs[p]];
+        if (sc >= 0.99) exactParts++;
+        else if (sc > 0) closeParts++;
+      }
       var bestStatus = 'missed';
-      if (exactParts === parts.length) bestStatus = 'matched';
+      if (exactParts === idxs.length) bestStatus = 'matched';
       else if (exactParts + closeParts > 0) bestStatus = 'close';
       if (bestStatus === 'matched') matchedCount += 1;
-      else if (bestStatus === 'close') matchedCount += 0.65;
+      else if (bestStatus === 'close') matchedCount += 0.72;
       return { word: origWord, status: bestStatus };
     });
 
-    var accuracy = rawTargetWords.length
-      ? Math.min(100, Math.round((matchedCount / rawTargetWords.length) * 100))
+    var accuracy = realTargetCount
+      ? Math.min(100, Math.round((matchedCount / realTargetCount) * 100))
       : 0;
 
     return {
       tokens: evaluated,
       accuracy: accuracy,
       spokenWordCount: spokenTokens.length,
-      targetWordCount: rawTargetWords.length
+      targetWordCount: realTargetCount
     };
   }
 
@@ -1700,11 +2165,12 @@
 
   function updateDoneButtonStates() {
     var isDone = activeLesson ? isLessonDone(activeLesson.id) : false;
-    ['btnToggleVocabDone', 'btnToggleTheoryDone', 'btnToggleStudioDone'].forEach(function (id) {
+    var doneHtml = spIcon('check', 14) + '<span>' + (isDone ? 'Đã hoàn thành' : 'Đánh dấu hoàn thành') + '</span>';
+    ['btnToggleVocabDone', 'btnToggleTheoryDone', 'btnToggleStudioDone', 'btnToggleVocabDoneBot', 'btnToggleTheoryDoneBot', 'btnToggleStudioDoneBot'].forEach(function (id) {
       var btn = document.getElementById(id);
       if (!btn) return;
       btn.classList.toggle('btn-done', isDone);
-      btn.textContent = isDone ? '✓ Đã hoàn thành' : '✓ Đánh dấu hoàn thành';
+      btn.innerHTML = doneHtml;
     });
   }
 
@@ -1819,7 +2285,7 @@
 
       html += '<div class="folder-group' + (isOpen ? '' : ' collapsed') + '">';
       html += '<button type="button" class="folder-header" onclick="window._spToggleFolder(\'' + escJsAttr(folderTitle) + '\', ' + (isOpen ? 'true' : 'false') + ')">';
-      html += '<span class="folder-title-wrap"><span class="folder-chevron">▼</span><span class="folder-name">' + escHtml(folderTitle) + '</span></span>';
+      html += '<span class="folder-title-wrap"><span class="folder-chevron">' + spIcon('chevronDown', 12) + '</span><span class="folder-name">' + escHtml(folderTitle) + '</span></span>';
       html += '<span class="folder-badge">' + doneInFolder + '/' + items.length + '</span>';
       html += '</button>';
       html += '<div class="folder-items">';
@@ -1849,13 +2315,13 @@
 
           html += '<button type="button" class="lesson-item' + (isAct ? ' active' : '') + (isDone ? ' done' : '') + '" onclick="window.selectSpeakingLesson(\'' + escJsAttr(it.id) + '\')">';
           html += '<div class="lesson-item-body"><div class="lesson-title">' + escHtml(it.title) + '</div><div class="lesson-meta">' + escHtml(meta) + '</div></div>';
-          html += '<span class="done-badge" title="' + (isDone ? 'Đã học' : 'Chưa xong') + '">' + (isDone ? '✓' : '•') + '</span>';
+          html += '<span class="done-badge" title="' + (isDone ? 'Đã học' : 'Chưa xong') + '">' + (isDone ? spIcon('check', 11) : '•') + '</span>';
           html += '</button>';
         });
 
         var remaining = items.length - limit;
         if (remaining > 0) {
-          html += '<button type="button" class="mini-btn" style="width:100%;margin-top:4px;text-align:center;" onclick="window._spShowMoreFolder(\'' + escJsAttr(folderTitle) + '\')">⬇️ Xem thêm (' + remaining + ' mục còn lại)</button>';
+          html += '<button type="button" class="mini-btn" style="width:100%;margin-top:4px;text-align:center;" onclick="window._spShowMoreFolder(\'' + escJsAttr(folderTitle) + '\')">' + spIcon('chevronDown', 13) + '<span>Xem thêm (' + remaining + ' mục còn lại)</span></button>';
         }
       }
 
@@ -1894,11 +2360,13 @@
     var isMobile = window.innerWidth <= 960;
     var sb = document.getElementById('speakingSidebar');
     var bd = document.getElementById('sidebarBackdrop');
+    var btn = document.getElementById('btnToggleSidebar');
     if (isMobile) {
       var nextOpen = typeof forceOpen === 'boolean' ? forceOpen : !document.body.classList.contains('sidebar-open');
       document.body.classList.toggle('sidebar-open', nextOpen);
       if (sb) sb.classList.toggle('open', nextOpen);
       if (bd) bd.classList.toggle('open', nextOpen);
+      if (btn) btn.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
     } else {
       closeSpeakingMobileDrawer();
       var nextCol = typeof forceOpen === 'boolean' ? !forceOpen : !document.body.classList.contains('sidebar-collapsed');
@@ -1907,7 +2375,8 @@
         desktopUserCollapsed = nextCol;
       }
       var lbl = document.querySelector('#btnToggleSidebar .s4-desk-sb-lbl');
-      if (lbl) lbl.textContent = nextCol ? '▶ Mở mục lục' : '◀ Ẩn mục lục';
+      if (lbl) lbl.textContent = nextCol ? 'Mở mục lục' : 'Ẩn mục lục';
+      if (btn) btn.setAttribute('aria-expanded', !nextCol ? 'true' : 'false');
     }
   };
 
@@ -2021,13 +2490,13 @@
     var idx = (lesson && pool.length) ? pool.findIndex(function (l) { return l.id === lesson.id; }) : -1;
     var prevL = idx > 0 ? pool[idx - 1] : null;
     var nextL = (idx >= 0 && idx + 1 < pool.length) ? pool[idx + 1] : null;
-    ['btnPrevSpVocab', 'btnPrevSpTheory', 'btnPrevSpStudio'].forEach(function (id) {
+    ['btnPrevSpVocab', 'btnPrevSpTheory', 'btnPrevSpStudio', 'btnPrevSpVocabBot', 'btnPrevSpTheoryBot', 'btnPrevSpStudioBot'].forEach(function (id) {
       var btn = document.getElementById(id);
       if (!btn) return;
       btn.disabled = !prevL;
       btn.title = prevL ? ('Bài trước: ' + prevL.title) : 'Đã ở bài đầu tiên của mục này';
     });
-    ['btnNextSpVocab', 'btnNextSpTheory', 'btnNextSpStudio'].forEach(function (id) {
+    ['btnNextSpVocab', 'btnNextSpTheory', 'btnNextSpStudio', 'btnNextSpVocabBot', 'btnNextSpTheoryBot', 'btnNextSpStudioBot'].forEach(function (id) {
       var btn = document.getElementById(id);
       if (!btn) return;
       btn.disabled = !nextL;
@@ -2155,7 +2624,7 @@
       if (audioRel) btn.setAttribute('data-audio', audioRel);
       if (ttsText) btn.setAttribute('data-tts', ttsText);
       btn.setAttribute('data-speak-text', label || ttsText);
-      btn.textContent = '🔊 ' + (label || ttsText || 'Nghe mẫu');
+      btn.innerHTML = spIcon('volume', 13) + '<span>' + escHtml(label || ttsText || 'Nghe mẫu') + '</span>';
       sc.parentNode.replaceChild(btn, sc);
     });
 
@@ -2221,13 +2690,13 @@
         statusBar.classList.add('is-error');
         statusBar.style.display = 'flex';
         var ytBtnHtml = firstYtUrl
-          ? '<a href="' + escHtml(firstYtUrl) + '" target="_blank" rel="noopener" class="btn mini-btn">▶ Xem trên YouTube</a>'
+          ? '<a href="' + escHtml(firstYtUrl) + '" target="_blank" rel="noopener" class="btn mini-btn">' + spIcon('play', 13) + '<span>Xem trên YouTube</span></a>'
           : '';
         statusBar.innerHTML = ''
-          + '<div class="sp-video-err-msg">⚠️ Video khẩu hình hiện không tải được từ CDN (mạng yếu, offline hoặc bị chặn truy cập).</div>'
+          + '<div class="sp-video-err-msg">' + spIcon('alert', 14) + ' Video khẩu hình hiện không tải được từ CDN (mạng yếu, offline hoặc bị chặn truy cập).</div>'
           + '<div class="sp-video-fallback-actions">'
-          + '  <button type="button" class="btn btn-primary sp-video-retry-btn">🔄 Thử tải lại video</button>'
-          + '  <a href="' + escHtml(candidates[0]) + '" target="_blank" rel="noopener" class="btn mini-btn sp-video-direct-link">↗️ Mở video trực tiếp</a>'
+          + '  <button type="button" class="btn btn-primary sp-video-retry-btn">' + spIcon('refresh', 13) + '<span>Thử tải lại video</span></button>'
+          + '  <a href="' + escHtml(candidates[0]) + '" target="_blank" rel="noopener" class="btn mini-btn sp-video-direct-link">' + spIcon('external', 13) + '<span>Mở video trực tiếp</span></a>'
           + ytBtnHtml
           + '</div>';
         var retryBtn = statusBar.querySelector('.sp-video-retry-btn');
@@ -2237,7 +2706,7 @@
             wrap.classList.remove('is-error');
             statusBar.classList.remove('is-error');
             statusBar.style.display = 'flex';
-            statusBar.innerHTML = '<span>⏳ Đang kết nối lại nguồn video...</span>';
+            statusBar.innerHTML = '<span>Đang kết nối lại nguồn video...</span>';
             var baseUrl = candidates[0];
             var sep = baseUrl.indexOf('?') === -1 ? '?' : '&';
             var retryUrl = /^https?:\/\//i.test(baseUrl) ? (baseUrl + sep + 'retry=' + Date.now()) : baseUrl;
@@ -2266,7 +2735,7 @@
         if (mirrorIdx < candidates.length) {
           statusBar.classList.remove('is-error');
           statusBar.style.display = 'flex';
-          statusBar.innerHTML = '<span>🔄 Nguồn chính lỗi — đang thử nguồn dự phòng (' + (mirrorIdx + 1) + '/' + candidates.length + ')...</span>';
+          statusBar.innerHTML = '<span>' + spIcon('refresh', 13) + ' Nguồn chính lỗi — đang thử nguồn dự phòng (' + (mirrorIdx + 1) + '/' + candidates.length + ')...</span>';
           vid.setAttribute('src', candidates[mirrorIdx]);
           try { vid.load(); } catch (e) {}
         } else {
@@ -2286,7 +2755,7 @@
 
     if (tagEl) tagEl.textContent = 'UNIT 5 • ' + (lesson.group || 'PHÁT ÂM & CHIẾN THUẬT');
     if (titleEl) titleEl.textContent = lesson.title;
-    if (durEl) durEl.textContent = lesson.durationLabel || '📖 Bài giảng';
+    if (durEl) durEl.innerHTML = spIcon('clock', 13) + '<span>' + escHtml(String(lesson.durationLabel || 'Bài giảng').replace(/^[⏱️📖🎬\s]+/, '')) + '</span>';
 
     if (htmlBox) {
       if (lesson.subtype === 'video') {
@@ -2296,17 +2765,17 @@
             + '<iframe src="https://www.youtube-nocookie.com/embed/' + escHtml(lesson.youtubeId) + '?rel=0" title="' + escHtml(lesson.title) + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
             + '</div>'
             + '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">'
-            + '  <a href="https://www.youtube.com/watch?v=' + escHtml(lesson.youtubeId) + '" target="_blank" rel="noopener" class="btn mini-btn">▶ Mở video trực tiếp trên YouTube</a>'
+            + '  <a href="https://www.youtube.com/watch?v=' + escHtml(lesson.youtubeId) + '" target="_blank" rel="noopener" class="btn mini-btn">' + spIcon('play', 13) + '<span>Mở video trên YouTube</span></a>'
             + '</div>';
         }
         if (Array.isArray(lesson.pdfs) && lesson.pdfs.length) {
           vidHtml += '<div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">'
-            + '<strong style="font-size:14.5px;">📄 Tài liệu PDF đi kèm bài giảng</strong>'
+            + '<strong style="font-size:14.5px;display:inline-flex;align-items:center;gap:6px;">' + spIcon('grammar', 15) + '<span>Tài liệu PDF đi kèm bài giảng</span></strong>'
             + lesson.pdfs.map(function (pdfUrl, pIdx) {
               var fname = decodeURIComponent(String(pdfUrl).split('/').pop() || ('Tai-lieu-' + (pIdx + 1) + '.pdf'));
-              return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg,var(--box-sub));flex-wrap:wrap;">'
-                + '<span style="font-weight:700;font-size:13.5px;word-break:break-word;">📕 ' + escHtml(fname) + '</span>'
-                + '<a href="' + escHtml(pdfUrl) + '" target="_blank" rel="noopener" class="btn btn-primary mini-btn">⬇ Xem / Tải PDF</a>'
+              return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--lg-divider);border-radius:11px;background:var(--lg-wash);flex-wrap:wrap;">'
+                + '<span style="font-weight:700;font-size:13.5px;word-break:break-word;">' + escHtml(fname) + '</span>'
+                + '<a href="' + escHtml(pdfUrl) + '" target="_blank" rel="noopener" class="btn btn-primary mini-btn">' + spIcon('download', 13) + '<span>Xem / Tải PDF</span></a>'
                 + '</div>';
             }).join('')
             + '</div>';
@@ -2314,7 +2783,7 @@
         if (Array.isArray(lesson.slides) && lesson.slides.length) {
           vidHtml += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">'
             + lesson.slides.map(function (sUrl, sIdx) {
-              return '<a href="' + escHtml(sUrl) + '" target="_blank" rel="noopener" class="btn mini-btn">🖼️ Slide ' + (sIdx + 1) + '</a>';
+              return '<a href="' + escHtml(sUrl) + '" target="_blank" rel="noopener" class="btn mini-btn">' + spIcon('layers', 13) + '<span>Slide ' + (sIdx + 1) + '</span></a>';
             }).join('')
             + '</div>';
         }
@@ -2323,7 +2792,7 @@
         var extraYt = (Array.isArray(lesson.youtubes) && lesson.youtubes.length)
           ? '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">' + lesson.youtubes.map(function (y, idx) {
             var yUrl = /^https?:\/\//i.test(y) ? y : ('https://www.youtube.com/watch?v=' + y);
-            return '<a href="' + escHtml(yUrl) + '" target="_blank" rel="noopener" class="btn mini-btn">▶ Video hướng dẫn #' + (idx + 1) + '</a>';
+            return '<a href="' + escHtml(yUrl) + '" target="_blank" rel="noopener" class="btn mini-btn">' + spIcon('play', 13) + '<span>Video hướng dẫn #' + (idx + 1) + '</span></a>';
           }).join('') + '</div>'
           : '';
         htmlBox.innerHTML = (lesson.htmlContent ? upgradePronunciationHtml(lesson.htmlContent) : '<p>Bài lý thuyết phát âm.</p>') + extraYt;
@@ -2344,10 +2813,10 @@
 
     if (chkBox) {
       var chks = lesson.keyChecklist || [];
-      chkBox.innerHTML = '<h3 style="font-size:16px;font-weight:800;">✅ Checklist Thực Hành</h3>'
+      chkBox.innerHTML = '<h3 style="font-size:16px;font-weight:800;display:flex;align-items:center;gap:7px;">' + spIcon('check', 16) + '<span>Checklist Thực Hành</span></h3>'
         + '<div class="sp-checklist-list">'
         + chks.map(function (c, i) {
-          return '<label class="sp-checklist-item"><input type="checkbox" style="margin-top:3px;accent-color:var(--primary);"><span><b>Bước ' + (i + 1) + ':</b> ' + escHtml(c) + '</span></label>';
+          return '<label class="sp-checklist-item"><input type="checkbox" style="margin-top:3px;accent-color:var(--lg-accent);"><span><b>Bước ' + (i + 1) + ':</b> ' + escHtml(c) + '</span></label>';
         }).join('')
         + '</div>';
     }
@@ -2365,15 +2834,15 @@
 
       if (drills.length) {
         var feedbackBanner = studioState.pronDrillScore
-          ? '<div class="sp-tip-callout" style="margin-bottom:10px;">🎙️ Kết quả đọc thử "<b>' + escHtml(studioState.pronDrillTarget) + '</b>": <b>' + studioState.pronDrillScore.accuracy + '%</b> khớp chuẩn' + (studioState.pronDrillScore.spoken ? (' — Nghe được: <em>' + escHtml(studioState.pronDrillScore.spoken) + '</em>') : '') + '</div>'
+          ? '<div class="sp-tip-callout" style="margin-bottom:10px;">' + spIcon('mic', 14) + ' Kết quả đọc thử "<b>' + escHtml(studioState.pronDrillTarget) + '</b>": <b>' + studioState.pronDrillScore.accuracy + '%</b> khớp chuẩn' + (studioState.pronDrillScore.spoken ? (' — Nghe được: <em>' + escHtml(studioState.pronDrillScore.spoken) + '</em>') : '') + '</div>'
           : '';
 
         quizBox.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">'
-          + '  <h3 style="font-size:16px;font-weight:800;">🔊 Listen &amp; Repeat Drills (' + drills.length + ' nhóm luyện âm)</h3>'
+          + '  <h3 style="font-size:16px;font-weight:800;display:inline-flex;align-items:center;gap:7px;">' + spIcon('volume', 16) + '<span>Listen &amp; Repeat Drills (' + drills.length + ' nhóm luyện âm)</span></h3>'
           + '  <div class="sp-accent-group">'
-          + '    <button type="button" class="sp-accent-btn' + (prefs.voiceAccent === 'en-GB' ? ' active' : '') + '" data-accent="en-GB" onclick="window.setSpeakingVoiceAccent(\'en-GB\');window._spReRenderTheory()">🇬🇧 UK</button>'
-          + '    <button type="button" class="sp-accent-btn' + (prefs.voiceAccent === 'en-AU' ? ' active' : '') + '" data-accent="en-AU" onclick="window.setSpeakingVoiceAccent(\'en-AU\');window._spReRenderTheory()">🇦🇺 AU</button>'
-          + '    <button type="button" class="sp-accent-btn' + (prefs.voiceAccent === 'en-US' ? ' active' : '') + '" data-accent="en-US" onclick="window.setSpeakingVoiceAccent(\'en-US\');window._spReRenderTheory()">🇺🇸 US</button>'
+          + '    <button type="button" class="sp-accent-btn' + (prefs.voiceAccent === 'en-GB' ? ' active' : '') + '" data-accent="en-GB" onclick="window.setSpeakingVoiceAccent(\'en-GB\');window._spReRenderTheory()">UK</button>'
+          + '    <button type="button" class="sp-accent-btn' + (prefs.voiceAccent === 'en-AU' ? ' active' : '') + '" data-accent="en-AU" onclick="window.setSpeakingVoiceAccent(\'en-AU\');window._spReRenderTheory()">AU</button>'
+          + '    <button type="button" class="sp-accent-btn' + (prefs.voiceAccent === 'en-US' ? ' active' : '') + '" data-accent="en-US" onclick="window.setSpeakingVoiceAccent(\'en-US\');window._spReRenderTheory()">US</button>'
           + '  </div>'
           + '</div>'
           + feedbackBanner
@@ -2383,24 +2852,24 @@
               var isAudioSub = /\.(mp3|wav|m4a|ogg)(\?|$)/i.test(rawSub);
               var drillAudioUrl = it.audioUrl || (isAudioSub ? rawSub : '');
               var drillSentence = (!isAudioSub && rawSub) ? rawSub : '';
-              return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:10px;background:var(--bg,var(--box-sub));flex-wrap:wrap;">'
+              return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--lg-divider);border-radius:11px;background:var(--lg-wash);flex-wrap:wrap;">'
                 + '  <div style="flex:1;min-width:190px;">'
                 + '    <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">'
-                + '      <strong style="font-size:15px;color:var(--primary);">' + escHtml(it.w) + '</strong>'
-                + (it.ipa ? '<span style="font-family:monospace;font-size:13px;color:#ef4444;">' + escHtml(it.ipa) + '</span>' : '')
-                + (it.vi ? '<span style="font-size:13px;color:var(--text);">— ' + escHtml(it.vi) + '</span>' : '')
+                + '      <strong style="font-size:15px;color:var(--lg-green);">' + escHtml(it.w) + '</strong>'
+                + (it.ipa ? '<span style="font-family:monospace;font-size:13px;color:var(--lg-rose);">' + escHtml(it.ipa) + '</span>' : '')
+                + (it.vi ? '<span style="font-size:13px;color:var(--lg-ink);">— ' + escHtml(it.vi) + '</span>' : '')
                 + '    </div>'
-                + (drillSentence ? '<div style="font-size:12.5px;color:var(--muted);margin-top:3px;">💬 ' + escHtml(drillSentence) + '</div>' : '')
+                + (drillSentence ? '<div style="font-size:12.5px;color:var(--lg-ink-muted);margin-top:3px;">' + escHtml(drillSentence) + '</div>' : '')
                 + '  </div>'
                 + '  <div style="display:flex;gap:6px;flex-wrap:wrap;">'
-                + '    <button type="button" class="btn mini-btn" onclick="window._spPlayWord(\'' + escJsAttr(it.w) + '\',\'' + escJsAttr(drillAudioUrl) + '\')">🔊 Nghe mẫu</button>'
-                + (drillSentence ? '<button type="button" class="btn mini-btn" onclick="window._spPlayWord(\'' + escJsAttr(drillSentence) + '\')">🔊 Câu</button>' : '')
-                + '    <button type="button" class="btn mini-btn" onclick="window._spPracticePronItem(' + dIdx + ',' + iIdx + ')">🎙️ Đọc thử</button>'
+                + '    <button type="button" class="btn mini-btn" onclick="window._spPlayWord(\'' + escJsAttr(it.w) + '\',\'' + escJsAttr(drillAudioUrl) + '\')">' + spIcon('volume', 13) + '<span>Nghe mẫu</span></button>'
+                + (drillSentence ? '<button type="button" class="btn mini-btn" onclick="window._spPlayWord(\'' + escJsAttr(drillSentence) + '\')">' + spIcon('volume', 13) + '<span>Câu</span></button>' : '')
+                + '    <button type="button" class="btn mini-btn" onclick="window._spPracticePronItem(' + dIdx + ',' + iIdx + ')">' + spIcon('mic', 13) + '<span>Đọc thử</span></button>'
                 + '  </div>'
                 + '</div>';
             }).join('');
             return '<div style="margin-bottom:14px;">'
-              + '<div style="font-weight:800;font-size:14px;margin-bottom:6px;color:var(--hl-cyan);">📌 ' + escHtml(dr.title || ('Bài tập ' + (dIdx + 1))) + ' (' + (dr.items ? dr.items.length : 0) + ' từ)</div>'
+              + '<div style="font-weight:800;font-size:14px;margin-bottom:6px;color:var(--hl-cyan);">' + escHtml(dr.title || ('Bài tập ' + (dIdx + 1))) + ' (' + (dr.items ? dr.items.length : 0) + ' từ)</div>'
               + '<div style="display:flex;flex-direction:column;gap:6px;">' + rows + '</div>'
               + '</div>';
           }).join('');
@@ -2417,7 +2886,7 @@
       });
 
       var qHtml = '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">'
-        + '<h3 style="font-size:16px;font-weight:800;">📝 Mini-Quiz Kiểm Tra Hiểu Bài</h3>'
+        + '<h3 style="font-size:16px;font-weight:800;display:inline-flex;align-items:center;gap:7px;">' + spIcon('edit', 16) + '<span>Mini-Quiz Kiểm Tra Hiểu Bài</span></h3>'
         + '<span class="sp-lobby-chip is-exam">Đúng: ' + correctTotal + '/' + qs.length + (answeredTotal === qs.length ? ' (Hoàn thành)' : '') + '</span>'
         + '</div>';
 
@@ -2434,7 +2903,7 @@
         }).join('');
 
         var explainHtml = picked !== undefined && q.explain
-          ? '<div class="sp-quiz-explain">💡 <b>Giải thích:</b> ' + escHtml(q.explain) + '</div>'
+          ? '<div class="sp-quiz-explain">' + spIcon('lightbulb', 13) + ' <b>Giải thích:</b> ' + escHtml(q.explain) + '</div>'
           : '';
 
         return '<div class="sp-quiz-q-item">'
@@ -2457,7 +2926,10 @@
     var dr = activeLesson.drills[dIdx];
     var it = dr && dr.items && dr.items[iIdx];
     if (!it) return;
-    var target = it.s || it.w;
+    var rawSub = String(it.s || '').trim();
+    var isAudioSub = /\.(mp3|wav|m4a|ogg)(\?|$)/i.test(rawSub);
+    var target = (!isAudioSub && rawSub) ? rawSub : String(it.w || '').trim();
+    if (!target) return;
     if (MicEngine.isActive()) {
       MicEngine.stop();
       return;
@@ -2466,9 +2938,14 @@
     MicEngine.start({
       lang: prefs.voiceAccent,
       maxSeconds: 7,
+      ephemeral: true,
       onUnsupported: function (msg) { showToast(msg, 'warn', 5500); },
       onSttWarning: showMicSttWarning,
       onFinish: function (res) {
+        if (res && res.url && String(res.url).indexOf('blob:') === 0) {
+          try { URL.revokeObjectURL(res.url); } catch (e) {}
+          res.url = '';
+        }
         var lessonIdSnap = activeLesson ? activeLesson.id : '';
         var spoken = (res && res.transcript) || '';
         var m = matchShadowSentence(target, spoken);
@@ -2504,6 +2981,9 @@
   // =========================================================================
   function resetStudioForLesson(lesson) {
     shadowAutoListenGen++;
+    if (studioState && studioState.shadowAudioUrl && String(studioState.shadowAudioUrl).indexOf('blob:') === 0) {
+      try { URL.revokeObjectURL(studioState.shadowAudioUrl); } catch (e) {}
+    }
     var notes = getNotesMap();
     studioState = {
       mode: 'sample',
@@ -2514,6 +2994,7 @@
       shadowSpokenText: '',
       shadowAudioUrl: '',
       shadowDurationSec: 0,
+      shadowAcoustic: null,
       shadowStatusKind: '',
       shadowStatusMsg: '',
       shadowListenAuto: false,
@@ -2529,6 +3010,7 @@
       recWpm: 0,
       recAudioId: null,
       recAudioUrl: '',
+      recAcoustic: null,
       prepNoteText: notes[lesson.id] || '',
       scores: { fc: 0, lr: 0, gra: 0, pr: 0 },
       aiFeedback: '',
@@ -2573,13 +3055,13 @@
     bar.innerHTML = ''
       + '<div class="sp-pair-switch-group" role="tablist" aria-label="Chuyển đổi Part 2 và Part 3">'
       + (p2Id
-        ? '<button type="button" class="sp-pair-btn' + (lesson.type === 'part2' ? ' active' : '') + '" onclick="window.selectSpeakingLesson(\'' + escJsAttr(p2Id) + '\')">🎴 Part 2 · Cue Card <small>(1m + 2m)</small></button>'
+        ? '<button type="button" class="sp-pair-btn' + (lesson.type === 'part2' ? ' active' : '') + '" onclick="window.selectSpeakingLesson(\'' + escJsAttr(p2Id) + '\')">' + spIcon('layers', 14) + '<span>Part 2 · Cue Card</span> <small>(1m + 2m)</small></button>'
         : '')
       + (p3Id
-        ? '<button type="button" class="sp-pair-btn' + (lesson.type === 'part3' ? ' active' : '') + '" onclick="window.selectSpeakingLesson(\'' + escJsAttr(p3Id) + '\')">🧠 Part 3 · Discussion' + (p3Count ? (' <small>(' + p3Count + ' câu)</small>') : '') + '</button>'
+        ? '<button type="button" class="sp-pair-btn' + (lesson.type === 'part3' ? ' active' : '') + '" onclick="window.selectSpeakingLesson(\'' + escJsAttr(p3Id) + '\')">' + spIcon('lightbulb', 14) + '<span>Part 3 · Discussion</span>' + (p3Count ? (' <small>(' + p3Count + ' câu)</small>') : '') + '</button>'
         : '')
       + '</div>'
-      + '<span class="sp-pair-hint">🔗 Cùng chủ đề · Chuyển 1 chạm</span>';
+      + '<span class="sp-pair-hint">' + spIcon('refresh', 12) + '<span>Cùng chủ đề · Chuyển 1 chạm</span></span>';
   }
 
   function renderStudioView(lesson) {
@@ -2658,7 +3140,7 @@
         return '<li>' + escHtml(b) + '</li>';
       }).join('');
       var tipsHtml = (lesson.vocabTips || []).slice(0, 16).map(function (t) {
-        return '<button type="button" class="sp-vocab-tip-chip" onclick="window._spPlayWord(\'' + escJsAttr(t.word) + '\')" title="' + escHtml((t.ipa ? t.ipa + ' • ' : '') + (t.meaning || '')) + '">🔊 <b>' + escHtml(t.word) + '</b> <small>' + escHtml(t.meaning || '') + '</small></button>';
+        return '<button type="button" class="sp-vocab-tip-chip" onclick="window._spPlayWord(\'' + escJsAttr(t.word) + '\')" title="' + escHtml((t.ipa ? t.ipa + ' • ' : '') + (t.meaning || '')) + '">' + spIcon('volume', 12) + ' <b>' + escHtml(t.word) + '</b> <small>' + escHtml(t.meaning || '') + '</small></button>';
       }).join('');
       var sampleSwitchHtml = (Array.isArray(lesson.sampleSets) && lesson.sampleSets.length > 1)
         ? '<div class="sp-q-strip" style="margin-top:8px;">' + lesson.sampleSets.map(function (ss, idx) {
@@ -2666,7 +3148,7 @@
         }).join('') + '</div>'
         : '';
       var linkP3Html = lesson.linkedPart3Id
-        ? '<div style="margin-top:8px;display:flex;justify-content:flex-end;"><button type="button" class="mini-btn" onclick="window.selectSpeakingLesson(\'' + escHtml(lesson.linkedPart3Id) + '\')">🧠 Chuyển sang Part 3 liên quan ➜</button></div>'
+        ? '<div style="margin-top:8px;display:flex;justify-content:flex-end;"><button type="button" class="mini-btn" onclick="window.selectSpeakingLesson(\'' + escJsAttr(lesson.linkedPart3Id) + '\')">' + spIcon('arrowRight', 13) + '<span>Chuyển sang Part 3 liên quan</span></button></div>'
         : '';
 
       card.innerHTML = ''
@@ -2674,7 +3156,7 @@
         + '  <div class="sp-cue-card-tag">IELTS SPEAKING PART 2 • CUE CARD</div>'
         + '  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;">'
         + '    <strong style="font-size:16.5px;">' + escHtml(cc.prompt || lesson.title) + '</strong>'
-        + '    <button type="button" class="mini-btn" onclick="window._spPlayCueCardPrompt()">🔊 Nghe đề bài</button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spPlayCueCardPrompt()">' + spIcon('volume', 13) + '<span>Nghe đề bài</span></button>'
         + '  </div>'
         + '  <p style="font-size:13px;margin-top:6px;opacity:0.85;">' + escHtml(cc.intro || 'You should say:') + '</p>'
         + '  <ul>' + bullets + '</ul>'
@@ -2694,26 +3176,26 @@
 
     var formulaText = activeQ ? (activeQ.formula || activeQ.structureGuide || '') : '';
     var ideasHtml = (activeQ && Array.isArray(activeQ.keyIdeas) && activeQ.keyIdeas.length)
-      ? '<div class="sp-idea-chips">' + activeQ.keyIdeas.map(function (id) { return '<span class="sp-tag-pill">💡 ' + escHtml(id) + '</span>'; }).join('') + '</div>'
+      ? '<div class="sp-idea-chips">' + activeQ.keyIdeas.map(function (id) { return '<span class="sp-tag-pill">' + spIcon('lightbulb', 12) + ' ' + escHtml(id) + '</span>'; }).join('') + '</div>'
       : '';
     var vTipsHtml = (activeQ && Array.isArray(activeQ.vocabTips) && activeQ.vocabTips.length)
       ? '<div class="sp-vocab-tip-strip">' + activeQ.vocabTips.slice(0, 14).map(function (t) {
-        return '<button type="button" class="sp-vocab-tip-chip" onclick="window._spPlayWord(\'' + escJsAttr(t.word) + '\')" title="' + escHtml((t.ipa ? t.ipa + ' • ' : '') + (t.meaning || '')) + '">🔊 <b>' + escHtml(t.word) + '</b> <small>' + escHtml(t.meaning || '') + '</small></button>';
+        return '<button type="button" class="sp-vocab-tip-chip" onclick="window._spPlayWord(\'' + escJsAttr(t.word) + '\')" title="' + escHtml((t.ipa ? t.ipa + ' • ' : '') + (t.meaning || '')) + '">' + spIcon('volume', 12) + ' <b>' + escHtml(t.word) + '</b> <small>' + escHtml(t.meaning || '') + '</small></button>';
       }).join('') + '</div>'
       : '';
     var linkP2Html = (lesson.type === 'part3' && lesson.linkedPart2Id)
-      ? '<div class="sp-rephrase-box" style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;"><span>🎴 <b>Chủ đề Part 2 gốc:</b> ' + escHtml(lesson.cueCardSummary || lesson.cleanTitle) + '</span><button type="button" class="mini-btn" onclick="window.selectSpeakingLesson(\'' + escHtml(lesson.linkedPart2Id) + '\')">← Mở Cue Card Part 2</button></div>'
+      ? '<div class="sp-rephrase-box" style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;"><span><b>Chủ đề Part 2 gốc:</b> ' + escHtml(lesson.cueCardSummary || lesson.cleanTitle) + '</span><button type="button" class="mini-btn" onclick="window.selectSpeakingLesson(\'' + escJsAttr(lesson.linkedPart2Id) + '\')">' + spIcon('arrowLeft', 13) + '<span>Mở Cue Card Part 2</span></button></div>'
       : '';
 
     card.innerHTML = ''
       + '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
       + '  <div class="sp-q-strip">' + pillsHtml + '</div>'
-      + '  <button type="button" class="mini-btn" onclick="window._spSpeakStudioQuestion()">🔊 Nghe Giám khảo hỏi</button>'
+      + '  <button type="button" class="mini-btn" onclick="window._spSpeakStudioQuestion()">' + spIcon('volume', 13) + '<span>Nghe Giám khảo hỏi</span></button>'
       + '</div>'
       + '<div class="sp-q-stem">' + escHtml(activeQ ? activeQ.q : lesson.title) + '</div>'
       + '<div class="sp-q-meta-row">'
-      + (formulaText ? '<span class="sp-formula-pill">📐 ' + escHtml(formulaText) + '</span>' : '')
-      + '  <span class="sp-tag-pill">⏱️ Chuẩn: ' + (lesson.type === 'part1' ? '20–30s' : '35–55s') + '</span>'
+      + (formulaText ? '<span class="sp-formula-pill">' + spIcon('sliders', 12) + ' ' + escHtml(formulaText) + '</span>' : '')
+      + '  <span class="sp-tag-pill">' + spIcon('clock', 12) + ' Chuẩn: ' + (lesson.type === 'part1' ? '20–30s' : '35–55s') + '</span>'
       + '</div>'
       + ideasHtml
       + linkP2Html
@@ -2728,8 +3210,12 @@
     studioState.shadowStatusKind = '';
     studioState.shadowStatusMsg = '';
     if (!keepAudio) {
+      if (studioState.shadowAudioUrl && String(studioState.shadowAudioUrl).indexOf('blob:') === 0) {
+        try { URL.revokeObjectURL(studioState.shadowAudioUrl); } catch (e) {}
+      }
       studioState.shadowAudioUrl = '';
       studioState.shadowDurationSec = 0;
+      studioState.shadowAcoustic = null;
     }
   }
 
@@ -2853,7 +3339,7 @@
         ? rawSents.map(function (rs, rIdx) {
           var hasAud = Boolean(rs.audioUrl);
           return '<span style="margin-right:5px;">'
-            + '<button type="button" class="mini-btn" style="padding:1px 6px;font-size:11px;margin-right:4px;vertical-align:baseline;" onclick="window._spPlaySegmentSentence(' + idx + ',' + rIdx + ')" title="' + (hasAud ? 'Nghe giọng mẫu bản xứ MP3' : 'Nghe giọng đọc TTS') + '">🔊</button>'
+            + '<button type="button" class="mini-btn" style="padding:1px 6px;font-size:11px;margin-right:4px;vertical-align:baseline;" onclick="window._spPlaySegmentSentence(' + idx + ',' + rIdx + ')" title="' + (hasAud ? 'Nghe giọng mẫu bản xứ MP3' : 'Nghe giọng đọc TTS') + '">' + spIcon('volume', 11) + '</button>'
             + highlightCollocationsHtml(rs.text, rs.vocabTips && rs.vocabTips.length ? rs.vocabTips : seg.vocabTips)
             + '</span>';
         }).join(' ')
@@ -2868,7 +3354,7 @@
         if (tips.length) {
           glossHtml += '<div class="sp-seg-vi" style="display:flex;flex-wrap:wrap;gap:6px;padding-top:8px;">'
             + tips.map(function (t) {
-              var badge = t.isExpr ? '💡 ' : '';
+              var badge = t.isExpr ? (spIcon('lightbulb', 11) + ' ') : '';
               return '<button type="button" class="sp-vocab-tip-chip" onclick="window._spPlayWord(\'' + escJsAttr(t.word) + '\')" title="Nhấn để nghe phát âm">'
                 + badge + '<b>' + escHtml(t.word) + '</b>'
                 + (t.meaning ? (' <small>→ ' + escHtml(t.meaning) + '</small>') : '')
@@ -2881,7 +3367,7 @@
       return '<div class="sp-sample-segment">'
         + '  <div class="sp-sample-seg-head">'
         + '    ' + roleTag
-        + '    <button type="button" class="mini-btn" onclick="window._spPlaySampleSegment(' + idx + ')">🔊 Nghe đoạn mẫu</button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spPlaySampleSegment(' + idx + ')">' + spIcon('volume', 13) + '<span>Nghe đoạn mẫu</span></button>'
         + '  </div>'
         + '  <div class="sp-seg-en">' + bodyHtml + '</div>'
         + glossHtml
@@ -2984,11 +3470,25 @@
     }).join('');
   }
 
+  function formatAcousticBarHtml(ac) {
+    if (!ac || !(ac.voicedFrames > 0)) return '';
+    var pitchText = ac.pitchMeanHz > 0
+      ? ('~' + ac.pitchMeanHz + ' Hz, ±' + ac.pitchStdSemitones + ' ST')
+      : '—';
+    return '<div class="sp-acoustic-strip" style="width:100%;margin-top:6px;padding:7px 10px;border-radius:9px;background:var(--lg-wash);border:1px solid var(--lg-divider);font-size:12px;color:var(--lg-ink);display:flex;gap:10px;flex-wrap:wrap;align-items:center;">'
+      + '<span>' + spIcon('chart', 12) + ' <b>Ngữ điệu:</b> ' + (ac.intonationScore || 0) + '% (' + escHtml(pitchText) + ')</span>'
+      + '<span>' + spIcon('zap', 12) + ' <b>Liền mạch:</b> ' + Math.round((ac.articulationRatio || 0) * 100) + '% (' + (ac.pauseCount || 0) + ' nhịp nghỉ)</span>'
+      + '<span>' + spIcon('volume', 12) + ' <b>Độ rõ:</b> ' + (ac.snrDb || 0) + ' dB</span>'
+      + '</div>';
+  }
+
   function renderShadowScoreHtml(evalResult) {
     if (!evalResult) return '';
+    var ac = (evalResult && evalResult.acoustic) || studioState.shadowAcoustic;
     return ''
-      + '<span class="sp-lobby-chip is-exam">🎯 Độ khớp: <b>' + evalResult.accuracy + '%</b></span>'
-      + '<span class="sp-lobby-chip">🟢 Khớp chuẩn &nbsp; 🟠 Gần đúng &nbsp; 🔴 Cần đọc rõ hơn</span>';
+      + '<span class="sp-lobby-chip is-exam">' + spIcon('target', 12) + ' Độ khớp: <b>' + evalResult.accuracy + '%</b></span>'
+      + '<span class="sp-lobby-chip"><span style="display:inline-block;width:8px;height:8px;border-radius:999px;background:#10b981;"></span> Khớp chuẩn &nbsp; <span style="display:inline-block;width:8px;height:8px;border-radius:999px;background:#f59e0b;"></span> Gần đúng &nbsp; <span style="display:inline-block;width:8px;height:8px;border-radius:999px;background:#ef4444;"></span> Cần đọc rõ</span>'
+      + formatAcousticBarHtml(ac);
   }
 
   function getShadowStatusInfo() {
@@ -2998,19 +3498,19 @@
     if (MicEngine.isActive()) {
       return {
         kind: 'live',
-        text: '🎙️ Đang thu âm & nhận diện giọng nói — hãy đọc to từng cụm, từ khớp chuẩn sẽ sáng xanh ngay khi bạn nói.'
+        text: 'Đang thu âm & nhận diện giọng nói — hãy đọc to từng cụm, từ khớp chuẩn sẽ sáng xanh ngay khi bạn nói.'
       };
     }
     if (studioState.shadowListenAuto) {
       return {
         kind: 'listening',
-        text: '🎧 Đang phát câu mẫu... Nói đuổi ngay sau khi máy đọc xong (micro sẽ tự bật).'
+        text: 'Đang phát câu mẫu... Nói đuổi ngay sau khi máy đọc xong (micro sẽ tự bật).'
       };
     }
     if (!studioState.shadowResult && !studioState.shadowAudioUrl) {
       return {
         kind: 'ready',
-        text: '💡 Bấm "🎧➔🎙️ Nghe mẫu & Tự thu" hoặc "🎙️ Bấm Nói Đuổi" để luyện đọc (có thể gõ chữ bên dưới để tự kiểm tra).'
+        text: 'Bấm "Nghe mẫu & Tự thu" hoặc "Bấm Nói Đuổi" để luyện đọc (có thể gõ chữ bên dưới để tự kiểm tra).'
       };
     }
     return { kind: '', text: '' };
@@ -3075,7 +3575,7 @@
     var micBusy = MicEngine.isActive();
 
     var playbackHtml = studioState.shadowAudioUrl
-      ? '<div class="sp-saved-audio-bar sp-shadow-playback"><span>🎧 <b>Giọng bạn vừa thu (' + formatSec(studioState.shadowDurationSec || 1) + '):</b></span><audio controls src="' + escHtml(studioState.shadowAudioUrl) + '"></audio></div>'
+      ? '<div class="sp-saved-audio-bar sp-shadow-playback"><span>' + spIcon('listening', 13) + ' <b>Giọng bạn vừa thu (' + formatSec(studioState.shadowDurationSec || 1) + '):</b></span><audio controls src="' + escHtml(studioState.shadowAudioUrl) + '"></audio></div>'
       : '';
 
     if (global.S4Whisper && typeof global.S4Whisper.preload === 'function' && !global.S4Whisper.isReady()) {
@@ -3091,16 +3591,16 @@
       + '<div class="sp-shadow-head-row">'
       + '  <span class="sp-seg-role-tag">' + escHtml(cur.label || 'Shadowing Drill') + '</span>'
       + '  <div class="sp-shadow-audio-actions">'
-      + '    <button type="button" class="btn mini-btn" onclick="window._spPlayCurrentShadowSentence()">🔊 Nghe câu mẫu (' + prefs.shadowSpeed + 'x)</button>'
-      + '    <button type="button" class="btn mini-btn sp-listen-auto-btn' + (studioState.shadowListenAuto ? ' active' : '') + '" onclick="window._spShadowListenAndRecord()">' + (studioState.shadowListenAuto ? '⏹ Hủy nghe & thu' : '🎧➔🎙️ Nghe mẫu & Tự thu') + '</button>'
+      + '    <button type="button" class="btn mini-btn" onclick="window._spPlayCurrentShadowSentence()">' + spIcon('volume', 13) + '<span>Nghe câu mẫu (' + prefs.shadowSpeed + 'x)</span></button>'
+      + '    <button type="button" class="btn mini-btn sp-listen-auto-btn' + (studioState.shadowListenAuto ? ' active' : '') + '" onclick="window._spShadowListenAndRecord()">' + (studioState.shadowListenAuto ? (spIcon('stop', 13) + '<span>Hủy nghe &amp; thu</span>') : (spIcon('mic', 13) + '<span>Nghe mẫu &amp; Tự thu</span>')) + '</button>'
       + '  </div>'
       + '</div>'
       + '<div id="shadowWordsHost" class="sp-word-tokens">' + tokensHtml + '</div>'
       + '<div id="shadowScoreRow" class="sp-shadow-score-row">' + scoreHtml + '</div>'
       + '<div id="shadowStatusBanner" class="sp-shadow-status' + (statusInfo.kind ? (' is-' + statusInfo.kind) : '') + '" style="display:' + (statusInfo.text ? 'block' : 'none') + ';">' + escHtml(statusInfo.text) + '</div>'
       + '<div class="sp-shadow-controls">'
-      + '  <button type="button" class="btn btn-primary" onclick="window._spToggleShadowMic()">' + (micBusy ? '⏹ Dừng & Chấm độ khớp' : '🎙️ Bấm Nói Đuổi (Mic + STT)') + '</button>'
-      + '  <button type="button" class="mini-btn" onclick="window._spScoreManualShadow()">✓ So khớp văn bản bên dưới</button>'
+      + '  <button type="button" class="btn btn-primary" onclick="window._spToggleShadowMic()">' + (micBusy ? (spIcon('stop', 14) + '<span>Dừng &amp; Chấm độ khớp</span>') : (spIcon('mic', 14) + '<span>Bấm Nói Đuổi (Mic + STT)</span>')) + '</button>'
+      + '  <button type="button" class="mini-btn" onclick="window._spScoreManualShadow()">' + spIcon('check', 13) + '<span>So khớp văn bản bên dưới</span></button>'
       + '</div>'
       + '<div id="shadowWaveRow" class="sp-wave-bars" style="display:' + (micBusy ? 'flex' : 'none') + ';">' + buildWaveBarsHtml(14) + '</div>'
       + playbackHtml
@@ -3213,6 +3713,7 @@
       lang: prefs.voiceAccent,
       waveSelector: '#shadowWaveRow .sp-wave-bar',
       maxSeconds: 30,
+      ephemeral: true,
       onStart: function () { renderModeShadowing(activeLesson); },
       onTranscript: function (txt) {
         var inp = document.getElementById('shadowSpokenInput');
@@ -3252,11 +3753,11 @@
         } else if (canFallbackTx) {
           studioState.shadowStatusKind = 'ready';
           studioState.shadowStatusMsg = studioState.shadowSpokenText.trim()
-            ? '🤖 Đang kiểm tra & bổ sung bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)'
-            : '🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)';
+            ? 'Đang kiểm tra & bổ sung bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)'
+            : 'Đang nhận diện giọng nói bằng Whisper AI... (Bạn có thể nghe lại giọng vừa thu ở bên dưới)';
         } else if (!studioState.shadowSpokenText.trim() && studioState.shadowAudioUrl) {
           studioState.shadowStatusKind = 'ready';
-          studioState.shadowStatusMsg = '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
+          studioState.shadowStatusMsg = 'Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
         } else {
           studioState.shadowStatusKind = '';
           studioState.shadowStatusMsg = '';
@@ -3266,20 +3767,23 @@
         if (canFallbackTx) {
           autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
             if (!activeLesson || activeLesson.id !== lessonIdSnap || studioState.shadowIdx !== idxSnap) return;
+            if (wRes && wRes.acoustic) {
+              studioState.shadowAcoustic = wRes.acoustic;
+            }
             if (txt) {
               studioState.shadowSpokenText = txt;
               studioState.shadowResult = matchShadowSentence(cur.text, txt);
               studioState.shadowStatusKind = 'live';
-              studioState.shadowStatusMsg = '🤖 Whisper AI đã nhận diện & chấm độ khớp: ' + studioState.shadowResult.accuracy + '%!';
+              studioState.shadowStatusMsg = 'Whisper AI đã nhận diện & chấm độ khớp: ' + studioState.shadowResult.accuracy + '%!';
             } else if (studioState.shadowSpokenText.trim()) {
               studioState.shadowStatusKind = '';
               studioState.shadowStatusMsg = '';
             } else if (wRes && wRes.reason === 'silent_audio') {
               studioState.shadowStatusKind = 'warn';
-              studioState.shadowStatusMsg = '🎧 Đã lưu bản thu âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc nghe lại bên dưới.';
+              studioState.shadowStatusMsg = 'Đã lưu bản thu âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc nghe lại bên dưới.';
             } else {
               studioState.shadowStatusKind = 'ready';
-              studioState.shadowStatusMsg = '🎙️ Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
+              studioState.shadowStatusMsg = 'Đã lưu bản thu âm bên dưới để bạn tự nghe đối chiếu. Có thể gõ/dán lời vừa nói vào ô bên dưới để chấm độ khớp từng từ.';
             }
             renderModeShadowing(activeLesson);
           }, {
@@ -3296,6 +3800,12 @@
               }
             }
           });
+        } else if (res && res.blob && global.S4Whisper && typeof global.S4Whisper.analyzeBlobAcoustics === 'function') {
+          global.S4Whisper.analyzeBlobAcoustics(res.blob).then(function (acRes) {
+            if (!activeLesson || activeLesson.id !== lessonIdSnap || studioState.shadowIdx !== idxSnap || !acRes || !acRes.acoustic) return;
+            studioState.shadowAcoustic = acRes.acoustic;
+            if (studioState.mode === 'shadowing') renderModeShadowing(activeLesson);
+          }).catch(function () {});
         }
       }
     });
@@ -3322,10 +3832,10 @@
     });
 
     var headHtml = '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
-      + '<h3 style="font-size:15.5px;font-weight:800;">🧩 Phản xạ Cụm từ Đắt giá (Collocations & Idioms)</h3>'
+      + '<h3 style="font-size:15.5px;font-weight:800;display:inline-flex;align-items:center;gap:6px;">' + spIcon('layers', 15) + '<span>Phản xạ Cụm từ Đắt giá (Collocations &amp; Idioms)</span></h3>'
       + '<div style="display:flex;gap:8px;align-items:center;">'
       + '  <span class="sp-lobby-chip is-exam">Đúng: ' + score + '/' + drills.length + ' (' + answered + ' câu đã chọn)</span>'
-      + (answered > 0 ? '<button type="button" class="mini-btn" onclick="window._spResetDrills()">↻ Làm lại</button>' : '')
+      + (answered > 0 ? '<button type="button" class="mini-btn" onclick="window._spResetDrills()">' + spIcon('refresh', 12) + '<span>Làm lại</span></button>' : '')
       + '</div></div>';
 
     var listHtml = drills.map(function (d, idx) {
@@ -3345,8 +3855,8 @@
       }).join('');
 
       var hintHtml = picked !== undefined
-        ? '<div class="sp-quiz-explain">🔊 <b>' + escHtml(d.answer) + '</b> ' + escHtml(d.hintIpa || '') + ' — ' + escHtml(d.hintMeaning || '') + ' <button type="button" class="mini-btn" style="margin-left:6px;" onclick="window._spPlayWord(\'' + escJsAttr(d.fullSentenceEn) + '\')">Nghe cả câu</button></div>'
-        : '<div style="font-size:12px;color:var(--muted);">Gợi ý nghĩa: ' + escHtml(d.hintMeaning || '') + '</div>';
+        ? '<div class="sp-quiz-explain">' + spIcon('volume', 13) + ' <b>' + escHtml(d.answer) + '</b> ' + escHtml(d.hintIpa || '') + ' — ' + escHtml(d.hintMeaning || '') + ' <button type="button" class="mini-btn" style="margin-left:6px;" onclick="window._spPlayWord(\'' + escJsAttr(d.fullSentenceEn) + '\')">Nghe cả câu</button></div>'
+        : '<div style="font-size:12px;color:var(--lg-ink-muted);">Gợi ý nghĩa: ' + escHtml(d.hintMeaning || '') + '</div>';
 
       return '<div class="sp-drill-item">'
         + '  <div style="font-size:11.5px;font-weight:800;color:var(--hl-cyan);">CÂU ' + (idx + 1) + ' • ' + escHtml(d.sectionLabel || '') + '</div>'
@@ -3381,26 +3891,26 @@
       var timerCls = studioState.prepLeftSec <= 10 ? ' danger' : (studioState.prepLeftSec <= 20 ? ' warn' : '');
       prepSectionHtml = ''
         + '<div class="sp-prep-timer-bar">'
-        + '  <div><strong>1. 📝 Bảng Nháp Từ Khóa Part 2 (1 phút chuẩn bị — không dùng để chấm điểm)</strong><div style="font-size:12px;color:var(--muted);">Ghi nhanh bullet points theo WH-questions thay vì viết cả câu</div></div>'
+        + '  <div><strong>1. Bảng Nháp Từ Khóa Part 2 (1 phút chuẩn bị — không dùng để chấm điểm)</strong><div style="font-size:12px;color:var(--lg-ink-muted);">Ghi nhanh bullet points theo WH-questions thay vì viết cả câu</div></div>'
         + '  <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">'
-        + '    <span id="studioPrepTimerPill" class="sp-timer-pill' + timerCls + '">⏱️ ' + formatSec(studioState.prepLeftSec) + '</span>'
-        + '    <button type="button" class="mini-btn" onclick="window._spTogglePrepTimer()">' + (studioState.prepRunning ? '⏸ Tạm dừng' : '▶ Bấm giờ 60s') + '</button>'
-        + '    <button type="button" class="mini-btn" onclick="window._spResetPrepTimer()">↻ Đặt lại</button>'
-        + '    <button type="button" class="mini-btn" onclick="window._spFillSampleNotes()">💡 Gợi ý dàn ý</button>'
+        + '    <span id="studioPrepTimerPill" class="sp-timer-pill' + timerCls + '">' + spIcon('clock', 13) + '<span>' + formatSec(studioState.prepLeftSec) + '</span></span>'
+        + '    <button type="button" class="mini-btn" onclick="window._spTogglePrepTimer()">' + (studioState.prepRunning ? (spIcon('pause', 12) + '<span>Tạm dừng</span>') : (spIcon('play', 12) + '<span>Bấm giờ 60s</span>')) + '</button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spResetPrepTimer()">' + spIcon('refresh', 12) + '<span>Đặt lại</span></button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spFillSampleNotes()">' + spIcon('lightbulb', 12) + '<span>Gợi ý dàn ý</span></button>'
         + '  </div>'
         + '</div>'
         + '<textarea id="studioPrepNotepad" class="sp-notepad-textarea" placeholder="Ghi nhanh từ khóa dàn ý cho 4 ý Cue Card (chỉ để bạn xem khi nói)..." oninput="window._spSavePrepNote(this.value)">' + escHtml(studioState.prepNoteText) + '</textarea>';
     } else {
       prepSectionHtml = ''
         + '<div class="sp-prep-timer-bar">'
-        + '  <div><strong>1. 💡 Nháp nhanh Ý chính — Outline (' + escHtml(ctx.targetDurationLabel) + ')</strong><div style="font-size:11.5px;color:var(--muted);">Ô ghi chú dàn ý cá nhân (không dùng để chấm điểm ở Tab 5)</div></div>'
+        + '  <div><strong>1. Nháp nhanh Ý chính — Outline (' + escHtml(ctx.targetDurationLabel) + ')</strong><div style="font-size:11.5px;color:var(--lg-ink-muted);">Ô ghi chú dàn ý cá nhân (không dùng để chấm điểm ở Tab 5)</div></div>'
         + '  <span class="sp-tag-pill">Đề đang chọn: ' + escHtml(ctx.promptText.slice(0, 72)) + (ctx.promptText.length > 72 ? '...' : '') + '</span>'
         + '</div>'
         + '<textarea id="studioPrepNotepad" class="sp-notepad-textarea" style="min-height:70px;" placeholder="Ghi nhanh 2–3 cụm từ vựng/ý chính muốn dùng (không dùng để chấm điểm)..." oninput="window._spSavePrepNote(this.value)">' + escHtml(studioState.prepNoteText) + '</textarea>';
     }
 
     var audioBarHtml = studioState.recAudioUrl
-      ? '<div class="sp-saved-audio-bar"><span>🎧 <b>Bản ghi âm gần nhất (' + formatSec(studioState.recordingSec) + '):</b></span><audio controls src="' + studioState.recAudioUrl + '" style="flex:1;min-width:200px;height:36px;"></audio></div>'
+      ? '<div class="sp-saved-audio-bar"><span>' + spIcon('listening', 13) + ' <b>Bản ghi âm gần nhất (' + formatSec(studioState.recordingSec) + '):</b></span><audio controls src="' + studioState.recAudioUrl + '" style="flex:1;min-width:200px;height:36px;"></audio></div>'
       : '';
 
     var curWpm = computeWpm(studioState.recTranscript, studioState.recordingSec || 30);
@@ -3409,24 +3919,24 @@
       + prepSectionHtml
       + renderSttEnvBannerHtml()
       + '<div class="sp-mic-stage">'
-      + '  <button type="button" class="s4-mic-btn' + (micBusy ? ' is-recording' : '') + '" onclick="window._spToggleStudioMic()">' + (micBusy ? '⏹' : '🎙️') + '</button>'
+      + '  <button type="button" class="s4-mic-btn' + (micBusy ? ' is-recording' : '') + '" onclick="window._spToggleStudioMic()" aria-label="' + (micBusy ? 'Dừng ghi âm' : 'Bắt đầu ghi âm') + '">' + spIcon(micBusy ? 'stop' : 'mic', 18) + '</button>'
       + '  <div style="font-weight:800;font-size:15px;">' + (micBusy ? 'Đang ghi âm & nhận diện giọng nói... (' + formatSec(studioState.recordingSec) + ')' : 'Nhấn Micro để Bắt đầu Tự Nói & Ghi âm') + '</div>'
-      + '  <div style="font-size:12.5px;color:var(--muted);">Thời lượng mục tiêu: ' + escHtml(ctx.targetDurationLabel) + ' • Nhấn lại micro để kết thúc</div>'
+      + '  <div style="font-size:12.5px;color:var(--lg-ink-muted);">Thời lượng mục tiêu: ' + escHtml(ctx.targetDurationLabel) + ' • Nhấn lại micro để kết thúc</div>'
       + '  <div id="studioWaveRow" class="sp-wave-bars" style="display:' + (micBusy ? 'flex' : 'none') + ';">' + buildWaveBarsHtml(18) + '</div>'
       + '</div>'
       + audioBarHtml
       + '<div>'
       + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">'
-      + '    <strong style="font-size:13.5px;">2. 🗣️ Transcript Bài Nói (Dùng để Chấm điểm Tab 5)</strong>'
+      + '    <strong style="font-size:13.5px;">2. Transcript Bài Nói (Dùng để Chấm điểm Tab 5)</strong>'
       + '    <div style="display:flex;gap:8px;align-items:center;">'
-      + '      <span class="sp-wpm-badge">📝 ' + countWords(studioState.recTranscript) + ' từ</span>'
-      + '      <span class="sp-wpm-badge">⚡ ~' + curWpm + ' WPM</span>'
+      + '      <span class="sp-wpm-badge">' + spIcon('edit', 12) + '<span>' + countWords(studioState.recTranscript) + ' từ</span></span>'
+      + '      <span class="sp-wpm-badge">' + spIcon('zap', 12) + '<span>~' + curWpm + ' WPM</span></span>'
       + '    </div>'
       + '  </div>'
       + '  <textarea id="studioTranscriptInput" class="sp-transcript-fallback" rows="4" placeholder="Bài nói của bạn sẽ tự động xuất hiện tại đây khi bật Mic (hoặc gõ/dán câu trả lời vào ô này để hệ thống chấm 4 tiêu chí ở Tab 5)..." oninput="window._spUpdateStudioTranscript(this.value)">' + escHtml(studioState.recTranscript) + '</textarea>'
       + '</div>'
       + '<div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">'
-      + '  <button type="button" class="btn btn-primary" onclick="window.switchSpeakingMode(\'review\')">📊 Phân tích & Chấm điểm 4 Tiêu chí ➜</button>'
+      + '  <button type="button" class="btn btn-primary" onclick="window.switchSpeakingMode(\'review\')">' + spIcon('chart', 14) + '<span>Phân tích &amp; Chấm điểm 4 Tiêu chí</span>' + spIcon('arrowRight', 14) + '</button>'
       + '</div>';
   }
 
@@ -3459,7 +3969,7 @@
       studioState.prepLeftSec = Math.max(0, studioState.prepLeftSec - 1);
       var pill = document.getElementById('studioPrepTimerPill');
       if (pill) {
-        pill.textContent = '⏱️ ' + formatSec(studioState.prepLeftSec);
+        pill.innerHTML = spIcon('clock', 13) + '<span>' + formatSec(studioState.prepLeftSec) + '</span>';
         pill.className = 'sp-timer-pill' + (studioState.prepLeftSec <= 10 ? ' danger' : (studioState.prepLeftSec <= 20 ? ' warn' : ''));
       }
       if (studioState.prepLeftSec <= 0) {
@@ -3518,6 +4028,7 @@
           studioState.recWpm = computeWpm(studioState.recTranscript, studioState.recordingSec);
           studioState.recAudioId = (res.id && res.url) ? res.id : null;
           studioState.recAudioUrl = (res.id && res.url) ? res.url : '';
+          studioState.recAcoustic = res.acoustic || null;
         }
         renderModeRecord(activeLesson);
         var defaultStudioPh = 'Bài nói của bạn sẽ tự động xuất hiện tại đây khi bật Mic (hoặc gõ/dán transcript để chấm 4 tiêu chí & tạo prompt AI)...';
@@ -3533,12 +4044,20 @@
         if (needStudioFallback) {
           autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
             if (!activeLesson || activeLesson.id !== lessonIdSnap) return;
+            if (wRes && wRes.acoustic) {
+              studioState.recAcoustic = wRes.acoustic;
+              studioState.lastGradedKey = '';
+            }
             if (txt) {
               studioState.recTranscript = txt;
               studioState.recWpm = computeWpm(txt, studioState.recordingSec);
               renderModeRecord(activeLesson);
+              if (studioState.mode === 'review') renderModeReview(activeLesson);
               showToast('🤖 Whisper đã tự chép lời từ bản ghi âm của bạn!', 'success');
               return;
+            }
+            if (wRes && wRes.acoustic && studioState.mode === 'review') {
+              renderModeReview(activeLesson);
             }
             var inp = document.getElementById('studioTranscriptInput');
             if (inp) inp.placeholder = defaultStudioPh;
@@ -3553,6 +4072,13 @@
               if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
             }
           });
+        } else if (res && res.blob && global.S4Whisper && typeof global.S4Whisper.analyzeBlobAcoustics === 'function') {
+          global.S4Whisper.analyzeBlobAcoustics(res.blob).then(function (acRes) {
+            if (!activeLesson || activeLesson.id !== lessonIdSnap || !acRes || !acRes.acoustic) return;
+            studioState.recAcoustic = acRes.acoustic;
+            studioState.lastGradedKey = '';
+            if (studioState.mode === 'review') renderModeReview(activeLesson);
+          }).catch(function () {});
         }
       }
     });
@@ -3598,18 +4124,18 @@
 
   function getScoreSourceLabelHtml(scoreSource, gradeSource, isNotRated, modelName) {
     if (scoreSource === 'manual') {
-      return '<span class="sp-tag-pill" style="background:rgba(245,158,11,0.16);color:var(--hl-gold);">✏️ Đã chỉnh tay (ưu tiên điểm bạn chọn)</span>';
+      return '<span class="sp-tag-pill" style="background:var(--lg-amber-soft);color:var(--lg-amber);">' + spIcon('edit', 12) + ' Đã chỉnh tay (ưu tiên điểm bạn chọn)</span>';
     }
     if (isNotRated) {
-      return '<span class="sp-tag-pill" style="background:rgba(244,63,94,0.16);color:var(--sp-accent-rose,#f43f5e);">⚠️ Chưa đủ dữ liệu — Chưa chấm</span>';
+      return '<span class="sp-tag-pill" style="background:var(--lg-rose-soft);color:var(--lg-rose);">' + spIcon('alert', 12) + ' Chưa đủ dữ liệu — Chưa chấm</span>';
     }
     if (gradeSource === 'gemini') {
-      return '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm AI Examiner (' + escHtml(getActiveAiModelLabel(modelName)) + ')</span>';
+      return '<span class="sp-tag-pill" style="background:var(--lg-green-soft);color:var(--lg-green);">' + spIcon('sparkle', 12) + ' Tự chấm AI Examiner (' + escHtml(getActiveAiModelLabel(modelName)) + ')</span>';
     }
     if (gradeSource === 'offline_fallback') {
-      return '<span class="sp-tag-pill">⚡ Tự chấm Offline (AI dự phòng)</span>';
+      return '<span class="sp-tag-pill">' + spIcon('zap', 12) + ' Tự chấm Offline (AI dự phòng)</span>';
     }
-    return '<span class="sp-tag-pill">⚡ Tự chấm Offline tức thì (0ms)</span>';
+    return '<span class="sp-tag-pill">' + spIcon('zap', 12) + ' Tự chấm Offline tức thì (0ms)</span>';
   }
 
   function renderAutoGradePanelHtml(opts) {
@@ -3630,24 +4156,24 @@
       ? grade.evidence.reasons
       : [];
     var evidenceBarHtml = evidenceReasons.length
-      ? '<div style="font-size:12px;color:var(--hl-gold,#f59e0b);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);padding:7px 10px;border-radius:8px;">📏 <b>Giới hạn theo bằng chứng:</b> ' + escHtml(evidenceReasons.join(' • ')) + '</div>'
+      ? '<div style="font-size:12px;color:var(--lg-amber);background:var(--lg-amber-soft);border:1px solid rgba(245,158,11,0.28);padding:7px 10px;border-radius:8px;"><b>Giới hạn theo bằng chứng:</b> ' + escHtml(evidenceReasons.join(' • ')) + '</div>'
       : '';
 
     var upgradesHtml = (grade.vocabUpgrades || []).length
-      ? '<div class="sp-autograde-box"><strong>💎 Nâng cấp Từ vựng (Band 7.0–8.5)</strong><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">'
+      ? '<div class="sp-autograde-box"><strong>Nâng cấp Từ vựng (Band 7.0–8.5)</strong><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">'
         + grade.vocabUpgrades.map(function (v) {
-          return '<div class="sp-upgrade-row"><div><span style="color:var(--muted);">' + escHtml(v.from || 'Gợi ý') + '</span> ➜ <b style="color:var(--hl-green);">' + escHtml(v.upgrade) + '</b></div>'
-            + (v.meaningVi ? '<div style="font-size:11.5px;color:var(--muted);">' + escHtml(v.meaningVi) + '</div>' : '')
+          return '<div class="sp-upgrade-row"><div><span style="color:var(--lg-ink-muted);">' + escHtml(v.from || 'Gợi ý') + '</span> → <b style="color:var(--lg-green);">' + escHtml(v.upgrade) + '</b></div>'
+            + (v.meaningVi ? '<div style="font-size:11.5px;color:var(--lg-ink-muted);">' + escHtml(v.meaningVi) + '</div>' : '')
             + '</div>';
         }).join('')
         + '</div></div>'
       : '';
 
     var grammarHtml = (grade.grammarFixes || []).length
-      ? '<div class="sp-autograde-box"><strong>🔧 Sửa &amp; Nâng cấp Ngữ pháp</strong><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">'
+      ? '<div class="sp-autograde-box"><strong>Sửa &amp; Nâng cấp Ngữ pháp</strong><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">'
         + grade.grammarFixes.map(function (g) {
-          return '<div class="sp-upgrade-row"><div><span style="color:var(--sp-accent-rose,#f43f5e);">' + escHtml(g.original) + '</span> ➜ <b style="color:var(--hl-green);">' + escHtml(g.corrected) + '</b></div>'
-            + (g.noteVi ? '<div style="font-size:11.5px;color:var(--muted);">' + escHtml(g.noteVi) + '</div>' : '')
+          return '<div class="sp-upgrade-row"><div><span style="color:var(--lg-rose);">' + escHtml(g.original) + '</span> → <b style="color:var(--lg-green);">' + escHtml(g.corrected) + '</b></div>'
+            + (g.noteVi ? '<div style="font-size:11.5px;color:var(--lg-ink-muted);">' + escHtml(g.noteVi) + '</div>' : '')
             + '</div>';
         }).join('')
         + '</div></div>'
@@ -3655,32 +4181,32 @@
 
     var activeModel = getActiveAiModelLabel((grade && grade.model) || (prefs && prefs.pzGeminiModel));
     var quickKeyRow = !hasKey
-      ? '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:8px 10px;border-radius:8px;background:var(--card);border:1px dashed var(--border);">'
-        + '  <span style="font-size:12px;color:var(--muted);flex:1;min-width:180px;">🔑 Chưa có Gemini Key — dán API Key cá nhân (Free Tier) nếu muốn chấm sâu bằng <b>' + escHtml(activeModel) + '</b>:</span>'
+      ? '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:8px 10px;border-radius:9px;background:var(--lg-wash);border:1px dashed var(--lg-hairline);">'
+        + '  <span style="font-size:12px;color:var(--lg-ink-muted);flex:1;min-width:180px;">Chưa có Gemini Key — dán API Key cá nhân nếu muốn chấm sâu bằng <b>' + escHtml(activeModel) + '</b>:</span>'
         + '  <input type="password" class="sp-select" style="max-width:210px;font-size:12px;" placeholder="Dán Gemini API Key..." oninput="window._spSaveQuickGeminiKey && window._spSaveQuickGeminiKey(this.value)">'
         + '</div>'
       : '';
 
     var aiBtnLabel = o.busy
-      ? '⏳ Đang chấm sâu với ' + escHtml(activeModel) + '...'
-      : '🤖 Chấm sâu với AI (' + escHtml(activeModel) + ')';
+      ? (spIcon('refresh', 13) + '<span>Đang chấm sâu với ' + escHtml(activeModel) + '...</span>')
+      : (spIcon('sparkle', 13) + '<span>Chấm sâu với AI (' + escHtml(activeModel) + ')</span>');
 
     var fmtCrit = function (k) {
       return grade.notRated ? 'Chưa chấm' : Number(grade.scores[k] || 0).toFixed(1);
     };
 
     var strengthBoxHtml = grade.notRated
-      ? '<div class="sp-autograde-box"><strong>🎙️ Cách lấy điểm chính xác</strong><ul class="sp-autograde-list"><li>Bật Micro trên Chrome/Edge hoặc gõ/dán nội dung câu trả lời vào ô transcript bên dưới.</li><li>Cần ít nhất 3 từ tiếng Anh hợp lệ ở phần trả lời (không tính Warm-up ID Check) để hệ thống chấm Band 1.0–9.0.</li></ul></div>'
-      : '<div class="sp-autograde-box"><strong>✓ Điểm mạnh</strong><ul class="sp-autograde-list">' + (strengthsHtml || '<li>Đã ghi nhận câu trả lời hợp lệ.</li>') + '</ul></div>';
+      ? '<div class="sp-autograde-box"><strong>Cách lấy điểm chính xác</strong><ul class="sp-autograde-list"><li>Bật Micro trên Chrome/Edge hoặc gõ/dán nội dung câu trả lời vào ô transcript bên dưới.</li><li>Cần ít nhất 3 từ tiếng Anh hợp lệ ở phần trả lời (không tính Warm-up ID Check) để hệ thống chấm Band 1.0–9.0.</li></ul></div>'
+      : '<div class="sp-autograde-box"><strong>Điểm mạnh</strong><ul class="sp-autograde-list">' + (strengthsHtml || '<li>Đã ghi nhận câu trả lời hợp lệ.</li>') + '</ul></div>';
 
     return '<div class="sp-autograde-panel" id="' + escHtml(o.panelId || 'spAutoGradePanel') + '">'
       + '  <div class="sp-autograde-head">'
       + '    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
-      + '      <strong>🎯 Đánh giá Tự động (4 Tiêu chí IELTS)</strong>'
+      + '      <strong style="display:inline-flex;align-items:center;gap:5px;">' + spIcon('target', 14) + '<span>Đánh giá Tự động (4 Tiêu chí IELTS)</span></strong>'
       + getScoreSourceLabelHtml(o.scoreSource, grade.source, isNotRated, grade.model)
       + '    </div>'
       + '    <div style="display:flex;gap:6px;flex-wrap:wrap;">'
-      + '      <button type="button" class="btn mini-btn" onclick="window.' + o.onRegradeOfflineFn + '()"' + (o.busy ? ' disabled' : '') + '>⚡ Chấm lại Offline</button>'
+      + '      <button type="button" class="btn mini-btn" onclick="window.' + o.onRegradeOfflineFn + '()"' + (o.busy ? ' disabled' : '') + '>' + spIcon('zap', 13) + '<span>Chấm lại Offline</span></button>'
       + '      <button type="button" class="btn mini-btn" onclick="window.' + o.onRunAiFn + '()"' + ((o.busy || (!grade.hasTranscript && !o.hasAudio)) ? ' disabled' : '') + '>' + aiBtnLabel + '</button>'
       + '    </div>'
       + '  </div>'
@@ -3695,11 +4221,11 @@
       + '  </div>'
       + '  <div class="sp-autograde-cols">'
       + strengthBoxHtml
-      + '    <div class="sp-autograde-box"><strong>🎯 Cần cải thiện</strong><ul class="sp-autograde-list">' + imprHtml + '</ul></div>'
+      + '    <div class="sp-autograde-box"><strong>Cần cải thiện</strong><ul class="sp-autograde-list">' + imprHtml + '</ul></div>'
       + '  </div>'
       + ((upgradesHtml || grammarHtml) ? '<div class="sp-autograde-cols">' + upgradesHtml + grammarHtml + '</div>' : '')
       + (grade.prEstimatedNote
-        ? '<div style="font-size:11.5px;color:' + (grade.hasRealAudio ? 'var(--hl-green,#10b981);font-weight:700' : 'var(--muted)') + ';">' + (grade.hasRealAudio ? '' : 'ℹ️ ') + escHtml(grade.prEstimatedNote) + '</div>'
+        ? '<div style="font-size:11.5px;color:' + (grade.hasRealAudio ? 'var(--lg-green);font-weight:700' : 'var(--lg-ink-muted)') + ';">' + escHtml(grade.prEstimatedNote) + '</div>'
         : '')
       + '</div>';
   }
@@ -3726,7 +4252,8 @@
       questionText: ctx ? ctx.promptText : '',
       transcript: studioState.recTranscript || '',
       durationSec: studioState.recordingSec || 30,
-      audioId: studioState.recAudioId || null
+      audioId: studioState.recAudioId || null,
+      acoustic: studioState.recAcoustic || null
     };
   }
 
@@ -3798,6 +4325,11 @@
             apiKey: apiKey,
             model: prefs.pzGeminiModel,
             contextHint: o.contextHint || ''
+          }).then(function (gemRes) {
+            if (gemRes && typeof gemRes === 'object' && wRes && wRes.acoustic && !gemRes.acoustic) {
+              gemRes.acoustic = wRes.acoustic;
+            }
+            return gemRes;
           });
         }
         return wRes;
@@ -3843,7 +4375,7 @@
     var box = document.getElementById('reviewStudioBox');
     if (!box) return;
 
-    var curKey = (lesson ? lesson.id : '') + '|' + (studioState.recTranscript || '') + '|' + (studioState.recordingSec || 0);
+    var curKey = (lesson ? lesson.id : '') + '|' + (studioState.recTranscript || '') + '|' + (studioState.recordingSec || 0) + '|' + (studioState.recAcoustic ? studioState.recAcoustic.voicedFrames : 0);
     if (!studioState.autoGrade || studioState.lastGradedKey !== curKey) {
       var offGrade = SpeakingGrader.evaluateOffline(buildStudioGradePayload(lesson));
       studioState.autoGrade = offGrade;
@@ -3872,8 +4404,8 @@
     ];
 
     var targetHitBadges = metrics.usedTargets.length
-      ? metrics.usedTargets.map(function (w) { return '<span class="sp-tag-pill">✓ ' + escHtml(w) + '</span>'; }).join(' ')
-      : '<span style="font-size:12.5px;color:var(--muted);">Chưa phát hiện cụm từ mục tiêu nào trong transcript.</span>';
+      ? metrics.usedTargets.map(function (w) { return '<span class="sp-tag-pill">' + spIcon('check', 11) + ' ' + escHtml(w) + '</span>'; }).join(' ')
+      : '<span style="font-size:12.5px;color:var(--lg-ink-muted);">Chưa phát hiện cụm từ mục tiêu nào trong transcript.</span>';
 
     var overallLbl = studioState.scoreSource === 'manual' ? 'Band tự chấm' : 'Band dự kiến';
 
@@ -3882,7 +4414,7 @@
       + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Từ đã nói</span><span class="sp-metric-val">' + metrics.wordCount + '</span></div>'
       + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Tốc độ (WPM)</span><span class="sp-metric-val">' + metrics.wpm + '</span></div>'
       + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">Target Lexis</span><span class="sp-metric-val">' + metrics.usedTargets.length + '/' + metrics.targetTotal + '</span></div>'
-      + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">' + overallLbl + '</span><span class="sp-metric-val" style="color:' + (overallIsUnrated ? 'var(--sp-accent-rose,#f43f5e);font-size:clamp(16px,2.3vw,20px)' : 'var(--hl-green)') + ';">' + formatBandValue(overall) + '</span></div>'
+      + '  <div class="sp-metric-tile"><span class="sp-metric-lbl">' + overallLbl + '</span><span class="sp-metric-val" style="color:' + (overallIsUnrated ? 'var(--lg-rose);font-size:clamp(16px,2.3vw,20px)' : 'var(--lg-green)') + ';">' + formatBandValue(overall) + '</span></div>'
       + '</div>'
       + renderAutoGradePanelHtml({
         panelId: 'studioAutoGradePanel',
@@ -3893,26 +4425,26 @@
         onRunAiFn: '_spRunStudioAiGrade',
         onRegradeOfflineFn: '_spRunStudioOfflineGrade'
       })
-      + '<div class="sp-tip-callout">⚡ <b>Nhận xét tốc độ & mạch nói:</b> ' + escHtml(metrics.wpmDiagnosis) + ' • Từ nối phát hiện: <b>' + metrics.connectorsUsed.length + '</b> • Từ ngập ngừng (fillers): <b>' + metrics.fillerCount + '</b>.<div style="margin-top:6px;">🎯 <b>Cụm từ đắt giá đã dùng:</b> ' + targetHitBadges + '</div></div>'
+      + '<div class="sp-tip-callout">' + spIcon('zap', 13) + ' <b>Nhận xét tốc độ &amp; mạch nói:</b> ' + escHtml(metrics.wpmDiagnosis) + ' • Từ nối phát hiện: <b>' + metrics.connectorsUsed.length + '</b> • Từ ngập ngừng (fillers): <b>' + metrics.fillerCount + '</b>.<div style="margin-top:6px;">' + spIcon('target', 13) + ' <b>Cụm từ đắt giá đã dùng:</b> ' + targetHitBadges + '</div></div>'
       + '<div class="sp-rubric-grid">'
       + criteriaDefs.map(function (c) {
         return '<div class="sp-criteria-card">'
           + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;"><strong>' + c.name + '</strong><span class="sp-lobby-chip is-exam">' + formatBandValue(studioState.scores[c.key]) + '</span></div>'
-          + '  <div style="font-size:12px;color:var(--muted);">' + c.tip + '</div>'
+          + '  <div style="font-size:12px;color:var(--lg-ink-muted);">' + c.tip + '</div>'
           + renderBandPillsRow(c.key, studioState.scores[c.key], '_spSetStudioCriterion')
           + '</div>';
       }).join('')
       + '</div>'
       + '<div class="sp-ai-prompt-box">'
       + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
-      + '    <strong>🤖 Prompt Chấm Điểm Examiner Cho ChatGPT / Claude</strong>'
-      + '    <button type="button" class="mini-btn" onclick="window._spCopyAiPrompt()">📋 Copy Prompt Examiner</button>'
+      + '    <strong style="display:inline-flex;align-items:center;gap:6px;">' + spIcon('sparkle', 14) + '<span>Prompt Chấm Điểm Examiner Cho ChatGPT / Claude</span></strong>'
+      + '    <button type="button" class="mini-btn" onclick="window._spCopyAiPrompt()">' + spIcon('copy', 13) + '<span>Copy Prompt Examiner</span></button>'
       + '  </div>'
       + '  <textarea id="studioAiPromptText" class="sp-notepad-textarea" rows="5" readonly>' + escHtml(promptStr) + '</textarea>'
       + '  <textarea id="studioAiFeedbackInput" class="sp-notepad-textarea" rows="3" placeholder="Nhận xét tự động hoặc dán điểm từ ChatGPT/Claude tại đây..." oninput="window._spUpdateStudioFeedback(this.value)">' + escHtml(studioState.aiFeedback) + '</textarea>'
       + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
-      + '    <button type="button" class="btn mini-btn" onclick="window.switchSpeakingMode(\'record\')">← Quay lại sửa/ghi âm lại</button>'
-      + '    <button type="button" class="btn btn-primary" onclick="window._spSaveStudioSubmission()">💾 Lưu Bài nói & Kết quả vào Lịch sử</button>'
+      + '    <button type="button" class="btn mini-btn" onclick="window.switchSpeakingMode(\'record\')">' + spIcon('arrowLeft', 13) + '<span>Quay lại sửa/ghi âm lại</span></button>'
+      + '    <button type="button" class="btn btn-primary" onclick="window._spSaveStudioSubmission()">' + spIcon('backup', 14) + '<span>Lưu Bài nói &amp; Kết quả vào Lịch sử</span></button>'
       + '  </div>'
       + '</div>';
   }
@@ -4241,29 +4773,29 @@
     var STYLE_PROFILES = {
       friendly: {
         id: 'friendly',
-        labelVi: '😊 Thân thiện & Khích lệ',
-        shortTag: '😊 Thân thiện',
+        labelVi: 'Thân thiện & Khích lệ',
+        shortTag: 'Thân thiện',
         temperature: 0.70,
         promptBrief: 'Warm, approachable, empathetic IELTS examiner. Acknowledge personal anecdotes genuinely, use encouraging natural language, and ask gentle personal follow-ups.'
       },
       strict_bc: {
         id: 'strict_bc',
-        labelVi: '🎓 Chuẩn Hội đồng Thi (BC/IDP)',
-        shortTag: '🎓 Chuẩn BC/IDP',
+        labelVi: 'Chuẩn Hội đồng Thi (BC/IDP)',
+        shortTag: 'Chuẩn BC/IDP',
         temperature: 0.42,
         promptBrief: 'Formal British Council / IDP examiner. Stay polite, brisk, neutral, and composed. Keep examinerReaction brief (4-12 words) with minimal emotion or chatter, and stay strictly focused on assessment.'
       },
       probing: {
         id: 'probing',
-        labelVi: '🧠 Hỏi xoáy & Phản biện Sâu',
-        shortTag: '🧠 Hỏi xoáy 7.5+',
+        labelVi: 'Hỏi xoáy & Phản biện Sâu',
+        shortTag: 'Hỏi xoáy 7.5+',
         temperature: 0.72,
         promptBrief: 'Analytical Band 7.5+ IELTS examiner. Challenge brief or one-sided viewpoints respectfully, ask incisive follow-ups (counter-examples, different generations, trade-offs, hypothetical "what if"), especially in Part 3.'
       },
       casual_coach: {
         id: 'casual_coach',
-        labelVi: '💬 Tự nhiên Đời thường',
-        shortTag: '💬 Tự nhiên',
+        labelVi: 'Tự nhiên Đời thường',
+        shortTag: 'Tự nhiên',
         temperature: 0.78,
         promptBrief: 'Relaxed, conversational human interlocutor. Vary sentence openings organically, react directly to a vivid detail the candidate said, avoid textbook phrasing, and transition smoothly.'
       }
@@ -5088,7 +5620,7 @@
 
     function resolveOpenAiEndpoint(apiKey, customBase) {
       var base = String(customBase || '').trim().replace(/\/+$/, '').replace(/\/chat\/completions$/i, '');
-      if (base) return base;
+      if (base && isSafeAiBaseUrl(base)) return base;
       if (/^gsk_/i.test(apiKey)) return 'https://api.groq.com/openai/v1';
       if (/^sk-or-/i.test(apiKey)) return 'https://openrouter.ai/api/v1';
       return 'https://api.openai.com/v1';
@@ -5351,6 +5883,17 @@
           genConfig.thinkingConfig = {
             thinkingLevel: (opts.thinkingLevel && THINKING_LEVELS[opts.thinkingLevel]) ? opts.thinkingLevel : 'low'
           };
+        } else if (model === 'gemini-2.5-flash') {
+          var flashBudget = typeof opts.thinkingBudget === 'number'
+            ? opts.thinkingBudget
+            : ((opts.thinkingLevel === 'medium' || opts.thinkingLevel === 'high') ? 512 : 0);
+          genConfig.thinkingConfig = { thinkingBudget: flashBudget };
+        } else if (model === 'gemini-2.5-pro') {
+          var proBudget = typeof opts.thinkingBudget === 'number'
+            ? Math.max(128, opts.thinkingBudget)
+            : ((opts.thinkingLevel === 'medium' || opts.thinkingLevel === 'high') ? 1024 : 256);
+          genConfig.thinkingConfig = { thinkingBudget: proBudget };
+          genConfig.maxOutputTokens = Math.max(genConfig.maxOutputTokens, 2048);
         }
         if (opts.jsonMode !== false) {
           genConfig.responseMimeType = 'application/json';
@@ -5392,7 +5935,18 @@
           if (!raw) {
             var blockReason = (data && data.promptFeedback && data.promptFeedback.blockReason)
               || (cand && cand.finishReason && cand.finishReason !== 'STOP' ? cand.finishReason : '');
-            throw new Error('Empty AI response' + (blockReason ? (' (' + blockReason + ')') : ''));
+            var emptyErr = new Error('Empty AI response' + (blockReason ? (' (' + blockReason + ')') : ''));
+            if (cand && cand.finishReason === 'MAX_TOKENS') emptyErr.retryableOutput = true;
+            throw emptyErr;
+          }
+          if (opts.jsonMode !== false) {
+            try {
+              JSON.parse(stripCodeFenceJson(raw));
+            } catch (jsonErr) {
+              var je = new Error('Invalid JSON from ' + model + ': ' + jsonErr.message);
+              je.retryableOutput = true;
+              throw je;
+            }
           }
           if (typeof opts._onResolvedModel === 'function') {
             try { opts._onResolvedModel(model); } catch (e) {}
@@ -5402,7 +5956,7 @@
           clearTimeout(timerId);
           var errMsg = String((err && err.message) || err || '');
           var st = err && err.httpStatus ? err.httpStatus : 0;
-          if (!timedOut && idx + 1 < candidates.length && shouldRetryGoogleStatus(st, errMsg)) {
+          if (!timedOut && idx + 1 < candidates.length && ((err && err.retryableOutput) || shouldRetryGoogleStatus(st, errMsg))) {
             return tryGoogleCandidate(idx + 1);
           }
           if (timedOut || (err && err.name === 'AbortError') || /aborted/i.test(errMsg)) {
@@ -6000,6 +6554,7 @@
       }
 
       var telemetry = p.telemetry || {};
+      var ac = (p.acoustic && p.acoustic.voicedFrames >= 5) ? p.acoustic : null;
       var rawTokens = transcript.toLowerCase().replace(/[^a-z'\s-]/g, ' ').split(/\s+/).filter(Boolean);
       var uniqueCnt = countUniqueWords(rawTokens);
       var guiraud = wc > 0 ? (uniqueCnt / Math.sqrt(wc)) : 0;
@@ -6007,7 +6562,7 @@
       var repeatedWords = detectRepeatedContentWords(rawTokens);
       var gramSig = detectGrammarSignals(transcript);
 
-      // 1. Fluency & Coherence (thang 1.0–9.0 + chuẩn hóa Full Exam vs Studio)
+      // 1. Fluency & Coherence (thang 1.0–9.0 + chuẩn hóa Full Exam vs Studio + Wasm Acoustic)
       var targetWc = isFullExam ? 260 : 120;
       var volRatio = Math.min(1.2, wc / targetWc);
       var fcRaw = 3.2 + volRatio * 2.55;
@@ -6019,6 +6574,14 @@
       if (fillerRatio > 0.06) fcRaw -= 0.6;
       else if (fillerRatio > 0.03) fcRaw -= 0.3;
       if ((telemetry.repeatCount || 0) + (telemetry.rephraseCount || 0) >= 4) fcRaw -= 0.25;
+      if (ac) {
+        if (ac.articulationRatio >= 0.68) fcRaw += Math.min(0.35, (ac.articulationRatio - 0.68) * 1.4);
+        else if (ac.articulationRatio < 0.45) fcRaw -= Math.min(0.35, (0.45 - ac.articulationRatio) * 1.2);
+        var activeMin = Math.max(0.25, (ac.activeDurationSec || durationSec || 15) / 60);
+        var longPausesPerMin = (ac.longPauseCount || 0) / activeMin;
+        if (longPausesPerMin >= 4) fcRaw -= 0.35;
+        else if (longPausesPerMin >= 2) fcRaw -= 0.15;
+      }
       var fcScore = clampIeltsBand(fcRaw, 2.5);
 
       // 2. Lexical Resource
@@ -6044,14 +6607,23 @@
       graRaw -= Math.min(1.0, gramSig.fixes.length * 0.4);
       var graScore = clampIeltsBand(graRaw, 2.5);
 
-      // 4. Pronunciation (ước lượng từ WPM & độ nhận diện rõ của STT)
-      var prRaw = fcScore * 0.55 + lrScore * 0.45;
-      if (metrics.wpm >= 98 && metrics.wpm <= 152 && fillerRatio <= 0.035) prRaw += 0.2;
-      else if (metrics.wpm > 0 && (metrics.wpm < 75 || metrics.wpm > 185)) prRaw -= 0.35;
-      var prScore = clampIeltsBand(prRaw, fcScore);
+      // 4. Pronunciation (tích hợp đặc trưng âm học thực tế từ s4-core.wasm nếu có, ngược lại ước lượng gián tiếp)
+      var prRaw;
+      if (ac) {
+        var acComposite = ((ac.intonationScore || 0) * 0.40) + ((ac.clarityScore || 0) * 0.35) + ((ac.fluencySignalScore || 0) * 0.25);
+        var acBand = 3.2 + (acComposite / 100) * 5.3;
+        prRaw = fcScore * 0.35 + lrScore * 0.20 + acBand * 0.45;
+        if (ac.pitchStdSemitones >= 2.0 && ac.pitchStdSemitones <= 5.0) prRaw += 0.2;
+        else if (ac.pitchStdSemitones > 0 && ac.pitchStdSemitones < 1.1) prRaw -= 0.2;
+      } else {
+        prRaw = fcScore * 0.55 + lrScore * 0.45;
+        if (metrics.wpm >= 98 && metrics.wpm <= 152 && fillerRatio <= 0.035) prRaw += 0.2;
+        else if (metrics.wpm > 0 && (metrics.wpm < 75 || metrics.wpm > 185)) prRaw -= 0.35;
+      }
+      var prScore = clampIeltsBand(prRaw, ac ? 2.5 : fcScore);
 
       var evidence = computeEvidence(p, wc, isFullExam);
-      var capped = applyCaps({ fc: fcScore, lr: lrScore, gra: graScore, pr: prScore }, evidence.caps);
+      var capped = applyCaps({ fc: fcScore, lr: lrScore, gra: graScore, pr: prScore }, evidence.caps, Boolean(ac));
       fcScore = capped.fc;
       lrScore = capped.lr;
       graScore = capped.gra;
@@ -6092,6 +6664,7 @@
 
       var strengths = [];
       if (metrics.wpm >= 95 && metrics.wpm <= 160) strengths.push('Tốc độ nói ổn định (~' + metrics.wpm + ' WPM), giữ được nhịp giao tiếp tự nhiên.');
+      if (ac && ac.intonationScore >= 75) strengths.push('Ngữ điệu lên xuống tự nhiên (' + ac.intonationScore + '%, ±' + ac.pitchStdSemitones + ' bán cung), truyền cảm rõ ràng.');
       if (metrics.connectorsUsed.length >= 2) strengths.push('Sử dụng hợp lý các từ nối mạch lạc (' + metrics.connectorsUsed.slice(0, 4).join(', ') + ').');
       if (metrics.usedTargets.length > 0) strengths.push('Vận dụng được ' + metrics.usedTargets.length + ' cụm từ mục tiêu của chủ đề (' + metrics.usedTargets.slice(0, 3).join(', ') + ').');
       if (totalComplex >= 3) strengths.push('Có kết hợp câu phức (mệnh đề nguyên nhân/quan hệ/điều kiện).');
@@ -6099,6 +6672,8 @@
 
       var improvements = [];
       if (wc < (isFullExam ? 140 : 55)) improvements.push('Kéo dài câu trả lời thêm ý giải thích và 1 ví dụ cụ thể (hiện mới ghi nhận ' + wc + ' từ).');
+      if (ac && ac.pitchStdSemitones > 0 && ac.pitchStdSemitones < 1.3) improvements.push('Ngữ điệu còn hơi đều (±' + ac.pitchStdSemitones + ' bán cung) — hãy nhấn trọng âm từ khóa và lên/xuống giọng cuối câu.');
+      if (ac && ac.longPauseCount >= 2) improvements.push('Phát hiện ' + ac.longPauseCount + ' lần ngắt quãng dài (≥ 0.6s) trong sóng âm — cố gắng nối câu mượt hơn.');
       if (fillerRatio > 0.03) improvements.push('Giảm từ ngập ngừng ("like / um / uh", hiện có ' + metrics.fillerCount + ' lần); thay bằng "Well / To be honest".');
       if (repeatedWords.length) improvements.push('Tránh lặp lại nhiều lần các từ: ' + repeatedWords.map(function (w) { return '"' + w + '"'; }).join(', ') + ' — hãy paraphrase bằng từ đồng nghĩa.');
       if (structDiversity < 2) improvements.push('Tăng độ đa dạng ngữ pháp bằng cách thêm mệnh đề nhượng bộ (although / whereas) hoặc câu điều kiện (if... would).');
@@ -6108,7 +6683,7 @@
       }
 
       var summaryVi = 'Band ước lượng Offline: ' + overallBand.toFixed(1)
-        + ' (' + wc + ' từ • ~' + metrics.wpm + ' WPM). '
+        + ' (' + wc + ' từ • ~' + metrics.wpm + ' WPM' + (ac ? ' • Ngữ điệu ' + ac.intonationScore + '%' : '') + '). '
         + (overallBand >= 7.0
           ? 'Nội dung triển khai tốt, mạch nối và vốn từ khá chắc; tối ưu thêm collocation C1 sẽ tiến tới 7.5–8.0.'
           : (overallBand >= 6.0
@@ -6117,10 +6692,22 @@
               ? 'Câu trả lời còn ngắn hoặc thiếu liên kết; ưu tiên trả lời trọn 2–3 câu mỗi hỏi kèm lý do + ví dụ.'
               : 'Lượng lời nói quá ít để chứng minh năng lực — cần trả lời đầy đủ từng câu hỏi thì điểm mới phản ánh đúng trình độ.')));
 
+      var fcAcSuffix = ac
+        ? (' Liền mạch ' + Math.round((ac.articulationRatio || 0) * 100) + '% (' + (ac.pauseCount || 0) + ' nhịp nghỉ, ' + (ac.longPauseCount || 0) + ' nghỉ dài).')
+        : '';
+      var prAcFeedback = ac
+        ? ('Phân tích sóng âm Wasm: Ngữ điệu ' + (ac.intonationScore || 0) + '% (~' + (ac.pitchMeanHz || 0) + ' Hz, ±' + (ac.pitchStdSemitones || 0) + ' ST), độ rõ ' + (ac.clarityScore || 0) + '% (SNR ' + (ac.snrDb || 0) + ' dB).')
+        : ('Ước lượng gián tiếp qua WPM (' + metrics.wpm + ') và độ rõ nhận diện STT (nếu cần điểm chuẩn, hãy nghe lại bản ghi âm).');
+      var prNote = ac
+        ? ('Đã phân tích trực tiếp sóng âm qua Wasm DSP: Cao độ TB ~' + (ac.pitchMeanHz || 0) + ' Hz (±' + (ac.pitchStdSemitones || 0) + ' ST), độ liền mạch ' + Math.round((ac.articulationRatio || 0) * 100) + '%, ' + (ac.pauseCount || 0) + ' nhịp nghỉ, SNR ' + (ac.snrDb || 0) + ' dB.')
+        : 'Lưu ý: Chấm Offline ước lượng tiêu chí Pronunciation gián tiếp qua nhịp nói WPM & khả năng nhận diện văn bản (STT).';
+
       return {
         source: 'offline',
         model: 'offline-rubric-v2',
         hasTranscript: true,
+        hasRealAudio: Boolean(ac),
+        acoustic: ac,
         notRated: false,
         metrics: metrics,
         evidence: evidence,
@@ -6128,16 +6715,16 @@
         overallBand: overallBand,
         summaryVi: summaryVi,
         criteriaFeedback: {
-          fc: 'Ghi nhận ' + wc + ' từ (~' + metrics.wpm + ' WPM), ' + metrics.connectorsUsed.length + ' từ nối, ' + metrics.fillerCount + ' từ đệm.',
+          fc: 'Ghi nhận ' + wc + ' từ (~' + metrics.wpm + ' WPM), ' + metrics.connectorsUsed.length + ' từ nối, ' + metrics.fillerCount + ' từ đệm.' + fcAcSuffix,
           lr: 'Độ đa dạng từ gốc ~' + uniqueCnt + ' từ (chỉ số Guiraud ' + guiraud.toFixed(1) + '), dùng ' + metrics.usedTargets.length + '/' + metrics.targetTotal + ' từ vựng mục tiêu.',
           gra: 'Phát hiện ' + totalComplex + ' cấu trúc phức/mở rộng (' + gramSig.subCount + ' phụ thuộc, ' + gramSig.relCount + ' quan hệ, ' + gramSig.condCount + ' điều kiện/modal).' + (gramSig.fixes.length ? ' Cần rà soát ' + gramSig.fixes.length + ' lỗi diễn đạt.' : ''),
-          pr: 'Ước lượng gián tiếp qua WPM (' + metrics.wpm + ') và độ rõ nhận diện STT (nếu cần điểm chuẩn, hãy nghe lại bản ghi âm).'
+          pr: prAcFeedback
         },
         strengths: strengths.slice(0, 3),
         improvements: improvements.slice(0, 4),
         vocabUpgrades: vocabUpgrades,
         grammarFixes: grammarFixes,
-        prEstimatedNote: 'Lưu ý: Chấm Offline ước lượng tiêu chí Pronunciation gián tiếp qua nhịp nói WPM & khả năng nhận diện văn bản (STT).',
+        prEstimatedNote: prNote,
         gradedAt: Date.now()
       };
     }
@@ -6302,7 +6889,7 @@
           userPrompt: userPrompt,
           extraParts: audioPart ? [audioPart] : null,
           thinkingLevel: 'medium',
-          maxOutputTokens: 2048,
+          maxOutputTokens: 4096,
           temperature: 0.35,
           timeoutMs: o.timeoutMs || 30000
         }).then(function (rawText) {
@@ -6384,30 +6971,30 @@
       : 0;
     var p3Count = (lesson.part3 && lesson.part3.questions) ? lesson.part3.questions.length : 0;
 
-    if (badgeEl) badgeEl.textContent = (persona.accent === 'UK' ? '🇬🇧 ' : persona.accent === 'AU' ? '🇦🇺 ' : '🇺🇸 ') + persona.name + ' (' + persona.accent + ')';
+    if (badgeEl) badgeEl.textContent = persona.name + ' (' + persona.accent + ')';
     if (titleEl) titleEl.textContent = lesson.title;
     if (seriesEl) seriesEl.textContent = lesson.series || 'Full Academic Speaking Mock Simulation';
     if (p1El) {
       p1El.textContent = hasP1
-        ? ('Interview: ' + (lesson.part1.topic1Title || 'Part 1') + (lesson.part1.topic2Title ? ' & ' + lesson.part1.topic2Title : '') + ' (' + p1Count + ' câu)')
-        : '⚠️ Đề Topic Part 2+3 (không có Part 1 — hoặc bấm Ghép đủ 3 phần bên phải)';
+        ? ((lesson.part1.topic1Title || 'Part 1') + (lesson.part1.topic2Title ? ' & ' + lesson.part1.topic2Title : '') + ' (' + p1Count + ' câu)')
+        : 'Đề Topic Part 2+3 (bấm Ghép đủ 3 phần để thêm Part 1)';
     }
     if (p2El) {
       p2El.textContent = (lesson.part2 && lesson.part2.prompt)
-        ? ('Cue Card: ' + lesson.part2.prompt)
-        : '⚠️ Đề Topic Part 1 (không có Part 2 — hoặc bấm Ghép đủ 3 phần bên phải)';
+        ? lesson.part2.prompt
+        : 'Đề Topic Part 1 (bấm Ghép đủ 3 phần để thêm Part 2)';
     }
     if (p3El) {
       p3El.textContent = (hasP23 && p3Count)
-        ? ('Two-Way Discussion: ' + (lesson.part3.topicTitle || lesson.cleanTitle || 'Part 3') + ' (' + p3Count + ' câu)')
-        : (hasP23 ? 'Two-Way Discussion: Theo chủ đề Cue Card' : '⚠️ Đề Topic Part 1 (chỉ thi Part 1)');
+        ? ((lesson.part3.topicTitle || lesson.cleanTitle || 'Discussion') + ' (' + p3Count + ' câu)')
+        : (hasP23 ? 'Discussion theo chủ đề Cue Card' : 'Chỉ thi Part 1');
     }
 
     if (pairBtn) {
       pairBtn.style.display = (lesson.pzKind === 'topic_p1' || lesson.pzKind === 'topic_p23') ? '' : 'none';
     }
     if (pickerBtn && parsedStats) {
-      pickerBtn.textContent = '📚 Kho ' + parsedStats.practiceZone.toLocaleString('vi-VN') + ' Bộ Đề';
+      pickerBtn.innerHTML = spIcon('grammar', 14) + '<span>Kho ' + parsedStats.practiceZone.toLocaleString('vi-VN') + ' Bộ Đề</span>';
     }
 
     if (strictSel) strictSel.value = prefs.pzStrictness || 'strict';
@@ -6438,6 +7025,19 @@
     if (autoMicChk) autoMicChk.checked = Boolean(prefs.pzAutoMic);
     var storedKey = getStoredGeminiKey();
     var storedBase = getStoredAiBaseUrl();
+    var remChk = document.getElementById('pzRememberKeyCheck');
+    if (remChk) {
+      remChk.checked = isKeyPersistedInLocal();
+      if (!remChk.dataset.boundPersist) {
+        remChk.dataset.boundPersist = '1';
+        remChk.addEventListener('change', function () {
+          var curK = (keyInput ? keyInput.value : getStoredGeminiKey()).trim();
+          var curB = (baseInput ? baseInput.value : getStoredAiBaseUrl()).trim();
+          if (curK) setStoredGeminiKey(curK, remChk.checked);
+          if (curB) setStoredAiBaseUrl(curB, remChk.checked);
+        });
+      }
+    }
     if (keyInput && document.activeElement !== keyInput) {
       keyInput.value = storedKey;
     }
@@ -6449,8 +7049,10 @@
     }
     if (statusEl && mode === 'gemini_hybrid' && !statusEl.dataset.tested) {
       statusEl.textContent = storedKey
-        ? '🔑 Đã lưu API Key cục bộ trên máy. Có thể bấm "Thử kết nối AI" hoặc vào thi ngay.'
-        : '⚠️ Chưa có API Key — nếu vào thi ngay, phòng thi sẽ tự chạy bằng Tầng 1 Offline.';
+        ? (isKeyPersistedInLocal()
+          ? 'Đã lưu key trên máy · sẵn sàng kết nối hoặc tự lùi Offline.'
+          : 'Đã lưu tạm key trong phiên (tự xóa khi đóng tab).')
+        : 'Chưa có key — nếu vào thi ngay sẽ chạy Offline NLU.';
     }
   }
 
@@ -6460,7 +7062,7 @@
     if (!inp) return;
     var show = inp.type === 'password';
     inp.type = show ? 'text' : 'password';
-    if (btn) btn.textContent = show ? '🙈' : '👁️';
+    if (btn) btn.innerHTML = spIcon(show ? 'eyeOff' : 'eye', 14);
   };
 
   global.clearPzGeminiKey = function () {
@@ -6473,8 +7075,8 @@
     if (baseInp) baseInp.value = '';
     if (statusEl) {
       delete statusEl.dataset.tested;
-      statusEl.style.color = 'var(--muted)';
-      statusEl.textContent = '🗑️ Đã xoá API Key khỏi trình duyệt.';
+      statusEl.style.color = 'var(--lg-ink-muted)';
+      statusEl.textContent = 'Đã xoá API Key khỏi trình duyệt.';
     }
     showToast('Đã xoá API Key khỏi máy.', 'info');
   };
@@ -6492,19 +7094,19 @@
 
     if (statusEl) {
       statusEl.dataset.tested = '1';
-      statusEl.style.color = 'var(--muted)';
-      statusEl.textContent = '⏳ Đang kiểm tra kết nối AI (' + model + ')...';
+      statusEl.style.color = 'var(--lg-ink-muted)';
+      statusEl.textContent = 'Đang kiểm tra kết nối AI (' + model + ')...';
     }
     PzAiExaminer.testConnection({ apiKey: rawKey, baseUrl: getStoredAiBaseUrl(), model: model }).then(function (res) {
       if (!statusEl) return;
       if (res.ok) {
-        statusEl.style.color = 'var(--hl-green)';
-        var fallbackNote = (res.model && res.model !== model) ? (' (tự chuyển từ ' + model + ')') : '';
-        statusEl.textContent = '✅ Kết nối AI thành công (' + res.model + fallbackNote + ')! Sẵn sàng đối đáp 2 phía.';
+        statusEl.style.color = 'var(--lg-green)';
+        var fallbackNote = (res.model && res.model !== model) ? (' (xoay sang ' + res.model + ')') : '';
+        statusEl.textContent = 'Kết nối AI thành công (' + res.model + fallbackNote + ').';
         showToast('Kết nối AI API thành công!', 'success');
       } else {
-        statusEl.style.color = 'var(--sp-accent-rose)';
-        statusEl.textContent = '⚠️ Chưa kết nối được (' + res.error + ') — phòng thi vẫn chạy mượt ở Tầng 1 Offline.';
+        statusEl.style.color = 'var(--lg-rose)';
+        statusEl.textContent = 'Chưa kết nối được (' + res.error + ') — tự lùi Offline.';
       }
     });
   };
@@ -6545,10 +7147,10 @@
       var dateStr = new Date(m.createdAt || Date.now()).toLocaleDateString('vi-VN');
       var bandChip = (m.notRated || isScoreUnrated(m.overallBand)) ? 'Chưa chấm' : ('Band ' + Number(m.overallBand).toFixed(1));
       return '<div class="sp-history-item">'
-        + '  <div><strong>' + escHtml(m.title) + '</strong><div style="font-size:12px;color:var(--muted);">' + dateStr + ' • ~' + (m.wpm || 0) + ' WPM • ' + (m.wordCount || 0) + ' từ</div></div>'
+        + '  <div><strong>' + escHtml(m.title) + '</strong><div style="font-size:12px;color:var(--muted);">' + escHtml(dateStr) + ' • ~' + escHtml(m.wpm || 0) + ' WPM • ' + escHtml(m.wordCount || 0) + ' từ</div></div>'
         + '  <div style="display:flex;align-items:center;gap:8px;">'
-        + '    <span class="sp-lobby-chip is-exam">' + bandChip + '</span>'
-        + '    <button type="button" class="mini-btn" onclick="window._spViewSubmissionDetail(\'' + escHtml(m.id) + '\')">Xem chi tiết</button>'
+        + '    <span class="sp-lobby-chip is-exam">' + escHtml(bandChip) + '</span>'
+        + '    <button type="button" class="mini-btn" onclick="window._spViewSubmissionDetail(\'' + escJsAttr(m.id) + '\')">Xem chi tiết</button>'
         + '  </div>'
         + '</div>';
     }).join('');
@@ -6558,22 +7160,25 @@
     MicEngine.resetSticky();
     syncPzLobbyEnvBanner();
     var statusEl = document.getElementById('pzMicCheckStatus');
-    if (statusEl) statusEl.textContent = '🔊 Đang thử phát loa Giám khảo & kiểm tra quyền Micro...';
+    if (statusEl) statusEl.textContent = 'Đang thử phát loa Giám khảo & kiểm tra quyền Micro...';
     TtsEngine.speak('Hello, microphone check one two three. Good luck with your IELTS Speaking test.', {
       lang: (document.getElementById('pzVoiceSelect') && document.getElementById('pzVoiceSelect').value) || prefs.voiceAccent,
       rate: 0.98
     });
 
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      if (statusEl) statusEl.innerHTML = '<span style="color:var(--hl-gold);">⚠️ Trình duyệt không cấp API Micro trực tiếp — vẫn thi được bằng chế độ nhập transcript thay thế.</span>';
+      if (statusEl) statusEl.innerHTML = '<span style="color:var(--lg-amber);">Trình duyệt không cấp API Micro trực tiếp — vẫn thi được bằng chế độ nhập transcript thay thế.</span>';
       return;
     }
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (ms) {
+    var lobbyStreamProm = (global.S4Whisper && typeof global.S4Whisper.acquireVoiceStream === 'function')
+      ? global.S4Whisper.acquireVoiceStream()
+      : navigator.mediaDevices.getUserMedia({ audio: true });
+    lobbyStreamProm.then(function (ms) {
       ms.getTracks().forEach(function (t) { t.stop(); });
-      if (statusEl) statusEl.innerHTML = '<span style="color:var(--hl-green);">✅ Micro & Loa Giám khảo hoạt động ổn định! Sẵn sàng vào phòng thi.</span>';
+      if (statusEl) statusEl.innerHTML = '<span style="color:var(--lg-green);">Micro &amp; Loa Giám khảo hoạt động ổn định.</span>';
       showToast('Kiểm tra Micro & Loa thành công!', 'success');
     }).catch(function () {
-      if (statusEl) statusEl.innerHTML = '<span style="color:var(--sp-accent-rose);">⚠️ Chưa cấp quyền Micro. Bạn có thể cấp quyền trên thanh địa chỉ hoặc gõ transcript trong phòng thi.</span>';
+      if (statusEl) statusEl.innerHTML = '<span style="color:var(--lg-rose);">Chưa cấp quyền Micro. Bạn có thể cấp quyền trên thanh địa chỉ hoặc gõ transcript trong phòng thi.</span>';
     });
   };
 
@@ -6665,8 +7270,7 @@
     if (peekBtn) {
       var canPeekToggle = pzExam.phase === 'part1' || pzExam.phase === 'part2_round' || pzExam.phase === 'part3';
       peekBtn.style.display = canPeekToggle ? '' : 'none';
-      var showLabel = pzExam.peekVisible ? '🙈 Ẩn chữ' : '👁️ Hiện chữ';
-      peekBtn.innerHTML = showLabel;
+      peekBtn.innerHTML = spIcon(pzExam.peekVisible ? 'eyeOff' : 'eye', 14) + '<span class="s4-cbt-hide-desk-narrow">' + (pzExam.peekVisible ? 'Ẩn chữ' : 'Hiện chữ') + '</span>';
     }
   }
 
@@ -6827,6 +7431,9 @@
   }
 
   function speakExaminerLines(lines, onComplete) {
+    if (MicEngine.isActive()) {
+      MicEngine.cancel();
+    }
     var cleanLines = (lines || []).filter(Boolean);
     var sessionStamp = pzExam.startedAt;
     cleanLines.forEach(function (ln) {
@@ -6889,7 +7496,7 @@
 
     var L = pzExam.lesson;
     if (!L) return;
-    var bridgeTag = o.reactionSource === 'gemini' ? '🤖 Phản hồi AI' : '⚡ Phản hồi';
+    var bridgeTag = o.reactionSource === 'gemini' ? 'Phản hồi AI' : 'Phản hồi';
     var scriptCtx = {
       style: pzExam.resolvedStyle,
       seed: (pzExam.styleSeed || 0) + (pzExam.stepIndex || 0),
@@ -7001,35 +7608,49 @@
     }, 1000);
   }
 
-  function startP2TalkRecording() {
-    clearPzTimer();
+  function startP2TalkRecording(isResume) {
+    var p2Stamp = pzExam.startedAt;
+    var clearPzP2TimerOnly = clearPzTimer;
+    clearPzP2TimerOnly();
     var limitSec = (pzExam.lesson && pzExam.lesson.part2 && pzExam.lesson.part2.talkSeconds) || 120;
-    pzExam.subStage = 'candidate_recording';
-    pzExam.p2TalkElapsed = 0;
-
     var recordSlot = ensurePzResponseSlot('part2_long', 'Part 2 Long Turn', (pzExam.lesson.part2 && pzExam.lesson.part2.prompt) || '');
+    var baseElapsed = isResume ? Math.max(0, Number(pzExam.p2TalkElapsed) || 0) : 0;
+    var baseTranscript = isResume ? String(recordSlot.transcript || '').trim() : '';
+    var prevAudioId = isResume ? (recordSlot.audioId || null) : null;
+    var prevAudioUrl = isResume ? (recordSlot.audioUrl || '') : '';
+    var prevAudioDur = isResume ? Number(recordSlot._bestAudioDur || 0) : 0;
+    var maxAllowed = pzExam.strictTimers ? Math.max(5, limitSec - baseElapsed) : Math.max(15, 240 - baseElapsed);
+
+    pzExam.subStage = 'candidate_recording';
+    if (!isResume) {
+      pzExam.p2TalkElapsed = 0;
+      recordSlot._bestAudioDur = 0;
+    }
 
     MicEngine.start({
       lang: pzExam.voiceLang,
       waveSelector: '#pzExamWaveRow .sp-wave-bar',
-      maxSeconds: pzExam.strictTimers ? limitSec : 240,
+      maxSeconds: maxAllowed,
       onStart: function () { renderPzStage(); },
       onTick: function (sec) {
-        pzExam.p2TalkElapsed = sec;
-        var cls = sec >= 110 ? 'danger' : (sec >= 95 ? 'warn' : '');
-        setPzTimerText(formatSec(sec) + ' / 02:00', cls);
+        var totalSec = baseElapsed + sec;
+        pzExam.p2TalkElapsed = totalSec;
+        var cls = totalSec >= 110 ? 'danger' : (totalSec >= 95 ? 'warn' : '');
+        setPzTimerText(formatSec(totalSec) + ' / 02:00', cls);
         var clk = document.getElementById('pzTalkClockVal');
-        if (clk) clk.textContent = formatSec(sec) + ' / 02:00';
-        if (pzExam.strictTimers && sec >= limitSec) {
+        if (clk) clk.textContent = formatSec(totalSec) + ' / 02:00';
+        if (pzExam.strictTimers && totalSec >= limitSec) {
           stopP2WithExaminerThankYou();
         }
       },
       onTranscript: function (txt, sec) {
-        recordSlot.transcript = txt;
-        recordSlot.durationSec = sec;
-        recordSlot.wpm = computeWpm(txt, sec);
+        var merged = [baseTranscript, txt].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+        var totalSec = baseElapsed + sec;
+        recordSlot.transcript = merged;
+        recordSlot.durationSec = totalSec;
+        recordSlot.wpm = computeWpm(merged, totalSec);
         var box = document.getElementById('pzCandidateTranscriptInput');
-        if (box) box.value = txt;
+        if (box) box.value = merged;
       },
       onUnsupported: function (msg) {
         showToast(msg, 'warn', 5500);
@@ -7052,19 +7673,57 @@
       onFinish: function (res) {
         if (res) {
           recordSlot._lastMicRes = res;
-          if (res.transcript) recordSlot.transcript = res.transcript;
-          recordSlot.durationSec = res.durationSec || pzExam.p2TalkElapsed;
-          recordSlot.wpm = computeWpm(recordSlot.transcript, recordSlot.durationSec);
-          recordSlot.audioId = (res.id && res.url) ? res.id : null;
-          recordSlot.audioUrl = (res.id && res.url) ? res.url : '';
-          if (!String(recordSlot.transcript || '').trim() && res.blob) {
-            autoTranscribeRecordingIfEmpty(res, function (txt) {
-              if (!txt || !pzExam.active) return;
-              recordSlot.transcript = txt;
-              recordSlot.wpm = computeWpm(txt, recordSlot.durationSec);
+          var segTxt = String(res.transcript || '').trim();
+          var mergedFinal = segTxt
+            ? [baseTranscript, segTxt].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim()
+            : String(recordSlot.transcript || baseTranscript).trim();
+          recordSlot.transcript = mergedFinal;
+          var segDur = Number(res.durationSec) || 0;
+          var totalDur = Math.max(pzExam.p2TalkElapsed, baseElapsed + segDur);
+          pzExam.p2TalkElapsed = totalDur;
+          recordSlot.durationSec = totalDur;
+          recordSlot.wpm = computeWpm(recordSlot.transcript, Math.max(1, totalDur));
+
+          if (res.id && res.url && (!prevAudioId || segDur >= prevAudioDur)) {
+            if (prevAudioId && prevAudioId !== res.id) {
+              AudioVault.remove(prevAudioId);
+            }
+            recordSlot.audioId = res.id;
+            recordSlot.audioUrl = res.url;
+            recordSlot._bestAudioDur = segDur;
+          } else if (prevAudioId) {
+            recordSlot.audioId = prevAudioId;
+            recordSlot.audioUrl = prevAudioUrl;
+            recordSlot._bestAudioDur = prevAudioDur;
+          }
+
+          if (!segTxt && res.blob) {
+            autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
+              if (!pzExam.active) return;
+              if (wRes && wRes.acoustic) {
+                recordSlot.acoustic = wRes.acoustic;
+              }
+              if (!txt) return;
+              var mergedWhisper = [baseTranscript, txt].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+              recordSlot.transcript = mergedWhisper;
+              recordSlot.wpm = computeWpm(mergedWhisper, Math.max(1, recordSlot.durationSec || pzExam.p2TalkElapsed));
               if (pzExam.phase === 'part2_talk') renderPzStage();
             }, { contextHint: recordSlot.question });
+          } else if (res.blob && global.S4Whisper && typeof global.S4Whisper.analyzeBlobAcoustics === 'function') {
+            global.S4Whisper.analyzeBlobAcoustics(res.blob).then(function (acRes) {
+              if (!pzExam.active || pzExam.startedAt !== p2Stamp) return;
+              if (acRes && acRes.acoustic) {
+                recordSlot.acoustic = acRes.acoustic;
+                if (pzExam.phase === 'report' && pzExam.scoreSource !== 'manual' && pzExam.scoreSource !== 'auto_gemini') {
+                  pzExam.autoGrade = null;
+                  renderPzStage();
+                }
+              }
+            }).catch(function () {});
           }
+        }
+        if (pzExam.active && pzExam.phase === 'part2_talk' && pzExam.subStage !== 'stopped_notice') {
+          renderPzStage();
         }
       }
     });
@@ -7165,7 +7824,7 @@
       fallback: (pzExam.lesson.part3 && pzExam.lesson.part3.closingScript) || 'Thank you very much. That is the end of the Speaking test.'
     });
     var src = pzExam.lastReactionSource || 'offline';
-    var reactTag = src === 'gemini' ? '🤖 Phản hồi' : '⚡ Phản hồi';
+    var reactTag = src === 'gemini' ? 'Phản hồi AI' : 'Phản hồi';
     var lines = [];
     if (closingBridge) lines.push(exLine(closingBridge, 'reaction', reactTag, src));
     lines.push(exLine(closeLine, 'closing', 'Kết thúc', src));
@@ -7188,6 +7847,7 @@
       wpm: 0,
       audioId: null,
       audioUrl: '',
+      acoustic: null,
       usedRephrase: false,
       usedRepeat: false,
       usedClarify: false,
@@ -7198,6 +7858,7 @@
       followUpWpm: 0,
       followUpAudioId: null,
       followUpAudioUrl: '',
+      followUpAcoustic: null,
       nudgeUsed: false,
       examinerReaction: ''
     };
@@ -7282,10 +7943,10 @@
     var stylePill = '<span class="sp-tag-pill" style="margin-left:6px;">' + escHtml(styleProf.shortTag) + '</span>';
     return '<div class="sp-examiner-panel">'
       + '  <div class="sp-examiner-id">'
-      + '    <div class="sp-examiner-avatar' + (pzExam.examinerSpeaking ? ' is-speaking' : '') + '">🎙️</div>'
+      + '    <div class="sp-examiner-avatar' + (pzExam.examinerSpeaking ? ' is-speaking' : '') + '">' + spIcon('mic', 20) + '</div>'
       + '    <div>'
       + '      <strong>' + escHtml(persona.name) + ' · ' + escHtml(persona.accent) + ' IELTS Examiner' + stylePill + '</strong>'
-      + '      <div style="font-size:12.5px;color:var(--muted);">' + (pzExam.examinerSpeaking ? '🔊 Giám khảo đang nói câu hỏi...' : escHtml(statusMsg)) + '</div>'
+      + '      <div style="font-size:12.5px;color:var(--lg-ink-muted);">' + (pzExam.examinerSpeaking ? 'Giám khảo đang nói câu hỏi...' : escHtml(statusMsg)) + '</div>'
       + '    </div>'
       + '  </div>'
       + '  <span class="sp-phase-badge ' + badgeCls + '">' + escHtml(phaseTag) + '</span>'
@@ -7297,10 +7958,10 @@
     if (!list.length) return '';
     var rowsHtml = list.map(function (entry) {
       var isEx = entry.role === 'examiner';
-      var who = isEx ? '🎙️ Examiner' : ('🗣️ ' + (pzExam.candidateName || 'Bạn'));
+      var who = isEx ? 'Examiner' : (pzExam.candidateName || 'Bạn');
       var masked = isEx && entry.hideInStrict && !showText;
       var bodyHtml = masked
-        ? '<span class="sp-chat-masked">🎧 [Lượt nói Giám khảo đang ẩn ở chế độ Thi thật — bấm "👁️ Hiện chữ" để xem]</span>'
+        ? '<span class="sp-chat-masked">[Lượt nói Giám khảo đang ẩn ở chế độ Thi thật — bấm "Hiện chữ" để xem]</span>'
         : escHtml(entry.text);
       return '<div class="sp-chat-row ' + (isEx ? 'is-examiner' : 'is-candidate') + '">'
         + '  <div class="sp-chat-meta"><strong>' + escHtml(who) + '</strong>' + (entry.tag ? '<span class="sp-chat-kind-tag">' + escHtml(entry.tag) + '</span>' : '') + '</div>'
@@ -7310,8 +7971,8 @@
 
     return '<div class="sp-dialogue-feed-wrap">'
       + '  <div class="sp-dialogue-feed-head">'
-      + '    <span>💬 Nhật ký Hội thoại 2 Phía (' + list.length + ' lượt)</span>'
-      + '    <button type="button" class="mini-btn" style="padding:2px 8px;font-size:11px;" onclick="window._spPzToggleDialogueFeed()">' + (pzExam.feedCollapsed ? '▼ Mở rộng' : '▲ Thu gọn') + '</button>'
+      + '    <span>Nhật ký Hội thoại 2 Phía (' + list.length + ' lượt)</span>'
+      + '    <button type="button" class="mini-btn" style="padding:2px 8px;font-size:11px;" onclick="window._spPzToggleDialogueFeed()">' + (pzExam.feedCollapsed ? 'Mở rộng' : 'Thu gọn') + '</button>'
       + '  </div>'
       + (pzExam.feedCollapsed ? '' : '<div id="pzDialogueFeedList" class="sp-dialogue-feed-list">' + rowsHtml + '</div>')
       + '</div>';
@@ -7346,61 +8007,61 @@
     var badgeCls = pzExam.phase === 'warmup' ? 'is-warmup' : (pzExam.phase === 'part1' ? 'is-p1' : (pzExam.phase === 'part2_round' ? 'is-p2' : 'is-p3'));
 
     var curtainContent = showText
-      ? '<div style="font-size:18px;font-weight:800;color:var(--text);line-height:1.45;">'
-        + (activeTurn.isFollowUp ? '<div style="font-size:11.5px;font-weight:800;color:#059669;margin-bottom:4px;text-transform:uppercase;">💬 Giám khảo hỏi đào sâu (Follow-up)</div>' : '')
+      ? '<div style="font-size:18px;font-weight:800;color:var(--lg-ink);line-height:1.45;">'
+        + (activeTurn.isFollowUp ? '<div style="font-size:11.5px;font-weight:800;color:var(--lg-green);margin-bottom:4px;text-transform:uppercase;">Giám khảo hỏi đào sâu (Follow-up)</div>' : '')
         + escHtml(activeQPrompt)
         + '</div>'
-      : '<div class="sp-curtain-blurred" aria-hidden="true">' + escHtml(activeQPrompt) + '</div><div style="font-size:13px;font-weight:700;color:var(--muted);">🎧 Chế độ Thi Thật đang ẩn câu hỏi — Lắng nghe Giám khảo hoặc dùng nút Repeat / Hiện chữ ở góc trên</div>';
+      : '<div class="sp-curtain-blurred" aria-hidden="true">' + escHtml(activeQPrompt) + '</div><div style="font-size:13px;font-weight:700;color:var(--lg-ink-muted);">Chế độ Thi Thật đang ẩn câu hỏi — Lắng nghe Giám khảo hoặc dùng nút Repeat / Hiện chữ ở góc trên</div>';
 
     var reactionBanner = '';
     if (pzExam.lastExaminerReaction) {
       var srcBadge = pzExam.lastReactionSource === 'gemini'
-        ? '<span class="sp-tag-pill" style="margin-left:6px;background:rgba(16,185,129,0.16);color:#10b981;">🤖 AI Examiner</span>'
-        : '<span class="sp-tag-pill" style="margin-left:6px;">⚡ Offline 2 chiều</span>';
+        ? '<span class="sp-tag-pill" style="margin-left:6px;background:var(--lg-green-soft);color:var(--lg-green);">' + spIcon('sparkle', 11) + ' AI Examiner</span>'
+        : '<span class="sp-tag-pill" style="margin-left:6px;">' + spIcon('zap', 11) + ' Offline 2 chiều</span>';
       reactionBanner = showText
-        ? '<div class="sp-rephrase-box" style="border-color:rgba(16,185,129,0.35);">🎙️ <b>Phản hồi của Giám khảo:</b> ' + escHtml(pzExam.lastExaminerReaction) + srcBadge + '</div>'
-        : '<div class="sp-rephrase-box" style="border-color:rgba(16,185,129,0.35);">🎙️ Giám khảo vừa phản hồi trực tiếp nội dung bạn nói (bấm Hiện chữ nếu muốn xem text).' + srcBadge + '</div>';
+        ? '<div class="sp-rephrase-box" style="border-color:rgba(16,185,129,0.35);"><b>Phản hồi của Giám khảo:</b> ' + escHtml(pzExam.lastExaminerReaction) + srcBadge + '</div>'
+        : '<div class="sp-rephrase-box" style="border-color:rgba(16,185,129,0.35);">Giám khảo vừa phản hồi trực tiếp nội dung bạn nói (bấm Hiện chữ nếu muốn xem text).' + srcBadge + '</div>';
     }
 
     var rephraseBanner = '';
     var shownRephrase = pzExam.activeRephraseText || meta.rephraseText;
     if (meta.rephraseText && pzExam.rephraseShown) {
       if (showText && shownRephrase) {
-        rephraseBanner = '<div class="sp-rephrase-box">🔄 <b>Giám khảo diễn đạt lại:</b> ' + escHtml(shownRephrase) + '</div>';
+        rephraseBanner = '<div class="sp-rephrase-box"><b>Giám khảo diễn đạt lại:</b> ' + escHtml(shownRephrase) + '</div>';
       } else {
-        rephraseBanner = '<div class="sp-rephrase-box">🔄 Giám khảo đang đọc câu diễn đạt lại bằng âm thanh...</div>';
+        rephraseBanner = '<div class="sp-rephrase-box">Giám khảo đang đọc câu diễn đạt lại bằng âm thanh...</div>';
       }
     }
 
     var clarifyBanner = '';
     if (pzExam.clarifyShown && pzExam.clarifyText) {
       clarifyBanner = showText
-        ? '<div class="sp-clarify-box">💡 <b>Giám khảo làm rõ / Gợi ý góc nhìn:</b> ' + escHtml(pzExam.clarifyText) + '</div>'
-        : '<div class="sp-clarify-box">💡 Giám khảo đang giải thích góc nhìn trả lời bằng âm thanh...</div>';
+        ? '<div class="sp-clarify-box"><b>Giám khảo làm rõ / Gợi ý góc nhìn:</b> ' + escHtml(pzExam.clarifyText) + '</div>'
+        : '<div class="sp-clarify-box">Giám khảo đang giải thích góc nhìn trả lời bằng âm thanh...</div>';
     }
 
     var isInterviewPhase = pzExam.phase === 'part1' || pzExam.phase === 'part3';
     var rephraseBtn = (isInterviewPhase && meta.rephraseText)
-      ? '<button type="button" class="btn mini-btn" onclick="window._spPzRephrase()">🔄 "Could you rephrase that?"</button>'
+      ? '<button type="button" class="btn mini-btn" onclick="window._spPzRephrase()">' + spIcon('refresh', 13) + '<span>"Could you rephrase that?"</span></button>'
       : '';
     var clarifyBtn = isInterviewPhase
-      ? '<button type="button" class="btn mini-btn" onclick="window._spPzClarify()"' + (pzExam.aiThinking ? ' disabled' : '') + '>💡 "Could you clarify?"</button>'
+      ? '<button type="button" class="btn mini-btn" onclick="window._spPzClarify()"' + (pzExam.aiThinking ? ' disabled' : '') + '>' + spIcon('lightbulb', 13) + '<span>"Could you clarify?"</span></button>'
       : '';
 
     var nextLabel = pzExam.phase === 'warmup'
-      ? (pzExam.warmupStep === 0 ? '✓ Trả lời xong tên/ID ➜ Tiếp tục chào hỏi' : '✓ Xác nhận xong Warm-up ➜ Vào Part 1')
+      ? (pzExam.warmupStep === 0 ? 'Trả lời xong tên/ID → Tiếp tục chào hỏi' : 'Xác nhận xong Warm-up → Vào Part 1')
       : (activeTurn.isFollowUp
-        ? '✓ Trả lời xong câu hỏi nối — Tiếp tục ➜'
-        : (pzExam.phase === 'part2_round' ? '✓ Nói xong — Phản hồi & sang Part 3 ➜' : '✓ Nói xong — Giám khảo phản hồi ➜'));
+        ? 'Trả lời xong câu hỏi nối — Tiếp tục'
+        : (pzExam.phase === 'part2_round' ? 'Nói xong — Phản hồi & sang Part 3' : 'Nói xong — Giám khảo phản hồi'));
 
     var stageStatus = pzExam.aiThinking
-      ? '🤖 AI Examiner đang lắng nghe & phản hồi câu trả lời của bạn...'
-      : (micBusy ? '🎙️ Đang ghi âm câu trả lời của bạn...' : 'Nhấn Micro để trả lời trực tiếp, hoặc nói/nhấn Repeat / Rephrase / Clarify');
+      ? 'AI Examiner đang lắng nghe & phản hồi câu trả lời của bạn...'
+      : (micBusy ? 'Đang ghi âm câu trả lời của bạn...' : 'Nhấn Micro để trả lời trực tiếp, hoặc nói/nhấn Repeat / Rephrase / Clarify');
 
     var advBusy = pzExam.aiThinking || pzExam.subStage === 'finishing_report';
     var advLabel = pzExam.aiThinking
-      ? '🤖 Đang chờ AI phản hồi...'
-      : (pzExam.subStage === 'finishing_report' ? '🏁 Đang tổng kết bài thi...' : nextLabel);
+      ? 'Đang chờ AI phản hồi...'
+      : (pzExam.subStage === 'finishing_report' ? 'Đang tổng kết bài thi...' : nextLabel);
 
     stage.innerHTML = ''
       + '<div class="sp-exam-chamber">'
@@ -7409,7 +8070,7 @@
       + '  <div class="sp-audio-curtain">'
       + curtainContent
       + '    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px;">'
-      + '      <button type="button" class="btn mini-btn" onclick="window._spPzRepeatQuestion()">🔁 Repeat Question</button>'
+      + '      <button type="button" class="btn mini-btn" onclick="window._spPzRepeatQuestion()">' + spIcon('volume', 13) + '<span>Repeat Question</span></button>'
       + rephraseBtn
       + clarifyBtn
       + '    </div>'
@@ -7418,19 +8079,19 @@
       + clarifyBanner
       + renderSttEnvBannerHtml()
       + '  <div class="sp-mic-stage">'
-      + '    <button type="button" class="s4-mic-btn' + (micBusy ? ' is-recording' : '') + '" onclick="window._spPzToggleTurnMic()">' + (micBusy ? '⏹' : '🎙️') + '</button>'
+      + '    <button type="button" class="s4-mic-btn' + (micBusy ? ' is-recording' : '') + '" onclick="window._spPzToggleTurnMic()" aria-label="' + (micBusy ? 'Dừng thu âm' : 'Bắt đầu thu âm') + '">' + spIcon(micBusy ? 'stop' : 'mic', 18) + '</button>'
       + '    <strong>' + (micBusy ? 'Đang thu âm (' + formatSec(pzExam.turnElapsedSec) + ') — Nhấn để dừng khi xong' : (activeTurn.isFollowUp ? 'Bấm Micro để trả lời câu hỏi vặn thêm của Giám khảo' : 'Bấm Micro để trả lời câu hỏi này')) + '</strong>'
       + '    <div id="pzExamWaveRow" class="sp-wave-bars" style="display:' + (micBusy ? 'flex' : 'none') + ';">' + buildWaveBarsHtml(18) + '</div>'
       + '  </div>'
       + '  <div class="sp-handsfree-bar">'
-      + '    <button type="button" class="sp-handsfree-pill' + (pzExam.autoMic ? ' is-active' : '') + '" onclick="window._spPzToggleAutoMic()">' + (pzExam.autoMic ? '⚡ Auto-Mic Rảnh tay: ĐANG BẬT' : '🎙️ Bật Auto-Mic Rảnh tay') + '</button>'
-      + '    <span class="sp-voice-cmd-tip">🗣️ Lệnh thoại tự nhiên: nói <em>"Could you repeat/rephrase that?"</em> ngay trong Mic</span>'
+      + '    <button type="button" class="sp-handsfree-pill' + (pzExam.autoMic ? ' is-active' : '') + '" onclick="window._spPzToggleAutoMic()">' + spIcon(pzExam.autoMic ? 'zap' : 'mic', 12) + '<span>' + (pzExam.autoMic ? 'Auto-Mic Rảnh tay: ĐANG BẬT' : 'Bật Auto-Mic Rảnh tay') + '</span></button>'
+      + '    <span class="sp-voice-cmd-tip">Lệnh thoại tự nhiên: nói <em>"Could you repeat/rephrase that?"</em> ngay trong Mic</span>'
       + '  </div>'
-      + (activeAudioUrl ? '<div class="sp-saved-audio-bar"><span>🎧 Đã ghi âm lượt này:</span><audio controls src="' + activeAudioUrl + '" style="flex:1;height:34px;"></audio></div>' : '')
+      + (activeAudioUrl ? '<div class="sp-saved-audio-bar"><span>' + spIcon('listening', 13) + ' Đã ghi âm lượt này:</span><audio controls src="' + activeAudioUrl + '" style="flex:1;height:34px;"></audio></div>' : '')
       + '  <textarea id="pzCandidateTranscriptInput" class="sp-transcript-fallback" rows="3" placeholder="Transcript câu trả lời hiện trực tiếp tại đây (hoặc gõ/dán nội dung nếu không dùng Mic)..." oninput="window._spPzUpdateTranscript(this.value)">' + escHtml(activeTranscript) + '</textarea>'
       + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
-      + '    <span style="font-size:12px;color:var(--muted);">' + countWords(activeTranscript) + ' từ • ~' + computeWpm(activeTranscript, activeTurn.getDuration() || 20) + ' WPM</span>'
-      + '    <button type="button" class="btn btn-primary" onclick="window._spPzAdvanceTurn()"' + (advBusy ? ' disabled' : '') + '>' + advLabel + '</button>'
+      + '    <span style="font-size:12px;color:var(--lg-ink-muted);">' + countWords(activeTranscript) + ' từ • ~' + computeWpm(activeTranscript, activeTurn.getDuration() || 20) + ' WPM</span>'
+      + '    <button type="button" class="btn btn-primary" onclick="window._spPzAdvanceTurn()"' + (advBusy ? ' disabled' : '') + '>' + spIcon('check', 14) + '<span>' + escHtml(advLabel) + '</span></button>'
       + '  </div>'
       + renderPzDialogueFeedHtml(showText)
       + '</div>';
@@ -7447,7 +8108,7 @@
     var bulletsHtml = (p2.bullets || []).map(function (b) { return '<li>' + escHtml(b) + '</li>'; }).join('');
 
     var thankYouHtml = isStopped
-      ? '<div class="sp-thankyou-banner">🛑 Hết 2 phút — Giám khảo đã ngắt: <em>"' + escHtml(pzExam.lastStopLine || p2.stopScript || 'Thank you very much. I will stop you there.') + '"</em>. Đang chuyển sang câu hỏi Rounding-off...</div>'
+      ? '<div class="sp-thankyou-banner">' + spIcon('alert', 15) + '<span>Hết 2 phút — Giám khảo đã ngắt: <em>"' + escHtml(pzExam.lastStopLine || p2.stopScript || 'Thank you very much. I will stop you there.') + '"</em>. Đang chuyển sang câu hỏi Rounding-off...</span></div>'
       : '';
 
     var rightPanelHtml = '';
@@ -7455,26 +8116,31 @@
       rightPanelHtml = ''
         + '<div style="display:flex;flex-direction:column;gap:10px;">'
         + '  <div class="sp-prep-timer-bar">'
-        + '    <div><strong>⏱️ Chuẩn bị 60 giây</strong><div style="font-size:12px;color:var(--muted);">Ghi nhanh từ khóa vào giấy nháp</div></div>'
+        + '    <div><strong>Chuẩn bị 60 giây</strong><div style="font-size:12px;color:var(--lg-ink-muted);">Ghi nhanh từ khóa vào giấy nháp</div></div>'
         + '    <span id="pzPrepClockVal" class="sp-timer-pill warn">' + formatSec(pzExam.p2PrepLeft) + '</span>'
         + '  </div>'
         + '  <textarea class="sp-notepad-textarea" style="min-height:170px;" placeholder="Ghi nhanh 4–6 từ khóa chính... Hết 60 giây phòng thi sẽ tự mở Mic!" oninput="window._spPzSavePrepNote(this.value)">' + escHtml(pzExam.prepNote) + '</textarea>'
-        + '  <div class="sp-tip-callout" style="margin:0;">🔒 <b>Micro đang tạm khóa trong 1 phút chuẩn bị</b> chuẩn phòng thi thật. Hết giờ Giám khảo sẽ báo bắt đầu nói.'
-        + (!pzExam.strictTimers ? ' <button type="button" class="mini-btn" style="margin-top:6px;" onclick="window._spPzSkipPrep()">⏩ Bắt đầu nói luôn</button>' : '')
+        + '  <div class="sp-tip-callout" style="margin:0;">' + spIcon('lock', 13) + ' <b>Micro đang tạm khóa trong 1 phút chuẩn bị</b> chuẩn phòng thi thật. Hết giờ Giám khảo sẽ báo bắt đầu nói.'
+        + (!pzExam.strictTimers ? ' <button type="button" class="mini-btn" style="margin-top:6px;" onclick="window._spPzSkipPrep()">' + spIcon('play', 12) + '<span>Bắt đầu nói luôn</span></button>' : '')
         + '  </div>'
         + '</div>';
     } else {
+      var micActive = MicEngine.isActive();
+      var limitSec = p2.talkSeconds || 120;
+      var canResumeTalk = !isStopped && pzExam.subStage !== 'examiner_speaking' && !micActive && (!pzExam.strictTimers || pzExam.p2TalkElapsed < limitSec);
       rightPanelHtml = ''
         + '<div style="display:flex;flex-direction:column;gap:10px;">'
         + '  <div class="sp-prep-timer-bar">'
-        + '    <div><strong>🎙️ Đang trình bày Part 2 (1–2 phút)</strong><div style="font-size:12px;color:var(--muted);">Tự động ngắt tại 02:00</div></div>'
+        + '    <div><strong>' + (canResumeTalk ? 'Micro đang tạm dừng — Có thể bấm Tiếp tục nói phần thời gian còn lại' : 'Đang trình bày Part 2 (1–2 phút)') + '</strong><div style="font-size:12px;color:var(--lg-ink-muted);">Tự động ngắt tại 02:00</div></div>'
         + '    <span id="pzTalkClockVal" class="sp-timer-pill">' + formatSec(pzExam.p2TalkElapsed) + ' / 02:00</span>'
         + '  </div>'
-        + '  <div id="pzExamWaveRow" class="sp-wave-bars" style="display:' + (MicEngine.isActive() ? 'flex' : 'none') + ';">' + buildWaveBarsHtml(18) + '</div>'
-        + '  <div style="font-size:12px;color:var(--muted);"><b>Nháp từ khóa của bạn:</b> ' + escHtml(pzExam.prepNote || '(Không có ghi chú)') + '</div>'
+        + '  <div id="pzExamWaveRow" class="sp-wave-bars" style="display:' + (micActive ? 'flex' : 'none') + ';">' + buildWaveBarsHtml(18) + '</div>'
+        + (canResumeTalk && recordSlot.audioUrl ? '<div class="sp-saved-audio-bar"><span>' + spIcon('listening', 13) + ' Đoạn đã ghi trước đó:</span><audio controls src="' + recordSlot.audioUrl + '" style="flex:1;height:34px;"></audio></div>' : '')
+        + '  <div style="font-size:12px;color:var(--lg-ink-muted);"><b>Nháp từ khóa của bạn:</b> ' + escHtml(pzExam.prepNote || '(Không có ghi chú)') + '</div>'
         + '  <textarea id="pzCandidateTranscriptInput" class="sp-transcript-fallback" rows="5" placeholder="Transcript bài nói 2 phút hiện tự động tại đây..." oninput="window._spPzUpdateTranscript(this.value)">' + escHtml(recordSlot.transcript) + '</textarea>'
         + '  <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;">'
-        + '    <button type="button" class="btn btn-primary" onclick="window._spPzFinishPart2Early()">✓ Tôi đã nói xong — Dừng ghi âm ➜</button>'
+        + (canResumeTalk ? '    <button type="button" class="btn mini-btn" onclick="window._spPzResumePart2Talk()">' + spIcon('mic', 13) + '<span>Tiếp tục nói phần còn lại</span></button>' : '')
+        + '    <button type="button" class="btn btn-primary" onclick="window._spPzFinishPart2Early()">' + spIcon('check', 14) + '<span>Tôi đã nói xong — Dừng ghi âm</span></button>'
         + '  </div>'
         + '</div>';
     }
@@ -7502,6 +8168,11 @@
   };
   global._spPzFinishPart2Early = function () {
     stopP2WithExaminerThankYou();
+  };
+  global._spPzResumePart2Talk = function () {
+    if (pzExam.active && pzExam.phase === 'part2_talk' && !MicEngine.isActive()) {
+      startP2TalkRecording(true);
+    }
   };
 
   global._spPzRepeatQuestion = function () {
@@ -7536,6 +8207,7 @@
 
   global._spPzClarify = function () {
     if (!pzExam.active || pzExam.aiThinking) return;
+    if (MicEngine.isActive()) MicEngine.cancel();
     var meta = getActivePzQuestionMeta();
     if (!meta) return;
     var slot = ensurePzResponseSlot(meta.key, meta.label, meta.qText);
@@ -7678,9 +8350,17 @@
           );
         }
         renderPzStage();
+        var isFuSnap = Boolean(activeTurn && activeTurn.isFollowUp);
         if (res && needPzFallback) {
-          autoTranscribeRecordingIfEmpty(res, function (txt) {
+          autoTranscribeRecordingIfEmpty(res, function (txt, r, wRes) {
             if (!pzExam.active || pzExam.startedAt !== stamp) return;
+            if (wRes && wRes.acoustic && slot) {
+              if (isFuSnap) slot.followUpAcoustic = wRes.acoustic;
+              else slot.acoustic = wRes.acoustic;
+              if (pzExam.phase === 'report' && pzExam.scoreSource !== 'manual' && pzExam.scoreSource !== 'auto_gemini') {
+                pzExam.autoGrade = null;
+              }
+            }
             if (txt) {
               activeTurn.setTranscript(txt);
               activeTurn.setMetrics(dur, computeWpm(txt, dur));
@@ -7698,6 +8378,18 @@
               if (inp && !inp.value.trim()) inp.placeholder = '🤖 Đang nhận diện giọng nói bằng Whisper Offline...';
             }
           });
+        } else if (res && res.blob && slot && global.S4Whisper && typeof global.S4Whisper.analyzeBlobAcoustics === 'function') {
+          global.S4Whisper.analyzeBlobAcoustics(res.blob).then(function (acRes) {
+            if (!pzExam.active || pzExam.startedAt !== stamp) return;
+            if (acRes && acRes.acoustic) {
+              if (isFuSnap) slot.followUpAcoustic = acRes.acoustic;
+              else slot.acoustic = acRes.acoustic;
+              if (pzExam.phase === 'report' && pzExam.scoreSource !== 'manual' && pzExam.scoreSource !== 'auto_gemini') {
+                pzExam.autoGrade = null;
+                renderPzStage();
+              }
+            }
+          }).catch(function () {});
         }
       }
     });
@@ -7737,7 +8429,7 @@
   function tagSpokenLines(lines, tailKind, tailTag, source) {
     var arr = (lines || []).filter(Boolean);
     var src = source || 'offline';
-    var reactTag = src === 'gemini' ? '🤖 Phản hồi' : '⚡ Phản hồi';
+    var reactTag = src === 'gemini' ? 'Phản hồi AI' : 'Phản hồi';
     return arr.map(function (ln, idx) {
       if (typeof ln === 'object') return ln;
       var isReactionLead = arr.length > 1 && idx === 0;
@@ -7916,6 +8608,66 @@
     return (r.durationSec || 0) + (r.followUpDurationSec || 0);
   }
 
+  function aggregatePzAcoustics(responses) {
+    var samples = [];
+    (responses || []).forEach(function (r) {
+      if (!r || /^warmup/i.test(String(r.key || '')) || /^warm-?up/i.test(String(r.label || ''))) return;
+      if (r.acoustic && r.acoustic.voicedFrames > 0) {
+        samples.push({ ac: r.acoustic, fallbackDur: r.durationSec || 1 });
+      }
+      if (r.followUpAcoustic && r.followUpAcoustic.voicedFrames > 0) {
+        samples.push({ ac: r.followUpAcoustic, fallbackDur: r.followUpDurationSec || 1 });
+      }
+    });
+    if (!samples.length) return null;
+    var sumW = 0;
+    var wPitch = 0;
+    var wSemi = 0;
+    var wArtic = 0;
+    var wSnr = 0;
+    var wInto = 0;
+    var wFlu = 0;
+    var wClar = 0;
+    var voicedFrames = 0;
+    var totalFrames = 0;
+    var pauseCount = 0;
+    var longPauseCount = 0;
+    var activeDurationSec = 0;
+    samples.forEach(function (entry) {
+      var ac = entry.ac;
+      var w = Math.max(1, ac.activeDurationSec || entry.fallbackDur || 1);
+      sumW += w;
+      wPitch += (ac.pitchMeanHz || 0) * w;
+      wSemi += (ac.pitchStdSemitones || 0) * w;
+      wArtic += (ac.articulationRatio || 0) * w;
+      wSnr += (ac.snrDb || 0) * w;
+      wInto += (ac.intonationScore || 0) * w;
+      wFlu += (ac.fluencySignalScore || 0) * w;
+      wClar += (ac.clarityScore || 0) * w;
+      voicedFrames += (ac.voicedFrames || 0);
+      totalFrames += (ac.totalFrames || 0);
+      pauseCount += (ac.pauseCount || 0);
+      longPauseCount += (ac.longPauseCount || 0);
+      activeDurationSec += (ac.activeDurationSec || 0);
+    });
+    if (!sumW) return null;
+    return {
+      engine: samples[0].ac.engine || 'wasm',
+      voicedFrames: voicedFrames,
+      totalFrames: totalFrames,
+      activeDurationSec: Math.round(activeDurationSec * 100) / 100,
+      pauseCount: pauseCount,
+      longPauseCount: longPauseCount,
+      pitchMeanHz: Math.round((wPitch / sumW) * 10) / 10,
+      pitchStdSemitones: Math.round((wSemi / sumW) * 100) / 100,
+      articulationRatio: Math.round((wArtic / sumW) * 1000) / 1000,
+      snrDb: Math.round((wSnr / sumW) * 100) / 100,
+      intonationScore: Math.round(wInto / sumW),
+      fluencySignalScore: Math.round(wFlu / sumW),
+      clarityScore: Math.round(wClar / sumW)
+    };
+  }
+
   function buildPzGradePayload(L) {
     var combinedTranscript = pzExam.responses.map(collectSlotTranscript).filter(Boolean).join(' ');
     var totalDur = pzExam.responses.reduce(function (acc, r) { return acc + collectSlotDuration(r); }, 0);
@@ -7931,6 +8683,7 @@
       transcript: combinedTranscript,
       durationSec: totalDur || 120,
       audioId: sampleAudioSlot ? (sampleAudioSlot.audioId || sampleAudioSlot.followUpAudioId || null) : null,
+      acoustic: aggregatePzAcoustics(pzExam.responses),
       turns: pzExam.responses,
       telemetry: {
         followUpCount: pzExam.followUpCount || 0,
@@ -8026,25 +8779,25 @@
       report: 'Report'
     };
     var historyList = pzExam.dialogueHistory || [];
-    var modeBadge = pzExam.dialogueMode === 'gemini_hybrid' ? '🤖 Hybrid Gemini' : '⚡ Offline NLU';
+    var modeBadge = pzExam.dialogueMode === 'gemini_hybrid' ? 'Hybrid Gemini' : 'Offline NLU';
     var interactionBarHtml = ''
       + '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
-      + '  <span class="sp-tag-pill">💬 Lượt hội thoại: <b>' + historyList.length + '</b></span>'
-      + '  <span class="sp-tag-pill">↳ Follow-up: <b>' + (pzExam.followUpCount || 0) + '</b></span>'
-      + '  <span class="sp-tag-pill">🔁/🔄/💡 Trợ giúp: <b>' + (pzExam.repeatCount || 0) + ' / ' + (pzExam.rephraseCount || 0) + ' / ' + (pzExam.clarifyCount || 0) + '</b></span>'
+      + '  <span class="sp-tag-pill">Lượt hội thoại: <b>' + historyList.length + '</b></span>'
+      + '  <span class="sp-tag-pill">Follow-up: <b>' + (pzExam.followUpCount || 0) + '</b></span>'
+      + '  <span class="sp-tag-pill">Trợ giúp (Repeat/Rephrase/Clarify): <b>' + (pzExam.repeatCount || 0) + ' / ' + (pzExam.rephraseCount || 0) + ' / ' + (pzExam.clarifyCount || 0) + '</b></span>'
       + '  <span class="sp-tag-pill">' + modeBadge + '</span>'
       + '</div>';
 
     var dialogueTimelineHtml = historyList.length
       ? '<details id="pzReportDialogueDetails" class="sp-report-part-card">'
         + '  <summary style="cursor:pointer;font-weight:700;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
-        + '    <span>💬 Xem toàn bộ Nhật ký Hội thoại 2 Phía (' + historyList.length + ' lượt)</span>'
+        + '    <span>Xem toàn bộ Nhật ký Hội thoại 2 Phía (' + historyList.length + ' lượt)</span>'
         + '    <span class="sp-tag-pill">' + modeBadge + '</span>'
         + '  </summary>'
         + '  <div class="sp-dialogue-feed-list" style="margin-top:10px;max-height:320px;">'
         + historyList.map(function (entry) {
           var isEx = entry.role === 'examiner';
-          var who = isEx ? '🎙️ Examiner' : ('🗣️ ' + (pzExam.candidateName || 'Bạn'));
+          var who = isEx ? 'Examiner' : (pzExam.candidateName || 'Bạn');
           var phLabel = phaseShortLabels[entry.phase] || entry.phase || '';
           var metaText = who + (phLabel ? ' • ' + phLabel : '');
           return '<div class="sp-chat-row ' + (isEx ? 'is-examiner' : 'is-candidate') + '">'
@@ -8063,7 +8816,7 @@
       + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Từ phần thi (P1–P3)</span><span class="sp-metric-val">' + metrics.wordCount + '</span></div>'
       + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Nhịp độ TB (WPM)</span><span class="sp-metric-val">' + metrics.wpm + '</span></div>'
       + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">Target Lexis</span><span class="sp-metric-val">' + metrics.usedTargets.length + '/' + metrics.targetTotal + '</span></div>'
-      + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">' + (pzExam.scoreSource === 'manual' ? 'Band tự chấm' : 'Overall Band') + '</span><span class="sp-metric-val" style="color:' + (overallIsUnrated ? 'var(--sp-accent-rose,#f43f5e);font-size:clamp(16px,2.3vw,20px)' : 'var(--hl-green)') + ';">' + formatBandValue(overall) + '</span></div>'
+      + '    <div class="sp-metric-tile"><span class="sp-metric-lbl">' + (pzExam.scoreSource === 'manual' ? 'Band tự chấm' : 'Overall Band') + '</span><span class="sp-metric-val" style="color:' + (overallIsUnrated ? 'var(--lg-rose);font-size:clamp(16px,2.3vw,20px)' : 'var(--lg-green)') + ';">' + formatBandValue(overall) + '</span></div>'
       + '  </div>'
       + interactionBarHtml
       + renderAutoGradePanelHtml({
@@ -8083,21 +8836,21 @@
       + '  </div>'
       + '  <div class="sp-ai-prompt-box">'
       + '    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
-      + '      <strong>🤖 Full Mock Exam AI Examiner Prompt</strong>'
-      + '      <button type="button" class="mini-btn" onclick="window._spCopyPzAiPrompt()">📋 Copy Prompt toàn bộ đề</button>'
+      + '      <strong style="display:inline-flex;align-items:center;gap:6px;">' + spIcon('sparkle', 14) + '<span>Full Mock Exam AI Examiner Prompt</span></strong>'
+      + '      <button type="button" class="mini-btn" onclick="window._spCopyPzAiPrompt()">' + spIcon('copy', 13) + '<span>Copy Prompt toàn bộ đề</span></button>'
       + '    </div>'
       + '    <textarea id="pzAiPromptBox" class="sp-notepad-textarea" rows="5" readonly>' + escHtml(aiPrompt) + '</textarea>'
       + '    <textarea class="sp-notepad-textarea" rows="3" placeholder="Nhận xét tự chấm hoặc dán nhận xét AI..." oninput="window._spSetPzReportFeedback(this.value)">' + escHtml(pzExam.reportFeedback) + '</textarea>'
       + '    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'
-      + '      <button type="button" class="btn mini-btn" onclick="window.exitPzExamToLobby()">🚪 Về Sảnh Practice Zone</button>'
+      + '      <button type="button" class="btn mini-btn" onclick="window.exitPzExamToLobby()">' + spIcon('arrowLeft', 13) + '<span>Về Sảnh Practice Zone</span></button>'
       + '      <div style="display:flex;gap:8px;flex-wrap:wrap;">'
-      + '        <button type="button" class="btn mini-btn" onclick="window.startRandomSpeakingExam()">🎲 Thi thử đề Ngẫu nhiên khác</button>'
-      + '        <button type="button" class="btn btn-primary" onclick="window._spSavePzReport()">' + (pzExam.savedToHistory ? '✓ Đã lưu Báo cáo' : '💾 Lưu Báo cáo Mock Test') + '</button>'
+      + '        <button type="button" class="btn mini-btn" onclick="window.startRandomSpeakingExam()">' + spIcon('refresh', 13) + '<span>Thi thử đề Ngẫu nhiên khác</span></button>'
+      + '        <button type="button" class="btn btn-primary" onclick="window._spSavePzReport()">' + spIcon(pzExam.savedToHistory ? 'check' : 'backup', 14) + '<span>' + (pzExam.savedToHistory ? 'Đã lưu Báo cáo' : 'Lưu Báo cáo Mock Test') + '</span></button>'
       + '      </div>'
       + '    </div>'
       + '  </div>'
       + dialogueTimelineHtml
-      + '  <div style="display:flex;flex-direction:column;gap:8px;"><strong>🎙️ Chi tiết toàn bộ lượt trả lời (Part 1 → Part 3)</strong>' + turnsHtml + '</div>'
+      + '  <div style="display:flex;flex-direction:column;gap:8px;"><strong>Chi tiết toàn bộ lượt trả lời (Part 1 → Part 3)</strong>' + turnsHtml + '</div>'
       + '</div>';
   }
 
@@ -8293,6 +9046,15 @@
     renderHistoryModalList();
   };
 
+  function isSubmissionGraded(x) {
+    if (!x) return false;
+    var fb = String(x.aiFeedback || '').trim();
+    var hasCustomOrAiFb = Boolean(fb && !/^\[⚡\s*Tự chấm Offline/i.test(fb));
+    if (x.scoreSource === 'auto_gemini' || hasCustomOrAiFb) return true;
+    if (x.notRated || x.scoreSource === 'not_rated') return false;
+    return !isScoreUnrated(x.overallBand);
+  }
+
   function renderHistoryModalList() {
     var listEl = document.getElementById('modalHistoryList');
     if (!listEl) return;
@@ -8300,7 +9062,7 @@
 
     var mockList = all.filter(function (x) { return x && x.kind === 'mock'; });
     var studioList = all.filter(function (x) { return x && x.kind === 'studio'; });
-    var gradedList = all.filter(function (x) { return x && x.aiFeedback && x.aiFeedback.trim(); });
+    var gradedList = all.filter(isSubmissionGraded);
 
     var cAll = document.getElementById('shCountAll');
     var cMock = document.getElementById('shCountMock');
@@ -8322,23 +9084,23 @@
 
     listEl.innerHTML = filtered.map(function (item) {
       var dt = new Date(item.createdAt || Date.now()).toLocaleString('vi-VN');
-      var badge = item.kind === 'mock' ? '🎯 Thi thử thật' : '🎙️ Studio';
+      var badge = item.kind === 'mock' ? 'Thi thử thật' : 'Studio';
       var bandChip = (item.notRated || isScoreUnrated(item.overallBand)) ? 'Chưa chấm' : ('Band ' + Number(item.overallBand).toFixed(1));
       return '<div class="sp-history-item" id="histCard_' + escHtml(item.id) + '">'
         + '  <div style="flex:1;min-width:220px;">'
         + '    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:4px;">'
-        + '      <span class="sp-lobby-chip is-accent">' + badge + '</span>'
+        + '      <span class="sp-lobby-chip is-accent">' + spIcon(item.kind === 'mock' ? 'target' : 'mic', 11) + ' ' + badge + '</span>'
         + '      <span class="sp-lobby-chip is-exam">' + bandChip + '</span>'
-        + '      <span style="font-size:11.5px;color:var(--muted);">' + escHtml(dt) + '</span>'
+        + '      <span style="font-size:11.5px;color:var(--lg-ink-muted);">' + escHtml(dt) + '</span>'
         + '    </div>'
         + '    <strong>' + escHtml(item.title) + '</strong>'
-        + '    <div style="font-size:12.5px;color:var(--sub-text);margin-top:2px;">' + escHtml(item.wordCount || 0) + ' từ • ~' + escHtml(item.wpm || 0) + ' WPM</div>'
-        + (item.aiFeedback ? '<div style="font-size:12px;color:var(--hl-green);margin-top:4px;">🤖 ' + escHtml(item.aiFeedback.slice(0, 140)) + '</div>' : '')
+        + '    <div style="font-size:12.5px;color:var(--lg-ink-sub);margin-top:2px;">' + escHtml(item.wordCount || 0) + ' từ • ~' + escHtml(item.wpm || 0) + ' WPM</div>'
+        + (item.aiFeedback ? '<div style="font-size:12px;color:var(--lg-green);margin-top:4px;">' + escHtml(item.aiFeedback.slice(0, 140)) + '</div>' : '')
         + '  </div>'
         + '  <div style="display:flex;gap:6px;flex-wrap:wrap;">'
-        + '    <button type="button" class="mini-btn" onclick="window._spViewSubmissionDetail(\'' + escHtml(item.id) + '\')">👁️ Chi tiết & Audio</button>'
-        + '    <button type="button" class="mini-btn" onclick="window._spAddSubmissionFeedback(\'' + escHtml(item.id) + '\')">📝 Ghi chú AI</button>'
-        + '    <button type="button" class="mini-btn" onclick="window._spDeleteSubmission(\'' + escHtml(item.id) + '\')" style="color:var(--sp-accent-rose);">🗑️</button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spViewSubmissionDetail(\'' + escJsAttr(item.id) + '\')">' + spIcon('eye', 13) + '<span>Chi tiết &amp; Audio</span></button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spAddSubmissionFeedback(\'' + escJsAttr(item.id) + '\')">' + spIcon('edit', 13) + '<span>Ghi chú AI</span></button>'
+        + '    <button type="button" class="mini-btn" onclick="window._spDeleteSubmission(\'' + escJsAttr(item.id) + '\')" style="color:var(--lg-rose);" aria-label="Xóa bài lưu">' + spIcon('trash', 13) + '</button>'
         + '  </div>'
         + '</div>';
     }).join('');
@@ -8356,34 +9118,35 @@
     if (Array.isArray(rec.turns)) {
       rec.turns.forEach(function (t) {
         if (t.audioId) audioIds.push({ id: t.audioId, label: t.label });
+        if (t.followUpAudioId) audioIds.push({ id: t.followUpAudioId, label: (t.label || 'Lượt nói') + ' (Follow-up)' });
       });
     }
 
     var srcBadgeHtml = rec.scoreSource === 'manual'
-      ? '<span class="sp-tag-pill">✏️ Điểm chỉnh tay</span>'
+      ? '<span class="sp-tag-pill">' + spIcon('edit', 11) + ' Điểm chỉnh tay</span>'
       : (rec.scoreSource === 'not_rated' || rec.notRated
-        ? '<span class="sp-tag-pill" style="background:rgba(244,63,94,0.16);color:var(--sp-accent-rose,#f43f5e);">⚠️ Chưa chấm</span>'
+        ? '<span class="sp-tag-pill" style="background:var(--lg-rose-soft);color:var(--lg-rose);">' + spIcon('alert', 11) + ' Chưa chấm</span>'
         : (rec.scoreSource === 'auto_gemini'
-          ? '<span class="sp-tag-pill" style="background:rgba(16,185,129,0.16);color:#10b981;">🤖 Tự chấm AI (' + escHtml(getActiveAiModelLabel(rec.gradeModel)) + ')</span>'
-          : (rec.scoreSource === 'auto_offline' ? '<span class="sp-tag-pill">⚡ Tự chấm Offline</span>' : '')));
+          ? '<span class="sp-tag-pill" style="background:var(--lg-green-soft);color:var(--lg-green);">' + spIcon('sparkle', 11) + ' Tự chấm AI (' + escHtml(getActiveAiModelLabel(rec.gradeModel)) + ')</span>'
+          : (rec.scoreSource === 'auto_offline' ? '<span class="sp-tag-pill">' + spIcon('zap', 11) + ' Tự chấm Offline</span>' : '')));
 
     var extraAdviceHtml = '';
     if ((Array.isArray(rec.vocabUpgrades) && rec.vocabUpgrades.length) || (Array.isArray(rec.grammarFixes) && rec.grammarFixes.length)) {
       var upHtml = (rec.vocabUpgrades || []).slice(0, 4).map(function (v) {
-        return '<li><span style="color:var(--muted);">' + escHtml(v.from || 'Gợi ý') + '</span> ➜ <b>' + escHtml(v.upgrade) + '</b></li>';
+        return '<li><span style="color:var(--lg-ink-muted);">' + escHtml(v.from || 'Gợi ý') + '</span> → <b>' + escHtml(v.upgrade) + '</b></li>';
       }).join('');
       var grHtml = (rec.grammarFixes || []).slice(0, 3).map(function (g) {
-        return '<li><span style="color:var(--sp-accent-rose,#f43f5e);">' + escHtml(g.original) + '</span> ➜ <b>' + escHtml(g.corrected) + '</b></li>';
+        return '<li><span style="color:var(--lg-rose);">' + escHtml(g.original) + '</span> → <b>' + escHtml(g.corrected) + '</b></li>';
       }).join('');
       extraAdviceHtml = '<div class="sp-autograde-cols" style="margin-top:8px;">'
-        + (upHtml ? '<div class="sp-autograde-box"><strong>💎 Nâng cấp Từ vựng</strong><ul class="sp-autograde-list">' + upHtml + '</ul></div>' : '')
-        + (grHtml ? '<div class="sp-autograde-box"><strong>🔧 Sửa Ngữ pháp</strong><ul class="sp-autograde-list">' + grHtml + '</ul></div>' : '')
+        + (upHtml ? '<div class="sp-autograde-box"><strong>Nâng cấp Từ vựng</strong><ul class="sp-autograde-list">' + upHtml + '</ul></div>' : '')
+        + (grHtml ? '<div class="sp-autograde-box"><strong>Sửa Ngữ pháp</strong><ul class="sp-autograde-list">' + grHtml + '</ul></div>' : '')
         + '</div>';
     }
 
     body.innerHTML = ''
       + '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'
-      + '  <button type="button" class="mini-btn" onclick="window._spBackHistoryList()">← Quay lại danh sách</button>'
+      + '  <button type="button" class="mini-btn" onclick="window._spBackHistoryList()">' + spIcon('arrowLeft', 13) + '<span>Quay lại danh sách</span></button>'
       + '  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
       + srcBadgeHtml
       + '    <span class="sp-lobby-chip is-exam">' + ((rec.notRated || isScoreUnrated(rec.overallBand)) ? 'Overall: Chưa chấm' : ('Overall Band: ' + Number(rec.overallBand).toFixed(1))) + '</span>'
@@ -8392,12 +9155,18 @@
       + '<div class="sp-modal-detail">'
       + '  <h4 style="margin-bottom:6px;">' + escHtml(rec.title) + '</h4>'
       + '  <div id="histAudioMounts" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;"></div>'
-      + '  <div style="font-size:13px;line-height:1.65;white-space:pre-line;background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--border);">'
+      + '  <div style="font-size:13px;line-height:1.65;white-space:pre-line;background:var(--lg-wash);padding:12px;border-radius:10px;border:1px solid var(--lg-divider);">'
       + (Array.isArray(rec.turns) && rec.turns.length
-        ? rec.turns.map(function (t) { return '【' + escHtml(t.label) + '】\nQ: ' + escHtml(t.question) + '\nA: ' + escHtml(t.transcript || '(Không có transcript)'); }).join('\n\n')
+        ? rec.turns.map(function (t) {
+          var line = '【' + escHtml(t.label) + '】\nQ: ' + escHtml(t.question) + '\nA: ' + escHtml(t.transcript || '(Không có transcript)');
+          if (t.followUpQ || t.followUpTranscript) {
+            line += '\n↳ Follow-up: ' + escHtml(t.followUpQ || '') + '\nA2: ' + escHtml(t.followUpTranscript || '(Không có transcript câu follow-up)');
+          }
+          return line;
+        }).join('\n\n')
         : escHtml(rec.transcript || '(Không có transcript văn bản)'))
       + '  </div>'
-      + (rec.aiFeedback ? '<div class="sp-tip-callout" style="white-space:pre-line;">🤖 <b>Phản hồi chấm điểm:</b>\n' + escHtml(rec.aiFeedback) + '</div>' : '')
+      + (rec.aiFeedback ? '<div class="sp-tip-callout" style="white-space:pre-line;"><b>Phản hồi chấm điểm:</b>\n' + escHtml(rec.aiFeedback) + '</div>' : '')
       + extraAdviceHtml
       + '</div>';
 
@@ -8405,14 +9174,14 @@
     if (mounts && audioIds.length) {
       audioIds.forEach(function (a) {
         AudioVault.getBlob(a.id).then(function (blob) {
-          if (!blob || !blob.size || blob.size < 1024) return '';
+          if (!blob || !blob.size || blob.size < 380) return '';
           return AudioVault.getUrl(a.id);
         }).then(function (url) {
           if (url && mounts) {
             var row = document.createElement('div');
             row.className = 'sp-saved-audio-bar';
             var labelEl = document.createElement('span');
-            labelEl.innerHTML = '🎧 <b>' + escHtml(a.label) + ':</b>';
+            labelEl.innerHTML = spIcon('listening', 13) + ' <b>' + escHtml(a.label) + ':</b>';
             var audioEl = document.createElement('audio');
             audioEl.controls = true;
             audioEl.src = url;
@@ -8467,7 +9236,10 @@
       if (target) {
         if (target.audioId) AudioVault.remove(target.audioId);
         if (Array.isArray(target.turns)) {
-          target.turns.forEach(function (t) { if (t.audioId) AudioVault.remove(t.audioId); });
+          target.turns.forEach(function (t) {
+            if (t.audioId) AudioVault.remove(t.audioId);
+            if (t.followUpAudioId) AudioVault.remove(t.followUpAudioId);
+          });
         }
       }
       var next = list.filter(function (x) { return x && x.id !== subId; });
@@ -8534,10 +9306,10 @@
     var pillsHtml = '<div class="sp-modal-filter-bar" style="padding:0 0 10px;border:0;margin-bottom:6px;">'
       + [
         { k: 'all', lbl: 'Tất cả (' + countByCat.all + ')' },
-        { k: 'full_actual', lbl: '🔥 Actual Full (' + countByCat.full_actual + ')' },
-        { k: 'full_sample', lbl: '📘 Sample Full (' + countByCat.full_sample + ')' },
-        { k: 'topic_p1', lbl: '💬 Forecast P1 (' + countByCat.topic_p1 + ')' },
-        { k: 'topic_p23', lbl: '🎴 Forecast P2+3 (' + countByCat.topic_p23 + ')' }
+        { k: 'full_actual', lbl: 'Actual Full (' + countByCat.full_actual + ')' },
+        { k: 'full_sample', lbl: 'Sample Full (' + countByCat.full_sample + ')' },
+        { k: 'topic_p1', lbl: 'Forecast P1 (' + countByCat.topic_p1 + ')' },
+        { k: 'topic_p23', lbl: 'Forecast P2+3 (' + countByCat.topic_p23 + ')' }
       ].map(function (c) {
         return '<button type="button" class="sp-filter-pill' + (pickerCategoryFilter === c.k ? ' active' : '') + '" onclick="window._spSetPickerCategory(\'' + c.k + '\')">' + escHtml(c.lbl) + '</button>';
       }).join('')
@@ -8554,25 +9326,24 @@
     grid.innerHTML = pillsHtml + '<div class="sp-picker-grid">' + slice.map(function (st, idx) {
       var isAct = selectedPzLessonId === st.id;
       var acc = (st.examinerPersona && st.examinerPersona.accent) || 'UK';
-      var flag = acc === 'UK' ? '🇬🇧 UK' : (acc === 'AU' ? '🇦🇺 AU' : '🇺🇸 US');
       var subP1 = (st.part1 && (st.part1.topic1Qs || []).length)
         ? ('<b>Part 1:</b> ' + escHtml(st.part1.topic1Title || 'Interview') + ' (' + st.part1.topic1Qs.length + ' câu)')
         : '<b>Part 1:</b> Có thể ghép thêm ngẫu nhiên';
       var subP2 = (st.part2 && st.part2.prompt)
         ? ('<b>Part 2+3:</b> ' + escHtml(st.part2.prompt))
         : '<b>Part 2+3:</b> Chủ đề luyện riêng Part 1';
-      return '<div class="sp-picker-card' + (isAct ? ' active' : '') + '" onclick="window._spSelectTestFromPicker(\'' + escHtml(st.id) + '\')">'
+      return '<div class="sp-picker-card' + (isAct ? ' active' : '') + '" onclick="window._spSelectTestFromPicker(\'' + escJsAttr(st.id) + '\')">'
         + '  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">'
         + '    <span class="sp-lobby-chip is-exam">' + escHtml(st.pzKindLabel || ('Set #' + (idx + 1))) + '</span>'
-        + '    <span class="sp-lobby-chip is-accent">' + flag + '</span>'
+        + '    <span class="sp-lobby-chip is-accent">' + escHtml(acc) + '</span>'
         + '  </div>'
         + '  <strong style="font-size:14px;">' + escHtml(st.title) + '</strong>'
-        + '  <div style="font-size:12px;color:var(--sub-text);">' + subP1 + '</div>'
-        + '  <div style="font-size:12px;color:var(--muted);">' + subP2 + '</div>'
+        + '  <div style="font-size:12px;color:var(--lg-ink-sub);">' + subP1 + '</div>'
+        + '  <div style="font-size:12px;color:var(--lg-ink-muted);">' + subP2 + '</div>'
         + '</div>';
     }).join('') + '</div>'
       + (remain > 0
-        ? '<div style="text-align:center;margin-top:12px;"><button type="button" class="btn mini-btn" onclick="window._spLoadMorePicker()">⬇️ Hiển thị thêm (' + remain + ' đề còn lại)</button></div>'
+        ? '<div style="text-align:center;margin-top:12px;"><button type="button" class="btn mini-btn" onclick="window._spLoadMorePicker()">' + spIcon('chevronDown', 13) + '<span>Hiển thị thêm (' + remain + ' đề còn lại)</span></button></div>'
         : '');
   }
 
@@ -8597,22 +9368,78 @@
       { id: 'u_6', pill: 'Practice Zone', label: 'Practice Zone (' + stats.practiceZone + ')' }
     ];
     var btnMap = {
-      u_1: '📚 Vocab (' + stats.vocabTopics + ')',
-      u_2: '💬 Part 1 (' + stats.part1 + ')',
-      u_34: '🎴 Part 2 & 3 (' + stats.part2 + ')',
-      u_5: '🎓 Phát âm & CT (' + stats.theory + ')',
-      u_6: '🎯 Practice Zone (' + stats.practiceZone + ')'
+      u_1: { icon: 'vocab', text: 'Vocab (' + stats.vocabTopics + ')' },
+      u_2: { icon: 'speaking', text: 'Part 1 (' + stats.part1 + ')' },
+      u_34: { icon: 'layers', text: 'Part 2 & 3 (' + stats.part2 + ')' },
+      u_5: { icon: 'graduation', text: 'Phát âm & CT (' + stats.theory + ')' },
+      u_6: { icon: 'target', text: 'Practice Zone (' + stats.practiceZone.toLocaleString('vi-VN') + ')' }
     };
     Object.keys(btnMap).forEach(function (uid) {
       var b = document.getElementById('topBtn_' + uid);
-      if (b) b.textContent = btnMap[uid];
+      var cfg = btnMap[uid];
+      if (b && cfg) {
+        b.innerHTML = spIcon(cfg.icon, 14) + '<span>' + escHtml(cfg.text) + '</span>';
+      }
     });
   }
 
   // =========================================================================
   // 12. KHỞI TẠO TOÀN BỘ PHÂN HỆ SPEAKING
   // =========================================================================
+  function syncSpeakingThemeToggleBtn() {
+    var darkBtn = document.getElementById('btnSpeakingDark');
+    if (!darkBtn) return;
+    var isDark = document.documentElement.classList.contains('dark');
+    if (global.S4UI && typeof global.S4UI.renderThemeButton === 'function') {
+      global.S4UI.renderThemeButton(darkBtn, isDark);
+    } else {
+      darkBtn.innerHTML = spIcon(isDark ? 'sun' : 'moon', 16);
+      darkBtn.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+    }
+  }
+
   function bindEvents() {
+    if (global.S4UI && typeof global.S4UI.initSmartBackButton === 'function') {
+      global.S4UI.initSmartBackButton({
+        element: '#lpBackBtn',
+        defaultUrl: '../../index.html#ielts',
+        defaultLabel: 'IELTS',
+        roadmapUrl: '../roadmap/index.html',
+        roadmapLabel: 'Lộ trình'
+      });
+    }
+
+    var sbToggleBtn = document.getElementById('btnToggleSidebar');
+    if (sbToggleBtn) sbToggleBtn.addEventListener('click', function () { global.toggleSpeakingSidebar(); });
+    var sbCloseBtn = document.getElementById('btnCloseSidebar');
+    if (sbCloseBtn) sbCloseBtn.addEventListener('click', function () { global.toggleSpeakingSidebar(false); });
+    var sbBackdrop = document.getElementById('sidebarBackdrop');
+    if (sbBackdrop) sbBackdrop.addEventListener('click', function () { global.toggleSpeakingSidebar(false); });
+    var toggleAllBtn = document.getElementById('btnToggleAll');
+    if (toggleAllBtn) toggleAllBtn.addEventListener('click', function () { global.toggleAllSpeakingFolders(); });
+    var histBtn = document.getElementById('btnOpenHistoryModal');
+    if (histBtn) histBtn.addEventListener('click', function () { global.openSpeakingHistoryModal(); });
+    var donateBtn = document.getElementById('btnSpeakingDonate');
+    if (donateBtn) donateBtn.addEventListener('click', function () {
+      if (global.S4Auth && typeof global.S4Auth.openDonateModal === 'function') global.S4Auth.openDonateModal();
+    });
+    var darkBtn = document.getElementById('btnSpeakingDark');
+    if (darkBtn) {
+      darkBtn.addEventListener('click', function () {
+        if (typeof global.toggleDark === 'function') global.toggleDark();
+        syncSpeakingThemeToggleBtn();
+      });
+    }
+    syncSpeakingThemeToggleBtn();
+    if (typeof MutationObserver !== 'undefined') {
+      new MutationObserver(syncSpeakingThemeToggleBtn).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+    document.querySelectorAll('#topSwitch .top-switch-btn[data-unit]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var uid = btn.getAttribute('data-unit');
+        if (uid) global.switchSpeakingUnit(uid);
+      });
+    });
     if (global.S4UI && typeof global.S4UI.bindSearchBar === 'function') {
       global.S4UI.bindSearchBar({
         input: 'searchInput',
@@ -8697,6 +9524,9 @@
           }
           if (mediaUrl) {
             TtsEngine.playMedia(mediaUrl, phrase, { lang: chosenAccent, rate: 0.94 });
+          } else if (global.S4UI && typeof global.S4UI.speakEnglish === 'function') {
+            TtsEngine.stop();
+            global.S4UI.speakEnglish(phrase, { lang: chosenAccent, rate: 0.94 });
           } else {
             TtsEngine.speak(phrase, { lang: chosenAccent, rate: 0.94 });
           }
@@ -8706,10 +9536,48 @@
 
     bindEvents();
 
-    // Khôi phục bài học gần nhất hoặc mặc định mở Part 1 Bài 1
+    if (typeof global.addEventListener === 'function') {
+      global.addEventListener('pagehide', function () {
+        TtsEngine.stop();
+        stopStudioPrepTimer();
+        clearPzTimer();
+        if (studioState && studioState.shadowAudioUrl && String(studioState.shadowAudioUrl).indexOf('blob:') === 0) {
+          try { URL.revokeObjectURL(studioState.shadowAudioUrl); } catch (e) {}
+          studioState.shadowAudioUrl = '';
+        }
+      });
+    }
+
+    // Dọn rác định kỳ các bản ghi âm mồ côi cũ (>1 giờ) không nằm trong lịch sử đã lưu
+    setTimeout(function () {
+      try {
+        var keepIds = new Set();
+        getSubmissions().forEach(function (sub) {
+          if (!sub) return;
+          if (sub.audioId) keepIds.add(String(sub.audioId));
+          if (Array.isArray(sub.turns)) {
+            sub.turns.forEach(function (t) {
+              if (t && t.audioId) keepIds.add(String(t.audioId));
+              if (t && t.followUpAudioId) keepIds.add(String(t.followUpAudioId));
+            });
+          }
+        });
+        AudioVault.pruneOrphans(keepIds, 3600000);
+      } catch (e) {}
+    }, 3000);
+
+    // Khôi phục bài học gần nhất hoặc mặc định mở Part 1 Bài 1 (ưu tiên deep-link URL)
     var savedLast = '';
     try { savedLast = localStorage.getItem(STORAGE_LAST) || ''; } catch (e) {}
-    var initial = (savedLast && global.SpeakingParser.getLessonById(savedLast))
+    var urlParams = new URLSearchParams(window.location.search);
+    var reqId = (urlParams.get('id') || '').trim();
+    var reqUnit = (urlParams.get('unit') || '').trim();
+    var reqPz = urlParams.get('pz') === '1' || urlParams.get('mode') === 'pz' || reqUnit === 'u_6';
+    var initial = (reqId && global.SpeakingParser.getLessonById(reqId))
+      || (reqPz && allLessons.find(function (l) { return l.unitId === 'u_6'; }))
+      || (reqUnit && (allLessons.find(function (l) { return l.unitId === reqUnit; })
+        || allLessons.find(function (l) { return normalizeFilterUnit(l.unitId) === reqUnit; })))
+      || (savedLast && global.SpeakingParser.getLessonById(savedLast))
       || allLessons.find(function (l) { return l.unitId === 'u_2'; })
       || allLessons[0];
 

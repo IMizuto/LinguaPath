@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="study" data-course="hsk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      if (s === "ghibli") document.documentElement.classList.add("theme-ghibli");
+      if (isDark) document.documentElement.classList.add("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <title>Bài giảng HSK 1–6 theo Lộ trình (106 bài) | LinguaPath</title>
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+  <style>
+    :root {
+      --bg: var(--lg-wash, #f1f5f9);
+      --card: var(--lg-surface, #ffffff);
+      --text: var(--lg-ink, #0f172a);
+      --muted: var(--lg-ink-muted, #64748b);
+      --border: var(--lg-hairline, #e2e8f0);
+      --primary: var(--lg-accent, #dc2626);
+      --ok: var(--lg-green, #16a34a);
+      --accent: var(--lg-accent, #dc2626);
+      --warn: var(--lg-amber, #d97706);
+      --danger: var(--lg-rose, #dc2626);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; width: 100%; max-width: 100%; overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent !important; color: var(--lg-ink, var(--text)); min-height: 100vh;
+    }
+
+    /* Topbar Liquid Glass 1 hàng */
+    .lp-hsk-topbar-wrap {
+      position: sticky; top: 0; z-index: 50;
+      padding: calc(8px + var(--s4-top-inset, env(safe-area-inset-top, 0px))) 14px 4px;
+    }
+    .lp-hsk-topbar-wrap .lp-topbar { margin-bottom: 0; }
+    .menu-btn { display: none; }
+    .lp-topbar .lp-icon-btn svg, .top-btn svg, .ctrl-btn svg, .tab-btn svg, .done-btn svg, .cta-big-btn svg, .nav-mini-btn svg, .spk-btn svg, .sb-item svg, .c0-jump-btn svg {
+      flex-shrink: 0;
+    }
+
+    /* Mobile quick level bar */
+    .mob-lv-wrap {
+      display: none; max-width: 100%; overflow: hidden;
+      padding: 6px 10px 0;
+    }
+    .mob-lv-scroll {
+      display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .mob-lv-scroll::-webkit-scrollbar { display: none; }
+
+    /* Main layout */
+    .layout {
+      max-width: 1280px; margin: 0 auto; display: grid;
+      grid-template-columns: var(--lp-sidebar-w, 336px) minmax(0, 1fr); gap: 18px; padding: 12px 14px 76px;
+    }
+
+    /* Sidebar Liquid Glass 336px */
+    .sidebar {
+      background: var(--lg-surface, var(--card));
+      backdrop-filter: var(--lg-blur, blur(12px));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px));
+      border: 1px solid var(--lg-hairline, var(--border));
+      box-shadow: var(--lg-shadow, 0 8px 24px rgba(0,0,0,0.08));
+      border-radius: 20px;
+      padding: 13px; height: fit-content; position: sticky; top: 72px;
+      max-height: calc(100vh - 90px); display: flex; flex-direction: column; overflow: hidden;
+    }
+    .sb-head-mobile {
+      display: none; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--lg-divider, var(--border));
+    }
+    .sb-head-mobile strong { font-size: 14.5px; display: inline-flex; align-items: center; gap: 6px; }
+    .sb-close-btn {
+      width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border));
+      background: var(--lg-wash, var(--bg)); color: var(--lg-ink, var(--text));
+      display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .sb-progress {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 10px 11px; margin-bottom: 10px; flex-shrink: 0;
+    }
+    .sb-prog-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 6px;
+      font-size: 12.5px; font-weight: 800; margin-bottom: 6px;
+    }
+    .sb-prog-sub { font-size: 11.5px; color: var(--muted); margin-top: 5px; display: flex; justify-content: space-between; gap: 6px; }
+    .sb-prog-bar { height: 7px; border-radius: 99px; background: rgba(148,163,184,0.24); overflow: hidden; }
+    .sb-prog-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, #dc2626, #f97316); transition: width 0.25s ease;
+    }
+    html.theme-ghibli .sb-prog-fill { background: linear-gradient(90deg, #2d6a4f, #52b788); }
+
+    .lv-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px;
+      margin-bottom: 10px; flex-shrink: 0;
+    }
+    .lv-pill {
+      padding: 6px 5px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 11.5px; font-weight: 800;
+      cursor: pointer; font-family: inherit; transition: all 0.14s ease;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      line-height: 1.25; white-space: nowrap; text-align: center;
+    }
+    .lv-pill small { font-size: 10px; font-weight: 700; opacity: 0.78; margin-top: 1px; }
+    .lv-pill:hover { border-color: var(--primary); }
+    .lv-pill.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+      box-shadow: 0 3px 10px rgba(220,38,38,0.22);
+    }
+    .lv-pill.active small { opacity: 0.92; color: #fff; }
+    .mob-lv-pill {
+      padding: 6px 11px; border-radius: 99px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 12px; font-weight: 800;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; font-family: inherit;
+    }
+    .mob-lv-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .search-wrap { position: relative; margin-bottom: 9px; flex-shrink: 0; }
+    .search-input {
+      width: 100%; padding: 8px 30px 8px 11px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--text);
+      font-size: 13px; font-family: inherit; outline: none;
+    }
+    .search-input:focus { border-color: var(--primary); }
+    .search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      border: none; background: transparent; color: var(--muted); cursor: pointer;
+      font-size: 14px; padding: 3px 6px; display: none;
+    }
+    .search-clear.show { display: inline-block; }
+
+    .sb-list { overflow-y: auto; flex: 1; padding-right: 2px; min-height: 120px; }
+    .sb-group {
+      font-size: 11px; font-weight: 800; text-transform: uppercase;
+      color: var(--muted); margin: 10px 4px 6px; letter-spacing: 0.4px;
+    }
+    .sb-group:first-child { margin-top: 2px; }
+    .sb-item {
+      width: 100%; text-align: left; border: 1px solid transparent; background: transparent;
+      color: var(--text); padding: 9px 9px; border-radius: 11px; cursor: pointer;
+      display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; font-family: inherit;
+    }
+    .sb-item:hover { background: var(--bg); }
+    .sb-item.active {
+      background: rgba(220,38,38,0.12); border-color: rgba(220,38,38,0.4);
+      color: var(--primary); font-weight: 700;
+    }
+    html.theme-ghibli .sb-item.active {
+      background: rgba(45,106,79,0.15); border-color: rgba(45,106,79,0.45);
+    }
+    .sb-code { font-size: 10.5px; font-weight: 800; opacity: 0.8; display: block; }
+    .sb-name { font-size: 13px; line-height: 1.35; display: block; }
+    .sb-empty { text-align: center; padding: 22px 10px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    /* Main Stage */
+    .main-card {
+      background: var(--lg-surface, var(--card));
+      backdrop-filter: var(--lg-blur, blur(12px));
+      -webkit-backdrop-filter: var(--lg-blur, blur(12px));
+      border: 1px solid var(--lg-hairline, var(--border));
+      border-radius: 22px;
+      padding: 20px; box-shadow: var(--lg-shadow, 0 4px 18px rgba(0,0,0,0.04)); min-width: 0;
+    }
+    .lesson-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--border);
+      padding-bottom: 13px; margin-bottom: 14px;
+    }
+    .lesson-badge {
+      display: inline-block; font-size: 11.5px; font-weight: 800; padding: 3px 10px;
+      border-radius: 99px; background: rgba(220,38,38,0.12); color: var(--primary); margin-bottom: 6px;
+    }
+    html.theme-ghibli .lesson-badge { background: rgba(45,106,79,0.15); }
+    .lesson-head h1 { margin: 0 0 4px; font-size: 21px; line-height: 1.32; overflow-wrap: anywhere; }
+    .lesson-head p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+    .done-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 9px 14px; border-radius: 11px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-weight: 700; font-size: 13px;
+      cursor: pointer; white-space: nowrap; font-family: inherit;
+    }
+    .done-btn.is-done { background: rgba(22,163,74,0.16); border-color: #16a34a; color: var(--ok); }
+
+    /* 4-Step Learning Roadmap Bar */
+    .step-roadmap {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+      margin-bottom: 14px; padding: 10px; border-radius: 14px;
+      background: var(--bg); border: 1px solid var(--border);
+    }
+    .step-node {
+      position: relative; text-align: left; padding: 9px 10px; border-radius: 11px;
+      border: 1.5px solid var(--border); background: var(--card); color: var(--text);
+      cursor: pointer; font-family: inherit; transition: all 0.15s ease;
+      display: flex; flex-direction: column; gap: 3px; min-width: 0;
+    }
+    .step-node:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .step-node.active {
+      border-color: var(--primary); background: rgba(220,38,38,0.1);
+      box-shadow: 0 3px 10px rgba(220,38,38,0.12);
+    }
+    html.theme-ghibli .step-node.active {
+      background: rgba(45,106,79,0.14); box-shadow: 0 3px 10px rgba(45,106,79,0.14);
+    }
+    .step-node.visited:not(.active) { border-color: rgba(22,163,74,0.45); }
+    .step-num {
+      font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px;
+      color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 4px;
+    }
+    .step-node.active .step-num { color: var(--primary); }
+    .step-node.visited .step-num { color: var(--ok); }
+    .step-title { font-size: 12.5px; font-weight: 800; line-height: 1.3; overflow-wrap: break-word; }
+
+    /* Tabs & Controls */
+    .tabs {
+      display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px;
+      margin-bottom: 12px; border-bottom: 1px solid var(--border); scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 8px 13px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-weight: 700; font-size: 13px;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; font-family: inherit;
+    }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .ctrl-bar { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+    .ctrl-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 11px; border-radius: 9px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 12.5px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    .ctrl-btn.on { background: rgba(37,99,235,0.14); border-color: #2563eb; color: #2563eb; }
+    html.dark .ctrl-btn.on { color: #60a5fa; }
+
+    /* Teacher Callouts (Situation Intro & Pronunciation Tip) */
+    .teacher-intro {
+      background: linear-gradient(135deg, rgba(37,99,235,0.09), rgba(14,165,233,0.06));
+      border: 1px solid rgba(37,99,235,0.28); border-left: 4px solid #2563eb;
+      border-radius: 13px; padding: 13px 15px; margin-bottom: 13px; line-height: 1.65; font-size: 14px;
+    }
+    .teacher-intro h4 { margin: 0 0 5px; font-size: 14.5px; color: #1d4ed8; }
+    html.dark .teacher-intro h4 { color: #60a5fa; }
+    .teacher-intro p { margin: 0; }
+
+    .pron-tip {
+      background: linear-gradient(135deg, rgba(217,119,6,0.10), rgba(245,158,11,0.05));
+      border: 1px solid rgba(217,119,6,0.32); border-left: 4px solid #d97706;
+      border-radius: 13px; padding: 13px 15px; margin-bottom: 14px; line-height: 1.65; font-size: 14px;
+    }
+    .pron-tip h4 { margin: 0 0 5px; font-size: 14.5px; color: #b45309; }
+    html.dark .pron-tip h4 { color: #fbbf24; }
+    .pron-tip p { margin: 0; }
+
+    /* Interactive Phonetics / Tones / Strokes */
+    .sound-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; margin: 12px 0 18px; }
+    .sound-tile {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 10px 6px; text-align: center; cursor: pointer; transition: all 0.15s ease; font-family: inherit;
+    }
+    .sound-tile:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .sound-sym { font-size: 18px; font-weight: 800; color: var(--primary); display: block; }
+    .sound-ex { font-size: 12px; color: var(--muted); display: block; margin-top: 2px; }
+    .sound-tip-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 11px; border-radius: 999px;
+      background: var(--lg-accent-soft, rgba(220,38,38,0.10));
+      border: 1px solid var(--lg-hairline, rgba(220,38,38,0.3));
+      color: var(--lg-accent, var(--primary));
+      font-size: 12.5px; font-weight: 700; margin-bottom: 10px;
+    }
+    .tone-grid, .stroke-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin: 12px 0 18px; }
+    .info-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px; cursor: pointer; }
+    .info-tile:hover { border-color: var(--primary); }
+    .big-zh { font-size: 30px; font-weight: 800; color: var(--primary); }
+
+    /* Pinyin Interactive Studio (Ghép vần + Luyện tai Thanh điệu) */
+    .py-studio {
+      margin: 18px 0 20px; border-radius: 18px; border: 1.5px solid rgba(37,99,235,0.28);
+      background: var(--bg); padding: 15px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+    html.theme-ghibli .py-studio { border-color: rgba(45,106,79,0.34); }
+    .py-studio-head {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .py-studio-title { margin: 0 0 3px; font-size: 16px; font-weight: 800; color: var(--text); }
+    .py-studio-sub { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+    .py-studio-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .py-st-tab {
+      padding: 8px 13px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 13px; font-weight: 800;
+      cursor: pointer; font-family: inherit; transition: all 0.14s ease;
+    }
+    .py-st-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .py-group-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .py-init-btn {
+      padding: 6px 10px; border-radius: 9px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 13px; font-weight: 800;
+      cursor: pointer; font-family: inherit; min-width: 38px; text-align: center;
+    }
+    .py-init-btn:hover { border-color: var(--primary); }
+    .py-init-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .py-init-btn.is-asp { border-style: dashed; }
+    .py-group-hint {
+      font-size: 12.5px; color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); border-radius: 10px; padding: 8px 11px;
+      margin-bottom: 10px; line-height: 1.45;
+    }
+    .py-tone-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+    .py-tone-pill {
+      padding: 6px 11px; border-radius: 999px; border: 1.5px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 12.5px; font-weight: 800;
+      cursor: pointer; font-family: inherit;
+    }
+    .py-tone-pill.t1.active { background: rgba(220,38,38,0.14); border-color: #dc2626; color: #dc2626; }
+    .py-tone-pill.t2.active { background: rgba(22,163,74,0.14); border-color: #16a34a; color: #15803d; }
+    .py-tone-pill.t3.active { background: rgba(37,99,235,0.14); border-color: #2563eb; color: #1d4ed8; }
+    .py-tone-pill.t4.active { background: rgba(147,51,234,0.14); border-color: #9333ea; color: #7e22ce; }
+    html.dark .py-tone-pill.t1.active { color: #f87171; }
+    html.dark .py-tone-pill.t2.active { color: #4ade80; }
+    html.dark .py-tone-pill.t3.active { color: #60a5fa; }
+    html.dark .py-tone-pill.t4.active { color: #c084fc; }
+    .py-syl-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+      gap: 7px; margin-bottom: 12px;
+    }
+    .py-syl-btn {
+      padding: 9px 6px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 15px; font-weight: 800;
+      cursor: pointer; font-family: inherit; text-align: center; transition: all 0.14s ease;
+    }
+    .py-syl-btn:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .py-syl-btn.active { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(220,38,38,0.18); }
+    .py-syl-btn.t1 { color: #dc2626; } .py-syl-btn.t2 { color: #15803d; }
+    .py-syl-btn.t3 { color: #1d4ed8; } .py-syl-btn.t4 { color: #7e22ce; }
+    html.dark .py-syl-btn.t1 { color: #f87171; } html.dark .py-syl-btn.t2 { color: #4ade80; }
+    html.dark .py-syl-btn.t3 { color: #60a5fa; } html.dark .py-syl-btn.t4 { color: #c084fc; }
+    .py-detail-box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 13px;
+      padding: 12px 14px;
+    }
+    .py-4tones-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin: 10px 0; }
+    .py-4t-chip {
+      padding: 9px 6px; border-radius: 10px; border: 1.5px solid var(--border);
+      background: var(--bg); color: var(--text); text-align: center; cursor: pointer; font-family: inherit;
+    }
+    .py-4t-chip:hover { border-color: var(--primary); }
+    .py-4t-chip.active { border-color: var(--primary); background: rgba(37,99,235,0.1); }
+    .py-4t-chip b { display: block; font-size: 18px; line-height: 1.2; }
+    .py-4t-chip span { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .py-ear-box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 14px; text-align: center;
+    }
+    .py-ear-stats {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-bottom: 12px;
+      padding-bottom: 10px; border-bottom: 1px dashed var(--border);
+    }
+    .py-ear-play {
+      padding: 12px 22px; border-radius: 999px; border: none;
+      background: linear-gradient(135deg, #2563eb, #0284c7); color: #fff;
+      font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 5px 15px rgba(37,99,235,0.26);
+    }
+    html.theme-ghibli .py-ear-play { background: linear-gradient(135deg, #2d6a4f, #40916c); box-shadow: 0 5px 15px rgba(45,106,79,0.28); }
+    .py-ear-opts {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px; margin: 14px 0 10px;
+    }
+    .py-ear-opt {
+      padding: 12px 10px; border-radius: 12px; border: 1.5px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 15px; font-weight: 800;
+      cursor: pointer; font-family: inherit; text-align: center; transition: all 0.14s ease;
+    }
+    .py-ear-opt:hover:not(:disabled) { border-color: var(--primary); }
+    .py-ear-opt small { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted); margin-top: 2px; }
+    .py-ear-opt.ok { background: rgba(22,163,74,0.16); border-color: #16a34a; color: var(--ok); }
+    .py-ear-opt.bad { background: rgba(220,38,38,0.15); border-color: #dc2626; color: var(--danger); }
+    .py-ear-fb {
+      margin-top: 10px; padding: 11px 13px; border-radius: 11px; text-align: left;
+      background: var(--bg); border: 1px solid var(--border); font-size: 13px; line-height: 1.55;
+    }
+    @media (max-width: 560px) {
+      .py-4tones-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .py-syl-grid { grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); }
+    }
+
+    /* Character Breakdowns Block */
+    .sec-block-title {
+      margin: 20px 0 10px; font-size: 16px; font-weight: 800;
+      display: flex; align-items: center; gap: 7px; color: var(--text);
+    }
+    .char-bd-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; margin-bottom: 16px;
+    }
+    .char-bd-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+      padding: 13px; display: flex; flex-direction: column; gap: 8px; min-width: 0;
+    }
+    .char-bd-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .char-bd-hanzi { font-size: 32px; font-weight: 800; line-height: 1.1; color: var(--primary); }
+    .char-bd-py { font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 2px; }
+    .char-bd-parts {
+      font-size: 12.5px; font-weight: 700; padding: 6px 9px; border-radius: 9px;
+      background: var(--card); border: 1px solid var(--border); line-height: 1.45;
+    }
+    .char-bd-memo { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* Right / Wrong Comparison Block */
+    .rw-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .rw-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+      padding: 12px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .rw-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .rw-box {
+      border-radius: 10px; padding: 10px 11px; font-size: 13.5px; line-height: 1.48;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; min-width: 0;
+    }
+    .rw-box.wrong {
+      background: rgba(220,38,38,0.09); border: 1px solid rgba(220,38,38,0.3);
+    }
+    .rw-box.right {
+      background: rgba(22,163,74,0.10); border: 1px solid rgba(22,163,74,0.34);
+    }
+    .rw-lbl { font-size: 11px; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .rw-box.wrong .rw-lbl { color: var(--danger); }
+    .rw-box.right .rw-lbl { color: var(--ok); }
+    .rw-text { font-weight: 700; overflow-wrap: anywhere; }
+    .rw-note {
+      font-size: 13px; color: var(--muted); line-height: 1.5;
+      padding: 0 2px; border-top: 1px dashed var(--border); padding-top: 7px;
+    }
+
+    /* Vocab / Dialogue / Grammar / Quiz */
+    .vocab-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 10px; }
+    .v-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 13px;
+      padding: 13px; display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; min-width: 0;
+    }
+    .v-zh { font-size: 24px; font-weight: 800; overflow-wrap: anywhere; }
+    .v-py { font-size: 13.5px; font-weight: 700; color: var(--accent); margin-top: 2px; }
+    .v-hv { font-size: 11.5px; color: var(--warn); font-weight: 700; margin-top: 2px; }
+    .v-vi { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+    .spk-btn {
+      border: 1px solid var(--border); background: var(--card); color: var(--text);
+      width: 34px; height: 34px; border-radius: 9px; cursor: pointer; flex-shrink: 0;
+      font-size: 15px; display: inline-flex; align-items: center; justify-content: center;
+      text-decoration: none;
+    }
+    .spk-btn:hover { border-color: var(--primary); }
+
+    .dlg-item {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 13px;
+      padding: 13px 15px; margin-bottom: 10px; display: flex; justify-content: space-between;
+      align-items: center; gap: 12px;
+    }
+    .dlg-spk { font-size: 11.5px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }
+    .dlg-zh { font-size: 19.5px; font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+    .dlg-py { font-size: 13.5px; color: var(--accent); margin-top: 3px; line-height: 1.4; }
+    .dlg-vi { font-size: 13.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+    .hide-py .py-text { display: none; }
+    .hide-vi .vi-text { display: none; }
+
+    .gram-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 13px;
+      padding: 14px 15px; margin-bottom: 11px; line-height: 1.65; font-size: 14.5px;
+    }
+    .gram-card h4 { margin: 0 0 6px; font-size: 15.5px; color: var(--primary); }
+
+    .quiz-item { background: var(--bg); border: 1px solid var(--border); border-radius: 13px; padding: 15px; margin-bottom: 12px; }
+    .quiz-q { font-weight: 700; font-size: 14.5px; margin-bottom: 10px; line-height: 1.45; }
+    .quiz-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .q-opt {
+      text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 13.5px; font-weight: 600;
+      cursor: pointer; font-family: inherit; line-height: 1.4;
+    }
+    .q-opt.correct { background: rgba(22,163,74,0.16); border-color: #16a34a; color: var(--ok); }
+    .q-opt.wrong { background: rgba(220,38,38,0.16); border-color: #dc2626; color: var(--danger); }
+    .q-exp { margin-top: 9px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .prose { line-height: 1.72; font-size: 14.5px; overflow-wrap: anywhere; }
+    .prose h3 { margin: 16px 0 8px; font-size: 16px; color: var(--text); }
+    .prose ul, .prose ol { padding-left: 20px; margin: 6px 0 12px; }
+    .prose li { margin-bottom: 5px; }
+    .prose code {
+      background: rgba(148,163,184,0.18); padding: 2px 6px; border-radius: 5px;
+      font-family: ui-monospace, Consolas, monospace; font-size: 13.2px;
+    }
+
+    /* Bottom Step CTA & Lesson Footer Nav */
+    .cta-footer {
+      margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .cta-big-btn {
+      width: 100%; padding: 14px 18px; border-radius: 14px; border: none;
+      background: linear-gradient(135deg, #dc2626, #ea580c); color: #fff;
+      font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit;
+      box-shadow: 0 6px 18px rgba(220,38,38,0.25); transition: transform 0.14s ease, box-shadow 0.14s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-align: center;
+    }
+    .cta-big-btn:hover { transform: translateY(-1px); box-shadow: 0 9px 22px rgba(220,38,38,0.32); }
+    .cta-big-btn.finish {
+      background: linear-gradient(135deg, #15803d, #0d9488);
+      box-shadow: 0 6px 18px rgba(21,128,61,0.26);
+    }
+    html.theme-ghibli .cta-big-btn:not(.finish) {
+      background: linear-gradient(135deg, #2d6a4f, #40916c);
+      box-shadow: 0 6px 18px rgba(45,106,79,0.28);
+    }
+    .lesson-nav-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .nav-mini-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 12.5px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    .nav-mini-btn.is-done {
+      background: var(--lg-green-soft, rgba(22,163,74,0.16));
+      border-color: rgba(22,163,74,0.4);
+      color: var(--ok);
+    }
+    .nav-mini-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* Loading state */
+    .loading-box {
+      text-align: center; padding: 36px 16px; color: var(--muted); font-size: 14px; line-height: 1.6;
+    }
+    .spinner {
+      width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary);
+      border-radius: 50%; margin: 0 auto 10px; animation: lpSpin 0.7s linear infinite;
+    }
+    @keyframes lpSpin { to { transform: rotate(360deg); } }
+
+    .drawer-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 80; }
+    body.drawer-open { overflow: hidden !important; }
+
+    @media (max-width: 1024px) {
+      .menu-btn { display: inline-flex; }
+      .mob-lv-wrap { display: block; }
+      .layout { grid-template-columns: minmax(0, 1fr); padding: 10px 10px 64px; gap: 12px; }
+      .sidebar {
+        display: none; position: fixed; top: 0; left: 0; bottom: 0; width: min(86vw, var(--lp-sidebar-w, 336px));
+        z-index: 90; border-radius: 0; max-height: 100vh; height: 100vh; height: 100dvh; max-height: 100dvh;
+        padding-top: calc(12px + var(--s4-top-inset, env(safe-area-inset-top, 0px)));
+        padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      }
+      .sb-head-mobile { display: flex; }
+      body.drawer-open .sidebar { display: flex; }
+      body.drawer-open .drawer-backdrop { display: block; }
+      .main-card { padding: 14px; border-radius: 18px; }
+      .quiz-opts { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .step-roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 8px; }
+      .rw-pair { grid-template-columns: minmax(0, 1fr); }
+      .char-bd-grid { grid-template-columns: minmax(0, 1fr); }
+      .vocab-list { grid-template-columns: minmax(0, 1fr); }
+      .lesson-head h1 { font-size: 18px; }
+    }
+    @media (max-width: 560px) {
+      .lp-hsk-topbar-wrap { padding: calc(6px + var(--s4-top-inset, env(safe-area-inset-top, 0px))) 8px 2px; }
+      .cta-big-btn { font-size: 14px; padding: 13px 14px; }
+      .lesson-nav-row.lp-lesson-nav { gap: 6px; }
+      .lesson-nav-row.lp-lesson-nav .nav-mini-btn { padding: 7px 10px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+  <div class="drawer-backdrop" onclick="toggleDrawer(false)"></div>
+
+  <div class="lp-hsk-topbar-wrap">
+    <header class="lp-topbar lp-glass">
+      <div class="lp-top-left">
+        <button type="button" class="lp-icon-btn menu-btn" onclick="toggleDrawer(true)" aria-label="Mở danh sách bài học">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          <span class="lp-hide-xs">Bài học</span>
+        </button>
+        <a href="../index.html" class="lp-back-pill" id="lpBackBtn" title="Về trang chủ HSK">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>HSK</span>
+        </a>
+        <div class="lp-brand">
+          <div class="lp-brand-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
+          </div>
+          <div class="lp-brand-text">
+            <h1 class="lp-brand-title">Bài giảng HSK</h1>
+          </div>
+        </div>
+      </div>
+      <div class="lp-top-actions">
+        <a class="lp-icon-btn" href="../vocab/index.html" title="Từ vựng SRS">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M8 10h8"/><path d="M8 14h5"/></svg>
+          <span class="lp-hide-xs">Từ vựng</span>
+        </a>
+        <button type="button" class="lp-icon-btn donate" id="btnLessonsDonate" title="Ủng hộ dự án" aria-label="Ủng hộ dự án">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="lp-hide-xs">Ủng hộ</span>
+        </button>
+        <button type="button" class="lp-icon-btn" id="btnDarkTop" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Thanh chọn nhanh 6 cấp độ trên Mobile -->
+  <div class="mob-lv-wrap">
+    <div class="mob-lv-scroll" id="mobLevelBar"></div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-head-mobile">
+        <strong>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <span>Lộ trình 106 bài HSK 1–6</span>
+        </strong>
+        <button type="button" class="sb-close-btn" onclick="toggleDrawer(false)" aria-label="Đóng">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="sb-progress" id="sbProgressBox"></div>
+      <div class="lv-grid" id="sbLevelBar" role="tablist" aria-label="Chọn cấp độ HSK"></div>
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="sbSearchInput" placeholder="Tìm bài học, Pinyin, từ vựng..." autocomplete="off">
+        <button type="button" class="search-clear" id="sbSearchClear" onclick="clearSearch()" aria-label="Xóa tìm kiếm">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="sb-list" id="sbLessonList"></div>
+    </aside>
+    <main class="main-card" id="lessonStage"></main>
+  </div>
+
+  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../assets/s4-search-engine.js?v=1"></script>
+  <script src="../hsk-tts.js?v=2"></script>
+  <script src="./lessons_data.js?v=3"></script>
+  <script src="./lessons-slides-workbook.js?v=4"></script>
+  <script>
+    const DONE_KEY = "lp_hsk_lessons_done_v1";
+    const LAST_KEY = "lp_hsk_lessons_last_v1";
+    const LEVEL_META = (Array.isArray(window.LP_HSK_LEVEL_META) && window.LP_HSK_LEVEL_META.length)
+      ? window.LP_HSK_LEVEL_META
+      : [
+          { lv: 1, label: "Nhập môn & HSK 1", count: 18, file: null },
+          { lv: 2, label: "HSK 2", count: 15, file: "./lessons_hsk2.js?v=2", globalVar: "LP_HSK_LESSONS_L2" },
+          { lv: 3, label: "HSK 3", count: 20, file: "./lessons_hsk3.js?v=2", globalVar: "LP_HSK_LESSONS_L3" },
+          { lv: 4, label: "HSK 4", count: 20, file: "./lessons_hsk4.js?v=2", globalVar: "LP_HSK_LESSONS_L4" },
+          { lv: 5, label: "HSK 5", count: 18, file: "./lessons_hsk5.js?v=2", globalVar: "LP_HSK_LESSONS_L5" },
+          { lv: 6, label: "HSK 6", count: 15, file: "./lessons_hsk6.js?v=2", globalVar: "LP_HSK_LESSONS_L6" }
+        ];
+    const TOTAL_LESSONS = LEVEL_META.reduce((s, m) => s + (Number(m.count) || 0), 0) || 106;
+
+    const levelCache = { 1: Array.isArray(window.LP_HSK_LESSONS_DATA) ? window.LP_HSK_LESSONS_DATA : [] };
+    if (window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.indexLessonVocab === "function") {
+      window.HskLessonSlidesWorkbook.indexLessonVocab(levelCache[1]);
+    }
+    const loadPromises = {};
+    const loadErrors = {};
+
+    let doneMap = {};
+    try { doneMap = JSON.parse(localStorage.getItem(DONE_KEY) || "{}") || {}; } catch (e) {}
+
+    let activeLevel = 1;
+    let activeId = "";
+    let activeTab = "lecture"; // lecture | vocab | dialogue | grammar | workbook | quiz
+    let fullPageMode = true;
+    let searchQuery = "";
+    let showPinyin = true;
+    let showVi = true;
+    let slowRate = false;
+    let quizAnswers = {};
+    const visitedTabs = {}; // { [lessonId]: Set<tabKey> }
+
+    const L_SVG = {
+      book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+      check: '<polyline points="20 6 9 17 4 12"/>',
+      x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+      volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+      edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+      lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+      target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+      award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+      layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+      refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+      alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+      eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+      clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+      file: '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/>',
+      sparkles: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+      chevronLeft: '<path d="m15 18-6-6 6-6"/>',
+      chevronRight: '<path d="m9 18 6-6-6-6"/>',
+      tag: '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/>'
+    };
+    function lIcon(name, size) {
+      const s = size || 14;
+      const body = L_SVG[name];
+      if (body) {
+        return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;" aria-hidden="true">${body}</svg>`;
+      }
+      if (window.S4UI && typeof window.S4UI.icon === "function") return window.S4UI.icon(name, s);
+      return "";
+    }
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    function toggleDark() {
+      if (typeof window.toggleDarkModeOnly === "function") {
+        window.toggleDarkModeOnly();
+        syncDarkBtn();
+        return;
+      }
+      const next = !document.documentElement.classList.contains("dark");
+      document.documentElement.classList.toggle("dark", next);
+      if (document.body) document.body.classList.toggle("dark", next);
+      try { localStorage.setItem("s4_vocab_dark", next ? "1" : "0"); } catch (e) {}
+      const s = localStorage.getItem("s4_theme_style") || "ghibli";
+      const mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", next ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      syncDarkBtn();
+    }
+
+    function syncDarkBtn() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const btn = document.getElementById("btnDarkTop");
+      if (!btn) return;
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+        window.S4UI.renderThemeButton(btn, isDark);
+      } else {
+        btn.innerHTML = isDark
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>'
+          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+      }
+    }
+    syncDarkBtn();
+    (function wireLessonsTopbar() {
+      const btnDark = document.getElementById("btnDarkTop");
+      if (btnDark) btnDark.addEventListener("click", toggleDark);
+      const btnDonate = document.getElementById("btnLessonsDonate");
+      if (btnDonate) btnDonate.addEventListener("click", () => { if (window.S4Auth && window.S4Auth.openDonateModal) window.S4Auth.openDonateModal(); });
+      if (window.S4UI && typeof window.S4UI.initSmartBackButton === "function") {
+        window.S4UI.initSmartBackButton({
+          element: "#lpBackBtn",
+          defaultUrl: "../index.html",
+          defaultLabel: "HSK",
+          roadmapUrl: "../roadmap/index.html",
+          roadmapLabel: "Lộ trình HSK"
+        });
+      }
+    })();
+
+    function levelOfLessonId(id) {
+      const s = String(id || "");
+      const m = s.match(/^hsk([2-6])_/i);
+      if (m) return Number(m[1]);
+      return 1;
+    }
+
+    function getLevelShortLabel(lv) {
+      return lv === 1 ? "C0–HSK1" : ("HSK " + lv);
+    }
+
+    function countDoneForLevel(lv) {
+      let n = 0;
+      Object.keys(doneMap).forEach((k) => {
+        if (!doneMap[k]) return;
+        if (lv === 1 && (k.startsWith("c0_") || k.startsWith("hsk1_"))) n++;
+        else if (lv >= 2 && k.startsWith("hsk" + lv + "_")) n++;
+      });
+      return n;
+    }
+
+    function countTotalDone() {
+      return Object.values(doneMap).filter(Boolean).length;
+    }
+
+    function getActiveLessons() {
+      return levelCache[activeLevel] || [];
+    }
+
+    function findLessonById(id) {
+      for (const lv of Object.keys(levelCache)) {
+        const list = levelCache[lv] || [];
+        const hit = list.find((x) => x.id === id);
+        if (hit) return hit;
+      }
+      return null;
+    }
+
+    function getCurrentLesson() {
+      const curList = getActiveLessons();
+      return curList.find((x) => x.id === activeId) || findLessonById(activeId) || curList[0] || null;
+    }
+
+    function markTabVisited(lessonId, tabKey) {
+      if (!lessonId) return;
+      if (!visitedTabs[lessonId]) visitedTabs[lessonId] = new Set();
+      visitedTabs[lessonId].add(tabKey);
+    }
+
+    function loadLevelData(lv) {
+      const numLv = Number(lv) || 1;
+      if (levelCache[numLv] && levelCache[numLv].length) {
+        return Promise.resolve(levelCache[numLv]);
+      }
+      const meta = LEVEL_META.find((m) => Number(m.lv) === numLv);
+      if (!meta || !meta.file) {
+        levelCache[numLv] = levelCache[1] || [];
+        return Promise.resolve(levelCache[numLv]);
+      }
+      if (meta.globalVar && Array.isArray(window[meta.globalVar]) && window[meta.globalVar].length) {
+        levelCache[numLv] = window[meta.globalVar];
+        return Promise.resolve(levelCache[numLv]);
+      }
+      if (loadPromises[numLv]) return loadPromises[numLv];
+
+      delete loadErrors[numLv];
+      loadPromises[numLv] = new Promise((resolve, reject) => {
+        const sc = document.createElement("script");
+        sc.src = meta.file;
+        sc.async = true;
+        sc.onload = () => {
+          const arr = (meta.globalVar && Array.isArray(window[meta.globalVar])) ? window[meta.globalVar] : [];
+          if (arr.length) {
+            levelCache[numLv] = arr;
+            if (window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.indexLessonVocab === "function") {
+              window.HskLessonSlidesWorkbook.indexLessonVocab(arr);
+            }
+            resolve(arr);
+          } else {
+            delete loadPromises[numLv];
+            loadErrors[numLv] = "Tệp dữ liệu chưa có danh sách bài giảng.";
+            reject(new Error(loadErrors[numLv]));
+          }
+        };
+        sc.onerror = () => {
+          delete loadPromises[numLv];
+          loadErrors[numLv] = "Không tải được " + meta.file + ". Vui lòng kiểm tra kết nối và thử lại.";
+          reject(new Error(loadErrors[numLv]));
+        };
+        document.head.appendChild(sc);
+      });
+      return loadPromises[numLv];
+    }
+
+    function extractZhForTTS(str) {
+      const s = String(str || "").trim();
+      const cleaned = s
+        .replace(/\([^)]*[A-Za-zÀ-ỹ][^)]*\)/g, "")
+        .replace(/（[^）]*[A-Za-zÀ-ỹ][^）]*）/g, "")
+        .trim();
+      const zhParts = cleaned.match(/[\u3400-\u9FFF\u3000-\u303F\uFF01-\uFF5E0-9]+/g);
+      if (zhParts && zhParts.length) return zhParts.join("，");
+      const anyZh = s.match(/[\u3400-\u9FFF]+/g);
+      return anyZh ? anyZh.join("，") : s;
+    }
+
+    function escJsAttr(s) {
+      return esc(
+        String(s == null ? "" : s)
+          .replace(/\\/g, "\\\\")
+          .replace(/\r?\n/g, " ")
+          .replace(/'/g, "\\'")
+      );
+    }
+
+    function speakZh(text, pyOpts) {
+      if (window.HskTTS && (text || (pyOpts && (pyOpts.pinyin || pyOpts.pinyinNum)))) {
+        const opts = { rate: slowRate ? 0.72 : 1.0 };
+        if (pyOpts && typeof pyOpts === "object") {
+          if (pyOpts.pinyin) opts.pinyin = pyOpts.pinyin;
+          if (pyOpts.pinyinNum) opts.pinyinNum = pyOpts.pinyinNum;
+          if (pyOpts.preferPinyinAudio) opts.preferPinyinAudio = true;
+        } else if (typeof pyOpts === "string" && pyOpts.trim()) {
+          opts.pinyin = pyOpts.trim();
+        }
+        window.HskTTS.speak(String(text || ""), opts);
+      }
+    }
+
+    function speakVocab(idx) {
+      const l = getCurrentLesson();
+      const item = l && l.vocab && l.vocab[idx];
+      if (item && item.word) speakZh(item.word, { pinyin: item.pinyin || item.py, pinyinNum: item.pinyinNum });
+    }
+
+    function speakDialogue(idx) {
+      const l = getCurrentLesson();
+      const item = l && l.dialogue && l.dialogue[idx];
+      if (item && item.zh) speakZh(item.zh);
+    }
+
+    function speakAllDialogue() {
+      const l = getCurrentLesson();
+      if (!l || !l.dialogue || !l.dialogue.length) return;
+      speakZh(l.dialogue.map((d) => d.zh).join(" "));
+    }
+
+    function speakCharBd(idx) {
+      const l = getCurrentLesson();
+      const item = l && l.charBreakdowns && l.charBreakdowns[idx];
+      if (item && item.char) speakZh(item.char, { pinyin: item.py || item.pinyin, pinyinNum: item.pinyinNum });
+    }
+
+    function speakRightWrong(idx) {
+      const l = getCurrentLesson();
+      const item = l && l.rightWrong && l.rightWrong[idx];
+      if (item && item.right) speakZh(extractZhForTTS(item.right));
+    }
+
+    function speakTone(idx) {
+      const l = getCurrentLesson();
+      const item = l && l.tones && l.tones[idx];
+      if (item && item.sample) {
+        speakZh(item.sample, { pinyin: item.py || item.pinyin, pinyinNum: item.pinyinNum, preferPinyinAudio: true });
+      }
+    }
+
+    function speakStroke(idx) {
+      const l = getCurrentLesson();
+      const item = l && l.strokes && l.strokes[idx];
+      if (item && item.ex) speakZh(String(item.ex).split(",")[0].trim());
+    }
+
+    function playSoundByIdx(groupKey, idx) {
+      const l = getCurrentLesson();
+      const item = l && l.phonetics && l.phonetics[groupKey] && l.phonetics[groupKey][idx];
+      if (!item) return;
+      speakZh(item.speak, { pinyin: item.pinyin, pinyinNum: item.pinyinNum, preferPinyinAudio: true });
+      const box = document.getElementById("soundTip");
+      const pyDisp = item.pinyin && item.pinyin !== item.speak ? `${item.speak} · ${item.pinyin}` : item.speak;
+      if (box) box.innerHTML = `${lIcon("volume", 13)} <b>${esc(item.sym)}</b> (${esc(pyDisp)}): ${esc(item.tip)}`;
+    }
+
+    /* ---------- MỤC 1: XƯỞNG GHÉP VẦN PINYIN & LUYỆN TAI 4 THANH ĐIỆU ---------- */
+    const PY_EAR_KEY = "lp_hsk_pinyin_ear_v1";
+    const PY_INIT_GROUPS = [
+      { id: "zero", label: "∅ (y/w)", items: ["∅"], hint: "Âm tiết không có thanh mẫu (tự đứng đầu: a, o, e, ai, ao, an, ang, yi, wu, yu...). Chú ý i→yi, u→wu, ü→yu." },
+      { id: "labial", label: "Môi (b p m f)", items: ["b", "p", "m", "f"], asp: ["p"], hint: "Âm hai môi: b KHÔNG bật hơi (gần p nhẹ), p BẬT HƠI mạnh (thổi bay tờ giấy!), m và f giống m, ph tiếng Việt." },
+      { id: "alveolar", label: "Đầu lưỡi (d t n l)", items: ["d", "t", "n", "l"], asp: ["t"], hint: "Âm đầu lưỡi: d KHÔNG bật hơi (gần t nhẹ, không đọc nặng thành đ), t BẬT HƠI mạnh như th; n, l ghép được cả u lẫn ü (nǚ, lǜ)." },
+      { id: "velar", label: "Cuống lưỡi (g k h)", items: ["g", "k", "h"], asp: ["k"], hint: "Âm cuống lưỡi: g KHÔNG bật hơi (gần c/k nhẹ), k BẬT HƠI mạnh như kh, h xát nhẹ cuống họng giữa h và kh." },
+      { id: "palatal", label: "Mặt lưỡi (j q x)", items: ["j", "q", "x"], asp: ["q"], hint: "Âm mặt lưỡi: đầu lưỡi hạ thấp sau răng dưới, miệng hơi bẹt. q BẬT HƠI mạnh. Chỉ đi với i và ü (viết ju, qu, xu nhưng đọc tròn môi ü!)." },
+      { id: "retroflex", label: "Uốn lưỡi (zh ch sh r)", items: ["zh", "ch", "sh", "r"], asp: ["ch"], hint: "Âm uốn lưỡi: cong đầu lưỡi chạm ngạc cứng! ch BẬT HƠI mạnh. Chữ i sau nhóm này đọc gần âm 'ư' ngắn gọn (zhī, chī, shī, rì)." },
+      { id: "dental", label: "Thẳng lưỡi (z c s)", items: ["z", "c", "s"], asp: ["c"], hint: "Âm thẳng lưỡi: đầu lưỡi chạm mặt sau răng cửa, không cong lưỡi! c BẬT HƠI mạnh. Chữ i sau nhóm này cũng đọc gần âm 'ư' (zī, cī, sī)." }
+    ];
+    const PY_SYLLABLES_BY_INIT = {
+      "∅": ["a","o","e","er","ai","ei","ao","ou","an","en","ang","eng","yi","ya","ye","yao","you","yan","yin","yang","ying","yong","wu","wa","wo","wai","wei","wan","wen","wang","weng","yu","yue","yuan","yun"],
+      "b": ["ba","bo","bai","bei","bao","ban","ben","bang","beng","bi","bie","biao","bian","bin","bing","bu"],
+      "p": ["pa","po","pai","pei","pao","pou","pan","pen","pang","peng","pi","pie","piao","pian","pin","ping","pu"],
+      "m": ["ma","mo","me","mai","mei","mao","mou","man","men","mang","meng","mi","mie","miao","miu","mian","min","ming","mu"],
+      "f": ["fa","fo","fei","fou","fan","fen","fang","feng","fu"],
+      "d": ["da","de","dai","dei","dao","dou","dan","den","dang","deng","dong","di","die","diao","diu","dian","ding","du","duo","dui","duan","dun"],
+      "t": ["ta","te","tai","tao","tou","tan","tang","teng","tong","ti","tie","tiao","tian","ting","tu","tuo","tui","tuan","tun"],
+      "n": ["na","ne","nai","nei","nao","nou","nan","nen","nang","neng","nong","ni","nie","niao","niu","nian","nin","niang","ning","nu","nuo","nuan","nü","nüe"],
+      "l": ["la","le","lai","lei","lao","lou","lan","lang","leng","long","li","lia","lie","liao","liu","lian","lin","liang","ling","lu","luo","luan","lun","lü","lüe"],
+      "g": ["ga","ge","gai","gei","gao","gou","gan","gen","gang","geng","gong","gu","gua","guo","guai","gui","guan","gun","guang"],
+      "k": ["ka","ke","kai","kei","kao","kou","kan","ken","kang","keng","kong","ku","kua","kuo","kuai","kui","kuan","kun","kuang"],
+      "h": ["ha","he","hai","hei","hao","hou","han","hen","hang","heng","hong","hu","hua","huo","huai","hui","huan","hun","huang"],
+      "j": ["ji","jia","jie","jiao","jiu","jian","jin","jiang","jing","jiong","ju","jue","juan","jun"],
+      "q": ["qi","qia","qie","qiao","qiu","qian","qin","qiang","qing","qiong","qu","que","quan","qun"],
+      "x": ["xi","xia","xie","xiao","xiu","xian","xin","xiang","xing","xiong","xu","xue","xuan","xun"],
+      "zh": ["zha","zhe","zhi","zhai","zhei","zhao","zhou","zhan","zhen","zhang","zheng","zhong","zhu","zhua","zhuo","zhuai","zhui","zhuan","zhun","zhuang"],
+      "ch": ["cha","che","chi","chai","chao","chou","chan","chen","chang","cheng","chong","chu","chua","chuo","chuai","chui","chuan","chun","chuang"],
+      "sh": ["sha","she","shi","shai","shei","shao","shou","shan","shen","shang","sheng","shu","shua","shuo","shuai","shui","shuan","shun","shuang"],
+      "r": ["re","ri","rao","rou","ran","ren","rang","reng","rong","ru","rua","ruo","rui","ruan","run"],
+      "z": ["za","ze","zi","zai","zei","zao","zou","zan","zen","zang","zeng","zong","zu","zuo","zui","zuan","zun"],
+      "c": ["ca","ce","ci","cai","cao","cou","can","cen","cang","ceng","cong","cu","cuo","cui","cuan","cun"],
+      "s": ["sa","se","si","sai","sao","sou","san","sen","sang","seng","song","su","suo","sui","suan","sun"]
+    };
+    const PY_TONE_MARKS = {
+      a: ["ā","á","ǎ","à"], e: ["ē","é","ě","è"], i: ["ī","í","ǐ","ì"],
+      o: ["ō","ó","ǒ","ò"], u: ["ū","ú","ǔ","ù"], "ü": ["ǖ","ǘ","ǚ","ǜ"]
+    };
+    const PY_TONE_META = [
+      { t: 1, short: "Thanh 1 ˉ", contour: "5–5 Ngang cao", desc: "Giữ cao và phẳng đều, không hạ giọng cuối" },
+      { t: 2, short: "Thanh 2 ˊ", contour: "3–5 Đi lên", desc: "Vút lên mượt như giọng hỏi ngạc nhiên" },
+      { t: 3, short: "Thanh 3 ˇ", contour: "2–1–4 Trầm–lên", desc: "Xuống sâu dưới đáy rồi hơi nhích lên" },
+      { t: 4, short: "Thanh 4 ˋ", contour: "5–1 Giáng mạnh", desc: "Rơi nhanh dứt khoát từ đỉnh xuống đáy" }
+    ];
+    const PY_EAR_TONE_POOL = [
+      { base: "ma", samples: ["妈 (mẹ)", "麻 (tê)", "马 (ngựa)", "骂 (mắng)"] },
+      { base: "ba", samples: ["八 (số 8)", "拔 (nhổ)", "把 (cầm)", "爸 (bố)"] },
+      { base: "pa", samples: ["趴 (nằm sấp)", "爬 (leo)", "pǎ", "怕 (sợ)"] },
+      { base: "da", samples: ["搭 (bắt xe)", "答 (trả lời)", "打 (đánh)", "大 (to)"] },
+      { base: "ta", samples: ["他 (anh ấy)", "tá", "塔 (tháp)", "踏 (giẫm)"] },
+      { base: "la", samples: ["拉 (kéo)", "lá", "喇叭 (kèn)", "辣 (cay)"] },
+      { base: "fa", samples: ["发 (phát)", "罚 (phạt)", "法 (pháp)", "fà"] },
+      { base: "ge", samples: ["哥 (anh trai)", "格 (ô)", "gě", "个 (cái)"] },
+      { base: "ke", samples: ["科 (khoa)", "咳 (ho)", "渴 (khát)", "课 (bài học)"] },
+      { base: "he", samples: ["喝 (uống)", "河 (sông)", "hě", "贺 (chúc mừng)"] },
+      { base: "ji", samples: ["鸡 (gà)", "急 (gấp)", "几 (mấy)", "记 (nhớ)"] },
+      { base: "qi", samples: ["七 (số 7)", "骑 (cưỡi)", "起 (dậy)", "气 (khí)"] },
+      { base: "xi", samples: ["西 (phía Tây)", "习 (luyện tập)", "洗 (rửa)", "细 (mảnh)"] },
+      { base: "zhi", samples: ["知 (biết)", "直 (thẳng)", "纸 (giấy)", "志 (chí)"] },
+      { base: "chi", samples: ["吃 (ăn)", "迟 (muộn)", "尺 (thước)", "翅 (cánh)"] },
+      { base: "shi", samples: ["师 (thầy)", "十 (số 10)", "使 (khiến)", "是 (là)"] },
+      { base: "zi", samples: ["资 (tư liệu)", "zí", "子 (con)", "字 (chữ)"] },
+      { base: "ci", samples: ["雌 (mái)", "词 (từ ngữ)", "此 (này)", "次 (lần)"] },
+      { base: "si", samples: ["思 (nghĩ)", "sí", "死 (chết)", "四 (số 4)"] },
+      { base: "fu", samples: ["夫 (chồng)", "服 (phục vụ)", "府 (phủ)", "父 (cha)"] },
+      { base: "shu", samples: ["书 (sách)", "熟 (chín/quen)", "数 (đếm)", "树 (cây)"] },
+      { base: "hu", samples: ["呼 (hô)", "湖 (hồ)", "虎 (hổ)", "护 (bảo vệ)"] },
+      { base: "gu", samples: ["姑 (cô)", "gú", "古 (cổ)", "故 (cũ)"] },
+      { base: "li", samples: ["lī", "离 (rời)", "里 (bên trong)", "力 (sức)"] },
+      { base: "mi", samples: ["咪 (meo)", "迷 (mê)", "米 (gạo)", "密 (kín)"] },
+      { base: "ni", samples: ["nī", "泥 (bùn)", "你 (bạn)", "逆 (ngược)"] },
+      { base: "yi", samples: ["一 (số 1)", "移 (chuyển)", "椅 (ghế)", "意 (ý)"] },
+      { base: "wu", samples: ["屋 (nhà)", "无 (không)", "五 (số 5)", "物 (vật)"] },
+      { base: "yu", samples: ["迂 (vòng)", "鱼 (cá)", "雨 (mưa)", "玉 (ngọc)"] },
+      { base: "mai", samples: ["māi", "埋 (chôn)", "买 (mua)", "卖 (bán)"] },
+      { base: "shui", samples: ["shuī", "谁 (ai)", "水 (nước)", "睡 (ngủ)"] },
+      { base: "tian", samples: ["天 (trời)", "甜 (ngọt)", "舔 (liếm)", "tiàn"] },
+      { base: "wen", samples: ["温 (ấm)", "文 (văn)", "吻 (hôn)", "问 (hỏi)"] },
+      { base: "xue", samples: ["靴 (ủng)", "学 (học)", "雪 (tuyết)", "血 (máu)"] },
+      { base: "fang", samples: ["方 (phương)", "房 (phòng)", "访 (thăm)", "放 (đặt)"] },
+      { base: "hao", samples: ["蒿 (ngải)", "豪 (hào)", "好 (tốt)", "号 (số/ngày)"] }
+    ];
+    const PY_EAR_ASP_PAIRS = [
+      { opts: [["ba",1],["pa",1]], note: "b (八 bā) không bật hơi; p (趴 pā) mím môi bật luồng hơi mạnh." },
+      { opts: [["ba",4],["pa",4]], note: "bà (爸) nhẹ không bật hơi; pà (怕 - sợ) bật hơi mạnh." },
+      { opts: [["bai",2],["pai",2]], note: "bái (白 - trắng) không bật hơi; pái (排 - xếp hàng) bật hơi." },
+      { opts: [["bao",1],["pao",1]], note: "bāo (包 - bánh bao) không bật hơi; pāo (抛 - ném) bật hơi." },
+      { opts: [["da",4],["ta",4]], note: "dà (大 - to) đầu lưỡi không bật hơi; tà (踏) bật hơi như 'th'." },
+      { opts: [["du",2],["tu",2]], note: "dú (读 - đọc) không bật hơi; tú (图 - tranh/bản đồ) bật hơi." },
+      { opts: [["dao",4],["tao",4]], note: "dào (到 - đến) không bật hơi; tào (套 - bộ) bật hơi mạnh." },
+      { opts: [["di",1],["ti",1]], note: "dī (低 - thấp) không bật hơi; tī (踢 - đá) bật hơi." },
+      { opts: [["ge",1],["ke",1]], note: "gē (哥 - anh trai) không bật hơi; kē (科 - khoa) bật hơi như 'kh'." },
+      { opts: [["gao",1],["kao",1]], note: "gāo (高 - cao) không bật hơi; kāo bật hơi cuống lưỡi." },
+      { opts: [["gu",3],["ku",3]], note: "gǔ (古 - cổ) không bật hơi; kǔ (苦 - đắng/khổ) bật hơi mạnh." },
+      { opts: [["guan",1],["kuan",1]], note: "guān (关 - đóng) không bật hơi; kuān (宽 - rộng) bật hơi." },
+      { opts: [["ji",1],["qi",1]], note: "jī (鸡 - gà) mặt lưỡi không bật hơi; qī (七 - số 7) mặt lưỡi bật hơi." },
+      { opts: [["jia",1],["qia",1]], note: "jiā (家 - nhà) không bật hơi; qiā (掐) bật hơi." },
+      { opts: [["ju",4],["qu",4]], note: "jù (句 - câu) không bật hơi + tròn môi ü; qù (去 - đi) bật hơi mạnh + tròn môi ü." },
+      { opts: [["jian",4],["qian",4]], note: "jiàn (见 - gặp) không bật hơi; qiàn (欠 - nợ) bật hơi." },
+      { opts: [["zhi",1],["chi",1]], note: "zhī (知 - biết) uốn lưỡi không bật hơi; chī (吃 - ăn) uốn lưỡi bật hơi mạnh." },
+      { opts: [["zhu",1],["chu",1]], note: "zhū (猪 - lợn) uốn lưỡi không bật hơi; chū (出 - ra) uốn lưỡi bật hơi." },
+      { opts: [["zhao",3],["chao",3]], note: "zhǎo (找 - tìm) không bật hơi; chǎo (炒 - xào / 吵 - ồn) bật hơi." },
+      { opts: [["zhong",1],["chong",1]], note: "zhōng (中 - giữa) không bật hơi; chōng (冲 - xông/pha) bật hơi." },
+      { opts: [["zao",3],["cao",3]], note: "zǎo (早 - sớm) thẳng lưỡi không bật hơi; cǎo (草 - cỏ) thẳng lưỡi bật hơi." },
+      { opts: [["zi",4],["ci",4]], note: "zì (字 - chữ) không bật hơi + 'ư'; cì (次 - lần) bật hơi mạnh + 'ư'." },
+      { opts: [["zou",3],["cou",3]], note: "zǒu (走 - đi bộ) không bật hơi; cǒu bật hơi xì khe răng." },
+      { opts: [["zuo",4],["cuo",4]], note: "zuò (做 - làm / 坐 - ngồi) không bật hơi; cuò (错 - sai) bật hơi mạnh!" }
+    ];
+    const PY_EAR_TRICKY_SETS = [
+      { opts: [["zhi",1],["zi",1],["ji",1]], note: "zhī (知) uốn lưỡi + 'ư'; zī (资) thẳng lưỡi + 'ư'; jī (鸡) mặt lưỡi bẹt + 'i'." },
+      { opts: [["chi",1],["ci",1],["qi",1]], note: "chī (吃) uốn lưỡi bật hơi + 'ư'; cī thẳng lưỡi bật hơi + 'ư'; qī (七) mặt lưỡi bật hơi + 'i'." },
+      { opts: [["shi",1],["si",1],["xi",1]], note: "shī (师) uốn lưỡi + 'ư'; sī (思) thẳng lưỡi + 'ư'; xī (西) mặt lưỡi + 'i'." },
+      { opts: [["shi",4],["si",4],["xi",4]], note: "shì (是 - là) uốn lưỡi; sì (四 - số 4) thẳng lưỡi; xì (细) mặt lưỡi." },
+      { opts: [["shi",2],["si",4],["qi",1]], note: "Bẫy số đếm HSK 1 kinh điển: shí (十 - 10), sì (四 - 4), qī (七 - 7)!" },
+      { opts: [["qu",4],["chu",4],["cu",4]], note: "qù (去 - đi) tròn môi ü; chù uốn lưỡi vần u; cù thẳng lưỡi vần u." },
+      { opts: [["xu",1],["shu",1],["su",1]], note: "xū (需 - cần) tròn môi ü; shū (书 - sách) uốn lưỡi vần u; sū thẳng lưỡi vần u." },
+      { opts: [["ju",4],["zhu",4],["zu",4]], note: "jù (句) mặt lưỡi tròn môi ü; zhù (住 - sống) uốn lưỡi vần u; zù thẳng lưỡi vần u." },
+      { opts: [["nü",3],["nu",3]], note: "nǚ (女 - nữ) chu tròn môi đọc 'uy'; nǔ (努 - nỗ lực) đọc vần 'u'." },
+      { opts: [["lü",4],["lu",4]], note: "lǜ (绿 - xanh lá) chu tròn môi đọc 'uy'; lù (路 - con đường) đọc vần 'u'." },
+      { opts: [["xie",3],["xue",3]], note: "xiě (写 - viết) vần i-ê miệng bẹt; xuě (雪 - tuyết) vần ü-ê tròn môi." },
+      { opts: [["jie",1],["jue",1]], note: "jiē (接 - đón) vần i-ê; juē vần ü-ê tròn môi." },
+      { opts: [["ri",4],["zhi",4],["zi",4]], note: "rì (日 - ngày) uốn lưỡi rung nhẹ; zhì uốn lưỡi không rung; zì (字) thẳng lưỡi." },
+      { opts: [["ren",2],["zhen",2],["zen",2]], note: "rén (人 - người) uốn lưỡi rung nhẹ, khác hẳn zh và z." },
+      { opts: [["an",1],["ang",1]], note: "ān (安) âm mũi trước -n khép đầu lưỡi; āng âm mũi sau -ng vang cuống họng." },
+      { opts: [["fan",4],["fang",4]], note: "fàn (饭 - cơm) đuôi -n gọn; fàng (放 - đặt) đuôi -ng mở vang." },
+      { opts: [["chen",2],["cheng",2]], note: "chén âm mũi trước -n; chéng (成 - thành) âm mũi sau -ng." },
+      { opts: [["jin",1],["jing",1]], note: "jīn (今 - nay) đuôi -n ngắn; jīng (京 - kinh đô) đuôi -ng ngân dài." },
+      { opts: [["xin",1],["xing",1]], note: "xīn (新 - mới) đuôi -n; xīng (星 - ngôi sao) đuôi -ng." },
+      { opts: [["shan",1],["san",1]], note: "shān (山 - núi) uốn lưỡi; sān (三 - số 3) thẳng lưỡi!" }
+    ];
+
+    function applyToneMark(baseSyl, tone) {
+      const t = Math.min(4, Math.max(1, Number(tone) || 1));
+      const s = String(baseSyl || "");
+      let idx = s.indexOf("a");
+      if (idx === -1) idx = s.indexOf("e");
+      if (idx === -1 && s.indexOf("ou") !== -1) idx = s.indexOf("o");
+      if (idx === -1) {
+        for (let i = s.length - 1; i >= 0; i--) {
+          if (PY_TONE_MARKS[s[i]]) { idx = i; break; }
+        }
+      }
+      if (idx === -1) return s;
+      const ch = s[idx];
+      const rep = PY_TONE_MARKS[ch] ? PY_TONE_MARKS[ch][t - 1] : ch;
+      return s.slice(0, idx) + rep + s.slice(idx + 1);
+    }
+
+    function toPinyinNum(baseSyl, tone) {
+      const t = Math.min(4, Math.max(1, Number(tone) || 1));
+      return String(baseSyl || "").replace(/ü/g, "v") + t;
+    }
+
+    function getSyllableRuleTip(init, baseSyl) {
+      const tips = [];
+      if (["p","t","k","q","ch","c"].includes(init)) tips.push(`Thanh mẫu <b>${init}</b> phải <b>BẬT HƠI</b> mạnh`);
+      if (["b","d","g","j","zh","z"].includes(init)) tips.push(`Thanh mẫu <b>${init}</b> đọc <b>không bật hơi</b>`);
+      if (["zh","ch","sh","r"].includes(init)) tips.push("cong đầu lưỡi lên ngạc cứng");
+      if (["z","c","s"].includes(init)) tips.push("đầu lưỡi đặt thẳng sau răng");
+      if (["j","q","x"].includes(init) && /^[jqx]u/.test(baseSyl)) tips.push("viết là <b>u</b> nhưng thực chất là <b>ü</b> (chu tròn môi đọc 'uy')");
+      if (/^(z|c|s|zh|ch|sh|r)i$/.test(baseSyl)) tips.push("nguyên âm <b>i</b> sau 7 thanh mẫu này đọc gần âm <b>'ư'</b> ngắn gọn");
+      if (/(iu|ui|un)$/.test(baseSyl)) tips.push("vận mẫu viết tắt (<code>iu←iou, ui←uei, un←uen</code>), dấu thanh nằm trên nguyên âm đứng sau");
+      if (baseSyl.includes("ü")) tips.push("giữ hai chấm trên <b>ü</b>, chu tròn môi đọc 'uy'");
+      if (/ng$/.test(baseSyl)) tips.push("âm mũi sau <b>-ng</b> vang cuống họng");
+      else if (/n$/.test(baseSyl)) tips.push("âm mũi trước <b>-n</b> đầu lưỡi chạm chân răng trên");
+      if (!tips.length) tips.push("đọc nối mượt thanh mẫu + vận mẫu và giữ đúng cao độ thanh điệu");
+      return tips.join(" • ") + ".";
+    }
+
+    let pyStudioSeqTimers = [];
+    function pyStudioStopSeq() {
+      pyStudioSeqTimers.forEach((id) => clearTimeout(id));
+      pyStudioSeqTimers = [];
+    }
+
+    function loadPyEarStats() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(PY_EAR_KEY) || "{}") || {};
+        return {
+          total: Number(raw.total) || 0,
+          correct: Number(raw.correct) || 0,
+          streak: Number(raw.streak) || 0,
+          bestStreak: Number(raw.bestStreak) || 0
+        };
+      } catch (e) {
+        return { total: 0, correct: 0, streak: 0, bestStreak: 0 };
+      }
+    }
+    function savePyEarStats(st) {
+      try { localStorage.setItem(PY_EAR_KEY, JSON.stringify(st)); } catch (e) {}
+    }
+
+    const pyStudio = {
+      lessonId: "",
+      tab: "chart",       // chart | ear
+      selectedInit: "b",
+      selectedTone: 1,
+      selectedBase: "ba",
+      earMode: "tones",   // tones | aspirated | tricky
+      earStats: loadPyEarStats(),
+      earQ: null
+    };
+
+    function pyStudioSpeak(baseSyl, tone) {
+      pyStudioStopSeq();
+      const marked = applyToneMark(baseSyl, tone);
+      const num = toPinyinNum(baseSyl, tone);
+      speakZh("", { pinyin: marked, pinyinNum: num, preferPinyinAudio: true });
+    }
+
+    function pyStudioPlayAll4(baseSyl) {
+      pyStudioStopSeq();
+      [1, 2, 3, 4].forEach((t, idx) => {
+        const tid = setTimeout(() => {
+          const marked = applyToneMark(baseSyl, t);
+          const num = toPinyinNum(baseSyl, t);
+          speakZh("", { pinyin: marked, pinyinNum: num, preferPinyinAudio: true });
+        }, idx * 880);
+        pyStudioSeqTimers.push(tid);
+      });
+    }
+
+    function pyStudioMakeEarQuestion() {
+      const mode = pyStudio.earMode;
+      if (mode === "tones") {
+        const item = PY_EAR_TONE_POOL[Math.floor(Math.random() * PY_EAR_TONE_POOL.length)];
+        const ansTone = 1 + Math.floor(Math.random() * 4);
+        pyStudio.earQ = {
+          mode: "tones",
+          base: item.base,
+          targetBase: item.base,
+          targetTone: ansTone,
+          samples: item.samples,
+          options: [1, 2, 3, 4].map((t) => ({
+            base: item.base,
+            tone: t,
+            label: applyToneMark(item.base, t),
+            sub: PY_TONE_META[t - 1].short + " · " + PY_TONE_META[t - 1].contour
+          })),
+          ansIdx: ansTone - 1,
+          pickedIdx: null,
+          note: `So sánh 4 thanh của "${item.base}": ${item.samples.map((s, i) => applyToneMark(item.base, i + 1) + " " + s).join(" · ")}.`
+        };
+      } else if (mode === "aspirated") {
+        const pair = PY_EAR_ASP_PAIRS[Math.floor(Math.random() * PY_EAR_ASP_PAIRS.length)];
+        const ansIdx = Math.floor(Math.random() * pair.opts.length);
+        const [tb, tt] = pair.opts[ansIdx];
+        pyStudio.earQ = {
+          mode: "aspirated",
+          targetBase: tb,
+          targetTone: tt,
+          options: pair.opts.map(([b, t]) => ({
+            base: b,
+            tone: t,
+            label: applyToneMark(b, t),
+            sub: `Thanh ${t}`
+          })),
+          ansIdx,
+          pickedIdx: null,
+          note: pair.note
+        };
+      } else {
+        const set = PY_EAR_TRICKY_SETS[Math.floor(Math.random() * PY_EAR_TRICKY_SETS.length)];
+        const ansIdx = Math.floor(Math.random() * set.opts.length);
+        const [tb, tt] = set.opts[ansIdx];
+        pyStudio.earQ = {
+          mode: "tricky",
+          targetBase: tb,
+          targetTone: tt,
+          options: set.opts.map(([b, t]) => ({
+            base: b,
+            tone: t,
+            label: applyToneMark(b, t),
+            sub: `Thanh ${t}`
+          })),
+          ansIdx,
+          pickedIdx: null,
+          note: set.note
+        };
+      }
+    }
+
+    function pyStudioRefresh() {
+      const mount = document.getElementById("pyStudioMount");
+      if (mount) mount.innerHTML = buildPinyinStudioInnerHtml();
+    }
+
+    function pyStudioSetTab(tab) {
+      pyStudioStopSeq();
+      pyStudio.tab = tab;
+      if (tab === "ear" && !pyStudio.earQ) pyStudioMakeEarQuestion();
+      pyStudioRefresh();
+    }
+
+    function pyStudioSelectInit(initKey) {
+      pyStudioStopSeq();
+      pyStudio.selectedInit = initKey;
+      const list = PY_SYLLABLES_BY_INIT[initKey] || [];
+      if (list.length && !list.includes(pyStudio.selectedBase)) {
+        pyStudio.selectedBase = list[0];
+      }
+      pyStudioRefresh();
+    }
+
+    function pyStudioSelectTone(t) {
+      pyStudio.selectedTone = t;
+      pyStudioSpeak(pyStudio.selectedBase, t);
+      pyStudioRefresh();
+    }
+
+    function pyStudioPickSyl(baseSyl) {
+      pyStudio.selectedBase = baseSyl;
+      pyStudioSpeak(baseSyl, pyStudio.selectedTone);
+      pyStudioRefresh();
+    }
+
+    function pyStudioSetEarMode(m) {
+      pyStudioStopSeq();
+      pyStudio.earMode = m;
+      pyStudioMakeEarQuestion();
+      pyStudioRefresh();
+      if (pyStudio.earQ) pyStudioSpeak(pyStudio.earQ.targetBase, pyStudio.earQ.targetTone);
+    }
+
+    function pyStudioPlayEar() {
+      if (!pyStudio.earQ) pyStudioMakeEarQuestion();
+      pyStudioSpeak(pyStudio.earQ.targetBase, pyStudio.earQ.targetTone);
+    }
+
+    function pyStudioAnswerEar(idx) {
+      const q = pyStudio.earQ;
+      if (!q || q.pickedIdx !== null) return;
+      q.pickedIdx = idx;
+      const ok = idx === q.ansIdx;
+      pyStudio.earStats.total++;
+      if (ok) {
+        pyStudio.earStats.correct++;
+        pyStudio.earStats.streak++;
+        if (pyStudio.earStats.streak > pyStudio.earStats.bestStreak) {
+          pyStudio.earStats.bestStreak = pyStudio.earStats.streak;
+        }
+      } else {
+        pyStudio.earStats.streak = 0;
+      }
+      savePyEarStats(pyStudio.earStats);
+      pyStudioRefresh();
+    }
+
+    function pyStudioNextEar() {
+      pyStudioMakeEarQuestion();
+      pyStudioRefresh();
+      pyStudioSpeak(pyStudio.earQ.targetBase, pyStudio.earQ.targetTone);
+    }
+
+    function pyStudioResetEarStats() {
+      pyStudio.earStats = { total: 0, correct: 0, streak: 0, bestStreak: 0 };
+      savePyEarStats(pyStudio.earStats);
+      pyStudioRefresh();
+    }
+
+    function buildPinyinStudioInnerHtml() {
+      const totalSyllables = Object.values(PY_SYLLABLES_BY_INIT).reduce((s, a) => s + a.length, 0);
+      const isChart = pyStudio.tab === "chart";
+      let body = "";
+
+      if (isChart) {
+        const curGroup = PY_INIT_GROUPS.find((g) => g.items.includes(pyStudio.selectedInit)) || PY_INIT_GROUPS[1];
+        const sylList = PY_SYLLABLES_BY_INIT[pyStudio.selectedInit] || [];
+        const selBase = sylList.includes(pyStudio.selectedBase) ? pyStudio.selectedBase : (sylList[0] || "ba");
+        pyStudio.selectedBase = selBase;
+        const ruleTip = getSyllableRuleTip(pyStudio.selectedInit, selBase);
+
+        const initBtnsHtml = PY_INIT_GROUPS.map((g) => g.items.map((it) => {
+          const isAsp = Array.isArray(g.asp) && g.asp.includes(it);
+          return `<button type="button" class="py-init-btn ${pyStudio.selectedInit === it ? "active" : ""} ${isAsp ? "is-asp" : ""}" onclick="pyStudioSelectInit('${it}')" title="${esc(g.label)}${isAsp ? " — Bật hơi" : ""}">${esc(it)}</button>`;
+        }).join("")).join("");
+
+        const toneBarHtml = PY_TONE_META.map((m) => `
+          <button type="button" class="py-tone-pill t${m.t} ${pyStudio.selectedTone === m.t ? "active" : ""}" onclick="pyStudioSelectTone(${m.t})">${esc(m.short)}</button>
+        `).join("");
+
+        const sylGridHtml = sylList.map((b) => {
+          const mk = applyToneMark(b, pyStudio.selectedTone);
+          return `<button type="button" class="py-syl-btn t${pyStudio.selectedTone} ${selBase === b ? "active" : ""}" onclick="pyStudioPickSyl('${b}')">${esc(mk)}</button>`;
+        }).join("");
+
+        const fourTonesHtml = PY_TONE_META.map((m) => {
+          const mk = applyToneMark(selBase, m.t);
+          return `<button type="button" class="py-4t-chip ${pyStudio.selectedTone === m.t ? "active" : ""}" onclick="pyStudioSelectTone(${m.t})">
+            <b class="tone-${m.t}" style="color:${m.t===1?"#dc2626":m.t===2?"#15803d":m.t===3?"#1d4ed8":"#7e22ce"}">${esc(mk)}</b>
+            <span>${esc(m.contour)}</span>
+          </button>`;
+        }).join("");
+
+        body = `
+          <div style="font-size:12px;font-weight:800;color:var(--muted);margin-bottom:6px;">1. Chọn Thanh mẫu (viền nét đứt = âm bật hơi mạnh):</div>
+          <div class="py-group-row">${initBtnsHtml}</div>
+          <div class="py-group-hint"><b>${esc(curGroup.label)}:</b> ${esc(curGroup.hint)}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:12px;font-weight:800;color:var(--muted);">2. Chọn thanh điệu &amp; chạm âm tiết ghép (${sylList.length} âm tiết hợp lệ):</span>
+            <div class="py-tone-bar" style="margin-bottom:0;">${toneBarHtml}</div>
+          </div>
+          <div class="py-syl-grid">${sylGridHtml}</div>
+          <div class="py-detail-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+              <div style="font-size:14px;font-weight:800;">
+                Âm tiết đang chọn: <span style="font-size:20px;color:var(--primary);margin-left:4px;">${esc(applyToneMark(selBase, pyStudio.selectedTone))}</span>
+                <span style="font-size:12px;color:var(--muted);font-weight:700;">(${esc(toPinyinNum(selBase, pyStudio.selectedTone))})</span>
+              </div>
+              <button type="button" class="ctrl-btn on" onclick="pyStudioPlayAll4('${selBase}')">${lIcon("volume", 13)}<span>Nghe liền 4 thanh 1→4</span></button>
+            </div>
+            <div class="py-4tones-row">${fourTonesHtml}</div>
+            <div style="font-size:12.5px;color:var(--muted);line-height:1.5;">${lIcon("lightbulb", 13)} <b>Mẹo đọc:</b> ${ruleTip}</div>
+          </div>
+        `;
+      } else {
+        if (!pyStudio.earQ) pyStudioMakeEarQuestion();
+        const q = pyStudio.earQ;
+        const st = pyStudio.earStats;
+        const acc = st.total ? Math.round((st.correct / st.total) * 100) : 0;
+        const answered = q.pickedIdx !== null;
+        const isCorrect = answered && q.pickedIdx === q.ansIdx;
+        const qTitle = q.mode === "tones"
+          ? `Nghe giọng Bắc Kinh và chọn đúng Thanh điệu của âm "${q.base}":`
+          : (q.mode === "aspirated"
+            ? "Nghe kỹ luồng hơi và phân biệt âm Bật hơi / Không bật hơi:"
+            : "Nghe kỹ vị trí lưỡi / tròn môi và chọn đúng âm tiết:");
+
+        body = `
+          <div class="py-studio-tabs" style="margin-bottom:10px;">
+            <button type="button" class="ctrl-btn ${pyStudio.earMode === "tones" ? "on" : ""}" onclick="pyStudioSetEarMode('tones')">🎵 4 Thanh điệu (144 âm)</button>
+            <button type="button" class="ctrl-btn ${pyStudio.earMode === "aspirated" ? "on" : ""}" onclick="pyStudioSetEarMode('aspirated')">💨 Bật hơi (b/p, d/t, g/k...)</button>
+            <button type="button" class="ctrl-btn ${pyStudio.earMode === "tricky" ? "on" : ""}" onclick="pyStudioSetEarMode('tricky')">👅 Cặp bẫy (zh/z/j, u/ü, n/ng)</button>
+          </div>
+          <div class="py-ear-box">
+            <div class="py-ear-stats">
+              <span>Đúng: <b>${st.correct}/${st.total}</b> (${acc}%) • Chuỗi đúng: <b>🔥 ${st.streak}</b> • Kỷ lục: <b>🏆 ${st.bestStreak}</b></span>
+              ${st.total ? `<button type="button" class="ctrl-btn" style="padding:4px 8px;font-size:11.5px;" onclick="pyStudioResetEarStats()">Đặt lại điểm</button>` : ""}
+            </div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:12px;">${esc(qTitle)}</div>
+            <button type="button" class="py-ear-play" onclick="pyStudioPlayEar()">
+              ${lIcon("volume", 18)}<span>Nghe âm thanh mẫu</span>
+            </button>
+            <div class="py-ear-opts">
+              ${q.options.map((o, idx) => {
+                let cls = "py-ear-opt";
+                if (answered) {
+                  if (idx === q.ansIdx) cls += " ok";
+                  else if (idx === q.pickedIdx) cls += " bad";
+                }
+                return `<button type="button" class="${cls}" ${answered ? "disabled" : ""} onclick="pyStudioAnswerEar(${idx})">
+                  <span>${esc(o.label)}</span>
+                  <small>${esc(o.sub)}</small>
+                </button>`;
+              }).join("")}
+            </div>
+            ${answered ? `
+              <div class="py-ear-fb">
+                <div style="font-weight:800;margin-bottom:5px;color:${isCorrect ? "var(--ok)" : "var(--danger)"};">
+                  ${isCorrect ? "✅ Chính xác! Tai bạn nghe rất chuẩn." : `❌ Chưa đúng — Đáp án đúng là <b>${esc(q.options[q.ansIdx].label)}</b>. Hãy bấm nghe so sánh bên dưới nhé!`}
+                </div>
+                <div style="color:var(--muted);margin-bottom:8px;">${esc(q.note)}</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    ${q.options.map((o) => `<button type="button" class="ctrl-btn" onclick="pyStudioSpeak('${o.base}', ${o.tone})">${lIcon("volume", 12)}<span>${esc(o.label)}</span></button>`).join("")}
+                  </div>
+                  <button type="button" class="py-st-tab active" onclick="pyStudioNextEar()">Câu tiếp theo →</button>
+                </div>
+              </div>
+            ` : `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Bấm nút xanh phía trên để nghe (có thể nghe lại bao nhiêu lần tùy thích).</div>`}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="py-studio-head">
+          <div>
+            <h4 class="py-studio-title">🎛️ Xưởng Tập Ghép Vần Pinyin &amp; Luyện Tai Thanh Điệu</h4>
+            <p class="py-studio-sub">Đủ ${totalSyllables} âm tiết chuẩn Bắc Kinh × 4 thanh điệu (MP3 thu âm thật) + 3 bài luyện tai phân biệt thanh điệu &amp; âm dễ nhầm.</p>
+          </div>
+        </div>
+        <div class="py-studio-tabs">
+          <button type="button" class="py-st-tab ${isChart ? "active" : ""}" onclick="pyStudioSetTab('chart')">🔤 Bảng Ghép Vần (${totalSyllables} âm tiết)</button>
+          <button type="button" class="py-st-tab ${!isChart ? "active" : ""}" onclick="pyStudioSetTab('ear')">🎧 Luyện Tai Thanh điệu &amp; Bật hơi</button>
+        </div>
+        ${body}
+      `;
+    }
+
+    function renderPinyinStudioSection(l) {
+      if (!l || (l.id !== "c0_1" && l.id !== "c0_2")) return "";
+      if (pyStudio.lessonId !== l.id) {
+        pyStudio.lessonId = l.id;
+        pyStudio.tab = l.id === "c0_2" ? "ear" : "chart";
+        if (pyStudio.tab === "ear" && !pyStudio.earQ) pyStudioMakeEarQuestion();
+      }
+      return `<section class="py-studio" id="sec-pystudio"><div id="pyStudioMount">${buildPinyinStudioInnerHtml()}</div></section>`;
+    }
+
+    function toggleDrawer(open) {
+      document.body.classList.toggle("drawer-open", Boolean(open) && window.innerWidth <= 860);
+    }
+    window.addEventListener("resize", () => { if (window.innerWidth > 860 && document.body.classList.contains("drawer-open")) toggleDrawer(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("drawer-open")) toggleDrawer(false); });
+
+    function clearSearch() {
+      searchQuery = "";
+      const inp = document.getElementById("sbSearchInput");
+      if (inp) { inp.value = ""; inp.focus(); }
+      const clr = document.getElementById("sbSearchClear");
+      if (clr) clr.classList.remove("show");
+      renderLessonList();
+    }
+
+    function switchLevel(lv, opts) {
+      pyStudioStopSeq();
+      if (window.HskTTS && typeof window.HskTTS.stop === "function") window.HskTTS.stop();
+      const options = opts || {};
+      const numLv = Math.min(6, Math.max(1, Number(lv) || 1));
+      activeLevel = numLv;
+      searchQuery = "";
+      const inp = document.getElementById("sbSearchInput");
+      if (inp) inp.value = "";
+      const clr = document.getElementById("sbSearchClear");
+      if (clr) clr.classList.remove("show");
+
+      renderLevelBars();
+      renderProgressBox();
+
+      if (!levelCache[numLv] || !levelCache[numLv].length) {
+        document.getElementById("sbLessonList").innerHTML = `
+          <div class="loading-box"><div class="spinner"></div>Đang nạp bài giảng <b>${esc(getLevelShortLabel(numLv))}</b>...</div>`;
+        if (!options.keepStage) {
+          document.getElementById("lessonStage").innerHTML = `
+            <div class="loading-box"><div class="spinner"></div>Đang tải lộ trình <b>${esc(getLevelShortLabel(numLv))}</b>...</div>`;
+        }
+        loadLevelData(numLv).then((list) => {
+          if (activeLevel !== numLv) return;
+          const targetId = options.lessonId && list.some((x) => x.id === options.lessonId)
+            ? options.lessonId
+            : (list[0] ? list[0].id : "");
+          activeId = targetId;
+          activeTab = "lecture";
+          quizAnswers = {};
+          if (window.HskLessonSlidesWorkbook) window.HskLessonSlidesWorkbook.resetForLesson(activeId);
+          markTabVisited(activeId, "lecture");
+          if (activeId) { try { localStorage.setItem(LAST_KEY, activeId); } catch (e) {} }
+          renderLevelBars();
+          renderProgressBox();
+          renderLessonList();
+          renderStage();
+          if (options.closeDrawer) toggleDrawer(false);
+          if (options.scrollTop) window.scrollTo({ top: 0, behavior: "smooth" });
+        }).catch((err) => {
+          if (activeLevel !== numLv) return;
+          const errHtml = `<div class="loading-box">
+            <div style="color:var(--warn);margin-bottom:6px;">${lIcon("alert", 26)}</div>
+            <div>${esc(err && err.message ? err.message : "Không tải được dữ liệu bài giảng.")}</div>
+            <button class="ctrl-btn on" style="margin-top:10px;" onclick="switchLevel(${numLv})">${lIcon("refresh", 13)} Thử tải lại</button>
+          </div>`;
+          document.getElementById("sbLessonList").innerHTML = errHtml;
+          document.getElementById("lessonStage").innerHTML = errHtml;
+        });
+        return;
+      }
+
+      const list = levelCache[numLv];
+      const targetId = options.lessonId && list.some((x) => x.id === options.lessonId)
+        ? options.lessonId
+        : (list.some((x) => x.id === activeId) ? activeId : (list[0] ? list[0].id : ""));
+      activeId = targetId;
+      activeTab = "lecture";
+      quizAnswers = {};
+      if (window.HskLessonSlidesWorkbook) window.HskLessonSlidesWorkbook.resetForLesson(activeId);
+      markTabVisited(activeId, "lecture");
+      if (activeId) { try { localStorage.setItem(LAST_KEY, activeId); } catch (e) {} }
+      renderLessonList();
+      renderStage();
+      if (options.closeDrawer) toggleDrawer(false);
+      if (options.scrollTop) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function selectLesson(id) {
+      pyStudioStopSeq();
+      if (window.HskTTS && typeof window.HskTTS.stop === "function") window.HskTTS.stop();
+      activeId = id;
+      activeTab = "lecture";
+      quizAnswers = {};
+      if (window.HskLessonSlidesWorkbook) window.HskLessonSlidesWorkbook.resetForLesson(id);
+      markTabVisited(id, "lecture");
+      try { localStorage.setItem(LAST_KEY, id); } catch (e) {}
+      toggleDrawer(false);
+      renderLessonList();
+      renderStage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goTab(tabKey, scrollToTop) {
+      pyStudioStopSeq();
+      if (window.HskTTS && typeof window.HskTTS.stop === "function") window.HskTTS.stop();
+      activeTab = tabKey;
+      markTabVisited(activeId, tabKey);
+      renderStage();
+      if (scrollToTop) {
+        const stage = document.getElementById("lessonStage");
+        if (stage) {
+          const top = Math.max(0, stage.getBoundingClientRect().top + window.scrollY - 64);
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      }
+    }
+
+    function toggleDone(id, silent) {
+      doneMap[id] = !doneMap[id];
+      try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+      renderProgressBox();
+      renderLevelBars();
+      renderLessonList();
+      renderStage();
+      if (!silent && doneMap[id] && window.S4UI && window.S4UI.toast) {
+        window.S4UI.toast("success", "Đã lưu hoàn thành bài giảng!");
+      }
+    }
+
+    function getAdjacentLessonInfo() {
+      const list = getActiveLessons();
+      const idx = list.findIndex((x) => x.id === activeId);
+      const prev = idx > 0 ? { lv: activeLevel, id: list[idx - 1].id, code: list[idx - 1].code } : (activeLevel > 1 ? { lv: activeLevel - 1, id: null, code: getLevelShortLabel(activeLevel - 1) } : null);
+      const next = (idx >= 0 && idx < list.length - 1)
+        ? { lv: activeLevel, id: list[idx + 1].id, code: list[idx + 1].code }
+        : (activeLevel < 6 ? { lv: activeLevel + 1, id: null, code: getLevelShortLabel(activeLevel + 1) + " • Bài 1" } : null);
+      return { prev, next };
+    }
+
+    function navigateLesson(targetLv, targetId, pickLast) {
+      if (targetLv === activeLevel && targetId) {
+        selectLesson(targetId);
+        return;
+      }
+      if (pickLast) {
+        loadLevelData(targetLv).then((list) => {
+          const lastId = list && list.length ? list[list.length - 1].id : "";
+          switchLevel(targetLv, { lessonId: lastId, closeDrawer: true, scrollTop: true });
+        });
+      } else {
+        switchLevel(targetLv, { lessonId: targetId || "", closeDrawer: true, scrollTop: true });
+      }
+    }
+
+    function completeAndNextLesson() {
+      const l = getCurrentLesson();
+      if (!l) return;
+      if (!doneMap[l.id]) {
+        doneMap[l.id] = true;
+        try { localStorage.setItem(DONE_KEY, JSON.stringify(doneMap)); } catch (e) {}
+      }
+      renderProgressBox();
+      renderLevelBars();
+      renderLessonList();
+
+      const adj = getAdjacentLessonInfo();
+      if (adj.next) {
+        if (window.S4UI && window.S4UI.toast) {
+          window.S4UI.toast("success", "Đã hoàn thành " + l.code + "! Đang chuyển sang " + adj.next.code + "...");
+        }
+        navigateLesson(adj.next.lv, adj.next.id, false);
+      } else {
+        renderStage();
+        if (window.S4UI && window.S4UI.toast) {
+          window.S4UI.toast("success", "Tuyệt vời! Bạn đã hoàn thành bài cuối cùng của lộ trình 106 bài HSK 1–6!");
+        }
+      }
+    }
+
+    function renderProgressBox() {
+      const totalDone = countTotalDone();
+      const pct = Math.min(100, Math.round((totalDone / TOTAL_LESSONS) * 100));
+      const lvMeta = LEVEL_META.find((m) => Number(m.lv) === activeLevel) || { count: 0, label: "" };
+      const lvDone = countDoneForLevel(activeLevel);
+      document.getElementById("sbProgressBox").innerHTML = `
+        <div class="sb-prog-top">
+          <span style="display:inline-flex;align-items:center;gap:5px;">${lIcon("target", 13)}<span>Tiến độ tổng</span></span>
+          <span>${totalDone} / ${TOTAL_LESSONS} bài (${pct}%)</span>
+        </div>
+        <div class="sb-prog-bar"><div class="sb-prog-fill" style="width:${pct}%"></div></div>
+        <div class="sb-prog-sub">
+          <span>Đang xem: <b>${esc(lvMeta.label || getLevelShortLabel(activeLevel))}</b></span>
+          <span>${lvDone}/${lvMeta.count} bài</span>
+        </div>
+      `;
+    }
+
+    function renderLevelBars() {
+      const sbHtml = LEVEL_META.map((m) => {
+        const done = countDoneForLevel(m.lv);
+        const isAct = Number(m.lv) === activeLevel;
+        return `<button class="lv-pill ${isAct ? "active" : ""}" role="tab" aria-selected="${isAct}" onclick="switchLevel(${m.lv}, { closeDrawer: false })">
+          <span>${esc(getLevelShortLabel(m.lv))}</span>
+          <small>${done}/${m.count}</small>
+        </button>`;
+      }).join("");
+      document.getElementById("sbLevelBar").innerHTML = sbHtml;
+
+      const mobHtml = LEVEL_META.map((m) => {
+        const done = countDoneForLevel(m.lv);
+        const isAct = Number(m.lv) === activeLevel;
+        return `<button class="mob-lv-pill ${isAct ? "active" : ""}" onclick="switchLevel(${m.lv}, { closeDrawer: true, scrollTop: true })">${esc(getLevelShortLabel(m.lv))} (${done}/${m.count})</button>`;
+      }).join("");
+      document.getElementById("mobLevelBar").innerHTML = mobHtml;
+    }
+
+    function matchLessonQuery(l, qRaw) {
+      if (!qRaw) return true;
+      const se = window.S4SearchEngine;
+      const vocabText = (l.vocab || []).map((v) => `${v.word} ${v.pinyin} ${v.vi}`).join(" ");
+      const hayRaw = [l.code, l.title, l.subtitle, l.group, vocabText].join(" ");
+      if (se && typeof se.normalize === "function" && typeof se.normalizePinyin === "function") {
+        const qNorm = se.normalize(qRaw);
+        const qPy = se.normalizePinyin(qRaw).replace(/\s+/g, "");
+        const hNorm = se.normalize(hayRaw);
+        const hPy = se.normalizePinyin(hayRaw).replace(/\s+/g, "");
+        const toks = qNorm.split(" ").filter(Boolean);
+        return hNorm.includes(qNorm) || (qPy && hPy.includes(qPy)) || (toks.length > 0 && toks.every((t) => hNorm.includes(t) || hPy.includes(t)));
+      }
+      return hayRaw.toLowerCase().includes(qRaw.toLowerCase());
+    }
+
+    function renderLessonList() {
+      const list = getActiveLessons();
+      const q = searchQuery.trim();
+      const filtered = q ? list.filter((l) => matchLessonQuery(l, q)) : list;
+
+      if (!filtered.length) {
+        document.getElementById("sbLessonList").innerHTML = `
+          <div class="sb-empty">Không tìm thấy bài nào khớp với "<b>${esc(searchQuery)}</b>" trong ${esc(getLevelShortLabel(activeLevel))}.</div>`;
+        return;
+      }
+
+      const groups = new Map();
+      filtered.forEach((l) => {
+        const g = l.group || getLevelShortLabel(activeLevel);
+        if (!groups.has(g)) groups.set(g, []);
+        groups.get(g).push(l);
+      });
+
+      let html = "";
+      for (const [gName, items] of groups.entries()) {
+        html += `<div class="sb-group">${esc(gName)}</div>`;
+        items.forEach((l) => {
+          const isAct = l.id === activeId;
+          const isDone = Boolean(doneMap[l.id]);
+          html += `<button class="sb-item ${isAct ? "active" : ""}" onclick="selectLesson('${escJsAttr(l.id)}')">
+            <span style="color:${isDone ? "var(--ok)" : "var(--muted)"};display:inline-flex;align-items:center;margin-top:2px;">${isDone ? lIcon("check", 14) : lIcon("book", 14)}</span>
+            <span><span class="sb-code">${esc(l.code)}</span><span class="sb-name">${esc(l.title)}</span></span>
+          </button>`;
+        });
+      }
+      document.getElementById("sbLessonList").innerHTML = html;
+    }
+
+    function saveLessonVocabPoolForSrs(l) {
+      if (!l || !l.vocab || !l.vocab.length) return;
+      const payload = JSON.stringify({
+        id: l.id,
+        level: Math.max(1, Number(l.level) || 1),
+        title: (l.code ? (l.code + " — ") : "") + (l.title || "Bài giảng HSK"),
+        words: l.vocab
+      });
+      try {
+        sessionStorage.setItem("lp_hsk_lesson_srs_pool", payload);
+        sessionStorage.setItem("lp_hsk_lesson_shooter_pool", payload);
+      } catch (e) {}
+    }
+
+    function launchLessonSrs(lessonId, mode) {
+      const l = findLessonById(lessonId) || getCurrentLesson();
+      if (!l || !l.vocab || !l.vocab.length) return;
+      saveLessonVocabPoolForSrs(l);
+      const targetMode = mode || "smart";
+      const lv = Math.max(1, Number(l.level) || 1);
+      location.href = "../vocab/index.html?mode=" + encodeURIComponent(targetMode) + "&fromLesson=" + encodeURIComponent(l.id) + "&lv=" + lv;
+    }
+
+    function launchLessonShooter(lessonId) {
+      launchLessonSrs(lessonId, "shooter");
+    }
+
+    function renderLectureTab(l, swHelpers) {
+      const sw = window.HskLessonSlidesWorkbook || null;
+      const isC0 = l.level === 0;
+      const vLen = (l.vocab || []).length;
+      const dLen = (l.dialogue || []).length;
+      const gLen = (l.grammar || []).length;
+
+      const lecSections = (sw && typeof sw.splitLectureSections === "function")
+        ? sw.splitLectureSections(l.lectureHtml || "", l)
+        : [];
+
+      const toc = [];
+      if (isC0) {
+        if (l.situationIntro || (l.objectives && l.objectives.length)) toc.push({ id: "sec-intro", label: "1. Mở bài" });
+        if (l.pronunciationTip || l.phonetics || l.tones || l.strokes) toc.push({ id: "sec-pron", label: "2. Bảng âm / Nét chữ" });
+        if (l.id === "c0_1" || l.id === "c0_2") toc.push({ id: "sec-pystudio", label: "🎛️ Ghép vần & Luyện tai" });
+        if (lecSections.length || l.lectureHtml || (l.charBreakdowns && l.charBreakdowns.length)) toc.push({ id: "sec-main", label: "3. Quy tắc trọng tâm" });
+        if (fullPageMode && vLen) toc.push({ id: "sec-vocab", label: `4. Từ mẫu (${vLen})` });
+        if (fullPageMode && dLen) toc.push({ id: "sec-dlg", label: "5. Đọc mẫu" });
+        if (fullPageMode && gLen) toc.push({ id: "sec-gram", label: "Ngữ pháp" });
+        if (l.rightWrong && l.rightWrong.length) toc.push({ id: "sec-rw", label: "6. Hay sai/Chuẩn" });
+        toc.push({ tab: "workbook", label: "7. Bài tập" });
+      } else {
+        if (l.situationIntro || (l.objectives && l.objectives.length)) toc.push({ id: "sec-intro", label: "1. Mở bài" });
+        if (fullPageMode && vLen) toc.push({ id: "sec-vocab", label: `2. Giảng Từ mới (${vLen})` });
+        if (fullPageMode && gLen) toc.push({ id: "sec-gram", label: `3. Ngữ pháp & Công thức (${gLen})` });
+        if (lecSections.length || l.lectureHtml || l.pronunciationTip || (l.charBreakdowns && l.charBreakdowns.length)) {
+          toc.push({ id: "sec-main", label: "4. Cô giáo giảng sâu & Phát âm" });
+        }
+        if (fullPageMode && dLen) toc.push({ id: "sec-dlg", label: `5. Bài khóa & Mổ xẻ từ (${dLen})` });
+        if (l.rightWrong && l.rightWrong.length) toc.push({ id: "sec-rw", label: "6. Hay sai/Chuẩn" });
+        toc.push({ tab: "workbook", label: "7. Bài tập" });
+      }
+
+      let html = `<div class="prose">`;
+
+      if (l.level === 1 && (!doneMap["c0_1"] || !doneMap["c0_2"] || !doneMap["c0_3"])) {
+        html += `<div class="c0-banner">
+          <div class="c0-banner-title">Mới học từ con số 0? Xem nhanh 3 bài nền tảng Chương 0 trước khi vào HSK 1:</div>
+          <div class="c0-banner-links">
+            <button type="button" class="c0-jump-btn" onclick="selectLesson('c0_1')">${doneMap["c0_1"] ? lIcon("check", 13) : lIcon("book", 13)} Bài 0.1: Pinyin (Thanh &amp; Vận mẫu)</button>
+            <button type="button" class="c0-jump-btn" onclick="selectLesson('c0_2')">${doneMap["c0_2"] ? lIcon("check", 13) : lIcon("book", 13)} Bài 0.2: 4 Thanh điệu &amp; Biến điệu</button>
+            <button type="button" class="c0-jump-btn" onclick="selectLesson('c0_3')">${doneMap["c0_3"] ? lIcon("check", 13) : lIcon("book", 13)} Bài 0.3: 8 Nét &amp; Bút thuận</button>
+          </div>
+        </div>`;
+      }
+
+      if (toc.length >= 2) {
+        html += `<nav class="page-toc" aria-label="Mục lục nhanh trang giáo trình">
+          <span class="page-toc-label" style="display:inline-flex;align-items:center;gap:5px;">${lIcon("layers", 13)}<span>Lộ trình bài học:</span></span>
+          ${toc.map((t) => t.tab
+            ? `<button type="button" class="page-toc-btn" onclick="goTab('${t.tab}', true)">${t.label}</button>`
+            : `<button type="button" class="page-toc-btn" onclick="window.HskLessonSlidesWorkbook ? window.HskLessonSlidesWorkbook.scrollToSec('${t.id}') : document.getElementById('${t.id}')?.scrollIntoView({behavior:'smooth'})">${t.label}</button>`
+          ).join("")}
+        </nav>`;
+      }
+
+      function buildIntroBlock() {
+        if (!l.situationIntro && !(l.objectives && l.objectives.length)) return "";
+        let b = `<div id="sec-intro">`;
+        if (l.situationIntro) {
+          b += `<div class="teacher-intro">
+            <h4 style="display:flex;align-items:center;gap:6px;">${lIcon("file", 14)}<span>Tình huống thực tế &amp; Dẫn nhập</span></h4>
+            <p>${esc(l.situationIntro)}</p>
+          </div>`;
+        }
+        if (l.objectives && l.objectives.length) {
+          b += `<div class="gram-card">
+            <h4 style="display:flex;align-items:center;gap:6px;">${lIcon("target", 14)}<span>Mục tiêu sau bài học này bạn sẽ làm được</span></h4>
+            <ul style="margin:6px 0 0;padding-left:20px;">${l.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul>
+          </div>`;
+        }
+        b += `</div>`;
+        return b;
+      }
+
+      function buildPronBlock() {
+        if (!l.pronunciationTip && !l.phonetics && !l.tones && !l.strokes) return "";
+        let b = `<div id="sec-pron">`;
+        if (l.pronunciationTip) {
+          b += `<div class="pron-tip">
+            <h4 style="display:flex;align-items:center;gap:6px;">${lIcon("volume", 14)}<span>Khẩu hình, Biến điệu &amp; Ngắt nhịp cần chú ý</span></h4>
+            <p>${esc(l.pronunciationTip)}</p>
+          </div>`;
+        }
+        if (l.phonetics) {
+          b += `<div class="sound-tip-label" id="soundTip">${lIcon("volume", 13)}<span>Chạm ô để nghe</span></div>`;
+          b += `<h3>21 Thanh mẫu (Phụ âm đầu)</h3><div class="sound-grid">${l.phonetics.initials.map((it, idx) => `
+            <button class="sound-tile" onclick="playSoundByIdx('initials',${idx})">
+              <span class="sound-sym">${esc(it.sym)}</span>
+              <span class="sound-ex">${esc(it.speak)}</span>
+            </button>`).join("")}</div>`;
+          b += `<h3>34 Vận mẫu thông dụng (Vần)</h3><div class="sound-grid">${l.phonetics.finals.map((it, idx) => `
+            <button class="sound-tile" onclick="playSoundByIdx('finals',${idx})">
+              <span class="sound-sym">${esc(it.sym)}</span>
+              <span class="sound-ex">${esc(it.speak)}</span>
+            </button>`).join("")}</div>`;
+        }
+        if (l.tones) {
+          b += `<h3>Bảng 4 Thanh điệu &amp; Thanh nhẹ (bấm để nghe)</h3><div class="tone-grid">${l.tones.map((t, idx) => `
+            <div class="info-tile" onclick="speakTone(${idx})">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span class="big-zh">${esc(t.sample)}</span>
+                <span style="font-weight:800;color:var(--accent);">${esc(t.py)}</span>
+              </div>
+              <div style="font-weight:800;font-size:13.5px;margin-top:4px;">${esc(t.name)}</div>
+              <div style="font-size:12px;color:var(--warn);font-weight:700;">${esc(t.mark)} • Nghĩa: ${esc(t.meaning)}</div>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4;">${esc(t.desc)}</div>
+            </div>`).join("")}</div>`;
+        }
+        if (l.id === "c0_1" || l.id === "c0_2") {
+          b += renderPinyinStudioSection(l);
+        }
+        if (l.strokes) {
+          b += `<h3>8 Nét chữ Hán cơ bản</h3><div class="stroke-grid">${l.strokes.map((st, idx) => `
+            <div class="info-tile" onclick="speakStroke(${idx})">
+              <div class="big-zh">${esc(st.sym)}</div>
+              <div style="font-weight:800;font-size:13.5px;margin-top:4px;">${esc(st.name)}</div>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:3px;">${esc(st.dir)}</div>
+              <div style="font-size:13px;font-weight:700;margin-top:5px;">VD: ${esc(st.ex)}</div>
+            </div>`).join("")}</div>`;
+        }
+        b += `</div>`;
+        return b;
+      }
+
+      function buildMainAndCharBlock(includePronInside) {
+        let b = "";
+        if (lecSections.length) {
+          b += lecSections.map((sec, idx) => `
+            <section class="lecture-sec-card">
+              <div class="lecture-sec-head">
+                <h3 class="lecture-sec-title" style="display:flex;align-items:center;gap:6px;">${lIcon("book", 16)}<span>${esc(sec.title)}</span></h3>
+                <span class="lecture-sec-num">Mục ${idx + 1}/${lecSections.length}</span>
+              </div>
+              <div>${sec.html}</div>
+            </section>`).join("");
+        } else if (l.lectureHtml) {
+          const enh = (sw && typeof sw.enhanceHtmlCodes === "function") ? sw.enhanceHtmlCodes(l.lectureHtml, l) : l.lectureHtml;
+          b += `<div>${enh}</div>`;
+        }
+
+        if (l.charBreakdowns && l.charBreakdowns.length) {
+          b += `<div id="sec-char">`;
+          b += `<div class="sec-block-title">${lIcon("sparkles", 16)}<span>Chiết tự &amp; Mẹo nhớ chữ Hán tiêu biểu</span></div>`;
+          b += `<div class="char-bd-grid">${l.charBreakdowns.map((cb, idx) => {
+            const wUrl = "../writing/index.html?char=" + encodeURIComponent(cb.char || "") +
+              "&py=" + encodeURIComponent(cb.py || "") +
+              "&vi=" + encodeURIComponent((cb.mnemonic || "").slice(0, 80)) +
+              "&from=lessons";
+            return `<div class="char-bd-card">
+              <div class="char-bd-top">
+                <div>
+                  <div class="char-bd-hanzi">${esc(cb.char)}</div>
+                  <div class="char-bd-py py-text">${esc(cb.py)}</div>
+                </div>
+                <div style="display:flex;gap:6px;flex-shrink:0;">
+                  <a class="spk-btn" href="${wUrl}" title="Tập viết &amp; chấm nét chữ này">${lIcon("edit", 14)}</a>
+                  <button class="spk-btn" onclick="speakCharBd(${idx})" title="Nghe phát âm">${lIcon("volume", 14)}</button>
+                </div>
+              </div>
+              <div class="char-bd-parts">${lIcon("layers", 13)} ${esc(cb.parts)}</div>
+              <div class="char-bd-memo">${lIcon("lightbulb", 13)} ${esc(cb.mnemonic)}</div>
+            </div>`;
+          }).join("")}</div></div>`;
+        }
+
+        if (includePronInside) b = buildPronBlock() + b;
+        return b ? `<div id="sec-main">${b}</div>` : "";
+      }
+
+      function buildRwBlock() {
+        if (!l.rightWrong || !l.rightWrong.length) return "";
+        const inner = (sw && typeof sw.renderRichRightWrongSection === "function")
+          ? sw.renderRichRightWrongSection(l, swHelpers)
+          : `<div class="rw-list">${l.rightWrong.map((rw, idx) => `
+            <div class="rw-card">
+              <div class="rw-pair">
+                <div class="rw-box wrong"><div><span class="rw-lbl">${lIcon("x", 12)} Hay sai</span><div class="rw-text">${esc(rw.wrong)}</div></div></div>
+                <div class="rw-box right"><div><span class="rw-lbl">${lIcon("check", 12)} Nói chuẩn</span><div class="rw-text">${esc(rw.right)}</div></div><button class="spk-btn" onclick="speakRightWrong(${idx})" title="Nghe câu nói chuẩn">${lIcon("volume", 14)}</button></div>
+              </div>
+              ${rw.note ? `<div class="rw-note">${lIcon("tag", 12)} <b>Lưu ý:</b> ${esc(rw.note)}</div>` : ""}
+            </div>`).join("")}</div>`;
+        return `<div id="sec-rw"><div class="sec-block-title">${lIcon("alert", 16)}<span>Bảng Hay sai / Nói chuẩn</span></div>${inner}</div>`;
+      }
+
+      html += buildIntroBlock();
+
+      if (isC0) {
+        html += buildPronBlock();
+        html += buildMainAndCharBlock(false);
+        if (fullPageMode) {
+          if (vLen) html += `<div id="sec-vocab" class="fullpage-divider"><h3>Từ mẫu &amp; Tập viết</h3><span>${vLen} từ tiêu biểu</span></div>${renderVocabTab(l, swHelpers)}`;
+          if (dLen) html += `<div id="sec-dlg" class="fullpage-divider"><h3>Đọc mẫu &amp; Mổ xẻ từng từ</h3><span>${dLen} câu</span></div>${renderDialogueTab(l, swHelpers)}`;
+          if (gLen) html += `<div id="sec-gram" class="fullpage-divider"><h3>Quy tắc cốt lõi</h3><span>${gLen} điểm</span></div>${renderGrammarTab(l, swHelpers)}`;
+        }
+        html += buildRwBlock();
+      } else {
+        if (fullPageMode) {
+          if (vLen) html += `<div id="sec-vocab" class="fullpage-divider"><h3>Bước 2 — Giảng kỹ từng Từ mới</h3><span>${vLen} từ trọng tâm</span></div>${renderVocabTab(l, swHelpers)}`;
+          if (gLen) html += `<div id="sec-gram" class="fullpage-divider"><h3>Bước 3 — Ngữ pháp, Công thức &amp; Lắp ghép câu</h3><span>${gLen} điểm trọng tâm</span></div>${renderGrammarTab(l, swHelpers)}`;
+          html += `<div class="fullpage-divider"><h3>Bước 4 — Cô giáo giảng sâu &amp; Mẹo phát âm</h3><span>Phân tích tình huống &amp; khẩu hình</span></div>`;
+          html += buildMainAndCharBlock(true);
+          if (dLen) html += `<div id="sec-dlg" class="fullpage-divider"><h3>Bước 5 — Bài khóa song ngữ &amp; Mổ xẻ từng từ</h3><span>${dLen} câu hội thoại</span></div>${renderDialogueTab(l, swHelpers)}`;
+          html += buildRwBlock();
+        } else {
+          html += buildMainAndCharBlock(true);
+          html += buildRwBlock();
+        }
+      }
+
+      html += `</div>`;
+      return html;
+    }
+
+    function renderVocabTab(l, swHelpers) {
+      if (window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.renderRichVocabSection === "function") {
+        let out = window.HskLessonSlidesWorkbook.renderRichVocabSection(l, swHelpers);
+        if (typeof out === "string" && out.indexOf("sound-tip-box") !== -1) {
+          const vCount = (l && Array.isArray(l.vocab)) ? l.vocab.length : 0;
+          const lidAttr = escJsAttr(l.id || "");
+          out = out.replace(
+            /<div class="sound-tip-box"[\s\S]*?<\/div>\s*<\/div>/,
+            `<div class="sound-tip-label" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;width:100%;border-radius:12px;padding:8px 12px;"><span style="display:inline-flex;align-items:center;gap:6px;">${lIcon("book", 13)}<span>${vCount} từ trọng tâm</span></span><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="ctrl-btn on" onclick="launchLessonSrs('${lidAttr}')">${lIcon("sparkles", 13)}<span>Ôn SRS bài này (${vCount})</span></button><button class="ctrl-btn" onclick="launchLessonShooter('${lidAttr}')">${lIcon("target", 13)}<span>Bắn từ (${vCount})</span></button></div></div>`
+          );
+        }
+        return out;
+      }
+      const list = l.vocab || [];
+      return `<div class="vocab-list">${list.map((v, idx) => `<div class="v-card"><div><div class="v-zh">${esc(v.word)}</div><div class="v-py py-text">${esc(v.pinyin)}</div><div class="v-vi vi-text">${esc(v.vi)}</div></div><button class="spk-btn" onclick="speakVocab(${idx})">${lIcon("volume", 14)}</button></div>`).join("")}</div>`;
+    }
+
+    function renderDialogueTab(l, swHelpers) {
+      if (window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.renderRichDialogueSection === "function") {
+        return window.HskLessonSlidesWorkbook.renderRichDialogueSection(l, swHelpers);
+      }
+      return (l.dialogue || []).map((d, idx) => `<div class="dlg-item"><div><div class="dlg-spk">${esc(d.speaker)}</div><div class="dlg-zh">${esc(d.zh)}</div><div class="dlg-py py-text">${esc(d.py)}</div><div class="dlg-vi vi-text">${esc(d.vi)}</div></div><button class="spk-btn" onclick="speakDialogue(${idx})">${lIcon("volume", 14)}</button></div>`).join("");
+    }
+
+    function renderGrammarTab(l, swHelpers) {
+      if (window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.renderRichGrammarSection === "function") {
+        return window.HskLessonSlidesWorkbook.renderRichGrammarSection(l, swHelpers);
+      }
+      return (l.grammar || []).map((g) => `<div class="gram-card"><h4>${esc(g.title)}</h4><div>${g.body}</div></div>`).join("");
+    }
+
+    function answerQuiz(idx, optIdx) {
+      quizAnswers[idx] = optIdx;
+      renderStage();
+    }
+
+    function renderQuizTab(l) {
+      const qs = l.quiz || [];
+      const answered = Object.keys(quizAnswers).length;
+      const correctCount = qs.reduce((acc, q, i) => acc + (quizAnswers[i] === q.ans ? 1 : 0), 0);
+      let html = `<div class="sound-tip-label" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;width:100%;border-radius:12px;padding:8px 12px;">
+        <span style="display:inline-flex;align-items:center;gap:6px;">${lIcon("edit", 13)}<span>Kết quả: <b>${correctCount} / ${qs.length}</b> câu đúng (${answered}/${qs.length} câu đã làm)</span></span>
+        <button class="ctrl-btn" onclick="quizAnswers={};renderStage();">${lIcon("refresh", 13)}<span>Làm lại</span></button>
+      </div>`;
+      qs.forEach((q, idx) => {
+        const picked = quizAnswers[idx];
+        html += `<div class="quiz-item">
+          <div class="quiz-q">Câu ${idx + 1}: ${esc(q.q)}</div>
+          <div class="quiz-opts">
+            ${q.opts.map((opt, oi) => {
+              let cls = "q-opt";
+              if (picked !== undefined) {
+                if (oi === q.ans) cls += " correct";
+                else if (oi === picked) cls += " wrong";
+              }
+              return `<button class="${cls}" onclick="answerQuiz(${idx},${oi})">${String.fromCharCode(65 + oi)}. ${esc(opt)}</button>`;
+            }).join("")}
+          </div>
+          ${picked !== undefined ? `<div class="q-exp" style="display:flex;align-items:center;gap:5px;">${picked === q.ans ? lIcon("check", 13) + "<span><b>Chính xác!</b> " : lIcon("x", 13) + "<span><b>Chưa đúng.</b> "}${esc(q.exp)}</span></div>` : ""}
+        </div>`;
+      });
+      return html;
+    }
+
+    function renderCtaFooter(l) {
+      const vLen = (l.vocab || []).length;
+      const qLen = (l.quiz || []).length;
+      const adj = getAdjacentLessonInfo();
+      const isDone = Boolean(doneMap[l.id]);
+      let ctaBtn = "";
+      if (activeTab === "lecture") {
+        ctaBtn = fullPageMode
+          ? `<button class="cta-big-btn" onclick="goTab('workbook', true)">Bước 4A: Làm &amp; Xem Chữa bài tập thực chiến</button>`
+          : `<button class="cta-big-btn" onclick="goTab('vocab', true)">Bước 2: Học từ mới &amp; Tập viết (${vLen} từ)</button>`;
+      } else if (activeTab === "vocab") {
+        ctaBtn = `<button class="cta-big-btn" onclick="goTab('dialogue', true)">Bước 3: Đọc Bài khóa song ngữ</button>`;
+      } else if (activeTab === "dialogue") {
+        ctaBtn = `<button class="cta-big-btn" onclick="goTab('grammar', true)">Bước 3 (tiếp): Xem Trọng điểm Ngữ pháp</button>`;
+      } else if (activeTab === "grammar") {
+        ctaBtn = `<button class="cta-big-btn" onclick="goTab('workbook', true)">Bước 4A: Làm &amp; Xem Chữa bài tập thực chiến</button>`;
+      } else if (activeTab === "workbook") {
+        ctaBtn = `<button class="cta-big-btn" onclick="goTab('quiz', true)">Bước 4B: Làm Quiz chốt bài (${qLen} câu)</button>`;
+      } else {
+        const nextLabel = adj.next ? ("Sang " + adj.next.code) : "Hoàn tất Lộ trình HSK 1–6";
+        ctaBtn = `<button class="cta-big-btn finish" onclick="completeAndNextLesson()">${lIcon("check", 16)}<span>Đánh dấu hoàn thành &amp; ${esc(nextLabel)}</span></button>`;
+      }
+
+      const prevBtn = adj.prev
+        ? `<button class="nav-mini-btn" onclick="navigateLesson(${adj.prev.lv}, '${escJsAttr(adj.prev.id || "")}', ${adj.prev.id ? "false" : "true"})">${lIcon("chevronLeft", 14)}<span>Bài trước (${esc(adj.prev.code)})</span></button>`
+        : `<button class="nav-mini-btn" disabled>${lIcon("chevronLeft", 14)}<span>Bài trước</span></button>`;
+      const midBtn = `<button class="nav-mini-btn ${isDone ? "is-done" : ""}" onclick="toggleDone('${escJsAttr(l.id)}')">${lIcon("check", 14)}<span>${isDone ? "Đã hoàn thành" : "Đánh dấu"}</span></button>`;
+      const nextBtn = adj.next
+        ? `<button class="nav-mini-btn" onclick="navigateLesson(${adj.next.lv}, '${escJsAttr(adj.next.id || "")}', false)"><span>Bài tiếp (${esc(adj.next.code)})</span>${lIcon("chevronRight", 14)}</button>`
+        : `<button class="nav-mini-btn" disabled><span>Bài tiếp</span>${lIcon("chevronRight", 14)}</button>`;
+
+      return `<div class="cta-footer">
+        ${ctaBtn}
+        <div class="lesson-nav-row lp-lesson-nav">${prevBtn}${midBtn}${nextBtn}</div>
+      </div>`;
+    }
+
+    function renderStage() {
+      const l = getCurrentLesson();
+      if (!l) return;
+      const isDone = Boolean(doneMap[l.id]);
+      const isWbDone = Boolean(window.HskLessonSlidesWorkbook && window.HskLessonSlidesWorkbook.isWbDone(l.id));
+      const vSet = visitedTabs[l.id] || new Set(["lecture"]);
+
+      const steps = [
+        { num: "Bước 1", title: "Giáo trình A→Z", tab: "lecture", isAct: activeTab === "lecture", isVis: vSet.has("lecture") },
+        { num: "Bước 2", title: "Học từ & Tập viết", tab: "vocab", isAct: activeTab === "vocab", isVis: vSet.has("vocab") },
+        { num: "Bước 3", title: "Bài khóa & Ngữ pháp", tab: "dialogue", isAct: activeTab === "dialogue" || activeTab === "grammar", isVis: vSet.has("dialogue") || vSet.has("grammar") },
+        { num: "Bước 4", title: "Chữa BT & Quiz", tab: "workbook", isAct: activeTab === "workbook" || activeTab === "quiz", isVis: vSet.has("quiz") || isWbDone || isDone }
+      ];
+
+      const tabs = [
+        ["lecture", "Giáo trình bài học"],
+        ["vocab", `Từ mới (${(l.vocab || []).length})`],
+        ["dialogue", "Bài khóa"],
+        ["grammar", "Ngữ pháp"],
+        ["workbook", isWbDone ? "Chữa bài tập (Xong)" : "Chữa bài tập"],
+        ["quiz", `Quiz chốt bài (${(l.quiz || []).length})`]
+      ];
+
+      const swHelpers = {
+        esc, escJsAttr, showPinyin, showVi, slowRate, speakZh, launchLessonShooter, launchLessonSrs, goTab, renderStage, getCurrentLesson
+      };
+      if (window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.setHelpers === "function") {
+        window.HskLessonSlidesWorkbook.setHelpers(swHelpers);
+      }
+
+      let bodyHtml = "";
+      if (activeTab === "lecture") {
+        bodyHtml = renderLectureTab(l, swHelpers);
+      } else if (activeTab === "vocab") {
+        bodyHtml = renderVocabTab(l, swHelpers);
+      } else if (activeTab === "dialogue") {
+        bodyHtml = renderDialogueTab(l, swHelpers);
+      } else if (activeTab === "grammar") {
+        bodyHtml = renderGrammarTab(l, swHelpers);
+      } else if (activeTab === "workbook") {
+        bodyHtml = window.HskLessonSlidesWorkbook
+          ? window.HskLessonSlidesWorkbook.renderWorkbookHtml(l, swHelpers)
+          : renderQuizTab(l);
+      } else {
+        bodyHtml = renderQuizTab(l);
+      }
+
+      const stage = document.getElementById("lessonStage");
+      stage.className = "main-card" + (showPinyin ? "" : " hide-py") + (showVi ? "" : " hide-vi");
+      stage.innerHTML = `
+        <div class="lesson-head">
+          <div style="min-width:0;">
+            <span class="lesson-badge">${esc(l.code)} • ${esc(l.group)}</span>
+            <h1>${esc(l.title)}</h1>
+            <p>${esc(l.subtitle)}</p>
+          </div>
+          <button class="done-btn ${isDone ? "is-done" : ""}" onclick="toggleDone('${escJsAttr(l.id)}')">
+            ${isDone ? lIcon("check", 14) + "<span>Đã hoàn thành</span>" : "<span>Đánh dấu hoàn thành</span>"}
+          </button>
+        </div>
+
+        <div class="step-roadmap" aria-label="Lộ trình tự học 4 bước">
+          ${steps.map((st, idx) => `
+            <button class="step-node ${st.isAct ? "active" : ""} ${st.isVis ? "visited" : ""}" onclick="goTab('${st.tab}', false)">
+              <span class="step-num"><span>${st.num}</span><span>${st.isVis && !st.isAct ? lIcon("check", 11) : (idx < 3 ? "→" : lIcon("award", 11))}</span></span>
+              <span class="step-title">${st.title}</span>
+            </button>`).join("")}
+        </div>
+
+        <div class="tabs">
+          ${tabs.map(([k, lbl]) => `<button class="tab-btn ${activeTab === k ? "active" : ""}" onclick="goTab('${k}', false)">${lbl}</button>`).join("")}
+        </div>
+        <div class="ctrl-bar">
+          <button class="ctrl-btn ${showPinyin ? "on" : ""}" onclick="showPinyin=!showPinyin;renderStage();">${lIcon("eye", 13)}<span>Pinyin: ${showPinyin ? "Hiện" : "Ẩn"}</span></button>
+          <button class="ctrl-btn ${showVi ? "on" : ""}" onclick="showVi=!showVi;renderStage();"><span>Dịch Việt: ${showVi ? "Hiện" : "Ẩn"}</span></button>
+          <button class="ctrl-btn ${slowRate ? "on" : ""}" onclick="slowRate=!slowRate;renderStage();">${lIcon("clock", 13)}<span>Đọc chậm: ${slowRate ? "0.7x" : "Chuẩn"}</span></button>
+          <button class="ctrl-btn ${fullPageMode && activeTab === "lecture" ? "on" : ""}" onclick="fullPageMode=!fullPageMode;if(fullPageMode&&activeTab!=='lecture')goTab('lecture',false);else renderStage();" title="Bật để xem trọn vẹn Giáo trình từ A đến Z trong 1 trang">${lIcon("file", 13)}<span>Hiển thị: ${fullPageMode ? "Trọn bài A→Z" : "Thu gọn"}</span></button>
+        </div>
+        <div>${bodyHtml}</div>
+        ${renderCtaFooter(l)}
+      `;
+    }
+
+    document.getElementById("sbSearchInput").addEventListener("input", (e) => {
+      searchQuery = e.target.value || "";
+      const clr = document.getElementById("sbSearchClear");
+      if (clr) clr.classList.toggle("show", Boolean(searchQuery.trim()));
+      renderLessonList();
+    });
+
+    (function initPage() {
+      const qs = new URLSearchParams(location.search);
+      const reqLv = Number(qs.get("level") || 0);
+      const reqLesson = (qs.get("lesson") || qs.get("id") || "").trim();
+      const savedId = localStorage.getItem(LAST_KEY) || "";
+
+      let startLv = 1;
+      let startLessonId = "";
+
+      if (reqLesson) {
+        startLv = levelOfLessonId(reqLesson);
+        startLessonId = reqLesson;
+      } else if (reqLv >= 1 && reqLv <= 6) {
+        startLv = reqLv;
+        if (reqLv === 1) {
+          const hit = (levelCache[1] || []).find((x) => x.level === 1);
+          startLessonId = hit ? hit.id : ((levelCache[1] && levelCache[1][0]) ? levelCache[1][0].id : "");
+        }
+      } else if (savedId) {
+        startLv = levelOfLessonId(savedId);
+        startLessonId = savedId;
+      } else if (levelCache[1] && levelCache[1][0]) {
+        startLessonId = levelCache[1][0].id;
+      }
+
+      switchLevel(startLv, { lessonId: startLessonId, closeDrawer: false, scrollTop: false });
+
+      // Non-blocking background load of 5,112-word dictionary to enrich collocations, POS/radicals & WBW glosses
+      setTimeout(function () {
+        if (window.LP_HSK_VOCAB_DATA && window.HskLessonSlidesWorkbook && window.HskLessonSlidesWorkbook.indexVocabDict) {
+          window.HskLessonSlidesWorkbook.indexVocabDict(window.LP_HSK_VOCAB_DATA);
+          return;
+        }
+        const dictSc = document.createElement("script");
+        dictSc.src = "../vocab/vocab_data.js?v=2";
+        dictSc.async = true;
+        dictSc.onload = function () {
+          if (Array.isArray(window.LP_HSK_VOCAB_DATA) && window.HskLessonSlidesWorkbook && typeof window.HskLessonSlidesWorkbook.indexVocabDict === "function") {
+            window.HskLessonSlidesWorkbook.indexVocabDict(window.LP_HSK_VOCAB_DATA);
+            const prevY = window.scrollY || 0;
+            const prevH = document.documentElement.scrollHeight || 0;
+            renderStage();
+            if (prevY >= 40) {
+              const newH = document.documentElement.scrollHeight || 0;
+              window.scrollTo(0, Math.max(0, prevY + (newH - prevH)));
+            }
+          }
+        };
+        document.head.appendChild(dictSc);
+      }, 60);
+    })();
+    window.addEventListener("pagehide", () => { pyStudioStopSeq(); if (window.HskTTS && window.HskTTS.stop) window.HskTTS.stop(); });
+  </script>
+  <script src="../../auth.js?v=33"></script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
+</body>
+</html>

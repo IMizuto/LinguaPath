@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-glass-tier="portal" data-course="ielts">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
@@ -16,7 +16,7 @@
       if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
-      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
       function syncSafeTop() {
         var ua = navigator.userAgent || "";
         var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -27,7 +27,7 @@
       }
       syncSafeTop();
       window.addEventListener("resize", syncSafeTop);
-      window.addEventListener("orientationchange", function() { setTimeout(syncSafeTop, 80); });
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
     } catch (e) {}
   })();
   </script>
@@ -38,328 +38,701 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <title>LinguaPath — Nền tảng Tự học Đa ngôn ngữ (Free for Community)</title>
+  <title>LinguaPath — Nền tảng Tự học Đa ngôn ngữ</title>
   <link rel="prefetch" href="ielts/listening/data/listening_manifest.js">
   <link rel="prefetch" href="ielts/reading/data/reading_manifest.js">
-  
+  <link rel="stylesheet" href="assets/s4-ui.css?v=67">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=30">
+
   <style>
     @view-transition { navigation: auto; }
-    :root {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --primary: #2563eb;
-      color-scheme: light;
-    }
-    html.dark, body.dark {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --border: #334155;
-      --primary: #3b82f6;
-      color-scheme: dark;
-    }
+
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin: 0; width: 100%; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; touch-action: pan-y; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-    .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #0d9488 100%); color: #fff; padding: 26px 18px 34px 18px; border-bottom-left-radius: 26px; border-bottom-right-radius: 26px; box-shadow: 0 8px 28px rgba(37,99,235,0.22); }
-    .hero-inner { max-width: 920px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-width: 0; flex-wrap: wrap; }
-    .hero h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
-    .hero p { margin: 4px 0 0 0; font-size: 13.5px; opacity: 0.9; }
-    .dark-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #fff; height: 36px; padding: 0 12px; border-radius: 12px; font-size: 16px; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; line-height: 1; }
-    .back-portal-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); color: #fff; height: 36px; padding: 0 12px; border-radius: 11px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; box-sizing: border-box; line-height: 1; white-space: nowrap; transition: background 0.15s ease; }
-    .back-portal-btn:hover { background: rgba(255,255,255,0.3); }
-    .data-btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 600; font-size: 13px; cursor: pointer; }
-    .container { max-width: 920px; width: 100%; margin: -22px auto 0 auto; padding: 0 calc(14px + env(safe-area-inset-right, 0px)) calc(80px + env(safe-area-inset-bottom, 0px)) calc(14px + env(safe-area-inset-left, 0px)); }
-    .portal-wrap { padding-top: 28px; }
-    .summary-bar { background: var(--card); border-radius: 16px; padding: 14px 16px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,0.06); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; text-align: center; margin-bottom: 22px; }
-    .sum-num { font-size: 20px; font-weight: 800; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sum-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .sec-title { font-size: 14.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 20px 0 12px 4px; display: flex; align-items: center; gap: 8px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-    #viewPortal .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .course-card { background: var(--card); border-radius: 18px; border: 1px solid var(--border); padding: 18px; text-decoration: none; color: var(--text); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: relative; overflow: hidden; min-width: 0; cursor: pointer; }
-    .course-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,0.09); border-color: var(--primary); }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+      touch-action: pan-y;
+      min-height: 100vh;
+      background: transparent !important;
+      color: var(--lg-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    /* Tích hợp #s4UserTopBar của auth.js vào thẳng 1 hàng .lp-topbar */
+    #s4UserTopBar {
+      position: static !important;
+      top: auto !important;
+      width: auto !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      display: inline-flex !important;
+      align-items: center;
+      gap: 6px;
+      flex: 0 1 auto;
+      min-width: 0;
+      z-index: auto !important;
+    }
+    #s4UserTopBar:not(:has(.s4-profile-trigger)) .s4-user-left {
+      display: none !important;
+    }
+    #s4UserTopBar .s4-user-left {
+      flex: 0 1 auto !important;
+      min-width: 0;
+      gap: 6px;
+    }
+    #s4UserTopBar .s4-user-right {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    #s4UserTopBar .s4-profile-trigger {
+      height: 36px;
+      padding: 0 10px 0 4px;
+      border-radius: 999px;
+      background: var(--lg-wash) !important;
+      border: 1px solid var(--lg-hairline) !important;
+      color: var(--lg-ink) !important;
+      max-width: 155px;
+      font-size: 12.5px;
+    }
+    #s4UserTopBar .s4-top-btn {
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--lg-wash) !important;
+      border: 1px solid var(--lg-hairline) !important;
+      color: var(--lg-ink) !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 12.5px;
+      font-weight: 800;
+      line-height: 1;
+      text-shadow: none;
+    }
+    #s4UserTopBar .s4-top-btn:hover {
+      background: var(--lg-wash-hover) !important;
+      border-color: var(--lg-accent) !important;
+    }
+    #s4UserTopBar .s4-top-btn.donate {
+      background: var(--lg-rose-soft) !important;
+      color: var(--lg-rose) !important;
+      border-color: rgba(225, 29, 72, 0.24) !important;
+      box-shadow: none !important;
+    }
+    #s4UserTopBar .s4-top-btn.gold {
+      background: var(--lg-amber-soft) !important;
+      color: var(--lg-amber) !important;
+      border-color: rgba(217, 119, 6, 0.28) !important;
+    }
+
+    .lp-brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+    .lp-gs-kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: var(--lg-seg-track);
+      color: var(--lg-ink-sub);
+      line-height: 1.1;
+    }
+
+    .sec-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--lg-ink-muted);
+      margin: 18px 0 10px 4px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .sec-title svg { color: var(--lg-accent); flex-shrink: 0; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    #viewPortal .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .course-card {
+      border-radius: 24px !important;
+      padding: 18px;
+      text-decoration: none;
+      color: var(--lg-ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+      cursor: pointer;
+    }
+    .course-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--lg-accent) !important;
+    }
     .course-card:active { transform: scale(0.985); }
-    .course-card.locked { opacity: 0.78; }
-    .card-top { display: flex; align-items: flex-start; gap: 14px; min-width: 0; }
+    .course-card.locked { opacity: 0.84; }
+    .course-card.roadmap-featured {
+      border-color: rgba(37, 99, 235, 0.38) !important;
+      margin-bottom: 16px;
+    }
+    html.theme-ghibli .course-card.roadmap-featured {
+      border-color: rgba(45, 106, 79, 0.42) !important;
+    }
+    html.dark .course-card.roadmap-featured {
+      border-color: rgba(96, 165, 250, 0.36) !important;
+    }
+    html.theme-ghibli.dark .course-card.roadmap-featured {
+      border-color: rgba(82, 183, 136, 0.42) !important;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      min-width: 0;
+    }
     .card-top > div:not(.card-icon) { min-width: 0; flex: 1; }
-    .card-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 25px; flex-shrink: 0; }
-    .card-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; margin-bottom: 6px; max-width: 100%; }
-    .card-title { font-size: 17px; font-weight: 800; margin: 0 0 6px 0; }
-    .card-desc { font-size: 13.5px; color: var(--muted); line-height: 1.45; margin: 0; }
-    .card-footer { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
-    .prog-row { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; gap: 8px; }
-    .prog-row > span:first-child { min-width: 0; }
-    .prog-row > span:last-child { white-space: nowrap; flex-shrink: 0; }
-    .prog-bar { height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .prog-fill { height: 100%; border-radius: 4px; transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-icon.tone-blue { background: rgba(37, 99, 235, 0.14); color: #1d4ed8; }
+    .card-icon.tone-red { background: rgba(220, 38, 38, 0.14); color: #dc2626; }
+    .card-icon.tone-amber { background: rgba(217, 119, 6, 0.14); color: #b45309; }
+    .card-icon.tone-crimson { background: rgba(185, 28, 28, 0.14); color: #b91c1c; }
+    .card-icon.tone-teal { background: rgba(13, 148, 136, 0.14); color: #0f766e; }
+    .card-icon.tone-green { background: rgba(21, 128, 61, 0.14); color: #15803d; }
+    .card-icon.tone-purple { background: rgba(126, 34, 206, 0.14); color: #7e22ce; }
+    .card-icon.tone-rose { background: rgba(225, 29, 72, 0.14); color: #be123c; }
+    html.dark .card-icon.tone-blue { background: rgba(59, 130, 246, 0.22); color: #93c5fd; }
+    html.dark .card-icon.tone-red { background: rgba(239, 68, 68, 0.22); color: #fca5a5; }
+    html.dark .card-icon.tone-amber { background: rgba(245, 158, 11, 0.22); color: #fcd34d; }
+    html.dark .card-icon.tone-crimson { background: rgba(248, 113, 113, 0.22); color: #fca5a5; }
+    html.dark .card-icon.tone-teal { background: rgba(20, 184, 166, 0.22); color: #5eead4; }
+    html.dark .card-icon.tone-green { background: rgba(34, 197, 94, 0.22); color: #86efac; }
+    html.dark .card-icon.tone-purple { background: rgba(168, 85, 247, 0.22); color: #d8b4fe; }
+    html.dark .card-icon.tone-rose { background: rgba(244, 63, 94, 0.22); color: #fda4af; }
+
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.25px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 5px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tag-blue { background: rgba(37, 99, 235, 0.13); color: #1d4ed8; }
+    .tag-red { background: rgba(220, 38, 38, 0.13); color: #dc2626; }
+    .tag-amber { background: rgba(217, 119, 6, 0.14); color: #b45309; }
+    .tag-crimson { background: rgba(185, 28, 28, 0.13); color: #b91c1c; }
+    .tag-teal { background: rgba(13, 148, 136, 0.13); color: #0f766e; }
+    .tag-green { background: rgba(21, 128, 61, 0.13); color: #15803d; }
+    .tag-purple { background: rgba(126, 34, 206, 0.13); color: #7e22ce; }
+    .tag-rose { background: rgba(225, 29, 72, 0.13); color: #be123c; }
+    html.dark .tag-blue { background: rgba(59, 130, 246, 0.20); color: #93c5fd; }
+    html.dark .tag-red { background: rgba(239, 68, 68, 0.20); color: #fca5a5; }
+    html.dark .tag-amber { background: rgba(245, 158, 11, 0.20); color: #fcd34d; }
+    html.dark .tag-crimson { background: rgba(248, 113, 113, 0.20); color: #fca5a5; }
+    html.dark .tag-teal { background: rgba(20, 184, 166, 0.20); color: #5eead4; }
+    html.dark .tag-green { background: rgba(34, 197, 94, 0.20); color: #86efac; }
+    html.dark .tag-purple { background: rgba(168, 85, 247, 0.20); color: #d8b4fe; }
+    html.dark .tag-rose { background: rgba(244, 63, 94, 0.20); color: #fda4af; }
+
+    .card-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      margin: 0 0 4px 0;
+      color: var(--lg-ink);
+    }
+    .card-desc {
+      font-size: 13px;
+      color: var(--lg-ink-sub);
+      line-height: 1.42;
+      margin: 0;
+    }
+    .card-footer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--lg-divider);
+    }
+    .prog-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+    .prog-row > span:first-child {
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .prog-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 800;
+    }
+
+    .lp-backup-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .lp-backup-bar .lp-ghost-btn {
+      padding: 7px 14px;
+      font-size: 12.5px;
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+    }
+    .lp-backup-bar .lp-ghost-btn.danger {
+      color: var(--lg-rose);
+      border-color: rgba(225, 29, 72, 0.28);
+    }
+
     @keyframes layerFadeUp {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .view-layer { display: none; }
     .view-layer.active { display: block; animation: layerFadeUp 0.24s cubic-bezier(0.22, 1, 0.36, 1); }
-    @media (max-width: 520px) {
-      .hero { padding: 20px 14px 28px 14px; border-bottom-left-radius: 22px; border-bottom-right-radius: 22px; }
-      .hero-inner { gap: 8px; }
-      .hero h1 { font-size: 18.5px; }
-      .summary-bar { padding: 12px 8px; gap: 6px; margin-bottom: 18px; }
-      .sum-num { font-size: 17px; }
-      .sum-label { font-size: 11px; }
+
+    @media (max-width: 720px) {
+      .lp-gs-lbl, .lp-gs-kbd { display: none !important; }
+      #s4UserTopBar .s4-top-btn.donate,
+      #s4UserTopBar .s4-top-btn[onclick*="openInstallModal"] {
+        font-size: 0 !important;
+        gap: 0 !important;
+        width: 34px;
+        min-width: 34px;
+        padding: 0 !important;
+      }
+      #s4UserTopBar .s4-role-badge { display: none !important; }
+      #s4UserTopBar .s4-profile-trigger { max-width: 112px; padding: 0 8px 0 4px; }
+    }
+    @media (max-width: 580px) {
+      .lp-shell {
+        padding:
+          calc(8px + var(--s4-safe-top, 0px))
+          calc(8px + env(safe-area-inset-right, 0px))
+          calc(78px + env(safe-area-inset-bottom, 0px))
+          calc(8px + env(safe-area-inset-left, 0px));
+      }
+      .lp-topbar { gap: 4px; padding: 6px 8px; border-radius: 18px; min-height: 46px; }
+      .lp-top-left { gap: 5px; }
+      .lp-brand { gap: 6px; flex-shrink: 0; }
+      .lp-top-actions { gap: 4px; min-width: 0; }
+      .lp-brand-logo { width: 26px; height: 26px; border-radius: 8px; }
+      .lp-brand-title { font-size: 14px; letter-spacing: -0.25px; overflow: visible; text-overflow: clip; }
+      .lp-back-pill { height: 30px; padding: 0 8px; font-size: 11.5px; gap: 3px; }
+      .lp-icon-btn { height: 30px; min-width: 30px; width: 30px; padding: 0; }
+      #s4UserTopBar { gap: 4px; min-width: 0; }
+      #s4UserTopBar .s4-user-right { gap: 4px; }
+      #s4UserTopBar .s4-top-btn { height: 30px; padding: 0 8px; font-size: 11.5px; gap: 4px; }
+      #s4UserTopBar .s4-top-btn.donate,
+      #s4UserTopBar .s4-top-btn[onclick*="openInstallModal"] {
+        width: 30px;
+        min-width: 30px;
+      }
+      #s4UserTopBar .s4-top-btn.gold { display: none !important; }
+      #s4UserTopBar .s4-profile-trigger { height: 30px; max-width: 82px; padding: 0 6px 0 3px; font-size: 11.5px; }
+      body.in-ielts-view .lp-brand-logo { display: none; }
+      body.in-ielts-view .lp-brand-title { font-size: 14px; }
+      body.in-ielts-view #s4UserTopBar .s4-top-btn[onclick*="openInstallModal"] { display: none !important; }
+      body.in-ielts-view #s4UserTopBar:has(.s4-profile-trigger) .s4-top-btn.donate { display: none !important; }
       .grid, #viewPortal .grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
-      .course-card { padding: 15px; border-radius: 15px; }
+      .course-card { padding: 15px; border-radius: 20px !important; }
     }
   </style>
-  <link rel="stylesheet" href="assets/s4-ui.css?v=66">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
-  <div class="hero">
-    <div class="hero-inner">
-      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
-        <img src="icon-192.png" alt="Logo" style="width:44px;height:44px;border-radius:11px;box-shadow:0 4px 12px rgba(0,0,0,0.25);flex-shrink:0;">
-        <h1 id="heroTitle">LinguaPath</h1>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-        <button class="back-portal-btn" id="btnBackPortal" style="display:none;" onclick="openPortal()">← Tất cả khóa học</button>
-        <button class="dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
-      </div>
-    </div>
-  </div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
 
-  <div class="container">
+  <div class="lp-shell">
+    <header class="lp-topbar lp-glass">
+      <div class="lp-top-left">
+        <button type="button" class="lp-back-pill" id="btnBackPortal" style="display:none;" onclick="openPortal()" title="Về tất cả khóa học">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>Khóa học</span>
+        </button>
+        <div class="lp-brand">
+          <img class="lp-brand-logo" src="icon-192.png" alt="LinguaPath">
+          <div class="lp-brand-text">
+            <h1 class="lp-brand-title" id="heroTitle">LinguaPath</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp-top-actions">
+        <button type="button" class="lp-icon-btn lp-gs-trigger" id="btnGlobalSearch" onclick="window.openGlobalSearchModal && window.openGlobalSearchModal()" title="Tra cứu toàn cục (Ctrl+K)" aria-label="Tra cứu toàn cục">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span class="lp-gs-lbl">Tra cứu</span>
+          <kbd class="lp-gs-kbd">Ctrl+K</kbd>
+        </button>
+        <div id="s4UserTopBar"></div>
+        <button type="button" class="lp-icon-btn" id="homeDarkBtn" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+
     <!-- =====================================================================
          TẦNG 1: TRANG ĐẦU TIÊN - DANH SÁCH KHÓA HỌC LỚN
-         (Không có thanh thống kê trên; khóa nào chưa có dữ liệu báo chưa hoàn thiện)
          ===================================================================== -->
-    <div id="viewPortal" class="view-layer active portal-wrap">
-      <div class="sec-title" style="margin-top:6px;">🎓 Danh Sách Khóa Học</div>
+    <div id="viewPortal" class="view-layer active">
+      <div class="sec-title" style="margin-top:4px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <span>Khóa học</span>
+      </div>
       <div class="grid">
-        <!-- 1. KHÓA HỌC IELTS (ĐÃ CÓ DỮ LIỆU -> ẤN VÀO MỞ KHÓA HỌC CHÍNH) -->
-        <div class="course-card" onclick="openCourse('ielts')">
+        <!-- 1. KHÓA HỌC IELTS -->
+        <div class="course-card lp-glass" onclick="openCourse('ielts')">
           <div class="card-top">
-            <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">🎓</div>
+            <div class="card-icon tone-blue" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#dbeafe;color:#1d4ed8;">VOCAB • GRAMMAR • 4 KỸ NĂNG</span>
+              <span class="card-tag tag-blue">IELTS • 6 PHÂN HỆ</span>
               <h3 class="card-title">IELTS</h3>
-              <p class="card-desc">Hệ thống từ vựng SRS (16,186 từ), 120 bài ngữ pháp trọng tâm, phòng thi máy CBT và luyện 4 kỹ năng IELTS.</p>
+              <p class="card-desc">16,186 từ SRS, 120 bài ngữ pháp &amp; phòng thi CBT.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="portalIeltsSummary">Tiến độ: 0%</span>
-              <span style="color:#2563eb;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:var(--lg-accent);">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="portalIeltsBar" style="width:0%;background:#2563eb;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="portalIeltsBar" style="width:0%;background:#2563eb;"></div></div>
           </div>
         </div>
 
-        <!-- 2. KHÓA HỌC TED TALKS (ĐÃ CÓ DỮ LIỆU 202 BÀI -> ẤN VÀO HỌC TRỰC TIẾP) -->
-        <a class="course-card" href="tedtalks/index.html">
+        <!-- 2. KHÓA HỌC TED TALKS -->
+        <a class="course-card lp-glass" href="tedtalks/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#fee2e2;color:#dc2626;">🎙️</div>
+            <div class="card-icon tone-red" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#fee2e2;color:#dc2626;">2 CHƯƠNG • 202 VIDEO BÀI HỌC</span>
+              <span class="card-tag tag-red">202 VIDEO SONG NGỮ</span>
               <h3 class="card-title">TED Talks</h3>
-              <p class="card-desc">Luyện nghe chép chính tả (Dictation), phụ đề song ngữ Anh - Việt tương tác và luyện nói Shadowing cùng diễn giả TED.</p>
+              <p class="card-desc">Dictation, phụ đề Anh–Việt &amp; luyện nói Shadowing.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="portalTedSummary">Tiến độ: 0% (0/202 bài)</span>
-              <span style="color:#dc2626;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#dc2626;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="portalTedBar" style="width:0%;background:#dc2626;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="portalTedBar" style="width:0%;background:#dc2626;"></div></div>
           </div>
         </a>
 
-        <!-- 3. KHÓA HỌC TOEIC (CHƯA CÓ DỮ LIỆU -> BÁO CHƯA HOÀN THIỆN) -->
-        <a class="course-card locked" href="#" onclick="return checkSkillFolder(event, 'Khóa học TOEIC', '💼')">
+        <!-- 3. KHÓA HỌC TOEIC -->
+        <a class="course-card lp-glass locked" href="#" onclick="return checkSkillFolder(event, 'Khóa học TOEIC')">
           <div class="card-top">
-            <div class="card-icon" style="background:#fef3c7;color:#d97706;">💼</div>
+            <div class="card-icon tone-amber" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#fef3c7;color:#b45309;">TOEIC • SẮP RA MẮT</span>
+              <span class="card-tag tag-amber">TOEIC • SẮP RA MẮT</span>
               <h3 class="card-title">TOEIC</h3>
-              <p class="card-desc">Từ vựng TOEIC thương mại, ngữ pháp cốt lõi và luyện nghe đọc theo cấu trúc đề thi TOEIC.</p>
+              <p class="card-desc">Từ vựng thương mại, ngữ pháp &amp; đề Nghe–Đọc.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row" style="margin-bottom:0;align-items:center;">
-              <span style="color:var(--muted);font-size:12px;white-space:nowrap;">⏳ Đang biên soạn</span>
-              <span style="color:#e11d48;font-weight:700;font-size:12px;">💖 Ủng hộ ra mắt sớm &rarr;</span>
+              <span>Đang biên soạn</span>
+              <span class="prog-cta" style="color:var(--lg-rose);">Ủng hộ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
           </div>
         </a>
 
-        <!-- 4. KHÓA HỌC HSK (CHƯA CÓ DỮ LIỆU -> BÁO CHƯA HOÀN THIỆN) -->
-        <a class="course-card locked" href="#" onclick="return checkSkillFolder(event, 'Khóa học HSK', '🏮')">
+        <!-- 4. KHÓA HỌC HSK -->
+        <a class="course-card lp-glass" href="hsk/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#ede9fe;color:#6d28d9;">🏮</div>
+            <div class="card-icon tone-crimson" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M12 3v18"/><path d="M7 11h10v7H7z"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#ede9fe;color:#6d28d9;">HSK • SẮP RA MẮT</span>
+              <span class="card-tag tag-crimson">HSK 1–6 • 5,112 TỪ SRS</span>
               <h3 class="card-title">HSK</h3>
-              <p class="card-desc">Từ vựng tiếng Trung HSK 1–6 theo thuật toán SRS, bộ thủ chữ Hán, ngữ pháp và luyện nghe đọc.</p>
+              <p class="card-desc">Bài giảng Pinyin → HSK 6, SRS Hán–Việt &amp; Mock.</p>
             </div>
           </div>
           <div class="card-footer">
-            <div class="prog-row" style="margin-bottom:0;align-items:center;">
-              <span style="color:var(--muted);font-size:12px;white-space:nowrap;">⏳ Đang biên soạn</span>
-              <span style="color:#e11d48;font-weight:700;font-size:12px;">💖 Ủng hộ ra mắt sớm &rarr;</span>
+            <div class="prog-row">
+              <span id="portalHskSummary">Tiến độ: 0% (0 từ • 0 bài)</span>
+              <span class="prog-cta" style="color:#dc2626;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="portalHskBar" style="width:0%;background:#dc2626;"></div></div>
           </div>
         </a>
       </div>
     </div>
 
     <!-- =====================================================================
-         TẦNG 2: KHÓA HỌC IELTS CHÍNH (GIỮ NGUYÊN Y HỆT NHƯ BẢN ĐANG HỌC)
+         TẦNG 2: KHÓA HỌC IELTS CHÍNH
          ===================================================================== -->
     <div id="viewCourse_ielts" class="view-layer">
-      <div class="summary-bar">
-        <div>
-          <div class="sum-num" id="statVocabLearned">0 / 16,186</div>
-          <div class="sum-label" id="statVocabLabel">Tổng từ vựng SRS đã học</div>
+      <div class="lp-summary-strip lp-glass" aria-label="Thống kê tiến độ IELTS">
+        <div class="lp-sum-cell">
+          <div class="lp-sum-num" id="statVocabLearned">0 / 16,186</div>
+          <div class="lp-sum-lbl" id="statVocabLabel">Từ vựng SRS đã học</div>
         </div>
-        <div>
-          <div class="sum-num" style="color:#dc2626;" id="statVocabDue">0</div>
-          <div class="sum-label">Từ cần ôn hôm nay</div>
-        </div>
-        <div>
-          <div class="sum-num" style="color:#0d9488;" id="statGrammarDone">0 / 5,573</div>
-          <div class="sum-label" id="statLessonsLabel">Tổng bài học hoàn thành</div>
+        <a class="lp-sum-cell clickable" id="statDueLink" href="ielts/vocab/index.html?topic=ALL_DUE&amp;from=roadmap" title="Mở ôn tập các từ SRS đến hạn">
+          <div class="lp-sum-num is-due" id="statVocabDue">0</div>
+          <div class="lp-sum-lbl" id="statDueLabel">Từ cần ôn hôm nay</div>
+        </a>
+        <div class="lp-sum-cell">
+          <div class="lp-sum-num is-stage" id="statGrammarDone">0 / 5,573</div>
+          <div class="lp-sum-lbl" id="statLessonsLabel">Bài học hoàn thành</div>
         </div>
       </div>
 
-      <div class="sec-title">🔥 Khóa học nền tảng</div>
+      <div class="sec-title" style="margin-top:4px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+        <span>Lộ trình đề xuất</span>
+      </div>
+      <a class="course-card lp-glass roadmap-featured" href="ielts/roadmap/index.html">
+        <div class="card-top">
+          <div class="card-icon tone-blue" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-blue" id="ieltsRoadmapStageTag">LỘ TRÌNH 5 MỐC • BAND 3.5 → 8.0+</span>
+            <h3 class="card-title">Lộ Trình Học IELTS Từng Bước</h3>
+            <p class="card-desc">Ghép 6 phân hệ theo mốc Band &amp; gợi ý bài học hôm nay.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="ieltsRoadmapSummary">Tiến độ lộ trình: 0% • Đang ở Mốc 1</span>
+            <span class="prog-cta" style="color:var(--lg-accent);">Mở lộ trình <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="ieltsRoadmapBar" style="width:0%;background:linear-gradient(90deg,#2563eb,#0d9488);"></div></div>
+        </div>
+      </a>
+
+      <div class="sec-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <span>Nền tảng</span>
+      </div>
       <div class="grid">
-        <a class="course-card" href="ielts/vocab/index.html">
+        <a class="course-card lp-glass" href="ielts/vocab/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#dbeafe;color:#1d4ed8;">🧠</div>
+            <div class="card-icon tone-blue" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#dbeafe;color:#1d4ed8;">20 CHỦ ĐỀ • 1,827 TỪ</span>
+              <span class="card-tag tag-blue">20 CHỦ ĐỀ • 1,827 TỪ</span>
               <h3 class="card-title">IELTS Vocabulary</h3>
-              <p class="card-desc">Flashcards lặp lại ngắt quãng (SRS) kèm ảnh minh họa, âm thanh UK/US và bài tập trộn ngẫu nhiên.</p>
+              <p class="card-desc">Flashcard SRS 4 chế độ, ảnh minh họa &amp; phát âm UK/US.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="vocabPctText">Đã học: 0/1,827 từ SRS (0%)</span>
-              <span style="color:#2563eb;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#2563eb;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="vocabProgFill" style="width:0%;background:#2563eb;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="vocabProgFill" style="width:0%;background:#2563eb;"></div></div>
           </div>
         </a>
 
-        <a class="course-card" href="ielts/grammar/index.html">
+        <a class="course-card lp-glass" href="ielts/grammar/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#ccfbf1;color:#0f766e;">📚</div>
+            <div class="card-icon tone-teal" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#ccfbf1;color:#0f766e;">4 CHƯƠNG • 120 BÀI HỌC</span>
+              <span class="card-tag tag-teal">4 CHƯƠNG • 120 BÀI</span>
               <h3 class="card-title">IELTS Grammar</h3>
-              <p class="card-desc">Video bài giảng, Slide PDF, lý thuyết trọng tâm và bài tập thực hành chấm điểm tự động.</p>
+              <p class="card-desc">Video bài giảng, Slide PDF &amp; bài tập tự chấm.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="grammarPctText">Đã học: 0/120 bài (0%)</span>
-              <span style="color:#0d9488;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#0d9488;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="grammarProgFill" style="width:0%;background:#0d9488;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="grammarProgFill" style="width:0%;background:#0d9488;"></div></div>
           </div>
         </a>
       </div>
 
-      <div class="sec-title">🚀 Khóa học 4 Kỹ Năng</div>
+      <div class="sec-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+        <span>4 Kỹ Năng</span>
+      </div>
       <div class="grid">
-        <a class="course-card" href="ielts/listening/index.html">
+        <a class="course-card lp-glass" href="ielts/listening/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#fef3c7;color:#d97706;">🎧</div>
+            <div class="card-icon tone-amber" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#fef3c7;color:#b45309;">LISTENING • 1,482 BÀI & 2,176 TỪ SRS</span>
+              <span class="card-tag tag-amber">1,482 BÀI • 2,176 TỪ SRS</span>
               <h3 class="card-title">IELTS Intensive Listening</h3>
-              <p class="card-desc">10 chủ đề Từ vựng SRS (2,176 từ), 670 bài nghe Dictation, 775 video chữa đề & kho 133 đề thi thật CBT riêng biệt.</p>
+              <p class="card-desc">Từ vựng SRS, 670 Dictation, 775 video &amp; 133 đề CBT.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="listeningPctText">Đã học: 0/1,482 bài • 0/2,176 từ SRS</span>
-              <span style="color:#d97706;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#d97706;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="listeningProgFill" style="width:0%;background:#d97706;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="listeningProgFill" style="width:0%;background:#d97706;"></div></div>
           </div>
         </a>
 
-        <a class="course-card" href="ielts/reading/index.html">
+        <a class="course-card lp-glass" href="ielts/reading/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#dcfce7;color:#15803d;">📖</div>
+            <div class="card-icon tone-green" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#dcfce7;color:#15803d;">READING • 1,220 BÀI & 2,969 TỪ SRS</span>
+              <span class="card-tag tag-green">1,220 BÀI • 2,969 TỪ SRS</span>
               <h3 class="card-title">IELTS Intensive Reading</h3>
-              <p class="card-desc">10 chủ đề Từ vựng SRS (2,969 từ), 184 đề thi thật CBT, 318 bài đọc Academic song ngữ & 876 video chữa đề.</p>
+              <p class="card-desc">Từ vựng SRS, 318 bài đọc song ngữ &amp; 184 đề CBT.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="readingPctText">Đã học: 0/1,220 bài • 0/2,969 từ SRS</span>
-              <span style="color:#15803d;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#15803d;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="readingProgFill" style="width:0%;background:#15803d;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="readingProgFill" style="width:0%;background:#15803d;"></div></div>
           </div>
         </a>
 
-        <a class="course-card" href="ielts/writing/index.html">
+        <a class="course-card lp-glass" href="ielts/writing/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#f3e8ff;color:#7e22ce;">✍️</div>
+            <div class="card-icon tone-purple" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#f3e8ff;color:#7e22ce;">WRITING • 261 BÀI GIẢNG &amp; 1,183 ĐỀ PRACTICE ZONE</span>
+              <span class="card-tag tag-purple">261 BÀI • 1,183 ĐỀ CBT</span>
               <h3 class="card-title">IELTS Intensive Writing</h3>
-              <p class="card-desc">42 bài giảng phương pháp, 80 đề Task 1, 136 đề Task 2 có bài mẫu Simon Band 8.0+, 3 bộ đề mẫu &amp; kho 1,183 đề Practice Zone CBT chấm điểm AI.</p>
+              <p class="card-desc">Bài giảng, bài mẫu Simon 8.0+ &amp; phòng thi CBT AI.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="writingPctText">Đã học: 0/261 bài (0%)</span>
-              <span style="color:#7e22ce;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#7e22ce;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="writingProgFill" style="width:0%;background:#7e22ce;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="writingProgFill" style="width:0%;background:#7e22ce;"></div></div>
           </div>
         </a>
 
-        <a class="course-card" href="ielts/speaking/index.html">
+        <a class="course-card lp-glass" href="ielts/speaking/index.html">
           <div class="card-top">
-            <div class="card-icon" style="background:#ffe4e6;color:#e11d48;">🗣️</div>
+            <div class="card-icon tone-rose" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            </div>
             <div>
-              <span class="card-tag" style="background:#ffe4e6;color:#e11d48;">SPEAKING • 1,406 BÀI HỌC &amp; 1,084 BỘ ĐỀ THI THẬT</span>
+              <span class="card-tag tag-rose">2,490 BÀI • 9,214 TỪ SRS</span>
               <h3 class="card-title">IELTS Intensive Speaking</h3>
-              <p class="card-desc">88 chủ đề Từ vựng SRS (9,214 từ), 78 bài Phát âm (139 drills), 34 video chiến thuật, 376 chủ đề Part 1, 415 cặp Part 2+3 &amp; 1,084 đề Practice Zone.</p>
+              <p class="card-desc">Phát âm IPA, Part 1–2–3, 1,084 đề CBT &amp; ghi âm AI.</p>
             </div>
           </div>
           <div class="card-footer">
             <div class="prog-row">
               <span id="speakingPctText">Đã học: 0/2,490 bài • 0/9,214 từ SRS</span>
-              <span style="color:#e11d48;">Vào học &rarr;</span>
+              <span class="prog-cta" style="color:#e11d48;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" id="speakingProgFill" style="width:0%;background:#e11d48;"></div></div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="speakingProgFill" style="width:0%;background:#e11d48;"></div></div>
           </div>
         </a>
       </div>
+    </div>
 
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
-        <button class="data-btn" onclick="backupAll()">💾 Sao lưu</button>
-        <button class="data-btn" onclick="document.getElementById('restoreFile').click()">📂 Khôi phục</button>
-        <button class="data-btn" style="color:#dc2626;" onclick="resetAll()">🗑️ Đặt lại tiến độ</button>
-        <input type="file" id="restoreFile" accept=".json" style="display:none" onchange="restoreAll(event)">
-      </div>
+    <div id="globalBackupToolbar" class="lp-backup-bar">
+      <button type="button" class="lp-ghost-btn" onclick="backupAll()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>Sao lưu</span>
+      </button>
+      <button type="button" class="lp-ghost-btn" onclick="document.getElementById('restoreFile').click()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span>Khôi phục</span>
+      </button>
+      <button type="button" class="lp-ghost-btn danger" onclick="resetAll()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        <span>Đặt lại tiến độ</span>
+      </button>
+      <input type="file" id="restoreFile" accept=".json" style="display:none" onchange="restoreAll(event)">
     </div>
   </div>
 
+  <script src="ielts/roadmap/roadmap_data.js?v=1"></script>
+  <script src="ielts/roadmap/roadmap.js?v=1"></script>
+  <script src="assets/s4-ui.js?v=67"></script>
   <script>
+    function syncHomeDarkButton() {
+      const btn = document.getElementById("homeDarkBtn");
+      if (!btn) return;
+      const isDark = document.documentElement.classList.contains("dark");
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+        window.S4UI.renderThemeButton(btn, isDark);
+      } else {
+        btn.innerHTML = isDark
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>'
+          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+      }
+    }
+
     function toggleDark() {
       if (window.toggleDarkModeOnly) {
         window.toggleDarkModeOnly();
@@ -369,12 +742,9 @@
         if (document.body) document.body.classList.toggle("dark", isDark);
         localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
         const mt = document.getElementById("metaThemeColor");
-        if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
-        document.querySelectorAll('.dark-btn').forEach(b => {
-          b.textContent = isDark ? '☀️' : '🌙';
-          b.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
-        });
+        if (mt) mt.setAttribute("content", isDark ? "#0b1120" : "#eaf1fb");
       }
+      syncHomeDarkButton();
     }
 
     function applyViewFromHash() {
@@ -382,15 +752,20 @@
       const portalEl = document.getElementById("viewPortal");
       const ieltsEl = document.getElementById("viewCourse_ielts");
       const btnBack = document.getElementById("btnBackPortal");
+      const titleEl = document.getElementById("heroTitle");
 
       if (hash === "ielts") {
         portalEl.classList.remove("active");
         ieltsEl.classList.add("active");
         btnBack.style.display = "inline-flex";
+        if (titleEl) titleEl.textContent = "IELTS";
+        if (document.body) document.body.classList.add("in-ielts-view");
       } else {
         ieltsEl.classList.remove("active");
         portalEl.classList.add("active");
         btnBack.style.display = "none";
+        if (titleEl) titleEl.textContent = "LinguaPath";
+        if (document.body) document.body.classList.remove("in-ielts-view");
       }
       window.scrollTo({ top: 0, behavior: "instant" });
     }
@@ -450,7 +825,7 @@
         const totalDoneCount = vocabSrsStat.totalDone;
         const vPct = Math.min(100, Math.round((totalDoneCount / 1827) * 100));
 
-        document.getElementById("vocabPctText").textContent = "Đã học: " + totalDoneCount.toLocaleString('en-US') + "/1,827 từ SRS (" + vPct + "%)";
+        document.getElementById("vocabPctText").textContent = "Đã học: " + totalDoneCount.toLocaleString("en-US") + "/1,827 từ SRS (" + vPct + "%)";
         document.getElementById("vocabProgFill").style.width = vPct + "%";
 
         const gDone = safeJson("s4_grammar_done", {});
@@ -467,7 +842,7 @@
         const lisPct = Math.min(100, Math.round(((lisCount + lisWords) / (1482 + 2176)) * 100));
         const lisTextEl = document.getElementById("listeningPctText");
         const lisFillEl = document.getElementById("listeningProgFill");
-        if (lisTextEl) lisTextEl.textContent = "Đã học: " + lisCount.toLocaleString('en-US') + "/1,482 bài • " + lisWords.toLocaleString('en-US') + "/2,176 từ SRS";
+        if (lisTextEl) lisTextEl.textContent = "Đã học: " + lisCount.toLocaleString("en-US") + "/1,482 bài • " + lisWords.toLocaleString("en-US") + "/2,176 từ SRS";
         if (lisFillEl) lisFillEl.style.width = lisPct + "%";
 
         const readDoneRaw = safeJson("s4_reading_done", []);
@@ -478,14 +853,14 @@
         const readPct = Math.min(100, Math.round(((readCount + readWords) / (1220 + 2969)) * 100));
         const readTextEl = document.getElementById("readingPctText");
         const readFillEl = document.getElementById("readingProgFill");
-        if (readTextEl) readTextEl.textContent = "Đã học: " + readCount.toLocaleString('en-US') + "/1,220 bài • " + readWords.toLocaleString('en-US') + "/2,969 từ SRS";
+        if (readTextEl) readTextEl.textContent = "Đã học: " + readCount.toLocaleString("en-US") + "/1,220 bài • " + readWords.toLocaleString("en-US") + "/2,969 từ SRS";
         if (readFillEl) readFillEl.style.width = readPct + "%";
 
         const writingDoneRaw = safeJson("s4_writing_done", []);
         const writingDoneIds = Array.isArray(writingDoneRaw)
           ? writingDoneRaw.filter(Boolean)
           : Object.keys(writingDoneRaw || {}).filter(k => writingDoneRaw[k]);
-        const writingCount = writingDoneIds.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_[1-3]$/.test(String(id))).length;
+        const writingCount = writingDoneIds.filter(id => /^writing_u[1-5]_\d+$/.test(String(id)) || /^writing_pz_(?:[1-3]|part_|pair_)/.test(String(id))).length;
         const writingPct = Math.min(100, Math.round((writingCount / 261) * 100));
         const writingTextEl = document.getElementById("writingPctText");
         const writingFillEl = document.getElementById("writingProgFill");
@@ -500,20 +875,46 @@
         const speakPct = Math.min(100, Math.round(((speakCount + speakWords) / (2490 + 9214)) * 100));
         const speakTextEl = document.getElementById("speakingPctText");
         const speakFillEl = document.getElementById("speakingProgFill");
-        if (speakTextEl) speakTextEl.textContent = "Đã học: " + speakCount.toLocaleString('en-US') + "/2,490 bài • " + speakWords.toLocaleString('en-US') + "/9,214 từ SRS";
+        if (speakTextEl) speakTextEl.textContent = "Đã học: " + speakCount.toLocaleString("en-US") + "/2,490 bài • " + speakWords.toLocaleString("en-US") + "/9,214 từ SRS";
         if (speakFillEl) speakFillEl.style.width = speakPct + "%";
 
         const totalAllWords = totalDoneCount + lisWords + readWords + speakWords;
         const totalAllDue = dueCount + lisDue + readDue + speakDue;
         const totalAllLessons = gCount + lisCount + readCount + writingCount + speakCount;
 
-        document.getElementById("statVocabLearned").textContent = totalAllWords.toLocaleString('en-US') + " / 16,186";
-        document.getElementById("statVocabDue").textContent = totalAllDue.toLocaleString('en-US');
-        document.getElementById("statGrammarDone").textContent = totalAllLessons.toLocaleString('en-US') + " / 5,573";
+        document.getElementById("statVocabLearned").textContent = totalAllWords.toLocaleString("en-US") + " / 16,186";
+        document.getElementById("statVocabDue").textContent = totalAllDue.toLocaleString("en-US");
+        document.getElementById("statGrammarDone").textContent = totalAllLessons.toLocaleString("en-US") + " / 5,573";
 
         const overallIeltsPct = Math.min(100, Math.round(((totalAllWords + totalAllLessons) / (1827 + 120 + 1482 + 1220 + 261 + 2490 + 2176 + 2969 + 9214)) * 100));
-        document.getElementById("portalIeltsSummary").textContent = "Tiến độ: " + overallIeltsPct + "% (" + totalAllWords.toLocaleString('en-US') + " từ • " + totalAllLessons.toLocaleString('en-US') + " bài)";
+        document.getElementById("portalIeltsSummary").textContent = "Tiến độ: " + overallIeltsPct + "% (" + totalAllWords.toLocaleString("en-US") + " từ • " + totalAllLessons.toLocaleString("en-US") + " bài)";
         document.getElementById("portalIeltsBar").style.width = overallIeltsPct + "%";
+
+        if (window.LPIeltsRoadmap && typeof window.LPIeltsRoadmap.evaluateRoadmap === "function") {
+          const rm = window.LPIeltsRoadmap.evaluateRoadmap({ urlPrefix: "" });
+          if (rm) {
+            const rmTag = document.getElementById("ieltsRoadmapStageTag");
+            const rmSum = document.getElementById("ieltsRoadmapSummary");
+            const rmBar = document.getElementById("ieltsRoadmapBar");
+            const dueLink = document.getElementById("statDueLink");
+            const dueLbl = document.getElementById("statDueLabel");
+            if (rmTag && rm.activeStage) {
+              rmTag.textContent = "MỐC " + rm.activeStage.order + "/5 • " + rm.activeStage.bandRange.toUpperCase() + " • " + rm.pace.dailyDesc.toUpperCase();
+            }
+            if (rmSum) {
+              rmSum.textContent = "Tiến độ lộ trình: " + rm.overallPct + "% (" + rm.completedTasks + "/" + rm.totalTasks + " học phần"
+                + (rm.activeStage ? " • Mốc " + rm.activeStage.order : "") + ")";
+            }
+            if (rmBar) rmBar.style.width = rm.overallPct + "%";
+            if (dueLink && rm.dueTargetUrl) {
+              dueLink.href = rm.dueTargetUrl;
+              dueLink.title = rm.dueWordsTotal > 0 ? ("Mở ôn SRS: " + rm.dueSummaryHint) : "Mở ôn tập từ SRS đến hạn";
+            }
+            if (dueLbl) {
+              dueLbl.textContent = rm.dueWordsTotal > 0 ? rm.dueSummaryHint : "Từ cần ôn hôm nay";
+            }
+          }
+        }
 
         const tedDone = safeJson("s4_ted_done", {});
         const tedCount = Object.values(tedDone).filter(Boolean).length;
@@ -522,12 +923,37 @@
         const tedBarEl = document.getElementById("portalTedBar");
         if (tedSumEl) tedSumEl.textContent = "Tiến độ: " + tedPct + "% (" + tedCount + "/202 bài)";
         if (tedBarEl) tedBarEl.style.width = tedPct + "%";
+
+        const hskSrs = safeJson("lp_hsk_vocab_srs_v1", {});
+        const hskWords = Object.values(hskSrs).filter(st => st && typeof st === "object" && (st.ignored || st.reps > 0)).length;
+        const hskLessons = Object.values(safeJson("lp_hsk_lessons_done_v1", {})).filter(Boolean).length;
+        const hskGrammar = Object.values(safeJson("lp_hsk_grammar_done_v1", {})).filter(Boolean).length;
+        const hskWritingRaw = safeJson("lp_hsk_writing_done_v1", {});
+        const hskWCaps = { chars: 60, radicals: 214, reorder: 40, pinyinWrite: 20, makeSentence: 20, essays: 20 };
+        const hskWriting = Object.keys(hskWCaps).reduce((sum, bk) => {
+          const b = hskWritingRaw && hskWritingRaw[bk];
+          const cnt = b && typeof b === "object" ? Object.values(b).filter(Boolean).length : 0;
+          return sum + Math.min(hskWCaps[bk], cnt);
+        }, 0);
+        const hskListening = Object.values(safeJson("lp_hsk_listening_done_v1", {})).filter(Boolean).length;
+        const hskReading = Object.values(safeJson("lp_hsk_reading_done_v1", {})).filter(Boolean).length;
+        const hskSpeaking = Object.values(safeJson("lp_hsk_speaking_done_v1", {})).filter(Boolean).length;
+        const hskMockRes = safeJson("lp_hsk_mock_results_v1", {});
+        const hskBestById = hskMockRes && hskMockRes.bestById && typeof hskMockRes.bestById === "object" ? hskMockRes.bestById : {};
+        const hskMockPassed = Math.min(12, Object.values(hskBestById).filter(r => r && typeof r === "object" && r.passed === true).length);
+        const hskDoneItems = hskLessons + hskGrammar + hskWriting + hskListening + hskReading + hskSpeaking + hskMockPassed;
+        const hskPct = Math.min(100, Math.round(((hskWords + hskDoneItems * 10) / (5112 + 764 * 10)) * 100));
+        const hskSumEl = document.getElementById("portalHskSummary");
+        const hskBarEl = document.getElementById("portalHskBar");
+        if (hskSumEl) hskSumEl.textContent = "Tiến độ: " + hskPct + "% (" + hskWords.toLocaleString("en-US") + " từ • " + hskDoneItems + "/764 bài)";
+        if (hskBarEl) hskBarEl.style.width = hskPct + "%";
       } catch (e) {}
     }
 
     window.addEventListener("pageshow", () => {
       applyViewFromHash();
       updateDashboardStats();
+      syncHomeDarkButton();
     });
     window.addEventListener("focus", updateDashboardStats);
     window.addEventListener("storage", updateDashboardStats);
@@ -537,7 +963,18 @@
       "lp_speaking_done_v1", "lp_speaking_last_v1", "lp_speaking_notes_v1",
       "lp_speaking_submissions_v1", "lp_speaking_prefs_v1",
       "lp_speaking_vocab_srs_v1", "lp_speaking_vocab_days_v1",
-      "lp_speaking_vocab_settings_v1", "lp_speaking_vocab_session_v1"
+      "lp_speaking_vocab_settings_v1", "lp_speaking_vocab_session_v1",
+      "lp_hsk_vocab_srs_v1", "lp_hsk_vocab_days_v1",
+      "lp_hsk_vocab_settings_v1", "lp_hsk_vocab_session_v1",
+      "lp_hsk_lessons_done_v1", "lp_hsk_lessons_last_v1", "lp_hsk_workbook_done_v1",
+      "lp_hsk_grammar_done_v1", "lp_hsk_grammar_last_v1", "lp_hsk_mw_done_v1",
+      "lp_hsk_writing_done_v1", "lp_hsk_writing_drafts_v1",
+      "lp_hsk_listening_done_v1", "lp_hsk_listening_last_v1",
+      "lp_hsk_reading_done_v1", "lp_hsk_reading_last_v1",
+      "lp_hsk_speaking_done_v1", "lp_hsk_mock_results_v1",
+      "lp_hsk_shooter_best_v1", "lp_hsk_shooter_prefs_v1",
+      "lp_hsk_roadmap_v1", "lp_ted_shadow_lang",
+      "lp_ielts_roadmap_v1"
     ];
     function isAppProgressKey(k) {
       if (EXTRA_BACKUP_KEYS.includes(k) || k.startsWith("lp_pz_draft_")) return true;
@@ -563,7 +1000,7 @@
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 10000);
       if (window.S4UI && typeof window.S4UI.toast === "function") {
-        window.S4UI.toast("success", "✅ Đã tải xuống file sao lưu tiến độ!");
+        window.S4UI.toast("success", "Đã tải xuống file sao lưu tiến độ.");
       }
     }
     function restoreAll(ev) {
@@ -581,7 +1018,7 @@
             Object.keys(obj.items).forEach(k => { if (isAppProgressKey(k)) localStorage.setItem(k, obj.items[k]); });
             if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
             updateDashboardStats();
-            if (window.S4UI) window.S4UI.toast("success", "✅ Đã khôi phục tiến độ.");
+            if (window.S4UI) window.S4UI.toast("success", "Đã khôi phục tiến độ.");
           };
           if (window.S4UI) {
             window.S4UI.confirm("Dữ liệu học hiện tại sẽ bị thay bằng bản sao lưu. Tiếp tục?", {
@@ -593,58 +1030,73 @@
             doRestore();
           }
         } catch (e) {
-          if (window.S4UI) window.S4UI.alert("❌ File sao lưu không hợp lệ.", { tone: "danger", title: "Lỗi khôi phục" });
-          else alert("❌ File sao lưu không hợp lệ.");
+          if (window.S4UI) window.S4UI.alert("File sao lưu không hợp lệ.", { tone: "danger", title: "Lỗi khôi phục" });
+          else alert("File sao lưu không hợp lệ.");
         }
       };
       r.readAsText(f);
     }
+    const SENSITIVE_LOCAL_KEYS = [
+      "lp_speaking_gemini_key_v1", "lp_ai_api_key_v1", "lp_ai_base_url_v1"
+    ];
     function resetAll() {
       const doReset = () => {
         appKeys().forEach(k => localStorage.removeItem(k));
         HTML_CACHE_KEYS.forEach(k => localStorage.removeItem(k));
+        SENSITIVE_LOCAL_KEYS.forEach(k => {
+          try { localStorage.removeItem(k); } catch (e) {}
+          try { sessionStorage.removeItem(k); } catch (e) {}
+        });
         if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
         updateDashboardStats();
-        if (window.S4UI) window.S4UI.toast("success", "Đã xóa toàn bộ tiến độ trên thiết bị.");
+        if (window.S4UI) window.S4UI.toast("success", "Đã xóa toàn bộ tiến độ và khóa AI cá nhân trên thiết bị.");
       };
       if (window.S4UI) {
         window.S4UI.confirm("Xóa TOÀN BỘ tiến độ học (Từ vựng + Grammar + Kỹ năng)?\nNên sao lưu trước. Hành động này không thể hoàn tác.", {
           title: "Xóa toàn bộ tiến độ",
           tone: "danger",
-          confirmText: "🗑️ Xóa toàn bộ"
+          confirmText: "Xóa toàn bộ"
         }).then(ok => { if (ok) doReset(); });
       } else if (confirm("Xóa TOÀN BỘ tiến độ học (Từ vựng + Grammar)?\nNên sao lưu trước. Hành động này không thể hoàn tác.")) {
         doReset();
       }
     }
 
-    function checkSkillFolder(ev, skillName, icon) {
+    function checkSkillFolder(ev, skillName) {
       if (ev) ev.preventDefault();
       const old = document.getElementById("s4ComingSoonModal");
       if (old) {
         if (typeof old._closeModal === "function") old._closeModal();
         else old.remove();
       }
-      const cleanName = String(skillName || "").trim();
-      const subjectHtml = /^khóa học\b/i.test(cleanName) ? `<b>${cleanName}</b>` : `Học phần <b>${cleanName}</b>`;
+      const escLocal = s => (window.S4UI && typeof window.S4UI.escapeHtml === "function")
+        ? window.S4UI.escapeHtml(s)
+        : String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+      const safeName = escLocal(String(skillName || "Học phần").trim());
+      const iconClock = (window.S4UI && typeof window.S4UI.icon === "function")
+        ? window.S4UI.icon("clock", 26)
+        : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+      const iconClose = (window.S4UI && typeof window.S4UI.icon === "function")
+        ? window.S4UI.icon("close", 15)
+        : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+      const iconHeart = (window.S4UI && typeof window.S4UI.icon === "function")
+        ? window.S4UI.icon("heart", 15)
+        : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
+
       const wrap = document.createElement("div");
       wrap.id = "s4ComingSoonModal";
-      wrap.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:10050;padding:16px;touch-action:none;";
+      wrap.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,0.68);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:10050;padding:16px;touch-action:none;";
       wrap.innerHTML = `
-        <div role="dialog" aria-modal="true" aria-labelledby="s4CsTitle" style="position:relative;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:24px 20px 18px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
-          <button type="button" id="s4CsClose" aria-label="Đóng" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;">✕</button>
-          <div style="width:56px;height:56px;border-radius:16px;background:rgba(37,99,235,0.12);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px auto;">${icon || "⏳"}</div>
-          <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.4px;padding:3px 10px;border-radius:99px;background:rgba(245,158,11,0.16);color:#d97706;margin-bottom:8px;">⏳ ĐANG BIÊN SOẠN</span>
-          <h3 id="s4CsTitle" style="margin:0 0 8px 0;font-size:18px;font-weight:800;">${cleanName} sắp ra mắt</h3>
-          <p style="margin:0 0 12px 0;font-size:14px;color:var(--muted);line-height:1.55;">
-            ${subjectHtml} đang được biên soạn và hoàn thiện nội dung.
+        <div role="dialog" aria-modal="true" aria-labelledby="s4CsTitle" style="position:relative;background:var(--lg-surface-strong);backdrop-filter:var(--lg-blur);-webkit-backdrop-filter:var(--lg-blur);color:var(--lg-ink);border:1px solid var(--lg-hairline);border-radius:22px;padding:22px 20px 18px;max-width:380px;width:100%;text-align:center;box-shadow:inset 0 1.5px 0 var(--lg-rim-top), 0 20px 50px rgba(0,0,0,0.34);">
+          <button type="button" id="s4CsClose" aria-label="Đóng" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:999px;border:1px solid var(--lg-hairline);background:var(--lg-wash);color:var(--lg-ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;">${iconClose}</button>
+          <div style="width:52px;height:52px;border-radius:16px;background:var(--lg-amber-soft);color:var(--lg-amber);display:flex;align-items:center;justify-content:center;margin:0 auto 12px auto;">${iconClock}</div>
+          <h3 id="s4CsTitle" style="margin:0 0 6px 0;font-size:17.5px;font-weight:800;">${safeName} sắp ra mắt</h3>
+          <p style="margin:0 0 16px 0;font-size:13.5px;color:var(--lg-ink-sub);line-height:1.5;">
+            Nội dung đang được biên soạn và sẽ mở miễn phí sớm nhất.
           </p>
-          <div style="margin:0 0 16px 0;padding:10px 12px;border-radius:12px;background:rgba(225,29,72,0.08);border:1px dashed rgba(225,29,72,0.45);font-size:13px;line-height:1.5;color:var(--text);">
-            💖 Mỗi lượt ủng hộ của bạn sẽ giúp học phần này <b>ra mắt sớm hơn</b> và duy trì ứng dụng miễn phí cho cộng đồng.
-          </div>
           <div style="display:flex;gap:8px;">
-            <button type="button" id="s4CsCancel" style="font-family:inherit;flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:14px;cursor:pointer;">Hủy</button>
-            <button type="button" id="s4CsDonate" style="font-family:inherit;flex:1.6;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 14px rgba(225,29,72,0.3);">💖 Ủng hộ để ra mắt sớm</button>
+            <button type="button" id="s4CsCancel" style="font-family:inherit;flex:1;padding:10px;border-radius:12px;border:1px solid var(--lg-hairline);background:var(--lg-wash);color:var(--lg-ink);font-weight:700;font-size:13.5px;cursor:pointer;">Đóng</button>
+            <button type="button" id="s4CsDonate" style="font-family:inherit;flex:1.5;padding:10px;border-radius:12px;border:none;background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 14px rgba(225,29,72,0.28);">${iconHeart}<span>Ủng hộ dự án</span></button>
           </div>
         </div>`;
       const onKey = e => {
@@ -673,10 +1125,16 @@
       return false;
     }
 
+    const darkBtnEl = document.getElementById("homeDarkBtn");
+    if (darkBtnEl) darkBtnEl.addEventListener("click", toggleDark);
+    if (typeof MutationObserver !== "undefined") {
+      new MutationObserver(syncHomeDarkButton).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    }
+    syncHomeDarkButton();
     updateDashboardStats();
     applyViewFromHash();
   </script>
-  <script src="assets/s4-ui.js?v=65"></script>
+  <script src="assets/s4-global-search.js?v=2"></script>
   <script src="auth.js?v=33"></script>
   <script src="assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>

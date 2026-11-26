@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-glass-tier="study" data-course="ielts">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
@@ -33,7 +33,9 @@
         var isPortrait = window.innerHeight >= window.innerWidth;
         var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
         var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
-        document.documentElement.style.setProperty("--s4-safe-top", (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px");
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
       }
       syncSafeTop();
       window.addEventListener("resize", syncSafeTop);
@@ -49,10 +51,11 @@
           if (document.body) document.body.classList.toggle("dark", nextDark);
           var mtEl = document.getElementById("metaThemeColor");
           if (mtEl) mtEl.setAttribute("content", nextDark ? "#0f172a" : "#f1f5f9");
-          document.querySelectorAll(".dark-btn").forEach(function (b) {
-            b.textContent = nextDark ? "☀️" : "🌙";
-            b.title = nextDark ? "Đang ở chế độ Tối — Bấm để chuyển sang Sáng" : "Đang ở chế độ Sáng — Bấm để chuyển sang Tối";
-          });
+          if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+            document.querySelectorAll('[data-lp-theme-toggle="1"]').forEach(function (b) {
+              window.S4UI.renderThemeButton(b, nextDark);
+            });
+          }
         }
       };
     } catch (e) {}
@@ -60,125 +63,214 @@
   </script>
 
   <!-- Shared UI, Ghibli Theme & Speaking Styles -->
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=66">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
-  <link rel="stylesheet" href="speaking.css?v=9">
+  <link rel="stylesheet" href="speaking.css?v=10">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
 
-  <!-- TOPBAR HEADER ĐỒNG BỘ LINGUAPATH -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <button type="button" class="btn mini-btn menu-toggle-btn" id="btnToggleSidebar" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar()" title="Thu gọn / Mở rộng danh sách bài bên trái">
-        <span class="s4-desk-sb-lbl">◀ Ẩn mục lục</span>
-        <span class="s4-mob-sb-lbl">☰ Mục lục</span>
-      </button>
-      <a href="../../index.html#ielts" class="back-btn">← Khóa IELTS</a>
-      <div class="brand-title"><span>🎙️ Speaking</span></div>
-    </div>
+  <!-- TOPBAR HEADER 1 HÀNG DUY NHẤT CHUẨN LINGUAPATH -->
+  <div class="sp-topbar-wrap">
+    <header class="lp-topbar lp-glass" id="spTopbar">
+      <div class="lp-top-left">
+        <button type="button" class="lp-icon-btn menu-toggle-btn" id="btnToggleSidebar" title="Thu gọn / Mở rộng danh sách bài bên trái" aria-label="Mục lục bài học" aria-expanded="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          <span class="s4-desk-sb-lbl lp-hide-xs">Ẩn mục lục</span>
+        </button>
+        <a href="../../index.html#ielts" class="lp-back-pill" id="lpBackBtn" title="Về Khóa học IELTS">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>IELTS</span>
+        </a>
+        <div class="lp-brand">
+          <div class="lp-brand-icon" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          </div>
+          <div class="lp-brand-text">
+            <h1 class="lp-brand-title">Speaking</h1>
+          </div>
+        </div>
+      </div>
 
-    <!-- Thanh chuyển nhanh 5 Phân hệ -->
-    <div class="top-switch" id="topSwitch" role="tablist" aria-label="Phân hệ IELTS Speaking">
-      <button type="button" class="top-switch-btn" id="topBtn_u_1" onclick="window.switchSpeakingUnit && window.switchSpeakingUnit('u_1')" title="Collocations, Idioms &amp; Expressions Band 7.0–9.0 SRS">📚 Vocab (88)</button>
-      <button type="button" class="top-switch-btn active" id="topBtn_u_2" onclick="window.switchSpeakingUnit && window.switchSpeakingUnit('u_2')" title="IELTS Speaking Part 1 Interview (376 chủ đề)">💬 Part 1 (376)</button>
-      <button type="button" class="top-switch-btn" id="topBtn_u_34" onclick="window.switchSpeakingUnit && window.switchSpeakingUnit('u_34')" title="IELTS Speaking Part 2 Cue Cards &amp; Part 3 Discussion (415 cặp đề)">🎴 Part 2 &amp; 3 (415)</button>
-      <button type="button" class="top-switch-btn" id="topBtn_u_5" onclick="window.switchSpeakingUnit && window.switchSpeakingUnit('u_5')" title="Phát âm (78 bài / 139 drills) &amp; Video Chiến thuật (34 bài)">🎓 Phát âm &amp; CT (112)</button>
-      <button type="button" class="top-switch-btn sp-top-pz-btn" id="topBtn_u_6" onclick="window.switchSpeakingUnit && window.switchSpeakingUnit('u_6')" title="Phòng thi thử thật IELTS Practice Zone (1,084 bộ đề)">🎯 Practice Zone (1084)</button>
-    </div>
-
-    <!-- Cụm nút chức năng bên phải -->
-    <div class="topbar-right">
-      <button type="button" class="btn mini-btn" id="btnOpenHistoryModal" onclick="window.openSpeakingHistoryModal && window.openSpeakingHistoryModal()" title="Xem toàn bộ lịch sử bài nói & chấm điểm">
-        📂 <span class="sp-hist-lbl">Lịch sử </span>(<span id="topHistoryCount">0</span>)
-      </button>
-      <button type="button" class="btn mini-btn sp-donate-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án phi lợi nhuận">💖 Ủng hộ</button>
-      <button type="button" class="btn mini-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
-      <span class="prog-pill" id="topProgText"><span class="sp-prog-lbl">Đã học: </span>0/2490</span>
-    </div>
-  </header>
+      <div class="lp-top-actions">
+        <span class="prog-pill" id="topProgText"><span class="sp-prog-lbl">Đã học: </span>0/2490</span>
+        <button type="button" class="lp-icon-btn" id="btnOpenHistoryModal" title="Xem toàn bộ lịch sử bài nói &amp; chấm điểm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span class="sp-hist-lbl">Lịch sử</span> (<span id="topHistoryCount">0</span>)
+        </button>
+        <button type="button" class="lp-icon-btn donate sp-donate-btn" id="btnSpeakingDonate" title="Ủng hộ dự án phi lợi nhuận">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="lp-hide-xs">Ủng hộ</span>
+        </button>
+        <button type="button" class="lp-icon-btn dark-btn" id="btnSpeakingDark" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </button>
+      </div>
+    </header>
+  </div>
 
   <!-- WORKSPACE LAYOUT (SIDEBAR MỤC LỤC + MAIN AREA) -->
   <div class="workspace" id="speakingWorkspace">
-    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar(false)"></div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-    <!-- CỘT MỤC LỤC BÊN TRÁI (355px ĐỒNG BỘ CÁC PHÂN HỆ) -->
+    <!-- CỘT MỤC LỤC BÊN TRÁI (336px ĐỒNG BỘ CÁC PHÂN HỆ) -->
     <aside class="sidebar" id="speakingSidebar">
       <div class="sidebar-header">
         <div class="search-row">
           <div class="s4-search-group is-compact">
             <div class="s4-search-field">
               <input type="text" id="searchInput" class="search-input s4-search-input" placeholder="Tìm chủ đề, Cue Card, bộ đề..." autocomplete="off">
-              <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+              <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
             </div>
-            <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+            <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </button>
           </div>
-          <button type="button" class="mini-btn" id="btnToggleAll" onclick="window.toggleAllSpeakingFolders && window.toggleAllSpeakingFolders()">Thu gọn</button>
-          <button type="button" class="close-sidebar-btn" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar(false)" title="Đóng mục lục" aria-label="Đóng mục lục">×</button>
+          <button type="button" class="mini-btn" id="btnToggleAll">Thu gọn</button>
+          <button type="button" class="close-sidebar-btn" id="btnCloseSidebar" title="Đóng mục lục" aria-label="Đóng mục lục">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
         </div>
       </div>
 
       <div class="lesson-list" id="lessonList">
-        <!-- Render cây thư mục 122 bài học từ speaking.js -->
+        <!-- Render cây thư mục từ speaking.js -->
       </div>
     </aside>
 
     <!-- KHU VỰC LÀM VIỆC CHÍNH -->
     <main class="main-area" id="mainArea">
 
+      <!-- Thanh chuyển nhanh 5 Phân hệ -->
+      <nav class="top-switch lp-glass" id="topSwitch" role="tablist" aria-label="Phân hệ IELTS Speaking">
+        <button type="button" class="top-switch-btn" id="topBtn_u_1" data-unit="u_1" title="Collocations, Idioms &amp; Expressions Band 7.0–9.0 SRS">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>
+          <span>Vocab (88)</span>
+        </button>
+        <button type="button" class="top-switch-btn active" id="topBtn_u_2" data-unit="u_2" title="IELTS Speaking Part 1 Interview (376 chủ đề)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          <span>Part 1 (376)</span>
+        </button>
+        <button type="button" class="top-switch-btn" id="topBtn_u_34" data-unit="u_34" title="IELTS Speaking Part 2 Cue Cards &amp; Part 3 Discussion (415 cặp đề)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Part 2 &amp; 3 (415)</span>
+        </button>
+        <button type="button" class="top-switch-btn" id="topBtn_u_5" data-unit="u_5" title="Phát âm (78 bài / 139 drills) &amp; Video Chiến thuật (34 bài)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Phát âm &amp; CT (112)</span>
+        </button>
+        <button type="button" class="top-switch-btn sp-top-pz-btn" id="topBtn_u_6" data-unit="u_6" title="Phòng thi thử thật IELTS Practice Zone (1,084 bộ đề)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <span>Practice Zone (1,084)</span>
+        </button>
+      </nav>
+
       <!-- 1. MÀN HÌNH TỪ VỰNG SRS (UNIT 1 - S4VocabEngine) -->
       <div class="sp-view-shell" id="vocabContainer" style="display:none;">
-        <div class="sp-lesson-header">
+        <div class="sp-lesson-header lp-glass">
           <div>
             <div class="sp-lesson-unit-tag" id="vocabUnitTag">UNIT 1 • SPEAKING VOCAB &amp; IDIOMS SRS</div>
             <h1 class="sp-lesson-title" id="vocabLessonTitle">1. Idioms: People &amp; Relationships</h1>
           </div>
           <div class="sp-header-actions">
             <span class="s4-step-badge" id="vocabStepBadge">15 mục từ</span>
-            <button type="button" class="btn mini-btn" id="btnToggleVocabDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">✓ Đánh dấu đã học</button>
-            <button type="button" class="btn mini-btn" id="btnPrevSpVocab" onclick="window.openPrevLesson && window.openPrevLesson()">◀ Bài trước</button>
-            <button type="button" class="btn btn-primary" id="btnNextSpVocab" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ▶</button>
+            <button type="button" class="btn mini-btn" id="btnToggleVocabDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Đánh dấu đã học</span>
+            </button>
+            <button type="button" class="btn mini-btn" id="btnPrevSpVocab" onclick="window.openPrevLesson && window.openPrevLesson()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Bài trước</span>
+            </button>
+            <button type="button" class="btn btn-primary" id="btnNextSpVocab" onclick="window.openNextLesson && window.openNextLesson()">
+              <span>Bài tiếp theo</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
           </div>
         </div>
         <div id="speakingVocabMount">
           <!-- window.S4VocabEngine.mount('speakingVocabMount', ...) -->
         </div>
+        <div class="lp-lesson-nav lp-glass">
+          <button type="button" class="btn mini-btn" id="btnPrevSpVocabBot" onclick="window.openPrevLesson && window.openPrevLesson()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <span>Bài trước</span>
+          </button>
+          <button type="button" class="btn mini-btn" id="btnToggleVocabDoneBot" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Đánh dấu đã học</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="btnNextSpVocabBot" onclick="window.openNextLesson && window.openNextLesson()">
+            <span>Bài tiếp</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
       </div>
 
       <!-- 2. MÀN HÌNH PHƯƠNG PHÁP & PHÁT ÂM (UNIT 5) -->
       <div class="sp-view-shell" id="theoryContainer" style="display:none;">
-        <div class="sp-lesson-header">
+        <div class="sp-lesson-header lp-glass">
           <div>
             <div class="sp-lesson-unit-tag" id="theoryUnitTag">UNIT 5 • SPEAKING STRATEGY &amp; PRONUNCIATION</div>
             <h1 class="sp-lesson-title" id="theoryLessonTitle">1. Hiểu đúng 4 Tiêu chí Chấm điểm IELTS Speaking</h1>
           </div>
           <div class="sp-header-actions">
-            <span class="s4-step-badge" id="theoryDurationTag">⏱️ 8 phút đọc</span>
-            <button type="button" class="btn mini-btn" id="btnToggleTheoryDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">✓ Đánh dấu đã học</button>
-            <button type="button" class="btn mini-btn" id="btnPrevSpTheory" onclick="window.openPrevLesson && window.openPrevLesson()">◀ Bài trước</button>
-            <button type="button" class="btn btn-primary" id="btnNextSpTheory" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ▶</button>
+            <span class="s4-step-badge" id="theoryDurationTag">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>8 phút đọc</span>
+            </span>
+            <button type="button" class="btn mini-btn" id="btnToggleTheoryDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Đánh dấu đã học</span>
+            </button>
+            <button type="button" class="btn mini-btn" id="btnPrevSpTheory" onclick="window.openPrevLesson && window.openPrevLesson()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Bài trước</span>
+            </button>
+            <button type="button" class="btn btn-primary" id="btnNextSpTheory" onclick="window.openNextLesson && window.openNextLesson()">
+              <span>Bài tiếp theo</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
           </div>
         </div>
 
-        <article class="sp-theory-card" id="theoryHtmlBox">
+        <article class="sp-theory-card lp-glass" id="theoryHtmlBox">
           <!-- Nội dung bài giảng học thuật -->
         </article>
 
-        <section class="sp-checklist-card" id="theoryChecklistBox">
+        <section class="sp-checklist-card lp-glass" id="theoryChecklistBox">
           <!-- Checklist hành động -->
         </section>
 
-        <section class="sp-quiz-card" id="theoryQuizBox">
+        <section class="sp-quiz-card lp-glass" id="theoryQuizBox">
           <!-- Mini-quiz kiểm tra hiểu bài -->
         </section>
+
+        <div class="lp-lesson-nav lp-glass">
+          <button type="button" class="btn mini-btn" id="btnPrevSpTheoryBot" onclick="window.openPrevLesson && window.openPrevLesson()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <span>Bài trước</span>
+          </button>
+          <button type="button" class="btn mini-btn" id="btnToggleTheoryDoneBot" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Đánh dấu đã học</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="btnNextSpTheoryBot" onclick="window.openNextLesson && window.openNextLesson()">
+            <span>Bài tiếp</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
       </div>
 
       <!-- 3. MÀN HÌNH SPEAKING STUDIO (PART 1 / PART 2 / PART 3 — UNITS 2, 3, 4) -->
       <div class="sp-view-shell s4-speaking-shell" id="studioContainer">
         <!-- Header bài học đang chọn -->
-        <div class="sp-lesson-header">
+        <div class="sp-lesson-header lp-glass">
           <div>
             <div class="sp-lesson-unit-tag" id="studioUnitTag">PART 1 • INTERVIEW TOPIC</div>
             <h1 class="sp-lesson-title" id="studioLessonTitle">1. Work or Studies</h1>
@@ -186,41 +278,80 @@
           <div class="sp-header-actions">
             <!-- Chọn giọng đọc Examiner TTS -->
             <div class="sp-accent-group" role="group" aria-label="Chọn giọng đọc mẫu">
-              <button type="button" class="sp-accent-btn active" data-accent="en-GB" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-GB')" title="Giọng Anh-Anh (UK)">🇬🇧 UK</button>
-              <button type="button" class="sp-accent-btn" data-accent="en-AU" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-AU')" title="Giọng Anh-Úc (AU)">🇦🇺 AU</button>
-              <button type="button" class="sp-accent-btn" data-accent="en-US" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-US')" title="Giọng Anh-Mỹ (US)">🇺🇸 US</button>
+              <button type="button" class="sp-accent-btn active" data-accent="en-GB" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-GB')" title="Giọng Anh-Anh (UK)">UK</button>
+              <button type="button" class="sp-accent-btn" data-accent="en-AU" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-AU')" title="Giọng Anh-Úc (AU)">AU</button>
+              <button type="button" class="sp-accent-btn" data-accent="en-US" onclick="window.setSpeakingVoiceAccent && window.setSpeakingVoiceAccent('en-US')" title="Giọng Anh-Mỹ (US)">US</button>
             </div>
-            <button type="button" class="btn mini-btn" id="btnToggleStudioDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">✓ Đánh dấu hoàn thành</button>
-            <button type="button" class="btn mini-btn" id="btnPrevSpStudio" onclick="window.openPrevLesson && window.openPrevLesson()">◀ Bài trước</button>
-            <button type="button" class="btn mini-btn" id="btnNextSpStudio" onclick="window.openNextLesson && window.openNextLesson()">Bài tiếp theo ▶</button>
-            <button type="button" class="btn btn-primary" onclick="window.openPracticeZoneFromStudio && window.openPracticeZoneFromStudio()" title="Thử sức ngay với Phòng Thi Thật Practice Zone">🎯 Thi thử thật</button>
+            <button type="button" class="btn mini-btn" id="btnToggleStudioDone" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Đánh dấu hoàn thành</span>
+            </button>
+            <button type="button" class="btn mini-btn" id="btnPrevSpStudio" onclick="window.openPrevLesson && window.openPrevLesson()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Bài trước</span>
+            </button>
+            <button type="button" class="btn mini-btn" id="btnNextSpStudio" onclick="window.openNextLesson && window.openNextLesson()">
+              <span>Bài tiếp theo</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            <button type="button" class="btn btn-primary" onclick="window.openPracticeZoneFromStudio && window.openPracticeZoneFromStudio()" title="Thử sức ngay với Phòng Thi Thật Practice Zone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              <span>Thi thử thật</span>
+            </button>
           </div>
         </div>
 
         <!-- Thanh chuyển 1 chạm giữa Part 2 Cue Card & Part 3 Discussion cùng chủ đề -->
-        <div class="sp-part-pair-bar" id="studioPartPairBar" style="display:none;"></div>
+        <div class="sp-part-pair-bar lp-glass" id="studioPartPairBar" style="display:none;"></div>
 
         <!-- Khung Đề bài & Cue Card Trọng tâm (Question Strip / Cue Card Box) -->
-        <section class="s4-speaking-prompt-card sp-prompt-card" id="studioPromptCard"></section>
+        <section class="s4-speaking-prompt-card sp-prompt-card lp-glass" id="studioPromptCard"></section>
 
         <!-- Thanh 5 Chế độ Luyện Speaking Studio -->
-        <nav class="s4-mode-pill-bar sp-mode-tabs" id="lessonModeTabs" aria-label="Chế độ luyện Speaking">
-          <button type="button" class="sp-mode-btn active" id="modeBtn_sample" onclick="window.switchSpeakingMode && window.switchSpeakingMode('sample')">🏆 1. Bài mẫu &amp; Từ vựng</button>
-          <button type="button" class="sp-mode-btn" id="modeBtn_shadowing" onclick="window.switchSpeakingMode && window.switchSpeakingMode('shadowing')">🗣️ 2. Shadowing Nói đuổi</button>
-          <button type="button" class="sp-mode-btn" id="modeBtn_drill" onclick="window.switchSpeakingMode && window.switchSpeakingMode('drill')">🧩 3. Phản xạ Collocations</button>
-          <button type="button" class="sp-mode-btn" id="modeBtn_record" onclick="window.switchSpeakingMode && window.switchSpeakingMode('record')">🎙️ 4. Ghi âm &amp; Nháp ý</button>
-          <button type="button" class="sp-mode-btn" id="modeBtn_review" onclick="window.switchSpeakingMode && window.switchSpeakingMode('review')">📊 5. Tự chấm 4 Tiêu chí &amp; AI</button>
+        <nav class="s4-mode-pill-bar sp-mode-tabs lp-glass" id="lessonModeTabs" aria-label="Chế độ luyện Speaking">
+          <button type="button" class="sp-mode-btn active" id="modeBtn_sample" onclick="window.switchSpeakingMode && window.switchSpeakingMode('sample')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <span>1. Bài mẫu &amp; Từ vựng</span>
+          </button>
+          <button type="button" class="sp-mode-btn" id="modeBtn_shadowing" onclick="window.switchSpeakingMode && window.switchSpeakingMode('shadowing')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <span>2. Shadowing Nói đuổi</span>
+          </button>
+          <button type="button" class="sp-mode-btn" id="modeBtn_drill" onclick="window.switchSpeakingMode && window.switchSpeakingMode('drill')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <span>3. Phản xạ Collocations</span>
+          </button>
+          <button type="button" class="sp-mode-btn" id="modeBtn_record" onclick="window.switchSpeakingMode && window.switchSpeakingMode('record')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            <span>4. Ghi âm &amp; Nháp ý</span>
+          </button>
+          <button type="button" class="sp-mode-btn" id="modeBtn_review" onclick="window.switchSpeakingMode && window.switchSpeakingMode('review')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>5. Tự chấm 4 Tiêu chí &amp; AI</span>
+          </button>
         </nav>
 
         <!-- MODE 1: BÀI MẪU & CẤU TRÚC -->
-        <section class="sp-mode-pane" id="paneModeSample">
+        <section class="sp-mode-pane lp-glass" id="paneModeSample">
           <div class="sp-pane-toolbar">
             <div class="sp-toolbar-cluster">
-              <button type="button" class="btn mini-btn active" id="btnToggleSampleVi" onclick="window.toggleSampleVietnamese && window.toggleSampleVietnamese()">🇻🇳 Hiện dịch tiếng Việt</button>
-              <button type="button" class="btn mini-btn active" id="btnToggleSampleRoles" onclick="window.toggleSampleRoles && window.toggleSampleRoles()">🏷️ Hiện nhãn cấu trúc</button>
-              <button type="button" class="btn mini-btn" id="btnPlayAllSample" onclick="window.playActiveSampleAudio && window.playActiveSampleAudio()">🔊 Nghe toàn bài mẫu</button>
+              <button type="button" class="btn mini-btn active" id="btnToggleSampleVi" onclick="window.toggleSampleVietnamese && window.toggleSampleVietnamese()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
+                <span>Hiện dịch tiếng Việt</span>
+              </button>
+              <button type="button" class="btn mini-btn active" id="btnToggleSampleRoles" onclick="window.toggleSampleRoles && window.toggleSampleRoles()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
+                <span>Hiện nhãn cấu trúc</span>
+              </button>
+              <button type="button" class="btn mini-btn" id="btnPlayAllSample" onclick="window.playActiveSampleAudio && window.playActiveSampleAudio()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>Nghe toàn bài mẫu</span>
+              </button>
             </div>
-            <button type="button" class="btn mini-btn" onclick="window.copyActiveSampleText && window.copyActiveSampleText()">📋 Copy bài mẫu</button>
+            <button type="button" class="btn mini-btn" onclick="window.copyActiveSampleText && window.copyActiveSampleText()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copy bài mẫu</span>
+            </button>
           </div>
           <div id="sampleContentBox" class="sp-sample-list">
             <!-- Render đoạn mẫu song ngữ + Collocations highlight -->
@@ -228,7 +359,7 @@
         </section>
 
         <!-- MODE 2: SHADOWING NÓI ĐUỔI TỪNG CÂU -->
-        <section class="sp-mode-pane" id="paneModeShadowing" style="display:none;">
+        <section class="sp-mode-pane lp-glass" id="paneModeShadowing" style="display:none;">
           <div class="sp-pane-toolbar">
             <div class="sp-toolbar-cluster">
               <span class="s4-step-badge" id="shadowStepBadge">Câu 1/1</span>
@@ -240,8 +371,14 @@
               </div>
             </div>
             <div class="sp-toolbar-cluster">
-              <button type="button" class="btn mini-btn" onclick="window.stepShadowSentence && window.stepShadowSentence(-1)">‹ Câu trước</button>
-              <button type="button" class="btn mini-btn" onclick="window.stepShadowSentence && window.stepShadowSentence(1)">Câu tiếp ›</button>
+              <button type="button" class="btn mini-btn" onclick="window.stepShadowSentence && window.stepShadowSentence(-1)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                <span>Câu trước</span>
+              </button>
+              <button type="button" class="btn mini-btn" onclick="window.stepShadowSentence && window.stepShadowSentence(1)">
+                <span>Câu tiếp</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
             </div>
           </div>
           <div id="shadowingBox" class="sp-shadow-card">
@@ -250,160 +387,189 @@
         </section>
 
         <!-- MODE 3: LUYỆN PHẢN XẠ COLLOCATIONS -->
-        <section class="sp-mode-pane" id="paneModeDrill" style="display:none;">
+        <section class="sp-mode-pane lp-glass" id="paneModeDrill" style="display:none;">
           <div id="collocationDrillBox" class="sp-drill-card">
             <!-- Render các bài điền khuyết Collocations 4 lựa chọn -->
           </div>
         </section>
 
         <!-- MODE 4: TỰ GHI ÂM & GHI CHÚ PART 2 -->
-        <section class="sp-mode-pane" id="paneModeRecord" style="display:none;">
+        <section class="sp-mode-pane lp-glass" id="paneModeRecord" style="display:none;">
           <div id="recordStudioBox" class="sp-record-card">
             <!-- Render đồng hồ chuẩn bị 60s, Notepad từ khóa, Recorder S4UI + Waveform + Audio Playback + Transcript/WPM -->
           </div>
         </section>
 
         <!-- MODE 5: CHẤM 4 TIÊU CHÍ (FC, LR, GRA, PR) & AI PROMPT -->
-        <section class="sp-mode-pane" id="paneModeReview" style="display:none;">
+        <section class="sp-mode-pane lp-glass" id="paneModeReview" style="display:none;">
           <div id="reviewStudioBox" class="sp-review-card">
             <!-- Render Instant Analysis Metrics, Checklist 4 tiêu chí IELTS Speaking, AI Examiner Prompt Builder & Lưu lịch sử -->
           </div>
         </section>
+
+        <div class="lp-lesson-nav lp-glass">
+          <button type="button" class="btn mini-btn" id="btnPrevSpStudioBot" onclick="window.openPrevLesson && window.openPrevLesson()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <span>Bài trước</span>
+          </button>
+          <button type="button" class="btn mini-btn" id="btnToggleStudioDoneBot" onclick="window.toggleCurrentLessonDone && window.toggleCurrentLessonDone()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Đánh dấu hoàn thành</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="btnNextSpStudioBot" onclick="window.openNextLesson && window.openNextLesson()">
+            <span>Bài tiếp</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
       </div>
 
       <!-- 4. SẢNH PHÒNG THI THẬT PRACTICE ZONE (REAL-EXAM IELTS LOBBY — UNIT 6) -->
       <div class="sp-pz-lobby" id="practiceZoneLobby" style="display:none;">
         <div class="sp-lobby-inner">
-          <div class="sp-lobby-header">
+          <div class="sp-lobby-header lp-glass">
             <div class="sp-lobby-badges">
-              <span class="sp-lobby-chip">🎯 IELTS PRACTICE ZONE</span>
-              <span class="sp-lobby-chip is-exam">REAL EXAM ROOM SIMULATOR</span>
-              <span class="sp-lobby-chip is-accent" id="lobbyExaminerBadge">🇬🇧 UK Examiner</span>
+              <span class="sp-lobby-chip">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                <span>IELTS PRACTICE ZONE</span>
+              </span>
+              <span class="sp-lobby-chip is-exam">CBT REAL EXAM</span>
+              <span class="sp-lobby-chip is-accent" id="lobbyExaminerBadge">UK Examiner</span>
             </div>
             <h1 class="sp-lobby-title" id="lobbyTestTitle">Recent IELTS Speaking Actual Test 01</h1>
-            <p class="sp-lobby-subtitle">
-              Mô phỏng chân thực phòng thi IELTS Speaking trực tiếp: Giám khảo hỏi bằng giọng đọc tự nhiên, ẩn văn bản ở Part 1 &amp; Part 3 (hỗ trợ Repeat / Rephrase), khóa đồng hồ 60s chuẩn bị + 120s nói Part 2 kèm câu ngắt <em>"Thank you"</em> và câu Rounding-off.
-            </p>
             <div class="sp-lobby-hero-actions">
               <button type="button" class="btn btn-primary sp-start-exam-btn" id="btnEnterRealExam" onclick="window.startSpeakingPracticeExam && window.startSpeakingPracticeExam()">
-                🚪 Bước vào Phòng Thi Thật ➜
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                <span>Bước vào Phòng Thi Thật</span>
               </button>
               <button type="button" class="btn mini-btn sp-hero-sec-btn" id="btnPzPairFull" style="display:none;" onclick="window.pairAndStartFullPzExam && window.pairAndStartFullPzExam()" title="Ghép thêm phần thi còn thiếu để luyện đủ 3 Part chuẩn phòng thi thật">
-                🔗 Ghép đủ 3 phần thành Full Test
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
+                <span>Ghép đủ 3 phần</span>
               </button>
               <button type="button" class="btn mini-btn sp-hero-sec-btn" onclick="window.startRandomSpeakingExam && window.startRandomSpeakingExam()" title="Ghép ngẫu nhiên 2 chủ đề Part 1 + 1 Cue Card Part 2 + 1 bộ Part 3 tương ứng">
-                🎲 Bốc đề Ngẫu Nhiên
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>Bốc đề Ngẫu Nhiên</span>
               </button>
               <button type="button" class="btn mini-btn sp-hero-sec-btn" id="btnOpenPzPicker" onclick="window.openSpeakingTestPicker && window.openSpeakingTestPicker()">
-                📚 Kho 1,084 Bộ Đề
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
+                <span>Kho 1,084 Bộ Đề</span>
               </button>
               <button type="button" class="btn mini-btn sp-hero-sec-btn" id="btnPzToggleDrawer" onclick="window.toggleSpeakingSidebar && window.toggleSpeakingSidebar()" title="Mở hoặc thu gọn cây danh sách bộ đề ở cạnh trái">
-                📋 Mục lục Bộ đề
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                <span>Mục lục Bộ đề</span>
               </button>
             </div>
           </div>
 
           <div class="sp-lobby-grid">
-            <!-- CỘT TRÁI: LỘ TRÌNH 3 PHẦN THI THẬT -->
-            <section class="sp-lobby-card">
+            <!-- CỘT TRÁI: THANH TIẾN TRÌNH 3 BƯỚC & NỘI DUNG BỘ ĐỀ -->
+            <section class="sp-lobby-card lp-glass">
               <div class="sp-lobby-card-head">
-                <span class="sp-lobby-icon">🎙️</span>
+                <span class="sp-lobby-icon">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+                </span>
                 <div>
-                  <h3>Cấu trúc Bài thi Thực tế (~11–14 phút)</h3>
+                  <h3>Lộ trình Phòng thi (11–14 phút)</h3>
                   <p id="lobbyTestSeries">Academic Full Exam Simulation — Set 01</p>
                 </div>
               </div>
 
-              <div class="sp-lobby-timeline">
-                <div class="sp-timeline-row">
-                  <span class="sp-phase-badge is-warmup">WARM-UP</span>
-                  <div>
-                    <strong>Chào hỏi &amp; Kiểm tra ID (30–45 giây)</strong>
-                    <p id="lobbyWarmupInfo">Examiner kiểm tra họ tên đầy đủ, giấy tờ tùy thân và thử chất lượng micro.</p>
-                  </div>
-                </div>
-                <div class="sp-timeline-row">
+              <!-- Thanh tiến trình 3 bước gọn 1 dòng -->
+              <div class="sp-lobby-stepper" aria-label="Tiến trình 3 phần thi IELTS Speaking">
+                <span class="sp-lobby-step"><span class="sp-phase-badge is-p1">Part 1:</span> 4–5p</span>
+                <span class="sp-step-arrow" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
+                <span class="sp-lobby-step"><span class="sp-phase-badge is-p2">Part 2:</span> Chuẩn bị 1p + Nói 2p</span>
+                <span class="sp-step-arrow" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
+                <span class="sp-lobby-step"><span class="sp-phase-badge is-p3">Part 3:</span> 4–5p</span>
+              </div>
+
+              <div class="sp-lobby-topics">
+                <div class="sp-lobby-topic-row">
                   <span class="sp-phase-badge is-p1">PART 1</span>
-                  <div>
-                    <strong id="lobbyPart1Summary">Interview: 2 Chủ đề quen thuộc (8 câu hỏi)</strong>
-                    <p>Giám khảo hỏi trực tiếp bằng âm thanh; bạn trả lời mỗi câu 20–30 giây. Cho phép nhấn <em>Repeat</em> nghe lại nguyên văn.</p>
-                  </div>
+                  <span class="sp-topic-summary" id="lobbyPart1Summary">Interview: 2 Chủ đề quen thuộc (8 câu hỏi)</span>
                 </div>
-                <div class="sp-timeline-row">
+                <div class="sp-lobby-topic-row">
                   <span class="sp-phase-badge is-p2">PART 2</span>
-                  <div>
-                    <strong id="lobbyPart2Summary">Cue Card Long Turn: 1 phút chuẩn bị + 2 phút nói</strong>
-                    <p>Thẻ đề hiện kèm bảng nháp từ khóa bị khóa micro 60 giây, sau đó tự mở ghi âm tối đa 120 giây, dừng bằng <em>"Thank you"</em> + câu Rounding-off.</p>
-                  </div>
+                  <span class="sp-topic-summary" id="lobbyPart2Summary">Cue Card: 1 phút chuẩn bị + 2 phút nói</span>
                 </div>
-                <div class="sp-timeline-row">
+                <div class="sp-lobby-topic-row">
                   <span class="sp-phase-badge is-p3">PART 3</span>
-                  <div>
-                    <strong id="lobbyPart3Summary">Two-Way Discussion: 4 câu hỏi phân tích chuyên sâu</strong>
-                    <p>Mở rộng chủ đề từ Part 2; hỗ trợ cả nút <em>Repeat</em> và <em>"Could you rephrase that?"</em> nếu muốn giám khảo diễn đạt lại.</p>
-                  </div>
+                  <span class="sp-topic-summary" id="lobbyPart3Summary">Two-Way Discussion: 4 câu hỏi mở rộng</span>
                 </div>
               </div>
             </section>
 
-            <!-- CỘT PHẢI: CẤU HÌNH THI THẬT & BẮT ĐẦU -->
-            <section class="sp-lobby-card">
+            <!-- CỘT PHẢI: CẤU HÌNH THI THẬT & KIỂM TRA MICRO -->
+            <section class="sp-lobby-card lp-glass">
               <div class="sp-lobby-card-head">
-                <span class="sp-lobby-icon">⚙️</span>
+                <span class="sp-lobby-icon">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                </span>
                 <div>
-                  <h3>Thiết lập Phòng thi &amp; Kiểm tra Micro</h3>
-                  <p>Tùy chỉnh độ chân thực trước khi bước vào phòng</p>
+                  <h3>Thiết lập Phòng thi &amp; Micro</h3>
+                  <p>Lưu tự động cho mọi lượt thi</p>
                 </div>
               </div>
 
               <div class="sp-lobby-settings">
                 <div class="sp-setting-row">
-                  <label for="pzStrictnessSelect"><strong>Chế độ hiển thị đề (Part 1 &amp; Part 3)</strong></label>
+                  <label for="pzStrictnessSelect"><strong>Hiển thị đề (Part 1 &amp; Part 3)</strong></label>
                   <select id="pzStrictnessSelect" class="sp-select">
-                    <option value="strict">🎧 Chuẩn Thi Thật — Ẩn chữ câu hỏi (Chỉ nghe giám khảo nói)</option>
-                    <option value="guided">👁️ Hỗ trợ Học tập — Vừa nghe vừa hiện phụ đề câu hỏi</option>
+                    <option value="strict">Chuẩn Thi Thật — Ẩn chữ câu hỏi (Chỉ nghe)</option>
+                    <option value="guided">Hỗ trợ Học tập — Hiện phụ đề câu hỏi</option>
                   </select>
                 </div>
 
                 <div class="sp-setting-row">
                   <label for="pzVoiceSelect"><strong>Giọng Giám khảo (Examiner Voice)</strong></label>
                   <select id="pzVoiceSelect" class="sp-select">
-                    <option value="en-GB">🇬🇧 British English (UK · London / Oxford)</option>
-                    <option value="en-AU">🇦🇺 Australian English (AU · Melbourne / Sydney)</option>
-                    <option value="en-US">🇺🇸 North American English (US / Canada)</option>
+                    <option value="en-GB">British English (UK · London / Oxford)</option>
+                    <option value="en-AU">Australian English (AU · Melbourne / Sydney)</option>
+                    <option value="en-US">North American English (US / Canada)</option>
                   </select>
                 </div>
 
                 <div class="sp-setting-row">
-                  <label for="pzDialogueModeSelect"><strong>Chế độ Giao tiếp Giám khảo (2 Phía)</strong></label>
+                  <label for="pzDialogueModeSelect"><strong>Chế độ Giám khảo (2 Phía)</strong></label>
                   <select id="pzDialogueModeSelect" class="sp-select">
-                    <option value="offline">⚡ Chuẩn 2 chiều Cục bộ (Offline NLU — Miễn phí 100%, 0ms)</option>
-                    <option value="gemini_hybrid">🤖 AI Examiner Thực thụ (Gemini Free Key + Tự lùi Offline)</option>
+                    <option value="offline">Chuẩn 2 chiều Cục bộ (Offline NLU — Miễn phí 100%, 0ms)</option>
+                    <option value="gemini_hybrid">AI Examiner Thực thụ (Gemini/OpenAI BYOK + Lùi Offline)</option>
                   </select>
                 </div>
 
                 <div class="sp-setting-row">
-                  <label for="pzExaminerStyleSelect"><strong>Phong cách &amp; Kịch bản Giám khảo</strong></label>
+                  <label for="pzExaminerStyleSelect"><strong>Phong cách Giám khảo</strong></label>
                   <select id="pzExaminerStyleSelect" class="sp-select">
-                    <option value="adaptive">🎲 Đa dạng tự động — Tự đổi kịch bản mỗi lần thi</option>
-                    <option value="friendly">😊 Thân thiện &amp; Khích lệ (Warm · Gần gũi)</option>
-                    <option value="strict_bc">🎓 Chuẩn Hội đồng Thi (Formal BC/IDP · Nghiêm túc)</option>
-                    <option value="probing">🧠 Hỏi xoáy &amp; Phản biện Sâu (Band 7.5+ · Challenge)</option>
-                    <option value="casual_coach">💬 Tự nhiên Đời thường (Conversational · Biến hóa)</option>
+                    <option value="adaptive">Đa dạng tự động — Tự đổi kịch bản mỗi lần thi</option>
+                    <option value="friendly">Thân thiện &amp; Khích lệ (Warm · Gần gũi)</option>
+                    <option value="strict_bc">Chuẩn Hội đồng Thi (Formal BC/IDP · Nghiêm túc)</option>
+                    <option value="probing">Hỏi xoáy &amp; Phản biện Sâu (Band 7.5+ · Challenge)</option>
+                    <option value="casual_coach">Tự nhiên Đời thường (Conversational · Biến hóa)</option>
                   </select>
                 </div>
 
                 <div class="sp-mic-preflight" id="pzGeminiByokBox" style="display:none;flex-direction:column;gap:8px;align-items:stretch;">
                   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-                    <strong style="font-size:12.5px;">🔑 AI API Key cá nhân (Lưu cục bộ trên trình duyệt)</strong>
-                    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;font-weight:700;color:var(--accent);">Lấy Gemini Key miễn phí ↗</a>
+                    <strong style="font-size:12.5px;">AI API Key cá nhân (BYOK)</strong>
+                    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;font-weight:700;color:var(--lg-accent,var(--primary));">Lấy Gemini Key miễn phí</a>
                   </div>
                   <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                    <input type="password" id="pzGeminiKeyInput" class="sp-select" style="flex:1;min-width:170px;" placeholder="Dán Google Key (AIza...) hoặc Groq/Proxy (gsk_ / sk-)..." autocomplete="off">
-                    <button type="button" class="btn mini-btn" id="btnToggleGeminiKeyVis" onclick="window.togglePzGeminiKeyVisibility && window.togglePzGeminiKeyVisibility()" title="Hiện/ẩn tạm thời API Key">👁️</button>
-                    <button type="button" class="btn mini-btn" id="btnClearGeminiKey" onclick="window.clearPzGeminiKey && window.clearPzGeminiKey()" title="Xoá API Key khỏi máy">🗑️</button>
+                    <input type="password" id="pzGeminiKeyInput" class="sp-select" style="flex:1;min-width:170px;" placeholder="Dán Gemini (AIza...) hoặc OpenAI/Groq (sk- / gsk_)" autocomplete="off">
+                    <button type="button" class="btn mini-btn" id="btnToggleGeminiKeyVis" onclick="window.togglePzGeminiKeyVisibility && window.togglePzGeminiKeyVisibility()" title="Hiện/ẩn tạm thời API Key" aria-label="Hiện/ẩn API Key">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <button type="button" class="btn mini-btn" id="btnClearGeminiKey" onclick="window.clearPzGeminiKey && window.clearPzGeminiKey()" title="Xoá API Key khỏi máy" aria-label="Xoá API Key">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
                   </div>
-                  <input type="url" id="pzAiBaseUrlInput" class="sp-select" style="font-size:12px;" placeholder="🌐 URL Proxy OpenAI-compatible tùy chọn (vd: https://api.groq.com/openai/v1)" autocomplete="off">
+                  <input type="url" id="pzAiBaseUrlInput" class="sp-select" style="font-size:12px;" placeholder="URL Proxy OpenAI-compatible tùy chọn (https://...)" autocomplete="off">
+                  <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);cursor:pointer;">
+                    <input type="checkbox" id="pzRememberKeyCheck">
+                    <span>Ghi nhớ key trên thiết bị này (mặc định chỉ lưu theo phiên)</span>
+                  </label>
                   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
                     <select id="pzGeminiModelSelect" class="sp-select" style="flex:1;min-width:160px;" aria-label="Chọn model AI">
                       <option value="gemini-2.5-flash">gemini-2.5-flash · Gemini 2.5 Flash (Khuyên dùng · Ổn định)</option>
@@ -415,48 +581,58 @@
                       <option value="gpt-6-luna">gpt-6-luna · GPT-6 Luna (Proxy)</option>
                       <option value="gpt-4o-mini">gpt-4o-mini · OpenAI / Groq / Proxy (sk- / gsk_)</option>
                     </select>
-                    <button type="button" class="btn mini-btn" id="btnTestGeminiConn" onclick="window.testPzGeminiConnection && window.testPzGeminiConnection()">🔌 Thử kết nối AI</button>
+                    <button type="button" class="btn mini-btn" id="btnTestGeminiConn" onclick="window.testPzGeminiConnection && window.testPzGeminiConnection()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                      <span>Thử kết nối</span>
+                    </button>
                   </div>
-                  <div id="pzGeminiTestStatus" style="font-size:12px;font-weight:600;color:var(--muted);">💡 Tự động dự phòng nhiều model Gemini (nếu 503/429) hoặc lùi về Tầng 1 Offline tức thì.</div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+                    <span id="pzGeminiTestStatus" style="font-size:11.8px;font-weight:600;color:var(--muted);flex:1;min-width:160px;">Lưu cục bộ BYOK · tự lùi Offline khi không có mạng.</span>
+                    <span class="sp-lobby-chip is-exam" style="font-size:10.5px;padding:3px 9px;">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+                      <span>Tự động xoay vòng model</span>
+                    </span>
+                  </div>
                 </div>
 
                 <div class="sp-setting-row sp-check-row">
                   <label class="sp-check-label">
                     <input type="checkbox" id="pzStrictTimersCheck" checked>
-                    <span>⏱️ Khóa đồng hồ thi thật (60s nháp Part 2 + tự ngắt ở 02:00)</span>
+                    <span>Khóa đồng hồ thi thật (60s nháp Part 2 + tự ngắt 02:00)</span>
                   </label>
                 </div>
 
                 <div class="sp-setting-row sp-check-row">
                   <label class="sp-check-label">
                     <input type="checkbox" id="pzAutoMicCheck">
-                    <span>🎙️ Chế độ Rảnh tay: Tự bật Micro sau khi Giám khảo dứt lời</span>
+                    <span>Rảnh tay: Tự bật Micro sau khi Giám khảo dứt lời</span>
                   </label>
                 </div>
 
                 <div class="sp-mic-preflight" id="pzMicPreflightBox">
                   <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-                    <span id="pzMicCheckStatus" style="font-size:12.5px;font-weight:700;color:var(--muted);">🎙️ Chưa kiểm tra micro trên trình duyệt này</span>
-                    <button type="button" class="btn mini-btn" id="btnTestMicLobby" onclick="window.runLobbyMicCheck && window.runLobbyMicCheck()">🔊 Thử Micro &amp; Loa</button>
+                    <span id="pzMicCheckStatus" style="font-size:12.5px;font-weight:700;color:var(--muted);">Chưa kiểm tra micro trên trình duyệt này</span>
+                    <button type="button" class="btn mini-btn" id="btnTestMicLobby" onclick="window.runLobbyMicCheck && window.runLobbyMicCheck()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                      <span>Thử Micro &amp; Loa</span>
+                    </button>
                   </div>
                   <div id="pzEnvBannerHost"></div>
                 </div>
-              </div>
-
-              <div class="sp-tip-callout" style="margin-top:auto;font-size:12.5px;">
-                ✅ Thiết lập trên được lưu tự động cho mọi lần thi. Bấm <b>Bước vào Phòng Thi Thật ➜</b> ở đầu trang khi bạn đã sẵn sàng.
               </div>
             </section>
           </div>
 
           <!-- Lịch sử Practice Zone trong Sảnh -->
-          <section class="sp-lobby-card sp-lobby-history-card">
+          <section class="sp-lobby-card lp-glass sp-lobby-history-card">
             <div class="sp-lobby-card-head" style="justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:10px;">
-                <span class="sp-lobby-icon">📜</span>
+                <span class="sp-lobby-icon">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </span>
                 <div>
-                  <h3>Lịch sử Thi thử Phòng thi Thật (Mock Exam Reports)</h3>
-                  <p>Nghe lại toàn bộ bản ghi âm Part 1–3, xem WPM, từ vựng mục tiêu đã dùng &amp; Band dự kiến</p>
+                  <h3>Lịch sử Thi thử Phòng thi Thật</h3>
+                  <p>Bản ghi âm, WPM, từ vựng mục tiêu &amp; Band dự kiến</p>
                 </div>
               </div>
               <span class="sp-lobby-chip" id="lobbyHistoryBadgeCount">0 lần thi thử</span>
@@ -479,27 +655,30 @@
           <!-- Thanh tiến trình các chặng thi thật -->
           <div class="s4-cbt-header-center">
             <div class="sp-exam-stepper" id="pzPhaseStepper" role="list" aria-label="Tiến trình các phần thi">
-              <span class="sp-step-pill active" id="pzStep_warmup">🪪 ID Check</span>
-              <span class="sp-step-pill" id="pzStep_part1">💬 Part 1</span>
-              <span class="sp-step-pill" id="pzStep_part2">🎴 Part 2</span>
-              <span class="sp-step-pill" id="pzStep_part3">🧠 Part 3</span>
-              <span class="sp-step-pill" id="pzStep_report">📋 Báo cáo</span>
+              <span class="sp-step-pill active" id="pzStep_warmup">ID Check</span>
+              <span class="sp-step-pill" id="pzStep_part1">Part 1</span>
+              <span class="sp-step-pill" id="pzStep_part2">Part 2</span>
+              <span class="sp-step-pill" id="pzStep_part3">Part 3</span>
+              <span class="sp-step-pill" id="pzStep_report">Báo cáo</span>
             </div>
             <div class="s4-cbt-timer-box" id="pzExamTimerBox" title="Đồng hồ chặng hiện tại">
-              <span>⏱️</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <span id="pzExamTimerText">00:00</span>
             </div>
           </div>
 
           <div class="s4-cbt-header-right">
             <button type="button" class="s4-cbt-ctrl-btn" id="btnPzPeekToggle" onclick="window.togglePzQuestionTextPeek && window.togglePzQuestionTextPeek()" title="Bật/Ẩn chữ câu hỏi để tự kiểm tra khả năng nghe hiểu">
-              👁️<span class="s4-cbt-hide-desk-narrow"> Hiện chữ</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span class="s4-cbt-hide-desk-narrow">Hiện chữ</span>
             </button>
             <button type="button" class="s4-cbt-ctrl-btn" onclick="window.openSpeakingTestPicker && window.openSpeakingTestPicker()" title="Đổi bộ đề thi thử khác">
-              📚<span class="s4-cbt-hide-desk-narrow"> Đổi đề</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
+              <span class="s4-cbt-hide-desk-narrow">Đổi đề</span>
             </button>
             <button type="button" class="s4-cbt-ctrl-btn s4-cbt-exit-btn" onclick="window.exitPzExamToLobby && window.exitPzExamToLobby()" title="Thoát phòng thi về sảnh chuẩn bị">
-              ✕ Thoát
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <span>Thoát</span>
             </button>
           </div>
         </header>
@@ -515,23 +694,28 @@
 
   <!-- MODAL LỊCH SỬ BÀI NÓI & ĐIỂM SỐ (HISTORY MODAL) -->
   <div class="sp-modal-backdrop" id="speakingHistoryModal" style="display:none;" onclick="if (event.target === this && window.closeSpeakingHistoryModal) window.closeSpeakingHistoryModal()">
-    <div class="sp-modal-box">
+    <div class="sp-modal-box lp-glass">
       <div class="sp-modal-head">
         <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:22px;">📂</span>
+          <span class="sp-lobby-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </span>
           <div>
-            <h3>Lịch sử Luyện nói &amp; Đánh giá AI (Speaking Submissions)</h3>
-            <p>Lưu giữ bản ghi âm cục bộ, transcript, phân tích 4 tiêu chí &amp; phản hồi từ ChatGPT/Claude</p>
+            <h3>Lịch sử Luyện nói &amp; Đánh giá AI</h3>
+            <p>Bản ghi âm cục bộ, transcript &amp; phân tích 4 tiêu chí</p>
           </div>
         </div>
-        <button type="button" class="btn mini-btn" onclick="window.closeSpeakingHistoryModal && window.closeSpeakingHistoryModal()">✕ Đóng</button>
+        <button type="button" class="btn mini-btn" onclick="window.closeSpeakingHistoryModal && window.closeSpeakingHistoryModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span>Đóng</span>
+        </button>
       </div>
 
       <div class="sp-modal-filter-bar">
         <button type="button" class="sp-filter-pill active" id="shFilter_all" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('all')">Tất cả (<span id="shCountAll">0</span>)</button>
-        <button type="button" class="sp-filter-pill" id="shFilter_mock" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('mock')">🎯 Thi thử thật (<span id="shCountMock">0</span>)</button>
-        <button type="button" class="sp-filter-pill" id="shFilter_studio" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('studio')">🎙️ Luyện Studio (<span id="shCountStudio">0</span>)</button>
-        <button type="button" class="sp-filter-pill" id="shFilter_graded" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('graded')">🏆 Đã có điểm AI (<span id="shCountGraded">0</span>)</button>
+        <button type="button" class="sp-filter-pill" id="shFilter_mock" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('mock')">Thi thử thật (<span id="shCountMock">0</span>)</button>
+        <button type="button" class="sp-filter-pill" id="shFilter_studio" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('studio')">Luyện Studio (<span id="shCountStudio">0</span>)</button>
+        <button type="button" class="sp-filter-pill" id="shFilter_graded" onclick="window.filterSpeakingHistory && window.filterSpeakingHistory('graded')">Đã có điểm AI (<span id="shCountGraded">0</span>)</button>
       </div>
 
       <div class="sp-modal-body" id="modalHistoryList">
@@ -542,33 +726,44 @@
 
   <!-- MODAL CHỌN ĐỀ THI THỬ PRACTICE ZONE (TEST PICKER MODAL) -->
   <div class="sp-modal-backdrop" id="speakingTestPickerModal" style="display:none;" onclick="if (event.target === this && window.closeSpeakingTestPicker) window.closeSpeakingTestPicker()">
-    <div class="sp-modal-box sp-picker-modal">
+    <div class="sp-modal-box sp-picker-modal lp-glass">
       <div class="sp-modal-head">
         <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:22px;">🎯</span>
+          <span class="sp-lobby-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </span>
           <div>
-            <h3>Kho Bộ Đề Thi Thật IELTS Speaking (1,084 Bộ Đề + Ghép Ngẫu Nhiên)</h3>
-            <p>Lọc theo Actual Tests, Sample Tests, Forecast Part 1 &amp; Part 2+3 hoặc bấm bốc tổ hợp đề mới</p>
+            <h3>Kho 1,084 Bộ Đề IELTS Speaking</h3>
+            <p>Actual, Sample, Forecast Part 1 &amp; Part 2+3</p>
           </div>
         </div>
-        <button type="button" class="btn mini-btn" onclick="window.closeSpeakingTestPicker && window.closeSpeakingTestPicker()">✕ Đóng</button>
+        <button type="button" class="btn mini-btn" onclick="window.closeSpeakingTestPicker && window.closeSpeakingTestPicker()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span>Đóng</span>
+        </button>
       </div>
 
       <div class="sp-picker-toolbar">
         <div class="s4-search-group" style="flex:1 1 280px;">
           <div class="s4-search-field">
             <input type="text" id="pzPickerSearchInput" class="s4-search-input" placeholder="Tìm tên đề, Cue Card Part 2, chủ đề Part 3..." autocomplete="off">
-            <button type="button" id="pzPickerSearchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
+            <button type="button" id="pzPickerSearchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
           </div>
-          <button type="button" id="pzPickerSearchInput_btn" class="s4-search-btn">🔍 Tìm</button>
+          <button type="button" id="pzPickerSearchInput_btn" class="s4-search-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span>Tìm</span>
+          </button>
         </div>
         <button type="button" class="btn btn-primary" onclick="window.startRandomSpeakingExamFromPicker && window.startRandomSpeakingExamFromPicker()">
-          🎲 Bốc đề Thi Ngẫu Nhiên
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <span>Bốc đề Ngẫu Nhiên</span>
         </button>
       </div>
 
       <div class="sp-modal-body" id="pzPickerGrid">
-        <!-- Render danh sách 20 bộ đề Full Mock Speaking -->
+        <!-- Render danh sách bộ đề Full Mock Speaking -->
       </div>
     </div>
   </div>
@@ -576,11 +771,12 @@
   <!-- SCRIPTS DỮ LIỆU & ENGINE (THỨ TỰ CHUẨN LINGUAPATH) -->
   <script src="speaking_data.js?v=2"></script>
   <script src="speaking_parser.js?v=7"></script>
-  <script src="../../assets/s4-ui.js?v=65"></script>
-  <script src="../../assets/s4-vocab-engine.js?v=68"></script>
+  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../assets/s4-search-engine.js?v=1"></script>
+  <script src="../../assets/s4-vocab-engine.js?v=69"></script>
   <script src="../../auth.js?v=33"></script>
   <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
-  <script src="../../assets/s4-whisper.js?v=4"></script>
-  <script src="speaking.js?v=20"></script>
+  <script src="../../assets/s4-whisper.js?v=6"></script>
+  <script src="speaking.js?v=25"></script>
 </body>
 </html>

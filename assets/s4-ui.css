@@ -1,7 +1,552 @@
-/* LinguaPath Shared UI System (Dialog, Toast, Search Bar, Exam Hub & Lobby Shell)
- * Dùng chung cho tất cả phân hệ (Home, Vocab, Grammar, Reading, Listening, Writing, TED Talks & Speaking sắp tới).
- * Tương thích Light / Dark / Ghibli theme và Chrome Fullscreen (CBT Exam Mode).
+/* LinguaPath Shared UI System (2-Tier Clear Liquid Glass, Topbar, Dialog, Toast, Search & Lobby Shell)
+ * Dùng chung cho tất cả phân hệ (Home, Vocab, Grammar, Reading, Listening, Writing, Speaking, TED Talks, HSK 1-6).
+ * Tương thích 4 chế độ (Gốc Sáng/Tối, Ghibli Sáng/Tối), Chrome Fullscreen (CBT Exam Mode) & Mobile-First 390x844.
  */
+
+/* ---------------- 0. 2-TIER CLEAR LIQUID GLASS TOKENS ---------------- */
+:root {
+  --lp-sidebar-w: 336px;
+
+  /* Tầng study (mặc định & data-glass-tier="study"): Kính mờ dịu bảo vệ mắt khi đọc/làm bài dài */
+  --lg-surface: linear-gradient(155deg, rgba(255, 255, 255, 0.78) 0%, rgba(248, 250, 252, 0.68) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(255, 255, 255, 0.86) 0%, rgba(248, 250, 252, 0.76) 100%);
+  --lg-wash: rgba(241, 245, 249, 0.56);
+  --lg-wash-hover: rgba(255, 255, 255, 0.80);
+  --lg-seg-track: rgba(15, 23, 42, 0.08);
+  --lg-seg-active: rgba(255, 255, 255, 0.92);
+  --lg-rim-top: rgba(255, 255, 255, 0.90);
+  --lg-rim-side: rgba(255, 255, 255, 0.36);
+  --lg-rim-bot: rgba(15, 23, 42, 0.08);
+  --lg-hairline: rgba(203, 213, 225, 0.72);
+  --lg-divider: rgba(15, 23, 42, 0.10);
+  --lg-bar-track: rgba(148, 163, 184, 0.28);
+  --lg-shadow: 0 8px 26px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+  --lg-ink: #0f172a;
+  --lg-ink-sub: #334155;
+  --lg-ink-muted: #52637a;
+  --lg-text-halo: none;
+  --lg-accent: #1d4ed8;
+  --lg-accent-soft: rgba(37, 99, 235, 0.14);
+  --lg-green: #047857;
+  --lg-green-soft: rgba(4, 120, 87, 0.14);
+  --lg-rose: #be123c;
+  --lg-rose-soft: rgba(225, 29, 72, 0.12);
+  --lg-amber: #b45309;
+  --lg-amber-soft: rgba(217, 119, 6, 0.12);
+  --lg-blur: blur(12px) saturate(145%);
+  color-scheme: light;
+}
+
+/* Ghibli + Sáng (Tầng study: Kính kem nắng ấm dịu mắt) */
+html.theme-ghibli:not(.dark) {
+  --lg-surface: linear-gradient(155deg, rgba(252, 246, 231, 0.80) 0%, rgba(245, 236, 213, 0.70) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(252, 246, 231, 0.88) 0%, rgba(245, 236, 213, 0.78) 100%);
+  --lg-wash: rgba(240, 230, 204, 0.52);
+  --lg-wash-hover: rgba(246, 238, 216, 0.78);
+  --lg-seg-track: rgba(176, 155, 118, 0.22);
+  --lg-seg-active: rgba(254, 250, 239, 0.94);
+  --lg-rim-top: rgba(255, 252, 242, 0.88);
+  --lg-rim-side: rgba(255, 250, 236, 0.45);
+  --lg-rim-bot: rgba(168, 144, 102, 0.16);
+  --lg-hairline: rgba(196, 174, 134, 0.56);
+  --lg-divider: rgba(168, 144, 102, 0.26);
+  --lg-bar-track: rgba(182, 162, 124, 0.30);
+  --lg-shadow: 0 8px 26px rgba(74, 58, 34, 0.09), 0 2px 6px rgba(74, 58, 34, 0.05);
+  --lg-ink: #1c2d22;
+  --lg-ink-sub: #324739;
+  --lg-ink-muted: #5b6d60;
+  --lg-text-halo: none;
+  --lg-accent: #2d6a4f;
+  --lg-accent-soft: rgba(45, 106, 79, 0.14);
+  --lg-green: #1b5e3a;
+  --lg-green-soft: rgba(45, 106, 79, 0.15);
+  --lg-rose: #c94a38;
+  --lg-rose-soft: rgba(201, 74, 56, 0.13);
+  --lg-amber: #9a3412;
+  --lg-amber-soft: rgba(217, 119, 6, 0.14);
+  --lg-blur: blur(12px) saturate(140%);
+}
+
+/* Gốc + Tối (Tầng study: Kính Slate sâu) */
+html.dark {
+  --lg-surface: linear-gradient(155deg, rgba(24, 38, 56, 0.78) 0%, rgba(15, 23, 42, 0.68) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(24, 38, 56, 0.86) 0%, rgba(15, 23, 42, 0.76) 100%);
+  --lg-wash: rgba(255, 255, 255, 0.06);
+  --lg-wash-hover: rgba(255, 255, 255, 0.11);
+  --lg-seg-track: rgba(0, 0, 0, 0.28);
+  --lg-seg-active: rgba(255, 255, 255, 0.15);
+  --lg-rim-top: rgba(255, 255, 255, 0.20);
+  --lg-rim-side: rgba(255, 255, 255, 0.08);
+  --lg-rim-bot: rgba(255, 255, 255, 0.04);
+  --lg-hairline: rgba(148, 163, 184, 0.24);
+  --lg-divider: rgba(148, 163, 184, 0.16);
+  --lg-bar-track: rgba(148, 163, 184, 0.22);
+  --lg-shadow: 0 12px 32px rgba(0, 0, 0, 0.34), 0 2px 10px rgba(0, 0, 0, 0.18);
+  --lg-ink: #f4f6f4;
+  --lg-ink-sub: #d2dfd7;
+  --lg-ink-muted: #98aea0;
+  --lg-text-halo: none;
+  --lg-accent: #60a5fa;
+  --lg-accent-soft: rgba(96, 165, 250, 0.18);
+  --lg-green: #34d399;
+  --lg-green-soft: rgba(52, 211, 153, 0.16);
+  --lg-rose: #fb7185;
+  --lg-rose-soft: rgba(251, 113, 133, 0.16);
+  --lg-amber: #fbbf24;
+  --lg-amber-soft: rgba(251, 191, 36, 0.14);
+  --lg-blur: blur(12px) saturate(145%);
+  color-scheme: dark;
+}
+
+/* Ghibli + Tối (Tầng study: Kính Rừng Đêm Đom Đóm) */
+html.theme-ghibli.dark {
+  --lg-surface: linear-gradient(155deg, rgba(24, 41, 33, 0.80) 0%, rgba(15, 28, 22, 0.70) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(24, 41, 33, 0.88) 0%, rgba(15, 28, 22, 0.78) 100%);
+  --lg-wash: rgba(255, 245, 225, 0.06);
+  --lg-wash-hover: rgba(255, 245, 225, 0.11);
+  --lg-seg-track: rgba(8, 16, 12, 0.42);
+  --lg-seg-active: rgba(82, 183, 136, 0.24);
+  --lg-rim-top: rgba(246, 220, 175, 0.16);
+  --lg-rim-side: rgba(212, 163, 115, 0.10);
+  --lg-rim-bot: rgba(0, 0, 0, 0.18);
+  --lg-hairline: rgba(212, 163, 115, 0.32);
+  --lg-divider: rgba(212, 163, 115, 0.18);
+  --lg-bar-track: rgba(212, 163, 115, 0.18);
+  --lg-accent: #52b788;
+  --lg-accent-soft: rgba(82, 183, 136, 0.20);
+  --lg-green: #74c69d;
+  --lg-green-soft: rgba(82, 183, 136, 0.18);
+  --lg-rose: #f4845f;
+  --lg-rose-soft: rgba(244, 132, 95, 0.18);
+  --lg-amber: #f6bd60;
+  --lg-blur: blur(12px) saturate(140%);
+}
+
+/* Tầng portal (data-glass-tier="portal": Trang chủ, HSK Home & Roadmap) — Kính trong suốt alpha ~32-48% thấy rõ nền Ghibli/Aurora */
+html[data-glass-tier="portal"]:not(.dark):not(.theme-ghibli) {
+  --lg-surface: linear-gradient(155deg, rgba(255, 255, 255, 0.44) 0%, rgba(248, 250, 252, 0.32) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(255, 255, 255, 0.56) 0%, rgba(248, 250, 252, 0.44) 100%);
+  --lg-wash: rgba(255, 255, 255, 0.36);
+  --lg-wash-hover: rgba(255, 255, 255, 0.58);
+  --lg-text-halo: 0 1px 2px rgba(255, 255, 255, 0.72);
+  --lg-blur: blur(10px) saturate(145%);
+}
+html.theme-ghibli[data-glass-tier="portal"]:not(.dark) {
+  --lg-surface: linear-gradient(155deg, rgba(254, 249, 236, 0.46) 0%, rgba(246, 237, 214, 0.34) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(254, 249, 236, 0.58) 0%, rgba(246, 237, 214, 0.46) 100%);
+  --lg-wash: rgba(252, 245, 226, 0.34);
+  --lg-wash-hover: rgba(254, 249, 236, 0.58);
+  --lg-text-halo: 0 1px 2px rgba(254, 249, 236, 0.78);
+  --lg-blur: blur(10px) saturate(140%);
+}
+html.dark[data-glass-tier="portal"]:not(.theme-ghibli) {
+  --lg-surface: linear-gradient(155deg, rgba(20, 32, 50, 0.46) 0%, rgba(12, 20, 36, 0.34) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(20, 32, 50, 0.58) 0%, rgba(12, 20, 36, 0.46) 100%);
+  --lg-wash: rgba(255, 255, 255, 0.08);
+  --lg-wash-hover: rgba(255, 255, 255, 0.14);
+  --lg-text-halo: 0 1px 2px rgba(0, 0, 0, 0.55);
+  --lg-blur: blur(10px) saturate(145%);
+}
+html.theme-ghibli.dark[data-glass-tier="portal"] {
+  --lg-surface: linear-gradient(155deg, rgba(20, 36, 28, 0.48) 0%, rgba(12, 24, 18, 0.34) 100%);
+  --lg-surface-strong: linear-gradient(160deg, rgba(20, 36, 28, 0.60) 0%, rgba(12, 24, 18, 0.46) 100%);
+  --lg-wash: rgba(255, 245, 225, 0.08);
+  --lg-wash-hover: rgba(255, 245, 225, 0.14);
+  --lg-text-halo: 0 1px 2px rgba(0, 0, 0, 0.58);
+  --lg-blur: blur(10px) saturate(140%);
+}
+
+/* Tông màu nhấn theo phân hệ: IELTS (mặc định), HSK (Đỏ Chu Sa), TED Talks (Đỏ Cam) */
+html[data-course="hsk"]:not(.theme-ghibli):not(.dark),
+body[data-course="hsk"] {
+  --lg-accent: #dc2626;
+  --lg-accent-soft: rgba(220, 38, 38, 0.14);
+}
+html.theme-ghibli[data-course="hsk"]:not(.dark) {
+  --lg-accent: #c94a38;
+  --lg-accent-soft: rgba(201, 74, 56, 0.14);
+}
+html.dark[data-course="hsk"]:not(.theme-ghibli) {
+  --lg-accent: #f87171;
+  --lg-accent-soft: rgba(248, 113, 113, 0.18);
+}
+html.theme-ghibli.dark[data-course="hsk"] {
+  --lg-accent: #f4845f;
+  --lg-accent-soft: rgba(244, 132, 95, 0.18);
+}
+
+html[data-course="ted"]:not(.dark),
+body[data-course="ted"] {
+  --lg-accent: #e11d48;
+  --lg-accent-soft: rgba(225, 29, 72, 0.14);
+}
+html.dark[data-course="ted"] {
+  --lg-accent: #fb7185;
+  --lg-accent-soft: rgba(251, 113, 133, 0.18);
+}
+
+html.ghibli-lite {
+  --lg-blur: blur(6px) saturate(125%);
+}
+
+/* Nền Pastel Aurora 3 quầng cho chế độ Gốc (khi tắt Ghibli) để kính luôn xuyên màu đẹp */
+.lp-aurora-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  display: none;
+  background:
+    radial-gradient(62% 50% at 14% 12%, rgba(56, 189, 248, 0.36) 0%, transparent 70%),
+    radial-gradient(56% 52% at 86% 18%, rgba(167, 139, 250, 0.30) 0%, transparent 72%),
+    radial-gradient(65% 55% at 50% 90%, rgba(45, 212, 191, 0.28) 0%, transparent 74%),
+    linear-gradient(160deg, #e7f0fb 0%, #eef2ff 52%, #e6f7f4 100%);
+}
+html.dark .lp-aurora-layer {
+  background:
+    radial-gradient(60% 48% at 15% 14%, rgba(37, 99, 235, 0.30) 0%, transparent 72%),
+    radial-gradient(52% 48% at 85% 20%, rgba(124, 58, 237, 0.26) 0%, transparent 72%),
+    radial-gradient(62% 55% at 52% 92%, rgba(13, 148, 136, 0.24) 0%, transparent 75%),
+    linear-gradient(160deg, #070d1a 0%, #0d1526 54%, #091821 100%);
+}
+html:not(.theme-ghibli) .lp-aurora-layer {
+  display: block;
+}
+
+/* Vật liệu Liquid Glass 3 lớp Fresnel & Shell dùng chung */
+.lp-glass {
+  background: var(--lg-surface);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+  border: 1px solid var(--lg-hairline);
+  text-shadow: var(--lg-text-halo);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top),
+    inset 1px 0 0 var(--lg-rim-side),
+    inset 0 -1px 0 var(--lg-rim-bot),
+    var(--lg-shadow);
+}
+.lp-shell {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding:
+    calc(10px + var(--s4-safe-top, 0px))
+    calc(14px + env(safe-area-inset-right, 0px))
+    calc(84px + env(safe-area-inset-bottom, 0px))
+    calc(14px + env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
+}
+
+/* Floating Sticky Topbar 1 hàng duy nhất */
+.lp-topbar {
+  position: sticky;
+  top: calc(8px + var(--s4-safe-top, 0px));
+  z-index: 40;
+  border-radius: 22px;
+  padding: 8px 10px;
+  margin-bottom: 14px;
+  background: var(--lg-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 52px;
+  box-sizing: border-box;
+}
+.lp-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.lp-top-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+.lp-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.lp-back-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--lg-wash);
+  border: 1px solid var(--lg-hairline);
+  color: var(--lg-ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.16s ease, transform 0.15s ease;
+}
+.lp-back-pill:hover { background: var(--lg-wash-hover); }
+.lp-back-pill:active { transform: scale(0.97); }
+
+.lp-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.lp-brand-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lg-accent-soft);
+  color: var(--lg-accent);
+  flex-shrink: 0;
+}
+.lp-brand-text { min-width: 0; }
+.lp-brand-title {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: var(--lg-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lp-brand-sub {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--lg-ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lp-icon-btn {
+  height: 36px;
+  min-width: 36px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--lg-hairline);
+  background: var(--lg-wash);
+  color: var(--lg-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-shadow: none;
+  transition: background 0.16s ease, transform 0.15s ease;
+}
+.lp-icon-btn:hover { background: var(--lg-wash-hover); }
+.lp-icon-btn:active { transform: scale(0.96); }
+.lp-icon-btn.donate {
+  background: var(--lg-rose-soft);
+  color: var(--lg-rose);
+  border-color: rgba(225, 29, 72, 0.24);
+}
+
+/* Dải thống kê 3 cột liền khối ngăn bằng hairline */
+.lp-summary-strip {
+  border-radius: 22px;
+  padding: 12px 8px;
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+}
+.lp-sum-cell {
+  padding: 4px 10px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+  position: relative;
+  border-radius: 14px;
+  transition: background 0.16s ease;
+}
+.lp-sum-cell + .lp-sum-cell::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16%;
+  bottom: 16%;
+  width: 1px;
+  background: var(--lg-divider);
+}
+.lp-sum-cell.clickable:hover { background: var(--lg-wash); }
+.lp-sum-num {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--lg-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lp-sum-num.is-stage { color: var(--lg-green); }
+.lp-sum-num.is-due { color: var(--lg-rose); }
+.lp-sum-lbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--lg-ink-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Panel, Segmented Pill, Chip & Ô con không lồng kính */
+.lp-panel,
+.lp-card {
+  border-radius: 24px;
+  padding: 16px;
+}
+.lp-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.lp-panel-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--lg-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.lp-panel-title svg { color: var(--lg-accent); flex-shrink: 0; }
+.lp-ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--lg-wash);
+  border: 1px solid var(--lg-hairline);
+  color: var(--lg-ink-sub);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.lp-ghost-btn:hover { background: var(--lg-wash-hover); color: var(--lg-ink); }
+.lp-seg-track {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 15px;
+  background: var(--lg-seg-track);
+}
+.lp-seg-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--lg-ink-sub);
+  border-radius: 11px;
+  padding: 7px 8px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  text-shadow: none;
+  transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+.lp-seg-btn:hover { color: var(--lg-ink); }
+.lp-seg-btn.active {
+  background: var(--lg-seg-active);
+  color: var(--lg-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.lp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--lg-hairline);
+  background: var(--lg-surface);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  color: var(--lg-ink-sub);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-shadow: none;
+  transition: all 0.15s ease;
+}
+.lp-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
+.lp-pill.active {
+  background: var(--lg-accent);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+.lp-wash-item {
+  border-radius: 16px;
+  padding: 13px;
+  background: var(--lg-wash);
+  border: none;
+  min-width: 0;
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+.lp-wash-item:hover { background: var(--lg-wash-hover); }
+.lp-prog-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--lg-bar-track, var(--lg-divider));
+  overflow: hidden;
+}
+.lp-prog-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+.lp-lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 12px 14px;
+  border-radius: 18px;
+}
+.lp-hide-xs { display: inline; }
+@media (max-width: 580px) {
+  .lp-hide-xs, .lp-brand-sub { display: none !important; }
+  .lp-topbar { padding: 7px 9px; border-radius: 18px; gap: 6px; min-height: 48px; }
+  .lp-back-pill { height: 34px; padding: 0 10px; font-size: 12.5px; }
+  .lp-icon-btn { height: 34px; min-width: 34px; padding: 0 8px; }
+  .lp-summary-strip { padding: 10px 4px; border-radius: 18px; }
+  .lp-sum-num { font-size: 17.5px; }
+  .lp-sum-lbl { font-size: 11px; }
+  .lp-panel, .lp-card { padding: 14px; border-radius: 20px; }
+}
 
 /* ---------------- 1. UNIFIED TOAST ---------------- */
 .s4-ui-toast-stack {
@@ -36,15 +581,17 @@ body.in-cbt-mode .s4-ui-toast-stack--bottom {
   align-items: center;
   gap: 8px;
   padding: 9px 16px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
   font-weight: 700;
   line-height: 1.45;
   color: #ffffff;
-  background: rgba(15, 23, 42, 0.94);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  background: rgba(15, 23, 42, 0.84);
+  backdrop-filter: blur(12px) saturate(145%);
+  -webkit-backdrop-filter: blur(12px) saturate(145%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 10px 28px rgba(0, 0, 0, 0.28);
   opacity: 0;
   transform: translateY(-8px) scale(0.98);
   transition: opacity 0.18s ease, transform 0.18s ease;
@@ -96,12 +643,17 @@ body.in-cbt-mode .s4-ui-toast-stack--bottom {
 .s4-ui-dialog {
   width: 100%;
   max-width: 440px;
-  background: var(--card, var(--panel, #ffffff));
-  color: var(--text, #0f172a);
-  border: 1.5px solid var(--border, #e2e8f0);
-  border-radius: 16px;
+  background: var(--lg-surface-strong, var(--card, var(--panel, #ffffff)));
+  backdrop-filter: var(--lg-blur, blur(14px));
+  -webkit-backdrop-filter: var(--lg-blur, blur(14px));
+  color: var(--lg-ink, var(--text, #0f172a));
+  border: 1px solid var(--lg-hairline, var(--border, #e2e8f0));
+  border-radius: 22px;
   padding: 20px 20px 16px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.4)),
+    inset 0 -1px 0 var(--lg-rim-bot, rgba(15, 23, 42, 0.08)),
+    0 22px 60px rgba(0, 0, 0, 0.34);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   transform: translateY(8px) scale(0.98);
   transition: transform 0.16s ease;
@@ -397,11 +949,17 @@ html.theme-ghibli.dark .s4-search-input {
 /* ---------------- 4. SHARED BASE HUB / LOBBY / SPELL-INPUT FALLBACKS ---------------- */
 /* Đảm bảo chế độ Gốc (không bật Ghibli) vẫn hiển thị chuẩn Practice Zone & Lobby trên Reading/Listening/Speaking */
 .s4-pz-hub-card {
-  background: var(--card, var(--panel, #ffffff));
-  border: 1.5px solid var(--border, #e2e8f0);
-  border-radius: 16px;
+  background: var(--lg-surface, var(--card, var(--panel, #ffffff)));
+  backdrop-filter: var(--lg-blur, none);
+  -webkit-backdrop-filter: var(--lg-blur, none);
+  border: 1px solid var(--lg-hairline, var(--border, #e2e8f0));
+  border-radius: 20px;
   padding: 20px 22px;
   margin-bottom: 18px;
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, transparent),
+    inset 0 -1px 0 var(--lg-rim-bot, transparent),
+    var(--lg-shadow, none);
 }
 .s4-pz-book-pills {
   display: flex;
@@ -435,9 +993,9 @@ html.theme-ghibli.dark .s4-search-input {
   gap: 12px;
 }
 .s4-pz-test-item {
-  background: var(--bg, var(--box-sub, #f8fafc));
-  border: 1.5px solid var(--border, #e2e8f0);
-  border-radius: 12px;
+  background: var(--lg-wash, var(--bg, var(--box-sub, #f8fafc)));
+  border: 1px solid var(--lg-divider, var(--border, #e2e8f0));
+  border-radius: 14px;
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
@@ -523,10 +1081,10 @@ body.dark .spell-input.wrong {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  padding: 6px;
-  border-radius: 12px;
-  border: 1px solid var(--border, #e2e8f0);
-  background: var(--card, var(--panel, #ffffff));
+  padding: 5px;
+  border-radius: 15px;
+  border: 1px solid var(--lg-hairline, var(--border, #e2e8f0));
+  background: var(--lg-seg-track, var(--card, var(--panel, #ffffff)));
 }
 .s4-speaking-shell {
   display: flex;
@@ -534,10 +1092,16 @@ body.dark .spell-input.wrong {
   gap: 14px;
 }
 .s4-speaking-prompt-card {
-  background: var(--card, var(--panel, #ffffff));
-  border: 1px solid var(--border, #e2e8f0);
-  border-radius: 14px;
+  background: var(--lg-surface, var(--card, var(--panel, #ffffff)));
+  backdrop-filter: var(--lg-blur, none);
+  -webkit-backdrop-filter: var(--lg-blur, none);
+  border: 1px solid var(--lg-hairline, var(--border, #e2e8f0));
+  border-radius: 20px;
   padding: 16px 18px;
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-rim-top, transparent),
+    inset 0 -1px 0 var(--lg-rim-bot, transparent),
+    var(--lg-shadow, none);
 }
 .s4-speaking-recorder {
   display: flex;
@@ -546,9 +1110,9 @@ body.dark .spell-input.wrong {
   flex-wrap: wrap;
   gap: 12px;
   padding: 12px 14px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border, #e2e8f0);
-  background: var(--bg, var(--box-sub, #f8fafc));
+  border-radius: 16px;
+  border: none;
+  background: var(--lg-wash, var(--bg, var(--box-sub, #f8fafc)));
 }
 .s4-mic-btn {
   display: inline-flex;
@@ -711,4 +1275,22 @@ body.dark .spell-input.wrong {
   font-size: 12px;
   font-weight: 700;
   color: var(--muted);
+}
+
+/* ---------------- INSTANT SEARCH HIGHLIGHT ---------------- */
+mark.s4-hl {
+  background: rgba(250, 204, 21, 0.38);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+html.dark mark.s4-hl,
+body.dark mark.s4-hl {
+  background: rgba(250, 204, 21, 0.28);
+  color: #fef08a;
+}
+.lesson-item.active mark.s4-hl {
+  background: rgba(255, 255, 255, 0.28);
+  color: #fff;
 }

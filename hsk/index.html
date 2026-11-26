@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="portal" data-course="hsk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../manifest.json">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="icon" href="../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../icon-192.png">
+  <title>HSK 1–6 — Lộ trình Bài giảng &amp; Ôn luyện | LinguaPath</title>
+
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=67">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
+
+  <style>
+    @view-transition { navigation: auto; }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+      touch-action: pan-y;
+      min-height: 100vh;
+      background: transparent !important;
+      color: var(--lg-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    .level-bar {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding: 2px 2px 12px;
+      scrollbar-width: none;
+      margin-bottom: 4px;
+    }
+    .level-bar::-webkit-scrollbar { display: none; }
+
+    .sec-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.55px;
+      color: var(--lg-ink-muted);
+      margin: 14px 0 10px 2px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .sec-title svg { color: var(--lg-accent); flex-shrink: 0; }
+
+    .course-card {
+      border-radius: 24px;
+      padding: 18px;
+      text-decoration: none;
+      color: var(--lg-ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .course-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--lg-accent) !important;
+    }
+    .course-card:active { transform: scale(0.99); }
+
+    .roadmap-featured {
+      margin-bottom: 14px;
+      border-color: rgba(220, 38, 38, 0.34) !important;
+    }
+    html.dark .roadmap-featured {
+      border-color: rgba(248, 113, 113, 0.38) !important;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      min-width: 0;
+    }
+    .card-top > div:not(.card-icon) { min-width: 0; flex: 1; }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.25px;
+      padding: 3px 8px;
+      border-radius: 7px;
+      margin-bottom: 6px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: none;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0 0 5px;
+      color: var(--lg-ink);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 12.8px;
+      color: var(--lg-ink-sub);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .card-footer {
+      margin-top: 13px;
+      padding-top: 10px;
+      border-top: 1px solid var(--lg-divider);
+    }
+
+    .prog-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+    .card-cta-lbl {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 800;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-shadow: none;
+    }
+
+    .ico-roadmap { background: rgba(220, 38, 38, 0.14); color: #dc2626; }
+    .ico-lessons { background: #fee2e2; color: #dc2626; }
+    .ico-vocab { background: #dbeafe; color: #1d4ed8; }
+    .ico-grammar { background: #ccfbf1; color: #0f766e; }
+    .ico-writing { background: #ffedd5; color: #c2410c; }
+    .ico-listening { background: #fef3c7; color: #b45309; }
+    .ico-reading { background: #dcfce7; color: #15803d; }
+    .ico-speaking { background: #ffe4e6; color: #be123c; }
+    .ico-mock { background: #f3e8ff; color: #7e22ce; }
+
+    html.dark .ico-roadmap { background: rgba(248, 113, 113, 0.22); color: #fca5a5; }
+    html.dark .ico-lessons { background: rgba(239, 68, 68, 0.22); color: #fca5a5; }
+    html.dark .ico-vocab { background: rgba(59, 130, 246, 0.22); color: #93c5fd; }
+    html.dark .ico-grammar { background: rgba(20, 184, 166, 0.22); color: #5eead4; }
+    html.dark .ico-writing { background: rgba(249, 115, 22, 0.22); color: #fdba74; }
+    html.dark .ico-listening { background: rgba(245, 158, 11, 0.22); color: #fcd34d; }
+    html.dark .ico-reading { background: rgba(34, 197, 94, 0.22); color: #86efac; }
+    html.dark .ico-speaking { background: rgba(244, 63, 94, 0.22); color: #fda4af; }
+    html.dark .ico-mock { background: rgba(168, 85, 247, 0.22); color: #d8b4fe; }
+
+    .tag-roadmap { background: rgba(220, 38, 38, 0.14); color: #dc2626; }
+    .tag-lessons { background: #fee2e2; color: #b91c1c; }
+    .tag-vocab { background: #dbeafe; color: #1d4ed8; }
+    .tag-grammar { background: #ccfbf1; color: #0f766e; }
+    .tag-writing { background: #ffedd5; color: #c2410c; }
+    .tag-listening { background: #fef3c7; color: #b45309; }
+    .tag-reading { background: #dcfce7; color: #15803d; }
+    .tag-speaking { background: #ffe4e6; color: #be123c; }
+    .tag-mock { background: #f3e8ff; color: #7e22ce; }
+
+    html.dark .tag-roadmap { background: rgba(248, 113, 113, 0.20); color: #fca5a5; }
+    html.dark .tag-lessons { background: rgba(239, 68, 68, 0.20); color: #fca5a5; }
+    html.dark .tag-vocab { background: rgba(59, 130, 246, 0.20); color: #93c5fd; }
+    html.dark .tag-grammar { background: rgba(20, 184, 166, 0.20); color: #5eead4; }
+    html.dark .tag-writing { background: rgba(249, 115, 22, 0.20); color: #fdba74; }
+    html.dark .tag-listening { background: rgba(245, 158, 11, 0.20); color: #fcd34d; }
+    html.dark .tag-reading { background: rgba(34, 197, 94, 0.20); color: #86efac; }
+    html.dark .tag-speaking { background: rgba(244, 63, 94, 0.20); color: #fda4af; }
+    html.dark .tag-mock { background: rgba(168, 85, 247, 0.20); color: #d8b4fe; }
+
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      .course-card { padding: 15px; border-radius: 20px; }
+      .card-icon { width: 42px; height: 42px; border-radius: 12px; }
+      .card-title { font-size: 15.5px; }
+      .lv-pill { padding: 5px 11px; font-size: 11.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+
+  <div class="lp-shell">
+    <header class="lp-topbar lp-glass">
+      <div class="lp-top-left">
+        <a class="lp-back-pill" href="../index.html" title="Về tất cả khóa học">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>Khóa học</span>
+        </a>
+        <div class="lp-brand">
+          <div class="lp-brand-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M12 3v18"/><path d="M7 11h10v7H7z"/></svg>
+          </div>
+          <div class="lp-brand-text">
+            <h1 class="lp-brand-title">HSK 1–6</h1>
+          </div>
+        </div>
+      </div>
+      <div class="lp-top-actions">
+        <button type="button" class="lp-icon-btn donate" id="btnHskDonate" title="Ủng hộ dự án">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="lp-hide-xs">Ủng hộ</span>
+        </button>
+        <button type="button" class="lp-icon-btn" id="btnHskDark" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+
+    <section class="lp-summary-strip lp-glass" aria-label="Tổng quan tiến độ HSK">
+      <div class="lp-sum-cell">
+        <div class="lp-sum-num" id="hskStatVocab">0 / 5,112</div>
+        <div class="lp-sum-lbl" id="hskStatVocabLabel">Từ vựng HSK</div>
+      </div>
+      <a class="lp-sum-cell clickable" id="hskDueLink" href="vocab/index.html?filter=due" title="Mở ôn từ vựng HSK đến hạn">
+        <div class="lp-sum-num is-due" id="hskStatDue">0</div>
+        <div class="lp-sum-lbl">Cần ôn hôm nay</div>
+      </a>
+      <div class="lp-sum-cell">
+        <div class="lp-sum-num is-stage" id="hskStatLessons">0 / 764</div>
+        <div class="lp-sum-lbl">Tổng mục hoàn thành</div>
+      </div>
+    </section>
+
+    <div class="level-bar" id="levelBar" role="tablist" aria-label="Lọc theo cấp độ HSK">
+      <button type="button" class="lp-pill lv-pill active" data-lv="all">Tất cả (5,112 từ)</button>
+      <button type="button" class="lp-pill lv-pill" data-lv="1">HSK 1 • 150</button>
+      <button type="button" class="lp-pill lv-pill" data-lv="2">HSK 2 • 147</button>
+      <button type="button" class="lp-pill lv-pill" data-lv="3">HSK 3 • 301</button>
+      <button type="button" class="lp-pill lv-pill" data-lv="4">HSK 4 • 609</button>
+      <button type="button" class="lp-pill lv-pill" data-lv="5">HSK 5 • 1,397</button>
+      <button type="button" class="lp-pill lv-pill" data-lv="6">HSK 6 • 2,508</button>
+    </div>
+
+    <div class="sec-title">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+      <span>Học theo lộ trình chuẩn</span>
+    </div>
+
+    <a class="course-card roadmap-featured lp-glass" id="linkRoadmap" href="roadmap/index.html">
+      <div class="card-top">
+        <div class="card-icon ico-roadmap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+        </div>
+        <div>
+          <span class="card-tag tag-roadmap" id="hskRoadmapStageTag">CHẶNG 1/6 • PINYIN → HSK 1 • 1.5–2 GIỜ/NGÀY</span>
+          <h2 class="card-title">Lộ Trình Học HSK 1–6 Từng Bước</h2>
+          <p class="card-desc">Ghép 8 phân hệ theo 6 chặng, tự gợi ý bài cần học mỗi ngày.</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="prog-row">
+          <span id="hskRoadmapSummary">Tiến độ lộ trình: 0% (0/68 học phần • Chặng 1)</span>
+          <span class="card-cta-lbl" style="color:var(--lg-accent);">
+            <span>Mở lộ trình</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
+        </div>
+        <div class="lp-prog-bar"><div class="lp-prog-fill" id="hskRoadmapBar" style="width:0%;background:linear-gradient(90deg,#dc2626,#ea580c);"></div></div>
+      </div>
+    </a>
+
+    <div class="sec-title">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+      <span>8 Phân hệ HSK 1–6 &amp; HSKK</span>
+    </div>
+
+    <div class="grid">
+      <a class="course-card lp-glass" id="linkLessons" href="lessons/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-lessons" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-lessons">106 BÀI GIẢNG • PINYIN → HSK 6</span>
+            <h3 class="card-title">Bài giảng HSK 1–6</h3>
+            <p class="card-desc">Pinyin nhập môn, chiết tự, bài khóa song ngữ và slide.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="lessonsProgText">Đã hoàn thành: 0/106 bài (0%)</span>
+            <span class="card-cta-lbl" style="color:#dc2626;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="lessonsProgFill" style="width:0%;background:#dc2626;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkVocab" href="vocab/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-vocab" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-vocab">5,112 TỪ • SRS 4 BƯỚC &amp; BẮN TỪ</span>
+            <h3 class="card-title">Từ vựng HSK 1–6</h3>
+            <p class="card-desc">Ôn SRS kèm âm Hán-Việt, bộ thủ, ví dụ và game Bắn từ.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="vocabProgText">Đã học: 0/5,112 từ (0%)</span>
+            <span class="card-cta-lbl" style="color:#2563eb;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="vocabProgFill" style="width:0%;background:#2563eb;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkGrammar" href="grammar/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-grammar" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-grammar">108 CHUYÊN ĐỀ • 168 LƯỢNG TỪ</span>
+            <h3 class="card-title">Ngữ pháp &amp; Lượng từ HSK</h3>
+            <p class="card-desc">Công thức 3 thể, lỗi hay gặp, lượng từ và quiz tự chấm.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="grammarProgText">Đã học: 0/108 chuyên đề (0%)</span>
+            <span class="card-cta-lbl" style="color:#0f766e;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="grammarProgFill" style="width:0%;background:#0d9488;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkWriting" href="writing/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-writing" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-writing">374 MỤC • 214 BỘ THỦ &amp; CHỮ MỄ</span>
+            <h3 class="card-title">Luyện viết chữ Hán</h3>
+            <p class="card-desc">Viết nét khung chữ Mễ, xếp câu HSK 3–4 và viết đoạn HSK 5–6.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="writingProgText">Đã luyện: 0/374 mục (0%)</span>
+            <span class="card-cta-lbl" style="color:#c2410c;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="writingProgFill" style="width:0%;background:#d97706;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkListening" href="listening/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-listening" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-listening">36 ĐỀ NGHE • 72 CÂU DICTATION</span>
+            <h3 class="card-title">Luyện nghe HSK</h3>
+            <p class="card-desc">Đề nghe HSK 1–6 hai tốc độ 0.72x/1.0x kèm transcript.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="listeningProgText">Đã học: 0/36 bài (0%)</span>
+            <span class="card-cta-lbl" style="color:#b45309;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="listeningProgFill" style="width:0%;background:#0284c7;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkReading" href="reading/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-reading" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-reading">36 BÀI ĐỌC • 180 CÂU HỎI</span>
+            <h3 class="card-title">Đọc hiểu HSK</h3>
+            <p class="card-desc">Đọc song ngữ chia đôi màn hình, ẩn/hiện Pinyin và từ khóa.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="readingProgText">Đã học: 0/36 bài (0%)</span>
+            <span class="card-cta-lbl" style="color:#15803d;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="readingProgFill" style="width:0%;background:#16a34a;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkSpeaking" href="speaking/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-speaking" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-speaking">92 MỤC • HSKK SƠ – TRUNG – CAO</span>
+            <h3 class="card-title">Khẩu ngữ &amp; HSKK</h3>
+            <p class="card-desc">20 cặp thanh điệu, Shadowing HSK 1–6 và đề HSKK đo F0.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="speakingProgText">Đã luyện: 0/92 mục (0%)</span>
+            <span class="card-cta-lbl" style="color:#be123c;">
+              <span>Vào học</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="speakingProgFill" style="width:0%;background:#db2777;"></div></div>
+        </div>
+      </a>
+
+      <a class="course-card lp-glass" id="linkMock" href="mock/index.html">
+        <div class="card-top">
+          <div class="card-icon ico-mock" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <div>
+            <span class="card-tag tag-mock">12 ĐỀ FULL MOCK • THANG /200 &amp; /300</span>
+            <h3 class="card-title">Phòng thi thử HSK 1–6</h3>
+            <p class="card-desc">Thi thử bấm giờ chuẩn 3 kỹ năng Nghe, Đọc và Viết.</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="prog-row">
+            <span id="mockProgText">Đã đạt: 0/12 đề (0%)</span>
+            <span class="card-cta-lbl" style="color:#7e22ce;">
+              <span>Vào thi</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </div>
+          <div class="lp-prog-bar"><div class="lp-prog-fill" id="mockProgFill" style="width:0%;background:#7c3aed;"></div></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <script src="roadmap/roadmap_data.js?v=1"></script>
+  <script src="roadmap/roadmap.js?v=1"></script>
+  <script src="../assets/s4-ui.js?v=67"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var LEVEL_TOTALS = { all: 5112, 1: 150, 2: 147, 3: 301, 4: 609, 5: 1397, 6: 2508 };
+      var ACTIVE_LESSONS_COUNT = 106;
+      var TOTAL_GRAMMAR_COUNT = 108;
+      var TOTAL_WRITING_COUNT = 374;
+      var TOTAL_LISTENING_COUNT = 36;
+      var TOTAL_READING_COUNT = 36;
+      var TOTAL_SPEAKING_COUNT = 92;
+      var TOTAL_MOCK_COUNT = 12;
+      var TOTAL_ALL_ITEMS = ACTIVE_LESSONS_COUNT + TOTAL_GRAMMAR_COUNT + TOTAL_WRITING_COUNT + TOTAL_LISTENING_COUNT + TOTAL_READING_COUNT + TOTAL_SPEAKING_COUNT + TOTAL_MOCK_COUNT;
+      var selectedLevel = "all";
+
+      function safeJson(k, fb) {
+        try {
+          var v = JSON.parse(localStorage.getItem(k));
+          return v !== null && v !== undefined ? v : fb;
+        } catch (e) { return fb; }
+      }
+
+      function syncDarkIcon() {
+        var btn = document.getElementById("btnHskDark");
+        if (!btn) return;
+        var isDark = document.documentElement.classList.contains("dark");
+        if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+          window.S4UI.renderThemeButton(btn, isDark);
+          return;
+        }
+        var sunSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>';
+        var moonSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+        btn.innerHTML = isDark ? sunSvg : moonSvg;
+        btn.title = isDark ? "Đang ở chế độ Tối — Bấm để chuyển sang Sáng" : "Đang ở chế độ Sáng — Bấm để chuyển sang Tối";
+      }
+
+      function toggleDark() {
+        if (typeof window.toggleDarkModeOnly === "function") {
+          window.toggleDarkModeOnly();
+        } else {
+          var next = !document.documentElement.classList.contains("dark");
+          document.documentElement.classList.toggle("dark", next);
+          if (document.body) document.body.classList.toggle("dark", next);
+          try { localStorage.setItem("s4_vocab_dark", next ? "1" : "0"); } catch (e) {}
+          var s = localStorage.getItem("s4_theme_style") || "ghibli";
+          var mt = document.getElementById("metaThemeColor");
+          if (mt) mt.setAttribute("content", next ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+        }
+        syncDarkIcon();
+      }
+
+      function updateRoadmapCard() {
+        if (!window.LPHskRoadmap || typeof window.LPHskRoadmap.evaluateRoadmap !== "function") return;
+        var rm = window.LPHskRoadmap.evaluateRoadmap({ urlPrefix: "../" });
+        if (!rm) return;
+        var rmTag = document.getElementById("hskRoadmapStageTag");
+        var rmSum = document.getElementById("hskRoadmapSummary");
+        var rmBar = document.getElementById("hskRoadmapBar");
+        if (rmTag && rm.activeStage) {
+          rmTag.textContent = "CHẶNG " + rm.activeStage.order + "/6 • " + rm.activeStage.levelRange.toUpperCase() + " • " + rm.pace.dailyDesc.toUpperCase();
+        }
+        if (rmSum) {
+          rmSum.textContent = "Tiến độ lộ trình: " + rm.overallPct + "% (" + rm.completedTasks + "/" + rm.totalTasks + " học phần"
+            + (rm.activeStage ? (" • Chặng " + rm.activeStage.order) : "") + ")";
+        }
+        if (rmBar) rmBar.style.width = rm.overallPct + "%";
+      }
+
+      function updateHskStats() {
+        var srs = safeJson("lp_hsk_vocab_srs_v1", {});
+        var now = Date.now();
+        var learned = 0, due = 0;
+        Object.keys(srs).forEach(function (id) {
+          if (selectedLevel !== "all" && id.indexOf("hsk" + selectedLevel + "_") !== 0) return;
+          var st = srs[id];
+          if (!st || typeof st !== "object") return;
+          if (st.ignored || st.reps > 0) {
+            learned++;
+            if (!st.ignored && st.reps > 0 && (!st.due || Number(st.due) <= now)) due++;
+          }
+        });
+
+        var totalPool = LEVEL_TOTALS[selectedLevel] || 5112;
+        var pct = Math.min(100, Math.round((learned / totalPool) * 100));
+        var lvLabel = selectedLevel === "all" ? "HSK 1–6" : ("HSK " + selectedLevel);
+
+        document.getElementById("hskStatVocab").textContent = learned.toLocaleString("en-US") + " / " + totalPool.toLocaleString("en-US");
+        document.getElementById("hskStatVocabLabel").textContent = "Từ vựng " + lvLabel;
+        document.getElementById("hskStatDue").textContent = due.toLocaleString("en-US");
+        document.getElementById("hskDueLink").href = selectedLevel === "all"
+          ? "vocab/index.html?filter=due"
+          : ("vocab/index.html?level=" + selectedLevel + "&filter=due");
+        document.getElementById("vocabProgText").textContent = "Đã học (" + lvLabel + "): " + learned.toLocaleString("en-US") + "/" + totalPool.toLocaleString("en-US") + " từ (" + pct + "%)";
+        document.getElementById("vocabProgFill").style.width = pct + "%";
+
+        var lDone = safeJson("lp_hsk_lessons_done_v1", {});
+        var lCount = Object.values(lDone).filter(Boolean).length;
+        var lPct = Math.min(100, Math.round((lCount / ACTIVE_LESSONS_COUNT) * 100));
+        document.getElementById("lessonsProgText").textContent = "Đã hoàn thành: " + lCount + "/" + ACTIVE_LESSONS_COUNT + " bài (" + lPct + "%)";
+        document.getElementById("lessonsProgFill").style.width = lPct + "%";
+
+        var gCount = Object.values(safeJson("lp_hsk_grammar_done_v1", {})).filter(Boolean).length;
+        var gPct = Math.min(100, Math.round((gCount / TOTAL_GRAMMAR_COUNT) * 100));
+        document.getElementById("grammarProgText").textContent = "Đã học: " + gCount + "/" + TOTAL_GRAMMAR_COUNT + " chuyên đề (" + gPct + "%)";
+        document.getElementById("grammarProgFill").style.width = gPct + "%";
+
+        var wDone = safeJson("lp_hsk_writing_done_v1", {});
+        var wCaps = { chars: 60, radicals: 214, reorder: 40, pinyinWrite: 20, makeSentence: 20, essays: 20 };
+        var wCount = Object.keys(wCaps).reduce(function (sum, bucket) {
+          var b = wDone && wDone[bucket];
+          var cnt = b && typeof b === "object" ? Object.values(b).filter(Boolean).length : 0;
+          return sum + Math.min(wCaps[bucket], cnt);
+        }, 0);
+        var wPct = Math.min(100, Math.round((wCount / TOTAL_WRITING_COUNT) * 100));
+        document.getElementById("writingProgText").textContent = "Đã luyện: " + wCount + "/" + TOTAL_WRITING_COUNT + " mục (" + wPct + "%)";
+        document.getElementById("writingProgFill").style.width = wPct + "%";
+
+        var lisCount = Object.values(safeJson("lp_hsk_listening_done_v1", {})).filter(Boolean).length;
+        var lisPct = Math.min(100, Math.round((lisCount / TOTAL_LISTENING_COUNT) * 100));
+        document.getElementById("listeningProgText").textContent = "Đã học: " + lisCount + "/" + TOTAL_LISTENING_COUNT + " bài (" + lisPct + "%)";
+        document.getElementById("listeningProgFill").style.width = lisPct + "%";
+
+        var rCount = Object.values(safeJson("lp_hsk_reading_done_v1", {})).filter(Boolean).length;
+        var rPct = Math.min(100, Math.round((rCount / TOTAL_READING_COUNT) * 100));
+        document.getElementById("readingProgText").textContent = "Đã học: " + rCount + "/" + TOTAL_READING_COUNT + " bài (" + rPct + "%)";
+        document.getElementById("readingProgFill").style.width = rPct + "%";
+
+        var sCount = Object.values(safeJson("lp_hsk_speaking_done_v1", {})).filter(Boolean).length;
+        var sPct = Math.min(100, Math.round((sCount / TOTAL_SPEAKING_COUNT) * 100));
+        document.getElementById("speakingProgText").textContent = "Đã luyện: " + sCount + "/" + TOTAL_SPEAKING_COUNT + " mục (" + sPct + "%)";
+        document.getElementById("speakingProgFill").style.width = sPct + "%";
+
+        var mockRes = safeJson("lp_hsk_mock_results_v1", {});
+        var bestById = (mockRes && mockRes.bestById && typeof mockRes.bestById === "object") ? mockRes.bestById : {};
+        var mockPassed = 0, mockAttempted = 0;
+        Object.keys(bestById).forEach(function (id) {
+          var rec = bestById[id];
+          if (!rec || typeof rec !== "object") return;
+          mockAttempted++;
+          if (rec.passed === true) mockPassed++;
+        });
+        mockPassed = Math.min(TOTAL_MOCK_COUNT, mockPassed);
+        var mockPct = Math.min(100, Math.round((mockPassed / TOTAL_MOCK_COUNT) * 100));
+        document.getElementById("mockProgText").textContent = (mockPassed === 0 && mockAttempted > 0)
+          ? ("Đã đạt: 0/" + TOTAL_MOCK_COUNT + " đề (đã thi " + mockAttempted + " đề • 0%)")
+          : ("Đã đạt: " + mockPassed + "/" + TOTAL_MOCK_COUNT + " đề (" + mockPct + "%)");
+        document.getElementById("mockProgFill").style.width = mockPct + "%";
+
+        var totalDone = lCount + gCount + wCount + lisCount + rCount + sCount + mockPassed;
+        document.getElementById("hskStatLessons").textContent = totalDone + " / " + TOTAL_ALL_ITEMS;
+
+        var qs = selectedLevel === "all" ? "" : ("?level=" + selectedLevel);
+        document.getElementById("linkVocab").href = "vocab/index.html" + qs;
+        document.getElementById("linkLessons").href = "lessons/index.html" + qs;
+        document.getElementById("linkGrammar").href = "grammar/index.html" + qs;
+        document.getElementById("linkWriting").href = "writing/index.html" + qs;
+        document.getElementById("linkListening").href = "listening/index.html" + qs;
+        document.getElementById("linkReading").href = "reading/index.html" + qs;
+        document.getElementById("linkSpeaking").href = "speaking/index.html" + qs;
+        document.getElementById("linkMock").href = "mock/index.html" + qs;
+
+        updateRoadmapCard();
+      }
+
+      document.getElementById("levelBar").addEventListener("click", function (e) {
+        var btn = e.target.closest(".lv-pill");
+        if (!btn) return;
+        selectedLevel = btn.dataset.lv || "all";
+        document.querySelectorAll("#levelBar .lv-pill").forEach(function (b) {
+          b.classList.toggle("active", b === btn);
+        });
+        updateHskStats();
+      });
+
+      var darkBtn = document.getElementById("btnHskDark");
+      if (darkBtn) darkBtn.addEventListener("click", toggleDark);
+
+      var donateBtn = document.getElementById("btnHskDonate");
+      if (donateBtn) {
+        donateBtn.addEventListener("click", function () {
+          if (window.S4Auth && typeof window.S4Auth.openDonateModal === "function") {
+            window.S4Auth.openDonateModal();
+          }
+        });
+      }
+
+      if (typeof MutationObserver !== "undefined") {
+        new MutationObserver(syncDarkIcon).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      }
+      window.addEventListener("pageshow", function () { syncDarkIcon(); updateHskStats(); });
+      window.addEventListener("focus", updateHskStats);
+      window.addEventListener("storage", updateHskStats);
+
+      syncDarkIcon();
+      updateHskStats();
+    })();
+  </script>
+  <script src="../auth.js?v=33"></script>
+  <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
+</body>
+</html>

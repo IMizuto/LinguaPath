@@ -1,4 +1,12 @@
 data_raw_backup/
+node_modules/
+.env
+.env.*
 *.log
+*.bak
+*.tmp
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
+rust-core/target/

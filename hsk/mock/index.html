@@ -1,0 +1,2449 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="study" data-course="hsk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      if (s === "ghibli") document.documentElement.classList.add("theme-ghibli");
+      if (isDark) document.documentElement.classList.add("dark");
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <title>Phòng Thi Thử Full Mock Test HSK 1–6 | LinguaPath</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: var(--lg-surface, rgba(255, 255, 255, 0.72));
+      --text: var(--lg-ink, #0f172a);
+      --muted: var(--lg-ink-sub, #475569);
+      --border: var(--lg-divider, rgba(15, 23, 42, 0.1));
+      --hairline: var(--lg-hairline, rgba(15, 23, 42, 0.1));
+      --primary: var(--lg-accent, #e11d48);
+      --primary-soft: var(--lg-accent-soft, rgba(225, 29, 72, 0.12));
+      --ok: var(--lg-green, #16a34a);
+      --ok-soft: var(--lg-green-soft, rgba(22, 163, 74, 0.14));
+      --danger: var(--lg-rose, #dc2626);
+      --danger-soft: var(--lg-rose-soft, rgba(220, 38, 38, 0.13));
+      --warn: var(--lg-amber, #d97706);
+      --warn-soft: var(--lg-amber-soft, rgba(217, 119, 6, 0.15));
+      --box-sub: var(--lg-wash, rgba(15, 23, 42, 0.045));
+      --topbar-h: 56px;
+      color-scheme: light;
+    }
+    html.dark, body.dark {
+      --bg: #0f172a;
+      --card: var(--lg-surface, rgba(24, 34, 48, 0.72));
+      --text: var(--lg-ink, #f8fafc);
+      --muted: var(--lg-ink-sub, #94a3b8);
+      --border: var(--lg-divider, rgba(255, 255, 255, 0.12));
+      --hairline: var(--lg-hairline, rgba(255, 255, 255, 0.14));
+      --primary: var(--lg-accent, #fb7185);
+      --primary-soft: var(--lg-accent-soft, rgba(251, 113, 133, 0.16));
+      --ok: var(--lg-green, #4ade80);
+      --ok-soft: var(--lg-green-soft, rgba(74, 222, 128, 0.15));
+      --danger: var(--lg-rose, #f87171);
+      --danger-soft: var(--lg-rose-soft, rgba(248, 113, 113, 0.16));
+      --warn: var(--lg-amber, #fbbf24);
+      --warn-soft: var(--lg-amber-soft, rgba(251, 191, 36, 0.16));
+      --box-sub: var(--lg-wash, rgba(255, 255, 255, 0.055));
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .lp-svg { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 0; }
+    .app-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 14px 72px;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .surface-card, .exam-bar, .sheet-panel, .q-card, .mock-card, .report-hero, .modal-card {
+      background: var(--lg-surface, var(--card));
+      -webkit-backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      backdrop-filter: var(--lg-blur, blur(22px) saturate(165%));
+      border: 1px solid var(--hairline);
+      box-shadow: var(--lg-shadow, 0 12px 32px rgba(15, 23, 42, 0.08)),
+        inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.75)),
+        inset 1px 0 0 var(--lg-rim-side, rgba(255, 255, 255, 0.22)),
+        inset 0 -1px 0 var(--lg-rim-bot, rgba(15, 23, 42, 0.06));
+    }
+
+    .surface-card {
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      min-width: 0;
+    }
+
+    /* Lobby Hero & Mode Switch */
+    .lobby-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .lobby-hero h1 {
+      margin: 0 0 4px; font-size: 20px; font-weight: 800; line-height: 1.3;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .lobby-hero p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+    .lobby-stats { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stat-pill {
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 800;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .mode-card {
+      text-align: left;
+      padding: 11px 13px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.16s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mode-card:hover { border-color: var(--primary); }
+    .mode-card.active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px var(--primary-soft);
+    }
+    .mode-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+    .mode-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--lg-seg-track, rgba(15, 23, 42, 0.05));
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      width: fit-content;
+      max-width: 100%;
+    }
+    .mode-card.active .mode-chip { color: var(--text); border-color: var(--primary); }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .lv-pill {
+      padding: 7px 13px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--lg-seg-track, var(--box-sub));
+      color: var(--text);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .lv-pill:hover { border-color: var(--primary); }
+    .lv-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Exam Cards Grid */
+    .mock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .mock-card {
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+    .mock-card.is-target {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-soft), var(--lg-shadow);
+    }
+    .mock-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .lv-badge {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .status-badge {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--box-sub);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .status-badge.passed {
+      background: var(--ok-soft);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+    .status-badge.tried {
+      background: var(--warn-soft);
+      border-color: var(--warn);
+      color: var(--warn);
+    }
+    .mock-title { margin: 4px 0 4px; font-size: 16.5px; font-weight: 800; line-height: 1.35; }
+    .mock-sub { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+    .mock-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .meta-tag {
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .start-btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #e11d48, #be185d);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: filter 0.15s ease;
+    }
+    .start-btn:hover { filter: brightness(1.08); }
+
+    /* History List */
+    .sec-title {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .hist-list { display: flex; flex-direction: column; gap: 8px; }
+    .hist-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .hist-main { min-width: 0; flex: 1; }
+    .hist-title { font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .hist-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .hist-score { font-weight: 800; font-size: 14px; white-space: nowrap; }
+
+    /* Exam Room Sticky Bar */
+    .exam-bar {
+      position: sticky;
+      top: calc(var(--topbar-h, 54px) + 6px);
+      z-index: 45;
+      border-radius: 15px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .exam-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .exam-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 10px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+    }
+    .exam-timer.urgent {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+      color: var(--danger);
+      animation: timerPulse 1.1s ease-in-out infinite;
+    }
+    @keyframes timerPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.82; }
+    }
+    .exam-prog-pill {
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 99px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+    }
+    .exam-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .tool-btn {
+      padding: 7px 11px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tool-btn:hover { border-color: var(--primary); }
+    .tool-btn.on { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+    .submit-btn {
+      padding: 7px 13px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .exam-sec-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sec-tab {
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--lg-seg-track, var(--box-sub));
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .sec-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Answer Sheet Panel */
+    .sheet-panel {
+      border-color: var(--primary);
+      border-radius: 15px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .sheet-legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .sheet-dot {
+      display: inline-block; width: 10px; height: 10px; border-radius: 3px;
+      vertical-align: middle; margin-right: 4px; border: 1px solid var(--border);
+    }
+    .sheet-dot.done { background: var(--ok); border-color: var(--ok); }
+    .sheet-dot.todo { background: var(--box-sub); }
+    .sheet-dot.flagged { background: var(--warn); border-color: var(--warn); border-radius: 99px; }
+    .sheet-group { margin-top: 10px; }
+    .sheet-group-label {
+      font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 6px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .sheet-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sheet-cell {
+      width: 38px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sheet-cell.done {
+      background: var(--ok-soft);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+    .sheet-cell.flagged {
+      border-color: var(--warn);
+      box-shadow: 0 0 0 2px var(--warn-soft);
+    }
+    .sheet-cell.flagged::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 7px;
+      height: 7px;
+      border-radius: 99px;
+      background: var(--warn);
+    }
+
+    /* Question Cards */
+    .q-card {
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      scroll-margin-top: 165px;
+      min-width: 0;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .q-card.is-flagged { border-color: var(--warn); }
+    .q-card.is-kb-focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-soft), var(--lg-shadow);
+    }
+    .q-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .q-part-badge {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .flag-btn {
+      padding: 5px 10px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--box-sub);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .flag-btn.on {
+      background: var(--warn-soft);
+      border-color: var(--warn);
+      color: var(--warn);
+    }
+
+    .audio-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--box-sub);
+      border: 1px dashed var(--border);
+      margin-bottom: 10px;
+    }
+    .play-btn {
+      background: linear-gradient(135deg, #e11d48, #be185d);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .play-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .rate-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      overflow: hidden;
+      background: var(--lg-seg-track, var(--box-sub));
+    }
+    .rate-opt {
+      padding: 6px 10px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .rate-opt.on { background: var(--primary); color: #fff; }
+
+    .passage-box {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      font-size: 16px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .order-item {
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      font-size: 15px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+    .q-prompt {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      overflow-wrap: anywhere;
+    }
+    .q-stmt {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--box-sub);
+      border-left: 4px solid var(--primary);
+      font-size: 15.5px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .opts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .opt-btn {
+      text-align: left;
+      padding: 11px 13px;
+      border-radius: 11px;
+      border: 1.5px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      transition: all 0.13s ease;
+    }
+    .opt-btn:hover { border-color: var(--primary); }
+    .opt-btn.selected {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .opt-btn.correct {
+      background: var(--ok-soft);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+    .opt-btn.wrong {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* Writing Inputs */
+    .reorder-tray {
+      min-height: 48px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1.5px dashed var(--primary);
+      background: var(--box-sub);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .reorder-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+    .word-chip {
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--lg-seg-active, var(--box-sub));
+      color: var(--text);
+      font-size: 15.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .word-chip:hover { border-color: var(--primary); }
+    .word-chip.picked {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .word-chip.used { opacity: 0.35; cursor: default; }
+
+    .hanzi-input {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 11px;
+      border: 1.5px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      font-size: 17px;
+      font-family: inherit;
+      outline: none;
+    }
+    .hanzi-input:focus { border-color: var(--primary); }
+    .essay-textarea {
+      width: 100%;
+      min-height: 155px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.65;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+    }
+    .essay-textarea:focus { border-color: var(--primary); }
+    .kw-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+    .kw-chip {
+      padding: 5px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--box-sub);
+      font-size: 13.5px;
+      font-weight: 800;
+    }
+    .kw-chip.hit {
+      background: var(--ok-soft);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+    .counter-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 6px;
+      font-weight: 700;
+    }
+    .summary-read-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 11px;
+      background: var(--warn-soft);
+      border: 1px solid var(--warn);
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .nav-btn {
+      padding: 10px 16px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      background: var(--box-sub);
+      color: var(--text);
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .nav-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .nav-btn.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Inline Confirm Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(15, 23, 42, 0.56);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-card {
+      width: 100%;
+      max-width: 440px;
+      color: var(--text);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .modal-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 7px; }
+    .modal-card p { margin: 0 0 14px; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+
+    /* Report Screen */
+    .report-hero {
+      text-align: center;
+      padding: 22px 16px;
+      border-radius: 18px;
+      margin-bottom: 16px;
+    }
+    .report-hero.passed { border-color: var(--ok); }
+    .report-hero.failed { border-color: var(--warn); }
+    .cert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .cert-badge.passed { background: var(--ok-soft); color: var(--ok); }
+    .cert-badge.failed { background: var(--warn-soft); color: var(--warn); }
+    .big-score { font-size: 38px; font-weight: 900; line-height: 1.15; margin: 4px 0; }
+    .score-bars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+      text-align: left;
+    }
+    .score-bar-box {
+      padding: 12px;
+      border-radius: 13px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+    }
+    .bar-track {
+      height: 8px;
+      border-radius: 99px;
+      background: var(--border);
+      overflow: hidden;
+      margin-top: 7px;
+    }
+    .bar-fill { height: 100%; border-radius: 99px; background: var(--primary); }
+    .coach-box {
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--primary-soft);
+      border: 1px dashed var(--primary);
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .coach-link {
+      padding: 9px 14px;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .review-box {
+      margin-top: 10px;
+      padding: 11px 13px;
+      border-radius: 11px;
+      background: var(--box-sub);
+      border: 1px solid var(--border);
+      font-size: 13.5px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+    .py-line { color: var(--primary); font-weight: 700; margin-top: 3px; }
+    .vi-line { color: var(--muted); margin-top: 3px; }
+
+    @media (max-width: 640px) {
+      .app-shell { padding: 12px 10px 64px; }
+      .surface-card, .q-card { padding: 13px; border-radius: 14px; }
+      .mode-grid, .opts-grid { grid-template-columns: minmax(0, 1fr); }
+      .mock-grid { grid-template-columns: minmax(0, 1fr); }
+      .exam-bar { padding: 9px 10px; }
+      .exam-timer { font-size: 14px; padding: 5px 9px; }
+      .big-score { font-size: 32px; }
+    }
+    .lp-top-left, .lp-brand, .lp-brand-text { min-width: 0; overflow: hidden; }
+    .lp-brand-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 480px) {
+      .lp-brand-icon { width: 30px; height: 30px; border-radius: 10px; }
+      .lp-brand-title { font-size: 14px; }
+      .lp-back-pill { padding: 0 10px; font-size: 12.5px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+
+  <header class="lp-topbar lp-glass" id="topBar">
+    <div class="lp-top-left">
+      <a id="lpBackBtn" class="lp-back-pill" href="../index.html">HSK</a>
+      <div class="lp-brand">
+        <span class="lp-brand-icon" id="mockBrandIcon" aria-hidden="true"></span>
+        <div class="lp-brand-text">
+          <span class="lp-brand-title">Thi thử Mock</span>
+        </div>
+      </div>
+    </div>
+    <div class="lp-top-actions">
+      <button type="button" class="lp-icon-btn donate" id="btnDonate" title="Ủng hộ duy trì LinguaPath">
+        <span id="mockDonateIcon" aria-hidden="true"></span>
+        <span class="lp-hide-xs">Ủng hộ</span>
+      </button>
+      <button type="button" class="lp-icon-btn" id="btnTheme" data-lp-theme-toggle="1" title="Đổi Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+    </div>
+  </header>
+
+  <main class="app-shell" id="appRoot"></main>
+  <div id="modalRoot"></div>
+
+  <script src="../hsk-tts.js?v=2"></script>
+  <script src="./mock_data.js?v=1"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      const STORAGE_KEY = "lp_hsk_mock_results_v1";
+      const MOCK_TESTS = Array.isArray(window.LP_HSK_MOCK_TESTS) ? window.LP_HSK_MOCK_TESTS : [];
+
+      const urlParams = (() => {
+        try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(""); }
+      })();
+      const reqMockId = (urlParams.get("id") || "").trim();
+      const targetMock = reqMockId ? MOCK_TESTS.find((m) => m.id === reqMockId) : null;
+
+      const state = {
+        screen: "lobby", // 'lobby' | 'exam' | 'report'
+        filterLevel: (() => {
+          if (targetMock) return Number(targetMock.level) || 0;
+          const lv = Number(urlParams.get("level") || 0);
+          return (lv >= 1 && lv <= 6) ? lv : 0;
+        })(),
+        targetMockId: targetMock ? targetMock.id : "",
+        mode: "real", // 'real' | 'practice'
+        exam: null,
+        activeSection: "listening", // 'listening' | 'reading' | 'writing'
+        focusedQIdx: 0,
+        remainingSec: 0,
+        audioRate: 1.0, // 0.85 | 1.0
+        showSheet: false,
+        showSubmitModal: false,
+        reviewFilter: "all", // 'all' | 'wrong'
+        listeningAnswers: {},
+        readingAnswers: {},
+        writingAnswers: {},
+        listeningPlays: {},
+        flagged: {}, // key: `${sec}:${idx}` -> true
+        summaryState: {}, // { [idx]: { phase: 'read' | 'write', readLeftSec: number, peekSource: boolean } }
+        lastReport: null
+      };
+
+      let timerId = null;
+
+      const MOCK_ICON_PATHS = {
+        award: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13.9 17 22l-5-3-5 3 1.5-8.1"/>',
+        clock: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>',
+        flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+        volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
+        volumeOff: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/>',
+        check: '<polyline points="20 6 9 17 4 12"/>',
+        close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+        search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+        lightbulb: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.1 14c.2-.9.7-1.7 1.5-2.5 1-.9 1.5-2.2 1.4-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>',
+        target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+        book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>',
+        edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+        refresh: '<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>',
+        play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+        arrowLeft: '<path d="m15 18-6-6 6-6"/>',
+        arrowRight: '<path d="m9 18 6-6-6-6"/>',
+        layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+        send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+        alert: '<path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/><path d="M12 9v4"/><circle cx="12" cy="17" r=".6"/>',
+        eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>',
+        eyeOff: '<path d="M9.9 4.2A10.9 10.9 0 0 1 12 4c6.5 0 10 8 10 8a18.5 18.5 0 0 1-2.2 3.2"/><path d="M6.6 6.6A16 16 0 0 0 2 12s3.5 8 10 8a9.8 9.8 0 0 0 5.4-1.6"/><path d="m2 2 20 20"/>',
+        pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+        fileText: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+        sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+        moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+        chart: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+        compass: '<circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+        zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+        circle: '<circle cx="12" cy="12" r="8"/>'
+      };
+
+      function mockSvg(name, size) {
+        const s = size || 15;
+        if (window.S4UI && typeof window.S4UI.icon === "function") {
+          const out = window.S4UI.icon(name, s);
+          if (out && out.indexOf("<svg") !== -1) return out;
+        }
+        const p = MOCK_ICON_PATHS[name] || MOCK_ICON_PATHS.award;
+        return `<span class="lp-svg" aria-hidden="true"><svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span>`;
+      }
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[c]));
+      }
+      function escAttr(s) {
+        return esc(s).replace(/`/g, "&#96;");
+      }
+
+      function normalizeZh(str) {
+        return String(str || "")
+          .replace(/[\s，。？！、；：“”‘’（）()《》〈〉—…·,.?!;:'"-]/g, "")
+          .trim();
+      }
+
+      function countHanzi(str) {
+        const m = String(str || "").match(/[\u4e00-\u9fff\u3400-\u4dbf]/g);
+        return m ? m.length : 0;
+      }
+
+      function formatClock(sec) {
+        const s = Math.max(0, Math.floor(Number(sec) || 0));
+        const m = Math.floor(s / 60);
+        const r = s % 60;
+        return String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0");
+      }
+
+      function formatDateVi(iso) {
+        try {
+          const d = new Date(iso);
+          if (isNaN(d.getTime())) return "";
+          return d.toLocaleString("vi-VN", {
+            day: "2-digit", month: "2-digit", year: "numeric",
+            hour: "2-digit", minute: "2-digit"
+          });
+        } catch (e) { return ""; }
+      }
+
+      function syncTopbarHeight() {
+        const tb = document.getElementById("topBar");
+        if (tb) {
+          document.documentElement.style.setProperty("--topbar-h", tb.offsetHeight + "px");
+        }
+      }
+
+      window.syncThemeBtn = function () {
+        const isDark = document.documentElement.classList.contains("dark");
+        const btn = document.getElementById("btnTheme");
+        if (!btn) return;
+        if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+          window.S4UI.renderThemeButton(btn, isDark);
+        } else {
+          btn.innerHTML = mockSvg(isDark ? "sun" : "moon", 16);
+        }
+      };
+
+      window.toggleDarkMode = function () {
+        if (typeof window.toggleDarkModeOnly === "function") {
+          window.toggleDarkModeOnly();
+          window.syncThemeBtn();
+          return;
+        }
+        const isDark = document.documentElement.classList.toggle("dark");
+        if (document.body) document.body.classList.toggle("dark", isDark);
+        try { localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0"); } catch (e) {}
+        window.syncThemeBtn();
+      };
+
+      function stopAudio() {
+        if (window.HskTTS && typeof window.HskTTS.stop === "function") {
+          window.HskTTS.stop();
+        }
+      }
+
+      function notifyToast(type, msg) {
+        if (window.S4UI && typeof window.S4UI.toast === "function") {
+          window.S4UI.toast(type, msg);
+        }
+      }
+
+      function loadResults() {
+        const fallback = { bestById: {}, history: [] };
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return fallback;
+          const parsed = JSON.parse(raw);
+          return {
+            bestById: (parsed && typeof parsed.bestById === "object" && parsed.bestById) ? parsed.bestById : {},
+            history: (parsed && Array.isArray(parsed.history)) ? parsed.history : []
+          };
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      function saveResult(report) {
+        const data = loadResults();
+        const id = report.id;
+        const prev = data.bestById[id];
+        if (!prev || report.totalScore > Number(prev.score || 0)) {
+          data.bestById[id] = {
+            score: report.totalScore,
+            maxScore: report.maxScore,
+            passed: report.passed,
+            listeningScore: report.listeningScore,
+            readingScore: report.readingScore,
+            writingScore: report.writingScore,
+            dateIso: report.dateIso
+          };
+        }
+        data.history.unshift({
+          id: report.id,
+          level: report.level,
+          title: report.title,
+          score: report.totalScore,
+          maxScore: report.maxScore,
+          passed: report.passed,
+          listeningScore: report.listeningScore,
+          readingScore: report.readingScore,
+          writingScore: report.writingScore,
+          mode: report.mode,
+          dateIso: report.dateIso
+        });
+        data.history = data.history.slice(0, 30);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+      }
+
+      function clearExamTimer() {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      }
+
+      function startExamTimer() {
+        clearExamTimer();
+        timerId = setInterval(() => {
+          if (state.screen !== "exam" || !state.exam) return;
+          if (state.remainingSec > 0) {
+            state.remainingSec -= 1;
+            const tEl = document.getElementById("examTimerDisplay");
+            if (tEl) {
+              tEl.textContent = formatClock(state.remainingSec);
+              tEl.classList.toggle("urgent", state.remainingSec > 0 && state.remainingSec < 300);
+            }
+          }
+          // Tick HSK 6 essay_summary reading phase clocks
+          const ws = state.exam.writing || [];
+          let needRerenderWriting = false;
+          ws.forEach((q, idx) => {
+            if (q && q.type === "essay_summary") {
+              const st = state.summaryState[idx];
+              if (st && st.phase === "read" && st.readLeftSec > 0) {
+                st.readLeftSec -= 1;
+                const cEl = document.getElementById("summaryReadClock_" + idx);
+                if (cEl) cEl.textContent = formatClock(st.readLeftSec);
+                if (st.readLeftSec <= 0) {
+                  st.phase = "write";
+                  needRerenderWriting = true;
+                  notifyToast("info", "Hết 10 phút đọc bài gốc — đã chuyển sang viết tóm tắt.");
+                }
+              }
+            }
+          });
+          if (needRerenderWriting && state.activeSection === "writing") {
+            render();
+          }
+          if (state.remainingSec <= 0) {
+            clearExamTimer();
+            notifyToast("warn", "Đã hết giờ làm bài! Hệ thống tự động nộp bài.");
+            finalizeSubmission();
+          }
+        }, 1000);
+      }
+
+      function getWritingUserText(q, val) {
+        if (!q) return "";
+        if (q.type === "reorder") {
+          const picked = Array.isArray(val) ? val : [];
+          return picked.map((wi) => (q.words && q.words[wi] != null ? q.words[wi] : "")).join("");
+        }
+        return String(val || "");
+      }
+
+      function isWritingAnswered(q, idx) {
+        const val = state.writingAnswers[idx];
+        if (!q) return false;
+        if (q.type === "reorder") return Array.isArray(val) && val.length > 0;
+        return String(val || "").trim().length > 0;
+      }
+
+      function getProgressCounts() {
+        const ex = state.exam;
+        if (!ex) return { done: 0, total: 0 };
+        const ls = ex.listening || [];
+        const rs = ex.reading || [];
+        const ws = ex.writing || [];
+        let done = 0;
+        ls.forEach((_, i) => { if (state.listeningAnswers[i] !== undefined) done++; });
+        rs.forEach((_, i) => { if (state.readingAnswers[i] !== undefined) done++; });
+        ws.forEach((q, i) => { if (isWritingAnswered(q, i)) done++; });
+        return { done, total: ls.length + rs.length + ws.length };
+      }
+
+      function evaluateWritingItem(q, rawVal) {
+        const text = getWritingUserText(q, rawVal);
+        const hCount = countHanzi(text);
+        if (!q) return { ratio: 0, detail: "" };
+
+        if (q.type === "reorder") {
+          const uNorm = normalizeZh(text);
+          const aNorm = normalizeZh(q.answer || "");
+          const ok = Boolean(uNorm && aNorm && uNorm === aNorm);
+          return { ratio: ok ? 1 : 0, detail: ok ? "Sắp xếp chính xác 100%" : "Chưa khớp đáp án chuẩn" };
+        }
+
+        if (q.type === "pinyin_write") {
+          const uNorm = normalizeZh(text);
+          const tNorm = normalizeZh(q.targetHanzi || "");
+          const ok = Boolean(uNorm && tNorm && uNorm === tNorm);
+          return { ratio: ok ? 1 : 0, detail: ok ? "Viết đúng chữ Hán" : "Chưa khớp chữ Hán mục tiêu" };
+        }
+
+        if (q.type === "make_sentence") {
+          const req = (Array.isArray(q.requiredTokens) && q.requiredTokens.length)
+            ? q.requiredTokens
+            : (q.keyword ? [q.keyword] : []);
+          const hasTokens = req.length > 0 && req.every((tk) => text.includes(tk));
+          const hasLen = hCount >= 6;
+          if (hasTokens && hasLen) return { ratio: 1, detail: "Đủ từ khóa & độ dài câu (>=6 chữ Hán)" };
+          if ((hasTokens || hasLen) && text.trim().length > 0) {
+            return { ratio: 0.5, detail: hasTokens ? "Đủ từ khóa nhưng câu hơi ngắn (<6 chữ Hán)" : "Đạt độ dài nhưng thiếu từ khóa bắt buộc" };
+          }
+          return { ratio: 0, detail: "Chưa đạt yêu cầu đặt câu" };
+        }
+
+        if (q.type === "essay_keywords" || q.type === "essay_summary") {
+          if (hCount === 0) return { ratio: 0, detail: "Chưa viết bài" };
+          const kwList = Array.isArray(q.keywords) ? q.keywords : [];
+          const hit = kwList.filter((kw) => kw && text.includes(kw)).length;
+          const kwRatio = kwList.length ? (hit / kwList.length) : 0;
+          const minC = Number(q.minChars) || (q.type === "essay_summary" ? 110 : 60);
+          const lenRatio = Math.min(1, hCount / minC);
+          const ratio = Math.min(1, Math.max(0, 0.6 * kwRatio + 0.4 * lenRatio));
+          return {
+            ratio,
+            hitCount: hit,
+            kwTotal: kwList.length,
+            hCount,
+            minC,
+            detail: `Trúng ${hit}/${kwList.length} từ khóa • ${hCount}/${minC} chữ Hán`
+          };
+        }
+
+        return { ratio: 0, detail: "" };
+      }
+
+      function computeReport() {
+        const ex = state.exam;
+        const ls = ex.listening || [];
+        const rs = ex.reading || [];
+        const ws = ex.writing || [];
+        const hasWriting = ws.length > 0;
+
+        let lRight = 0;
+        const lReview = ls.map((q, i) => {
+          const picked = state.listeningAnswers[i];
+          const isOk = picked === q.ans;
+          if (isOk) lRight++;
+          return { idx: i, q, picked, isOk };
+        });
+
+        let rRight = 0;
+        const rReview = rs.map((q, i) => {
+          const picked = state.readingAnswers[i];
+          const isOk = picked === q.ans;
+          if (isOk) rRight++;
+          return { idx: i, q, picked, isOk };
+        });
+
+        let wRatioSum = 0;
+        const wReview = ws.map((q, i) => {
+          const rawVal = state.writingAnswers[i];
+          const ev = evaluateWritingItem(q, rawVal);
+          wRatioSum += ev.ratio;
+          return {
+            idx: i,
+            q,
+            userText: getWritingUserText(q, rawVal),
+            ratio: ev.ratio,
+            pct: Math.round(ev.ratio * 100),
+            isOk: ev.ratio >= 0.999,
+            ev
+          };
+        });
+
+        const listeningScore = ls.length ? Math.round((lRight / ls.length) * 100) : 0;
+        const readingScore = rs.length ? Math.round((rRight / rs.length) * 100) : 0;
+        const writingScore = hasWriting ? Math.min(100, Math.round((wRatioSum / ws.length) * 100)) : 0;
+        const totalScore = listeningScore + readingScore + (hasWriting ? writingScore : 0);
+        const passed = totalScore >= Number(ex.passScore || (hasWriting ? 180 : 120));
+
+        return {
+          id: ex.id,
+          level: ex.level,
+          title: ex.title,
+          badge: ex.badge,
+          maxScore: Number(ex.maxScore || (hasWriting ? 300 : 200)),
+          passScore: Number(ex.passScore || (hasWriting ? 180 : 120)),
+          hasWriting,
+          listeningScore,
+          readingScore,
+          writingScore,
+          lRight,
+          lTotal: ls.length,
+          rRight,
+          rTotal: rs.length,
+          wTotal: ws.length,
+          totalScore,
+          passed,
+          mode: state.mode,
+          dateIso: new Date().toISOString(),
+          lReview,
+          rReview,
+          wReview
+        };
+      }
+
+      function finalizeSubmission() {
+        if (!state.exam) return;
+        stopAudio();
+        clearExamTimer();
+        state.showSubmitModal = false;
+        state.showSheet = false;
+        const report = computeReport();
+        state.lastReport = report;
+        saveResult(report);
+        state.reviewFilter = "all";
+        state.screen = "report";
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // ---------- PUBLIC ACTIONS ----------
+      window.setLevelFilter = function (lv) {
+        state.filterLevel = lv;
+        render();
+      };
+
+      window.setMode = function (m) {
+        state.mode = m === "practice" ? "practice" : "real";
+        render();
+      };
+
+      window.startExam = function (mockId) {
+        const ex = MOCK_TESTS.find((x) => x.id === mockId);
+        if (!ex) return;
+        stopAudio();
+        clearExamTimer();
+        state.exam = ex;
+        state.screen = "exam";
+        state.activeSection = "listening";
+        state.focusedQIdx = 0;
+        state.remainingSec = Number(ex.durationSec || 2400);
+        state.audioRate = 1.0;
+        state.showSheet = false;
+        state.showSubmitModal = false;
+        state.listeningAnswers = {};
+        state.readingAnswers = {};
+        state.writingAnswers = {};
+        state.listeningPlays = {};
+        state.flagged = {};
+        state.summaryState = {};
+        (ex.writing || []).forEach((q, idx) => {
+          if (q && q.type === "essay_summary") {
+            state.summaryState[idx] = {
+              phase: "read",
+              readLeftSec: Number(q.readSeconds || 600),
+              peekSource: false
+            };
+          }
+        });
+        render();
+        startExamTimer();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      window.goLobby = function () {
+        stopAudio();
+        clearExamTimer();
+        state.showSubmitModal = false;
+        state.screen = "lobby";
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      window.switchSection = function (sec) {
+        stopAudio();
+        state.activeSection = sec;
+        state.focusedQIdx = 0;
+        state.showSheet = false;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      window.toggleSheet = function () {
+        state.showSheet = !state.showSheet;
+        render();
+      };
+
+      window.setFocusedQ = function (idx) {
+        state.focusedQIdx = Math.max(0, Number(idx) || 0);
+        document.querySelectorAll(".q-card.is-kb-focus").forEach((c) => c.classList.remove("is-kb-focus"));
+        const card = document.getElementById("qCard_" + state.activeSection + "_" + state.focusedQIdx);
+        if (card) card.classList.add("is-kb-focus");
+      };
+
+      window.jumpToQuestion = function (sec, idx) {
+        state.activeSection = sec;
+        state.focusedQIdx = idx;
+        state.showSheet = false;
+        render();
+        setTimeout(() => {
+          const el = document.getElementById("qCard_" + sec + "_" + idx);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 40);
+      };
+
+      window.setAudioRate = function (r) {
+        state.audioRate = r === 0.85 ? 0.85 : 1.0;
+        document.querySelectorAll(".rate-opt").forEach((b) => {
+          b.classList.toggle("on", Number(b.getAttribute("data-rate")) === state.audioRate);
+        });
+      };
+
+      window.playListeningAudio = function (idx) {
+        if (!state.exam || !state.exam.listening || !state.exam.listening[idx]) return;
+        const used = state.listeningPlays[idx] || 0;
+        if (state.mode === "real" && used >= 2) {
+          notifyToast("warn", "Chế độ Thi thật chỉ cho phép nghe tối đa 2 lượt mỗi câu.");
+          return;
+        }
+        const q = state.exam.listening[idx];
+        state.listeningPlays[idx] = used + 1;
+        if (window.HskTTS && typeof window.HskTTS.speak === "function") {
+          window.HskTTS.speak(q.audioZh, { rate: state.audioRate });
+        }
+        const qBadge = document.getElementById("listenQuota_" + idx);
+        const btn = document.getElementById("listenPlayBtn_" + idx);
+        const nextUsed = state.listeningPlays[idx];
+        if (state.mode === "real") {
+          const left = Math.max(0, 2 - nextUsed);
+          if (qBadge) qBadge.textContent = left > 0 ? `Còn ${left}/2 lượt` : "Hết lượt (0/2)";
+          if (btn && left <= 0) {
+            btn.disabled = true;
+            btn.innerHTML = `${mockSvg("volumeOff", 14)} Hết lượt nghe`;
+          }
+        } else {
+          if (qBadge) qBadge.textContent = `Đã nghe ${nextUsed} lượt • Không giới hạn`;
+        }
+      };
+
+      window.playReportAudio = function (idx) {
+        if (!state.lastReport || !state.lastReport.lReview[idx]) return;
+        const q = state.lastReport.lReview[idx].q;
+        if (window.HskTTS && typeof window.HskTTS.speak === "function") {
+          window.HskTTS.speak(q.audioZh, { rate: 1.0 });
+        }
+      };
+
+      window.selectChoice = function (sec, idx, optIdx) {
+        if (sec === "listening") state.listeningAnswers[idx] = optIdx;
+        else if (sec === "reading") state.readingAnswers[idx] = optIdx;
+        window.setFocusedQ(idx);
+        const card = document.getElementById("qCard_" + sec + "_" + idx);
+        if (card) {
+          card.querySelectorAll(".opt-btn").forEach((b, oi) => {
+            b.classList.toggle("selected", oi === optIdx);
+          });
+        }
+        updateExamProgressInPlace();
+      };
+
+      window.toggleFlag = function (sec, idx) {
+        const key = sec + ":" + idx;
+        state.flagged[key] = !state.flagged[key];
+        const card = document.getElementById("qCard_" + sec + "_" + idx);
+        if (card) {
+          card.classList.toggle("is-flagged", Boolean(state.flagged[key]));
+          const fb = card.querySelector(".flag-btn");
+          if (fb) {
+            fb.classList.toggle("on", Boolean(state.flagged[key]));
+            fb.innerHTML = `${mockSvg("flag", 13)} ${state.flagged[key] ? "Đã cắm cờ" : "Cắm cờ"}`;
+          }
+        }
+        if (state.showSheet) {
+          const sheetEl = document.getElementById("answerSheetBox");
+          if (sheetEl) sheetEl.innerHTML = renderAnswerSheetInner();
+        }
+      };
+
+      window.pickReorderWord = function (idx, wordIdx) {
+        const cur = Array.isArray(state.writingAnswers[idx]) ? state.writingAnswers[idx].slice() : [];
+        if (cur.includes(wordIdx)) return;
+        cur.push(wordIdx);
+        state.writingAnswers[idx] = cur;
+        refreshWritingCard(idx);
+        updateExamProgressInPlace();
+      };
+
+      window.removeReorderWord = function (idx, pos) {
+        const cur = Array.isArray(state.writingAnswers[idx]) ? state.writingAnswers[idx].slice() : [];
+        cur.splice(pos, 1);
+        state.writingAnswers[idx] = cur;
+        refreshWritingCard(idx);
+        updateExamProgressInPlace();
+      };
+
+      window.resetReorderWord = function (idx) {
+        state.writingAnswers[idx] = [];
+        refreshWritingCard(idx);
+        updateExamProgressInPlace();
+      };
+
+      window.onWritingTextInput = function (idx, el) {
+        const val = el ? el.value : "";
+        state.writingAnswers[idx] = val;
+        const q = state.exam && state.exam.writing ? state.exam.writing[idx] : null;
+        if (q) {
+          const cntEl = document.getElementById("hanziCnt_" + idx);
+          if (cntEl) {
+            const c = countHanzi(val);
+            if (q.type === "essay_keywords" || q.type === "essay_summary") {
+              cntEl.textContent = `${c} / ${q.targetChars || (q.type === "essay_summary" ? 180 : 80)} chữ Hán (tối thiểu ${q.minChars || 60})`;
+            } else {
+              cntEl.textContent = `${c} chữ Hán`;
+            }
+          }
+          if (q.type === "essay_keywords" && Array.isArray(q.keywords)) {
+            const box = document.getElementById("kwPills_" + idx);
+            if (box) {
+              box.querySelectorAll(".kw-chip").forEach((chip, ki) => {
+                const kw = q.keywords[ki] || "";
+                chip.classList.toggle("hit", Boolean(kw && val.includes(kw)));
+              });
+            }
+          }
+        }
+        updateExamProgressInPlace();
+      };
+
+      window.enterSummaryWritePhase = function (idx) {
+        const st = state.summaryState[idx] || { phase: "read", readLeftSec: 0, peekSource: false };
+        st.phase = "write";
+        st.peekSource = false;
+        state.summaryState[idx] = st;
+        refreshWritingCard(idx);
+      };
+
+      window.togglePracticeSourcePeek = function (idx) {
+        if (state.mode !== "practice") return;
+        const st = state.summaryState[idx];
+        if (!st) return;
+        st.peekSource = !st.peekSource;
+        refreshWritingCard(idx);
+      };
+
+      window.requestSubmitExam = function () {
+        state.showSubmitModal = true;
+        renderModal();
+      };
+
+      window.closeSubmitModal = function () {
+        state.showSubmitModal = false;
+        renderModal();
+      };
+
+      window.confirmSubmitExam = function () {
+        finalizeSubmission();
+      };
+
+      window.setReviewFilter = function (f) {
+        state.reviewFilter = f === "wrong" ? "wrong" : "all";
+        render();
+      };
+
+      function updateExamProgressInPlace() {
+        const { done, total } = getProgressCounts();
+        const badge = document.getElementById("examProgressBadge");
+        if (badge) badge.textContent = `${done}/${total} câu`;
+        if (state.showSheet) {
+          const sheetEl = document.getElementById("answerSheetBox");
+          if (sheetEl) sheetEl.innerHTML = renderAnswerSheetInner();
+        }
+      }
+
+      function refreshWritingCard(idx) {
+        const q = state.exam && state.exam.writing ? state.exam.writing[idx] : null;
+        const card = document.getElementById("qCard_writing_" + idx);
+        if (q && card) {
+          card.innerHTML = renderWritingCardInner(q, idx);
+        }
+      }
+
+      // ---------- RENDERING HELPERS ----------
+      function renderLobby() {
+        const res = loadResults();
+        const bestById = res.bestById || {};
+        const history = res.history || [];
+
+        const counts = { 0: MOCK_TESTS.length };
+        for (let lv = 1; lv <= 6; lv++) {
+          counts[lv] = MOCK_TESTS.filter((m) => Number(m.level) === lv).length;
+        }
+        const passedCount = MOCK_TESTS.filter((m) => bestById[m.id] && bestById[m.id].passed).length;
+
+        const filtered = MOCK_TESTS.filter((m) => state.filterLevel === 0 || Number(m.level) === state.filterLevel);
+
+        const levelPillsHtml = [
+          [0, `Tất cả (${counts[0]} đề)`],
+          [1, `HSK 1 (${counts[1]})`],
+          [2, `HSK 2 (${counts[2]})`],
+          [3, `HSK 3 (${counts[3]})`],
+          [4, `HSK 4 (${counts[4]})`],
+          [5, `HSK 5 (${counts[5]})`],
+          [6, `HSK 6 (${counts[6]})`]
+        ].map(([lv, label]) =>
+          `<button class="lv-pill ${state.filterLevel === lv ? "active" : ""}" onclick="setLevelFilter(${lv})">${label}</button>`
+        ).join("");
+
+        const cardsHtml = filtered.length ? filtered.map((m) => {
+          const best = bestById[m.id];
+          const isTarget = state.targetMockId && state.targetMockId === m.id;
+          let statusHtml = `<span class="status-badge">${mockSvg("circle", 12)} Chưa thi</span>`;
+          if (best) {
+            statusHtml = best.passed
+              ? `<span class="status-badge passed">${mockSvg("award", 13)} Đã đạt ${best.score}/${m.maxScore}</span>`
+              : `<span class="status-badge tried">${mockSvg("refresh", 12)} Đã thi ${best.score}/${m.maxScore}</span>`;
+          }
+          const lLen = (m.listening || []).length;
+          const rLen = (m.reading || []).length;
+          const wLen = (m.writing || []).length;
+          const mins = Math.round(Number(m.durationSec || 0) / 60);
+          return `
+            <article class="mock-card ${isTarget ? "is-target" : ""}" id="mockCard_${escAttr(m.id)}">
+              <div>
+                <div class="mock-top-row">
+                  <span class="lv-badge">${esc(m.badge || ("HSK " + m.level))}</span>
+                  ${statusHtml}
+                </div>
+                <h3 class="mock-title">${esc(m.title)}</h3>
+                <p class="mock-sub">${esc(m.subtitle)}</p>
+              </div>
+              <div>
+                <div class="mock-meta" style="margin-bottom:10px;">
+                  <span class="meta-tag">${mockSvg("volume", 13)} ${lLen} Nghe</span>
+                  <span class="meta-tag">${mockSvg("book", 13)} ${rLen} Đọc</span>
+                  ${wLen > 0 ? `<span class="meta-tag">${mockSvg("edit", 13)} ${wLen} Viết</span>` : ""}
+                  <span class="meta-tag">${mockSvg("clock", 13)} ${mins} phút</span>
+                  <span class="meta-tag">${mockSvg("target", 13)} Đạt &ge;${m.passScore}/${m.maxScore}</span>
+                </div>
+                <button class="start-btn" onclick="startExam('${escAttr(m.id)}')">${mockSvg("play", 14)} Bắt đầu thi</button>
+              </div>
+            </article>
+          `;
+        }).join("") : `<div class="surface-card" style="text-align:center;color:var(--muted);">Chưa có dữ liệu đề thi cho bộ lọc này.</div>`;
+
+        const historyHtml = history.length ? `
+          <section class="surface-card">
+            <h2 class="sec-title"><span style="display:inline-flex;align-items:center;gap:6px;">${mockSvg("chart", 16)} Lịch sử thi gần đây (${history.length} lần)</span></h2>
+            <div class="hist-list">
+              ${history.map((h) => `
+                <div class="hist-row">
+                  <div class="hist-main">
+                    <div class="hist-title">${h.passed ? mockSvg("award", 14) : mockSvg("fileText", 14)} <span>[HSK ${esc(h.level)}] ${esc(h.title)}</span></div>
+                    <div class="hist-sub">
+                      ${h.mode === "real" ? "Thi thật" : "Luyện đề"} • Nghe ${h.listeningScore} • Đọc ${h.readingScore}${Number(h.maxScore) === 300 ? ` • Viết ${h.writingScore}` : ""} • ${formatDateVi(h.dateIso)}
+                    </div>
+                  </div>
+                  <div class="hist-score" style="color:${h.passed ? "var(--ok)" : "var(--warn)"}">
+                    ${h.score}/${h.maxScore} ${h.passed ? "(Đạt)" : "(Chưa đạt)"}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </section>
+        ` : "";
+
+        return `
+          <section class="surface-card">
+            <div class="lobby-hero">
+              <div>
+                <h1>${mockSvg("award", 20)} Sảnh Phòng Thi Thử Chuẩn Thi Máy HSK 1–6</h1>
+                <p>12 bộ đề thi chuẩn cấu trúc HSK mới nhất. Chọn chế độ thi và bắt đầu làm bài.</p>
+              </div>
+              <div class="lobby-stats">
+                <span class="stat-pill">${mockSvg("layers", 13)} Tổng: ${MOCK_TESTS.length} đề</span>
+                <span class="stat-pill">${mockSvg("award", 13)} Đã đạt: ${passedCount}/${MOCK_TESTS.length} đề</span>
+              </div>
+            </div>
+            <div class="mode-grid">
+              <button class="mode-card ${state.mode === "real" ? "active" : ""}" onclick="setMode('real')">
+                <div class="mode-title">${mockSvg("target", 15)} Chế độ Thi thật ${state.mode === "real" ? mockSvg("check", 14) : ""}</div>
+                <span class="mode-chip">Đếm giờ chuẩn • Tối đa 2 lượt nghe • Ẩn transcript</span>
+              </button>
+              <button class="mode-card ${state.mode === "practice" ? "active" : ""}" onclick="setMode('practice')">
+                <div class="mode-title">${mockSvg("book", 15)} Chế độ Luyện đề ${state.mode === "practice" ? mockSvg("check", 14) : ""}</div>
+                <span class="mode-chip">Nghe không giới hạn • Xem lại bài gốc HSK 6</span>
+              </button>
+            </div>
+          </section>
+
+          <div class="filter-bar">${levelPillsHtml}</div>
+          <div class="mock-grid">${cardsHtml}</div>
+          ${historyHtml}
+        `;
+      }
+
+      function renderAnswerSheetInner() {
+        const ex = state.exam;
+        if (!ex) return "";
+        const ls = ex.listening || [];
+        const rs = ex.reading || [];
+        const ws = ex.writing || [];
+
+        const makeGroup = (sec, iconName, title, arr, isDoneFn) => {
+          if (!arr.length) return "";
+          return `
+            <div class="sheet-group">
+              <div class="sheet-group-label">${mockSvg(iconName, 13)} ${title}</div>
+              <div class="sheet-grid">
+                ${arr.map((q, idx) => {
+                  const done = isDoneFn(q, idx);
+                  const fl = Boolean(state.flagged[sec + ":" + idx]);
+                  return `<button class="sheet-cell ${done ? "done" : ""} ${fl ? "flagged" : ""}" onclick="jumpToQuestion('${sec}', ${idx})">${idx + 1}</button>`;
+                }).join("")}
+              </div>
+            </div>
+          `;
+        };
+
+        return `
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <b style="font-size:14px;display:inline-flex;align-items:center;gap:6px;">${mockSvg("layers", 15)} Phiếu tô đáp án — Bấm số câu để nhảy tới</b>
+            <button class="tool-btn" onclick="toggleSheet()">${mockSvg("close", 13)} Đóng</button>
+          </div>
+          <div class="sheet-legend">
+            <span><i class="sheet-dot done"></i>Đã làm</span>
+            <span><i class="sheet-dot todo"></i>Chưa làm</span>
+            <span><i class="sheet-dot flagged"></i>Đã cắm cờ xem lại</span>
+          </div>
+          ${makeGroup("listening", "volume", "Phần Nghe hiểu", ls, (_, i) => state.listeningAnswers[i] !== undefined)}
+          ${makeGroup("reading", "book", "Phần Đọc hiểu", rs, (_, i) => state.readingAnswers[i] !== undefined)}
+          ${makeGroup("writing", "edit", "Phần Viết", ws, (q, i) => isWritingAnswered(q, i))}
+        `;
+      }
+
+      function renderListeningSection(ex) {
+        const ls = ex.listening || [];
+        const headNote = state.mode === "real"
+          ? "Thi thật: tối đa 2 lượt nghe/câu, Transcript & Pinyin được ẩn hoàn toàn."
+          : "Luyện đề: nghe không giới hạn lượt, Transcript & Pinyin hiện sau khi nộp bài.";
+        return `
+          <div class="surface-card" style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <span style="font-size:13px;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:6px;">${mockSvg(state.mode === "real" ? "target" : "book", 14)} ${headNote}</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12.5px;font-weight:800;">Tốc độ:</span>
+              <div class="rate-toggle">
+                <button class="rate-opt ${state.audioRate === 0.85 ? "on" : ""}" data-rate="0.85" onclick="setAudioRate(0.85)">${mockSvg("clock", 12)} 0.85x</button>
+                <button class="rate-opt ${state.audioRate === 1.0 ? "on" : ""}" data-rate="1" onclick="setAudioRate(1.0)">${mockSvg("zap", 12)} 1.0x</button>
+              </div>
+            </div>
+          </div>
+          ${ls.map((q, idx) => {
+            const used = state.listeningPlays[idx] || 0;
+            const left = Math.max(0, 2 - used);
+            const exhausted = state.mode === "real" && left <= 0;
+            const picked = state.listeningAnswers[idx];
+            const isFlag = Boolean(state.flagged["listening:" + idx]);
+            const isFocus = state.focusedQIdx === idx;
+            const quotaLabel = state.mode === "real"
+              ? (left > 0 ? `Còn ${left}/2 lượt` : "Hết lượt (0/2)")
+              : `Đã nghe ${used} lượt • Không giới hạn`;
+            return `
+              <article class="q-card ${isFlag ? "is-flagged" : ""} ${isFocus ? "is-kb-focus" : ""}" id="qCard_listening_${idx}" onclick="setFocusedQ(${idx})">
+                <div class="q-head-row">
+                  <span class="q-part-badge">${esc(q.partLabel || ("Nghe hiểu • Câu " + (idx + 1)))}</span>
+                  <button class="flag-btn ${isFlag ? "on" : ""}" onclick="event.stopPropagation();toggleFlag('listening', ${idx})">${mockSvg("flag", 13)} ${isFlag ? "Đã cắm cờ" : "Cắm cờ"}</button>
+                </div>
+                <div class="audio-box">
+                  <button class="play-btn" id="listenPlayBtn_${idx}" onclick="playListeningAudio(${idx})" ${exhausted ? "disabled" : ""}>
+                    ${exhausted ? `${mockSvg("volumeOff", 14)} Hết lượt nghe` : `${mockSvg("volume", 14)} Phát băng nghe (Câu ${idx + 1})`}
+                  </button>
+                  <span id="listenQuota_${idx}" style="font-size:12.5px;font-weight:800;color:var(--muted);">${quotaLabel}</span>
+                </div>
+                <div class="q-prompt">Câu ${idx + 1}: ${esc(q.prompt)}</div>
+                ${q.statement ? `<div class="q-stmt">“${esc(q.statement)}”</div>` : ""}
+                <div class="opts-grid">
+                  ${(q.opts || []).map((opt, oi) => {
+                    const prefix = q.type === "tf" ? "" : `${String.fromCharCode(65 + oi)}. `;
+                    return `<button class="opt-btn ${picked === oi ? "selected" : ""}" onclick="event.stopPropagation();selectChoice('listening', ${idx}, ${oi})">${prefix}${esc(opt)}</button>`;
+                  }).join("")}
+                </div>
+              </article>
+            `;
+          }).join("")}
+        `;
+      }
+
+      function renderOrderItemsHtml(orderItems, includeGloss) {
+        if (!Array.isArray(orderItems) || !orderItems.length) return "";
+        return `
+          <div class="order-list">
+            ${orderItems.map((it) => {
+              if (typeof it === "string") {
+                return `<div class="order-item">${esc(it)}</div>`;
+              }
+              return `
+                <div class="order-item">
+                  <b>${esc(it.key || "")}.</b> ${esc(it.zh || "")}
+                  ${includeGloss && it.py ? `<div class="py-line">${esc(it.py)}</div>` : ""}
+                  ${includeGloss && it.vi ? `<div class="vi-line">${esc(it.vi)}</div>` : ""}
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }
+
+      function renderReadingSection(ex) {
+        const rs = ex.reading || [];
+        return rs.map((q, idx) => {
+          const picked = state.readingAnswers[idx];
+          const isFlag = Boolean(state.flagged["reading:" + idx]);
+          const isFocus = state.focusedQIdx === idx;
+          return `
+            <article class="q-card ${isFlag ? "is-flagged" : ""} ${isFocus ? "is-kb-focus" : ""}" id="qCard_reading_${idx}" onclick="setFocusedQ(${idx})">
+              <div class="q-head-row">
+                <span class="q-part-badge">${esc(q.partLabel || ("Đọc hiểu • Câu " + (idx + 1)))}</span>
+                <button class="flag-btn ${isFlag ? "on" : ""}" onclick="event.stopPropagation();toggleFlag('reading', ${idx})">${mockSvg("flag", 13)} ${isFlag ? "Đã cắm cờ" : "Cắm cờ"}</button>
+              </div>
+              ${q.passageZh ? `<div class="passage-box">${esc(q.passageZh)}</div>` : ""}
+              ${q.kind === "order" ? renderOrderItemsHtml(q.orderItems, false) : ""}
+              <div class="q-prompt">Câu ${idx + 1}: ${esc(q.q)}</div>
+              <div class="opts-grid">
+                ${(q.opts || []).map((opt, oi) => {
+                  const prefix = q.kind === "tf" ? "" : `${String.fromCharCode(65 + oi)}. `;
+                  return `<button class="opt-btn ${picked === oi ? "selected" : ""}" onclick="event.stopPropagation();selectChoice('reading', ${idx}, ${oi})">${prefix}${esc(opt)}</button>`;
+                }).join("")}
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      function renderWritingCardInner(q, idx) {
+        const isFlag = Boolean(state.flagged["writing:" + idx]);
+        const headHtml = `
+          <div class="q-head-row">
+            <span class="q-part-badge">${esc(q.partLabel || ("Phần Viết • Câu " + (idx + 1)))}</span>
+            <button class="flag-btn ${isFlag ? "on" : ""}" onclick="event.stopPropagation();toggleFlag('writing', ${idx})">${mockSvg("flag", 13)} ${isFlag ? "Đã cắm cờ" : "Cắm cờ"}</button>
+          </div>
+        `;
+
+        if (q.type === "reorder") {
+          const picked = Array.isArray(state.writingAnswers[idx]) ? state.writingAnswers[idx] : [];
+          const words = q.words || [];
+          return `
+            ${headHtml}
+            <div class="q-prompt">Câu ${idx + 1}: Bấm lần lượt các thẻ từ bên dưới để ghép thành câu hoàn chỉnh</div>
+            <div class="reorder-tray">
+              ${picked.length
+                ? picked.map((wi, pos) => `<button class="word-chip picked" onclick="removeReorderWord(${idx}, ${pos})">${esc(words[wi])}</button>`).join("")
+                : `<span style="font-size:13px;color:var(--muted);">Chạm vào các thẻ từ để ghép câu tại đây...</span>`
+              }
+            </div>
+            <div class="reorder-bank">
+              ${words.map((w, wi) => {
+                const used = picked.includes(wi);
+                return `<button class="word-chip ${used ? "used" : ""}" ${used ? "disabled" : `onclick="pickReorderWord(${idx}, ${wi})"`}>${esc(w)}</button>`;
+              }).join("")}
+            </div>
+            <button class="tool-btn" onclick="resetReorderWord(${idx})">${mockSvg("refresh", 13)} Làm lại</button>
+          `;
+        }
+
+        if (q.type === "pinyin_write") {
+          const val = String(state.writingAnswers[idx] || "");
+          return `
+            ${headHtml}
+            <div class="q-prompt">Câu ${idx + 1}: Nhìn Pinyin và gõ chữ Hán còn thiếu vào ô trống</div>
+            <div class="passage-box" style="font-size:17px;">
+              ${esc(q.sentenceBefore || "")}<span style="padding:2px 8px;border-radius:7px;background:var(--primary-soft);color:var(--primary);font-weight:800;">[ ${esc(q.targetPy || "")} ]</span>${esc(q.sentenceAfter || "")}
+            </div>
+            ${q.hint ? `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:5px;">${mockSvg("lightbulb", 14)} <span>Gợi ý nghĩa: <b>${esc(q.hint)}</b></span></div>` : ""}
+            <input type="text" class="hanzi-input" placeholder="Nhập chữ Hán tương ứng..." value="${esc(val)}" oninput="onWritingTextInput(${idx}, this)">
+          `;
+        }
+
+        if (q.type === "make_sentence") {
+          const val = String(state.writingAnswers[idx] || "");
+          return `
+            ${headHtml}
+            <div class="q-prompt">Câu ${idx + 1}: Đặt một câu tiếng Trung hoàn chỉnh có sử dụng từ khóa dưới đây</div>
+            <div class="q-stmt">
+              Từ khóa: <b style="font-size:18px;">${esc(q.keyword || "")}</b>
+              ${q.keywordPy ? `<span style="color:var(--primary);margin-left:6px;">[${esc(q.keywordPy)}]</span>` : ""}
+              ${q.sceneHint ? `<div style="font-size:13px;color:var(--muted);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:5px;">${mockSvg("pin", 13)} <span>Bối cảnh gợi ý: ${esc(q.sceneHint)}</span></div>` : ""}
+            </div>
+            <input type="text" class="hanzi-input" placeholder="Nhập câu tiếng Trung (tối thiểu 6 chữ Hán)..." value="${esc(val)}" oninput="onWritingTextInput(${idx}, this)">
+            <div class="counter-line">
+              <span id="hanziCnt_${idx}">${countHanzi(val)} chữ Hán</span>
+              <span>Yêu cầu: chứa từ khóa + tối thiểu 6 chữ Hán</span>
+            </div>
+          `;
+        }
+
+        if (q.type === "essay_keywords") {
+          const val = String(state.writingAnswers[idx] || "");
+          const kws = q.keywords || [];
+          return `
+            ${headHtml}
+            <div class="q-prompt">Câu ${idx + 1}: ${esc(q.title || "Viết đoạn văn theo 5 từ khóa")}</div>
+            ${q.promptVi ? `<p style="margin:0 0 8px;font-size:13.5px;color:var(--muted);line-height:1.5;">${esc(q.promptVi)}</p>` : ""}
+            <div class="kw-chips" id="kwPills_${idx}">
+              ${kws.map((kw) => `<span class="kw-chip ${val.includes(kw) ? "hit" : ""}">${esc(kw)}</span>`).join("")}
+            </div>
+            <textarea class="essay-textarea" placeholder="Viết đoạn văn tiếng Trung sử dụng đủ 5 từ khóa trên..." oninput="onWritingTextInput(${idx}, this)">${esc(val)}</textarea>
+            <div class="counter-line">
+              <span id="hanziCnt_${idx}">${countHanzi(val)} / ${q.targetChars || 80} chữ Hán (tối thiểu ${q.minChars || 60})</span>
+              <span>Tự động tô xanh khi gõ trúng từ khóa</span>
+            </div>
+          `;
+        }
+
+        if (q.type === "essay_summary") {
+          const val = String(state.writingAnswers[idx] || "");
+          const st = state.summaryState[idx] || { phase: "read", readLeftSec: Number(q.readSeconds || 600), peekSource: false };
+          if (st.phase === "read") {
+            return `
+              ${headHtml}
+              <div class="q-prompt">Câu ${idx + 1}: ${esc(q.title || "Đọc & Tóm tắt văn bản (缩写)")} — Giai đoạn 1: Đọc bài gốc</div>
+              <div class="summary-read-banner">
+                <span style="display:inline-flex;align-items:center;gap:5px;">${mockSvg("clock", 14)} Thời gian đọc bài gốc còn: <b id="summaryReadClock_${idx}">${formatClock(st.readLeftSec)}</b></span>
+                <button class="play-btn" onclick="enterSummaryWritePhase(${idx})">${mockSvg("edit", 14)} Sẵn sàng viết tóm tắt (Ẩn bài gốc)</button>
+              </div>
+              ${q.sourceTitle ? `<div style="font-weight:800;font-size:16px;margin-bottom:6px;">《${esc(q.sourceTitle)}》</div>` : ""}
+              <div class="passage-box">${esc(q.sourceZh || "")}</div>
+            `;
+          }
+          return `
+            ${headHtml}
+            <div class="q-prompt">Câu ${idx + 1}: ${esc(q.title || "Tóm tắt văn bản (缩写)")} — Giai đoạn 2: Viết tóm tắt</div>
+            ${q.promptVi ? `<p style="margin:0 0 8px;font-size:13.5px;color:var(--muted);line-height:1.5;">${esc(q.promptVi)}</p>` : ""}
+            ${state.mode === "practice" ? `
+              <div style="margin-bottom:8px;">
+                <button class="tool-btn ${st.peekSource ? "on" : ""}" onclick="togglePracticeSourcePeek(${idx})">
+                  ${st.peekSource ? `${mockSvg("eyeOff", 14)} Ẩn bài gốc` : `${mockSvg("eye", 14)} Xem lại bài gốc (Chế độ Luyện đề)`}
+                </button>
+              </div>
+              ${st.peekSource ? `<div class="passage-box">${esc(q.sourceZh || "")}</div>` : ""}
+            ` : ""}
+            <textarea class="essay-textarea" style="min-height:200px;" placeholder="Viết bài tóm tắt lại nội dung chính của văn bản vừa đọc (bằng tiếng Trung)..." oninput="onWritingTextInput(${idx}, this)">${esc(val)}</textarea>
+            <div class="counter-line">
+              <span id="hanziCnt_${idx}">${countHanzi(val)} / ${q.targetChars || 180} chữ Hán (tối thiểu ${q.minChars || 110})</span>
+              <span>Từ khóa gợi ý sẽ hiển thị sau khi nộp bài</span>
+            </div>
+          `;
+        }
+
+        return headHtml;
+      }
+
+      function renderWritingSection(ex) {
+        const ws = ex.writing || [];
+        return ws.map((q, idx) => {
+          const isFlag = Boolean(state.flagged["writing:" + idx]);
+          const isFocus = state.focusedQIdx === idx;
+          return `<article class="q-card ${isFlag ? "is-flagged" : ""} ${isFocus ? "is-kb-focus" : ""}" id="qCard_writing_${idx}" onclick="setFocusedQ(${idx})">${renderWritingCardInner(q, idx)}</article>`;
+        }).join("");
+      }
+
+      function renderExam() {
+        const ex = state.exam;
+        if (!ex) return renderLobby();
+        const hasWriting = (ex.writing || []).length > 0;
+        const sections = hasWriting ? ["listening", "reading", "writing"] : ["listening", "reading"];
+        const secIdx = sections.indexOf(state.activeSection);
+        const prevSec = secIdx > 0 ? sections[secIdx - 1] : null;
+        const nextSec = (secIdx >= 0 && secIdx < sections.length - 1) ? sections[secIdx + 1] : null;
+        const secLabel = { listening: "Nghe", reading: "Đọc", writing: "Viết" };
+        const prog = getProgressCounts();
+
+        let bodyHtml = "";
+        if (state.activeSection === "listening") bodyHtml = renderListeningSection(ex);
+        else if (state.activeSection === "reading") bodyHtml = renderReadingSection(ex);
+        else if (state.activeSection === "writing") bodyHtml = renderWritingSection(ex);
+
+        return `
+          <div class="exam-bar">
+            <div class="exam-bar-top">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span class="exam-timer ${state.remainingSec > 0 && state.remainingSec < 300 ? "urgent" : ""}">
+                  ${mockSvg("clock", 15)} <span id="examTimerDisplay">${formatClock(state.remainingSec)}</span>
+                </span>
+                <span class="exam-prog-pill" id="examProgressBadge">${prog.done}/${prog.total} câu</span>
+                <span style="font-size:12.5px;font-weight:800;color:var(--muted);">${esc(ex.badge || ("HSK " + ex.level))} • ${state.mode === "real" ? "Thi thật" : "Luyện đề"}</span>
+              </div>
+              <div class="exam-actions">
+                <button class="tool-btn ${state.showSheet ? "on" : ""}" onclick="toggleSheet()">${mockSvg("layers", 14)} Phiếu tô đáp án</button>
+                <button class="submit-btn" onclick="requestSubmitExam()">${mockSvg("send", 13)} Nộp bài</button>
+                <button class="tool-btn" onclick="goLobby()" title="Thoát về sảnh">${mockSvg("close", 13)} Thoát</button>
+              </div>
+            </div>
+            <div class="exam-sec-tabs">
+              <button class="sec-tab ${state.activeSection === "listening" ? "active" : ""}" onclick="switchSection('listening')">${mockSvg("volume", 14)} Nghe (${(ex.listening || []).length})</button>
+              <button class="sec-tab ${state.activeSection === "reading" ? "active" : ""}" onclick="switchSection('reading')">${mockSvg("book", 14)} Đọc (${(ex.reading || []).length})</button>
+              ${hasWriting ? `<button class="sec-tab ${state.activeSection === "writing" ? "active" : ""}" onclick="switchSection('writing')">${mockSvg("edit", 14)} Viết (${(ex.writing || []).length})</button>` : ""}
+            </div>
+          </div>
+
+          ${state.showSheet ? `<div class="sheet-panel" id="answerSheetBox">${renderAnswerSheetInner()}</div>` : ""}
+
+          ${bodyHtml}
+
+          <div class="nav-footer">
+            <button class="nav-btn" ${prevSec ? `onclick="switchSection('${prevSec}')"` : "disabled"}>
+              ${mockSvg("arrowLeft", 14)} ${prevSec ? "Phần trước (" + secLabel[prevSec] + ")" : "Phần trước"}
+            </button>
+            ${nextSec
+              ? `<button class="nav-btn primary" onclick="switchSection('${nextSec}')">Phần tiếp theo (${secLabel[nextSec]}) ${mockSvg("arrowRight", 14)}</button>`
+              : `<button class="submit-btn" style="padding:10px 18px;font-size:14px;" onclick="requestSubmitExam()">${mockSvg("send", 14)} Hoàn thành &amp; Nộp bài</button>`
+            }
+          </div>
+        `;
+      }
+
+      function renderReport() {
+        const rep = state.lastReport;
+        if (!rep) return renderLobby();
+
+        const skills = [
+          { key: "listening", icon: "volume", label: "Nghe hiểu", score: rep.listeningScore, url: `../listening/index.html?level=${rep.level}`, desc: "Luyện nghe hội thoại & chép chính tả Dictation" },
+          { key: "reading", icon: "book", label: "Đọc hiểu", score: rep.readingScore, url: `../reading/index.html?level=${rep.level}`, desc: "Luyện đọc phân tích ngữ cảnh & ghép câu" }
+        ];
+        if (rep.hasWriting) {
+          skills.push({ key: "writing", icon: "edit", label: "Viết", score: rep.writingScore, url: `../writing/index.html?level=${rep.level}`, desc: "Luyện sắp xếp câu & viết đoạn văn chuẩn HSK" });
+        }
+        skills.sort((a, b) => a.score - b.score);
+        const weakest = skills[0];
+
+        const onlyWrong = state.reviewFilter === "wrong";
+        const lList = onlyWrong ? rep.lReview.filter((x) => !x.isOk) : rep.lReview;
+        const rList = onlyWrong ? rep.rReview.filter((x) => !x.isOk) : rep.rReview;
+        const wList = onlyWrong ? rep.wReview.filter((x) => !x.isOk) : rep.wReview;
+
+        const fmtChoice = (q, optIdx, isTf) => {
+          if (optIdx === undefined || optIdx === null) return "Chưa trả lời";
+          const txt = q.opts && q.opts[optIdx] != null ? q.opts[optIdx] : "";
+          return isTf ? txt : `${String.fromCharCode(65 + optIdx)}. ${txt}`;
+        };
+
+        return `
+          <section class="report-hero ${rep.passed ? "passed" : "failed"}">
+            <div class="cert-badge ${rep.passed ? "passed" : "failed"}">
+              ${mockSvg(rep.passed ? "award" : "book", 15)}
+              ${rep.passed ? `ĐẠT CHỨNG CHỈ HSK ${rep.level}` : `CẦN CỦNG CỐ THÊM — HSK ${rep.level}`}
+            </div>
+            <h2 style="margin:0 0 4px;font-size:19px;">${esc(rep.title)}</h2>
+            <div class="big-score" style="color:${rep.passed ? "var(--ok)" : "var(--warn)"}">
+              ${rep.totalScore} / ${rep.maxScore}
+            </div>
+            <div style="font-size:13px;color:var(--muted);font-weight:700;">
+              Điểm chuẩn đạt: ${rep.passScore}/${rep.maxScore} • ${rep.mode === "real" ? "Thi thật" : "Luyện đề"}
+            </div>
+
+            <div class="score-bars">
+              <div class="score-bar-box">
+                <div style="display:flex;justify-content:space-between;font-weight:800;font-size:13.5px;">
+                  <span style="display:inline-flex;align-items:center;gap:5px;">${mockSvg("volume", 14)} Nghe hiểu (${rep.lRight}/${rep.lTotal})</span>
+                  <span>${rep.listeningScore}/100</span>
+                </div>
+                <div class="bar-track"><div class="bar-fill" style="width:${rep.listeningScore}%;background:#0284c7;"></div></div>
+              </div>
+              <div class="score-bar-box">
+                <div style="display:flex;justify-content:space-between;font-weight:800;font-size:13.5px;">
+                  <span style="display:inline-flex;align-items:center;gap:5px;">${mockSvg("book", 14)} Đọc hiểu (${rep.rRight}/${rep.rTotal})</span>
+                  <span>${rep.readingScore}/100</span>
+                </div>
+                <div class="bar-track"><div class="bar-fill" style="width:${rep.readingScore}%;background:#7c3aed;"></div></div>
+              </div>
+              ${rep.hasWriting ? `
+                <div class="score-bar-box">
+                  <div style="display:flex;justify-content:space-between;font-weight:800;font-size:13.5px;">
+                    <span style="display:inline-flex;align-items:center;gap:5px;">${mockSvg("edit", 14)} Phần Viết (${rep.wTotal} câu)</span>
+                    <span>${rep.writingScore}/100</span>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill" style="width:${rep.writingScore}%;background:#dc2626;"></div></div>
+                </div>
+              ` : ""}
+            </div>
+
+            <div class="coach-box">
+              <div>
+                <div style="font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px;">${mockSvg("compass", 15)} Gợi ý ôn tập trúng đích: Ưu tiên ${weakest.label} (${weakest.score}/100)</div>
+                <div style="font-size:12.5px;color:var(--muted);margin-top:2px;">${weakest.desc} cho cấp độ HSK ${rep.level}.</div>
+              </div>
+              <a class="coach-link" href="${weakest.url}">${mockSvg(weakest.icon, 14)} Ôn ${weakest.label} ngay ${mockSvg("arrowRight", 14)}</a>
+            </div>
+
+            <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px;">
+              <button class="start-btn" style="width:auto;padding:10px 18px;" onclick="startExam('${escAttr(rep.id)}')">${mockSvg("refresh", 14)} Thi lại đề này</button>
+              <button class="nav-btn" onclick="goLobby()">${mockSvg("layers", 14)} Về Sảnh chọn đề</button>
+            </div>
+          </section>
+
+          <section class="surface-card">
+            <div class="sec-title">
+              <span style="display:inline-flex;align-items:center;gap:6px;">${mockSvg("search", 16)} Xem lại chi tiết từng câu (Đáp án &amp; Giải thích)</span>
+              <div style="display:flex;gap:6px;">
+                <button class="lv-pill ${state.reviewFilter === "all" ? "active" : ""}" onclick="setReviewFilter('all')">Tất cả</button>
+                <button class="lv-pill ${state.reviewFilter === "wrong" ? "active" : ""}" onclick="setReviewFilter('wrong')">Chỉ câu sai</button>
+              </div>
+            </div>
+
+            <h3 style="margin:14px 0 8px;font-size:15.5px;display:flex;align-items:center;gap:6px;">${mockSvg("volume", 15)} Phần 1: Nghe hiểu (${lList.length} câu hiển thị)</h3>
+            ${lList.length ? lList.map(({ idx, q, picked, isOk }) => `
+              <div class="q-card" style="border-color:${isOk ? "var(--ok)" : "var(--danger)"};">
+                <div class="q-head-row">
+                  <span class="q-part-badge">${esc(q.partLabel || ("Nghe • Câu " + (idx + 1)))}</span>
+                  <div style="display:flex;gap:6px;align-items:center;">
+                    <button class="tool-btn" onclick="playReportAudio(${idx})">${mockSvg("volume", 13)} Nghe lại</button>
+                    <span style="font-weight:800;font-size:13px;display:inline-flex;align-items:center;gap:4px;color:${isOk ? "var(--ok)" : "var(--danger)"};">${mockSvg(isOk ? "check" : "close", 14)} ${isOk ? "Đúng" : "Sai"}</span>
+                  </div>
+                </div>
+                <div class="q-prompt">Câu ${idx + 1}: ${esc(q.prompt)}</div>
+                ${q.statement ? `<div class="q-stmt">“${esc(q.statement)}”${q.statementPy ? `<div class="py-line" style="font-size:13px;">${esc(q.statementPy)}</div>` : ""}</div>` : ""}
+                <div class="review-box">
+                  <div><b>Bạn chọn:</b> ${esc(fmtChoice(q, picked, q.type === "tf"))} • <b style="color:var(--ok);">Đáp án đúng:</b> ${esc(fmtChoice(q, q.ans, q.type === "tf"))}</div>
+                  <div style="margin-top:8px;font-size:16px;font-weight:700;">Transcript: ${esc(q.audioZh)}</div>
+                  ${q.audioPy ? `<div class="py-line">${esc(q.audioPy)}</div>` : ""}
+                  ${q.audioVi ? `<div class="vi-line">Nghĩa: ${esc(q.audioVi)}</div>` : ""}
+                  ${q.exp ? `<div style="margin-top:6px;display:flex;align-items:flex-start;gap:5px;">${mockSvg("lightbulb", 14)} <span><b>Giải thích:</b> ${esc(q.exp)}</span></div>` : ""}
+                </div>
+              </div>
+            `).join("") : `<p style="color:var(--muted);font-size:13.5px;">Tuyệt vời! Không có câu sai nào ở phần Nghe hiểu.</p>`}
+
+            <h3 style="margin:18px 0 8px;font-size:15.5px;display:flex;align-items:center;gap:6px;">${mockSvg("book", 15)} Phần 2: Đọc hiểu (${rList.length} câu hiển thị)</h3>
+            ${rList.length ? rList.map(({ idx, q, picked, isOk }) => `
+              <div class="q-card" style="border-color:${isOk ? "var(--ok)" : "var(--danger)"};">
+                <div class="q-head-row">
+                  <span class="q-part-badge">${esc(q.partLabel || ("Đọc • Câu " + (idx + 1)))}</span>
+                  <span style="font-weight:800;font-size:13px;display:inline-flex;align-items:center;gap:4px;color:${isOk ? "var(--ok)" : "var(--danger)"};">${mockSvg(isOk ? "check" : "close", 14)} ${isOk ? "Đúng" : "Sai"}</span>
+                </div>
+                ${q.passageZh ? `
+                  <div class="passage-box">
+                    <div>${esc(q.passageZh)}</div>
+                    ${q.passagePy ? `<div class="py-line" style="font-size:13px;">${esc(q.passagePy)}</div>` : ""}
+                    ${q.passageVi ? `<div class="vi-line" style="font-size:13px;">Nghĩa: ${esc(q.passageVi)}</div>` : ""}
+                  </div>
+                ` : ""}
+                ${q.kind === "order" ? renderOrderItemsHtml(q.orderItems, true) : ""}
+                <div class="q-prompt">
+                  Câu ${idx + 1}: ${esc(q.q)}
+                  ${q.qPy ? `<div class="py-line" style="font-size:13px;">${esc(q.qPy)}</div>` : ""}
+                </div>
+                <div class="review-box">
+                  <div><b>Bạn chọn:</b> ${esc(fmtChoice(q, picked, q.kind === "tf"))} • <b style="color:var(--ok);">Đáp án đúng:</b> ${esc(fmtChoice(q, q.ans, q.kind === "tf"))}</div>
+                  ${q.exp ? `<div style="margin-top:6px;display:flex;align-items:flex-start;gap:5px;">${mockSvg("lightbulb", 14)} <span><b>Giải thích:</b> ${esc(q.exp)}</span></div>` : ""}
+                </div>
+              </div>
+            `).join("") : `<p style="color:var(--muted);font-size:13.5px;">Tuyệt vời! Không có câu sai nào ở phần Đọc hiểu.</p>`}
+
+            ${rep.hasWriting ? `
+              <h3 style="margin:18px 0 8px;font-size:15.5px;display:flex;align-items:center;gap:6px;">${mockSvg("edit", 15)} Phần 3: Viết (${wList.length} bài hiển thị)</h3>
+              ${wList.length ? wList.map(({ idx, q, userText, pct, ev }) => `
+                <div class="q-card" style="border-color:${pct >= 100 ? "var(--ok)" : (pct >= 50 ? "var(--warn)" : "var(--danger)")};">
+                  <div class="q-head-row">
+                    <span class="q-part-badge">${esc(q.partLabel || ("Viết • Câu " + (idx + 1)))}</span>
+                    <span style="font-weight:800;font-size:13px;color:${pct >= 100 ? "var(--ok)" : "var(--warn)"};">Điểm câu: ${pct}%</span>
+                  </div>
+                  <div class="review-box">
+                    <div><b>Bài làm của bạn:</b> ${userText ? esc(userText) : "<span style='color:var(--muted)'>(Bỏ trống)</span>"}</div>
+                    ${ev.detail ? `<div style="margin-top:4px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:5px;">${mockSvg("chart", 13)} <span>${esc(ev.detail)}</span></div>` : ""}
+                    ${q.type === "reorder" ? `
+                      <div style="margin-top:8px;color:var(--ok);font-weight:800;display:flex;align-items:center;gap:5px;">${mockSvg("check", 14)} Đáp án chuẩn: ${esc(q.answer || "")}</div>
+                      ${q.py ? `<div class="py-line">${esc(q.py)}</div>` : ""}
+                      ${q.vi ? `<div class="vi-line">Nghĩa: ${esc(q.vi)}</div>` : ""}
+                    ` : ""}
+                    ${q.type === "pinyin_write" ? `
+                      <div style="margin-top:8px;color:var(--ok);font-weight:800;display:flex;align-items:center;gap:5px;">${mockSvg("check", 14)} Chữ Hán chuẩn: ${esc(q.targetHanzi || "")} (${esc(q.targetPy || "")})</div>
+                      ${q.fullZh ? `<div style="margin-top:4px;">Câu đầy đủ: <b>${esc(q.fullZh)}</b></div>` : ""}
+                      ${q.fullVi ? `<div class="vi-line">Nghĩa: ${esc(q.fullVi)}</div>` : ""}
+                    ` : ""}
+                    ${q.type === "make_sentence" ? `
+                      <div style="margin-top:8px;color:var(--ok);font-weight:800;display:flex;align-items:center;gap:5px;">${mockSvg("fileText", 14)} Câu mẫu tham khảo: ${esc(q.sampleZh || "")}</div>
+                      ${q.samplePy ? `<div class="py-line">${esc(q.samplePy)}</div>` : ""}
+                      ${q.sampleVi ? `<div class="vi-line">Nghĩa: ${esc(q.sampleVi)}</div>` : ""}
+                    ` : ""}
+                    ${(q.type === "essay_keywords" || q.type === "essay_summary") ? `
+                      ${q.type === "essay_summary" && q.sourceZh ? `
+                        <details style="margin-top:8px;">
+                          <summary style="cursor:pointer;font-weight:800;">Xem lại văn bản gốc 《${esc(q.sourceTitle || "")}》</summary>
+                          <div style="margin-top:6px;">${esc(q.sourceZh)}</div>
+                          ${q.sourcePy ? `<div class="py-line">${esc(q.sourcePy)}</div>` : ""}
+                          ${q.sourceVi ? `<div class="vi-line">Nghĩa: ${esc(q.sourceVi)}</div>` : ""}
+                        </details>
+                      ` : ""}
+                      ${Array.isArray(q.keywords) && q.keywords.length ? `
+                        <div class="kw-chips" style="margin-top:8px;">
+                          ${q.keywords.map((kw) => `<span class="kw-chip ${userText.includes(kw) ? "hit" : ""}">${esc(kw)}</span>`).join("")}
+                        </div>
+                      ` : ""}
+                      <div style="margin-top:8px;color:var(--ok);font-weight:800;display:flex;align-items:center;gap:5px;">${mockSvg("fileText", 14)} Bài mẫu tham khảo:</div>
+                      <div style="margin-top:4px;white-space:pre-line;">${esc(q.sampleZh || "")}</div>
+                      ${q.samplePy ? `<div class="py-line">${esc(q.samplePy)}</div>` : ""}
+                      ${q.sampleVi ? `<div class="vi-line">Nghĩa: ${esc(q.sampleVi)}</div>` : ""}
+                    ` : ""}
+                    ${q.exp ? `<div style="margin-top:8px;display:flex;align-items:flex-start;gap:5px;">${mockSvg("lightbulb", 14)} <span><b>Giải thích:</b> ${esc(q.exp)}</span></div>` : ""}
+                  </div>
+                </div>
+              `).join("") : `<p style="color:var(--muted);font-size:13.5px;">Tuyệt vời! Tất cả câu viết đều đạt tối đa.</p>`}
+            ` : ""}
+          </section>
+        `;
+      }
+
+      function renderModal() {
+        const root = document.getElementById("modalRoot");
+        if (!root) return;
+        if (!state.showSubmitModal || state.screen !== "exam") {
+          root.innerHTML = "";
+          return;
+        }
+        const prog = getProgressCounts();
+        const unanswered = Math.max(0, prog.total - prog.done);
+        const flagCount = Object.values(state.flagged).filter(Boolean).length;
+        root.innerHTML = `
+          <div class="modal-backdrop" onclick="if(event.target===this)closeSubmitModal()">
+            <div class="modal-card" role="dialog" aria-modal="true">
+              <h3>${mockSvg("send", 17)} Xác nhận nộp bài thi</h3>
+              <p>
+                Bạn đã hoàn thành <b>${prog.done}/${prog.total} câu</b>.
+                ${unanswered > 0 ? `<br><span style="color:var(--warn);font-weight:700;">Vẫn còn ${unanswered} câu chưa làm.</span>` : `<br><span style="color:var(--ok);font-weight:700;">Bạn đã làm hết tất cả các câu!</span>`}
+                ${flagCount > 0 ? `<br>Có <b>${flagCount} câu</b> đang cắm cờ xem lại.` : ""}
+              </p>
+              <div class="modal-actions">
+                <button class="nav-btn" onclick="closeSubmitModal()">${mockSvg("arrowLeft", 14)} Quay lại làm tiếp</button>
+                <button class="submit-btn" style="padding:10px 16px;font-size:13.5px;" onclick="confirmSubmitExam()">${mockSvg("check", 14)} Nộp bài &amp; Chấm điểm</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function stepExamFocus(delta) {
+        const ex = state.exam;
+        if (!ex) return;
+        const hasWriting = (ex.writing || []).length > 0;
+        const sections = hasWriting ? ["listening", "reading", "writing"] : ["listening", "reading"];
+        const curList = ex[state.activeSection] || [];
+        let nextIdx = state.focusedQIdx + delta;
+        if (nextIdx >= 0 && nextIdx < curList.length) {
+          state.focusedQIdx = nextIdx;
+          window.setFocusedQ(nextIdx);
+          const el = document.getElementById("qCard_" + state.activeSection + "_" + nextIdx);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+        const sPos = sections.indexOf(state.activeSection);
+        const nextSecPos = sPos + (delta > 0 ? 1 : -1);
+        if (nextSecPos >= 0 && nextSecPos < sections.length) {
+          const targetSec = sections[nextSecPos];
+          const targetArr = ex[targetSec] || [];
+          state.activeSection = targetSec;
+          state.focusedQIdx = delta > 0 ? 0 : Math.max(0, targetArr.length - 1);
+          state.showSheet = false;
+          render();
+          setTimeout(() => {
+            const el = document.getElementById("qCard_" + state.activeSection + "_" + state.focusedQIdx);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 40);
+        }
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        if (state.showSubmitModal) {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            window.closeSubmitModal();
+          }
+          return;
+        }
+        if (state.screen !== "exam" || !state.exam) return;
+        const ae = document.activeElement;
+        const tag = ae && ae.tagName ? ae.tagName.toUpperCase() : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (ae && ae.isContentEditable)) return;
+
+        const keyLower = (e.key || "").toLowerCase();
+        const optMap = { "1": 0, "2": 1, "3": 2, "4": 3, "a": 0, "b": 1, "c": 2, "d": 3 };
+        if (Object.prototype.hasOwnProperty.call(optMap, keyLower) && (state.activeSection === "listening" || state.activeSection === "reading")) {
+          const arr = state.exam[state.activeSection] || [];
+          const qIdx = Math.max(0, Math.min(arr.length - 1, state.focusedQIdx));
+          const q = arr[qIdx];
+          const oi = optMap[keyLower];
+          if (q && Array.isArray(q.opts) && oi < q.opts.length) {
+            e.preventDefault();
+            window.selectChoice(state.activeSection, qIdx, oi);
+            const card = document.getElementById("qCard_" + state.activeSection + "_" + qIdx);
+            if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+          return;
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          stepExamFocus(-1);
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          stepExamFocus(1);
+        }
+      });
+
+      function render() {
+        syncTopbarHeight();
+        const root = document.getElementById("appRoot");
+        if (!root) return;
+        if (state.screen === "lobby") root.innerHTML = renderLobby();
+        else if (state.screen === "exam") root.innerHTML = renderExam();
+        else if (state.screen === "report") root.innerHTML = renderReport();
+        renderModal();
+      }
+
+      window.syncThemeBtn();
+      syncTopbarHeight();
+      window.addEventListener("resize", syncTopbarHeight);
+      window.addEventListener("pagehide", stopAudio);
+      render();
+      if (state.screen === "lobby" && state.targetMockId) {
+        setTimeout(() => {
+          const el = document.getElementById("mockCard_" + state.targetMockId);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 60);
+      }
+    })();
+  </script>
+  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
+  <script>
+    (function initHskMockChrome() {
+      var bIcon = document.getElementById("mockBrandIcon");
+      var dIcon = document.getElementById("mockDonateIcon");
+      if (window.S4UI && typeof window.S4UI.icon === "function") {
+        if (bIcon) bIcon.innerHTML = window.S4UI.icon("award", 16);
+        if (dIcon) dIcon.innerHTML = window.S4UI.icon("heart", 15);
+        if (typeof window.S4UI.initSmartBackButton === "function") {
+          window.S4UI.initSmartBackButton({
+            element: "#lpBackBtn",
+            defaultUrl: "../index.html",
+            defaultLabel: "HSK",
+            roadmapUrl: "../roadmap/index.html",
+            roadmapLabel: "Lộ trình HSK"
+          });
+        }
+      }
+      var btnDonate = document.getElementById("btnDonate");
+      if (btnDonate && !btnDonate.dataset.lpBound) {
+        btnDonate.dataset.lpBound = "1";
+        btnDonate.addEventListener("click", function () {
+          if (window.S4Auth && typeof window.S4Auth.openDonateModal === "function") {
+            window.S4Auth.openDonateModal();
+          }
+        });
+      }
+      var btnTheme = document.getElementById("btnTheme");
+      if (btnTheme && !btnTheme.dataset.lpBound) {
+        btnTheme.dataset.lpBound = "1";
+        btnTheme.addEventListener("click", function () {
+          if (typeof window.toggleDarkMode === "function") window.toggleDarkMode();
+        });
+      }
+      if (typeof window.syncThemeBtn === "function") window.syncThemeBtn();
+    })();
+  </script>
+</body>
+</html>

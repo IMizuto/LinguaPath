@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-glass-tier="study" data-course="ted">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
@@ -21,14 +21,16 @@
       if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
       if (isDark) cl.add("dark"); else cl.remove("dark");
       var mt = document.getElementById("metaThemeColor");
-      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0f172a") : (s === "ghibli" ? "#efe8d5" : "#f1f5f9"));
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
       function syncSafeTop() {
         var ua = navigator.userAgent || "";
         var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
         var isPortrait = window.innerHeight >= window.innerWidth;
         var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
         var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
-        document.documentElement.style.setProperty("--s4-safe-top", (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px");
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
       }
       syncSafeTop();
       window.addEventListener("resize", syncSafeTop);
@@ -36,82 +38,184 @@
     } catch (e) {}
   })();
   </script>
-  <title>LinguaPath TED Talks English — Free for Community</title>
+  <title>TED Talks Song ngữ (202 bài) — LinguaPath</title>
   <link rel="icon" href="../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../icon-192.png">
-  
+  <link rel="stylesheet" href="../assets/s4-ui.css?v=67">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
+
   <style>
     @view-transition { navigation: auto; }
     :root {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --primary: #dc2626;
-      --primary-soft: #fee2e2;
-      --success: #16a34a;
-      --success-soft: #dcfce7;
+      --primary: var(--lg-accent, #e11d48);
+      --primary-soft: var(--lg-accent-soft, rgba(225, 29, 72, 0.14));
+      --text: var(--lg-ink, #0f172a);
+      --muted: var(--lg-ink-muted, #52637a);
+      --border: var(--lg-hairline, rgba(203, 213, 225, 0.72));
+      --card: var(--lg-surface, rgba(255, 255, 255, 0.74));
+      --bg: var(--lg-wash, rgba(241, 245, 249, 0.56));
+      --success: var(--lg-green, #047857);
+      --success-soft: var(--lg-green-soft, rgba(4, 120, 87, 0.14));
       --danger: #dc2626;
-      --danger-soft: #fee2e2;
-      color-scheme: light;
+      --danger-soft: rgba(220, 38, 38, 0.14);
     }
     html.dark, body.dark {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --border: #334155;
-      --primary: #ef4444;
-      --primary-soft: #450a0a;
-      --success: #22c55e;
-      --success-soft: #052e16;
-      --danger: #ef4444;
-      --danger-soft: #450a0a;
-      color-scheme: dark;
+      --danger: #f87171;
+      --danger-soft: rgba(248, 113, 113, 0.18);
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin: 0; padding: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent !important;
+      color: var(--lg-ink);
+    }
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
     .ted-app-layout { display: flex; width: 100%; max-width: 100%; height: 100vh; height: 100dvh; overflow: hidden; overflow-x: hidden; position: relative; }
     body.sidebar-open { overflow: hidden !important; }
     body.sidebar-open .main-wrap,
     body.sidebar-open .main-wrap iframe,
     body.sidebar-open .main-wrap video,
     body.sidebar-open .main { pointer-events: none !important; user-select: none; overflow: hidden !important; }
-    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 10040; backdrop-filter: blur(2px); touch-action: none; }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 10040; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); touch-action: none; }
     .sidebar-backdrop.open { display: block; }
-    .sidebar { width: 335px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; height: 100dvh; z-index: 200; flex-shrink: 0; }
-    .sidebar-header { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .sidebar-header h2 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
-    .home-pill { color: var(--text); text-decoration: none; background: var(--bg); border: 1px solid var(--border); padding: 6px 10px; border-radius: 8px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; }
-    .close-menu-btn { display: none; background: var(--bg); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px; border-radius: 8px; font-size: 20px; cursor: pointer; }
-    .search-box { padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
-    .search-box input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; background: var(--card); color: var(--text); outline: none; }
-    .unit-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 7px 8px; border-bottom: 1px solid var(--border); background: var(--card); }
-    .unit-tab { padding: 6px 4px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 11.5px; font-weight: 700; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .unit-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .sidebar {
+      width: var(--lp-sidebar-w, 336px);
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      border-right: 1px solid var(--lg-hairline);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 200;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: calc(11px + var(--s4-safe-top, 0px)) 12px 11px;
+      border-bottom: 1px solid var(--lg-divider);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 14.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--lg-ink);
+      min-width: 0;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-header h2 svg { color: var(--lg-accent); flex-shrink: 0; }
+    .close-menu-btn {
+      display: none;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      color: var(--lg-ink);
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .search-box { padding: 10px 12px; border-bottom: 1px solid var(--lg-divider); flex-shrink: 0; }
+    .unit-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 7px 8px; border-bottom: 1px solid var(--lg-divider); flex-shrink: 0; }
+    .unit-tab { padding: 6px 4px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-wash); color: var(--lg-ink-sub); font-size: 11.5px; font-weight: 700; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: all 0.15s ease; }
+    .unit-tab:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
+    .unit-tab.active { background: var(--lg-accent); color: #fff; border-color: transparent; }
     .lesson-list { flex: 1; overflow-y: auto; padding: 10px; -webkit-overflow-scrolling: touch; }
-    .unit-title { font-size: 11.5px; font-weight: 800; text-transform: uppercase; color: var(--primary); padding: 6px 10px; background: var(--bg); border-radius: 8px; margin: 8px 0 6px 0; display: flex; justify-content: space-between; }
-    .lesson-item { padding: 9px 10px; border-radius: 8px; cursor: pointer; margin-bottom: 4px; font-size: 13px; line-height: 1.35; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--card); border: 1px solid transparent; transition: 0.15s; }
-    .lesson-item:hover { border-color: var(--border); background: rgba(220,38,38,0.05); }
-    .lesson-item.active { background: var(--primary); color: #fff; font-weight: 700; }
-    .done-dot { font-size: 13px; color: #16a34a; flex-shrink: 0; }
+    .unit-title { font-size: 11.5px; font-weight: 800; text-transform: uppercase; color: var(--lg-accent); padding: 6px 10px; background: var(--lg-wash); border-radius: 10px; margin: 8px 0 6px 0; display: flex; justify-content: space-between; }
+    .lesson-item { padding: 9px 10px; border-radius: 11px; cursor: pointer; margin-bottom: 4px; font-size: 13px; line-height: 1.35; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--lg-wash); color: var(--lg-ink); border: 1px solid transparent; transition: 0.15s; }
+    .lesson-item:hover { background: var(--lg-wash-hover); }
+    .lesson-item.active { background: var(--lg-accent); color: #fff; font-weight: 700; }
+    .lesson-item.has-sub-hit { flex-direction: column; align-items: stretch; gap: 6px; }
+    .lesson-item-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; }
+    .ted-sub-hit { font-size: 12px; font-weight: 500; line-height: 1.4; padding: 6px 8px; border-radius: 8px; background: var(--lg-wash-hover); color: var(--lg-ink); border: 1px solid var(--lg-divider); display: flex; flex-direction: column; gap: 2px; }
+    .lesson-item.active .ted-sub-hit { background: rgba(15, 23, 42, 0.24); color: #f8fafc; border-color: rgba(255, 255, 255, 0.24); }
+    .ted-sub-hit-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; font-weight: 700; color: var(--lg-accent); }
+    .lesson-item.active .ted-sub-hit-meta { color: #fecaca; }
+    .ted-sub-time { display: inline-flex; align-items: center; gap: 4px; font-family: monospace; background: var(--lg-accent-soft); padding: 1px 6px; border-radius: 5px; }
+    .lesson-item.active .ted-sub-time { background: rgba(255, 255, 255, 0.18); color: #fff; }
+    .ted-sub-badge { font-size: 10.5px; opacity: 0.85; }
+    .ted-sub-vi { font-size: 11.5px; color: var(--lg-ink-muted); }
+    .lesson-item.active .ted-sub-vi { color: rgba(255, 255, 255, 0.85); }
+    .done-dot { color: var(--lg-green); flex-shrink: 0; display: inline-flex; align-items: center; }
     .lesson-item.active .done-dot { color: #fff; }
 
     .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; max-width: 100%; }
-    .topbar { min-width: 0; background: var(--card); border-bottom: 1px solid var(--border); padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
-    .topbar-left { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0; }
-    .topbar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-    .menu-toggle-btn { display: none; background: var(--primary); border: none; color: #fff; padding: 7px 11px; border-radius: 8px; font-size: 12.5px; cursor: pointer; font-weight: 700; flex-shrink: 0; }
-    .ted-mob-home { display: none; }
-    .mode-pills { display: flex; gap: 6px; flex: 1 1 auto; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; touch-action: pan-x; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
-    .mode-pills::-webkit-scrollbar { display: none; }
-    .mode-pill { padding: 7px 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease; }
-    .mode-pill:hover { border-color: var(--primary); }
+    .ted-topbar-wrap {
+      padding: calc(8px + var(--s4-safe-top, 0px)) calc(14px + env(safe-area-inset-right, 0px)) 0 calc(14px + env(safe-area-inset-left, 0px));
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+      z-index: 40;
+    }
+    .ted-topbar-wrap .lp-topbar { margin-bottom: 0; position: static; }
+    .menu-toggle-btn { white-space: nowrap; flex-shrink: 0; }
+    .ted-mode-strip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ted-mode-strip::-webkit-scrollbar { display: none; }
+    .mode-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      color: var(--lg-ink-sub);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-shadow: none;
+      transition: all 0.16s ease;
+    }
+    .mode-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
     .mode-pill:active { transform: scale(0.96); }
-    .mode-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 3px 10px rgba(220,38,38,0.25); }
-    .theme-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 8px; font-size: 13px; cursor: pointer; font-weight: 600; flex-shrink: 0; transition: transform 0.15s ease; }
-    .theme-btn:active { transform: scale(0.92); }
+    .mode-pill.active {
+      background: var(--lg-accent);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 12px rgba(225, 29, 72, 0.24);
+    }
 
     @keyframes fadeSlideUp {
       from { opacity: 0; transform: translateY(6px); }
@@ -132,70 +236,72 @@
       50% { height: 13px; }
     }
 
-    .main { flex: 1; min-width: 0; max-width: 100%; overflow-y: auto; overflow-x: hidden; padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px)) 20px; -webkit-overflow-scrolling: touch; }
-    .workspace { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 440px 1fr; gap: 18px; align-items: start; }
-    .video-panel { min-width: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
-    .video-title { font-size: 16px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.35; }
-    .yt-box { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; }
+    .main { flex: 1; min-width: 0; max-width: 100%; overflow-y: auto; overflow-x: hidden; padding: 12px 16px calc(22px + env(safe-area-inset-bottom, 0px)); -webkit-overflow-scrolling: touch; }
+    .workspace { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 440px 1fr; gap: 16px; align-items: start; }
+    .video-panel { min-width: 0; border-radius: 22px; padding: 14px; position: sticky; top: 0; z-index: 10; }
+    .video-title { font-size: 15.5px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.35; color: var(--lg-ink); }
+    .yt-box { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 14px; overflow: hidden; }
     .yt-box iframe { width: 100%; height: 100%; border: none; }
     .video-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .btn-done { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 700; font-size: 12.5px; cursor: pointer; transition: all 0.18s ease; }
+    .btn-done { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-wash); color: var(--lg-ink); font-weight: 700; font-size: 12.5px; font-family: inherit; cursor: pointer; transition: all 0.18s ease; }
     .btn-done:active { transform: scale(0.96); }
-    .btn-done.completed { background: var(--success-soft); color: var(--success); border-color: var(--success); }
-    .ted-pin-btn { display: none; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 700; font-size: 12px; cursor: pointer; align-items: center; gap: 4px; }
-    .ted-pin-btn.active { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+    .btn-done.completed { background: var(--lg-green-soft); color: var(--lg-green); border-color: rgba(16, 185, 129, 0.36); }
+    .ted-pin-btn { display: none; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-wash); color: var(--lg-ink); font-weight: 700; font-size: 12px; font-family: inherit; cursor: pointer; align-items: center; gap: 4px; }
+    .ted-pin-btn.active { background: var(--lg-accent-soft); color: var(--lg-accent); border-color: var(--lg-accent); }
 
-    .content-panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; min-width: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
-    .ctrl-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border); }
-    .ctrl-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
-    .ctrl-btn:hover { border-color: var(--primary); }
+    .content-panel { border-radius: 22px; padding: 16px; min-width: 0; }
+    .ctrl-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--lg-divider); }
+    .ctrl-btn { padding: 7px 12px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-wash); color: var(--lg-ink); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
+    .ctrl-btn:hover { background: var(--lg-wash-hover); border-color: var(--lg-accent); }
     .ctrl-btn:active { transform: scale(0.96); }
-    .ctrl-btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 2px 8px rgba(220,38,38,0.22); }
-    .ctrl-select { padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; outline: none; }
+    .ctrl-btn.primary { background: var(--lg-accent); color: #fff; border-color: transparent; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+    .ctrl-select { padding: 7px 11px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-wash); color: var(--lg-ink); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; outline: none; }
 
     /* Mode 1: Transcript list */
     .subs-list { max-height: 62vh; overflow-y: auto; padding-right: 4px; animation: fadeSlideUp 0.22s ease; scroll-behavior: smooth; }
-    .sub-item { padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; margin-bottom: 6px; cursor: pointer; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease; display: flex; gap: 10px; align-items: flex-start; }
-    .sub-item:hover { background: var(--bg); border-color: var(--border); transform: translateX(2px); }
-    .sub-item.active { background: var(--primary-soft); border-color: var(--primary); box-shadow: 0 2px 10px rgba(220,38,38,0.1); }
-    .sub-time { font-size: 11.5px; font-weight: 700; color: var(--primary); background: rgba(220,38,38,0.1); padding: 2px 7px; border-radius: 6px; flex-shrink: 0; margin-top: 2px; font-family: monospace; }
-    .sub-en { font-size: 15px; font-weight: 700; line-height: 1.45; }
-    .sub-vi { font-size: 13.5px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .sub-item { padding: 10px 12px; border-radius: 14px; border: 1px solid transparent; margin-bottom: 6px; cursor: pointer; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease; display: flex; gap: 10px; align-items: flex-start; }
+    .sub-item:hover { background: var(--lg-wash); border-color: var(--lg-hairline); transform: translateX(2px); }
+    .sub-item.active { background: var(--lg-accent-soft); border-color: var(--lg-accent); }
+    .sub-time { font-size: 11.5px; font-weight: 700; color: var(--lg-accent); background: var(--lg-accent-soft); padding: 2px 7px; border-radius: 6px; flex-shrink: 0; margin-top: 2px; font-family: monospace; }
+    .sub-en { font-size: 15px; font-weight: 700; line-height: 1.45; color: var(--lg-ink); }
+    .sub-vi { font-size: 13.5px; color: var(--lg-ink-muted); margin-top: 3px; line-height: 1.4; }
 
     /* Mode 2: Dictation */
-    .dic-box { padding: 6px 0; animation: fadeSlideUp 0.2s ease; }
-    .dic-prog-track { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
-    .dic-prog-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #f97316); border-radius: 999px; transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
-    .dic-progress { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
+    .dic-box { padding: 4px 0; animation: fadeSlideUp 0.2s ease; }
+    .dic-prog-track { height: 5px; background: var(--lg-bar-track, var(--lg-divider)); border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
+    .dic-prog-fill { height: 100%; background: linear-gradient(90deg, var(--lg-accent), #f97316); border-radius: 999px; transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+    .dic-progress { font-size: 12px; font-weight: 700; color: var(--lg-ink-muted); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
     .dic-shortcut-hint { font-size: 11.5px; opacity: 0.88; line-height: 1.35; max-width: 100%; }
-    .dic-sentence { overflow-wrap: anywhere; font-size: 17px; line-height: 2.15; padding: 16px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px; transition: border-color 0.2s ease; }
-    .dic-input { min-width: 82px; max-width: 100%; padding: 5px 8px; font-size: 16px; font-weight: 700; border: 2px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); outline: none; text-align: center; margin: 2px 3px; transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
-    .dic-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(220,38,38,0.14); }
+    .dic-sentence { overflow-wrap: anywhere; font-size: 17px; line-height: 2.15; padding: 16px; background: var(--lg-wash); border-radius: 16px; border: 1px solid var(--lg-divider); margin-bottom: 12px; transition: border-color 0.2s ease; }
+    .dic-input { min-width: 82px; max-width: 100%; padding: 5px 8px; font-size: 16px; font-weight: 700; border: 1.5px solid var(--lg-hairline); border-radius: 8px; background: var(--lg-seg-active); color: var(--lg-ink); outline: none; text-align: center; margin: 2px 3px; transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+    .dic-input:focus { border-color: var(--lg-accent); box-shadow: 0 0 0 3px var(--lg-accent-soft); }
     .dic-input.correct { border-color: var(--success) !important; background: var(--success-soft) !important; color: var(--success) !important; animation: popCorrect 0.24s ease; }
     .dic-input.wrong { border-color: var(--danger) !important; background: var(--danger-soft) !important; color: var(--danger) !important; animation: shakeWrong 0.26s ease; }
-    .dic-full-input { width: 100%; padding: 12px 14px; font-size: 16px; font-weight: 600; border: 2px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); outline: none; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
-    .dic-full-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(220,38,38,0.14); }
+    .dic-full-input { width: 100%; padding: 12px 14px; font-size: 16px; font-weight: 600; border: 1.5px solid var(--lg-hairline); border-radius: 12px; background: var(--lg-seg-active); color: var(--lg-ink); outline: none; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+    .dic-full-input:focus { border-color: var(--lg-accent); box-shadow: 0 0 0 3px var(--lg-accent-soft); }
     .dic-full-input.correct { border-color: var(--success) !important; background: var(--success-soft) !important; color: var(--success) !important; animation: popCorrect 0.24s ease; }
     .dic-full-input.wrong { border-color: var(--danger) !important; background: var(--danger-soft) !important; color: var(--danger) !important; animation: shakeWrong 0.26s ease; }
-    .dic-vi-hint { font-size: 14px; color: var(--muted); padding: 10px 12px; border-left: 3px solid var(--primary); background: var(--bg); border-radius: 6px; margin-bottom: 12px; }
-    .dic-ans-reveal { font-size: 14.5px; font-weight: 700; color: var(--success); margin-top: 8px; min-height: 20px; }
+    .dic-vi-hint { font-size: 13.5px; color: var(--lg-ink-sub); padding: 9px 12px; border-left: 3px solid var(--lg-accent); background: var(--lg-wash); border-radius: 10px; margin-bottom: 12px; }
+    .dic-ans-reveal { font-size: 14px; font-weight: 700; color: var(--success); margin-top: 8px; min-height: 20px; }
 
     /* Mode 3: Shadowing */
-    .shad-card { padding: 20px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 12px; animation: fadeSlideUp 0.22s ease; }
-    .shad-en { font-size: 20px; font-weight: 800; line-height: 1.65; margin-bottom: 10px; }
-    .shad-vi { font-size: 14.5px; color: var(--muted); margin-bottom: 8px; }
-    .shad-word { display: inline-block; padding: 2px 5px; border-radius: 6px; margin: 1px 1px; cursor: pointer; border-bottom: 1px dashed rgba(148,163,184,0.4); transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease; }
-    .shad-word:hover { background: rgba(220,38,38,0.12); transform: translateY(-1px); }
+    .shad-card { padding: 18px; background: var(--lg-wash); border-radius: 16px; border: 1px solid var(--lg-divider); text-align: center; margin-bottom: 12px; animation: fadeSlideUp 0.22s ease; }
+    .shad-en { font-size: 19.5px; font-weight: 800; line-height: 1.65; margin-bottom: 10px; color: var(--lg-ink); }
+    .shad-vi { font-size: 14px; color: var(--lg-ink-muted); margin-bottom: 8px; }
+    .shad-word { display: inline-block; padding: 2px 5px; border-radius: 6px; margin: 1px 1px; cursor: pointer; border-bottom: 1px dashed rgba(148,163,184,0.45); transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease; }
+    .shad-word:hover { background: var(--lg-accent-soft); transform: translateY(-1px); }
     .shad-word.ok { color: var(--success); background: var(--success-soft); border-bottom-color: var(--success); animation: popCorrect 0.22s ease; }
+    .shad-word.close { color: #d97706; background: rgba(245, 158, 11, 0.16); border-bottom-color: #d97706; }
+    .shad-word.punct { border-bottom-color: transparent; opacity: 0.72; }
     .shad-word.miss { color: var(--danger); background: var(--danger-soft); text-decoration: underline; border-bottom-color: var(--danger); }
-    .rec-btn { padding: 11px 22px; border-radius: 999px; border: none; background: var(--primary); color: #fff; font-weight: 800; font-size: 14.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .rec-btn { padding: 10px 20px; border-radius: 999px; border: none; background: var(--lg-accent); color: #fff; font-weight: 800; font-size: 14px; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: transform 0.15s ease, box-shadow 0.15s ease; }
     .rec-btn:active { transform: scale(0.96); }
     .rec-btn.recording { background: #dc2626; animation: pulseRec 1.1s infinite; }
-    .shad-live-box { margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); font-size: 14px; min-height: 42px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .shad-live-box { margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: var(--lg-seg-track); border: 1px solid var(--lg-divider); font-size: 13.5px; min-height: 42px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
     @keyframes pulseRec { 0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5); } 50% { box-shadow: 0 0 0 10px rgba(220,38,38,0); } }
 
     /* Mode 4: Podcast Background Player */
-    .podcast-box { display: none; background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); color: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #334155; animation: fadeSlideUp 0.22s ease; }
+    .podcast-box { display: none; background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); color: #f8fafc; border-radius: 16px; padding: 16px; border: 1px solid #334155; animation: fadeSlideUp 0.22s ease; }
     .podcast-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .podcast-thumb { width: 68px; height: 68px; border-radius: 12px; object-fit: cover; border: 2px solid rgba(239,68,68,0.6); flex-shrink: 0; background: #000; transition: transform 0.3s ease; }
     .podcast-box.playing .podcast-thumb { border-color: #4ade80; box-shadow: 0 0 14px rgba(74,222,128,0.28); }
@@ -208,37 +314,40 @@
     .podcast-seek { width: 100%; accent-color: #ef4444; cursor: pointer; margin: 6px 0 4px 0; height: 6px; }
     .podcast-time-row { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; font-family: monospace; margin-bottom: 10px; }
     .podcast-ctrls { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .pod-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); color: #fff; padding: 8px 11px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.15s ease, transform 0.1s ease; }
+    .pod-btn { display: inline-flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); color: #fff; padding: 8px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.15s ease, transform 0.1s ease; }
     .pod-btn:hover { background: rgba(255,255,255,0.18); }
     .pod-btn:active { transform: scale(0.95); }
-    .pod-btn.play-main { background: #ef4444; border-color: #ef4444; padding: 9px 18px; font-size: 14px; border-radius: 999px; box-shadow: 0 4px 12px rgba(239,68,68,0.35); }
+    .pod-btn.play-main { background: #ef4444; border-color: #ef4444; padding: 9px 18px; font-size: 13.5px; box-shadow: 0 4px 12px rgba(239,68,68,0.35); }
     .pod-sub-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: #cbd5e1; flex-wrap: wrap; }
 
     .s4-toast { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); top: auto; left: 50%; transform: translateX(-50%) translateY(8px); z-index: 9999; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.18s ease, transform 0.18s ease; }
     .s4-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .s4-toast.good { background: #16a34a; }
     .s4-toast.warn { background: #dc2626; }
-    .ted-lesson-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--border); }
+    .ted-lesson-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--lg-divider); }
     .ted-lesson-nav .ctrl-btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 
     .ted-engine-bar { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
     .engine-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-    .engine-btn { padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s ease; }
-    .engine-btn:hover { border-color: var(--primary); }
-    .engine-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .engine-btn.ext { color: #ef4444; border-color: rgba(239, 68, 68, 0.35); }
-    .engine-status { display: none; font-size: 11.5px; color: #d97706; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 10px; border-radius: 8px; line-height: 1.35; }
-    html.dark .engine-status { color: #fde68a; }
+    .engine-btn { padding: 6px 11px; border-radius: 999px; border: 1px solid var(--lg-hairline); background: var(--lg-wash); color: var(--lg-ink); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s ease; }
+    .engine-btn:hover { border-color: var(--lg-accent); background: var(--lg-wash-hover); }
+    .engine-btn.active { background: var(--lg-accent); color: #fff; border-color: transparent; }
+    .engine-btn.ext { color: var(--lg-accent); border-color: var(--lg-accent-soft); }
+    .engine-status { display: none; font-size: 11.5px; color: var(--lg-amber); background: var(--lg-amber-soft); border: 1px solid rgba(245, 158, 11, 0.28); padding: 5px 10px; border-radius: 10px; line-height: 1.35; }
 
-
-    @media (min-width: 769px) {
-      .menu-toggle-btn { display: none !important; }
-      .ted-mob-home { display: none !important; }
+    @media (min-width: 1025px) {
       .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+      .close-menu-btn { display: none !important; }
+    }
+    @media (max-width: 1024px) {
+      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: min(86vw, var(--lp-sidebar-w, 336px)); max-width: var(--lp-sidebar-w, 336px); visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; overflow: hidden; }
+      .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
+      .close-menu-btn { display: inline-flex; }
+      .ted-topbar-wrap { padding: calc(6px + var(--s4-safe-top, 0px)) calc(10px + env(safe-area-inset-right, 0px)) 0 calc(10px + env(safe-area-inset-left, 0px)); gap: 6px; }
     }
     @media (max-width: 900px) {
-      .workspace { grid-template-columns: minmax(0, 1fr); align-items: stretch; padding-top: 8px; }
-      .main { padding-top: 0; }
+      .workspace { grid-template-columns: minmax(0, 1fr); align-items: stretch; padding-top: 4px; }
+      .main { padding: 8px 10px calc(20px + env(safe-area-inset-bottom, 0px)); }
       .video-panel, .content-panel { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
       .video-panel { position: static; }
       .ted-pin-btn { display: inline-flex; }
@@ -269,10 +378,9 @@
         max-width: 100%;
         min-width: 0;
         overflow: hidden;
-        padding: 6px 8px;
-        border-radius: 0 0 12px 12px;
-        background: var(--card) !important;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+        padding: 8px 10px;
+        border-radius: 18px;
+        box-shadow: var(--lg-shadow);
       }
       body:not(.s4-kbd-open):not(.ted-unpin-video) .content-panel {
         flex: 1 1 0;
@@ -284,12 +392,6 @@
       }
       body:not(.s4-kbd-open):not(.ted-unpin-video) .sub-item {
         scroll-margin-top: 8px;
-      }
-      html.theme-ghibli body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel {
-        background: rgba(252, 248, 238, 0.98) !important;
-      }
-      html.theme-ghibli.dark body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel {
-        background: rgba(16, 28, 23, 0.98) !important;
       }
       body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .video-title {
         font-size: 13.5px;
@@ -318,7 +420,7 @@
         gap: 4px;
       }
       body:not(.s4-kbd-open):not(.ted-unpin-video) .video-panel .engine-btn {
-        padding: 4px 7px;
+        padding: 4px 8px;
         font-size: 11px;
         white-space: nowrap;
         flex-shrink: 0;
@@ -334,38 +436,21 @@
         min-width: 0;
       }
     }
-    @media (max-width: 768px) {
-      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: 330px; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; overflow: hidden; }
-      .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
-      .close-menu-btn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0; }
-      .ted-mob-home { display: inline-flex; order: 0; padding: 5px 8px; font-size: 13px; flex-shrink: 0; }
-      .menu-toggle-btn { display: inline-flex; order: 1; padding: 5px 9px; font-size: 12px; }
-      .main { padding: 0 8px calc(24px + env(safe-area-inset-bottom, 8px)) 8px; }
-      .topbar { padding: 6px 8px; flex-wrap: wrap; row-gap: 5px; gap: 6px; }
-      .topbar-left { display: contents; }
-      .topbar-right { order: 2; margin-left: auto; }
-      .mode-pills { order: 3; flex: 0 0 100%; width: 100%; }
+    @media (max-width: 580px) {
+      .ted-topbar-wrap { padding: calc(6px + var(--s4-safe-top, 0px)) 8px 0; }
+      .main { padding: 8px 8px calc(22px + env(safe-area-inset-bottom, 8px)); }
       .mode-pill { padding: 6px 10px; font-size: 12px; }
       .ctrl-bar, .engine-btns { min-width: 0; }
       .subs-list { max-height: none; }
-      .video-panel { padding: 8px; border-radius: 12px; }
-      .video-title { font-size: 14.5px; margin-bottom: 8px; }
-      .content-panel { padding: 12px; border-radius: 12px; }
+      .video-panel { padding: 8px; border-radius: 18px; }
+      .video-title { font-size: 14px; margin-bottom: 6px; }
+      .content-panel { padding: 12px; border-radius: 18px; }
       .dic-box { padding-bottom: 42vh; }
       .dic-sentence { font-size: 16px; line-height: 2.35; padding: 12px 10px; }
       .dic-input { min-height: 40px; font-size: 16px; padding: 6px 8px; }
       .dic-full-input { font-size: 16px; min-height: 44px; padding: 10px 12px; }
     }
-    @media (max-width: 540px) {
-      .ted-hide-sm { display: none; }
-      .mode-pills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; overflow: visible; }
-      .mode-pill { padding: 6px 6px; font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
-    }
   </style>
-  <link rel="stylesheet" href="../assets/s4-ui.css?v=66">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/ghibli/ghibli-theme.css?v=30">
 </head>
 <body>
   <script>
@@ -380,62 +465,112 @@
     })();
   </script>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
   <div class="ted-app-layout">
-    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMenu(false)"></div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
     <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h2><a href="../index.html" class="home-pill" title="Về trang khóa học">🏠</a> 🎙️ TED Talks</h2>
-      <button class="close-menu-btn" onclick="toggleMenu(false)">×</button>
-    </div>
-    <div class="search-box">
-      <div class="s4-search-group is-compact">
-        <div class="s4-search-field">
-          <input type="text" id="searchInput" class="s4-search-input" placeholder="Tìm bài diễn thuyết TED..." autocomplete="off">
-          <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">✕</button>
-        </div>
-        <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">🔍</button>
+      <div class="sidebar-header">
+        <h2>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+          <span>TED Talks (202)</span>
+        </h2>
+        <button type="button" class="close-menu-btn" id="btnCloseSidebar" title="Đóng danh sách" aria-label="Đóng danh sách">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
       </div>
-    </div>
-    <div class="unit-tabs">
-      <button class="unit-tab active" onclick="setUnitFilter('ALL', this)">Tất cả (202)</button>
-      <button class="unit-tab" onclick="setUnitFilter('Short', this)">Ngắn 0-6p</button>
-      <button class="unit-tab" onclick="setUnitFilter('Long', this)">Dài 6p+</button>
-    </div>
+      <div class="search-box">
+        <div class="s4-search-group is-compact">
+          <div class="s4-search-field">
+            <input type="text" id="searchInput" class="s4-search-input" placeholder="Tìm tên bài hoặc lời thoại Anh–Việt..." autocomplete="off">
+            <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+          <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="unit-tabs">
+        <button type="button" class="unit-tab active" onclick="setUnitFilter('ALL', this)">Tất cả (202)</button>
+        <button type="button" class="unit-tab" onclick="setUnitFilter('Short', this)">Ngắn 0–6p</button>
+        <button type="button" class="unit-tab" onclick="setUnitFilter('Long', this)">Dài 6p+</button>
+      </div>
       <div class="lesson-list" id="lessonList"></div>
     </div>
 
     <div class="main-wrap">
-    <div class="topbar">
-      <div class="topbar-left">
-        <a href="../index.html" class="home-pill ted-mob-home" title="Về trang khóa học">🏠</a>
-        <button class="menu-toggle-btn" onclick="toggleMenu(true)">☰ Danh sách (202)</button>
-        <div class="mode-pills">
-          <button class="mode-pill active" data-mode="dictation" onclick="switchMode('dictation')">✍️ Chép chính tả</button>
-          <button class="mode-pill" data-mode="transcript" onclick="switchMode('transcript')">🎧 Nghe & Transcript</button>
-          <button class="mode-pill" data-mode="shadowing" onclick="switchMode('shadowing')">🗣️ Shadowing</button>
-          <button class="mode-pill" data-mode="podcast" onclick="switchMode('podcast')">📻 Podcast<span class="ted-hide-sm"> (Chạy nền)</span></button>
+    <div class="ted-topbar-wrap">
+      <header class="lp-topbar lp-glass">
+        <div class="lp-top-left">
+          <button type="button" class="lp-icon-btn menu-toggle-btn" id="btnToggleSidebar" aria-label="Danh sách bài" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            <span class="s4-desk-sb-lbl lp-hide-xs">Ẩn mục lục</span>
+          </button>
+          <a href="../index.html" class="lp-back-pill" id="lpBackBtn" title="Về trang khóa học">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <span>Khóa học</span>
+          </a>
+          <div class="lp-brand">
+            <div class="lp-brand-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+            </div>
+            <div class="lp-brand-text">
+              <h1 class="lp-brand-title">TED Talks</h1>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="topbar-right">
-        <button class="btn mini-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" style="background:linear-gradient(135deg,#ec4899,#e11d48);color:#fff;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;" title="Ủng hộ dự án & Mặt trận Tổ quốc">💖<span class="s4-donate-lbl"> Ủng hộ</span></button>
-        <button class="theme-btn dark-btn" onclick="toggleDark()" title="Đổi giao diện Sáng/Tối">☀️</button>
+        <div class="lp-top-actions">
+          <button type="button" class="lp-icon-btn donate" id="btnTedDonate" title="Ủng hộ dự án">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <span class="lp-hide-xs">Ủng hộ</span>
+          </button>
+          <button type="button" class="lp-icon-btn" id="btnTedDark" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+        </div>
+      </header>
+      <div class="ted-mode-strip" role="tablist" aria-label="Chế độ học TED Talks">
+        <button type="button" class="mode-pill active" data-mode="dictation" onclick="switchMode('dictation')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>Chép chính tả</span>
+        </button>
+        <button type="button" class="mode-pill" data-mode="transcript" onclick="switchMode('transcript')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg>
+          <span>Nghe &amp; Transcript</span>
+        </button>
+        <button type="button" class="mode-pill" data-mode="shadowing" onclick="switchMode('shadowing')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          <span>Shadowing</span>
+        </button>
+        <button type="button" class="mode-pill" data-mode="podcast" onclick="switchMode('podcast')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <span>Podcast</span>
+        </button>
       </div>
     </div>
 
     <div class="main">
       <div class="workspace">
         <!-- Cột trái: Video YouTube / Podcast Chạy Nền -->
-        <div class="video-panel">
-          <h1 class="video-title" id="videoTitle">Đang tải...</h1>
-                    <div class="yt-box" id="ytBoxWrap">
+        <div class="video-panel lp-glass">
+          <h2 class="video-title" id="videoTitle">Đang tải...</h2>
+          <div class="yt-box" id="ytBoxWrap">
             <div id="ytPlayer"></div>
-            <video id="tedVideoPlayer" class="ted-html5-player" playsinline controls preload="metadata" style="display:none;width:100%;height:100%;object-fit:contain;background:#000;border-radius:10px;"></video>
+            <video id="tedVideoPlayer" class="ted-html5-player" playsinline controls preload="metadata" style="display:none;width:100%;height:100%;object-fit:contain;background:#000;border-radius:14px;"></video>
           </div>
           <div class="ted-engine-bar" id="tedEngineBar">
             <div class="engine-btns">
-              <button class="engine-btn" id="btnEngYt" onclick="setMediaEngine('yt')">📺 YouTube (dự phòng)</button>
-              <button class="engine-btn active" id="btnEngTed" onclick="setMediaEngine('ted')">🎬 Video TED gốc</button>
-              <a class="engine-btn ext" id="btnEngExtYt" href="#" target="_blank" rel="noopener">↗️ Xem trên YouTube</a>
+              <button type="button" class="engine-btn" id="btnEngYt" onclick="setMediaEngine('yt')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+                <span>YouTube (dự phòng)</span>
+              </button>
+              <button type="button" class="engine-btn active" id="btnEngTed" onclick="setMediaEngine('ted')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                <span>Video TED gốc</span>
+              </button>
+              <a class="engine-btn ext" id="btnEngExtYt" href="#" target="_blank" rel="noopener">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span>Mở YouTube</span>
+              </a>
             </div>
             <div class="engine-status" id="tedEngineStatus"></div>
           </div>
@@ -446,7 +581,7 @@
               <div style="min-width:0;flex:1;">
                 <div class="podcast-badge">
                   <span class="eq-bars"><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span></span>
-                  <span>CHẠY NỀN BẬT • TẮT MÀN HÌNH VẪN NGHE</span>
+                  <span>PODCAST CHẠY NỀN</span>
                 </div>
                 <div id="podSpeaker" style="font-size:13px;color:#cbd5e1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">TED Talks</div>
               </div>
@@ -457,16 +592,23 @@
               <span id="podDurTime">0:00</span>
             </div>
             <div class="podcast-ctrls">
-              <button class="pod-btn" onclick="stepLesson(-1)" title="Bài trước">⏮</button>
-              <button class="pod-btn" onclick="seekPodcast(-10)" title="Lùi 10 giây">-10s</button>
-              <button class="pod-btn play-main" id="podPlayBtn" onclick="togglePodcastPlay()">▶️ Phát Podcast</button>
-              <button class="pod-btn" onclick="seekPodcast(10)" title="Tua 10 giây">+10s</button>
-              <button class="pod-btn" onclick="stepLesson(1)" title="Bài tiếp theo">⏭</button>
+              <button type="button" class="pod-btn" onclick="stepLesson(-1)" title="Bài trước">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button type="button" class="pod-btn" onclick="seekPodcast(-10)" title="Lùi 10 giây">-10s</button>
+              <button type="button" class="pod-btn play-main" id="podPlayBtn" onclick="togglePodcastPlay()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                <span>Phát Podcast</span>
+              </button>
+              <button type="button" class="pod-btn" onclick="seekPodcast(10)" title="Tua 10 giây">+10s</button>
+              <button type="button" class="pod-btn" onclick="stepLesson(1)" title="Bài tiếp theo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
             </div>
             <div class="pod-sub-bar">
               <label style="display:flex;align-items:center;gap:5px;cursor:pointer;">
                 <input type="checkbox" id="podAutoNextChk" checked onchange="podcastAutoNext=this.checked">
-                <span>Tự chuyển bài tiếp theo</span>
+                <span>Tự chuyển bài tiếp</span>
               </label>
               <div style="display:flex;align-items:center;gap:4px;">
                 <span>Tốc độ:</span>
@@ -481,16 +623,22 @@
             <audio id="bgPodcastAudio" preload="metadata" playsinline style="display:none;"></audio>
           </div>
           <div class="video-meta">
-            <span style="font-size:12.5px;color:var(--muted);font-weight:600;" id="videoMetaInfo">0 câu phụ đề</span>
+            <span style="font-size:12.5px;color:var(--lg-ink-muted);font-weight:600;" id="videoMetaInfo">0 câu phụ đề</span>
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              <button type="button" class="ted-pin-btn active" id="btnTogglePinVideo" onclick="toggleTedVideoPin()" title="Ghim hoặc bỏ ghim video khi cuộn">📌 Đang ghim</button>
-              <button class="btn-done" id="btnDoneLesson" onclick="toggleDoneCurrent()">⬜ Đánh dấu hoàn thành</button>
+              <button type="button" class="ted-pin-btn active" id="btnTogglePinVideo" onclick="toggleTedVideoPin()" title="Ghim hoặc bỏ ghim video khi cuộn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                <span>Đang ghim</span>
+              </button>
+              <button type="button" class="btn-done" id="btnDoneLesson" onclick="toggleDoneCurrent()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="2"/></svg>
+                <span>Đánh dấu hoàn thành</span>
+              </button>
             </div>
           </div>
         </div>
 
         <!-- Cột phải: Nội dung luyện tập theo chế độ -->
-        <div class="content-panel" id="modeContainer"></div>
+        <div class="content-panel lp-glass" id="modeContainer"></div>
       </div>
     </div>
     </div>
@@ -499,17 +647,30 @@
   <script src="tedtalks_data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
   <!-- YouTube API lazy-loaded on demand when user switches to YouTube engine -->
-  <script src="../assets/s4-ui.js?v=65"></script>
-  <script src="../assets/s4-whisper.js?v=4"></script>
+  <script src="../assets/s4-ui.js?v=67"></script>
+  <script src="../assets/s4-search-engine.js?v=1"></script>
+  <script src="../assets/s4-whisper.js?v=6"></script>
   <script src="../auth.js?v=33"></script>
   <script>
     const ITEMS = window.STUDY4_TED_DATA || [];
+    if (window.S4SearchEngine) window.S4SearchEngine.initWasm("../assets/s4-core.wasm?v=1");
+    const tedSubtitleIndex = (window.S4SearchEngine && typeof window.S4SearchEngine.createSubtitleIndex === "function")
+      ? window.S4SearchEngine.createSubtitleIndex(ITEMS, { lazy: true })
+      : null;
     const STORAGE_DONE = "s4_ted_done";
     const STORAGE_LAST = "s4_ted_last";
     const STORAGE_POS = "s4_ted_pos";
 
-    let doneMap = JSON.parse(localStorage.getItem(STORAGE_DONE) || "{}");
-    let posMap = JSON.parse(localStorage.getItem(STORAGE_POS) || "{}");
+    function safeParseObj(key) {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key) || "{}");
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    let doneMap = safeParseObj(STORAGE_DONE);
+    let posMap = safeParseObj(STORAGE_POS);
     let activeId = localStorage.getItem(STORAGE_LAST) || (ITEMS[0] && ITEMS[0].id);
     let unitFilter = "ALL";
     let currentMode = "dictation"; // 'dictation' | 'transcript' | 'shadowing' | 'podcast'
@@ -522,6 +683,19 @@
     let repeatSentence = false;
     let segmentEndSec = null;
 
+    function escHtml(s) {
+      if (window.S4UI && typeof window.S4UI.escapeHtml === "function") return window.S4UI.escapeHtml(s);
+      return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+    function escJsAttr(s) {
+      return escHtml(
+        String(s == null ? "" : s)
+          .replace(/\\/g, "\\\\")
+          .replace(/\r?\n/g, " ")
+          .replace(/'/g, "\\'")
+      );
+    }
+
     function saveSubPos() {
       if (!activeId) return;
       posMap[activeId] = currentSubIdx;
@@ -532,6 +706,21 @@
       showViSub = !showViSub;
       localStorage.setItem("s4_ted_show_vi", showViSub ? "1" : "0");
       renderModeContent();
+    }
+
+    function svgIcon(name, size) {
+      if (window.S4UI && typeof window.S4UI.icon === "function") return window.S4UI.icon(name, size || 15);
+      return "";
+    }
+    function syncDarkBtn() {
+      const btn = document.getElementById("btnTedDark");
+      if (!btn) return;
+      const isDark = document.documentElement.classList.contains("dark");
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+        window.S4UI.renderThemeButton(btn, isDark);
+      } else {
+        btn.innerHTML = svgIcon(isDark ? "sun" : "moon", 16);
+      }
     }
 
     let ytPlayer = null;
@@ -547,21 +736,53 @@
         document.body.classList.toggle("dark", isDark);
         localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
         const mt = document.getElementById("metaThemeColor");
-        if (mt) mt.setAttribute("content", isDark ? "#0f172a" : "#f1f5f9");
-        document.querySelectorAll('.dark-btn').forEach(b => b.textContent = isDark ? '☀️' : '🌙');
+        if (mt) mt.setAttribute("content", isDark ? "#0b1120" : "#eaf1fb");
       }
+      syncDarkBtn();
     }
 
     function toggleMenu(open) {
-      const isOpen = !!open && window.innerWidth <= 768;
+      if (window.S4UI && typeof window.S4UI.toggleSidebar === "function") {
+        const opened = window.S4UI.toggleSidebar(typeof open === "boolean" ? open : undefined);
+        const isMobile = window.innerWidth <= 1024;
+        document.body.classList.toggle("sidebar-open", isMobile && opened);
+        const mw = document.querySelector(".main-wrap");
+        if (mw && "inert" in mw) mw.inert = isMobile && opened;
+        return opened;
+      }
+      const isOpen = !!open && window.innerWidth <= 1024;
       document.getElementById("sidebar").classList.toggle("open", isOpen);
       document.getElementById("sidebarBackdrop").classList.toggle("open", isOpen);
       document.body.classList.toggle("sidebar-open", isOpen);
       const mw = document.querySelector(".main-wrap");
       if (mw && "inert" in mw) mw.inert = isOpen;
+      return isOpen;
+    }
+    if (window.S4UI && typeof window.S4UI.initSmartBackButton === "function") {
+      window.S4UI.initSmartBackButton({
+        element: "#lpBackBtn",
+        defaultUrl: "../index.html",
+        defaultLabel: "Khóa học",
+        roadmapUrl: "../ielts/roadmap/index.html",
+        roadmapLabel: "Lộ trình IELTS"
+      });
+    }
+    const sbToggleEl = document.getElementById("btnToggleSidebar");
+    if (sbToggleEl) sbToggleEl.addEventListener("click", () => toggleMenu());
+    const sbCloseEl = document.getElementById("btnCloseSidebar");
+    if (sbCloseEl) sbCloseEl.addEventListener("click", () => toggleMenu(false));
+    const sbBackdropEl = document.getElementById("sidebarBackdrop");
+    if (sbBackdropEl) sbBackdropEl.addEventListener("click", () => toggleMenu(false));
+    const tedDonateEl = document.getElementById("btnTedDonate");
+    if (tedDonateEl) tedDonateEl.addEventListener("click", () => window.S4Auth && window.S4Auth.openDonateModal());
+    const tedDarkEl = document.getElementById("btnTedDark");
+    if (tedDarkEl) tedDarkEl.addEventListener("click", () => toggleDark());
+    syncDarkBtn();
+    if (typeof MutationObserver !== "undefined") {
+      new MutationObserver(syncDarkBtn).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     }
     function syncTedDrawerViewport() {
-      if (window.innerWidth > 768 && (
+      if (window.innerWidth > 1024 && (
         document.body.classList.contains("sidebar-open") ||
         document.getElementById("sidebar")?.classList.contains("open") ||
         document.getElementById("sidebarBackdrop")?.classList.contains("open")
@@ -571,7 +792,7 @@
     }
     window.addEventListener("resize", syncTedDrawerViewport);
     if (window.matchMedia) {
-      const tMq = window.matchMedia("(min-width: 769px)");
+      const tMq = window.matchMedia("(min-width: 1025px)");
       if (tMq.addEventListener) tMq.addEventListener("change", (e) => { if (e.matches) toggleMenu(false); });
       else if (tMq.addListener) tMq.addListener((e) => { if (e.matches) toggleMenu(false); });
     }
@@ -583,7 +804,7 @@
       const btn = document.getElementById("btnTogglePinVideo");
       if (btn) {
         btn.classList.toggle("active", !unpinned);
-        btn.textContent = unpinned ? "📌 Ghim video" : "📌 Đang ghim";
+        btn.innerHTML = svgIcon("flag", 13) + '<span>' + (unpinned ? "Ghim video" : "Đang ghim") + '</span>';
       }
     }
 
@@ -628,64 +849,145 @@
       renderSidebar();
     }
 
+    function highlightTedText(str, q) {
+      if (q && window.S4SearchEngine && typeof window.S4SearchEngine.highlightHtml === "function") {
+        return window.S4SearchEngine.highlightHtml(str, q);
+      }
+      return escHtml(str);
+    }
+
     function renderSidebar() {
       const q = (document.getElementById("searchInput").value || "").trim();
       const listEl = document.getElementById("lessonList");
-      const filtered = ITEMS.filter(it => {
+      const unitPass = (it) => {
         if (unitFilter === "Short" && !it.unit.includes("Short")) return false;
         if (unitFilter === "Long" && !it.unit.includes("Long")) return false;
-        if (q) {
-          return (window.S4UI && typeof window.S4UI.matchesSearch === "function")
-            ? window.S4UI.matchesSearch((it.index || "") + " " + it.title + " " + (it.unit || ""), q)
-            : it.title.toLowerCase().includes(q.toLowerCase());
-        }
         return true;
-      });
-
-      const byUnit = {};
-      filtered.forEach(it => {
-        if (!byUnit[it.unit]) byUnit[it.unit] = [];
-        byUnit[it.unit].push(it);
-      });
+      };
+      const buildProgBadge = (it, isDone, savedIdx) => isDone
+        ? `<span class="done-dot">${svgIcon("check", 14)}</span>`
+        : (savedIdx > 0 ? `<span style="font-size:11px;opacity:0.75;flex-shrink:0;">${savedIdx + 1}/${it.subs.length}</span>` : "");
 
       let html = "";
-      Object.keys(byUnit).forEach(uName => {
-        const arr = byUnit[uName];
-        const doneCnt = arr.filter(x => doneMap[x.id]).length;
-        html += `<div class="unit-title"><span>${uName}</span><span>${doneCnt}/${arr.length}</span></div>`;
-        arr.forEach(it => {
-          const isAct = it.id === activeId;
-          const isDone = !!doneMap[it.id];
-          const savedIdx = Number(posMap[it.id] || 0);
-          const progBadge = isDone ? `<span class="done-dot">✔</span>` : (savedIdx > 0 ? `<span style="font-size:11px;opacity:0.75;flex-shrink:0;">${savedIdx + 1}/${it.subs.length}</span>` : "");
-          html += `<div class="lesson-item ${isAct ? "active" : ""}" onclick="selectLesson('${it.id}')">
-            <span style="overflow:hidden;text-overflow:ellipsis;">${it.index}. ${it.title}</span>
-            ${progBadge}
-          </div>`;
+      if (q && tedSubtitleIndex && typeof tedSubtitleIndex.search === "function") {
+        const hits = tedSubtitleIndex.search(q, { filterFn: unitPass, limit: ITEMS.length });
+        if (hits.length) {
+          const qNorm = window.S4SearchEngine ? window.S4SearchEngine.normalize(q) : "";
+          html += `<div style="font-size:11.5px;color:var(--muted);padding:2px 6px 6px;font-weight:700;display:flex;align-items:center;gap:5px;">${svgIcon("search", 13)}<span>Khớp ${hits.length} bài diễn thuyết</span></div>`;
+          hits.forEach(hit => {
+            const it = hit.item;
+            const isAct = it.id === activeId;
+            const isDone = !!doneMap[it.id];
+            const savedIdx = Number(posMap[it.id] || 0);
+            const progBadge = buildProgBadge(it, isDone, savedIdx);
+            const hasSub = hit.matchedSubIdx >= 0 && it.subs && it.subs[hit.matchedSubIdx];
+            let subSnippetHtml = "";
+            if (hasSub) {
+              const tLabel = fmtTime(getSubDisplayTimeMs(it, it.subs[hit.matchedSubIdx]));
+              const extraCnt = hit.matchCount > 1 ? `<span class="ted-sub-badge">+${hit.matchCount - 1} câu</span>` : "";
+              const enNorm = window.S4SearchEngine && hit.snippetEn ? window.S4SearchEngine.normalize(hit.snippetEn) : "";
+              const showViSnippet = hit.snippetVi && (showViSub || !qNorm || enNorm.indexOf(qNorm) === -1);
+              subSnippetHtml = `<div class="ted-sub-hit">
+                <div class="ted-sub-hit-meta"><span class="ted-sub-time">${svgIcon("clock", 11)} ${tLabel}</span>${extraCnt}</div>
+                ${hit.snippetEn ? `<div>${highlightTedText(hit.snippetEn, q)}</div>` : ""}
+                ${showViSnippet ? `<div class="ted-sub-vi">${highlightTedText(hit.snippetVi, q)}</div>` : ""}
+              </div>`;
+            }
+            const jumpIdx = hasSub ? hit.matchedSubIdx : -1;
+            html += `<div class="lesson-item ${isAct ? "active" : ""} ${hasSub ? "has-sub-hit" : ""}" data-sub-idx="${jumpIdx}" onclick="selectLesson('${escJsAttr(it.id)}', undefined, ${jumpIdx})">
+              <div class="lesson-item-head">
+                <span style="overflow:hidden;text-overflow:ellipsis;">${highlightTedText((it.index || "") + ". " + it.title, q)}</span>
+                ${progBadge}
+              </div>
+              ${subSnippetHtml}
+            </div>`;
+          });
+        }
+      } else {
+        const filtered = ITEMS.filter(it => {
+          if (!unitPass(it)) return false;
+          if (q) {
+            return (window.S4UI && typeof window.S4UI.matchesSearch === "function")
+              ? window.S4UI.matchesSearch((it.index || "") + " " + it.title + " " + (it.unit || ""), q)
+              : it.title.toLowerCase().includes(q.toLowerCase());
+          }
+          return true;
         });
-      });
-      const safeQ = window.S4UI ? window.S4UI.escapeHtml(q) : q;
+
+        const byUnit = {};
+        filtered.forEach(it => {
+          if (!byUnit[it.unit]) byUnit[it.unit] = [];
+          byUnit[it.unit].push(it);
+        });
+
+        Object.keys(byUnit).forEach(uName => {
+          const arr = byUnit[uName];
+          const doneCnt = arr.filter(x => doneMap[x.id]).length;
+          html += `<div class="unit-title"><span>${escHtml(uName)}</span><span>${doneCnt}/${arr.length}</span></div>`;
+          arr.forEach(it => {
+            const isAct = it.id === activeId;
+            const isDone = !!doneMap[it.id];
+            const savedIdx = Number(posMap[it.id] || 0);
+            const progBadge = buildProgBadge(it, isDone, savedIdx);
+            html += `<div class="lesson-item ${isAct ? "active" : ""}" onclick="selectLesson('${escJsAttr(it.id)}')">
+              <span style="overflow:hidden;text-overflow:ellipsis;">${escHtml(it.index)}. ${escHtml(it.title)}</span>
+              ${progBadge}
+            </div>`;
+          });
+        });
+      }
+
+      const safeQ = window.S4UI ? window.S4UI.escapeHtml(q) : escHtml(q);
       listEl.innerHTML = html || `<div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">
-        <div style="font-size:26px;">🔍</div>
+        <div style="color:var(--lg-ink-muted);">${svgIcon("search", 26)}</div>
         <div style="font-size:13.5px;font-weight:800;color:var(--text);">Không tìm thấy bài TED Talks phù hợp</div>
-        ${q ? `<div style="font-size:12px;">Từ khóa "<strong>${safeQ}</strong>" không khớp bài nào.</div>` : ""}
-        <button type="button" class="s4-pz-clear-chip" onclick="clearTedSearch()">✕ Xóa tìm kiếm</button>
+        ${q ? `<div style="font-size:12px;">Từ khóa "<strong>${safeQ}</strong>" không khớp tiêu đề hay lời thoại nào.</div>` : ""}
+        <button type="button" class="s4-pz-clear-chip" onclick="clearTedSearch()">${svgIcon("close", 12)} <span>Xóa tìm kiếm</span></button>
       </div>`;
     }
 
-    function selectLesson(id, autoPlayPodcast) {
+    function scheduleSubJump(targetId, subIdx, modeAtSelect) {
+      const runJump = () => {
+        if (activeId !== targetId) return;
+        if (modeAtSelect === "transcript" || modeAtSelect === "podcast") {
+          clickTranscriptRow(subIdx);
+        } else {
+          playSubSegment(subIdx);
+        }
+      };
+      const tedVid = document.getElementById("tedVideoPlayer");
+      if (modeAtSelect !== "podcast" && tedVid && currentEngine === "ted" && tedVid.readyState < 1) {
+        const onMeta = () => {
+          tedVid.removeEventListener("loadedmetadata", onMeta);
+          runJump();
+        };
+        tedVid.addEventListener("loadedmetadata", onMeta, { once: true });
+      }
+      setTimeout(runJump, modeAtSelect === "transcript" ? 60 : 120);
+    }
+
+    function selectLesson(id, autoPlayPodcast, jumpSubIdx) {
       if (typeof stopShadowRecording === "function") stopShadowRecording(false);
+      if (typeof clearRecordedShadowAudio === "function") clearRecordedShadowAudio();
       if (id !== activeId) {
         if (typeof destroyPodcastStream === "function") destroyPodcastStream();
+        if (typeof clearTedVideoFallbackTimer === "function") clearTedVideoFallbackTimer();
         if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
         tedVidLoadedUrl = "";
       }
       activeId = id;
       localStorage.setItem(STORAGE_LAST, id);
       const it = getActiveItem();
-      const saved = Number(posMap[id] || 0);
-      currentSubIdx = (it && saved >= 0 && saved < it.subs.length) ? saved : 0;
-      playbackSubIdx = 0;
+      const hasJumpSub = typeof jumpSubIdx === "number" && jumpSubIdx >= 0 && it && Array.isArray(it.subs) && jumpSubIdx < it.subs.length;
+      if (hasJumpSub) {
+        currentSubIdx = jumpSubIdx;
+        playbackSubIdx = jumpSubIdx;
+        saveSubPos();
+      } else {
+        const saved = Number(posMap[id] || 0);
+        currentSubIdx = (it && Array.isArray(it.subs) && saved >= 0 && saved < it.subs.length) ? saved : 0;
+        playbackSubIdx = 0;
+      }
       segmentEndSec = null;
       toggleMenu(false);
       renderSidebar();
@@ -694,7 +996,15 @@
         if (act) { try { act.scrollIntoView({ block: "center", behavior: "auto" }); } catch (e) {} }
       }, 50);
       loadActiveVideo(autoPlayPodcast);
-      renderModeContent();
+      renderModeContent({ autoFocus: false });
+      if (hasJumpSub) {
+        scheduleSubJump(id, jumpSubIdx, currentMode);
+      }
+      try {
+        const mainWrap = document.querySelector(".main-wrap");
+        if (mainWrap && mainWrap.scrollTop > 0) mainWrap.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: "auto" });
+      } catch (e) {}
     }
 
     function stepLesson(delta, autoPlayPodcast) {
@@ -720,11 +1030,12 @@
       if (!it || !btn) return;
       const done = !!doneMap[it.id];
       btn.className = "btn-done" + (done ? " completed" : "");
-      btn.textContent = done ? "✅ Đã hoàn thành" : "⬜ Đánh dấu hoàn thành";
+      btn.innerHTML = svgIcon(done ? "check" : "target", 13) + '<span>' + (done ? "Đã hoàn thành" : "Đánh dấu hoàn thành") + '</span>';
     }
 
     function switchMode(m) {
       if (m !== currentMode && typeof stopShadowRecording === "function") stopShadowRecording(false);
+      if (m !== currentMode && typeof clearRecordedShadowAudio === "function") clearRecordedShadowAudio();
       if (m !== "shadowing" && typeof releaseWarmMicStream === "function") {
         if (typeof warmAcquireGen === "number") warmAcquireGen++;
         releaseWarmMicStream();
@@ -818,9 +1129,17 @@
     }
     let tedHls = null;
     let tedVidLoadedUrl = "";
+    let tedVidFallbackTimer = null;
+    function clearTedVideoFallbackTimer() {
+      if (tedVidFallbackTimer) {
+        clearTimeout(tedVidFallbackTimer);
+        tedVidFallbackTimer = null;
+      }
+    }
     function loadTedVideo(vid, it) {
       const url = tedVideoUrl(it);
       if (!vid) return;
+      clearTedVideoFallbackTimer();
       if (!url) {
         tedVidLoadedUrl = "";
         if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
@@ -831,27 +1150,57 @@
       if (tedVidLoadedUrl === url && (tedHls || vid.src === url)) return;
       tedVidLoadedUrl = url;
       if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
+      let fellBack = false;
+      const onLoadedOk = () => clearTedVideoFallbackTimer();
+      vid.onloadedmetadata = onLoadedOk;
+      vid.oncanplay = onLoadedOk;
       const fallbackToMp4OrYt = () => {
+        if (fellBack) return;
+        fellBack = true;
+        clearTedVideoFallbackTimer();
         if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
-        if (it && it.mp4 && vid.src !== it.mp4) {
+        if (it && it.mp4 && tedVidLoadedUrl !== it.mp4) {
           tedVidLoadedUrl = it.mp4;
+          vid.onerror = () => {
+            vid.onerror = null;
+            if (it && it.youtubeId && currentEngine === "ted") setMediaEngine("yt", true);
+          };
           vid.src = it.mp4;
           vid.load();
-        } else if (it && it.youtubeId) {
-          setMediaEngine("yt");
+          tedVidFallbackTimer = setTimeout(() => {
+            if (currentEngine === "ted" && activeId === it.id && vid.readyState === 0 && it.youtubeId) {
+              setMediaEngine("yt", true);
+            }
+          }, 4500);
+        } else if (it && it.youtubeId && currentEngine === "ted") {
+          setMediaEngine("yt", true);
         }
       };
       if (/\.m3u8/.test(url)) {
         if (window.Hls && Hls.isSupported()) {
-          const hls = new Hls({ enableWorker: true, maxBufferLength: 20, maxMaxBufferLength: 40 });
+          const hls = new Hls({
+            enableWorker: true,
+            maxBufferLength: 20,
+            maxMaxBufferLength: 40,
+            manifestLoadingTimeOut: 3800,
+            manifestLoadingMaxRetry: 0,
+            levelLoadingTimeOut: 4000,
+            levelLoadingMaxRetry: 1
+          });
           tedHls = hls;
+          hls.on(Hls.Events.MANIFEST_PARSED, onLoadedOk);
           hls.on(Hls.Events.ERROR, (_, data) => {
-            if (data && data.fatal && tedHls === hls) {
+            if (data && (data.fatal || data.details === "manifestLoadError" || data.details === "manifestLoadTimeOut") && tedHls === hls) {
               fallbackToMp4OrYt();
             }
           });
           hls.loadSource(url);
           hls.attachMedia(vid);
+          tedVidFallbackTimer = setTimeout(() => {
+            if (tedHls === hls && currentEngine === "ted" && activeId === it.id && vid.readyState === 0) {
+              fallbackToMp4OrYt();
+            }
+          }, 4200);
         } else if (vid.canPlayType && vid.canPlayType("application/vnd.apple.mpegurl")) {
           vid.onerror = () => {
             vid.onerror = null;
@@ -859,10 +1208,19 @@
           };
           vid.src = url;
           vid.load();
+          tedVidFallbackTimer = setTimeout(() => {
+            if (currentEngine === "ted" && activeId === it.id && vid.readyState === 0) {
+              fallbackToMp4OrYt();
+            }
+          }, 4200);
         } else {
           fallbackToMp4OrYt();
         }
       } else {
+        vid.onerror = () => {
+          vid.onerror = null;
+          if (it && it.youtubeId && currentEngine === "ted") setMediaEngine("yt", true);
+        };
         vid.src = url;
         vid.load();
       }
@@ -884,7 +1242,7 @@
         return;
       }
       if (ytApiFailed) {
-        setTedEngineStatus("⚠️ Không tải được trình phát YouTube nhúng (mạng bị chặn hoặc ngoại tuyến). Hãy bấm <b>↗️ Xem trên YouTube</b> hoặc chuyển về <b>Video TED gốc</b>.");
+        setTedEngineStatus("Không tải được trình phát YouTube nhúng (mạng bị chặn hoặc ngoại tuyến). Hãy bấm <b>Mở YouTube</b> hoặc chuyển về <b>Video TED gốc</b>.");
         return;
       }
       if (!document.getElementById("ytApiScript")) {
@@ -894,14 +1252,14 @@
         s.onerror = () => {
           ytApiFailed = true;
           if (currentEngine === "yt") {
-            setTedEngineStatus("⚠️ Không tải được trình phát YouTube nhúng (mạng bị chặn hoặc ngoại tuyến). Hãy bấm <b>↗️ Xem trên YouTube</b> hoặc chuyển về <b>Video TED gốc</b>.");
+            setTedEngineStatus("Không tải được trình phát YouTube nhúng (mạng bị chặn hoặc ngoại tuyến). Hãy bấm <b>Mở YouTube</b> hoặc chuyển về <b>Video TED gốc</b>.");
           }
         };
         document.head.appendChild(s);
       }
       setTimeout(() => {
         if (currentEngine === "yt" && !ytReady && !ytPlayer) {
-          setTedEngineStatus("⚠️ Trình phát YouTube nhúng đang phản hồi chậm hoặc bị chặn bởi mạng hiện tại. Bạn có thể bấm <b>↗️ Xem trên YouTube</b> hoặc quay lại <b>Video TED gốc</b>.");
+          setTedEngineStatus("Trình phát YouTube nhúng đang phản hồi chậm. Có thể bấm <b>Mở YouTube</b> hoặc quay lại <b>Video TED gốc</b>.");
         }
       }, 6500);
     }
@@ -922,7 +1280,7 @@
         } else {
           ensureYouTubeApi();
         }
-        setTedEngineStatus("ℹ️ Bài học này chỉ hỗ trợ nguồn Video YouTube (chưa có luồng TED CDN trực tiếp).");
+        setTedEngineStatus("Bài học này chỉ hỗ trợ nguồn Video YouTube.");
         if (!isAutoFallback) showToast(false, "Bài học này chỉ hỗ trợ nguồn Video YouTube!");
         return;
       }
@@ -936,8 +1294,8 @@
         }
         showTedPlayerUI();
         setTedEngineStatus(isAutoFallback
-          ? "⚠️ YouTube bị hạn chế nhúng (Lỗi 150) — Đã chuyển sang luồng TED gốc ổn định 100%!"
-          : "📻 Đang phát qua luồng TED Video/Audio gốc từ máy chủ TED CDN.");
+          ? "YouTube bị hạn chế nhúng — Đã chuyển sang luồng TED gốc."
+          : "Đang phát qua luồng TED Video/Audio gốc.");
         if (isAutoFallback) showToast(false, "Đã chuyển sang luồng TED gốc!");
       } else {
         ytWanted = true;
@@ -951,7 +1309,7 @@
           setTedEngineStatus("");
           try { ytPlayer.cueVideoById(it.youtubeId); } catch (e) {}
         } else {
-          setTedEngineStatus("📺 Đang nạp trình phát YouTube dự phòng...");
+          setTedEngineStatus("Đang nạp trình phát YouTube dự phòng...");
           ensureYouTubeApi();
         }
       }
@@ -989,6 +1347,10 @@
             onReady: () => {
               ytReady = true;
               ytError = false;
+              try {
+                const ifr = ytPlayer && typeof ytPlayer.getIframe === "function" ? ytPlayer.getIframe() : null;
+                if (ifr) ifr.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+              } catch (e) {}
               if (currentEngine === "yt") setTedEngineStatus("");
               startSyncLoop();
               if (currentEngine === "ted" && !ytWanted && ytPlayer && ytPlayer.pauseVideo) {
@@ -996,6 +1358,8 @@
               }
             },
             onStateChange: (ev) => {
+              if (ev && ev.data === 1) startSyncLoop();
+              else maybeStopSyncLoop();
               if (ev && ev.data === 1 && (currentMode === "dictation" || currentMode === "shadowing")) {
                 const curIt = getActiveItem();
                 const curSub = curIt && curIt.subs[currentSubIdx];
@@ -1088,6 +1452,9 @@
       const tedVid = document.getElementById("tedVideoPlayer");
       if (!tedVid || tedVid._s4PauseAttached) return;
       tedVid._s4PauseAttached = true;
+      tedVid.addEventListener("play", startSyncLoop);
+      tedVid.addEventListener("pause", maybeStopSyncLoop);
+      tedVid.addEventListener("ended", maybeStopSyncLoop);
       tedVid.addEventListener("timeupdate", () => {
         if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
           const it = getActiveItem();
@@ -1117,8 +1484,25 @@
       });
     }
 
+    function stopSyncLoop() {
+      if (syncTimer) {
+        clearInterval(syncTimer);
+        syncTimer = null;
+      }
+    }
+    function maybeStopSyncLoop() {
+      const tedVid = document.getElementById("tedVideoPlayer");
+      const bgAudio = document.getElementById("bgPodcastAudio");
+      const tedPlaying = Boolean(tedVid && !tedVid.paused && !tedVid.ended);
+      const podPlaying = Boolean(bgAudio && !bgAudio.paused && !bgAudio.ended);
+      const ytPlaying = Boolean(ytReady && ytPlayer && typeof ytPlayer.getPlayerState === "function" && ytPlayer.getPlayerState() === 1);
+      if (!tedPlaying && !podPlaying && !ytPlaying) {
+        stopSyncLoop();
+      }
+    }
+
     function startSyncLoop() {
-      if (syncTimer) clearInterval(syncTimer);
+      if (syncTimer) return;
       syncTimer = setInterval(() => {
         const it = getActiveItem();
         if (!it || !it.subs || !it.subs.length) return;
@@ -1144,7 +1528,10 @@
           }
         }
 
-        if (!isPlaying || sec < 0) return;
+        if (!isPlaying || sec < 0) {
+          maybeStopSyncLoop();
+          return;
+        }
 
         // Auto pause on end of sentence (Dictation & Shadowing)
         if ((currentMode === "dictation" || currentMode === "shadowing") && autoPauseSentence) {
@@ -1208,28 +1595,36 @@
     }
 
     /* ---------- Chế độ 1: Nghe & Transcript ---------- */
-    function renderTranscriptMode(it) {
-      const box = document.getElementById("modeContainer");
-      const rowsHtml = it.subs.map((s, idx) => `
+    function buildSubRowsHtml(it) {
+      const activeQ = (document.getElementById("searchInput")?.value || "").trim();
+      return (it.subs || []).map((s, idx) => `
         <div class="sub-item ${idx === playbackSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
           <span class="sub-time">${fmtTime(getSubDisplayTimeMs(it, s))}</span>
           <div style="flex:1;min-width:0;">
-            ${showEnSub ? `<div class="sub-en">${s.en}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
-            ${showViSub && s.vi ? `<div class="sub-vi">${s.vi}</div>` : ""}
+            ${showEnSub ? `<div class="sub-en">${highlightTedText(s.en, activeQ)}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
+            ${showViSub && s.vi ? `<div class="sub-vi">${highlightTedText(s.vi, activeQ)}</div>` : ""}
           </div>
         </div>
       `).join("");
+    }
+
+    function renderTranscriptMode(it) {
+      const box = document.getElementById("modeContainer");
+      const rowsHtml = buildSubRowsHtml(it);
 
       box.innerHTML = `
         <div class="ctrl-bar">
-          <div style="font-weight:800;font-size:14px;">🎧 Bấm vào câu bất kỳ để tua Video tới câu đó</div>
+          <div style="font-weight:800;font-size:13.5px;display:inline-flex;align-items:center;gap:6px;">${svgIcon("listening", 15)}<span>Chạm câu bất kỳ để tua tới đoạn đó</span></div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="ctrl-btn" onclick="showEnSub=!showEnSub;renderModeContent()">${showEnSub ? "👁️ Ẩn tiếng Anh" : "👁️ Hiện tiếng Anh"}</button>
-            <button class="ctrl-btn" onclick="toggleViSub()">${showViSub ? "🇻🇳 Ẩn nghĩa Việt" : "🇻🇳 Hiện nghĩa Việt"}</button>
+            <button type="button" class="ctrl-btn" onclick="showEnSub=!showEnSub;renderModeContent()">${svgIcon(showEnSub ? "eyeOff" : "eye", 14)}<span>${showEnSub ? "Ẩn Anh" : "Hiện Anh"}</span></button>
+            <button type="button" class="ctrl-btn" onclick="toggleViSub()">${svgIcon(showViSub ? "eyeOff" : "eye", 14)}<span>${showViSub ? "Ẩn Việt" : "Hiện Việt"}</span></button>
           </div>
         </div>
         <div class="subs-list" id="subsList">${rowsHtml}</div>
       `;
+      if (playbackSubIdx > 0) {
+        requestAnimationFrame(() => highlightTranscriptRow(playbackSubIdx));
+      }
     }
 
     function clickTranscriptRow(idx) {
@@ -1291,7 +1686,7 @@
       return tokens;
     }
 
-    function renderDictationMode(it) {
+    function renderDictationMode(it, opts) {
       const box = document.getElementById("modeContainer");
       const sub = it.subs[currentSubIdx] || { time: 0, en: "", vi: "" };
       const progPct = it.subs.length ? Math.round(((currentSubIdx + 1) / it.subs.length) * 100) : 0;
@@ -1305,9 +1700,9 @@
       } else {
         const tokens = buildDictationTokens(sub.en, currentSubIdx, dicLevel);
         inputAreaHtml = `<div class="dic-sentence">` + tokens.map(tk => {
-          if (!tk.isBlank) return `<span>${tk.raw} </span>`;
+          if (!tk.isBlank) return `<span>${escHtml(tk.raw)} </span>`;
           const w = Math.max(82, tk.answer.length * 10 + 22);
-          return `${tk.prefix}<input type="text" class="dic-input" data-ans="${tk.answer.replace(/"/g, "&quot;")}" data-min-w="${w}" style="width:${w}px;" autocomplete="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" oninput="handleDicInput(this)" onkeydown="handleDicKey(event, this)">${tk.suffix} `;
+          return `${escHtml(tk.prefix)}<input type="text" class="dic-input" data-ans="${escHtml(tk.answer)}" data-min-w="${w}" style="width:${w}px;" autocomplete="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" oninput="handleDicInput(this)" onkeydown="handleDicKey(event, this)">${escHtml(tk.suffix)} `;
         }).join("") + `</div>`;
       }
 
@@ -1319,14 +1714,14 @@
               <option value="word_hard" ${dicLevel === "word_hard" ? "selected" : ""}>Điền từ (Khó)</option>
               <option value="sentence" ${dicLevel === "sentence" ? "selected" : ""}>Chép cả câu</option>
             </select>
-            <button class="ctrl-btn" onclick="toggleViSub()" title="Bật/Tắt phụ đề nghĩa Tiếng Việt">${showViSub ? "🇻🇳 Nghĩa Việt: Bật" : "🇻🇳 Nghĩa Việt: Tắt"}</button>
-            <button class="ctrl-btn" onclick="autoPauseSentence=!autoPauseSentence;renderModeContent()" title="Tự động dừng video khi hết câu để điền từ">${autoPauseSentence ? "⏸️ Dừng từng câu: Bật" : "▶️ Chạy liên tục"}</button>
-            <button class="ctrl-btn" onclick="repeatSentence=!repeatSentence;renderModeContent()" title="Tự động phát lặp lại câu hiện tại">${repeatSentence ? "🔁 Lặp câu: Bật" : "🔁 Lặp câu: Tắt"}</button>
+            <button type="button" class="ctrl-btn" onclick="toggleViSub()" title="Bật/Tắt phụ đề nghĩa Tiếng Việt">${svgIcon(showViSub ? "eye" : "eyeOff", 13)}<span>Nghĩa Việt: ${showViSub ? "Bật" : "Tắt"}</span></button>
+            <button type="button" class="ctrl-btn" onclick="autoPauseSentence=!autoPauseSentence;renderModeContent()" title="Tự động dừng video khi hết câu để điền từ">${svgIcon(autoPauseSentence ? "clock" : "play", 13)}<span>${autoPauseSentence ? "Dừng từng câu" : "Chạy liên tục"}</span></button>
+            <button type="button" class="ctrl-btn" onclick="repeatSentence=!repeatSentence;renderModeContent()" title="Tự động phát lặp lại câu hiện tại">${svgIcon("refresh", 13)}<span>Lặp câu: ${repeatSentence ? "Bật" : "Tắt"}</span></button>
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="ctrl-btn" onclick="stepSub(-1)">◀ Câu trước</button>
-            <button class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">🔊 Nghe câu này (${fmtTime(getSubDisplayTimeMs(it, sub))})</button>
-            <button class="ctrl-btn" onclick="stepSub(1)">Câu sau ▶</button>
+            <button type="button" class="ctrl-btn" onclick="stepSub(-1)">${svgIcon("chevronLeft", 13)}<span>Câu trước</span></button>
+            <button type="button" class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">${svgIcon("volume", 13)}<span>Nghe (${fmtTime(getSubDisplayTimeMs(it, sub))})</span></button>
+            <button type="button" class="ctrl-btn" onclick="stepSub(1)"><span>Câu sau</span>${svgIcon("chevronRight", 13)}</button>
           </div>
         </div>
 
@@ -1334,25 +1729,27 @@
           <div class="dic-prog-track"><div class="dic-prog-fill" style="width:${progPct}%"></div></div>
           <div class="dic-progress">
             <span>Câu ${currentSubIdx + 1} / ${it.subs.length} (${progPct}%)</span>
-            <span class="dic-shortcut-hint">Space/Tab: Ô kế • Enter: Kiểm tra • Phím \\: Nghe lại</span>
+            <span class="dic-shortcut-hint">Space/Tab: Ô kế • Enter: Chấm • \\: Nghe lại</span>
           </div>
-          ${(showViSub && sub.vi) ? `<div class="dic-vi-hint">🇻🇳 Nghĩa: <b>${sub.vi}</b></div>` : ""}
+          ${(showViSub && sub.vi) ? `<div class="dic-vi-hint"><b>Nghĩa:</b> ${escHtml(sub.vi)}</div>` : ""}
           ${inputAreaHtml}
           <div class="dic-ans-reveal" id="dicAnsReveal"></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-            <button class="ctrl-btn primary" onclick="checkDictation()">✔️ Kiểm tra</button>
-            <button class="ctrl-btn" onclick="revealDictation()">🏳️ Đáp án</button>
-            <button class="ctrl-btn" onclick="renderModeContent()">🔄 Xoá làm lại</button>
+            <button type="button" class="ctrl-btn primary" onclick="checkDictation()">${svgIcon("check", 14)}<span>Kiểm tra</span></button>
+            <button type="button" class="ctrl-btn" onclick="revealDictation()">${svgIcon("lightbulb", 14)}<span>Đáp án</span></button>
+            <button type="button" class="ctrl-btn" onclick="renderModeContent()">${svgIcon("refresh", 14)}<span>Làm lại</span></button>
           </div>
         </div>
       `;
 
-      const firstInp = box.querySelector(".dic-input, .dic-full-input");
-      if (firstInp) {
-        try {
-          firstInp.focus();
-          scrollInputIntoOptimalView(firstInp);
-        } catch (e) {}
+      if (opts && opts.autoFocus) {
+        const firstInp = box.querySelector(".dic-input, .dic-full-input");
+        if (firstInp) {
+          try {
+            firstInp.focus();
+            scrollInputIntoOptimalView(firstInp);
+          } catch (e) {}
+        }
       }
     }
 
@@ -1368,10 +1765,10 @@
       clearAutoNext();
       const it = getActiveItem();
       if (!it || currentSubIdx >= it.subs.length - 1) {
-        showToast(true, "🎉 Đã hoàn thành câu cuối của bài!");
+        showToast(true, "Đã hoàn thành câu cuối của bài!");
         return;
       }
-      showToast(true, "✓ Chính xác — Tự chuyển câu tiếp...");
+      showToast(true, "Chính xác — Tự chuyển câu tiếp...");
       autoNextTimer = setTimeout(() => {
         autoNextTimer = null;
         stepSub(1);
@@ -1391,6 +1788,7 @@
     }
 
     function handleDicKey(ev, el) {
+      if (ev.isComposing || ev.keyCode === 229) return;
       if (ev.key === "\\") {
         ev.preventDefault();
         playSubSegment(currentSubIdx);
@@ -1408,6 +1806,15 @@
         return;
       }
       if (dicLevel !== "sentence" && (ev.key === " " || ev.key === "Tab") && !ev.shiftKey) {
+        if (ev.key === " ") {
+          const ansAttr = el.getAttribute("data-ans") || "";
+          // Don't skip an empty box on accidental Space, or block typing space in a hyphenated/multi-part word
+          if (!el.value.trim()) {
+            ev.preventDefault();
+            return;
+          }
+          if (ansAttr.includes("-")) return;
+        }
         const inputs = [...document.querySelectorAll(".dic-input")];
         const idx = inputs.indexOf(el);
         if (idx >= 0 && idx < inputs.length - 1) {
@@ -1432,6 +1839,73 @@
       return (s || "").toLowerCase().replace(/[’‘']/g, "").replace(/[^a-z0-9]/g, "").trim();
     }
 
+    const NUM_WORD_TO_DIGIT = {
+      "zero": "0", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5",
+      "six": "6", "seven": "7", "eight": "8", "nine": "9", "ten": "10",
+      "eleven": "11", "twelve": "12", "thirteen": "13", "fourteen": "14", "fifteen": "15",
+      "sixteen": "16", "seventeen": "17", "eighteen": "18", "nineteen": "19", "twenty": "20",
+      "thirty": "30", "forty": "40", "fifty": "50", "sixty": "60", "seventy": "70",
+      "eighty": "80", "ninety": "90", "hundred": "100", "thousand": "1000",
+      "first": "1st", "second": "2nd", "third": "3rd", "fourth": "4th", "fifth": "5th",
+      "sixth": "6th", "seventh": "7th", "eighth": "8th", "ninth": "9th", "tenth": "10th"
+    };
+
+    function canonicalizeDictTokens(str) {
+      // Normalize hyphens to spaces, expand common contractions & map number words to digits
+      const cleaned = String(str || "")
+        .toLowerCase()
+        .replace(/[’‘]/g, "'")
+        .replace(/[-–—]/g, " ")
+        .replace(/[^a-z0-9'\s]/g, " ")
+        .trim();
+      if (!cleaned) return "";
+      const rawToks = cleaned.split(/\s+/).filter(Boolean);
+      const out = [];
+      for (let i = 0; i < rawToks.length; i++) {
+        const noApo = rawToks[i].replace(/'/g, "");
+        if (!noApo) continue;
+        if (typeof CONTRACTION_MAP !== "undefined" && CONTRACTION_MAP[noApo] && CONTRACTION_MAP[noApo][0]) {
+          // Use canonical first expansion for unambiguous contractions (skip ambiguous 'id'/'wed' unless needed)
+          const cMap = {
+            "im": ["i", "am"], "youre": ["you", "are"], "were": ["we", "are"], "theyre": ["they", "are"],
+            "ive": ["i", "have"], "youve": ["you", "have"], "weve": ["we", "have"], "theyve": ["they", "have"],
+            "dont": ["do", "not"], "doesnt": ["does", "not"], "didnt": ["did", "not"],
+            "cant": ["cannot"], "wont": ["will", "not"], "wouldnt": ["would", "not"],
+            "couldnt": ["could", "not"], "shouldnt": ["should", "not"], "isnt": ["is", "not"],
+            "arent": ["are", "not"], "wasnt": ["was", "not"], "werent": ["were", "not"],
+            "hasnt": ["has", "not"], "havent": ["have", "not"], "hadnt": ["had", "not"],
+            "lets": ["let", "us"], "gonna": ["going", "to"], "wanna": ["want", "to"]
+          };
+          if (cMap[noApo]) {
+            cMap[noApo].forEach(t => out.push(t));
+            continue;
+          }
+        }
+        // Merge compound numbers like "twenty one" -> "21"
+        const d1 = NUM_WORD_TO_DIGIT[noApo];
+        if (d1 && /^\d0$/.test(d1) && Number(d1) >= 20 && Number(d1) <= 90 && i + 1 < rawToks.length) {
+          const nextD = NUM_WORD_TO_DIGIT[rawToks[i + 1].replace(/'/g, "")];
+          if (nextD && /^[1-9]$/.test(nextD)) {
+            out.push(String(Number(d1) + Number(nextD)));
+            i++;
+            continue;
+          }
+        }
+        out.push(d1 || noApo);
+      }
+      return out.join("");
+    }
+
+    function isDictationEquivalent(userVal, ansVal) {
+      const uNorm = normWord(userVal);
+      const aNorm = normWord(ansVal);
+      if (!uNorm || !aNorm) return false;
+      if (uNorm === aNorm) return true;
+      const uCan = canonicalizeDictTokens(userVal);
+      const aCan = canonicalizeDictTokens(ansVal);
+      return Boolean(uCan && uCan === aCan);
+    }
+
     function checkDictation() {
       const it = getActiveItem();
       const sub = it && it.subs[currentSubIdx];
@@ -1440,7 +1914,7 @@
       if (dicLevel === "sentence") {
         const inp = document.getElementById("dicFullInput");
         if (!inp) return;
-        const ok = normWord(inp.value) === normWord(sub.en);
+        const ok = isDictationEquivalent(inp.value, sub.en);
         inp.classList.remove("correct", "wrong");
         inp.classList.add(ok ? "correct" : "wrong");
         document.getElementById("dicAnsReveal").textContent = ok ? "" : "Đáp án: " + sub.en;
@@ -1456,7 +1930,7 @@
       let firstWrong = null;
       inputs.forEach(inp => {
         const ans = inp.getAttribute("data-ans") || "";
-        const ok = normWord(inp.value) === normWord(ans);
+        const ok = isDictationEquivalent(inp.value, ans);
         inp.classList.remove("correct", "wrong");
         inp.classList.add(ok ? "correct" : "wrong");
         if (!ok) {
@@ -1469,8 +1943,8 @@
         }
       });
       document.getElementById("dicAnsReveal").innerHTML = allOk
-        ? `<span style="color:var(--success)">✓ Chính xác: ${sub.en}</span>`
-        : `<span style="color:var(--danger)">✗ Chưa đúng — Đáp án đầy đủ:</span> <span style="color:var(--success)">${sub.en}</span>`;
+        ? `<span style="color:var(--success)">✓ Chính xác: ${escHtml(sub.en)}</span>`
+        : `<span style="color:var(--danger)">✗ Chưa đúng — Đáp án đầy đủ:</span> <span style="color:var(--success)">${escHtml(sub.en)}</span>`;
       if (allOk) {
         triggerAutoAdvance();
       } else {
@@ -1505,12 +1979,13 @@
     function stepSub(delta) {
       clearAutoNext();
       stopShadowRecording(false);
+      clearRecordedShadowAudio();
       const it = getActiveItem();
       if (!it || !it.subs.length) return;
       currentSubIdx = Math.max(0, Math.min(it.subs.length - 1, currentSubIdx + delta));
       saveSubPos();
       renderSidebar();
-      renderModeContent();
+      renderModeContent({ autoFocus: true });
       playSubSegment(currentSubIdx);
     }
 
@@ -1520,12 +1995,24 @@
     let mediaStream = null;
     let recordedChunks = [];
     let recordedBlobUrl = "";
+    function clearRecordedShadowAudio() {
+      if (recordedBlobUrl) {
+        try { URL.revokeObjectURL(recordedBlobUrl); } catch (e) {}
+        recordedBlobUrl = "";
+      }
+      recordedChunks = [];
+      lastShadowEval = null;
+      lastShadowAcoustic = null;
+    }
     let shadAccumFinal = "";
     let shadCommittedFinal = "";
     let shadSilenceTimer = null;
     let shadRecRestartTimer = null;
+    let isTedStoppingTail = false;
+    let tedTailTimer = null;
     let pendingAutoRecordAfterListen = false;
-    let lastShadowEval = null; // { transcript, pct, matched, total }
+    let lastShadowEval = null; // { transcript, pct, matched, total, closeCount, acoustic }
+    let lastShadowAcoustic = null;
     let isShadowRecording = false;
     let shadowSessionGen = 0;
     let pendingWhisperTranscribe = false;
@@ -1644,7 +2131,11 @@
       releaseWarmMicStream();
       consecutiveSilentCount = 0;
       const myGen = ++warmAcquireGen;
-      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const s = (window.S4Whisper && typeof window.S4Whisper.acquireVoiceStream === "function")
+        ? await window.S4Whisper.acquireVoiceStream()
+        : await navigator.mediaDevices.getUserMedia({
+            audio: { channelCount: { ideal: 1 }, echoCancellation: { ideal: true }, noiseSuppression: { ideal: true }, autoGainControl: { ideal: true } }
+          }).catch(() => navigator.mediaDevices.getUserMedia({ audio: true }));
       if (myGen !== warmAcquireGen) {
         try { if (s) s.getTracks().forEach(t => t.stop()); } catch (e) {}
         return null;
@@ -1657,7 +2148,10 @@
 
     window.addEventListener("pagehide", () => {
       warmAcquireGen++;
+      if (typeof stopSyncLoop === "function") stopSyncLoop();
       if (typeof stopShadowRecording === "function") stopShadowRecording(false);
+      if (typeof clearRecordedShadowAudio === "function") clearRecordedShadowAudio();
+      if (typeof clearTedVideoFallbackTimer === "function") clearTedVideoFallbackTimer();
       releaseWarmMicStream();
       if (typeof destroyPodcastStream === "function") destroyPodcastStream();
       if (tedHls) { try { tedHls.destroy(); } catch (e) {} tedHls = null; }
@@ -1675,23 +2169,23 @@
     try { sessionStorage.removeItem("lp_ted_stt_broken_v1"); sessionStorage.removeItem("lp_ted_stt_broken_v2"); sessionStorage.removeItem("lp_ted_env_banner_dismissed"); } catch (e) {}
 
     const TED_STT_MESSAGES = {
-      "not-supported": "⚠️ Trình duyệt/WebView này chưa hỗ trợ nhận diện giọng nói tự động (STT). App vẫn thu âm giọng thật để bạn bấm nghe lại đối chiếu.",
-      "network": "⚠️ Không kết nối được máy chủ nhận diện giọng nói (lỗi mạng/VPN hoặc trình duyệt chặn Web Speech). Vẫn đang thu âm giọng bạn để nghe lại sau khi dừng.",
-      "not-allowed": "⚠️ Trình duyệt đang chặn quyền Microphone. Hãy bấm biểu tượng ổ khóa trên thanh địa chỉ → Cho phép Micro rồi thử lại.",
-      "service-not-allowed": "⚠️ Dịch vụ nhận diện giọng nói bị chặn bởi chính sách trình duyệt/ứng dụng (cần Chrome/Edge trên HTTPS/localhost). Bạn vẫn có thể thu âm để nghe lại.",
-      "audio-capture": "⚠️ Không thu được tín hiệu từ Micro (chưa cắm mic, micro bị app khác chiếm hoặc xung đột tai nghe Bluetooth Hands-Free).",
-      "language-not-supported": "⚠️ Trình duyệt không hỗ trợ gói ngôn ngữ giọng đọc này (thử đổi UK/US ở thanh điều khiển).",
-      "aborted": "⚠️ Phiên nhận diện giọng nói bị ngắt đột ngột do xung đột âm thanh. Bạn có thể bấm Dừng để nghe lại hoặc thử nói lại.",
-      "no-speech": "⚠️ Không nghe thấy giọng nói. Hãy kiểm tra Micro và bấm nói lại."
+      "not-supported": "Trình duyệt/WebView này chưa hỗ trợ nhận diện giọng nói tự động (STT). App vẫn thu âm giọng thật để bạn nghe lại.",
+      "network": "Không kết nối được máy chủ nhận diện giọng nói. Vẫn đang thu âm giọng bạn để nghe lại sau khi dừng.",
+      "not-allowed": "Trình duyệt đang chặn quyền Microphone. Hãy cho phép Micro trên thanh địa chỉ rồi thử lại.",
+      "service-not-allowed": "Dịch vụ nhận diện giọng nói bị chặn bởi chính sách trình duyệt (cần Chrome/Edge trên HTTPS/localhost). Bạn vẫn có thể thu âm để nghe lại.",
+      "audio-capture": "Không thu được tín hiệu từ Micro. Kiểm tra mic hoặc tai nghe Bluetooth.",
+      "language-not-supported": "Trình duyệt không hỗ trợ gói ngôn ngữ giọng đọc này (thử đổi UK/US ở thanh điều khiển).",
+      "aborted": "Phiên nhận diện giọng nói bị ngắt đột ngột. Bấm Dừng để nghe lại hoặc thử nói lại.",
+      "no-speech": "Không nghe thấy giọng nói. Hãy kiểm tra Micro và bấm nói lại."
     };
 
     function describeTedMediaError(err) {
       const name = err && err.name ? String(err.name) : "";
       if (name === "NotAllowedError" || name === "PermissionDeniedError") return TED_STT_MESSAGES["not-allowed"];
-      if (name === "NotFoundError" || name === "DevicesNotFoundError") return "⚠️ Không tìm thấy thiết bị Micro trên máy/điện thoại.";
-      if (name === "NotReadableError" || name === "TrackStartError") return "⚠️ Micro đang bị ứng dụng khác chiếm quyền. Hãy đóng app khác rồi thử lại.";
-      if (name === "SecurityError") return "⚠️ Trình duyệt yêu cầu kết nối HTTPS hoặc localhost để mở Microphone.";
-      return "⚠️ Không truy cập được Microphone (" + (err && err.message ? err.message : (name || "Permission denied")) + ").";
+      if (name === "NotFoundError" || name === "DevicesNotFoundError") return "Không tìm thấy thiết bị Micro trên máy/điện thoại.";
+      if (name === "NotReadableError" || name === "TrackStartError") return "Micro đang bị ứng dụng khác chiếm quyền. Hãy đóng app khác rồi thử lại.";
+      if (name === "SecurityError") return "Trình duyệt yêu cầu kết nối HTTPS hoặc localhost để mở Microphone.";
+      return "Không truy cập được Microphone (" + (err && err.message ? err.message : (name || "Permission denied")) + ").";
     }
 
     function setTedShadowStatus(msg, color) {
@@ -1709,79 +2203,347 @@
     };
 
     const CONTRACTION_MAP = {
-      "im": ["i", "am"],
-      "youre": ["you", "are"],
-      "were": ["we", "are"],
-      "theyre": ["they", "are"],
-      "hes": ["he", "is"],
-      "shes": ["she", "is"],
-      "its": ["it", "is"],
-      "thats": ["that", "is"],
-      "theres": ["there", "is"],
-      "whats": ["what", "is"],
-      "whos": ["who", "is"],
-      "ive": ["i", "have"],
-      "youve": ["you", "have"],
-      "weve": ["we", "have"],
-      "theyve": ["they", "have"],
-      "ill": ["i", "will"],
-      "youll": ["you", "will"],
-      "well": ["we", "will"],
-      "theyll": ["they", "will"],
-      "id": ["i", "would"],
-      "youd": ["you", "would"],
-      "dont": ["do", "not"],
-      "doesnt": ["does", "not"],
-      "didnt": ["did", "not"],
-      "cant": ["cannot", "can", "not"],
-      "cannot": ["cant", "can", "not"],
-      "wont": ["will", "not"],
-      "wouldnt": ["would", "not"],
-      "couldnt": ["could", "not"],
-      "shouldnt": ["should", "not"],
-      "isnt": ["is", "not"],
-      "arent": ["are", "not"],
-      "wasnt": ["was", "not"],
-      "werent": ["were", "not"],
-      "hasnt": ["has", "not"],
-      "havent": ["have", "not"],
-      "hadnt": ["had", "not"],
-      "gonna": ["going", "to"],
-      "wanna": ["want", "to"],
-      "1": ["one"], "2": ["two"], "3": ["three"], "4": ["four"], "5": ["five"],
-      "6": ["six"], "7": ["seven"], "8": ["eight"], "9": ["nine"], "10": ["ten"],
-      "one": ["1"], "two": ["2"], "three": ["3"], "four": ["4"], "five": ["5"],
-      "six": ["6"], "seven": ["7"], "eight": ["8"], "nine": ["9"], "ten": ["10"]
+      "im": [["i", "am"]],
+      "youre": [["you", "are"]],
+      "were": [["we", "are"]],
+      "theyre": [["they", "are"]],
+      "hes": [["he", "is"], ["he", "has"]],
+      "shes": [["she", "is"], ["she", "has"]],
+      "its": [["it", "is"], ["it", "has"]],
+      "thats": [["that", "is"], ["that", "has"]],
+      "theres": [["there", "is"], ["there", "has"]],
+      "heres": [["here", "is"]],
+      "whats": [["what", "is"], ["what", "has"]],
+      "whos": [["who", "is"], ["who", "has"]],
+      "wheres": [["where", "is"]],
+      "whered": [["where", "did"]],
+      "hows": [["how", "is"]],
+      "whens": [["when", "is"]],
+      "whys": [["why", "is"]],
+      "lets": [["let", "us"]],
+      "ive": [["i", "have"]],
+      "youve": [["you", "have"]],
+      "weve": [["we", "have"]],
+      "theyve": [["they", "have"]],
+      "couldve": [["could", "have"]],
+      "wouldve": [["would", "have"]],
+      "shouldve": [["should", "have"]],
+      "mustve": [["must", "have"]],
+      "mightve": [["might", "have"]],
+      "ill": [["i", "will"]],
+      "youll": [["you", "will"]],
+      "well": [["we", "will"]],
+      "theyll": [["they", "will"]],
+      "hell": [["he", "will"]],
+      "shell": [["she", "will"]],
+      "itll": [["it", "will"]],
+      "thatll": [["that", "will"]],
+      "id": [["i", "would"], ["i", "had"]],
+      "youd": [["you", "would"], ["you", "had"]],
+      "wed": [["we", "would"], ["we", "had"]],
+      "hed": [["he", "would"], ["he", "had"]],
+      "shed": [["she", "would"], ["she", "had"]],
+      "theyd": [["they", "would"], ["they", "had"]],
+      "dont": [["do", "not"]],
+      "doesnt": [["does", "not"]],
+      "didnt": [["did", "not"]],
+      "cant": [["cannot"], ["can", "not"]],
+      "cannot": [["cant"], ["can", "not"]],
+      "wont": [["will", "not"]],
+      "wouldnt": [["would", "not"]],
+      "couldnt": [["could", "not"]],
+      "shouldnt": [["should", "not"]],
+      "isnt": [["is", "not"]],
+      "arent": [["are", "not"]],
+      "wasnt": [["was", "not"]],
+      "werent": [["were", "not"]],
+      "hasnt": [["has", "not"]],
+      "havent": [["have", "not"]],
+      "hadnt": [["had", "not"]],
+      "aint": [["am", "not"], ["is", "not"], ["are", "not"]],
+      "gonna": [["going", "to"]],
+      "wanna": [["want", "to"]],
+      "gotta": [["got", "to"]],
+      "kinda": [["kind", "of"]],
+      "sorta": [["sort", "of"]],
+      "outta": [["out", "of"]],
+      "yall": [["you", "all"]],
+      "oclock": [["o", "clock"]],
+      "0": [["zero"]], "1": [["one"]], "2": [["two"]], "3": [["three"]], "4": [["four"]], "5": [["five"]],
+      "6": [["six"]], "7": [["seven"]], "8": [["eight"]], "9": [["nine"]], "10": [["ten"]],
+      "11": [["eleven"]], "12": [["twelve"]], "13": [["thirteen"]], "14": [["fourteen"]], "15": [["fifteen"]],
+      "16": [["sixteen"]], "17": [["seventeen"]], "18": [["eighteen"]], "19": [["nineteen"]], "20": [["twenty"]],
+      "100": [["hundred"], ["one", "hundred"]], "1000": [["thousand"], ["one", "thousand"]],
+      "zero": [["0"]], "one": [["1"]], "two": [["2"]], "three": [["3"]], "four": [["4"]], "five": [["5"]],
+      "six": [["6"]], "seven": [["7"]], "eight": [["8"]], "nine": [["9"]], "ten": [["10"]],
+      "eleven": [["11"]], "twelve": [["12"]], "thirteen": [["13"]], "fourteen": [["14"]], "fifteen": [["15"]],
+      "sixteen": [["16"]], "seventeen": [["17"]], "eighteen": [["18"]], "nineteen": [["19"]], "twenty": [["20"]]
     };
 
-    function buildSpokenLookupSet(transcript) {
-      const rawWords = (transcript || "").toLowerCase().split(/\s+/).map(normWord).filter(Boolean);
-      const set = new Set(rawWords);
-      // Expand contractions from spoken words
-      rawWords.forEach(w => {
-        if (CONTRACTION_MAP[w]) CONTRACTION_MAP[w].forEach(ex => set.add(ex));
+    const TED_HOMOPHONES = {
+      there: "there", their: "there", theyre: "there",
+      to: "to", too: "to", two: "to",
+      write: "write", right: "write", rite: "write",
+      know: "know", no: "know",
+      hear: "hear", here: "hear",
+      sea: "sea", see: "sea",
+      wear: "wear", where: "wear", ware: "wear",
+      weather: "weather", whether: "weather",
+      one: "one", won: "one",
+      four: "four", for: "four", fore: "four",
+      eight: "eight", ate: "eight",
+      hour: "hour", our: "hour",
+      week: "week", weak: "week",
+      meet: "meet", meat: "meet",
+      role: "role", roll: "role",
+      whole: "whole", hole: "whole",
+      aloud: "aloud", allowed: "aloud",
+      past: "past", passed: "past",
+      affect: "affect", effect: "affect",
+      accept: "accept", except: "accept",
+      sight: "sight", site: "sight", cite: "sight",
+      buy: "buy", by: "buy", bye: "buy",
+      peace: "peace", piece: "peace",
+      break: "break", brake: "break",
+      wait: "wait", weight: "wait",
+      way: "way", weigh: "way",
+      new: "new", knew: "new",
+      sum: "sum", some: "sum",
+      son: "son", sun: "son",
+      plain: "plain", plane: "plain",
+      pair: "pair", pear: "pair", pare: "pair",
+      blue: "blue", blew: "blue",
+      read: "read", red: "read",
+      lead: "lead", led: "lead"
+    };
+
+    const TED_APO_CONTRACTIONS = {
+      "i'm": ["i", "am"], "you're": ["you", "are"], "we're": ["we", "are"], "they're": ["they", "are"],
+      "he's": ["he", "is"], "she's": ["she", "is"], "it's": ["it", "is"], "that's": ["that", "is"],
+      "there's": ["there", "is"], "here's": ["here", "is"], "what's": ["what", "is"], "who's": ["who", "is"],
+      "where's": ["where", "is"], "how's": ["how", "is"], "let's": ["let", "us"],
+      "i've": ["i", "have"], "you've": ["you", "have"], "we've": ["we", "have"], "they've": ["they", "have"],
+      "could've": ["could", "have"], "would've": ["would", "have"], "should've": ["should", "have"],
+      "i'll": ["i", "will"], "you'll": ["you", "will"], "we'll": ["we", "will"], "they'll": ["they", "will"],
+      "he'll": ["he", "will"], "she'll": ["she", "will"], "it'll": ["it", "will"], "that'll": ["that", "will"],
+      "i'd": ["i", "would"], "you'd": ["you", "would"], "we'd": ["we", "would"], "he'd": ["he", "would"],
+      "she'd": ["she", "would"], "they'd": ["they", "would"],
+      "don't": ["do", "not"], "doesn't": ["does", "not"], "didn't": ["did", "not"],
+      "can't": ["can", "not"], "cannot": ["can", "not"], "won't": ["will", "not"],
+      "wouldn't": ["would", "not"], "couldn't": ["could", "not"], "shouldn't": ["should", "not"],
+      "isn't": ["is", "not"], "aren't": ["are", "not"], "wasn't": ["was", "not"], "weren't": ["were", "not"],
+      "hasn't": ["has", "not"], "haven't": ["have", "not"], "hadn't": ["had", "not"],
+      "dont": ["do", "not"], "doesnt": ["does", "not"], "didnt": ["did", "not"],
+      "cant": ["can", "not"], "wont": ["will", "not"], "im": ["i", "am"],
+      "youre": ["you", "are"], "theyre": ["they", "are"], "thats": ["that", "is"],
+      "theres": ["there", "is"], "heres": ["here", "is"], "whats": ["what", "is"],
+      "ive": ["i", "have"], "youve": ["you", "have"], "weve": ["we", "have"], "theyve": ["they", "have"],
+      "couldve": ["could", "have"], "wouldve": ["would", "have"], "shouldve": ["should", "have"],
+      "wouldnt": ["would", "not"], "couldnt": ["could", "not"], "shouldnt": ["should", "not"],
+      "isnt": ["is", "not"], "arent": ["are", "not"], "wasnt": ["was", "not"], "werent": ["were", "not"],
+      "hasnt": ["has", "not"], "havent": ["have", "not"], "hadnt": ["had", "not"],
+      "gonna": ["going", "to"], "wanna": ["want", "to"], "gotta": ["got", "to"],
+      "kinda": ["kind", "of"], "sorta": ["sort", "of"], "outta": ["out", "of"], "yall": ["you", "all"]
+    };
+
+    const TED_DIGIT_TO_WORD = {
+      "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine", "10": "ten",
+      "11": "eleven", "12": "twelve", "13": "thirteen", "14": "fourteen", "15": "fifteen",
+      "16": "sixteen", "17": "seventeen", "18": "eighteen", "19": "nineteen", "20": "twenty",
+      "100": "hundred", "1000": "thousand"
+    };
+
+    function expandTedShadowTokens(text) {
+      const raw = String(text || "").toLowerCase().replace(/[’‘]/g, "'").replace(/[-–—\/]+/g, " ").split(/\s+/).filter(Boolean);
+      const out = [];
+      raw.forEach(tok => {
+        const apo = tok.replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, "");
+        if (apo && TED_APO_CONTRACTIONS[apo]) {
+          TED_APO_CONTRACTIONS[apo].forEach(p => out.push(p));
+          return;
+        }
+        const nw = normWord(tok);
+        if (!nw) return;
+        if (TED_APO_CONTRACTIONS[nw]) {
+          TED_APO_CONTRACTIONS[nw].forEach(p => out.push(p));
+        } else if (TED_DIGIT_TO_WORD[nw]) {
+          out.push(TED_DIGIT_TO_WORD[nw]);
+        } else {
+          out.push(nw);
+        }
       });
-      // Also check adjacent pairs (e.g. spoken "i am" -> matches target "im")
-      for (let i = 0; i < rawWords.length - 1; i++) {
-        const pair = rawWords[i] + " " + rawWords[i + 1];
-        Object.keys(CONTRACTION_MAP).forEach(k => {
-          if (CONTRACTION_MAP[k].join(" ") === pair) set.add(k);
-        });
-      }
-      return set;
+      return out;
     }
 
-    function isShadowWordMatched(targetNorm, spokenSet) {
-      if (!targetNorm) return true;
-      if (spokenSet.has(targetNorm)) return true;
-      const alts = CONTRACTION_MAP[targetNorm];
-      if (alts && alts.every(a => spokenSet.has(a))) return true;
-      return false;
+    function phoneticKeyTed(word) {
+      let w = String(word || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (!w) return "";
+      w = w
+        .replace(/(?:tion|sion)$/, "shn")
+        .replace(/^kn/, "n")
+        .replace(/^wr/, "r")
+        .replace(/^wh/, "w")
+        .replace(/ph/g, "f")
+        .replace(/dge/g, "j")
+        .replace(/tch/g, "ch")
+        .replace(/ck/g, "k")
+        .replace(/qu/g, "kw")
+        .replace(/gh(?=$|t)/g, "")
+        .replace(/([a-z])\1+/g, "$1");
+      if (w.length > 4) w = w.replace(/ies$/, "y").replace(/ied$/, "y").replace(/(?:es|ed|s|d)$/, "");
+      else if (w.length > 3) w = w.replace(/s$/, "");
+      return w;
+    }
+
+    function levenshteinTed(a, b) {
+      const m = a.length, n = b.length;
+      if (!m) return n;
+      if (!n) return m;
+      const prev = new Array(n + 1);
+      for (let j = 0; j <= n; j++) prev[j] = j;
+      for (let i = 1; i <= m; i++) {
+        let diag = prev[0];
+        prev[0] = i;
+        for (let j = 1; j <= n; j++) {
+          const old = prev[j];
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          prev[j] = Math.min(old + 1, prev[j - 1] + 1, diag + cost);
+          diag = old;
+        }
+      }
+      return prev[n];
+    }
+
+    function tedWordSimilarity(pw, sw) {
+      if (!pw || !sw) return 0;
+      if (pw === sw) return 1.0;
+      const hp = TED_HOMOPHONES[pw];
+      const hs = TED_HOMOPHONES[sw];
+      if (hp && hs && hp === hs) return 1.0;
+      const altsP = CONTRACTION_MAP[pw];
+      if (altsP && altsP.some(ph => ph.length === 1 && ph[0] === sw)) return 1.0;
+      if (pw.length >= 4 && (sw === pw + "s" || pw === sw + "s" || sw === pw + "es" || pw === sw + "es" || sw === pw + "ed" || pw === sw + "ed" || sw === pw + "d" || pw === sw + "d")) {
+        return 0.72;
+      }
+      if (pw.length >= 3 && sw.length >= 3 && phoneticKeyTed(pw) === phoneticKeyTed(sw)) {
+        return 0.72;
+      }
+      const dist = levenshteinTed(pw, sw);
+      if (pw.length >= 7 && dist <= 2) return 0.72;
+      if (pw.length >= 4 && dist <= 1) return 0.72;
+      return 0;
+    }
+
+    function alignTedShadowWords(targetWordsList, spokenText) {
+      const spokenTokens = expandTedShadowTokens(spokenText);
+      const flatTargets = [];
+      const wordParts = targetWordsList.map((rawWord, idx) => {
+        const parts = expandTedShadowTokens(rawWord);
+        const idxs = [];
+        for (let p = 0; p < parts.length; p++) {
+          idxs.push(flatTargets.length);
+          flatTargets.push({ rawIdx: idx, text: parts[p] });
+        }
+        return idxs;
+      });
+
+      const T = flatTargets.length;
+      const S = spokenTokens.length;
+      const partScores = new Array(T).fill(0);
+
+      if (T > 0 && S > 0) {
+        const cols = S + 1;
+        const dp = new Int32Array((T + 1) * cols);
+        const bt = new Uint8Array((T + 1) * cols);
+        for (let ti = 1; ti <= T; ti++) { dp[ti * cols] = -ti; bt[ti * cols] = 2; }
+        for (let sj = 1; sj <= S; sj++) { dp[sj] = -sj; bt[sj] = 3; }
+
+        for (let i = 1; i <= T; i++) {
+          const tw = flatTargets[i - 1].text;
+          const rOff = i * cols;
+          const pOff = (i - 1) * cols;
+          for (let j = 1; j <= S; j++) {
+            const skipT = dp[pOff + j] - 1;
+            const skipS = dp[rOff + j - 1] - 1;
+            let best = skipT;
+            let mv = 2;
+            if (skipS > best) { best = skipS; mv = 3; }
+            const sim = tedWordSimilarity(tw, spokenTokens[j - 1]);
+            if (sim > 0) {
+              const align = dp[pOff + j - 1] + Math.round(sim * 1000) + 10;
+              if (align >= best) { best = align; mv = 1; }
+            }
+            dp[rOff + j] = best;
+            bt[rOff + j] = mv;
+          }
+        }
+
+        let ci = T, cj = S;
+        while (ci > 0 || cj > 0) {
+          const mv = bt[ci * cols + cj];
+          if (mv === 1 && ci > 0 && cj > 0) {
+            partScores[ci - 1] = tedWordSimilarity(flatTargets[ci - 1].text, spokenTokens[cj - 1]);
+            ci--; cj--;
+          } else if (mv === 2 && ci > 0) {
+            ci--;
+          } else if (cj > 0) {
+            cj--;
+          } else {
+            break;
+          }
+        }
+      }
+
+      let matchedExact = 0;
+      let matchedClose = 0;
+      let weightedSum = 0;
+      let realTotal = 0;
+      const statuses = wordParts.map(idxs => {
+        if (!idxs.length) {
+          return "punct";
+        }
+        realTotal++;
+        let ex = 0, cl = 0;
+        for (let p = 0; p < idxs.length; p++) {
+          if (partScores[idxs[p]] >= 0.99) ex++;
+          else if (partScores[idxs[p]] > 0) cl++;
+        }
+        if (ex === idxs.length) {
+          matchedExact++;
+          weightedSum += 1;
+          return "ok";
+        }
+        if (ex + cl > 0) {
+          matchedClose++;
+          weightedSum += 0.72;
+          return "close";
+        }
+        return "miss";
+      });
+
+      const pct = realTotal ? Math.min(100, Math.round((weightedSum / realTotal) * 100)) : 0;
+      return { statuses, pct, matched: matchedExact, closeCount: matchedClose, weightedScore: weightedSum, total: realTotal };
+    }
+
+    function formatTedAcousticHtml(ac) {
+      if (!ac || !(ac.voicedFrames > 0)) return "";
+      const pitchTxt = ac.pitchMeanHz > 0 ? `~${ac.pitchMeanHz} Hz, ±${ac.pitchStdSemitones} ST` : "—";
+      return `<div style="margin-top:6px;padding:6px 10px;border-radius:10px;background:var(--lg-wash);border:1px solid var(--lg-divider);font-size:12px;color:var(--lg-ink);display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+        <span style="display:inline-flex;align-items:center;gap:4px;">${svgIcon("sparkle", 12)}<b>Ngữ điệu:</b> ${ac.intonationScore || 0}% (${escHtml(pitchTxt)})</span>
+        <span style="display:inline-flex;align-items:center;gap:4px;">${svgIcon("zap", 12)}<b>Trôi chảy:</b> ${ac.fluencySignalScore || 0}% (${ac.pauseCount || 0} nhịp nghỉ)</span>
+        <span style="display:inline-flex;align-items:center;gap:4px;">${svgIcon("volume", 12)}<b>Độ rõ:</b> ${ac.snrDb || 0} dB</span>
+      </div>`;
     }
 
     window.speakSingleWord = function(rawWord) {
       const clean = (rawWord || "").replace(/[^A-Za-z0-9'’‘-]/g, "");
-      if (!clean || !("speechSynthesis" in window)) return;
+      if (!clean) return;
+      if (window.S4UI && typeof window.S4UI.speakEnglish === "function") {
+        window.S4UI.speakEnglish(clean, { lang: shadowVoiceLang || "en-US", rate: 0.92 });
+        return;
+      }
+      if (!("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(clean);
       u.lang = shadowVoiceLang;
@@ -1796,7 +2558,7 @@
       const resEl = document.getElementById("shadResultText");
       if (resEl) {
         resEl.style.color = "var(--primary)";
-        resEl.textContent = "🔊 Đang phát câu mẫu... Mic sẽ tự động bật ngay khi câu kết thúc!";
+        resEl.textContent = "Đang phát câu mẫu... Mic sẽ tự bật khi câu kết thúc.";
       }
       playSubSegment(currentSubIdx);
     };
@@ -1813,76 +2575,79 @@
       const box = document.getElementById("modeContainer");
       const sub = it.subs[currentSubIdx] || { time: 0, en: "", vi: "" };
       const wordsHtml = (sub.en || "").split(/\s+/).map(w => {
-        const nw = normWord(w);
-        const safeW = w.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-        return `<span class="shad-word" data-w="${nw}" onclick="speakSingleWord('${safeW}')" title="🔊 Bấm để nghe phát âm từ này">${w}</span>`;
+        const nw = escHtml(normWord(w));
+        const safeW = escJsAttr(w);
+        return `<span class="shad-word" data-w="${nw}" onclick="speakSingleWord('${safeW}')" title="Chạm để nghe phát âm từ này">${escHtml(w)}</span>`;
       }).join(" ");
 
       box.innerHTML = `
         <div class="ctrl-bar">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <span style="font-weight:800;font-size:14px;">🗣️ Shadowing (Câu ${currentSubIdx + 1}/${it.subs.length})</span>
-            <button class="ctrl-btn" onclick="toggleViSub()">${showViSub ? "🇻🇳 Nghĩa Việt: Bật" : "🇻🇳 Nghĩa Việt: Tắt"}</button>
-            <button class="ctrl-btn" onclick="autoPauseSentence=!autoPauseSentence;renderModeContent()">${autoPauseSentence ? "⏸️ Dừng từng câu: Bật" : "▶️ Chạy liên tục"}</button>
-            <button class="ctrl-btn" onclick="toggleTedShadowLang()" title="Đổi giọng nhận diện & phát âm">${shadowVoiceLang === "en-GB" ? "🇬🇧 UK" : "🇺🇸 US"}</button>
+            <span style="font-weight:800;font-size:13.5px;display:inline-flex;align-items:center;gap:5px;">${svgIcon("speaking", 15)}<span>Shadowing (${currentSubIdx + 1}/${it.subs.length})</span></span>
+            <button type="button" class="ctrl-btn" onclick="toggleViSub()">${svgIcon(showViSub ? "eye" : "eyeOff", 13)}<span>Nghĩa Việt: ${showViSub ? "Bật" : "Tắt"}</span></button>
+            <button type="button" class="ctrl-btn" onclick="autoPauseSentence=!autoPauseSentence;renderModeContent()">${svgIcon(autoPauseSentence ? "clock" : "play", 13)}<span>${autoPauseSentence ? "Dừng từng câu" : "Chạy liên tục"}</span></button>
+            <button type="button" class="ctrl-btn" onclick="toggleTedShadowLang()" title="Đổi giọng nhận diện & phát âm">${svgIcon("volume", 13)}<span>${shadowVoiceLang === "en-GB" ? "UK" : "US"}</span></button>
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="ctrl-btn" onclick="stepSub(-1)">◀ Câu trước</button>
-            <button class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">🔊 Nghe mẫu (${fmtTime(getSubDisplayTimeMs(it, sub))})</button>
-            <button class="ctrl-btn" style="border-color:var(--primary);color:var(--primary);" onclick="listenThenAutoShadow()">🎧➔🎙️ Nghe mẫu & Tự thu</button>
-            <button class="ctrl-btn" onclick="stepSub(1)">Câu sau ▶</button>
+            <button type="button" class="ctrl-btn" onclick="stepSub(-1)">${svgIcon("chevronLeft", 13)}<span>Câu trước</span></button>
+            <button type="button" class="ctrl-btn primary" onclick="playSubSegment(currentSubIdx)">${svgIcon("volume", 13)}<span>Nghe mẫu (${fmtTime(getSubDisplayTimeMs(it, sub))})</span></button>
+            <button type="button" class="ctrl-btn" style="border-color:var(--lg-accent);color:var(--lg-accent);" onclick="listenThenAutoShadow()">${svgIcon("mic", 13)}<span>Nghe &amp; Tự thu</span></button>
+            <button type="button" class="ctrl-btn" onclick="stepSub(1)"><span>Câu sau</span>${svgIcon("chevronRight", 13)}</button>
           </div>
         </div>
         <div class="shad-card">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">💡 Bấm vào từ bất kỳ trong câu để nghe phát âm chuẩn từng từ</div>
+          <div style="font-size:12px;color:var(--lg-ink-muted);margin-bottom:6px;">Chạm từng từ trong câu để nghe phát âm</div>
           <div class="shad-en" id="shadWordsHost">${wordsHtml}</div>
-          ${(showViSub && sub.vi) ? `<div class="shad-vi">🇻🇳 ${sub.vi}</div>` : ""}
+          ${(showViSub && sub.vi) ? `<div class="shad-vi">${escHtml(sub.vi)}</div>` : ""}
           <div style="margin-top:16px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;">
-            <button class="rec-btn" id="btnStartShadow" onclick="toggleShadowRecord()">🎙️ Bấm để nói theo</button>
-            <button class="ctrl-btn" id="btnReplayUserVoice" style="${recordedBlobUrl ? "" : "display:none;"}font-weight:800;border-color:#16a34a;color:#16a34a;" onclick="playRecordedShadowVoice()">▶️ Nghe lại giọng bạn vừa thu</button>
+            <button type="button" class="rec-btn" id="btnStartShadow" onclick="toggleShadowRecord()">${svgIcon("mic", 15)}<span>Bấm để nói theo</span></button>
+            <button type="button" class="ctrl-btn" id="btnReplayUserVoice" style="${recordedBlobUrl ? "" : "display:none;"}font-weight:800;border-color:var(--lg-green);color:var(--lg-green);" onclick="playRecordedShadowVoice()">${svgIcon("play", 13)}<span>Nghe lại giọng bạn</span></button>
           </div>
           <audio id="shadUserAudio" src="${recordedBlobUrl || ""}" style="display:none;"></audio>
-          <div class="shad-live-box" id="shadResultText" style="color:var(--muted);font-weight:700;">
-            🎙️ Nhấn "Bấm để nói theo" (hoặc "🎧➔🎙️ Nghe mẫu & Tự thu") và đọc to câu tiếng Anh ở trên.
+          <div class="shad-live-box" id="shadResultText" style="color:var(--lg-ink-muted);font-weight:700;">
+            Nhấn &quot;Bấm để nói theo&quot; hoặc &quot;Nghe &amp; Tự thu&quot; để luyện Shadowing.
           </div>
         </div>
       `;
     }
 
-    function evaluateShadowTranscript(transcript, isFinalStop) {
+    function evaluateShadowTranscript(transcript, isFinalStop, acousticInfo) {
+      if (acousticInfo) lastShadowAcoustic = acousticInfo;
+      const ac = acousticInfo || lastShadowAcoustic;
       const resEl = document.getElementById("shadResultText");
       const spans = [...document.querySelectorAll("#shadWordsHost .shad-word")];
-      if (!spans.length) return { pct: 0, matched: 0, total: 0 };
+      if (!spans.length) return { pct: 0, matched: 0, closeCount: 0, total: 0, acoustic: ac || null };
 
-      const spokenSet = buildSpokenLookupSet(transcript);
-      let matched = 0;
-      spans.forEach(sp => {
-        const w = sp.getAttribute("data-w");
-        const ok = isShadowWordMatched(w, spokenSet);
-        sp.classList.remove("ok", "miss");
-        if (ok) {
-          sp.classList.add("ok");
-          matched++;
-        } else if (isFinalStop) {
-          sp.classList.add("miss");
-        }
+      const targetWordsList = spans.map(sp => sp.textContent || sp.getAttribute("data-w") || "");
+      const aligned = alignTedShadowWords(targetWordsList, transcript);
+      spans.forEach((sp, idx) => {
+        sp.classList.remove("ok", "close", "miss", "punct");
+        const st = aligned.statuses[idx];
+        if (st === "ok") sp.classList.add("ok");
+        else if (st === "close") sp.classList.add("close");
+        else if (st === "punct") sp.classList.add("punct");
+        else if (isFinalStop) sp.classList.add("miss");
       });
 
-      const pct = Math.round((matched / spans.length) * 100);
-      lastShadowEval = { transcript, pct, matched, total: spans.length };
+      const pct = aligned.pct;
+      lastShadowEval = { transcript, pct, matched: aligned.matched, closeCount: aligned.closeCount, total: aligned.total, acoustic: ac || null };
 
       if (resEl) {
+        const safeTranscript = escHtml(transcript || "");
+        const acHtml = formatTedAcousticHtml(ac);
+        const closeHint = aligned.closeCount ? ` • ${aligned.closeCount} gần đúng` : "";
         if (!isFinalStop) {
           resEl.style.color = "var(--text)";
-          resEl.innerHTML = `🎙️ Đang nghe: <strong style="color:var(--primary);">"${transcript || "..."}"</strong> — Đã khớp <strong>${matched}/${spans.length} từ (${pct}%)</strong>`;
+          resEl.innerHTML = `Đang nghe: <strong style="color:var(--primary);">"${safeTranscript || "..."}"</strong> — Đã khớp <strong>${aligned.matched}/${aligned.total} từ${closeHint} (${pct}%)</strong>`;
         } else {
           const badgeColor = pct >= 80 ? "var(--success)" : (pct >= 50 ? "#f59e0b" : "var(--danger)");
-          const label = pct >= 80 ? "🌟 Phát âm rất chuẩn!" : (pct >= 50 ? "👍 Khá tốt! Hãy bấm vào các từ gạch đỏ để nghe lại" : "💪 Hãy nghe lại mẫu và thử nói chậm, rõ từng từ");
+          const label = pct >= 80 ? "Phát âm rất chuẩn!" : (pct >= 50 ? "Khá tốt! Bấm vào các từ cam/đỏ để nghe lại" : "Hãy nghe lại mẫu và thử nói chậm, rõ từng từ");
           resEl.style.color = badgeColor;
           resEl.innerHTML = `
-            <div>
-              <div>${label} — Độ khớp: <strong>${pct}% (${matched}/${spans.length} từ)</strong></div>
-              <div style="font-size:12.5px;color:var(--muted);margin-top:3px;">Bạn đã nói: "${transcript || "(Chưa thu được tiếng)"}"</div>
+            <div style="width:100%;">
+              <div>${label} — Độ khớp: <strong>${pct}% (${aligned.matched}/${aligned.total} từ${closeHint})</strong></div>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:3px;">Bạn đã nói: "${safeTranscript || "(Chưa thu được tiếng)"}"</div>
+              ${acHtml}
             </div>
           `;
         }
@@ -1893,15 +2658,16 @@
     function countShadowMatchesForTranscript(transcript) {
       const spans = [...document.querySelectorAll("#shadWordsHost .shad-word")];
       if (!spans.length || !transcript) return 0;
-      const spokenSet = buildSpokenLookupSet(transcript);
-      let matched = 0;
-      spans.forEach(sp => {
-        if (isShadowWordMatched(sp.getAttribute("data-w"), spokenSet)) matched++;
-      });
-      return matched;
+      const targetWordsList = spans.map(sp => sp.textContent || sp.getAttribute("data-w") || "");
+      return alignTedShadowWords(targetWordsList, transcript).weightedScore;
     }
 
     function stopShadowRecording(finalizeScore = true, keepStatusText = false) {
+      if (tedTailTimer) {
+        clearTimeout(tedTailTimer);
+        tedTailTimer = null;
+      }
+      isTedStoppingTail = false;
       shadowSessionGen++;
       pendingAutoRecordAfterListen = false;
       const wasRecording = isShadowRecording;
@@ -1951,6 +2717,11 @@
         recorderRef._pendingWhisper = pendingWhisperTranscribe;
       }
       if (hasRecordedAudio) {
+        try {
+          if (recorderRef.state === "recording" && typeof recorderRef.requestData === "function") {
+            recorderRef.requestData();
+          }
+        } catch (e) {}
         try { recorderRef.stop(); } catch (e) {}
       }
       // Keep Warm Mic Stream alive across consecutive sentences to prevent iOS turn-2 freeze
@@ -1960,17 +2731,17 @@
       const btn = document.getElementById("btnStartShadow");
       if (btn) {
         btn.classList.remove("recording");
-        btn.textContent = "🎙️ Bấm để nói lại";
+        btn.innerHTML = svgIcon("mic", 15) + "<span>Bấm để nói lại</span>";
       }
       if (finalizeScore && shadAccumFinal.trim() && !pendingWhisperTranscribe) {
         const res = liveEval || evaluateShadowTranscript(shadAccumFinal.trim(), true);
         showToast(res.pct >= 70, `Độ khớp phát âm: ${res.pct}% (${res.matched}/${res.total} từ)`);
       } else if (pendingWhisperTranscribe) {
         if (!shadAccumFinal.trim()) {
-          setTedShadowStatus('🤖 Đang nhận diện giọng nói bằng Whisper AI... (Bạn đã có thể bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên)', "var(--primary)");
+          setTedShadowStatus('Đang nhận diện giọng nói bằng Whisper AI... (Có thể bấm Nghe lại giọng bạn ở trên)', "var(--primary)");
         }
       } else if (wasRecording && !keepStatusText && hasRecordedAudio) {
-        setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
+        setTedShadowStatus('Đã lưu bản ghi âm. Bấm "Nghe lại giọng bạn" ở trên để tự đối chiếu.', "var(--primary)");
       }
     }
 
@@ -1981,12 +2752,24 @@
 
       // Nếu đang thu âm (hoặc chỉ thu audio fallback) -> Bấm lần nữa để Dừng
       if (isShadowRecording || activeRec) {
+        if (isTedStoppingTail) return;
+        if ((Date.now() - shadStartTs) >= 400) {
+          isTedStoppingTail = true;
+          const snapGen = shadowSessionGen;
+          if (btn) btn.innerHTML = svgIcon("clock", 15) + "<span>Đang chốt âm...</span>";
+          tedTailTimer = setTimeout(() => {
+            tedTailTimer = null;
+            isTedStoppingTail = false;
+            if (snapGen === shadowSessionGen) stopShadowRecording(true);
+          }, 180);
+          return;
+        }
         stopShadowRecording(true);
         return;
       }
 
       if (!SR && !canMedia) {
-        setTedShadowStatus("⚠️ Trình duyệt hiện tại không hỗ trợ Microphone hoặc nhận diện giọng nói.", "var(--danger)");
+        setTedShadowStatus("Trình duyệt hiện tại không hỗ trợ Microphone hoặc nhận diện giọng nói.", "var(--danger)");
         return;
       }
 
@@ -2014,10 +2797,11 @@
       }
 
       // Xoá trạng thái xanh/đỏ cũ trên các từ
-      document.querySelectorAll("#shadWordsHost .shad-word").forEach(sp => sp.classList.remove("ok", "miss"));
+      document.querySelectorAll("#shadWordsHost .shad-word").forEach(sp => sp.classList.remove("ok", "close", "miss", "punct"));
       shadAccumFinal = "";
       shadCommittedFinal = "";
       lastShadowEval = null;
+      lastShadowAcoustic = null;
       pendingWhisperTranscribe = false;
       shadSttErrored = false;
       shadStartTs = Date.now();
@@ -2032,7 +2816,9 @@
             return;
           }
           recordedChunks = [];
-          const mr = new MediaRecorder(activeStream);
+          const mr = (window.S4Whisper && typeof window.S4Whisper.createVoiceRecorder === "function")
+            ? window.S4Whisper.createVoiceRecorder(activeStream, { audioBitsPerSecond: 48000 })
+            : new MediaRecorder(activeStream);
           mediaRecorder = mr;
           mr.ondataavailable = (e) => {
             if (e.data && e.data.size > 0) recordedChunks.push(e.data);
@@ -2045,7 +2831,8 @@
             const stopSubIdx = currentSubIdx;
             if (recordedChunks.length > 0) {
               if (recordedBlobUrl) URL.revokeObjectURL(recordedBlobUrl);
-              const blob = new Blob(recordedChunks, { type: (mr && mr.mimeType) || "audio/webm" });
+              const recMime = (mr && (mr.mimeType || mr._lpPreferredMime)) || "audio/webm";
+              const blob = new Blob(recordedChunks, { type: recMime });
               recordedBlobUrl = URL.createObjectURL(blob);
               const userAud = document.getElementById("shadUserAudio");
               const replayBtn = document.getElementById("btnReplayUserVoice");
@@ -2060,7 +2847,7 @@
                   onProgress: (info) => {
                     if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
                     if (info && info.status === "progress" && typeof info.progress === "number" && !shadAccumFinal.trim()) {
-                      setTedShadowStatus("⏬ Đang tải bộ nhận diện giọng nói Whisper Offline lần đầu (" + Math.round(info.progress) + "%)... Bạn vẫn bấm Nghe lại ở trên được ngay.", "var(--primary)");
+                      setTedShadowStatus("Đang tải bộ nhận diện giọng nói Whisper Offline (" + Math.round(info.progress) + "%)... Có thể bấm Nghe lại ở trên.", "var(--primary)");
                     }
                   }
                 }).then((wRes) => {
@@ -2068,6 +2855,9 @@
                     consecutiveSilentCount = 0;
                   } else if (wRes && wRes.reason === "silent_audio") {
                     consecutiveSilentCount += 1;
+                  }
+                  if (wRes && wRes.acoustic) {
+                    lastShadowAcoustic = wRes.acoustic;
                   }
                   if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
                   if (wRes && wRes.ok && wRes.transcript) {
@@ -2083,16 +2873,40 @@
                       else if (mScore > wScore) bestTx = merged;
                     }
                     shadAccumFinal = bestTx;
-                    const res = evaluateShadowTranscript(bestTx, true);
-                    showToast(res.pct >= 70, "🤖 Whisper đã chấm phát âm: " + res.pct + "% (" + res.matched + "/" + res.total + " từ)");
+                    const res = evaluateShadowTranscript(bestTx, true, wRes.acoustic || null);
+                    showToast(res.pct >= 70, "Whisper đã chấm phát âm: " + res.pct + "% (" + res.matched + "/" + res.total + " từ)");
                   } else if (!shadAccumFinal.trim() && !(wRes && (wRes.cancelled || wRes.reason === "cancelled"))) {
+                    const acBoxHtml = (wRes && wRes.acoustic && wRes.acoustic.voicedFrames > 0) ? formatTedAcousticHtml(wRes.acoustic) : "";
                     if (wRes && wRes.reason === "silent_audio") {
-                      setTedShadowStatus('🎧 Đã lưu bản ghi âm (chưa phát hiện giọng nói rõ ràng). Hãy nói to hơn hoặc bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên.', "#f59e0b");
+                      setTedShadowStatus('Đã lưu bản ghi âm (chưa phát hiện giọng nói rõ). Hãy nói to hơn hoặc bấm Nghe lại.', "#f59e0b");
+                    } else if (acBoxHtml) {
+                      const resEl = document.getElementById("shadResultText");
+                      if (resEl) {
+                        resEl.style.color = "var(--primary)";
+                        resEl.innerHTML = `<div style="width:100%;"><div>Đã lưu bản ghi âm. Bấm Nghe lại giọng bạn ở trên để đối chiếu.</div>${acBoxHtml}</div>`;
+                      }
                     } else {
-                      setTedShadowStatus('🎧 Đã lưu bản ghi âm của bạn! Bấm "▶️ Nghe lại giọng bạn vừa thu" ở trên để tự đối chiếu.', "var(--primary)");
+                      setTedShadowStatus('Đã lưu bản ghi âm. Bấm Nghe lại giọng bạn ở trên để đối chiếu.', "var(--primary)");
                     }
+                  } else if (shadAccumFinal.trim() && wRes && wRes.acoustic) {
+                    evaluateShadowTranscript(shadAccumFinal.trim(), true, wRes.acoustic);
                   }
                 });
+              } else if (window.S4Whisper && typeof window.S4Whisper.analyzeBlobAcoustics === "function") {
+                window.S4Whisper.analyzeBlobAcoustics(blob).then((acRes) => {
+                  if (stopGen !== shadowSessionGen || stopActiveId !== activeId || stopSubIdx !== currentSubIdx || currentMode !== "shadowing") return;
+                  if (!acRes || !acRes.acoustic || !(acRes.acoustic.voicedFrames > 0)) return;
+                  lastShadowAcoustic = acRes.acoustic;
+                  if (shadAccumFinal.trim()) {
+                    evaluateShadowTranscript(shadAccumFinal.trim(), true, acRes.acoustic);
+                  } else {
+                    const resEl = document.getElementById("shadResultText");
+                    if (resEl) {
+                      resEl.style.color = "var(--primary)";
+                      resEl.innerHTML = `<div style="width:100%;"><div>Đã lưu bản ghi âm. Bấm Nghe lại giọng bạn ở trên để đối chiếu.</div>${formatTedAcousticHtml(acRes.acoustic)}</div>`;
+                    }
+                  }
+                }).catch(() => {});
               }
             }
           };
@@ -2115,7 +2929,7 @@
       if (!SR) {
         if (btn) {
           btn.classList.add("recording");
-          btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
+          btn.innerHTML = svgIcon("stop", 15) + "<span>Dừng thu âm</span>";
         }
         setTedShadowStatus(TED_STT_MESSAGES["not-supported"], "#f59e0b");
         return;
@@ -2133,9 +2947,9 @@
 
       if (btn) {
         btn.classList.add("recording");
-        btn.textContent = "⏹️ Đang nghe... (Bấm để dừng & chấm)";
+        btn.innerHTML = svgIcon("stop", 15) + "<span>Đang nghe... (Dừng &amp; chấm)</span>";
       }
-      setTedShadowStatus("🎙️ Hãy đọc to câu tiếng Anh ở trên... (Từ đọc đúng sẽ sáng màu xanh ngay khi bạn nói)", "var(--primary)");
+      setTedShadowStatus("Hãy đọc to câu tiếng Anh ở trên...", "var(--primary)");
 
       rec.onresult = (ev) => {
         if (sessId !== shadowSessionGen) return;
@@ -2176,7 +2990,7 @@
         sttErrored = true;
         shadSttErrored = true;
         const errCode = ev && ev.error ? ev.error : "";
-        const friendly = TED_STT_MESSAGES[errCode] || ("⚠️ Lỗi nhận diện giọng nói (" + (errCode || "unknown") + ").");
+        const friendly = TED_STT_MESSAGES[errCode] || ("Lỗi nhận diện giọng nói (" + (errCode || "unknown") + ").");
 
         if (errCode === "no-speech" && shadAccumFinal.trim()) {
           sttErrored = false;
@@ -2187,7 +3001,7 @@
         const isLateNotAllowed = (errCode === "not-allowed" && hasActiveMr && (recordedChunks.length > 0 || (Date.now() - shadStartTs) > 800 || isIosSafariLike()));
         if (hasActiveMr && (errCode !== "not-allowed" || isLateNotAllowed)) {
           activeRec = null;
-          if (btn) btn.textContent = "⏹️ Đang thu âm... (Bấm để dừng & chấm)";
+          if (btn) btn.innerHTML = svgIcon("stop", 15) + "<span>Đang thu âm... (Dừng &amp; chấm)</span>";
           return;
         }
         setTedShadowStatus(friendly, "var(--danger)");
@@ -2214,6 +3028,16 @@
         if (activeRec === rec && isShadowRecording) {
           if (lastShadowEval && lastShadowEval.pct >= 85) {
             stopShadowRecording(true);
+            return;
+          }
+          if (/Android/i.test((navigator && navigator.userAgent) || "") && mediaRecorder && mediaRecorder.state === "recording" && !shadAccumFinal.trim() && emptyRestartCount >= 1) {
+            shadSttErrored = true;
+            try {
+              rec.onresult = null;
+              rec.onerror = null;
+              rec.onend = null;
+            } catch (e) {}
+            activeRec = null;
             return;
           }
           if (emptyRestartCount < 4) {
@@ -2251,7 +3075,7 @@
         shadSttErrored = true;
         if (mediaRecorder && mediaRecorder.state === "recording") {
           activeRec = null;
-          if (btn) btn.textContent = "⏹️ Dừng thu âm (Nghe lại giọng)";
+          if (btn) btn.innerHTML = svgIcon("stop", 15) + "<span>Dừng thu âm</span>";
           setTedShadowStatus(TED_STT_MESSAGES["aborted"], "#f59e0b");
         } else {
           setTedShadowStatus(TED_STT_MESSAGES["aborted"], "var(--danger)");
@@ -2292,18 +3116,20 @@
       if (!bgAudio) return;
 
       const resetPodcastPlayUi = () => {
-        if (playBtn) playBtn.textContent = "▶️ Phát Podcast";
+        if (playBtn) playBtn.innerHTML = svgIcon("play", 14) + "<span>Phát Podcast</span>";
         const podWrap = document.getElementById("podcastBoxWrap");
         if (podWrap) podWrap.classList.remove("playing");
         if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused";
       };
       bgAudio.addEventListener("play", () => {
-        if (playBtn) playBtn.textContent = "⏸️ Tạm dừng";
+        startSyncLoop();
+        if (playBtn) playBtn.innerHTML = svgIcon("stop", 14) + "<span>Tạm dừng</span>";
         const podWrap = document.getElementById("podcastBoxWrap");
         if (podWrap) podWrap.classList.add("playing");
         if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing";
       });
-      bgAudio.addEventListener("pause", resetPodcastPlayUi);
+      bgAudio.addEventListener("pause", () => { resetPodcastPlayUi(); maybeStopSyncLoop(); });
+      bgAudio.addEventListener("ended", maybeStopSyncLoop);
       bgAudio.addEventListener("error", () => {
         resetPodcastPlayUi();
         if (currentMode === "podcast" && bgAudio.getAttribute("src")) {
@@ -2421,11 +3247,11 @@
         if (seekEl) seekEl.value = 0;
         if (curEl) curEl.textContent = "0:00";
         if (durEl) durEl.textContent = "0:00";
-        if (playBtn) playBtn.textContent = "▶️ Phát Podcast";
+        if (playBtn) playBtn.innerHTML = svgIcon("play", 14) + "<span>Phát Podcast</span>";
         if (podWrap) podWrap.classList.remove("playing");
-        if (speakerEl) speakerEl.textContent = "⚠️ Bài này chỉ có nguồn Video YouTube (hãy chuyển sang chế độ Nghe & Transcript)";
+        if (speakerEl) speakerEl.textContent = "Bài này chỉ có nguồn Video YouTube (hãy chuyển sang Nghe & Transcript)";
         if (currentMode === "podcast") {
-          showToast(false, "Bài này chỉ hỗ trợ nguồn Video YouTube — Hãy chuyển sang chế độ Video!");
+          showToast(false, "Bài này chỉ hỗ trợ nguồn Video YouTube!");
         }
         return;
       }
@@ -2477,7 +3303,7 @@
             if (data && data.fatal) {
               const playBtn = document.getElementById("podPlayBtn");
               const podWrap = document.getElementById("podcastBoxWrap");
-              if (playBtn) playBtn.textContent = "▶️ Phát Podcast";
+              if (playBtn) playBtn.innerHTML = svgIcon("play", 14) + "<span>Phát Podcast</span>";
               if (podWrap) podWrap.classList.remove("playing");
               if ("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused";
             }
@@ -2512,49 +3338,44 @@
 
     function renderPodcastMode(it) {
       const box = document.getElementById("modeContainer");
-      const rowsHtml = it.subs.map((s, idx) => `
-        <div class="sub-item ${idx === playbackSubIdx ? "active" : ""}" onclick="clickTranscriptRow(${idx})">
-          <span class="sub-time">${fmtTime(getSubDisplayTimeMs(it, s))}</span>
-          <div style="flex:1;min-width:0;">
-            ${showEnSub ? `<div class="sub-en">${s.en}</div>` : `<div class="sub-en" style="color:var(--muted);">••• (Đã ẩn phụ đề Anh)</div>`}
-            ${showViSub && s.vi ? `<div class="sub-vi">${s.vi}</div>` : ""}
-          </div>
-        </div>
-      `).join("");
+      const rowsHtml = buildSubRowsHtml(it);
 
       box.innerHTML = `
         <div class="ctrl-bar">
-          <div style="font-weight:800;font-size:13.5px;color:var(--success);">📻 Đang ở chế độ Podcast Chạy Nền — Tắt màn hình hoặc thoát app vẫn nghe liên tục</div>
+          <div style="font-weight:800;font-size:13.5px;color:var(--success);display:inline-flex;align-items:center;gap:6px;">${svgIcon("volume", 15)}<span>Podcast chạy nền (tắt màn hình vẫn phát)</span></div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="ctrl-btn" onclick="showEnSub=!showEnSub;renderModeContent()">${showEnSub ? "👁️ Ẩn tiếng Anh" : "👁️ Hiện tiếng Anh"}</button>
-            <button class="ctrl-btn" onclick="toggleViSub()">${showViSub ? "🇻🇳 Ẩn nghĩa Việt" : "🇻🇳 Hiện nghĩa Việt"}</button>
+            <button type="button" class="ctrl-btn" onclick="showEnSub=!showEnSub;renderModeContent()">${svgIcon(showEnSub ? "eyeOff" : "eye", 14)}<span>${showEnSub ? "Ẩn Anh" : "Hiện Anh"}</span></button>
+            <button type="button" class="ctrl-btn" onclick="toggleViSub()">${svgIcon(showViSub ? "eyeOff" : "eye", 14)}<span>${showViSub ? "Ẩn Việt" : "Hiện Việt"}</span></button>
           </div>
         </div>
         <div class="subs-list" id="subsList">${rowsHtml}</div>
       `;
+      if (playbackSubIdx > 0) {
+        requestAnimationFrame(() => highlightTranscriptRow(playbackSubIdx));
+      }
     }
 
-    function renderModeContent() {
+    function renderModeContent(opts) {
       const it = getActiveItem();
       if (!it) return;
       if (currentMode === "transcript") renderTranscriptMode(it);
       else if (currentMode === "shadowing") renderShadowingMode(it);
       else if (currentMode === "podcast") renderPodcastMode(it);
-      else renderDictationMode(it);
+      else renderDictationMode(it, opts);
 
       const host = document.getElementById("modeContainer");
       const idx = ITEMS.findIndex(x => x.id === it.id);
       if (host && idx >= 0) {
         const prevIt = idx > 0 ? ITEMS[idx - 1] : null;
         const nextIt = idx + 1 < ITEMS.length ? ITEMS[idx + 1] : null;
-        const escTitle = (s) => String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+        const escTitle = (s) => escHtml(s);
         const nav = document.createElement("div");
         nav.id = "tedLessonNav";
         nav.className = "ted-lesson-nav";
         nav.innerHTML = `
-          <button type="button" class="ctrl-btn" id="btnPrevTedLesson" ${prevIt ? `onclick="stepLesson(-1)" title="Bài trước: ${escTitle(prevIt.title)}"` : 'disabled title="Đã ở bài đầu tiên"'}>◀ Bài trước</button>
-          <span style="font-size:12px;font-weight:700;color:var(--muted);">Bài ${idx + 1}/${ITEMS.length}</span>
-          <button type="button" class="ctrl-btn primary" id="btnNextTedLesson" ${nextIt ? `onclick="stepLesson(1)" title="Bài tiếp theo: ${escTitle(nextIt.title)}"` : 'disabled title="Đã ở bài cuối cùng"'}>Bài tiếp theo ▶</button>
+          <button type="button" class="ctrl-btn" id="btnPrevTedLesson" ${prevIt ? `onclick="stepLesson(-1)" title="Bài trước: ${escTitle(prevIt.title)}"` : 'disabled title="Đã ở bài đầu tiên"'}>${svgIcon("arrowLeft", 14)}<span>Bài trước</span></button>
+          <span style="font-size:12px;font-weight:700;color:var(--lg-ink-muted);">Bài ${idx + 1}/${ITEMS.length}</span>
+          <button type="button" class="ctrl-btn primary" id="btnNextTedLesson" ${nextIt ? `onclick="stepLesson(1)" title="Bài tiếp theo: ${escTitle(nextIt.title)}"` : 'disabled title="Đã ở bài cuối cùng"'}><span>Bài tiếp</span>${svgIcon("arrowRight", 14)}</button>
         `;
         host.appendChild(nav);
       }
@@ -2586,14 +3407,72 @@
     }
     setupPodcastEvents();
     setupTedVideoEvents();
-    startSyncLoop();
-    renderSidebar();
-    setTimeout(() => {
-      const act = document.querySelector("#lessonList .lesson-item.active");
-      if (act) { try { act.scrollIntoView({ block: "center", behavior: "auto" }); } catch (e) {} }
-    }, 50);
-    loadActiveVideo();
-    renderModeContent();
+    (function bootTedDeepLink() {
+      let hasJump = false;
+      let jumpIdx = -1;
+      try {
+        const sp = new URLSearchParams(window.location.search);
+        const qParam = sp.get("q");
+        if (qParam) {
+          const inp = document.getElementById("searchInput");
+          if (inp) {
+            inp.value = qParam;
+            if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+          }
+        }
+        const idParam = sp.get("id");
+        if (idParam) {
+          const found = ITEMS.find(x => x.id === idParam);
+          if (found) {
+            activeId = found.id;
+            localStorage.setItem(STORAGE_LAST, activeId);
+          }
+        }
+        const modeParam = sp.get("mode");
+        if (modeParam && ["dictation", "transcript", "shadowing", "podcast"].includes(modeParam)) {
+          currentMode = modeParam;
+          document.querySelectorAll(".mode-pill").forEach(b => {
+            b.classList.toggle("active", b.getAttribute("data-mode") === modeParam);
+          });
+          const ytWrap = document.getElementById("ytBoxWrap");
+          const podWrap = document.getElementById("podcastBoxWrap");
+          if (modeParam === "podcast") {
+            if (ytWrap) ytWrap.style.display = "none";
+            if (podWrap) podWrap.style.display = "block";
+          } else {
+            if (podWrap) podWrap.style.display = "none";
+            if (ytWrap) ytWrap.style.display = "block";
+          }
+        }
+        const subRaw = sp.get("sub");
+        if (subRaw !== null && subRaw !== "") {
+          const subNum = parseInt(subRaw, 10);
+          const curIt = getActiveItem();
+          if (Number.isFinite(subNum) && subNum >= 0 && curIt && Array.isArray(curIt.subs) && subNum < curIt.subs.length) {
+            hasJump = true;
+            jumpIdx = subNum;
+            currentSubIdx = subNum;
+            playbackSubIdx = subNum;
+            saveSubPos();
+          }
+        } else if (idParam) {
+          const curIt = getActiveItem();
+          const saved = Number(posMap[activeId] || 0);
+          currentSubIdx = (curIt && Array.isArray(curIt.subs) && saved >= 0 && saved < curIt.subs.length) ? saved : 0;
+          playbackSubIdx = 0;
+        }
+      } catch (e) {}
+      renderSidebar();
+      setTimeout(() => {
+        const act = document.querySelector("#lessonList .lesson-item.active");
+        if (act) { try { act.scrollIntoView({ block: "center", behavior: "auto" }); } catch (e) {} }
+      }, 50);
+      loadActiveVideo(currentMode === "podcast");
+      renderModeContent({ autoFocus: false });
+      if (hasJump) {
+        scheduleSubJump(activeId, jumpIdx, currentMode);
+      }
+    })();
   </script>
   <script src="../assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>

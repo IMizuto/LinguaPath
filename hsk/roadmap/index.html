@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="portal" data-course="hsk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        document.documentElement.style.setProperty("--s4-safe-top", (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <title>Lộ Trình Học HSK 1–6 &amp; HSKK — LinguaPath</title>
+
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+
+  <!-- Sử dụng trực tiếp bộ token --lg-* tầng portal & tông nhấn HSK từ s4-ui.css (Clear Liquid Glass) -->
+  <style>
+    @view-transition { navigation: auto; }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+      touch-action: pan-y;
+      min-height: 100vh;
+      background: transparent !important;
+      color: var(--lg-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    .rm-glass {
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      border: 1px solid var(--lg-hairline);
+      text-shadow: var(--lg-text-halo);
+      box-shadow:
+        inset 0 1.5px 0 var(--lg-rim-top),
+        inset 1px 0 0 var(--lg-rim-side),
+        inset 0 -1px 0 var(--lg-rim-bot),
+        var(--lg-shadow);
+    }
+    .rm-cta-btn, .rm-pill.active, .rm-badge.status-done {
+      text-shadow: none;
+    }
+
+    .rm-shell {
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+      padding:
+        calc(10px + var(--s4-safe-top, 0px))
+        calc(14px + env(safe-area-inset-right, 0px))
+        calc(88px + env(safe-area-inset-bottom, 0px))
+        calc(14px + env(safe-area-inset-left, 0px));
+    }
+
+    /* 1. Floating Liquid Glass Topbar 1 hàng duy nhất */
+    .rm-topbar {
+      position: sticky;
+      top: calc(8px + var(--s4-safe-top, 0px));
+      z-index: 40;
+      border-radius: 22px;
+      padding: 8px 10px;
+      margin-bottom: 14px;
+      background: var(--lg-surface-strong);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rm-top-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .rm-back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      color: var(--lg-ink);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.16s ease, transform 0.15s ease;
+    }
+    .rm-back-pill:hover { background: var(--lg-wash-hover); }
+    .rm-back-pill:active { transform: scale(0.97); }
+
+    .rm-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .rm-brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      flex-shrink: 0;
+    }
+    .rm-brand-text { min-width: 0; }
+    .rm-brand-title {
+      margin: 0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: var(--lg-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rm-brand-sub {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--lg-ink-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rm-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .rm-icon-btn {
+      height: 36px;
+      min-width: 36px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      text-shadow: none;
+      transition: background 0.16s ease, transform 0.15s ease;
+    }
+    .rm-icon-btn:hover { background: var(--lg-wash-hover); }
+    .rm-icon-btn:active { transform: scale(0.96); }
+    .rm-icon-btn.donate {
+      background: var(--lg-rose-soft);
+      color: var(--lg-rose);
+      border-color: rgba(225, 29, 72, 0.24);
+    }
+
+    /* 2. Dải tổng quan 3 cột liền khối */
+    .rm-summary-strip {
+      border-radius: 22px;
+      padding: 12px 8px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+    }
+    .rm-sum-cell {
+      padding: 4px 10px;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      min-width: 0;
+      position: relative;
+      border-radius: 14px;
+      transition: background 0.16s ease;
+    }
+    .rm-sum-cell + .rm-sum-cell::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 16%;
+      bottom: 16%;
+      width: 1px;
+      background: var(--lg-divider);
+    }
+    .rm-sum-cell.clickable:hover { background: var(--lg-wash); }
+    .rm-sum-num {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--lg-accent);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rm-sum-num.is-stage { color: var(--lg-green); }
+    .rm-sum-num.is-due { color: var(--lg-rose); }
+    .rm-sum-lbl {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 3. Panel kính chính & Segmented Pill Control */
+    .rm-panel {
+      border-radius: 24px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .rm-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .rm-panel-title {
+      margin: 0;
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--lg-ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .rm-panel-title svg { color: var(--lg-accent); flex-shrink: 0; }
+    .rm-ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      color: var(--lg-ink-sub);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .rm-ghost-btn:hover { background: var(--lg-wash-hover); color: var(--lg-ink); }
+
+    .rm-seg-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 12px;
+    }
+    .rm-seg-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.45px;
+      color: var(--lg-ink-muted);
+      margin-bottom: 6px;
+    }
+    .rm-seg-track {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 15px;
+      background: var(--lg-seg-track);
+    }
+    .rm-seg-btn {
+      flex: 1 1 0;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      color: var(--lg-ink-sub);
+      border-radius: 11px;
+      padding: 7px 8px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-shadow: none;
+      transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+    }
+    .rm-seg-btn small {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--lg-ink-muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rm-seg-btn:hover { color: var(--lg-ink); }
+    .rm-seg-btn.active {
+      background: var(--lg-seg-active);
+      color: var(--lg-accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    .rm-seg-btn.active small { color: var(--lg-ink-sub); }
+    .rm-inline-note {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--lg-ink-sub);
+    }
+    .rm-inline-note svg { color: var(--lg-accent); flex-shrink: 0; }
+
+    /* Lưới "Hôm nay học gì?" — nền wash đồng tâm bo 16px */
+    .rm-focus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-focus-item {
+      border-radius: 16px;
+      padding: 13px;
+      background: var(--lg-wash);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      transition: background 0.16s ease, transform 0.16s ease;
+    }
+    .rm-focus-item:hover { background: var(--lg-wash-hover); transform: translateY(-1px); }
+    .rm-focus-item.is-due { background: var(--lg-rose-soft); }
+
+    .rm-item-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+    }
+    .rm-mod-ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+    }
+    .rm-mod-ico.mod-lessons { background: #fee2e2; color: #dc2626; }
+    .rm-mod-ico.mod-vocab { background: #dbeafe; color: #1d4ed8; }
+    .rm-mod-ico.mod-grammar { background: #ccfbf1; color: #0f766e; }
+    .rm-mod-ico.mod-writing { background: #ffedd5; color: #c2410c; }
+    .rm-mod-ico.mod-listening { background: #fef3c7; color: #b45309; }
+    .rm-mod-ico.mod-reading { background: #dcfce7; color: #15803d; }
+    .rm-mod-ico.mod-speaking { background: #ffe4e6; color: #be123c; }
+    .rm-mod-ico.mod-mock { background: #f3e8ff; color: #7e22ce; }
+    html.dark .rm-mod-ico.mod-lessons { background: rgba(239, 68, 68, 0.22); color: #fca5a5; }
+    html.dark .rm-mod-ico.mod-vocab { background: rgba(59, 130, 246, 0.22); color: #93c5fd; }
+    html.dark .rm-mod-ico.mod-grammar { background: rgba(20, 184, 166, 0.22); color: #5eead4; }
+    html.dark .rm-mod-ico.mod-writing { background: rgba(249, 115, 22, 0.22); color: #fdba74; }
+    html.dark .rm-mod-ico.mod-listening { background: rgba(245, 158, 11, 0.22); color: #fcd34d; }
+    html.dark .rm-mod-ico.mod-reading { background: rgba(34, 197, 94, 0.22); color: #86efac; }
+    html.dark .rm-mod-ico.mod-speaking { background: rgba(244, 63, 94, 0.22); color: #fda4af; }
+    html.dark .rm-mod-ico.mod-mock { background: rgba(168, 85, 247, 0.22); color: #d8b4fe; }
+    .rm-focus-item.is-due .rm-mod-ico {
+      background: rgba(225, 29, 72, 0.16);
+      color: var(--lg-rose);
+    }
+
+    .rm-item-kicker {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--lg-accent);
+      margin-bottom: 2px;
+    }
+    .rm-focus-item.is-due .rm-item-kicker { color: var(--lg-rose); }
+    .rm-item-title {
+      margin: 0;
+      font-size: 13.8px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--lg-ink);
+    }
+    .rm-item-hint {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--lg-ink-muted);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+    .rm-focus-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--lg-divider);
+    }
+    .rm-prog-txt {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+    }
+    .rm-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--lg-accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: filter 0.15s ease, transform 0.14s ease;
+    }
+    .rm-cta-btn:hover { filter: brightness(1.08); }
+    .rm-cta-btn:active { transform: scale(0.97); }
+    .rm-focus-item.is-due .rm-cta-btn { background: #e11d48; }
+
+    /* 4. Thanh Stepper 6 Chặng + Bộ lọc 9 kỹ năng */
+    .rm-nav-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 16px 0 12px;
+    }
+    .rm-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .rm-pills-scroll {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px;
+      scrollbar-width: none;
+      flex: 1;
+      min-width: 0;
+    }
+    .rm-pills-scroll::-webkit-scrollbar { display: none; }
+    .rm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      color: var(--lg-ink-sub);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .rm-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
+    .rm-pill.active {
+      background: var(--lg-accent);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.14);
+    }
+    .rm-pill.done-pill:not(.active) {
+      color: var(--lg-green);
+      border-color: rgba(16, 185, 129, 0.36);
+    }
+
+    /* 5. Thẻ 6 Chặng Accordion Glass */
+    .rm-stage {
+      border-radius: 24px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    .rm-stage.is-current {
+      border-color: rgba(220, 38, 38, 0.42);
+    }
+    html.dark .rm-stage.is-current {
+      border-color: rgba(248, 113, 113, 0.45);
+    }
+    .rm-stage-head {
+      padding: 15px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+      transition: background 0.16s ease;
+    }
+    .rm-stage-head:hover { background: var(--lg-wash); }
+    .rm-stage-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .rm-stage-ico {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-wash-hover);
+      color: var(--lg-accent);
+    }
+    .rm-stage-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .rm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--lg-wash-hover);
+      color: var(--lg-ink-sub);
+    }
+    .rm-badge.band { background: var(--lg-accent-soft); color: var(--lg-accent); }
+    .rm-badge.status-done { background: var(--lg-green-soft); color: var(--lg-green); }
+    .rm-badge.status-cur { background: var(--lg-accent-soft); color: var(--lg-accent); }
+    .rm-stage-title {
+      margin: 0 0 3px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--lg-ink);
+      line-height: 1.35;
+    }
+    .rm-stage-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+    }
+    .rm-stage-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+    .rm-stage-pct {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--lg-accent);
+      white-space: nowrap;
+    }
+    .rm-chevron {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--lg-wash);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lg-ink-sub);
+      transition: transform 0.2s ease;
+    }
+    .rm-stage.open .rm-chevron { transform: rotate(180deg); }
+
+    .rm-stage-bar-wrap { padding: 0 18px 14px; }
+    .rm-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: var(--lg-bar-track, var(--lg-divider));
+      overflow: hidden;
+    }
+    .rm-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .rm-stage-body {
+      display: none;
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--lg-divider);
+    }
+    .rm-stage.open .rm-stage-body { display: block; }
+    .rm-stage-goal {
+      margin: 0 0 6px;
+      font-size: 13px;
+      color: var(--lg-ink-sub);
+      line-height: 1.45;
+    }
+    .rm-stage-tip {
+      margin: 0 0 12px;
+      padding: 5px 0 5px 10px;
+      border-left: 3px solid var(--lg-amber);
+      font-size: 12px;
+      color: var(--lg-ink-sub);
+      line-height: 1.4;
+    }
+
+    .rm-tasks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-task {
+      border-radius: 16px;
+      padding: 13px;
+      background: var(--lg-wash);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      transition: background 0.16s ease;
+    }
+    .rm-task:hover { background: var(--lg-wash-hover); }
+    .rm-task.is-done { background: var(--lg-green-soft); }
+    .rm-task.is-skipped { opacity: 0.78; }
+    .rm-task-desc {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--lg-ink-muted);
+      line-height: 1.4;
+    }
+    .rm-task-hint {
+      margin-top: 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-accent);
+    }
+    .rm-task.is-done .rm-task-hint { color: var(--lg-green); }
+
+    .rm-task-foot { display: flex; flex-direction: column; gap: 7px; }
+    .rm-task-prog-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      gap: 8px;
+    }
+    .rm-task-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .rm-skip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background: var(--lg-seg-track);
+      color: var(--lg-ink-sub);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .rm-skip-btn:hover { background: var(--lg-wash-hover); color: var(--lg-ink); }
+    .rm-skip-btn.active {
+      background: var(--lg-green-soft);
+      color: var(--lg-green);
+    }
+
+    @media (max-width: 760px) {
+      .rm-seg-grid, .rm-focus-grid, .rm-tasks-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .rm-brand-sub, .rm-hide-xs { display: none; }
+      .rm-topbar { padding: 7px 9px; border-radius: 18px; }
+      .rm-summary-strip { padding: 10px 4px; border-radius: 18px; }
+      .rm-sum-num { font-size: 17.5px; }
+      .rm-sum-lbl { font-size: 11px; }
+      .rm-panel { padding: 14px; border-radius: 20px; }
+      .rm-stage { border-radius: 20px; }
+      .rm-stage-head { padding: 14px; }
+      .rm-stage-bar-wrap { padding: 0 14px 12px; }
+      .rm-stage-body { padding: 12px 14px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+
+  <div class="rm-shell">
+    <header class="rm-topbar rm-glass">
+      <div class="rm-top-left">
+        <a href="../index.html" class="rm-back-pill" id="rmBackBtn" title="Về Cổng HSK">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>HSK</span>
+        </a>
+        <div class="rm-brand">
+          <div class="rm-brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+          </div>
+          <div class="rm-brand-text">
+            <h1 class="rm-brand-title">Lộ Trình Học HSK 1–6</h1>
+            <div class="rm-brand-sub">6 Chặng đồng bộ 8 phân hệ &amp; HSKK</div>
+          </div>
+        </div>
+      </div>
+      <div class="rm-top-actions">
+        <button type="button" class="rm-icon-btn donate" id="rmDonateBtn" title="Ủng hộ dự án">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="rm-hide-xs">Ủng hộ</span>
+        </button>
+        <button type="button" class="rm-icon-btn" id="rmDarkBtn" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+
+    <section class="rm-summary-strip rm-glass" aria-label="Tổng quan lộ trình HSK">
+      <div class="rm-sum-cell">
+        <div class="rm-sum-num" id="sumOverallPct">0%</div>
+        <div class="rm-sum-lbl" id="sumTasksDone">0 / 0 học phần</div>
+      </div>
+      <div class="rm-sum-cell">
+        <div class="rm-sum-num is-stage" id="sumCurrentStage">Chặng 1</div>
+        <div class="rm-sum-lbl" id="sumStageLevel">Pinyin → HSK 1</div>
+      </div>
+      <a class="rm-sum-cell clickable" id="sumDueLink" href="../vocab/index.html?filter=due&from=roadmap" title="Mở ôn tập các từ HSK SRS đến hạn">
+        <div class="rm-sum-num is-due" id="sumDueWords">0</div>
+        <div class="rm-sum-lbl">Từ HSK SRS cần ôn</div>
+      </a>
+    </section>
+
+    <section class="rm-panel rm-glass">
+      <div class="rm-panel-head">
+        <h2 class="rm-panel-title" id="prefTitle">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <span>Cá nhân hóa lộ trình</span>
+        </h2>
+        <button type="button" class="rm-ghost-btn" id="btnResetPrefs">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <span>Mặc định</span>
+        </button>
+      </div>
+      <div class="rm-seg-grid">
+        <div>
+          <div class="rm-seg-label">Xuất phát điểm</div>
+          <div class="rm-seg-track" id="startLevelChips"></div>
+        </div>
+        <div>
+          <div class="rm-seg-label">Nhịp học / ngày</div>
+          <div class="rm-seg-track" id="paceChips"></div>
+        </div>
+      </div>
+      <div class="rm-inline-note" id="prefDescNote"></div>
+    </section>
+
+    <section class="rm-panel rm-glass">
+      <div class="rm-panel-head">
+        <h2 class="rm-panel-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <span>Hôm nay học gì?</span>
+        </h2>
+        <span style="font-size:12px;font-weight:700;color:var(--lg-ink-muted);" id="focusStageLabel"></span>
+      </div>
+      <div class="rm-focus-grid" id="dailyFocusGrid"></div>
+    </section>
+
+    <nav class="rm-nav-wrap" aria-label="Điều hướng chặng và kỹ năng HSK">
+      <div class="rm-nav-row">
+        <div class="rm-pills-scroll" id="stageNavPills"></div>
+        <button type="button" class="rm-ghost-btn" id="btnToggleAllStages">Mở tất cả</button>
+      </div>
+      <div class="rm-pills-scroll" id="moduleFilterPills"></div>
+    </nav>
+
+    <section id="stagesContainer" aria-label="Chi tiết 6 chặng lộ trình HSK"></section>
+  </div>
+
+  <script src="roadmap_data.js?v=1"></script>
+  <script src="roadmap.js?v=1"></script>
+  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var FALLBACK_SVG = {
+        lessons: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+        vocab: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>',
+        grammar: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/>',
+        writing: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+        listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+        reading: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+        speaking: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/>',
+        mock: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+        bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+        play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+        arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+        check: '<polyline points="20 6 9 17 4 12"/>',
+        clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        chevronDown: '<path d="m6 9 6 6 6-6"/>',
+        info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+        sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+        sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+        moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
+      };
+
+      var MODULE_ICON_MAP = {
+        lessons: "graduation",
+        vocab: "vocab",
+        grammar: "grammar",
+        writing: "writing",
+        listening: "listening",
+        reading: "reading",
+        speaking: "speaking",
+        mock: "award"
+      };
+
+      function svgIcon(name, size) {
+        var sz = size || 16;
+        var mapped = MODULE_ICON_MAP[name] || name;
+        if (window.S4UI && typeof window.S4UI.icon === "function") {
+          return window.S4UI.icon(mapped, sz);
+        }
+        var body = FALLBACK_SVG[name] || FALLBACK_SVG[mapped] || FALLBACK_SVG.sparkle;
+        return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
+      }
+
+      var MODULE_FILTERS = [
+        { id: "all", icon: "sparkle", label: "Tất cả" },
+        { id: "lessons", icon: "lessons", label: "Bài giảng" },
+        { id: "vocab", icon: "vocab", label: "Từ vựng" },
+        { id: "grammar", icon: "grammar", label: "Ngữ pháp & Lượng từ" },
+        { id: "writing", icon: "writing", label: "Luyện viết" },
+        { id: "listening", icon: "listening", label: "Nghe" },
+        { id: "reading", icon: "reading", label: "Đọc" },
+        { id: "speaking", icon: "speaking", label: "Khẩu ngữ HSKK" },
+        { id: "mock", icon: "mock", label: "Thi thử Mock" }
+      ];
+
+      var openStages = {};
+      var userToggledStage = false;
+      var activeModuleFilter = "all";
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      function syncDarkIcon() {
+        var btn = document.getElementById("rmDarkBtn");
+        if (!btn) return;
+        var isDark = document.documentElement.classList.contains("dark");
+        if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+          window.S4UI.renderThemeButton(btn, isDark);
+          return;
+        }
+        btn.innerHTML = svgIcon(isDark ? "sun" : "moon", 16);
+        btn.title = isDark ? "Đang ở chế độ Tối — Bấm để chuyển sang Sáng" : "Đang ở chế độ Sáng — Bấm để chuyển sang Tối";
+      }
+
+      function toggleDarkMode() {
+        if (window.toggleDarkModeOnly) {
+          window.toggleDarkModeOnly();
+        } else {
+          var isDark = !document.documentElement.classList.contains("dark");
+          document.documentElement.classList.toggle("dark", isDark);
+          if (document.body) document.body.classList.toggle("dark", isDark);
+          try { localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0"); } catch (e) {}
+        }
+        syncDarkIcon();
+      }
+
+      function renderAll() {
+        var data = window.LP_HSK_ROADMAP_DATA;
+        var api = window.LPHskRoadmap;
+        if (!data || !api) return;
+
+        var ev = api.evaluateRoadmap({ urlPrefix: "../../" });
+        if (!ev) return;
+
+        if (!userToggledStage && ev.activeStage) {
+          openStages = {};
+          openStages[ev.activeStage.id] = true;
+        }
+
+        // 1. Dải tổng quan 3 cột
+        document.getElementById("sumOverallPct").textContent = ev.overallPct + "%";
+        document.getElementById("sumTasksDone").textContent = ev.completedTasks + " / " + ev.totalTasks + " học phần";
+        document.getElementById("sumCurrentStage").textContent = ev.activeStage ? ("Chặng " + ev.activeStage.order) : "Hoàn tất";
+        document.getElementById("sumStageLevel").textContent = ev.activeStage ? (ev.activeStage.levelRange + " • " + ev.activeStage.estWeeks) : "HSK 6";
+        document.getElementById("sumDueWords").textContent = ev.dueWordsTotal.toLocaleString("en-US");
+        var dueLinkEl = document.getElementById("sumDueLink");
+        if (dueLinkEl && ev.dueTargetUrl) dueLinkEl.setAttribute("href", ev.dueTargetUrl);
+
+        // 2. Cá nhân hóa lộ trình (Segmented Pill)
+        document.getElementById("startLevelChips").innerHTML = data.START_LEVELS.map(function (lv) {
+          var act = lv.id === ev.state.startLevel ? " active" : "";
+          return '<button type="button" class="rm-seg-btn' + act + '" data-action="start" data-id="' + esc(lv.id) + '">'
+            + esc(lv.shortLabel || lv.label) + '<small>' + esc(lv.badge) + '</small></button>';
+        }).join("");
+
+        document.getElementById("paceChips").innerHTML = data.PACES.map(function (pc) {
+          var act = pc.id === ev.state.pace ? " active" : "";
+          return '<button type="button" class="rm-seg-btn' + act + '" data-action="pace" data-id="' + esc(pc.id) + '">'
+            + esc(pc.label) + '<small>' + esc(pc.dailyDesc) + '</small></button>';
+        }).join("");
+
+        document.getElementById("prefDescNote").innerHTML = svgIcon("info", 15)
+          + '<span>' + esc(ev.startLevel.desc)
+          + (ev.activeStage ? (' Dự kiến xong <b>Chặng ' + ev.activeStage.order + '</b> trong <b>' + esc(ev.activeStage.estWeeks) + '</b> (' + esc(ev.pace.dailyDesc) + ').') : '')
+          + '</span>';
+
+        // 3. Hôm nay học gì?
+        document.getElementById("focusStageLabel").textContent = ev.activeStage
+          ? ("Chặng " + ev.activeStage.order + " • " + ev.activeStage.levelRange)
+          : "";
+        var focusEl = document.getElementById("dailyFocusGrid");
+        if (!ev.dailyFocus.length) {
+          focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần lộ trình HSK 1–6. Hãy duy trì luyện thêm đề Full Mock và ôn SRS hằng ngày.</div>';
+        } else {
+          focusEl.innerHTML = ev.dailyFocus.map(function (item) {
+            var dueCls = item.isDueBanner ? " is-due" : "";
+            var iconName = item.isDueBanner ? "bell" : item.module;
+            var progTxt = item.isDueBanner
+              ? "Ưu tiên hôm nay"
+              : (item.done.toLocaleString("en-US") + "/" + item.total.toLocaleString("en-US") + " " + esc(item.unitLabel) + " (" + item.pct + "%)");
+            return '<div class="rm-focus-item' + dueCls + '">'
+              + '<div class="rm-item-top">'
+              + '  <div class="rm-mod-ico mod-' + esc(item.module) + '">' + svgIcon(iconName, 18) + '</div>'
+              + '  <div style="min-width:0;flex:1;">'
+              + '    <div class="rm-item-kicker">' + esc(item.moduleLabel) + '</div>'
+              + '    <h3 class="rm-item-title">' + esc(item.title) + '</h3>'
+              + '    <div class="rm-item-hint">' + esc(item.nextHint) + '</div>'
+              + '  </div>'
+              + '</div>'
+              + '<div class="rm-focus-foot">'
+              + '  <span class="rm-prog-txt">' + progTxt + '</span>'
+              + '  <a class="rm-cta-btn" href="' + esc(item.nextUrl) + '">' + svgIcon("play", 12) + '<span>Học ngay</span></a>'
+              + '</div>'
+              + '</div>';
+          }).join("");
+        }
+
+        // 4. Thanh Stepper 6 Chặng & Bộ lọc 9 kỹ năng
+        document.getElementById("stageNavPills").innerHTML = ev.stages.map(function (st) {
+          var cls = "rm-pill" + (ev.activeStage && ev.activeStage.id === st.id ? " active" : "") + (st.isCompleted ? " done-pill" : "");
+          var suffix = st.isCompleted ? svgIcon("check", 12) : ("<span>• " + st.pct + "%</span>");
+          return '<button type="button" class="' + cls + '" data-action="jump-stage" data-id="' + esc(st.id) + '">'
+            + svgIcon(st.icon, 13) + '<span>Chặng ' + st.order + '</span>' + suffix + '</button>';
+        }).join("");
+
+        document.getElementById("moduleFilterPills").innerHTML = MODULE_FILTERS.map(function (mf) {
+          var cls = "rm-pill" + (activeModuleFilter === mf.id ? " active" : "");
+          return '<button type="button" class="' + cls + '" data-action="filter-mod" data-id="' + esc(mf.id) + '">'
+            + svgIcon(mf.icon, 13) + '<span>' + esc(mf.label) + '</span></button>';
+        }).join("");
+
+        var allOpen = ev.stages.every(function (st) { return Boolean(openStages[st.id]); });
+        document.getElementById("btnToggleAllStages").textContent = allOpen ? "Thu gọn" : "Mở tất cả";
+
+        // 5. Danh sách 6 Chặng Accordion Glass
+        document.getElementById("stagesContainer").innerHTML = ev.stages.map(function (st) {
+          var isOpen = Boolean(openStages[st.id]);
+          var isCur = ev.activeStage && ev.activeStage.id === st.id;
+          var statusBadge = st.preCompletedByLevel
+            ? '<span class="rm-badge status-done">' + svgIcon("check", 11) + '<span>Đã qua theo nền tảng</span></span>'
+            : (st.isCompleted
+              ? '<span class="rm-badge status-done">' + svgIcon("check", 11) + '<span>Hoàn thành</span></span>'
+              : (isCur ? '<span class="rm-badge status-cur">Đang học</span>' : '<span class="rm-badge">Sắp tới</span>'));
+
+          var filteredTasks = st.tasks.filter(function (tk) {
+            return activeModuleFilter === "all" || tk.module === activeModuleFilter;
+          });
+
+          var tasksHtml = filteredTasks.length ? filteredTasks.map(function (tk) {
+            var cls = "rm-task" + (tk.isEffectiveDone ? " is-done" : "") + (tk.isSkipped ? " is-skipped" : "");
+            var countText = tk.evalType === "due_review"
+              ? (tk.isCompleted ? "Sạch từ đến hạn" : "Cần ôn tập")
+              : (tk.done.toLocaleString("en-US") + " / " + tk.total.toLocaleString("en-US") + " " + esc(tk.unitLabel) + " (" + tk.rawPct + "%)");
+            var skipLabel = tk.isSkipped ? "Đã bỏ qua" : "Đã vững";
+            var skipBtn = tk.isCompleted ? "" : (
+              '<button type="button" class="rm-skip-btn' + (tk.isSkipped ? " active" : "") + '" data-action="skip-task" data-id="' + esc(tk.id) + '">'
+              + svgIcon("check", 12) + '<span>' + skipLabel + '</span></button>'
+            );
+
+            return '<div class="' + cls + '">'
+              + '<div class="rm-item-top">'
+              + '  <div class="rm-mod-ico mod-' + esc(tk.module) + '">' + svgIcon(tk.evalType === "due_review" ? "bell" : tk.module, 17) + '</div>'
+              + '  <div style="min-width:0;flex:1;">'
+              + '    <div class="rm-item-kicker">' + esc(tk.moduleLabel) + (tk.isCompleted ? ' • Hoàn thành' : (tk.isSkipped ? ' • Đã bỏ qua' : '')) + '</div>'
+              + '    <h4 class="rm-item-title">' + esc(tk.title) + '</h4>'
+              + '    <p class="rm-task-desc">' + esc(tk.desc) + '</p>'
+              + '    <div class="rm-task-hint">' + esc(tk.nextHint) + '</div>'
+              + '  </div>'
+              + '</div>'
+              + '<div class="rm-task-foot">'
+              + '  <div class="rm-task-prog-row"><span>' + countText + '</span><span>' + tk.pct + '%</span></div>'
+              + '  <div class="rm-bar"><div class="rm-bar-fill" style="width:' + tk.pct + '%;background:' + (tk.isEffectiveDone ? 'var(--lg-green)' : st.color) + ';"></div></div>'
+              + '  <div class="rm-task-actions">'
+              +      skipBtn
+              + '    <a class="rm-cta-btn" href="' + esc(tk.nextUrl) + '" style="margin-left:auto;"><span>' + (tk.isCompleted ? 'Ôn lại' : 'Vào học') + '</span>' + svgIcon("arrowRight", 13) + '</a>'
+              + '  </div>'
+              + '</div>'
+              + '</div>';
+          }).join("") : '<div style="grid-column:1/-1;font-size:13px;color:var(--lg-ink-muted);padding:6px 2px;">Chặng này không có học phần thuộc bộ lọc kỹ năng đang chọn.</div>';
+
+          return '<article class="rm-stage rm-glass' + (isOpen ? " open" : "") + (isCur ? " is-current" : "") + '" id="stageCard_' + esc(st.id) + '">'
+            + '<div class="rm-stage-head" data-action="toggle-stage" data-id="' + esc(st.id) + '">'
+            + '  <div class="rm-stage-left">'
+            + '    <div class="rm-stage-ico">' + svgIcon(st.icon, 20) + '</div>'
+            + '    <div style="min-width:0;">'
+            + '      <div class="rm-stage-badges">'
+            + '        <span class="rm-badge">' + esc(st.badge) + '</span>'
+            + '        <span class="rm-badge band">' + esc(st.levelRange) + '</span>'
+            +          statusBadge
+            + '      </div>'
+            + '      <h3 class="rm-stage-title">' + esc(st.title) + '</h3>'
+            + '      <div class="rm-stage-meta">' + svgIcon("clock", 13) + '<span>Dự kiến: ' + esc(st.estWeeks) + ' • ' + st.doneTaskCount + '/' + st.totalTaskCount + ' học phần</span></div>'
+            + '    </div>'
+            + '  </div>'
+            + '  <div class="rm-stage-right">'
+            + '    <span class="rm-stage-pct">' + st.pct + '%</span>'
+            + '    <span class="rm-chevron">' + svgIcon("chevronDown", 15) + '</span>'
+            + '  </div>'
+            + '</div>'
+            + '<div class="rm-stage-bar-wrap"><div class="rm-bar"><div class="rm-bar-fill" style="width:' + st.pct + '%;background:' + (st.isCompleted ? 'var(--lg-green)' : st.color) + ';"></div></div></div>'
+            + '<div class="rm-stage-body">'
+            + '  <p class="rm-stage-goal"><b>Mục tiêu chặng:</b> ' + esc(st.goal) + '</p>'
+            + '  <div class="rm-stage-tip"><b>Mẹo học:</b> ' + esc(st.tip) + '</div>'
+            + '  <div class="rm-tasks-grid">' + tasksHtml + '</div>'
+            + '</div>'
+            + '</article>';
+        }).join("");
+      }
+
+      function handleActionClick(e) {
+        var btn = e.target && e.target.closest ? e.target.closest("[data-action]") : null;
+        if (!btn) return;
+        var action = btn.getAttribute("data-action");
+        var id = btn.getAttribute("data-id") || "";
+        var api = window.LPHskRoadmap;
+        var data = window.LP_HSK_ROADMAP_DATA;
+
+        if (action === "start" && api) {
+          api.setStartLevel(id);
+          userToggledStage = false;
+          renderAll();
+        } else if (action === "pace" && api) {
+          api.setPace(id);
+          renderAll();
+        } else if (action === "skip-task" && api) {
+          api.toggleSkipTask(id);
+          renderAll();
+        } else if (action === "jump-stage") {
+          userToggledStage = true;
+          openStages[id] = true;
+          renderAll();
+          var el = document.getElementById("stageCard_" + id);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (action === "filter-mod") {
+          activeModuleFilter = id || "all";
+          if (activeModuleFilter !== "all" && data) {
+            userToggledStage = true;
+            data.STAGES.forEach(function (s) { openStages[s.id] = true; });
+          }
+          renderAll();
+        } else if (action === "toggle-stage") {
+          userToggledStage = true;
+          openStages[id] = !openStages[id];
+          var card = document.getElementById("stageCard_" + id);
+          if (card) card.classList.toggle("open", Boolean(openStages[id]));
+          var toggleBtn = document.getElementById("btnToggleAllStages");
+          if (toggleBtn && data) {
+            var allOpen = data.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
+            toggleBtn.textContent = allOpen ? "Thu gọn" : "Mở tất cả";
+          }
+        }
+      }
+
+      document.addEventListener("click", handleActionClick);
+
+      var darkBtnEl = document.getElementById("rmDarkBtn");
+      if (darkBtnEl) darkBtnEl.addEventListener("click", toggleDarkMode);
+
+      var donateBtnEl = document.getElementById("rmDonateBtn");
+      if (donateBtnEl) {
+        donateBtnEl.addEventListener("click", function () {
+          if (window.S4Auth && typeof window.S4Auth.openDonateModal === "function") {
+            window.S4Auth.openDonateModal();
+          }
+        });
+      }
+
+      var resetBtnEl = document.getElementById("btnResetPrefs");
+      if (resetBtnEl) {
+        resetBtnEl.addEventListener("click", function () {
+          if (!window.LPHskRoadmap) return;
+          window.LPHskRoadmap.resetPrefs();
+          userToggledStage = false;
+          activeModuleFilter = "all";
+          renderAll();
+          if (window.S4UI && typeof window.S4UI.toast === "function") {
+            window.S4UI.toast("info", "Đã đặt lại cấu hình lộ trình HSK về mặc định.");
+          }
+        });
+      }
+
+      var toggleAllBtn = document.getElementById("btnToggleAllStages");
+      if (toggleAllBtn) {
+        toggleAllBtn.addEventListener("click", function () {
+          var data = window.LP_HSK_ROADMAP_DATA;
+          if (!data) return;
+          userToggledStage = true;
+          var allOpen = data.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
+          data.STAGES.forEach(function (s) { openStages[s.id] = !allOpen; });
+          renderAll();
+        });
+      }
+
+      syncDarkIcon();
+      renderAll();
+      if (typeof MutationObserver !== "undefined") {
+        new MutationObserver(syncDarkIcon).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      }
+      window.addEventListener("pageshow", function () { syncDarkIcon(); renderAll(); });
+      window.addEventListener("focus", renderAll);
+      window.addEventListener("storage", renderAll);
+    })();
+  </script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
+</body>
+</html>

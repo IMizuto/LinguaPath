@@ -11,6 +11,72 @@
   const LITE_KEY = 's4_ghibli_lite';  // '1' (lite mode: tắt hiệu ứng nặng) | '0' (full)
   const DOCK_MIN_KEY = 's4_dock_min'; // '1' (thu gọn dock) | '0' (mở rộng)
 
+  const FALLBACK_SVG_MAP = {
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+    palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"/>',
+    sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+    chevronDown: '<path d="m6 9 6 6 6-6"/>'
+  };
+
+  function getSvgIcon(name, size) {
+    if (window.S4UI && typeof window.S4UI.icon === 'function') {
+      return window.S4UI.icon(name, size || 16);
+    }
+    const sz = size || 16;
+    const body = FALLBACK_SVG_MAP[name] || FALLBACK_SVG_MAP.sparkle;
+    return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+  }
+
+  function detectGlassTier() {
+    const p = (location.pathname || '/').replace(/\\/g, '/').toLowerCase();
+    const norm = p.replace(/\/index\.html?$/, '/');
+    if (norm === '/' || /\/hsk\/?$/.test(norm) || /\/roadmap\/?$/.test(norm)) {
+      return 'portal';
+    }
+    return 'study';
+  }
+
+  function ensureGlassTier() {
+    const htmlEl = document.documentElement;
+    if (htmlEl && !htmlEl.getAttribute('data-glass-tier')) {
+      htmlEl.setAttribute('data-glass-tier', detectGlassTier());
+    }
+  }
+
+  function renderThemeToggleBtn(btn, isDark) {
+    if (!btn) return;
+    if (window.S4UI && typeof window.S4UI.renderThemeButton === 'function') {
+      window.S4UI.renderThemeButton(btn, isDark);
+      return;
+    }
+    btn.innerHTML = getSvgIcon(isDark ? 'sun' : 'moon', 16);
+    const label = isDark
+      ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng'
+      : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+    btn.title = label;
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('data-mode', isDark ? 'dark' : 'light');
+  }
+
+  function syncDockToggleIcon(dock) {
+    if (!dock) return;
+    const toggleBtn = dock.querySelector('.s4-dock-toggle');
+    if (!toggleBtn) return;
+    const isMin = dock.classList.contains('minimized');
+    const style = getSavedStyle();
+    if (isMin) {
+      toggleBtn.innerHTML = getSvgIcon(style === 'ghibli' ? 'leaf' : 'palette', 16);
+      toggleBtn.title = 'Mở thanh tùy chỉnh giao diện';
+      toggleBtn.setAttribute('aria-label', 'Mở thanh tùy chỉnh giao diện');
+    } else {
+      toggleBtn.innerHTML = getSvgIcon('chevronDown', 15);
+      toggleBtn.title = 'Thu gọn thanh giao diện';
+      toggleBtn.setAttribute('aria-label', 'Thu gọn thanh giao diện');
+    }
+  }
+
   // Tự động xác định thư mục chứa ghibli-theme.js (hoạt động chính xác ở mọi độ sâu thư mục)
   const currentScriptSrc = (typeof document !== 'undefined' && document.currentScript && document.currentScript.src)
     ? document.currentScript.src
@@ -67,6 +133,7 @@
   }
 
   function applyThemeState() {
+    ensureGlassTier();
     const style = getSavedStyle();
     const isDark = getSavedDark();
     const htmlEl = document.documentElement;
@@ -92,7 +159,18 @@
       const txt = liteBtn.querySelector('.s4-opt-text');
       if (txt) txt.textContent = isLite ? " Nhẹ" : " Đầy đủ";
       const icon = liteBtn.querySelector('.s4-opt-icon');
-      if (icon) icon.textContent = isLite ? "🍃" : "✨";
+      if (icon) icon.innerHTML = getSvgIcon(isLite ? 'leaf' : 'sparkle', 14);
+    }
+
+    // Cập nhật nút Sáng/Tối trên Dock
+    const dockLightBtn = document.getElementById('btnDockLightMode');
+    if (dockLightBtn) {
+      dockLightBtn.setAttribute('data-mode', isDark ? 'dark' : 'light');
+      dockLightBtn.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+      const icon = dockLightBtn.querySelector('.s4-opt-icon');
+      if (icon) icon.innerHTML = getSvgIcon(isDark ? 'sun' : 'moon', 14);
+      const txt = dockLightBtn.querySelector('.s4-opt-text');
+      if (txt) txt.textContent = isDark ? ' Sáng' : ' Tối';
     }
 
     // Update dock buttons active state
@@ -103,18 +181,18 @@
       const targetDark = btn.getAttribute('data-light-opt') === 'dark';
       btn.classList.toggle('active', targetDark === isDark);
     });
+    syncDockToggleIcon(document.getElementById('s4ThemeDock'));
 
-    // Đồng bộ biểu tượng Sáng (☀️) / Tối (🌙) trên tất cả các nút chuyển đổi giao diện (loại trừ nút Donate hoặc nút dock)
-    document.querySelectorAll('button[onclick*="toggleDark"], .dark-btn, .theme-btn[onclick*="toggleDark"], .mode-btn[onclick*="toggleDark"]').forEach(btn => {
-      if (btn.classList.contains('s4-theme-opt')) return;
+    // Đồng bộ biểu tượng SVG Sáng / Tối trên tất cả các nút chuyển đổi giao diện (loại trừ nút Donate hoặc nút dock)
+    document.querySelectorAll('button[onclick*="toggleDark"], .dark-btn, .theme-btn[onclick*="toggleDark"], .mode-btn[onclick*="toggleDark"], [data-lp-theme-toggle], [data-svg-toggle="theme"]').forEach(btn => {
+      if (btn.classList.contains('s4-theme-opt') || btn.id === 'btnDockLightMode') return;
       if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('openDonateModal')) return;
-      btn.textContent = isDark ? '☀️' : '🌙';
-      btn.title = isDark ? 'Đang ở chế độ Tối — Bấm để chuyển sang Sáng' : 'Đang ở chế độ Sáng — Bấm để chuyển sang Tối';
+      renderThemeToggleBtn(btn, isDark);
     });
 
     // Đồng bộ nút bật/tắt Ghibli Theme trên thanh topbar (ví dụ trang Writing)
     document.querySelectorAll('button[onclick*="toggleGhibliTheme"]').forEach(btn => {
-      btn.textContent = style === 'ghibli' ? '🌿' : '🎨';
+      btn.innerHTML = getSvgIcon(style === 'ghibli' ? 'leaf' : 'palette', 16);
       btn.title = style === 'ghibli' ? 'Đang bật Giao diện Ghibli — Bấm để về Mặc định' : 'Đang dùng Giao diện Mặc định — Bấm để bật Ghibli';
     });
 
@@ -122,19 +200,6 @@
     const mt = document.getElementById('metaThemeColor');
     if (mt) {
       mt.setAttribute('content', isDark ? (style === 'ghibli' ? '#121e1a' : '#0f172a') : (style === 'ghibli' ? '#f4efe1' : '#f1f5f9'));
-    }
-
-    // Update Portal Ghibli Banner visibility & dark/light appearance
-    const bannerBox = document.getElementById('ghibliPortalBanner');
-    if (bannerBox) {
-      bannerBox.style.display = style === 'ghibli' ? 'flex' : 'none';
-      if (isDark) {
-        bannerBox.style.background = `linear-gradient(95deg, rgba(15, 29, 23, 0.94) 0%, rgba(20, 38, 30, 0.88) 58%, rgba(15, 29, 23, 0.45) 100%), url('${assetPrefix}ghibli_study_banner.jpg') center right / cover no-repeat`;
-        bannerBox.style.borderColor = 'rgba(212, 163, 115, 0.4)';
-      } else {
-        bannerBox.style.background = `linear-gradient(95deg, rgba(254, 250, 240, 0.95) 0%, rgba(250, 243, 224, 0.88) 58%, rgba(254, 250, 240, 0.42) 100%), url('${assetPrefix}ghibli_study_banner.jpg') center right / cover no-repeat`;
-        bannerBox.style.borderColor = '#cbb894';
-      }
     }
   }
 
@@ -177,15 +242,70 @@
     const nextMin = typeof forceState === 'boolean' ? forceState : !dock.classList.contains('minimized');
     dock.classList.toggle('minimized', nextMin);
     localStorage.setItem(DOCK_MIN_KEY, nextMin ? '1' : '0');
-    const toggleBtn = dock.querySelector('.s4-dock-toggle');
-    if (toggleBtn) {
-      toggleBtn.textContent = nextMin ? '' : '▾';
-      toggleBtn.title = nextMin ? 'Mở thanh giao diện Ghibli' : 'Thu gọn thanh giao diện';
-    }
+    syncDockToggleIcon(dock);
     const stage = document.getElementById('ghibliSpritesStage');
     if (stage) {
       stage.style.opacity = nextMin ? '0' : '';
       stage.style.pointerEvents = nextMin ? 'none' : '';
+    }
+  };
+
+  // Khởi tạo / kích hoạt hiệu ứng Bồ Hóng cổ vũ hoạt động cả khi Dock thu gọn hoặc Ghibli Lite đang bật
+  let lastCheerIdx = -1;
+  window.triggerGhibliCheer = function (sourceEl) {
+    let idx = Math.floor(Math.random() * GHIBLI_QUOTES.length);
+    if (GHIBLI_QUOTES.length > 1 && idx === lastCheerIdx) {
+      idx = (idx + 1) % GHIBLI_QUOTES.length;
+    }
+    lastCheerIdx = idx;
+    const quote = GHIBLI_QUOTES[idx];
+
+    playGhibliChime();
+
+    // Xác định tâm tung kẹo sao Konpeito: ưu tiên Bồ Hóng nếu đang hiển thị, ngược lại lấy ngay tại nút bấm
+    let burstX = Math.round(window.innerWidth / 2);
+    let burstY = Math.round(window.innerHeight * 0.35);
+    const stage = document.getElementById('ghibliSpritesStage');
+    const sp = stage ? stage.querySelector('.soot-sprite') : null;
+    const dock = document.getElementById('s4ThemeDock');
+    const isLite = document.documentElement.classList.contains('ghibli-lite');
+    const isMin = !!(dock && dock.classList.contains('minimized'));
+    const spriteVisible = Boolean(
+      sp && stage && !isLite && !isMin &&
+      window.getComputedStyle(stage).display !== 'none' &&
+      parseFloat(window.getComputedStyle(stage).opacity || '1') > 0.1
+    );
+
+    if (spriteVisible) {
+      sp.classList.remove('jump');
+      void sp.offsetWidth;
+      sp.classList.add('jump');
+      const r = sp.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) {
+        burstX = r.left + r.width / 2;
+        burstY = r.top + r.height / 2;
+      }
+      const bubble = document.getElementById('sootSpeechBubble');
+      if (bubble) {
+        bubble.textContent = quote;
+        bubble.classList.add('show');
+        clearTimeout(bubble._hideT);
+        bubble._hideT = setTimeout(() => bubble.classList.remove('show'), 3600);
+      }
+    } else if (sourceEl && typeof sourceEl.getBoundingClientRect === 'function') {
+      const br = sourceEl.getBoundingClientRect();
+      if (br.width > 0 && br.height > 0) {
+        burstX = br.left + br.width / 2;
+        burstY = br.top + br.height / 2;
+      }
+    }
+
+    spawnKonpeitoBurst(burstX, burstY, 10);
+
+    if (!spriteVisible) {
+      if (window.S4UI && typeof window.S4UI.toast === 'function') {
+        window.S4UI.toast('success', quote, { duration: 3200 });
+      }
     }
   };
 
@@ -292,20 +412,26 @@
 
     // 1. Separated Dual-Control Floating Dock (Theme: Ghibli / Mặc định | Mode: Sáng / Tối)
     if (!document.getElementById('s4ThemeDock')) {
+      const isDark = getSavedDark();
+      const isLite = getSavedLite();
       const dock = document.createElement('div');
       dock.id = 's4ThemeDock';
       dock.className = 's4-theme-dock';
       dock.innerHTML = `
-        <button class="s4-theme-opt" data-style-opt="ghibli" onclick="setThemeStyle('ghibli')" title="Chủ đề Studio Ghibli">
-          <span class="s4-opt-icon">🌿</span><span class="s4-opt-text"> Ghibli</span>
+        <button type="button" class="s4-theme-opt" data-style-opt="ghibli" onclick="event.stopPropagation();setThemeStyle('ghibli')" title="Chủ đề Studio Ghibli">
+          <span class="s4-opt-icon">${getSvgIcon('leaf', 14)}</span><span class="s4-opt-text"> Ghibli</span>
         </button>
-        <button class="s4-theme-opt" data-style-opt="default" onclick="setThemeStyle('default')" title="Chủ đề Mặc định">
-          <span class="s4-opt-icon">🎨</span><span class="s4-opt-text"> Gốc</span>
+        <button type="button" class="s4-theme-opt" data-style-opt="default" onclick="event.stopPropagation();setThemeStyle('default')" title="Chủ đề Mặc định">
+          <span class="s4-opt-icon">${getSvgIcon('palette', 14)}</span><span class="s4-opt-text"> Gốc</span>
         </button>
-        <button class="s4-theme-opt" id="btnGhibliLite" onclick="toggleGhibliLite()" title="Bật/Tắt hiệu ứng chuyển động cho máy yếu">
-          <span class="s4-opt-icon">🍃</span><span class="s4-opt-text"> Nhẹ</span>
+        <span class="s4-dock-sep" aria-hidden="true"></span>
+        <button type="button" class="s4-theme-opt" id="btnDockLightMode" onclick="event.stopPropagation();toggleDarkModeOnly()" title="Đổi chế độ Sáng / Tối">
+          <span class="s4-opt-icon">${getSvgIcon(isDark ? 'sun' : 'moon', 14)}</span><span class="s4-opt-text"> ${isDark ? 'Sáng' : 'Tối'}</span>
         </button>
-        <button class="s4-dock-toggle" onclick="toggleThemeDockMinimize()" title="Thu gọn / Mở rộng" style="display:inline-flex;">▾</button>
+        <button type="button" class="s4-theme-opt" id="btnGhibliLite" onclick="event.stopPropagation();toggleGhibliLite()" title="Bật/Tắt hiệu ứng chuyển động cho máy yếu">
+          <span class="s4-opt-icon">${getSvgIcon(isLite ? 'leaf' : 'sparkle', 14)}</span><span class="s4-opt-text"> ${isLite ? 'Nhẹ' : 'Đầy đủ'}</span>
+        </button>
+        <button type="button" class="s4-dock-toggle" onclick="event.stopPropagation();toggleThemeDockMinimize()" title="Thu gọn thanh giao diện" aria-label="Thu gọn thanh giao diện" style="display:inline-flex;">${getSvgIcon('chevronDown', 15)}</button>
       `;
       document.body.appendChild(dock);
     }
@@ -340,19 +466,9 @@
       document.body.appendChild(stage);
 
       stage.querySelectorAll('.soot-sprite').forEach(sp => {
-        sp.addEventListener('click', () => {
-          sp.classList.remove('jump');
-          void sp.offsetWidth;
-          sp.classList.add('jump');
-          const rect = sp.getBoundingClientRect();
-          spawnKonpeitoBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 10);
-          playGhibliChime();
-          const bubble = document.getElementById('sootSpeechBubble');
-          if (bubble) {
-            bubble.textContent = GHIBLI_QUOTES[Math.floor(Math.random() * GHIBLI_QUOTES.length)];
-            bubble.classList.add('show');
-            setTimeout(() => bubble.classList.remove('show'), 3600);
-          }
+        sp.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          window.triggerGhibliCheer(sp);
         });
       });
 
@@ -388,49 +504,13 @@
       }
     }
 
-    // 4. Inject Cozy Ghibli Study Banner on Portal / Home (index.html)
-    const portalWrap = document.getElementById('viewPortal');
-    if (portalWrap && !document.getElementById('ghibliPortalBanner')) {
-      const banner = document.createElement('div');
-      banner.id = 'ghibliPortalBanner';
-      banner.style.cssText = `
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 18px 22px;
-        margin-bottom: 18px;
-        border-radius: 22px;
-        border: 2px solid var(--border);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
-        flex-wrap: wrap;
-      `;
-      banner.innerHTML = `
-        <div style="max-width: 560px;">
-          <div style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-soft);color:var(--hl-green);font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:99px;margin-bottom:6px;">
-            <span>🌿 GÓC HỌC TẬP STUDIO GHIBLI</span>
-          </div>
-          <div style="font-size:18px;font-weight:800;color:var(--text);line-height:1.35;">
-            Chào mừng bạn đến Khu Rừng Tri Thức IELTS & Ngoại Ngữ
-          </div>
-          <div id="ghibliBannerQuote" style="font-size:13.5px;color:var(--sub-text);margin-top:4px;font-weight:600;">
-            ${GHIBLI_QUOTES[0]}
-          </div>
-        </div>
-        <button onclick="document.querySelector('.soot-sprite')?.click()" style="background:var(--primary);color:#fff;border:none;padding:9px 15px;border-radius:99px;font-family:inherit;font-size:12.5px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(45,106,79,0.28);">
-          🍬 Gọi Bồ Hóng cổ vũ
-        </button>
-      `;
-      portalWrap.insertBefore(banner, portalWrap.firstChild);
-    }
-
-    // Khôi phục trạng thái thu gọn của thanh Dock (Trên điện thoại <= 768px tự động thu gọn mặc định để không che chữ)
+    // Khôi phục trạng thái thu gọn của thanh Dock (Mặc định thu gọn gọn gàng ở <= 1366px để không bao giờ che nút Vào học)
     const savedMin = localStorage.getItem(DOCK_MIN_KEY);
-    if (savedMin === '1' || (savedMin === null && window.innerWidth <= 768)) {
+    if (savedMin === '1' || (savedMin === null && window.innerWidth <= 1366)) {
       window.toggleThemeDockMinimize(true);
     }
 
-    // Tự động ẩn Dock khi bàn phím di động đang mở (tránh che nút/ô nhập) & thu gọn lại khi chạm ra ngoài trên Mobile
+    // Tự động ẩn Dock khi bàn phím di động đang mở (tránh che nút/ô nhập) & chỉ thu gọn khi bấm RA NGOÀI Dock
     if (!window.__s4DockGuardBound) {
       window.__s4DockGuardBound = true;
       document.addEventListener('focusin', (e) => {
@@ -448,15 +528,14 @@
           if (!stillEditing && document.body) document.body.classList.remove('s4-kbd-open');
         }, 120);
       });
-      document.addEventListener('pointerdown', (e) => {
+      document.addEventListener('click', (e) => {
         if (window.innerWidth > 768) return;
         const dock = document.getElementById('s4ThemeDock');
         if (!dock || dock.classList.contains('minimized')) return;
-        if (dock.contains(e.target)) return;
-        const stage = document.getElementById('ghibliSpritesStage');
-        if (stage && stage.contains(e.target)) return;
+        const targetEl = e.target && e.target.nodeType === 1 ? e.target : null;
+        if (targetEl && targetEl.closest('#s4ThemeDock, #ghibliSpritesStage')) return;
         window.toggleThemeDockMinimize(true);
-      }, { passive: true });
+      });
     }
 
     applyThemeState();

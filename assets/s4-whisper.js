@@ -12,8 +12,10 @@
   var MAX_NORMALIZE_GAIN = 14;
   var DEFAULT_TIMEOUT_MS = 60000;
   var CLOUD_TIMEOUT_MS = 20000;
+  var AUDIO_WORKER_TIMEOUT_MS = 15000;
 
   var STORAGE_AI_KEY = 'lp_ai_api_key_v1';
+  var STORAGE_SPEAKING_KEY = 'lp_speaking_gemini_key_v1';
   var STORAGE_AI_BASE = 'lp_ai_base_url_v1';
   var DEFAULT_CLOUD_CONFIG = {
     baseUrl: '',
@@ -24,9 +26,37 @@
   var scriptSrc = (typeof document !== 'undefined' && document.currentScript && document.currentScript.src)
     ? document.currentScript.src
     : '';
-  var workerUrl = scriptSrc
-    ? new URL('s4-whisper-worker.js?v=3', scriptSrc).href
-    : '../assets/s4-whisper-worker.js?v=3';
+  function resolveAssetUrl(fileNameWithQuery) {
+    if (scriptSrc) {
+      try { return new URL(fileNameWithQuery, scriptSrc).href; } catch (e) {}
+    }
+    var p = (typeof location !== 'undefined' && location.pathname) ? location.pathname.replace(/\\/g, '/') : '';
+    var parts = p.split('/').filter(Boolean);
+    var dirParts = (parts.length && parts[parts.length - 1].indexOf('.') !== -1)
+      ? parts.slice(0, -1)
+      : parts;
+    var rootIdx = Math.max(
+      dirParts.lastIndexOf('ielts'),
+      dirParts.lastIndexOf('hsk'),
+      dirParts.lastIndexOf('toeic')
+    );
+    if (rootIdx !== -1) {
+      var depth = dirParts.length - rootIdx;
+      return (depth >= 2 ? '../../assets/' : '../assets/') + fileNameWithQuery;
+    }
+    var subIdx = Math.max(
+      dirParts.lastIndexOf('tedtalks'),
+      dirParts.lastIndexOf('speaking')
+    );
+    if (subIdx !== -1) {
+      var depth2 = dirParts.length - subIdx;
+      return (depth2 >= 2 ? '../../assets/' : '../assets/') + fileNameWithQuery;
+    }
+    return 'assets/' + fileNameWithQuery;
+  }
+  var workerUrl = resolveAssetUrl('s4-whisper-worker.js?v=3');
+  var audioWorkerUrl = resolveAssetUrl('s4-audio-worker.js?v=1');
+  var coreWasmUrl = resolveAssetUrl('s4-core.wasm?v=1');
 
   var sharedAudioCtx = null;
   var workerInstance = null;
@@ -36,17 +66,37 @@
   var pendingReqs = new Map();
   var activeProgressListeners = new Set();
 
+  var audioWorkerInstance = null;
+  var audioDspReady = false;
+  var audioNextReqId = 1;
+  var audioPendingReqs = new Map();
+
   function isSupported() {
     var hasAc = Boolean(typeof global.AudioContext === 'function' || typeof global.webkitAudioContext === 'function');
     var hasWorkerOrFetch = Boolean(typeof global.Worker === 'function' || typeof global.fetch === 'function');
     return Boolean(hasAc && hasWorkerOrFetch);
   }
 
+  function isSafeAiBaseUrl(raw) {
+    var s = String(raw || '').trim();
+    if (!s) return true;
+    try {
+      var u = new URL(s);
+      if (u.protocol === 'https:') return true;
+      if (u.protocol === 'http:' && (u.hostname === 'localhost' || u.hostname === '127.0.0.1')) return true;
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function normalizeBaseUrl(raw) {
-    return String(raw || '')
+    var cleaned = String(raw || '')
       .trim()
       .replace(/\/+$/, '')
       .replace(/\/(?:chat\/completions|audio\/transcriptions)$/i, '');
+    if (!cleaned || !isSafeAiBaseUrl(cleaned)) return '';
+    return cleaned;
   }
 
   function inferSttModel(baseUrl) {
@@ -70,15 +120,25 @@
     return '';
   }
 
-  function getCloudConfig() {
-    var key = '';
-    var base = '';
+  function readStoragePref(key) {
     try {
-      if (global.localStorage) {
-        key = String(global.localStorage.getItem(STORAGE_AI_KEY) || '').trim();
-        base = String(global.localStorage.getItem(STORAGE_AI_BASE) || '').trim();
+      if (global.sessionStorage) {
+        var sv = String(global.sessionStorage.getItem(key) || '').trim();
+        if (sv) return sv;
       }
     } catch (e) {}
+    try {
+      if (global.localStorage) {
+        var lv = String(global.localStorage.getItem(key) || '').trim();
+        if (lv) return lv;
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function getCloudConfig() {
+    var key = readStoragePref(STORAGE_SPEAKING_KEY) || readStoragePref(STORAGE_AI_KEY);
+    var base = readStoragePref(STORAGE_AI_BASE);
     var useKey = (key && !isGoogleKey(key)) ? key : '';
     var useBase = inferOpenAiBaseUrl(useKey, base);
     return {
@@ -111,20 +171,98 @@
 
   function setCloudConfig(cfg) {
     var o = cfg || {};
+    var persist = Boolean(o.persist);
+    var targetStore = persist ? global.localStorage : global.sessionStorage;
+    var otherStore = persist ? global.sessionStorage : global.localStorage;
     try {
-      if (!global.localStorage) return getCloudConfig();
       if (Object.prototype.hasOwnProperty.call(o, 'apiKey')) {
-        var nextKey = String(o.apiKey || '').trim();
-        if (nextKey) global.localStorage.setItem(STORAGE_AI_KEY, nextKey);
-        else global.localStorage.removeItem(STORAGE_AI_KEY);
+        // Tránh nhân bản API key sang STORAGE_AI_KEY khi đã lưu tại STORAGE_SPEAKING_KEY
+        try { if (global.localStorage) global.localStorage.removeItem(STORAGE_AI_KEY); } catch (e) {}
+        try { if (global.sessionStorage) global.sessionStorage.removeItem(STORAGE_AI_KEY); } catch (e) {}
+        if (!o.useSharedSpeakingKey) {
+          var nextKey = String(o.apiKey || '').trim();
+          if (nextKey && targetStore) targetStore.setItem(STORAGE_AI_KEY, nextKey);
+          if (otherStore) otherStore.removeItem(STORAGE_AI_KEY);
+        }
       }
       if (Object.prototype.hasOwnProperty.call(o, 'baseUrl')) {
-        var nextBase = String(o.baseUrl || '').trim().replace(/\/+$/, '');
-        if (nextBase) global.localStorage.setItem(STORAGE_AI_BASE, nextBase);
-        else global.localStorage.removeItem(STORAGE_AI_BASE);
+        var nextBase = normalizeBaseUrl(o.baseUrl);
+        if (nextBase && targetStore) targetStore.setItem(STORAGE_AI_BASE, nextBase);
+        else if (targetStore) targetStore.removeItem(STORAGE_AI_BASE);
+        if (otherStore) otherStore.removeItem(STORAGE_AI_BASE);
       }
     } catch (e) {}
     return getCloudConfig();
+  }
+
+  var VOICE_AUDIO_CONSTRAINTS = {
+    channelCount: { ideal: 1 },
+    echoCancellation: { ideal: true },
+    noiseSuppression: { ideal: true },
+    autoGainControl: { ideal: true },
+    sampleRate: { ideal: 48000 }
+  };
+  var VOICE_MIME_CANDIDATES = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/mp4;codecs=mp4a.40.2',
+    'audio/mp4',
+    'audio/ogg;codecs=opus',
+    'audio/ogg'
+  ];
+
+  function getVoiceAudioConstraints() {
+    return Object.assign({}, VOICE_AUDIO_CONSTRAINTS);
+  }
+
+  function acquireVoiceStream() {
+    if (typeof navigator === 'undefined' || !navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+      return Promise.reject(new Error('getUserMedia unsupported'));
+    }
+    return navigator.mediaDevices.getUserMedia({ audio: getVoiceAudioConstraints() }).catch(function (err) {
+      if (err && (err.name === 'OverconstrainedError' || err.name === 'ConstraintNotSatisfiedError' || err.name === 'TypeError')) {
+        return navigator.mediaDevices.getUserMedia({ audio: true });
+      }
+      throw err;
+    });
+  }
+
+  function pickSupportedAudioMime() {
+    if (typeof global.MediaRecorder !== 'function' || typeof global.MediaRecorder.isTypeSupported !== 'function') {
+      return '';
+    }
+    for (var i = 0; i < VOICE_MIME_CANDIDATES.length; i++) {
+      try {
+        if (global.MediaRecorder.isTypeSupported(VOICE_MIME_CANDIDATES[i])) {
+          return VOICE_MIME_CANDIDATES[i];
+        }
+      } catch (e) {}
+    }
+    return '';
+  }
+
+  function createVoiceRecorder(stream, opts) {
+    if (typeof global.MediaRecorder !== 'function') {
+      throw new Error('MediaRecorder unsupported');
+    }
+    var bits = (opts && opts.audioBitsPerSecond) || 48000;
+    var mime = (opts && opts.mimeType) || pickSupportedAudioMime();
+    var rec = null;
+    try {
+      rec = mime
+        ? new global.MediaRecorder(stream, { mimeType: mime, audioBitsPerSecond: bits })
+        : new global.MediaRecorder(stream, { audioBitsPerSecond: bits });
+    } catch (e1) {
+      try {
+        rec = mime
+          ? new global.MediaRecorder(stream, { mimeType: mime })
+          : new global.MediaRecorder(stream);
+      } catch (e2) {
+        rec = new global.MediaRecorder(stream);
+      }
+    }
+    rec._lpPreferredMime = rec.mimeType || mime || 'audio/webm';
+    return rec;
   }
 
   function getSharedAudioContext() {
@@ -219,7 +357,22 @@
     return out;
   }
 
-  function resampleDecodedBuffer(audioBuffer) {
+  function applyHighPass80Hz(samples, sampleRate) {
+    if (!samples || samples.length < 2) return samples;
+    var sr = sampleRate || TARGET_SAMPLE_RATE;
+    var rc = 1 / (2 * Math.PI * 80);
+    var dt = 1 / sr;
+    var alpha = rc / (rc + dt);
+    var out = new Float32Array(samples.length);
+    out[0] = samples[0];
+    for (var i = 1; i < samples.length; i++) {
+      out[i] = alpha * (out[i - 1] + samples[i] - samples[i - 1]);
+    }
+    return out;
+  }
+
+  function resampleDecodedBuffer(audioBuffer, opts) {
+    var skipHighPass = Boolean(opts && opts.skipHighPass);
     var durationSec = Number(audioBuffer && audioBuffer.duration) || 0;
     var targetLen = Math.max(1, Math.ceil(durationSec * TARGET_SAMPLE_RATE));
     var OfflineAC = global.OfflineAudioContext || global.webkitOfflineAudioContext;
@@ -229,22 +382,31 @@
         var offline = new OfflineAC(1, targetLen, TARGET_SAMPLE_RATE);
         var src = offline.createBufferSource();
         src.buffer = audioBuffer;
-        src.connect(offline.destination);
+        if (!skipHighPass && typeof offline.createBiquadFilter === 'function') {
+          var hp = offline.createBiquadFilter();
+          hp.type = 'highpass';
+          hp.frequency.value = 80;
+          hp.Q.value = 0.707;
+          src.connect(hp);
+          hp.connect(offline.destination);
+        } else {
+          src.connect(offline.destination);
+        }
         src.start(0);
         return offline.startRendering().then(function (rendered) {
           return rendered.getChannelData(0).slice();
         }).catch(function () {
-          return resampleLinear16k(mixToMonoBuffer(audioBuffer), audioBuffer.sampleRate);
+          var lin = resampleLinear16k(mixToMonoBuffer(audioBuffer), audioBuffer.sampleRate);
+          return skipHighPass ? lin : applyHighPass80Hz(lin, TARGET_SAMPLE_RATE);
         });
       } catch (e) {}
     }
 
     var mono = mixToMonoBuffer(audioBuffer);
-    return Promise.resolve(
-      audioBuffer.sampleRate === TARGET_SAMPLE_RATE
-        ? mono
-        : resampleLinear16k(mono, audioBuffer.sampleRate)
-    );
+    var resampled = audioBuffer.sampleRate === TARGET_SAMPLE_RATE
+      ? mono
+      : resampleLinear16k(mono, audioBuffer.sampleRate);
+    return Promise.resolve(skipHighPass ? resampled : applyHighPass80Hz(resampled, TARGET_SAMPLE_RATE));
   }
 
   function analyzeAudioEnergy(samples) {
@@ -268,7 +430,16 @@
     var n = centered.length;
     var numFrames = Math.floor(n / VAD_FRAME_SAMPLES);
     if (numFrames < 3) {
-      return { samples: centered, trimmedRatio: 0 };
+      return {
+        samples: centered,
+        trimmedRatio: 0,
+        voicedFrames: 0,
+        totalFrames: numFrames,
+        pauseCount: 0,
+        longPauseCount: 0,
+        snrDb: 0,
+        noiseFloor: 0
+      };
     }
 
     var frameRms = new Array(numFrames);
@@ -288,17 +459,48 @@
 
     var firstActive = -1;
     var lastActive = -1;
+    var voicedFrames = 0;
+    var voicedSumSq = 0;
     for (var i = 0; i < numFrames; i++) {
       if (frameRms[i] >= vadThresh) {
         if (firstActive === -1) firstActive = i;
         lastActive = i;
+        voicedFrames++;
+        voicedSumSq += frameRms[i] * frameRms[i];
       }
     }
 
     // If low-amplitude speech stays uniform below threshold, avoid dropping the whole clip
     if (firstActive === -1) {
-      return { samples: centered, trimmedRatio: 0 };
+      return {
+        samples: centered,
+        trimmedRatio: 0,
+        voicedFrames: 0,
+        totalFrames: numFrames,
+        pauseCount: 0,
+        longPauseCount: 0,
+        snrDb: 0,
+        noiseFloor: noiseFloor
+      };
     }
+
+    var pauseCount = 0;
+    var longPauseCount = 0;
+    var silentRun = 0;
+    for (var p = firstActive; p <= lastActive; p++) {
+      if (frameRms[p] < vadThresh) {
+        silentRun++;
+      } else {
+        if (silentRun >= 12) pauseCount++;
+        if (silentRun >= 30) longPauseCount++;
+        silentRun = 0;
+      }
+    }
+
+    var speechRms = voicedFrames > 0 ? Math.sqrt(voicedSumSq / voicedFrames) : 0;
+    var snrDb = voicedFrames > 0
+      ? Math.max(-60, Math.min(90, 20 * Math.log(speechRms / Math.max(noiseFloor, 1e-5)) / Math.LN10))
+      : 0;
 
     var startFrame = Math.max(0, firstActive - VAD_PAD_FRAMES);
     var endFrame = Math.min(numFrames, lastActive + 1 + VAD_PAD_FRAMES);
@@ -306,19 +508,111 @@
     var endSample = (endFrame >= numFrames) ? n : (endFrame * VAD_FRAME_SAMPLES);
 
     if (endSample - startSample < MIN_AUDIO_SAMPLES) {
-      return { samples: centered, trimmedRatio: 0 };
+      return {
+        samples: centered,
+        trimmedRatio: 0,
+        voicedFrames: voicedFrames,
+        totalFrames: numFrames,
+        pauseCount: pauseCount,
+        longPauseCount: longPauseCount,
+        snrDb: snrDb,
+        noiseFloor: noiseFloor
+      };
     }
 
     var sliced = centered.slice(startSample, endSample);
     return {
       samples: sliced,
-      trimmedRatio: Math.max(0, 1 - (sliced.length / n))
+      trimmedRatio: Math.max(0, 1 - (sliced.length / n)),
+      voicedFrames: voicedFrames,
+      totalFrames: numFrames,
+      pauseCount: pauseCount,
+      longPauseCount: longPauseCount,
+      snrDb: snrDb,
+      noiseFloor: noiseFloor
     };
+  }
+
+  function computeJsAcousticFallback(centered, trimmed, vadMeta, sampleRate) {
+    var sr = Number(sampleRate) > 0 ? Number(sampleRate) : TARGET_SAMPLE_RATE;
+    var rawLen = centered ? centered.length : 0;
+    var trimLen = trimmed ? trimmed.length : 0;
+    var m = vadMeta || {};
+    var voicedFrames = Number(m.voicedFrames) || 0;
+    var totalFrames = Number(m.totalFrames) || Math.floor(rawLen / VAD_FRAME_SAMPLES);
+    var pauseCount = Number(m.pauseCount) || 0;
+    var longPauseCount = Number(m.longPauseCount) || 0;
+    var snrDb = Number(m.snrDb) || 0;
+    var noiseFloor = Number(m.noiseFloor) || 0;
+
+    var durationSec = sr > 0 ? rawLen / sr : 0;
+    var activeDurationSec = sr > 0 ? trimLen / sr : 0;
+    var voicedDurationSec = sr > 0 ? (voicedFrames * VAD_FRAME_SAMPLES) / sr : 0;
+    var voicedRatio = totalFrames > 0 ? Math.max(0, Math.min(1, voicedFrames / totalFrames)) : 0;
+    var articulationRatio = activeDurationSec > 0 ? Math.max(0, Math.min(1, voicedDurationSec / activeDurationSec)) : 0;
+
+    var durScale = Math.max(1, activeDurationSec / 10);
+    var pauseRate = pauseCount / durScale;
+    var fluencySignalScore = voicedFrames > 0
+      ? Math.round(Math.max(15, Math.min(100, 44 + articulationRatio * 56 - Math.max(0, pauseRate - 0.8) * 9 - longPauseCount * 8)))
+      : 0;
+    var snrScore = Math.max(12, Math.min(98, snrDb * 2.8 + 18));
+    var clarityScore = voicedFrames > 0
+      ? Math.round(Math.max(15, Math.min(100, snrScore * 0.74 + articulationRatio * 100 * 0.26)))
+      : 0;
+
+    return {
+      engine: 'js_fallback',
+      durationSec: Math.round(durationSec * 100) / 100,
+      activeDurationSec: Math.round(activeDurationSec * 100) / 100,
+      voicedDurationSec: Math.round(voicedDurationSec * 100) / 100,
+      voicedFrames: voicedFrames,
+      totalFrames: totalFrames,
+      voicedRatio: Math.round(voicedRatio * 1000) / 1000,
+      articulationRatio: Math.round(articulationRatio * 1000) / 1000,
+      pauseCount: pauseCount,
+      longPauseCount: longPauseCount,
+      snrDb: Math.round(snrDb * 100) / 100,
+      noiseFloor: Number(noiseFloor.toFixed(5)),
+      pitchMeanHz: 0,
+      pitchStdHz: 0,
+      pitchStdSemitones: 0,
+      pitchMinHz: 0,
+      pitchMaxHz: 0,
+      pitchSlopeSemitones: 0,
+      turnPointPos: 0,
+      detectedTone: 0,
+      toneConfidence: 0,
+      toneMatchPct: null,
+      intonationScore: 0,
+      fluencySignalScore: fluencySignalScore,
+      clarityScore: clarityScore,
+      pitchContour: []
+    };
+  }
+
+  function computePercentile98Abs(samples) {
+    if (!samples || !samples.length) return 0;
+    var step = Math.max(1, Math.floor(samples.length / 4000));
+    var mags = [];
+    for (var i = 0; i < samples.length; i += step) {
+      mags.push(Math.abs(samples[i]));
+    }
+    if (!mags.length) return 0;
+    mags.sort(function (a, b) { return a - b; });
+    return mags[Math.min(mags.length - 1, Math.floor(mags.length * 0.98))] || 0;
+  }
+
+  function softLimitSample(x) {
+    var ax = Math.abs(x);
+    if (ax <= 0.85) return x;
+    var sign = x < 0 ? -1 : 1;
+    return sign * (0.85 + 0.14 * Math.tanh((ax - 0.85) / 0.14));
   }
 
   function preprocessPcm16k(rawSamples) {
     if (!rawSamples || !rawSamples.length) {
-      return { samples: null, rawRms: 0, rawPeak: 0, rms: 0, peak: 0, trimmedRatio: 0 };
+      return { samples: null, rawRms: 0, rawPeak: 0, rms: 0, peak: 0, trimmedRatio: 0, acoustic: computeJsAcousticFallback(null, null, null, TARGET_SAMPLE_RATE) };
     }
 
     var n = rawSamples.length;
@@ -339,7 +633,8 @@
         rawPeak: rawEnergy.peak,
         rms: rawEnergy.rms,
         peak: rawEnergy.peak,
-        trimmedRatio: 0
+        trimmedRatio: 0,
+        acoustic: computeJsAcousticFallback(centered, null, null, TARGET_SAMPLE_RATE)
       };
     }
 
@@ -347,17 +642,16 @@
     var trimmed = vad.samples;
     var trimmedEnergy = analyzeAudioEnergy(trimmed);
 
+    var p98 = computePercentile98Abs(trimmed) || trimmedEnergy.peak;
+    var refPeak = Math.max(p98, trimmedEnergy.rms * 2.2, 0.005);
     var gain = 1;
-    if (rawEnergy.peak >= SILENCE_PEAK_THRESHOLD && trimmedEnergy.peak > 0 && trimmedEnergy.peak < NORMALIZE_TARGET_PEAK) {
-      gain = Math.min(MAX_NORMALIZE_GAIN, NORMALIZE_TARGET_PEAK / trimmedEnergy.peak);
+    if (rawEnergy.peak >= SILENCE_PEAK_THRESHOLD && refPeak > 0 && refPeak < NORMALIZE_TARGET_PEAK) {
+      gain = Math.min(MAX_NORMALIZE_GAIN, NORMALIZE_TARGET_PEAK / refPeak);
     }
 
     var normalized = new Float32Array(trimmed.length);
     for (var idx = 0; idx < trimmed.length; idx++) {
-      var val = trimmed[idx] * gain;
-      if (val > 1) val = 1;
-      else if (val < -1) val = -1;
-      normalized[idx] = val;
+      normalized[idx] = softLimitSample(trimmed[idx] * gain);
     }
 
     var finalEnergy = analyzeAudioEnergy(normalized);
@@ -367,7 +661,8 @@
       rawPeak: rawEnergy.peak,
       rms: finalEnergy.rms,
       peak: finalEnergy.peak,
-      trimmedRatio: vad.trimmedRatio
+      trimmedRatio: vad.trimmedRatio,
+      acoustic: computeJsAcousticFallback(centered, trimmed, vad, TARGET_SAMPLE_RATE)
     };
   }
 
@@ -408,9 +703,23 @@
     return new global.Blob([buf], { type: 'audio/wav' });
   }
 
-  function decodeBlobTo16kMono(blob) {
+  function decodeBlobTo16kMono(blob, opts) {
+    var o = opts || {};
     if (!blob || !(blob.size > 0)) {
-      return Promise.resolve({ silent: true, samples: null, wavBlob: null, rms: 0, peak: 0, rawRms: 0, rawPeak: 0, trimmedRatio: 0, durationSec: 0, sampleRate: TARGET_SAMPLE_RATE, reason: 'empty_blob' });
+      return Promise.resolve({
+        silent: true,
+        samples: null,
+        wavBlob: null,
+        rms: 0,
+        peak: 0,
+        rawRms: 0,
+        rawPeak: 0,
+        trimmedRatio: 0,
+        durationSec: 0,
+        sampleRate: TARGET_SAMPLE_RATE,
+        reason: 'empty_blob',
+        acoustic: computeJsAcousticFallback(null, null, null, TARGET_SAMPLE_RATE)
+      });
     }
     var ctx = getSharedAudioContext();
     if (!ctx) {
@@ -422,7 +731,7 @@
       return decodeAudioBuffer(ctx, rawBuf);
     }).then(function (decoded) {
       durationSec = Number(decoded && decoded.duration) || 0;
-      return resampleDecodedBuffer(decoded);
+      return resampleDecodedBuffer(decoded, { skipHighPass: true });
     }).then(function (samples16k) {
       var tooShortRaw = !samples16k || samples16k.length < MIN_AUDIO_SAMPLES;
       if (tooShortRaw) {
@@ -437,16 +746,34 @@
           trimmedRatio: 0,
           durationSec: durationSec,
           sampleRate: TARGET_SAMPLE_RATE,
-          reason: 'too_short'
+          reason: 'too_short',
+          acoustic: computeJsAcousticFallback(samples16k, null, null, TARGET_SAMPLE_RATE)
         };
       }
 
-      var prep = preprocessPcm16k(samples16k);
-      if (!prep.samples || prep.samples.length < MIN_AUDIO_SAMPLES) {
+      return analyzeAudioPcm16k(samples16k, o).then(function (prep) {
+        if (!prep || prep.silent || !prep.samples || prep.samples.length < MIN_AUDIO_SAMPLES) {
+          return {
+            silent: true,
+            samples: null,
+            wavBlob: null,
+            rms: prep ? prep.rms : 0,
+            peak: prep ? prep.peak : 0,
+            rawRms: prep ? prep.rawRms : 0,
+            rawPeak: prep ? prep.rawPeak : 0,
+            trimmedRatio: prep ? prep.trimmedRatio : 0,
+            durationSec: durationSec,
+            sampleRate: TARGET_SAMPLE_RATE,
+            reason: (prep && prep.reason) || 'silent_audio',
+            acoustic: (prep && prep.acoustic) || computeJsAcousticFallback(samples16k, null, null, TARGET_SAMPLE_RATE)
+          };
+        }
+
+        var wavBlob = o.skipWavEncode ? null : encodeWav16kMono(prep.samples);
         return {
-          silent: true,
-          samples: null,
-          wavBlob: null,
+          silent: false,
+          samples: prep.samples,
+          wavBlob: wavBlob,
           rms: prep.rms,
           peak: prep.peak,
           rawRms: prep.rawRms,
@@ -454,23 +781,9 @@
           trimmedRatio: prep.trimmedRatio,
           durationSec: durationSec,
           sampleRate: TARGET_SAMPLE_RATE,
-          reason: 'silent_audio'
+          acoustic: prep.acoustic || null
         };
-      }
-
-      var wavBlob = encodeWav16kMono(prep.samples);
-      return {
-        silent: false,
-        samples: prep.samples,
-        wavBlob: wavBlob,
-        rms: prep.rms,
-        peak: prep.peak,
-        rawRms: prep.rawRms,
-        rawPeak: prep.rawPeak,
-        trimmedRatio: prep.trimmedRatio,
-        durationSec: durationSec,
-        sampleRate: TARGET_SAMPLE_RATE
-      };
+      });
     });
   }
 
@@ -630,6 +943,192 @@
     return workerInstance;
   }
 
+  function resetAudioWorker(errMsg) {
+    if (audioWorkerInstance) {
+      try { audioWorkerInstance.terminate(); } catch (e) {}
+      audioWorkerInstance = null;
+    }
+    audioDspReady = false;
+    audioPendingReqs.forEach(function (entry) {
+      if (entry.timerId) clearTimeout(entry.timerId);
+      entry.reject(new Error(errMsg || 'Audio DSP worker terminated'));
+    });
+    audioPendingReqs.clear();
+  }
+
+  function handleAudioWorkerMessage(ev) {
+    var msg = ev && ev.data;
+    if (!msg || typeof msg !== 'object') return;
+    var reqId = msg.reqId;
+    var entry = audioPendingReqs.get(reqId);
+    if (!entry) return;
+    audioPendingReqs.delete(reqId);
+    if (entry.timerId) clearTimeout(entry.timerId);
+
+    if (msg.type === 'init') {
+      if (msg.ok && msg.engine === 'wasm') audioDspReady = true;
+      entry.resolve(msg);
+      return;
+    }
+
+    if (msg.type === 'result') {
+      if (msg.acoustic && msg.acoustic.engine === 'wasm') audioDspReady = true;
+      if (msg.ok === false) {
+        entry.reject(new Error(msg.error || 'Audio DSP worker failed'));
+      } else {
+        entry.resolve(msg);
+      }
+    }
+  }
+
+  function ensureAudioWorker() {
+    if (typeof global.Worker !== 'function') {
+      throw new Error('Web Worker not supported');
+    }
+    if (audioWorkerInstance) return audioWorkerInstance;
+    audioWorkerInstance = new global.Worker(audioWorkerUrl);
+    audioWorkerInstance.addEventListener('message', handleAudioWorkerMessage);
+    audioWorkerInstance.addEventListener('error', function (err) {
+      resetAudioWorker((err && err.message) ? err.message : 'Audio DSP worker crashed');
+    });
+    return audioWorkerInstance;
+  }
+
+  function analyzeAudioPcm16k(rawSamples, opts) {
+    var o = opts || {};
+    if (!rawSamples || !rawSamples.length) {
+      return Promise.resolve({
+        ok: true,
+        silent: true,
+        reason: 'empty_audio',
+        samples: null,
+        rawRms: 0,
+        rawPeak: 0,
+        rms: 0,
+        peak: 0,
+        trimmedRatio: 0,
+        acoustic: computeJsAcousticFallback(null, null, null, TARGET_SAMPLE_RATE)
+      });
+    }
+
+    var srcArr = (rawSamples instanceof Float32Array) ? rawSamples : new Float32Array(rawSamples);
+    var runSyncFallback = function () {
+      var prep = preprocessPcm16k(srcArr);
+      return {
+        ok: true,
+        silent: !prep.samples || prep.samples.length < MIN_AUDIO_SAMPLES,
+        reason: (!prep.samples || prep.samples.length < MIN_AUDIO_SAMPLES) ? 'silent_audio' : '',
+        samples: prep.samples,
+        rawRms: prep.rawRms,
+        rawPeak: prep.rawPeak,
+        rms: prep.rms,
+        peak: prep.peak,
+        trimmedRatio: prep.trimmedRatio,
+        acoustic: prep.acoustic
+      };
+    };
+
+    if (o.forceSyncFallback || typeof global.Worker !== 'function') {
+      return Promise.resolve(runSyncFallback());
+    }
+
+    return new Promise(function (resolve) {
+      var reqId = 0;
+      var entry = null;
+      try {
+        var w = ensureAudioWorker();
+        reqId = audioNextReqId++;
+        var timeoutMs = Number(o.audioTimeoutMs) > 0 ? Number(o.audioTimeoutMs) : AUDIO_WORKER_TIMEOUT_MS;
+        entry = {
+          resolve: resolve,
+          reject: function () {
+            resolve(runSyncFallback());
+          },
+          timerId: setTimeout(function () {
+            if (!audioPendingReqs.has(reqId)) return;
+            audioPendingReqs.delete(reqId);
+            resolve(runSyncFallback());
+          }, timeoutMs)
+        };
+        audioPendingReqs.set(reqId, entry);
+        var pcmCopy = new Float32Array(srcArr);
+        w.postMessage({
+          type: 'analyze_pcm',
+          reqId: reqId,
+          audio: pcmCopy,
+          sampleRate: Number(o.sampleRate) > 0 ? Number(o.sampleRate) : TARGET_SAMPLE_RATE,
+          maxContourPoints: Number(o.maxContourPoints) > 0 ? Number(o.maxContourPoints) : 96,
+          targetTone: Number(o.targetTone) || 0,
+          wasmUrl: o.wasmUrl || coreWasmUrl
+        }, [pcmCopy.buffer]);
+      } catch (err) {
+        if (entry && entry.timerId) clearTimeout(entry.timerId);
+        if (reqId) audioPendingReqs.delete(reqId);
+        resolve(runSyncFallback());
+      }
+    });
+  }
+
+  function analyzeBlobAcoustics(blob, opts) {
+    var o = Object.assign({}, opts || {}, { skipWavEncode: true });
+    if (!blob || !(blob.size > 0)) {
+      return Promise.resolve({
+        ok: false,
+        silent: true,
+        reason: 'empty_blob',
+        durationSec: 0,
+        rms: 0,
+        peak: 0,
+        rawRms: 0,
+        rawPeak: 0,
+        trimmedRatio: 0,
+        acoustic: computeJsAcousticFallback(null, null, null, TARGET_SAMPLE_RATE)
+      });
+    }
+    if (!isSupported()) {
+      return Promise.resolve({
+        ok: false,
+        silent: true,
+        reason: 'unsupported',
+        durationSec: 0,
+        rms: 0,
+        peak: 0,
+        rawRms: 0,
+        rawPeak: 0,
+        trimmedRatio: 0,
+        acoustic: computeJsAcousticFallback(null, null, null, TARGET_SAMPLE_RATE)
+      });
+    }
+    return decodeBlobTo16kMono(blob, o).then(function (decoded) {
+      return {
+        ok: true,
+        silent: Boolean(decoded && decoded.silent),
+        reason: (decoded && decoded.reason) || '',
+        durationSec: (decoded && decoded.durationSec) || 0,
+        rms: (decoded && decoded.rms) || 0,
+        peak: (decoded && decoded.peak) || 0,
+        rawRms: (decoded && decoded.rawRms) || 0,
+        rawPeak: (decoded && decoded.rawPeak) || 0,
+        trimmedRatio: (decoded && decoded.trimmedRatio) || 0,
+        acoustic: (decoded && decoded.acoustic) || null
+      };
+    }).catch(function (err) {
+      return {
+        ok: false,
+        silent: true,
+        reason: 'decode_error',
+        error: (err && err.message) ? err.message : String(err),
+        durationSec: 0,
+        rms: 0,
+        peak: 0,
+        rawRms: 0,
+        rawPeak: 0,
+        trimmedRatio: 0,
+        acoustic: null
+      };
+    });
+  }
+
   function preload(onProgress) {
     if (typeof global.Worker !== 'function') {
       return Promise.resolve({ ok: false, error: 'Web Worker not supported' });
@@ -774,7 +1273,11 @@
       return res;
     };
 
-    var hasOverride = typeof global.__LP_WHISPER_TRANSCRIBE_OVERRIDE === 'function';
+    var isLocalHost = Boolean(
+      typeof location !== 'undefined' &&
+      (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    );
+    var hasOverride = isLocalHost && typeof global.__LP_WHISPER_TRANSCRIBE_OVERRIDE === 'function';
     if (hasOverride && o.skipDecode) {
       return Promise.resolve(runOverride(blob, o, null)).then(wrapCancel);
     }
@@ -791,7 +1294,16 @@
       } catch (e) {}
     }
 
-    return decodeBlobTo16kMono(blob).then(function (decoded) {
+    var attachAudioTelemetry = function (res, decoded) {
+      if (!res || typeof res !== 'object' || res.cancelled || !decoded) return res;
+      if (decoded.acoustic && !res.acoustic) res.acoustic = decoded.acoustic;
+      if (typeof res.rms !== 'number') res.rms = decoded.rms || 0;
+      if (typeof res.peak !== 'number') res.peak = decoded.peak || 0;
+      if (typeof res.durationSec !== 'number') res.durationSec = decoded.durationSec || 0;
+      return res;
+    };
+
+    return decodeBlobTo16kMono(blob, o).then(function (decoded) {
       if (blobGen && blobGen !== latestBlobTranscribeGen) {
         return cancelledResult();
       }
@@ -801,12 +1313,16 @@
           transcript: '',
           reason: (decoded && decoded.reason) || 'silent_audio',
           rms: decoded ? decoded.rms : 0,
-          peak: decoded ? decoded.peak : 0
+          peak: decoded ? decoded.peak : 0,
+          durationSec: decoded ? decoded.durationSec : 0,
+          acoustic: decoded ? (decoded.acoustic || null) : null
         };
       }
 
       if (hasOverride) {
-        return Promise.resolve(runOverride(blob, o, decoded)).then(wrapCancel);
+        return Promise.resolve(runOverride(blob, o, decoded)).then(function (r) {
+          return wrapCancel(attachAudioTelemetry(r, decoded));
+        });
       }
 
       var isOffline = typeof navigator !== 'undefined' && navigator.onLine === false;
@@ -819,23 +1335,27 @@
             return cancelledResult();
           }
           if (cloudRes && cloudRes.ok && cloudRes.transcript) {
-            return cloudRes;
+            return attachAudioTelemetry(cloudRes, decoded);
           }
           if (o.cloudOnly === true) {
-            return cloudRes || { ok: false, transcript: '', reason: 'cloud_error' };
+            return attachAudioTelemetry(cloudRes || { ok: false, transcript: '', reason: 'cloud_error' }, decoded);
           }
-          return runLocalWorkerTranscribe(decoded.samples, o).then(wrapCancel);
+          return runLocalWorkerTranscribe(decoded.samples, o).then(function (r) {
+            return wrapCancel(attachAudioTelemetry(r, decoded));
+          });
         });
       }
       if (o.cloudOnly === true) {
-        return {
+        return attachAudioTelemetry({
           ok: false,
           transcript: '',
           reason: cfg.isOpenRouter ? 'openrouter_no_stt' : (isOffline ? 'offline' : 'no_cloud_config')
-        };
+        }, decoded);
       }
 
-      return runLocalWorkerTranscribe(decoded.samples, o).then(wrapCancel);
+      return runLocalWorkerTranscribe(decoded.samples, o).then(function (r) {
+        return wrapCancel(attachAudioTelemetry(r, decoded));
+      });
     }).catch(function (err) {
       if (blobGen && blobGen !== latestBlobTranscribeGen) {
         return cancelledResult();
@@ -852,7 +1372,16 @@
   global.S4Whisper = {
     isSupported: isSupported,
     isReady: function () { return modelReady; },
+    isAudioDspReady: function () { return audioDspReady; },
     getSharedAudioContext: getSharedAudioContext,
+    getVoiceAudioConstraints: getVoiceAudioConstraints,
+    acquireVoiceStream: acquireVoiceStream,
+    pickSupportedAudioMime: pickSupportedAudioMime,
+    createVoiceRecorder: createVoiceRecorder,
+    applyHighPass80Hz: applyHighPass80Hz,
+    preprocessPcm16k: preprocessPcm16k,
+    analyzeAudioPcm16k: analyzeAudioPcm16k,
+    analyzeBlobAcoustics: analyzeBlobAcoustics,
     preload: preload,
     decodeBlobTo16kMono: decodeBlobTo16kMono,
     encodeWav16kMono: encodeWav16kMono,
