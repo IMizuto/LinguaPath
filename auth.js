@@ -22,7 +22,9 @@
   };
 
   const DB = "https://study4-app-default-rtdb.firebaseio.com";
-  const K = { cfg: "s4_auth_config_v2", session: "s4_auth_session_v2", cache: "s4_auth_cache_v2" };
+  const FB_WEB_API_KEY = "AIzaSyB9vsoae9UBmmnXn2pyGlyUL2lwOp0Wtbc";
+  const FB_ADMIN_EMAIL = "";
+  const K = { cfg: "s4_auth_config_v2", session: "s4_auth_session_v2", cache: "s4_auth_cache_v2", fbAdmin: "s4_fb_admin_auth_v1" };
   const P_SRS = "s4_vocab_srs_v1", P_DAYS = "s4_vocab_days_v2", P_SET = "s4_vocab_settings_v2", P_VSES = "s4_vocab_active_session_v2";
   const VOCAB_SCOPE_KEYS = [P_SRS, P_DAYS, P_SET, P_VSES];
   const P_GDONE = "s4_grammar_done", P_GLAST = "s4_grammar_last";
@@ -245,11 +247,99 @@
       if (body !== undefined) { init.headers = { "Content-Type": "application/json" }; init.body = JSON.stringify(body); }
       if (ctl) init.signal = ctl.signal;
       if (opts.keepalive) init.keepalive = true;
-      const url = path ? `${DB}/${path}.json` : `${DB}/.json`;
+      let url = path ? `${DB}/${path}.json` : `${DB}/.json`;
+      if (opts.authToken) url += `?auth=${encodeURIComponent(opts.authToken)}`;
       const res = await fetch(url, init);
       if (!res.ok) throw new Error("HTTP " + res.status);
       return await res.json();
     } finally { clearTimeout(timer); }
+  }
+
+  /* ---------- Phiên Firebase Authentication riêng cho Quản trị viên ---------- */
+  function loadFbAdminAuth() {
+    const raw = loadObj(K.fbAdmin, {});
+    return raw && typeof raw === "object" ? raw : {};
+  }
+  function saveFbAdminAuth(next) {
+    if (!next || typeof next !== "object") { rawRemove(K.fbAdmin); return; }
+    rawSet(K.fbAdmin, JSON.stringify(next));
+  }
+  function clearFbAdminTokens(keepPrefs) {
+    const cur = loadFbAdminAuth();
+    if (keepPrefs && (cur.apiKey || cur.email)) {
+      saveFbAdminAuth({ apiKey: cur.apiKey || "", email: cur.email || "" });
+    } else {
+      rawRemove(K.fbAdmin);
+    }
+  }
+  function fbAuthErrText(code) {
+    const c = String(code || "").toUpperCase();
+    if (c.includes("INVALID_LOGIN_CREDENTIALS") || c.includes("INVALID_PASSWORD") || c.includes("EMAIL_NOT_FOUND")) {
+      return "Email hoặc mật khẩu Firebase Auth không đúng.";
+    }
+    if (c.includes("API_KEY_INVALID")) return "Firebase Web API Key không hợp lệ.";
+    if (c.includes("INVALID_EMAIL")) return "Định dạng Email không hợp lệ.";
+    if (c.includes("USER_DISABLED")) return "Tài khoản Firebase này đã bị vô hiệu hóa.";
+    if (c.includes("TOO_MANY_ATTEMPTS_TRY_LATER")) return "Thử đăng nhập sai quá nhiều lần. Vui lòng đợi ít phút.";
+    return code ? ("Lỗi Firebase Auth: " + code) : "Không thể xác thực với Firebase Auth.";
+  }
+  async function fbAdminSignIn(apiKey, email, password) {
+    const key = String(apiKey || FB_WEB_API_KEY).trim();
+    const mail = String(email || FB_ADMIN_EMAIL).trim();
+    if (!key) throw new Error("Chưa có Firebase Web API Key.");
+    if (!mail || !password) throw new Error("Vui lòng nhập đầy đủ Email và Mật khẩu Firebase.");
+    const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${encodeURIComponent(key)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: mail, password: String(password), returnSecureToken: true })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.idToken) {
+      throw new Error(fbAuthErrText(data && data.error && data.error.message));
+    }
+    const next = {
+      apiKey: key,
+      email: data.email || mail,
+      uid: data.localId || "",
+      idToken: data.idToken,
+      refreshToken: data.refreshToken || "",
+      expiresAt: Date.now() + Math.max(60, Number(data.expiresIn || 3600)) * 1000
+    };
+    saveFbAdminAuth(next);
+    return next;
+  }
+  async function getFbAdminIdToken(forceRefresh) {
+    const st = loadFbAdminAuth();
+    if (!forceRefresh && st.idToken && Number(st.expiresAt || 0) > Date.now() + 60000) {
+      return st.idToken;
+    }
+    const apiKey = st.apiKey || FB_WEB_API_KEY;
+    if (!st.refreshToken || !apiKey) return "";
+    try {
+      const body = `grant_type=refresh_token&refresh_token=${encodeURIComponent(st.refreshToken)}`;
+      const res = await fetch(`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(apiKey)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.id_token) {
+        clearFbAdminTokens(true);
+        return "";
+      }
+      const next = {
+        apiKey: apiKey,
+        email: st.email || FB_ADMIN_EMAIL,
+        uid: data.user_id || st.uid || "",
+        idToken: data.id_token,
+        refreshToken: data.refresh_token || st.refreshToken,
+        expiresAt: Date.now() + Math.max(60, Number(data.expires_in || 3600)) * 1000
+      };
+      saveFbAdminAuth(next);
+      return next.idToken;
+    } catch (e) {
+      return "";
+    }
   }
 
   function isAuthDeniedErr(e) {
@@ -390,6 +480,96 @@
     const legacyBody = Object.assign({}, cleanBody, { authProof: activePh });
     const small = JSON.stringify(legacyBody).length < 60000;
     await db(`study4_progress/${uname}`, "PUT", legacyBody, { keepalive: !!(opts && opts.keepalive && small) });
+    return true;
+  }
+
+  // Di trú tiến độ từ readKey cũ sang readKey mới khi chính người dùng đổi mật khẩu.
+  async function migrateProgressOnPwChange(uname, oldPh, newPh, preloadedRemote) {
+    if (!uname || !newPh) return false;
+    try {
+      const prevRemote = (preloadedRemote !== undefined)
+        ? preloadedRemote
+        : ((oldPh && oldPh !== newPh) ? await readRemoteProgress(uname, oldPh).catch(() => null) : null);
+      const local = (session && session.username === uname) ? readProgress() : {};
+      const localTombs = (session && session.username === uname) ? getTombstones(uname) : emptyTombs();
+      const rdata = (prevRemote && prevRemote.data) || {};
+      const rtombs = (prevRemote && prevRemote.tombstones) || emptyTombs();
+      const mergedData = hasProgress(rdata)
+        ? mergeProgress(local, rdata, { dirty: true, localTs: Date.now() }, Number((prevRemote && prevRemote.updatedAt) || 0), localTombs, rtombs)
+        : local;
+      const mergedTombs = mergeTombstones(localTombs, rtombs);
+      if (session && session.username === uname && !sameProgress(mergedData, local)) {
+        writeProgress(mergedData);
+      }
+      await writeRemoteProgress(uname, {
+        data: mergedData,
+        tombstones: mergedTombs,
+        updatedAt: Date.now()
+      }, newPh, { scrubLegacy: Boolean(prevRemote && prevRemote._fromLegacy) });
+      const st = progressStats(mergedData);
+      await syncUserStatsSummary(uname, st, newPh);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Đọc & gộp toàn bộ tiến độ của một học viên từ mọi nhánh readKey trong study4_progress_priv và nhánh cũ study4_progress.
+  async function collectAllUserProgressForAdmin(uname) {
+    const token = await getFbAdminIdToken();
+    if (!token) return null;
+    const authOpts = { authToken: token };
+    const [privRes, legRes] = await Promise.allSettled([
+      db("study4_progress_priv/" + uname, "GET", undefined, authOpts),
+      db("study4_progress/" + uname, "GET", undefined, authOpts)
+    ]);
+    const entries = [];
+    if (privRes.status === "fulfilled" && privRes.value && typeof privRes.value === "object") {
+      const pm = privRes.value;
+      if (pm.data && typeof pm.data === "object") {
+        entries.push(pm);
+      } else {
+        Object.keys(pm).forEach(rk => {
+          const item = pm[rk];
+          if (item && typeof item === "object" && item.data && typeof item.data === "object") {
+            entries.push(item);
+          }
+        });
+      }
+    }
+    if (legRes.status === "fulfilled" && legRes.value && typeof legRes.value === "object" && legRes.value.data) {
+      entries.push(legRes.value);
+    }
+    if (!entries.length) return null;
+    entries.sort((a, b) => Number(a.updatedAt || 0) - Number(b.updatedAt || 0));
+    let accData = Object.assign({}, entries[0].data);
+    let accTombs = normalizeTombs(entries[0].tombstones || emptyTombs());
+    let accTs = Number(entries[0].updatedAt || 0);
+    for (let i = 1; i < entries.length; i++) {
+      const item = entries[i];
+      const rts = Number(item.updatedAt || 0);
+      accData = mergeProgress(accData, item.data, { dirty: true, localTs: accTs }, rts, accTombs, item.tombstones || emptyTombs());
+      accTombs = mergeTombstones(accTombs, item.tombstones || emptyTombs());
+      accTs = Math.max(accTs, rts);
+    }
+    return { data: accData, tombstones: accTombs, updatedAt: accTs || Date.now(), sourcesCount: entries.length };
+  }
+
+  // Ghi bản tiến độ đã gộp vào đúng readKey mới cho học viên khi Admin đặt lại mật khẩu hoặc đồng bộ lại.
+  async function writeMergedProgressToReadKeyForAdmin(uname, merged, targetPh, adminProof) {
+    if (!uname || !merged || !merged.data || !targetPh) return false;
+    const rk = await deriveReadKey(uname, targetPh);
+    const multi = {
+      [`study4_progress_priv/${uname}/${rk}`]: {
+        data: stripSensitiveFields(merged.data),
+        tombstones: merged.tombstones || emptyTombs(),
+        updatedAt: Date.now()
+      }
+    };
+    if (adminProof) {
+      multi["study4_write_proof/admin"] = makeWriteProofToken(adminProof);
+    }
+    await db("", "PATCH", multi);
     return true;
   }
 
@@ -1476,7 +1656,29 @@
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
-  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0, resetAt: 0, vocabResetAt: 0, pendingOverwrite: null }, getSync(u) || {}, patch)));
+  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0, resetAt: 0, vocabResetAt: 0, pendingOverwrite: null, lastCloudSyncAt: 0, lastCloudSyncErr: "", lastStatsSyncErr: "" }, getSync(u) || {}, patch)));
+
+  async function syncUserStatsSummary(uname, st, authProof) {
+    if (!uname || !st) return "";
+    const patch = buildProgressStatsPatch(st);
+    try {
+      await dbSecureWrite(uname, `study4_users/${uname}`, patch, authProof);
+      return "";
+    } catch (err) {
+      if (isAuthDeniedErr(err) && authProof) {
+        const healed = await syncAuthSecret(uname, authProof, authProof).catch(() => false);
+        if (healed) {
+          try {
+            await dbSecureWrite(uname, `study4_users/${uname}`, patch, authProof);
+            return "";
+          } catch (err2) {
+            return (err2 && err2.message) ? err2.message : "Lỗi cập nhật bảng tổng hợp học viên.";
+          }
+        }
+      }
+      return (err && err.message) ? err.message : "Lỗi cập nhật bảng tổng hợp học viên.";
+    }
+  }
 
   let changeCounter = 0, pushTimer = null, pendingOverwriteMem = null;
   function allowOverwriteOnce(scope) {
@@ -1608,20 +1810,33 @@
     const body = { data: data, tombstones: mergedTombs, updatedAt: ts };
     if (nextResetAt > 0) body.resetAt = nextResetAt;
     if (nextVocabResetAt > 0) body.vocabResetAt = nextVocabResetAt;
-    await writeRemoteProgress(uname, body, authProof, {
-      keepalive: !!(opts && opts.keepalive),
-      scrubLegacy: fromLegacy
-    });
+    try {
+      await writeRemoteProgress(uname, body, authProof, {
+        keepalive: !!(opts && opts.keepalive),
+        scrubLegacy: fromLegacy
+      });
+    } catch (pushErr) {
+      setSync(uname, {
+        dirty: true,
+        lastCloudSyncErr: (pushErr && pushErr.message) ? pushErr.message : "Không đẩy được tiến độ lên Cloud."
+      });
+      throw pushErr;
+    }
     pendingOverwriteMem = null;
+    const st = progressStats(data);
+    const statsErr = (opts && opts.keepalive)
+      ? (dbSecureWrite(uname, `study4_users/${uname}`, buildProgressStatsPatch(st), authProof).catch(() => {}), "")
+      : await syncUserStatsSummary(uname, st, authProof);
     setSync(uname, {
       base: ts,
       dirty: changeCounter !== mark,
       resetAt: nextResetAt,
       vocabResetAt: nextVocabResetAt,
-      pendingOverwrite: null
+      pendingOverwrite: null,
+      lastCloudSyncAt: Date.now(),
+      lastCloudSyncErr: "",
+      lastStatsSyncErr: statsErr
     });
-    const st = progressStats(data);
-    dbSecureWrite(uname, `study4_users/${uname}`, buildProgressStatsPatch(st), authProof).catch(() => {});
     return true;
   }
 
@@ -1712,7 +1927,12 @@
         vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt)
       });
       const st = progressStats(readProgress());
-      dbSecureWrite(uname, `study4_users/${uname}`, buildProgressStatsPatch(st), (session && session.ph) || "").catch(() => {});
+      const statsErr = await syncUserStatsSummary(uname, st, (session && session.ph) || "");
+      setSync(uname, {
+        lastCloudSyncAt: Date.now(),
+        lastCloudSyncErr: "",
+        lastStatsSyncErr: statsErr
+      });
     }
     if (changedLocal) refreshAfterDataChange("progress");
   }
@@ -1865,6 +2085,13 @@
     if (!matchedPh) return { ok: false, msg: "Tên đăng nhập hoặc mật khẩu không đúng." };
     if (rec.status === "blocked") return { ok: false, msg: "Tài khoản này đã bị quản trị viên khóa." };
     await startSession(rec, matchedPh);
+    if (uname === "admin" && rec.role === "admin") {
+      const st = loadFbAdminAuth();
+      const savedMail = st.email || FB_ADMIN_EMAIL;
+      if (savedMail) {
+        await fbAdminSignIn(st.apiKey || FB_WEB_API_KEY, savedMail, pass).catch(() => {});
+      }
+    }
     return { ok: true };
   }
 
@@ -2292,7 +2519,26 @@
               <span style="font-size:12px;color:#16a34a;font-weight:700;">🔥 Chuỗi ${st.streakDays} ngày liên tiếp</span>
             </div>
             <div style="display:flex;gap:6px;align-items:flex-end;padding-top:4px;">${chartBars}</div>
-          </div>`;
+          </div>
+          ${(() => {
+            const sy = getSync(curU.username) || {};
+            const syncErrMsg = sy.lastCloudSyncErr || sy.lastStatsSyncErr || "";
+            let statusHtml = "";
+            if (syncErrMsg) {
+              statusHtml = `<span style="color:#dc2626;font-weight:700;">⚠️ Lỗi đồng bộ Cloud: ${esc(syncErrMsg)}</span>`;
+            } else if (sy.dirty) {
+              statusHtml = `<span style="color:#d97706;font-weight:700;">⏳ Có dữ liệu mới trên máy chưa đẩy lên Cloud</span>`;
+            } else if (sy.lastCloudSyncAt) {
+              statusHtml = `<span style="color:#15803d;font-weight:700;">☁️ Đã đồng bộ Cloud (${esc(fmtRelativeTime(new Date(sy.lastCloudSyncAt).toISOString()))})</span>`;
+            } else {
+              statusHtml = `<span style="color:#64748b;font-weight:600;">☁️ Chưa đồng bộ thủ công trong phiên này</span>`;
+            }
+            return `
+              <div class="s4-stat-box" style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;font-size:12px;">
+                <div>${statusHtml}</div>
+                <button type="button" class="s4-mini" id="btnSyncCloudNow" style="background:#2563eb;padding:6px 11px;font-size:12px;">${uiIcon("refresh", 12, "🔄")} Đồng bộ lên Cloud ngay</button>
+              </div>`;
+          })()}`;
       } else if (tab === "edit") {
         const avtGrid = AVATAR_PRESETS.map(em => `<div class="s4-avt-opt ${selAvatar === em ? "active" : ""}" data-em="${esc(em)}">${em}</div>`).join("");
         const bands = ["5.5", "6.0", "6.5", "7.0", "7.5", "8.0", "8.5+"].map(b => `<option value="${b}" ${curU.targetBand === b ? "selected" : ""}>🎯 Mục tiêu IELTS Band ${b}</option>`).join("");
@@ -2369,7 +2615,28 @@
         b.onclick = () => { tab = b.dataset.t; msg = ""; err = ""; render(); };
       });
 
-      if (tab === "edit") {
+      if (tab === "overview") {
+        const syncBtn = box.querySelector("#btnSyncCloudNow");
+        if (syncBtn) {
+          syncBtn.onclick = async () => {
+            syncBtn.disabled = true;
+            syncBtn.textContent = "⏳ Đang đồng bộ...";
+            msg = ""; err = "";
+            try {
+              await syncProgress(true);
+              const sy = getSync(curU.username) || {};
+              if (sy.lastCloudSyncErr || sy.lastStatsSyncErr) {
+                err = "Đồng bộ chưa hoàn tất: " + (sy.lastCloudSyncErr || sy.lastStatsSyncErr);
+              } else {
+                msg = "Đã đồng bộ gộp 2 chiều (Cloud & Thiết bị) và cập nhật chuỗi học thành công!";
+              }
+            } catch (e) {
+              err = "Đồng bộ lên Cloud thất bại: " + ((e && e.message) ? e.message : "lỗi kết nối mạng");
+            }
+            render();
+          };
+        }
+      } else if (tab === "edit") {
         box.querySelectorAll("[data-em]").forEach(el => {
           el.onclick = () => { selAvatar = el.dataset.em; render(); };
         });
@@ -2420,6 +2687,9 @@
           btn.disabled = true; btn.textContent = "⏳ Đang cập nhật...";
           try {
             const newHash = await hashPw(curU.username, newP);
+            const prevRemote = (activeOldHash && activeOldHash !== newHash)
+              ? await readRemoteProgress(curU.username, activeOldHash).catch(() => null)
+              : null;
             const migrated = await syncAuthSecret(curU.username, newHash, activeOldHash);
             if (!migrated) {
               await db(`study4_users/${curU.username}`, "PATCH", { passwordHash: newHash, authProof: activeOldHash });
@@ -2427,8 +2697,8 @@
             session.ph = newHash;
             saveSession();
             if (cache[curU.username]) { cache[curU.username].passwordHash = newHash; saveCache(); }
-            pushProgress().catch(() => {});
-            msg = "Đã đổi mật khẩu thành công!";
+            await migrateProgressOnPwChange(curU.username, activeOldHash, newHash, prevRemote);
+            msg = "Đã đổi mật khẩu và chuyển nguyên vẹn tiến độ học thành công!";
           } catch (e) {
             err = "Lỗi kết nối mạng khi đổi mật khẩu, vui lòng thử lại.";
           }
@@ -2746,14 +3016,41 @@
     const { box } = newModal("wide");
     let tab = startTab || "users"; // "users" | "settings"
     let users = null, resetRequests = null, loading = false, msg = "";
-    let userSearch = "", userFilter = "all", inspectUser = null, inspectProgress = null, searchTimer = null;
+    let userSearch = "", userFilter = "all", inspectUser = null, inspectProgress = null, inspectMergedMeta = null, inspectSourcesCount = 0, searchTimer = null;
+    let authRequired = false, authDeniedUid = "", authErr = "", authBusy = false;
 
-    async function load() {
-      loading = true; render();
+    async function load(forceRefreshToken) {
+      loading = true;
+      authRequired = false;
+      authDeniedUid = "";
+      render();
       try {
         if (tab === "users") {
-          users = (await db("study4_users")) || {};
-          resetRequests = (await db("study4_reset_requests").catch(() => ({}))) || {};
+          let token = await getFbAdminIdToken(!!forceRefreshToken);
+          if (!token) {
+            authRequired = true;
+            users = null;
+            resetRequests = null;
+            msg = "";
+            loading = false;
+            return render();
+          }
+          try {
+            users = (await db("study4_users", "GET", undefined, { authToken: token })) || {};
+          } catch (e) {
+            if (isAuthDeniedErr(e) && !forceRefreshToken) {
+              const refreshed = await getFbAdminIdToken(true);
+              if (refreshed) {
+                token = refreshed;
+                users = (await db("study4_users", "GET", undefined, { authToken: token })) || {};
+              } else {
+                throw e;
+              }
+            } else {
+              throw e;
+            }
+          }
+          resetRequests = (await db("study4_reset_requests", "GET", undefined, { authToken: token }).catch(() => ({}))) || {};
           // Tự động di trú mã băm mật khẩu còn sót sang nhánh bảo mật riêng study4_auth
           Object.keys(users).forEach(k => {
             if (users[k] && users[k].passwordHash) {
@@ -2762,35 +3059,116 @@
           });
         }
         msg = "";
+        authErr = "";
       } catch (e) {
-        msg = "Không tải được dữ liệu từ máy chủ. Kiểm tra kết nối mạng.";
+        if (isAuthDeniedErr(e)) {
+          const st = loadFbAdminAuth();
+          authRequired = true;
+          authDeniedUid = st.uid || "";
+          users = null;
+          resetRequests = null;
+          msg = "";
+          authErr = authDeniedUid
+            ? `Tài khoản Firebase đã đăng nhập nhưng UID chưa có quyền Admin trong nhánh study4_admins.`
+            : "Phiên Firebase Auth Admin chưa hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại.";
+        } else {
+          msg = "Không tải được dữ liệu từ máy chủ. Kiểm tra kết nối mạng.";
+        }
       }
       loading = false; render();
     }
 
+    function fbAuthGateHtml() {
+      const st = loadFbAdminAuth();
+      const activeKey = st.apiKey || FB_WEB_API_KEY;
+      const activeEmail = st.email || FB_ADMIN_EMAIL;
+      return `
+        <div class="s4-stat-box" style="padding:14px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <div style="font-weight:800;font-size:14.5px;color:#2563eb;display:flex;align-items:center;gap:6px;">
+              ${uiIcon("shield", 16, "🛡️")} <span>Xác thực Firebase Auth cho Quản trị viên</span>
+            </div>
+            ${st.uid ? `<button type="button" class="s4-mini" style="background:#dc2626;" data-act="fb-logout">Đăng xuất phiên Firebase</button>` : ""}
+          </div>
+          <p style="margin:0 0 10px 0;font-size:12.5px;color:var(--lg-ink-muted,#64748b);line-height:1.5;">
+            ${activeEmail
+              ? `Email Admin đã lưu trên thiết bị này: <b>${esc(activeEmail)}</b>. Nhập mật khẩu Firebase Auth để mở khóa danh sách học viên (nếu mật khẩu <code>@admin</code> trùng mật khẩu Firebase Auth, hệ thống sẽ tự kết nối luôn ở lần đăng nhập sau).`
+              : `Nhập Email và Mật khẩu tài khoản Firebase Authentication đã cấp quyền Admin trong nhánh <code>study4_admins</code> (email sẽ chỉ lưu cục bộ trên trình duyệt này, không ghi cứng trong mã nguồn).`}
+          </p>
+          ${authErr ? `<div class="s4-err" style="display:flex;align-items:flex-start;gap:6px;line-height:1.45;">${uiIcon("alert", 15, "⚠️")} <span>${esc(authErr)}</span></div>` : ""}
+          ${authDeniedUid ? `
+            <div class="s4-info" style="line-height:1.5;">
+              <b>User UID hiện tại của bạn:</b><br>
+              <code style="display:inline-block;margin-top:4px;padding:3px 7px;border-radius:6px;background:rgba(15,23,42,0.08);user-select:all;word-break:break-all;">${esc(authDeniedUid)}</code>
+              <div style="margin-top:6px;font-size:12px;">
+                Vào <b>Firebase Console ➔ Realtime Database ➔ Data</b>, tạo node <code>study4_admins</code> với giá trị <code>"${esc(authDeniedUid)}": true</code> rồi bấm <b>Kiểm tra lại</b>.
+              </div>
+              <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+                <button type="button" class="s4-mini" style="background:#2563eb;" data-act="copy-uid" data-v="${esc(authDeniedUid)}">Sao chép UID</button>
+                <button type="button" class="s4-mini" style="background:#16a34a;" data-act="retry-load">Kiểm tra lại quyền</button>
+              </div>
+            </div>` : ""}
+          <form id="s4FbAdminForm">
+            ${!activeEmail ? `
+              <label style="font-size:12px;font-weight:700;">Email Admin (Firebase Authentication):</label>
+              <input class="s4-input" id="fbAdmEmail" type="email" value="" placeholder="admin@example.com" autocomplete="username" required>
+            ` : ""}
+            <label style="font-size:12px;font-weight:700;">Mật khẩu Firebase Auth${activeEmail ? ` (<code>${esc(activeEmail)}</code>)` : ""}:</label>
+            <div class="s4-pass-wrap">
+              <input class="s4-input" id="fbAdmPass" type="password" placeholder="Nhập mật khẩu tài khoản Firebase Admin" autocomplete="current-password" required>
+              <button type="button" class="s4-pass-toggle" title="Hiện/Ẩn mật khẩu">${uiIcon("eye", 15, "👁️")}</button>
+            </div>
+            <details style="margin:2px 0 10px 0;font-size:12px;color:var(--lg-ink-muted,#64748b);">
+              <summary style="cursor:pointer;font-weight:700;color:#2563eb;">${activeEmail ? "Đổi Email hoặc Web API Key khác" : "Tùy chỉnh Web API Key khác"}</summary>
+              <div style="margin-top:8px;">
+                ${activeEmail ? `
+                  <label style="font-size:12px;font-weight:700;">Email Admin (Firebase Authentication):</label>
+                  <input class="s4-input" id="fbAdmEmail" type="email" value="${esc(activeEmail)}" placeholder="admin@example.com" autocomplete="username" required>
+                ` : ""}
+                <label style="font-size:12px;font-weight:700;">Firebase Web API Key:</label>
+                <input class="s4-input" id="fbAdmKey" value="${esc(activeKey)}" placeholder="VD: AIzaSy..." autocomplete="off" required>
+              </div>
+            </details>
+            <button type="submit" class="s4-btn" id="btnFbAdminLogin" ${authBusy ? "disabled" : ""}>${authBusy ? "⏳ Đang xác thực..." : "Kết nối & Tải danh sách học viên"}</button>
+          </form>
+        </div>`;
+    }
+
     function inspectModalHtml(u) {
-      const vLearned = Number(u.vocabLearned) || 0;
-      const vIgnored = Number(u.vocabIgnored) || 0;
-      const vMastered = Number(u.vocabMastered) || 0;
-      const vDue = Number(u.vocabDue) || 0;
-      const gDone = Number(u.grammarDone) || 0;
-      const lisDone = Number(u.listeningDone) || 0;
-      const lisWords = Number(u.listeningWords) || 0;
-      const readDone = Number(u.readingDone) || 0;
-      const readWords = Number(u.readingWords) || 0;
-      const writingDone = Number(u.writingDone) || 0;
-      const speakingDone = Number(u.speakingDone) || 0;
-      const speakingWords = Number(u.speakingWords) || 0;
-      const tedDone = Number(u.tedDone) || 0;
-      const hskWords = Number(u.hskWords) || 0;
-      const hskDoneItems = Number(u.hskDoneItems) || 0;
-      const toeicWords = Number(u.toeicWords) || 0;
-      const toeicDoneItems = Number(u.toeicDoneItems) || 0;
+      const st = inspectProgress ? progressStats(inspectProgress) : null;
+      const vLearned = st ? st.vocabLearned : (Number(u.vocabLearned) || 0);
+      const vIgnored = st ? st.vocabIgnored : (Number(u.vocabIgnored) || 0);
+      const gDone = st ? st.grammarDone : (Number(u.grammarDone) || 0);
+      const lisDone = st ? st.listeningDone : (Number(u.listeningDone) || 0);
+      const lisWords = st ? st.listeningWords : (Number(u.listeningWords) || 0);
+      const readDone = st ? st.readingDone : (Number(u.readingDone) || 0);
+      const readWords = st ? st.readingWords : (Number(u.readingWords) || 0);
+      const writingDone = st ? st.writingDone : (Number(u.writingDone) || 0);
+      const speakingDone = st ? st.speakingDone : (Number(u.speakingDone) || 0);
+      const speakingWords = st ? st.speakingWords : (Number(u.speakingWords) || 0);
+      const tedDone = st ? st.tedDone : (Number(u.tedDone) || 0);
+      const hskWords = st ? st.hskWords : (Number(u.hskWords) || 0);
+      const hskDoneItems = st ? st.hskDoneItems : (Number(u.hskDoneItems) || 0);
+      const toeicWords = st ? st.toeicWords : (Number(u.toeicWords) || 0);
+      const toeicDoneItems = st ? st.toeicDoneItems : (Number(u.toeicDoneItems) || 0);
+      const curStreak = st ? st.streakDays : (Number(u.streakDays) || 0);
+      const curTotalDays = st ? st.totalStudyDays : (Number(u.totalStudyDays) || 0);
 
       const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
       const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
-      const st = inspectProgress ? progressStats(inspectProgress) : null;
       const oPct = st ? st.overallPct : (u.overallPct || Math.round(vPct * 0.7 + gPct * 0.3));
+      const recent7Html = (st && Array.isArray(st.recent7))
+        ? `<div style="margin-top:10px;padding:8px 10px;border-radius:8px;background:rgba(148,163,184,0.1);">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+              <b>Lịch sử 7 ngày gần nhất (${inspectSourcesCount || 1} nguồn Cloud)</b>
+              <span style="color:#d97706;font-weight:700;">🔥 Chuỗi ${curStreak} ngày • Tổng ${curTotalDays} ngày học</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px;">
+              ${st.recent7.map(d => `<div style="padding:4px 2px;border-radius:6px;background:${d.count ? "rgba(22,163,74,0.16)" : "rgba(148,163,184,0.12)"};color:${d.count ? "#15803d" : "#64748b"};font-weight:700;"><div>${d.label}</div><div>${d.count || 0}</div></div>`).join("")}
+            </div>
+          </div>`
+        : `<div style="margin-top:8px;font-size:11.5px;color:#64748b;">🔥 Theo bảng tóm tắt: Chuỗi ${curStreak} ngày • Tổng ${curTotalDays} ngày (bấm Chi tiết sau khi Publish Rules mới để xem đầy đủ 7 ngày từ <code>study4_progress_priv</code>).</div>`;
+      const isSelfAdmin = session && session.username === u.username;
 
       return `
         <div class="s4-stat-box" style="margin-bottom:14px;border:1.5px solid #2563eb;background:var(--panel,#f8fafc);">
@@ -2847,6 +3225,11 @@
               <div style="font-size:14.5px;font-weight:800;color:#b45309;">${toeicDoneItems} / ${TOTAL_TOEIC_ITEMS} bài • ${toeicWords.toLocaleString("en-US")} / ${TOTAL_TOEIC_VOCAB.toLocaleString("en-US")} từ</div>
             </div>
           </div>
+          ${recent7Html}
+          ${st ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+            <button type="button" class="s4-mini" style="background:#0d9488;padding:6px 10px;" data-act="sync-user-stats" data-v="${esc(u.username)}">Cập nhật lại bảng tổng hợp</button>
+            ${isSelfAdmin ? `<button type="button" class="s4-mini" style="background:#2563eb;padding:6px 10px;" data-act="pull-admin-merged">Kéo bản gộp từ Cloud về máy này</button>` : ""}
+          </div>` : ""}
         </div>`;
     }
 
@@ -2995,6 +3378,17 @@
     }
 
     function render() {
+      const fbSt = loadFbAdminAuth();
+      const fbBanner = (tab === "users" && !authRequired && users) ? `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:rgba(22,163,74,0.09);border:1px solid rgba(22,163,74,0.25);padding:7px 10px;border-radius:10px;margin-bottom:10px;font-size:12px;">
+          <span style="color:#15803d;font-weight:700;display:inline-flex;align-items:center;gap:5px;">
+            ${uiIcon("check", 14, "✅")} Firebase Admin: ${esc(fbSt.email || fbSt.uid || "Đã xác thực")}
+          </span>
+          <div style="display:flex;gap:6px;">
+            <button type="button" class="s4-mini" style="background:#2563eb;" data-act="retry-load">Làm mới</button>
+            <button type="button" class="s4-mini" style="background:#64748b;" data-act="fb-logout">Ngắt kết nối</button>
+          </div>
+        </div>` : "";
       box.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
           <div style="display:flex;align-items:center;gap:10px;">
@@ -3007,12 +3401,37 @@
           <button class="s4-tab ${tab === "users" ? "active" : ""}" data-act="tab" data-v="users">${uiIcon("user", 14, "👥")} Quản lý học viên</button>
           <button class="s4-tab ${tab === "settings" ? "active" : ""}" data-act="tab" data-v="settings">${uiIcon("settings", 14, "⚙️")} Cài đặt &amp; QR Donate</button>
         </div>
-        ${msg ? `<div class="s4-err" style="display:flex;align-items:center;gap:6px;">${uiIcon("alert", 15, "⚠️")} <span>${esc(msg)}</span></div>` : ""}
+        ${msg ? `<div class="s4-err" style="display:flex;align-items:center;gap:6px;justify-content:space-between;flex-wrap:wrap;"><span style="display:inline-flex;align-items:center;gap:6px;">${uiIcon("alert", 15, "⚠️")} <span>${esc(msg)}</span></span><button type="button" class="s4-mini" style="background:#dc2626;" data-act="retry-load">Thử lại</button></div>` : ""}
         ${loading ? `<div style="padding:20px;text-align:center;color:#64748b;">Đang tải dữ liệu từ máy chủ...</div>`
-          : tab === "users" ? (users ? usersHtml() : "") : settingsHtml()}
+          : tab === "users" ? (authRequired ? fbAuthGateHtml() : (users ? fbBanner + usersHtml() : "")) : settingsHtml()}
       `;
 
       setupPassToggles(box);
+
+      const fbForm = box.querySelector("#s4FbAdminForm");
+      if (fbForm) {
+        fbForm.onsubmit = async (ev) => {
+          ev.preventDefault();
+          if (authBusy) return;
+          const kEl = box.querySelector("#fbAdmKey");
+          const eEl = box.querySelector("#fbAdmEmail");
+          const kInp = kEl ? kEl.value : FB_WEB_API_KEY;
+          const eInp = eEl ? eEl.value : FB_ADMIN_EMAIL;
+          const pInp = box.querySelector("#fbAdmPass").value;
+          authBusy = true;
+          authErr = "";
+          render();
+          try {
+            await fbAdminSignIn(kInp, eInp, pInp);
+            authBusy = false;
+            await load(false);
+          } catch (err) {
+            authBusy = false;
+            authErr = (err && err.message) ? err.message : "Đăng nhập Firebase Auth thất bại.";
+            render();
+          }
+        };
+      }
 
       const sInp = box.querySelector("#admSearchUser");
       if (sInp) {
@@ -3048,16 +3467,34 @@
       const act = el.dataset.act, v = el.dataset.v;
       if (act === "close") return closeModals();
       if (act === "tab") { tab = v; return load(); }
+      if (act === "retry-load") return load(false);
+      if (act === "fb-logout") {
+        clearFbAdminTokens(true);
+        users = null; resetRequests = null; authErr = ""; authDeniedUid = ""; authRequired = true;
+        return render();
+      }
+      if (act === "copy-uid" && v) {
+        try {
+          await navigator.clipboard.writeText(v);
+          el.textContent = "✓ Đã sao chép";
+          setTimeout(() => { el.textContent = "Sao chép UID"; }, 1500);
+        } catch (e) {}
+        return;
+      }
 
       if (act === "inspect") {
         inspectUser = v;
         inspectProgress = null;
+        inspectMergedMeta = null;
+        inspectSourcesCount = 0;
         render();
         try {
-          const p = await db("study4_progress/" + v);
-          if (p && p.data) {
-            inspectProgress = p.data;
-            const st = progressStats(p.data);
+          const merged = await collectAllUserProgressForAdmin(v);
+          if (merged && merged.data) {
+            inspectProgress = merged.data;
+            inspectMergedMeta = merged;
+            inspectSourcesCount = merged.sourcesCount || 1;
+            const st = progressStats(merged.data);
             Object.assign(users[v], {
               vocabLearned: st.vocabLearned, vocabIgnored: st.vocabIgnored, vocabMastered: st.vocabMastered, vocabDue: st.vocabDue,
               grammarDone: st.grammarDone, listeningDone: st.listeningDone, listeningWords: st.listeningWords,
@@ -3072,7 +3509,32 @@
         } catch (e) {}
         return;
       }
-      if (act === "closeinspect") { inspectUser = null; inspectProgress = null; return render(); }
+      if (act === "closeinspect") { inspectUser = null; inspectProgress = null; inspectMergedMeta = null; inspectSourcesCount = 0; return render(); }
+
+      if (act === "sync-user-stats" && v && inspectProgress) {
+        if (await guard(async () => {
+          const st = progressStats(inspectProgress);
+          const patch = buildProgressStatsPatch(st);
+          await dbSecureWrite("admin", "study4_users/" + v, patch, (session && session.ph) || "");
+          Object.assign(users[v], patch);
+        })) {
+          if (window.S4UI) window.S4UI.toast("success", "Đã cập nhật lại bảng tổng hợp cho @" + v);
+          render();
+        }
+        return;
+      }
+
+      if (act === "pull-admin-merged" && inspectProgress && session && session.username === "admin") {
+        if (await guard(async () => {
+          const merged = inspectMergedMeta || { data: inspectProgress, tombstones: emptyTombs() };
+          await replaceLocalProgress(merged.data, { resetTombstones: true, syncNow: true });
+          if (typeof window.updateDashboardStats === "function") window.updateDashboardStats();
+        })) {
+          if (window.S4UI) window.S4UI.toast("success", "Đã kéo bản gộp đầy đủ từ Cloud về máy hiện tại.");
+          await load(false);
+        }
+        return;
+      }
 
       if (act === "block") {
         const nx = users[v].status === "blocked" ? "active" : "blocked";
@@ -3096,9 +3558,12 @@
         if (await guard(async () => {
           const ph = await hashPw(v, np);
           const adminProof = (session && session.ph) || ph;
+          const prevMerged = await collectAllUserProgressForAdmin(v).catch(() => null);
           const migrated = await syncAuthSecret(v, ph, adminProof);
           if (!migrated) {
             await db("study4_users/" + v, "PATCH", { passwordHash: ph, authProof: adminProof });
+          } else if (prevMerged && prevMerged.data) {
+            await writeMergedProgressToReadKeyForAdmin(v, prevMerged, ph, adminProof).catch(() => {});
           }
           await dbSecureWrite("admin", "study4_reset_requests/" + v, null, adminProof, { delete: true }).catch(() => {});
           if (resetRequests) delete resetRequests[v];
@@ -3133,6 +3598,7 @@
             await dbSecureWrite("admin", "study4_users/" + v, { username: v, deleted: true, status: "blocked", role: "basic" }, adminProof, { replace: true });
           }
           await dbSecureWrite("admin", "study4_progress/" + v, null, adminProof, { delete: true }).catch(() => {});
+          await dbSecureWrite("admin", "study4_progress_priv/" + v, null, adminProof, { delete: true }).catch(() => {});
           await dbSecureWrite("admin", "study4_reset_requests/" + v, null, adminProof, { delete: true }).catch(() => {});
           delete users[v];
           if (resetRequests) delete resetRequests[v];
@@ -3163,6 +3629,10 @@
           if (np) {
             const oldAdminProof = (session && session.ph) || "";
             const ph = await hashPw("admin", np);
+            const prevMerged = await collectAllUserProgressForAdmin("admin").catch(() => null);
+            const prevRemoteFallback = (!prevMerged && oldAdminProof && oldAdminProof !== ph)
+              ? await readRemoteProgress("admin", oldAdminProof).catch(() => null)
+              : null;
             const migrated = await syncAuthSecret("admin", ph, oldAdminProof || ph);
             if (!migrated) {
               await db("study4_users/admin", "PATCH", { passwordHash: ph, authProof: oldAdminProof || ph });
@@ -3170,6 +3640,11 @@
             session.ph = ph;
             saveSession();
             if (cache.admin) { cache.admin.passwordHash = ph; saveCache(); }
+            if (prevMerged && prevMerged.data) {
+              await writeMergedProgressToReadKeyForAdmin("admin", prevMerged, ph, ph).catch(() => {});
+            } else {
+              await migrateProgressOnPwChange("admin", oldAdminProof, ph, prevRemoteFallback);
+            }
           }
         })) {
           if (window.S4UI) {
@@ -3237,17 +3712,50 @@
       hookSuspended = false;
     }
     HTML_CACHE_KEYS.forEach(k => rawRemove(k));
+    clearFbAdminTokens(true);
     pendingOverwriteMem = null;
     session = null;
     saveSession();
     location.reload();
   }
 
+  async function replaceLocalProgress(itemsMap, opts) {
+    opts = opts || {};
+    const nextMap = {};
+    Object.keys(itemsMap || {}).forEach(k => {
+      if ((PROGRESS_KEYS.indexOf(k) >= 0 || isTrackedDraftKey(k)) && itemsMap[k] !== undefined && itemsMap[k] !== null) {
+        nextMap[k] = String(itemsMap[k]);
+      }
+    });
+    writeProgress(nextMap);
+    if (session && session.username) {
+      if (opts.resetTombstones) setTombstones(session.username, emptyTombs());
+      allowOverwriteOnce("all");
+      if (opts.syncNow) {
+        try {
+          await pushProgress();
+          const sy = getSync(session.username) || {};
+          if (sy.lastStatsSyncErr) return { ok: false, error: sy.lastStatsSyncErr };
+          return { ok: true };
+        } catch (e) {
+          return { ok: false, error: (e && e.message) ? e.message : "Lỗi kết nối Cloud" };
+        }
+      }
+    }
+    return { ok: true };
+  }
+
   window.S4Auth = {
     getCurrentUser, isFullAccess, isAdmin, daysRemaining,
     canAccessVocabTopic, canAccessGrammarSection,
     openLoginModal, openProfileModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
-    logout, syncNow: () => syncProgress(false),
+    logout,
+    syncNow: async (opts) => {
+      if (opts && opts.push) return pushProgress();
+      return syncProgress(Boolean(opts && opts.forceMerge));
+    },
+    pushNow: () => pushProgress(),
+    replaceLocalProgress: replaceLocalProgress,
     scheduleCloudSync: onProgressChanged,
     mergeProgress: mergeProgress,
     progressStats: progressStats,

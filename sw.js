@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v133";
+const CACHE_NAME = "linguapath-cache-v139";
 const OFFLINE_CACHE = "linguapath-offline-packs-v1";
 const WHISPER_CACHE = "lp-whisper-runtime-v1";
 const CORE_ASSETS = [
@@ -82,6 +82,8 @@ const OFFLINE_PACKS = {
     "./ielts/foundation/index.html", "./ielts/foundation/foundation_data.js",
     "./ielts/listening/index.html", "./ielts/listening/data/listening_manifest.js",
     "./ielts/listening/data/listening_u_2.js",
+    "./ielts/listening/listening_tactics_data.js",
+    "./ielts/reading/reading_tactics_data.js",
     "./ielts/vocab/vocab_collocations.js",
     "./ielts/grammar/grammar_explanations.js",
     "./ielts/writing/data/writing_toolkit_data.js"

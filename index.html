@@ -41,10 +41,10 @@
   <title>LinguaPath — Nền tảng Tự học Đa ngôn ngữ</title>
   <link rel="prefetch" href="ielts/listening/data/listening_manifest.js">
   <link rel="prefetch" href="ielts/reading/data/reading_manifest.js">
-  <link rel="stylesheet" href="assets/s4-ui.css?v=68">
+  <link rel="stylesheet" href="assets/s4-ui.css?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=31">
+  <link rel="stylesheet" href="assets/ghibli/ghibli-theme.css?v=32">
 
   <style>
     @media (prefers-reduced-motion: no-preference) {
@@ -959,7 +959,7 @@
 
   <script src="ielts/roadmap/roadmap_data.js?v=3"></script>
   <script src="ielts/roadmap/roadmap.js?v=3"></script>
-  <script src="assets/s4-ui.js?v=67"></script>
+  <script src="assets/s4-ui.js?v=69"></script>
   <script>
     function syncHomeDarkButton() {
       const btn = document.getElementById("homeDarkBtn");
@@ -1299,13 +1299,28 @@
         try {
           const obj = JSON.parse(r.result);
           if (obj.app !== "study4-all" || !obj.items) throw new Error("invalid");
-          const doRestore = () => {
-            appKeys().forEach(k => localStorage.removeItem(k));
+          const doRestore = async () => {
+            const validItems = {};
+            Object.keys(obj.items).forEach(k => {
+              if (isAppProgressKey(k)) validItems[k] = obj.items[k];
+            });
             HTML_CACHE_KEYS.forEach(k => localStorage.removeItem(k));
-            Object.keys(obj.items).forEach(k => { if (isAppProgressKey(k)) localStorage.setItem(k, obj.items[k]); });
-            if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
+            let cloudRes = { ok: true };
+            if (window.S4Auth && typeof window.S4Auth.replaceLocalProgress === "function") {
+              cloudRes = await window.S4Auth.replaceLocalProgress(validItems, { resetTombstones: true, syncNow: true });
+            } else {
+              appKeys().forEach(k => localStorage.removeItem(k));
+              Object.keys(validItems).forEach(k => localStorage.setItem(k, validItems[k]));
+              if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
+            }
             updateDashboardStats();
-            if (window.S4UI) window.S4UI.toast("success", "Đã khôi phục tiến độ.");
+            if (window.S4UI) {
+              if (cloudRes && cloudRes.ok === false) {
+                window.S4UI.toast("warn", "Đã khôi phục trên máy, nhưng chưa đẩy được lên Cloud: " + cloudRes.error);
+              } else {
+                window.S4UI.toast("success", "Đã khôi phục tiến độ và đồng bộ lên Cloud.");
+              }
+            }
           };
           if (window.S4UI) {
             window.S4UI.confirm("Dữ liệu học hiện tại sẽ bị thay bằng bản sao lưu. Tiếp tục?", {
@@ -1324,17 +1339,21 @@
       r.readAsText(f);
     }
     const SENSITIVE_LOCAL_KEYS = [
-      "lp_speaking_gemini_key_v1", "lp_ai_api_key_v1", "lp_ai_base_url_v1"
+      "lp_speaking_gemini_key_v1", "lp_ai_api_key_v1", "lp_ai_base_url_v1", "s4_fb_admin_auth_v1"
     ];
     function resetAll() {
-      const doReset = () => {
-        appKeys().forEach(k => localStorage.removeItem(k));
+      const doReset = async () => {
+        if (window.S4Auth && typeof window.S4Auth.replaceLocalProgress === "function") {
+          await window.S4Auth.replaceLocalProgress({}, { resetTombstones: true, syncNow: true });
+        } else {
+          appKeys().forEach(k => localStorage.removeItem(k));
+          if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
+        }
         HTML_CACHE_KEYS.forEach(k => localStorage.removeItem(k));
         SENSITIVE_LOCAL_KEYS.forEach(k => {
           try { localStorage.removeItem(k); } catch (e) {}
           try { sessionStorage.removeItem(k); } catch (e) {}
         });
-        if (window.S4Auth && typeof window.S4Auth.allowOverwriteOnce === "function") window.S4Auth.allowOverwriteOnce("all");
         updateDashboardStats();
         if (window.S4UI) window.S4UI.toast("success", "Đã xóa toàn bộ tiến độ và khóa AI cá nhân trên thiết bị.");
       };
@@ -1423,7 +1442,7 @@
   </script>
   <script src="assets/s4-global-search.js?v=4"></script>
   <script src="assets/s4-offline.js"></script>
-  <script src="auth.js?v=34"></script>
+  <script src="auth.js?v=37"></script>
   <script src="assets/ghibli/ghibli-theme.js?v=27"></script>
 </body>
 </html>

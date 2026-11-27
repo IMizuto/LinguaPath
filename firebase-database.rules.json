@@ -43,6 +43,8 @@
     "study4_progress_priv": {
       ".read": false,
       "$username": {
+        ".read": "auth != null && root.child('study4_admins').child(auth.uid).val() === true",
+        ".write": "!newData.exists() && root.child('study4_auth/admin/passwordHash').isString() && newData.parent().parent().child('study4_write_proof/admin').isString() && newData.parent().parent().child('study4_write_proof/admin').val() !== root.child('study4_write_proof/admin').val() && newData.parent().parent().child('study4_write_proof/admin').val().beginsWith(root.child('study4_auth/admin/passwordHash').val() + '|')",
         "$readKey": {
           ".read": "root.child('study4_auth').child($username).child('readKey').isString() && $readKey === root.child('study4_auth').child($username).child('readKey').val()",
           ".write": "!newData.hasChild('authProof') && root.child('study4_auth').child($username).child('readKey').isString() && $readKey === root.child('study4_auth').child($username).child('readKey').val() && ((root.child('study4_auth').child($username).child('passwordHash').isString() && newData.parent().parent().parent().child('study4_write_proof').child($username).isString() && newData.parent().parent().parent().child('study4_write_proof').child($username).val() !== root.child('study4_write_proof').child($username).val() && newData.parent().parent().parent().child('study4_write_proof').child($username).val().beginsWith(root.child('study4_auth').child($username).child('passwordHash').val() + '|')) || (root.child('study4_auth/admin/passwordHash').isString() && newData.parent().parent().parent().child('study4_write_proof/admin').isString() && newData.parent().parent().parent().child('study4_write_proof/admin').val() !== root.child('study4_write_proof/admin').val() && newData.parent().parent().parent().child('study4_write_proof/admin').val().beginsWith(root.child('study4_auth/admin/passwordHash').val() + '|')))"
@@ -53,7 +55,7 @@
     "study4_progress": {
       ".read": false,
       "$username": {
-        ".read": false,
+        ".read": "auth != null && root.child('study4_admins').child(auth.uid).val() === true",
         ".write": "!newData.exists() && ((root.child('study4_auth').child($username).child('passwordHash').isString() && newData.parent().parent().child('study4_write_proof').child($username).isString() && newData.parent().parent().child('study4_write_proof').child($username).val() !== root.child('study4_write_proof').child($username).val() && newData.parent().parent().child('study4_write_proof').child($username).val().beginsWith(root.child('study4_auth').child($username).child('passwordHash').val() + '|')) || (root.child('study4_auth/admin/passwordHash').isString() && newData.parent().parent().child('study4_write_proof/admin').isString() && newData.parent().parent().child('study4_write_proof/admin').val() !== root.child('study4_write_proof/admin').val() && newData.parent().parent().child('study4_write_proof/admin').val().beginsWith(root.child('study4_auth/admin/passwordHash').val() + '|')))"
       }
     },
