@@ -1,0 +1,125 @@
+{
+  "id": "tsw_s_q57_03",
+  "skill": "speaking",
+  "taskType": "sp_q57",
+  "code": "Q5–7",
+  "level": 4,
+  "targetBand": "170–200",
+  "title": "Trả lời câu hỏi Q5–7 #3: Học Kỹ năng Mới & Khóa học Trực tuyến",
+  "topic": "Giáo dục Trọn đời & Nâng cao Nghề nghiệp",
+  "estMinutes": 7,
+  "guideVi": "Mục tiêu Band 170–200 đòi hỏi từ nối mạch lạc (Beyond that, What matters most, In the long run) và ví dụ cụ thể thay vì trả lời chung chung như 'It is very useful'.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Trả lời thẳng trọng tâm và đủ ý cho cả 3 câu Q5, Q6, Q7",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Mở rộng lý do kèm ví dụ thực tế thuyết phục ở câu Q7 (30s)",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Từ vựng tự nhiên, ngữ pháp chính xác và phản xạ mượt",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q57_03_1",
+      "itemType": "sp_q57",
+      "label": "Q5–7 • Khảo sát trung tâm giáo dục cộng đồng về học trực tuyến",
+      "prepSec": 3,
+      "respSec": 30,
+      "accent": "AU",
+      "scenarioEn": "Imagine that a local adult education center is interviewing residents about learning new professional skills and taking online courses. You have agreed to answer three questions.",
+      "scenarioVi": "Hãy tưởng tượng một trung tâm giáo dục cộng đồng địa phương đang phỏng vấn cư dân về việc học kỹ năng nghề nghiệp mới và các khóa học trực tuyến. Bạn đồng ý trả lời ba câu hỏi sau.",
+      "targetKeywords": [
+        "skill",
+        "online course",
+        "interactive",
+        "feedback",
+        "self-paced",
+        "career",
+        "instructor"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 5,
+          "questionEn": "What is a professional or personal skill you have learned recently, and why did you choose it?",
+          "questionVi": "Gần đây bạn đã học một kỹ năng chuyên môn hoặc cá nhân nào và tại sao bạn chọn kỹ năng đó?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "Recently, I learned data visualization using spreadsheets and dashboard tools. I chose it because presenting complex numbers clearly helps my team make faster decisions during monthly reviews.",
+          "sampleVi": "Gần đây tôi đã học trực quan hóa dữ liệu bằng bảng tính và công cụ biểu đồ. Tôi chọn kỹ năng này vì trình bày các con số phức tạp một cách rõ ràng giúp nhóm ra quyết định nhanh hơn trong các buổi họp tháng.",
+          "keywords": [
+            "data visualization",
+            "spreadsheets",
+            "presenting",
+            "decisions",
+            "team"
+          ]
+        },
+        {
+          "qNum": 6,
+          "questionEn": "What is the biggest challenge people face when taking a self-paced online course?",
+          "questionVi": "Thách thức lớn nhất mà mọi người gặp phải khi học một khóa trực tuyến tự sắp xếp thời gian là gì?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "The biggest challenge is staying disciplined without fixed class deadlines. After a tiring workday, it is very easy to postpone video lessons unless you block out dedicated study time.",
+          "sampleVi": "Thách thức lớn nhất là giữ kỷ luật khi không có hạn chót cố định của lớp học. Sau một ngày làm việc mệt mỏi, người học rất dễ trì hoãn xem bài giảng trừ khi đặt lịch học cố định.",
+          "keywords": [
+            "disciplined",
+            "deadlines",
+            "postpone",
+            "video lessons",
+            "study time"
+          ]
+        },
+        {
+          "qNum": 7,
+          "questionEn": "Would you recommend taking live interactive workshops or recorded online courses for learning a foreign language? Explain your reasons.",
+          "questionVi": "Bạn sẽ khuyên học ngoại ngữ qua lớp thực hành tương tác trực tiếp hay khóa học trực tuyến ghi hình sẵn? Hãy giải thích lý do.",
+          "prepSec": 3,
+          "respSec": 30,
+          "sample": "For learning a foreign language, I strongly recommend live interactive workshops over recorded courses. First, speaking a language requires real-time conversation and immediate feedback on pronunciation and tone, which pre-recorded videos simply cannot offer. Second, interacting with classmates keeps learners accountable and builds genuine confidence. For example, when I joined a live weekly English speaking workshop, my instructor corrected small intonation habits on the spot, and practicing with peers helped me speak far more naturally within two months.",
+          "sampleVi": "Để học ngoại ngữ, tôi khuyên mạnh mẽ nên chọn các buổi học tương tác trực tiếp hơn là khóa ghi hình sẵn. Thứ nhất, nói ngoại ngữ đòi hỏi hội thoại thời gian thực và phản hồi ngay lập tức về phát âm cũng như ngữ điệu — điều mà video thu sẵn không thể đáp ứng. Thứ hai, tương tác cùng bạn học giúp duy trì tinh thần trách nhiệm và xây dựng sự tự tin thực sự. Chẳng hạn, khi tôi tham gia lớp luyện nói tiếng Anh trực tiếp hằng tuần, giảng viên sửa ngay các thói quen ngữ điệu nhỏ và việc luyện cùng bạn học giúp tôi nói tự nhiên hơn hẳn chỉ sau hai tháng.",
+          "keywords": [
+            "live interactive",
+            "immediate feedback",
+            "pronunciation",
+            "accountable",
+            "confidence"
+          ]
+        }
+      ],
+      "tipVi": "Ở câu Q7 so sánh hai phương án, hãy nêu luôn lý do phương án bị loại còn hạn chế ('which pre-recorded videos simply cannot offer') để lập luận sắc bén hơn hẳn.",
+      "keyPhrases": [
+        {
+          "en": "data visualization",
+          "vi": "trực quan hóa dữ liệu"
+        },
+        {
+          "en": "staying disciplined",
+          "vi": "duy trì tính kỷ luật"
+        },
+        {
+          "en": "real-time conversation",
+          "vi": "hội thoại theo thời gian thực"
+        },
+        {
+          "en": "immediate feedback",
+          "vi": "phản hồi ngay lập tức"
+        },
+        {
+          "en": "on the spot",
+          "vi": "ngay tại chỗ"
+        }
+      ],
+      "sample": "Q5: Recently I learned data visualization so I can present complex numbers clearly during monthly reviews.\n\nQ6: The biggest challenge in self-paced courses is staying disciplined without fixed deadlines after a long workday.\n\nQ7: I strongly recommend live interactive workshops for language learning because learners need real-time speaking practice and immediate pronunciation feedback. Practicing with peers also boosts accountability and confidence much faster than watching recorded lectures alone.",
+      "sampleVi": "Q5: Gần đây tôi học trực quan hóa dữ liệu để trình bày các con số phức tạp thật rõ ràng trong cuộc họp tháng.\n\nQ6: Thách thức lớn nhất của khóa tự học là giữ kỷ luật khi không có hạn nộp bài cố định sau ngày làm việc dài.\n\nQ7: Tôi rất khuyên học ngoại ngữ qua buổi thực hành trực tiếp vì người học cần hội thoại thực tế và được sửa phát âm tức thì. Luyện tập cùng bạn học cũng giúp tăng tính kỷ luật và tự tin nhanh hơn nhiều so với chỉ xem bài giảng ghi hình."
+    }
+  ]
+}

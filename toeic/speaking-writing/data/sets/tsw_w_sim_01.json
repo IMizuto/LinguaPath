@@ -1,0 +1,294 @@
+{
+  "id": "tsw_w_sim_01",
+  "skill": "writing",
+  "taskType": "wr_sim",
+  "code": "Mini Sim",
+  "level": 4,
+  "targetBand": "170–200",
+  "title": "Mini Writing • Thi thử rút gọn 35 phút (Q1–8)",
+  "topic": "Tổng hợp đủ 3 dạng: Viết câu theo tranh, Email & Bài luận",
+  "estMinutes": 35,
+  "guideVi": "Bài thi mô phỏng rút gọn chuẩn ETS gồm 4 câu nối tiếp: 2 câu tả tranh (Q1–5), 1 email thương mại (Q6–7) và 1 bài luận quan điểm >= 300 từ (Q8) trong tổng quỹ thời gian 35 phút.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Đáp ứng đủ từ khóa tranh, nhiệm vụ email và lập luận bài luận",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Tuân thủ bố cục chuẩn (Câu đơn/phức – Email B2B – Luận 4 đoạn >= 300 từ)",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Độ chính xác ngữ pháp, dấu câu và vốn từ vựng thương mại Band 170–200",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_sim_01_1",
+      "itemType": "wr_q15",
+      "label": "Phần 1 (Q1) • Gặp gỡ đối tác tại sảnh",
+      "durationMin": 3,
+      "image": "../listening/media/p1_03_2.svg",
+      "imageAlt": "Hai đồng nghiệp mặc trang phục công sở đứng đối diện nhau bắt tay tại sảnh sáng bên cạnh hai chiếc cặp tài liệu",
+      "keywords": [
+        {
+          "word": "shake",
+          "pos": "v",
+          "forms": [
+            "shake",
+            "shakes",
+            "shook",
+            "shaken",
+            "shaking"
+          ]
+        },
+        {
+          "word": "hand",
+          "pos": "n",
+          "forms": [
+            "hand",
+            "hands"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Cụm động từ bất quy tắc: shake hands (với nhau trong sảnh văn phòng)",
+      "tipVi": "Động từ 'shake' chuyển thành 'shaking' (bỏ -e). Lưu ý cụm 'shake hands' luôn dùng số nhiều 'hands' khi hai người bắt tay nhau.",
+      "keyPhrases": [
+        {
+          "en": "shake hands with",
+          "vi": "bắt tay với"
+        },
+        {
+          "en": "business attire",
+          "vi": "trang phục công sở"
+        },
+        {
+          "en": "office lobby",
+          "vi": "sảnh văn phòng"
+        },
+        {
+          "en": "briefcases on the floor",
+          "vi": "cặp tài liệu đặt trên sàn"
+        }
+      ],
+      "sample": "Two businesspeople wearing formal attire are shaking hands in a bright office lobby.",
+      "sampleAlt": "A man and a woman shake hands beside their briefcases near tall windows.",
+      "sampleVi": "Hai doanh nhân mặc trang phục lịch sự đang bắt tay nhau trong sảnh văn phòng sáng sủa."
+    },
+    {
+      "itemId": "w_sim_01_2",
+      "itemType": "wr_q15",
+      "label": "Phần 1 (Q2) • Người đi bộ sang đường",
+      "durationMin": 3,
+      "image": "../listening/media/p1_04_3.svg",
+      "imageAlt": "Hai người đi bộ xách túi đang băng qua vạch kẻ sang đường trên phố có đèn giao thông",
+      "keywords": [
+        {
+          "word": "pedestrian",
+          "pos": "n",
+          "forms": [
+            "pedestrian",
+            "pedestrians"
+          ]
+        },
+        {
+          "word": "cross",
+          "pos": "v",
+          "forms": [
+            "cross",
+            "crosses",
+            "crossed",
+            "crossing"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Chủ ngữ số nhiều + Hiện tại tiếp diễn: Two pedestrians are crossing the street at...",
+      "tipVi": "Không dùng giới từ 'across' ngay sau ngoại động từ 'cross' ('crossing the street', không viết 'crossing across the street').",
+      "keyPhrases": [
+        {
+          "en": "cross the street",
+          "vi": "băng qua đường"
+        },
+        {
+          "en": "marked crosswalk",
+          "vi": "vạch kẻ sang đường"
+        },
+        {
+          "en": "traffic signal",
+          "vi": "đèn tín hiệu giao thông"
+        },
+        {
+          "en": "carry shoulder bags",
+          "vi": "mang theo túi xách"
+        }
+      ],
+      "sample": "Two pedestrians carrying bags are crossing the street at a marked crosswalk.",
+      "sampleAlt": "Pedestrians cross a city street beside a tall traffic signal.",
+      "sampleVi": "Hai người đi bộ mang túi đang băng qua đường tại vạch kẻ dành cho người đi bộ."
+    },
+    {
+      "itemId": "w_sim_01_3",
+      "itemType": "wr_q67",
+      "label": "Phần 2 (Q6) • Gia hạn & nâng cấp hợp đồng thuê máy in",
+      "durationMin": 9,
+      "emailMeta": {
+        "from": "ProPrint Leasing <accounts@proprintlease.com>",
+        "to": "Operations Lead <ops@harborlawfirm.com>",
+        "subject": "Copier Lease Renewal & Branch Expansion",
+        "sent": "Thursday, December 5, 11:20 A.M."
+      },
+      "emailBody": "Dear Operations Lead,\n\nYour three-year lease on four high-speed multifunction copiers expires at the end of January. Because you are opening a new harborfront branch next month, would you like to renew your current agreement and add extra units?\n\nPlease confirm your plan and let us know any delivery questions or service requests.\n\nBest regards,\nProPrint Leasing Team",
+      "directionsEn": "Respond to the e-mail as if you are the operations lead at Harbor Law Firm. In your e-mail, confirm your renewal with TWO specific machine requirements, ask ONE question about installation scheduling, and make ONE request regarding maintenance.",
+      "directionsVi": "Trả lời email với tư cách Trưởng vận hành tại Harbor Law Firm. Hãy xác nhận gia hạn hợp đồng kèm HAI yêu cầu cụ thể về máy móc, hỏi MỘT câu về lịch lắp đặt và đưa ra MỘT yêu cầu về dịch vụ bảo trì.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Xác nhận gia hạn 4 máy cũ và đặt thêm số lượng/tính năng cho chi nhánh mới",
+          "checkType": "info",
+          "hintEn": "We would like to renew all four existing copiers and add two wireless color units for our new branch.",
+          "signals": [
+            "renew",
+            "existing",
+            "add",
+            "two",
+            "units",
+            "branch",
+            "wireless",
+            "color",
+            "copier"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Hỏi 1 câu về ngày giờ lắp đặt trước khi chi nhánh khai trương",
+          "checkType": "question",
+          "hintEn": "Can your technicians install the new machines before January 20?",
+          "signals": [
+            "?",
+            "install",
+            "installation",
+            "deliver",
+            "delivery",
+            "schedule",
+            "when",
+            "date"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Yêu cầu gói bảo trì định kỳ hoặc thay mực miễn phí trong hợp đồng mới",
+          "checkType": "request",
+          "hintEn": "Could the renewed contract include quarterly preventive maintenance and automatic toner replenishment?",
+          "signals": [
+            "maintenance",
+            "service",
+            "toner",
+            "support",
+            "quarterly",
+            "include",
+            "request",
+            "could"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Bài thi thật chỉ cho khoảng 9–10 phút cho câu email này: gạch nhanh 3 ý (gia hạn + thêm 2 máy / hỏi ngày lắp / yêu cầu bảo trì) rồi viết thẳng vào khung.",
+      "keyPhrases": [
+        {
+          "en": "renew the lease agreement",
+          "vi": "gia hạn hợp đồng thuê"
+        },
+        {
+          "en": "multifunction printers",
+          "vi": "máy in đa chức năng"
+        },
+        {
+          "en": "installation schedule",
+          "vi": "lịch trình lắp đặt"
+        },
+        {
+          "en": "quarterly preventive maintenance",
+          "vi": "bảo trì phòng ngừa định kỳ hằng quý"
+        },
+        {
+          "en": "branch opening",
+          "vi": "ngày khai trương chi nhánh"
+        }
+      ],
+      "sample": "Dear ProPrint Leasing Team,\n\nThank you for reminding us about our upcoming renewal. Harbor Law Firm would like to renew the three-year lease for our four existing copiers at the main office and add two new high-speed wireless color units for our harborfront branch.\n\nSince our new office opens on February 3, could your technicians deliver and install the two additional machines during the week of January 20 so our IT staff can test network printing beforehand?\n\nAdditionally, we would like to request that the updated agreement include quarterly preventive maintenance visits and automatic toner cartridge replacements at no extra fee, just as our previous contract did.\n\nPlease send the revised quotation and draft agreement when ready.\n\nBest regards,\nEvan Cole\nOperations Lead, Harbor Law Firm",
+      "sampleVi": "Kính gửi Đội ngũ ProPrint Leasing,\n\nCảm ơn quý công ty đã nhắc lịch gia hạn sắp tới. Harbor Law Firm xin xác nhận gia hạn hợp đồng ba năm cho bốn máy photocopy hiện tại ở trụ sở chính, đồng thời thuê thêm hai máy in màu không dây tốc độ cao cho chi nhánh mới bên bến cảng.\n\nVì văn phòng mới khai trương ngày 3/2, kỹ thuật viên bên quý vị có thể giao và lắp đặt hai máy bổ sung trong tuần ngày 20/1 để bộ phận IT của chúng tôi kiểm tra kết nối in mạng trước được không?\n\nNgoài ra, chúng tôi đề nghị hợp đồng mới tiếp tục bao gồm lịch bảo trì định kỳ hằng quý và thay hộp mực tự động không tính thêm phụ phí như hợp đồng trước đây.\n\nVui lòng gửi báo giá cập nhật và dự thảo hợp đồng khi hoàn tất.\n\nTrân trọng,\nEvan Cole\nTrưởng bộ phận Vận hành, Harbor Law Firm"
+    },
+    {
+      "itemId": "w_sim_01_4",
+      "itemType": "wr_q8",
+      "label": "Phần 3 (Q8) • Gắn bó một công ty hay Chuyển việc để mở rộng kinh nghiệm?",
+      "durationMin": 20,
+      "promptEn": "Some young professionals prefer to stay with one company for many years to build deep expertise, while others change jobs every few years to gain broader experience. Which career path do you think is better? Support your opinion with reasons and examples.",
+      "promptVi": "Một số người trẻ thích gắn bó với một công ty trong nhiều năm để tích lũy chuyên môn sâu, trong khi số khác chuyển việc sau vài năm để mở rộng trải nghiệm. Bạn cho rằng con đường sự nghiệp nào tốt hơn? Hãy nêu lý do và ví dụ chứng minh.",
+      "minWords": 300,
+      "outline": [
+        {
+          "part": "Mở bài (Introduction)",
+          "guideVi": "Giới thiệu hai hướng đi nghề nghiệp phổ biến và khẳng định lập trường (ví dụ: thay đổi công việc có chừng mực trong những năm đầu mang lại sự phát triển toàn diện hơn).",
+          "starterEn": "Choosing how long to remain with one employer is a crucial career decision for young graduates. Although long-term loyalty offers stability, I believe changing jobs strategically every few years provides broader skills and stronger growth."
+        },
+        {
+          "part": "Thân bài 1 (Lý do 1 • Tiếp xúc quy trình đa dạng & Thích nghi nhanh)",
+          "guideVi": "Làm ở nhiều môi trường giúp học nhiều công cụ, phong cách quản trị và tránh tư duy lối mòn.",
+          "starterEn": "Firstly, working across several organizations exposes professionals to diverse management styles, industry tools, and client expectations..."
+        },
+        {
+          "part": "Thân bài 2 (Lý do 2 • Tăng trưởng thu nhập & Phản biện sự nhảy việc quá nhanh)",
+          "guideVi": "Thay đổi công việc giúp mở rộng mạng lưới quan hệ và thu nhập, nhưng cần ở lại đủ lâu (2–3 năm) để chứng minh thành tựu.",
+          "starterEn": "Furthermore, strategic career moves often accelerate salary progression and expand professional networks..."
+        },
+        {
+          "part": "Kết bài (Conclusion)",
+          "guideVi": "Tóm tắt lợi thế đa dạng kinh nghiệm và kết luận ngắn gọn, súc tích.",
+          "starterEn": "In conclusion, gaining experience across more than one company early in a career fosters adaptability, broader competence, and lasting success..."
+        }
+      ],
+      "targetKeywords": [
+        "career",
+        "adaptability",
+        "expertise",
+        "diverse",
+        "advancement",
+        "network",
+        "stability",
+        "experience",
+        "growth"
+      ],
+      "tipVi": "Dành tối thiểu 18–20 phút trong phần Mini Sim để viết đủ 4 đoạn vượt mốc 300 từ, kiểm soát lỗi chia thì và chính tả ở 2 phút cuối.",
+      "keyPhrases": [
+        {
+          "en": "broader perspective",
+          "vi": "góc nhìn đa chiều rộng mở hơn"
+        },
+        {
+          "en": "career trajectory",
+          "vi": "quỹ đạo phát triển sự nghiệp"
+        },
+        {
+          "en": "demonstrate measurable impact",
+          "vi": "chứng minh kết quả đo lường được"
+        },
+        {
+          "en": "professional network",
+          "vi": "mạng lưới quan hệ nghề nghiệp"
+        },
+        {
+          "en": "adapt to new environments",
+          "vi": "thích nghi với môi trường mới"
+        }
+      ],
+      "sample": "Deciding whether to stay loyal to a single employer or explore multiple workplaces is one of the most important career choices facing young professionals today. While remaining in one company for a decade can offer comforting stability and familiarity, I believe changing jobs thoughtfully every few years is the better path for building well-rounded expertise and workplace adaptability.\n\nFirstly, moving between organizations exposes early-career workers to diverse workflows, business models, and leadership styles across industries. When employees spend ten straight years inside a single corporate structure, their daily habits may become narrow and overly specialized to one legacy software system or local market segment. By contrast, experiencing two or three different companies teaches staff how to adapt quickly, compare industry best practices, and solve unfamiliar problems creatively. For example, a software project manager who worked first at a fast-paced startup and later joined a multinational commercial bank mastered both agile execution speed and strict regulatory planning—skills that made her exceptionally effective when leading complex international product launches.\n\nFurthermore, strategic job changes accelerate professional networking and healthy income growth. Each new workplace introduces experienced mentors, supportive teammates, and valuable industry contacts who remain helpful resources throughout a person's entire career. In addition, external job offers frequently reflect current market compensation more accurately than standard internal annual raises. Critics often warn that frequent job hopping signals unreliability to hiring managers; however, there is a clear difference between quitting every six months and pursuing planned advancement after three or four years of solid contribution. Staying long enough to deliver measurable results proves dependability while still preventing career stagnation.\n\nIn conclusion, gaining varied experience across a few organizations offers far richer professional growth than remaining in one company indefinitely. Through broader problem-solving exposure, stronger professional networks, and proven workplace adaptability, young employees steadily build resilient capabilities that serve them remarkably well throughout every stage of their careers.",
+      "sampleVi": "Quyết định gắn bó lâu dài với một doanh nghiệp hay trải nghiệm nhiều môi trường làm việc là một trong những lựa chọn nghề nghiệp quan trọng nhất đối với người trẻ hiện nay. Dù ở lại một công ty suốt mười năm mang lại sự ổn định và quen thuộc, tôi tin rằng chuyển việc có chiến lược sau mỗi vài năm là con đường tốt hơn để xây dựng năng lực toàn diện.\n\nThứ nhất, làm việc ở nhiều tổ chức giúp nhân sự trẻ tiếp xúc với quy trình, mô hình kinh doanh và phong cách lãnh đạo đa dạng. Khi ở suốt một thập kỷ trong cùng một bộ máy, thói quen làm việc dễ bị thu hẹp vào một phần mềm hoặc phân khúc cố định. Ngược lại, trải qua hai đến ba công ty khác nhau giúp người lao động thích nghi nhanh, so sánh phương pháp tối ưu và giải quyết vấn đề mới mẻ. Ví dụ, một quản lý dự án phần mềm từng làm ở công ty khởi nghiệp rồi chuyển sang ngân hàng đa quốc gia đã kết hợp được cả tốc độ linh hoạt lẫn kế hoạch tuân thủ chặt chẽ.\n\nNgoài ra, những bước chuyển việc có tính toán thúc đẩy mạng lưới quan hệ và thu nhập. Mỗi môi trường mới đem lại những người cố vấn, đồng nghiệp và đối tác giá trị. Dù nhà tuyển dụng e ngại người nhảy việc sáu tháng một lần, việc chuyển sang thử thách mới sau ba đến bốn năm cống hiến trọn vẹn hoàn toàn thể hiện sự trưởng thành và khát vọng tiến bộ.\n\nTóm lại, tích lũy kinh nghiệm đa dạng qua nhiều tổ chức mang lại sự phát triển phong phú hơn nhiều so với việc chỉ ở một nơi cố định."
+    }
+  ]
+}

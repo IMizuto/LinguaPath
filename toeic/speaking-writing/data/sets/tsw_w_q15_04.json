@@ -1,0 +1,277 @@
+{
+  "id": "tsw_w_q15_04",
+  "skill": "writing",
+  "taskType": "wr_q15",
+  "code": "Q1–5",
+  "level": 2,
+  "targetBand": "150–180",
+  "title": "Q1–5 • Bộ 04: Mệnh đề thời gian & Trạng từ mô tả",
+  "topic": "Nhà hàng, Sân bay, Phòng thí nghiệm & Công trường",
+  "estMinutes": 8,
+  "guideVi": "Sử dụng mệnh đề thời gian ('while'), trạng từ chỉ cách thức ('carefully', 'closely') và câu phức 2 mệnh đề để nâng điểm cấu trúc câu lên Band 160–180.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Dùng chính xác cả 2 từ khóa bắt buộc (đúng dạng hoặc biến thể hợp lệ)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Đúng ngữ pháp, thì câu và quy chuẩn viết hoa – dấu câu cuối câu",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Miêu tả sát ngữ cảnh bức tranh, câu rõ nghĩa và tự nhiên",
+      "weight": 25
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q15_04_1",
+      "itemType": "wr_q15",
+      "label": "Câu 1 • Bày món ăn trong bếp nhà hàng",
+      "durationMin": 8,
+      "image": "media/sw_p_11.svg",
+      "imageAlt": "Đầu bếp đội mũ cao trắng đang trình bày món ăn lên chiếc đĩa sứ trắng trên quầy inox nhà hàng",
+      "keywords": [
+        {
+          "word": "chef",
+          "pos": "n",
+          "forms": [
+            "chef",
+            "chefs"
+          ]
+        },
+        {
+          "word": "plate",
+          "pos": "n",
+          "forms": [
+            "plate",
+            "plates"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Mở rộng hành động nghề nghiệp: A chef + is arranging/garnishing food on a plate",
+      "tipVi": "Mô tả thêm trang phục ('wearing a white hat and apron') hoặc dụng cụ ('with kitchen tongs') giúp câu sống động và chính xác.",
+      "keyPhrases": [
+        {
+          "en": "arrange food on a plate",
+          "vi": "bày trí thức ăn lên đĩa"
+        },
+        {
+          "en": "commercial kitchen",
+          "vi": "bếp nhà hàng chuyên nghiệp"
+        },
+        {
+          "en": "stainless-steel counter",
+          "vi": "quầy bếp inox"
+        },
+        {
+          "en": "tall chef's hat",
+          "vi": "mũ đầu bếp cao"
+        }
+      ],
+      "sample": "A chef wearing a tall white hat is arranging a dish on a ceramic plate.",
+      "sampleAlt": "In the restaurant kitchen, the chef carefully prepares a meal on a white plate.",
+      "sampleVi": "Một đầu bếp đội mũ trắng cao đang bày món ăn lên chiếc đĩa sứ."
+    },
+    {
+      "itemId": "w_q15_04_2",
+      "itemType": "wr_q15",
+      "label": "Câu 2 • Nhà ga sân bay",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_03.svg",
+      "imageAlt": "Hành khách nam kéo vali đi ngang bảng thông tin chuyến bay trong khi hành khách nữ ngồi ghế chờ ở sân bay",
+      "keywords": [
+        {
+          "word": "while",
+          "pos": "conj",
+          "forms": [
+            "while"
+          ]
+        },
+        {
+          "word": "luggage",
+          "pos": "n",
+          "forms": [
+            "luggage"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Câu phức song song với 'while': S1 + is + V-ing..., while S2 + is + V-ing...",
+      "tipVi": "Cực kỳ lưu ý: 'luggage' là danh từ KHÔNG ĐẾM ĐƯỢC trong tiếng Anh — tuyệt đối không thêm '-s' hay 'a luggage' (hãy dùng 'a piece of luggage' hoặc 'his luggage').",
+      "keyPhrases": [
+        {
+          "en": "wheel his luggage",
+          "vi": "kéo hành lý có bánh xe"
+        },
+        {
+          "en": "departure board",
+          "vi": "bảng giờ khởi hành"
+        },
+        {
+          "en": "wait in the seating area",
+          "vi": "chờ ở khu vực ghế ngồi"
+        },
+        {
+          "en": "airport terminal",
+          "vi": "nhà ga sân bay"
+        }
+      ],
+      "sample": "A traveler is pulling his luggage past a departure board while another passenger sits waiting.",
+      "sampleAlt": "While a woman rests on a bench, a man walks past with wheeled luggage.",
+      "sampleVi": "Một hành khách đang kéo hành lý đi ngang bảng chuyến bay trong khi hành khách khác ngồi chờ."
+    },
+    {
+      "itemId": "w_q15_04_3",
+      "itemType": "wr_q15",
+      "label": "Câu 3 • Hội trường thuyết trình",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_04.svg",
+      "imageAlt": "Diễn giả nữ đứng sau bục phát biểu có micro đang trình bày trước khán giả ngồi dưới hội trường",
+      "keywords": [
+        {
+          "word": "speaker",
+          "pos": "n",
+          "forms": [
+            "speaker",
+            "speakers"
+          ]
+        },
+        {
+          "word": "audience",
+          "pos": "n",
+          "forms": [
+            "audience",
+            "audiences"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Động từ trang trọng: address an audience / speak to an audience from a podium",
+      "tipVi": "Danh từ tập hợp 'audience' thường chia động từ số ít ('the audience is listening') khi xem như một tập thể.",
+      "keyPhrases": [
+        {
+          "en": "address an audience",
+          "vi": "phát biểu trước khán giả"
+        },
+        {
+          "en": "stand behind a podium",
+          "vi": "đứng sau bục phát biểu"
+        },
+        {
+          "en": "presentation screen",
+          "vi": "màn hình trình chiếu"
+        },
+        {
+          "en": "listen attentively",
+          "vi": "chăm chú lắng nghe"
+        }
+      ],
+      "sample": "A speaker standing at a podium is addressing a large audience in a conference hall.",
+      "sampleAlt": "The audience listens closely as the speaker presents charts on a screen.",
+      "sampleVi": "Một diễn giả đứng tại bục phát biểu đang trình bày trước đông đảo khán giả trong hội trường."
+    },
+    {
+      "itemId": "w_q15_04_4",
+      "itemType": "wr_q15",
+      "label": "Câu 4 • Nghiên cứu trong phòng thí nghiệm",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_06.svg",
+      "imageAlt": "Nhà khoa học nữ mặc áo blouse trắng đeo kính bảo hộ đang quan sát cốc thủy tinh chứa dung dịch xanh",
+      "keywords": [
+        {
+          "word": "examine",
+          "pos": "v",
+          "forms": [
+            "examine",
+            "examines",
+            "examined",
+            "examining"
+          ]
+        },
+        {
+          "word": "carefully",
+          "pos": "adv",
+          "forms": [
+            "carefully"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Vị trí trạng từ cách thức: is carefully examining + O (hoặc cuối câu)",
+      "tipVi": "Đặt 'carefully' giữa trợ động từ 'is' và 'examining', hoặc đặt ở cuối câu sau cụm 'a glass beaker'.",
+      "keyPhrases": [
+        {
+          "en": "examine a liquid sample",
+          "vi": "kiểm tra mẫu chất lỏng"
+        },
+        {
+          "en": "glass beaker",
+          "vi": "cốc thủy tinh thí nghiệm"
+        },
+        {
+          "en": "safety goggles",
+          "vi": "kính bảo hộ"
+        },
+        {
+          "en": "beside a microscope",
+          "vi": "bên cạnh kính hiển vi"
+        }
+      ],
+      "sample": "A scientist wearing safety goggles is carefully examining liquid inside a glass beaker.",
+      "sampleAlt": "She examines the blue sample carefully near a microscope in the laboratory.",
+      "sampleVi": "Một nhà khoa học đeo kính bảo hộ đang cẩn thận quan sát dung dịch bên trong cốc thủy tinh."
+    },
+    {
+      "itemId": "w_q15_04_5",
+      "itemType": "wr_q15",
+      "label": "Câu 5 • Đọc bản vẽ ngoài công trường",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_07.svg",
+      "imageAlt": "Hai kỹ sư đội mũ bảo hộ vàng đứng cạnh giàn giáo đang cùng xem bản vẽ trải trên bàn gỗ",
+      "keywords": [
+        {
+          "word": "review",
+          "pos": "v",
+          "forms": [
+            "review",
+            "reviews",
+            "reviewed",
+            "reviewing"
+          ]
+        },
+        {
+          "word": "blueprint",
+          "pos": "n",
+          "forms": [
+            "blueprint",
+            "blueprints"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Chủ ngữ số nhiều + are reviewing + together at a construction site",
+      "tipVi": "Bức tranh có 2 người → nhớ chia động từ số nhiều 'are reviewing' và thêm 'together' hoặc 'on a wooden table'.",
+      "keyPhrases": [
+        {
+          "en": "review a blueprint",
+          "vi": "xem xét bản vẽ thiết kế"
+        },
+        {
+          "en": "construction workers",
+          "vi": "công nhân xây dựng"
+        },
+        {
+          "en": "hard hats",
+          "vi": "mũ bảo hộ cứng"
+        },
+        {
+          "en": "beside scaffolding",
+          "vi": "bên cạnh giàn giáo"
+        }
+      ],
+      "sample": "Two workers wearing yellow hard hats are reviewing a blueprint together at a work site.",
+      "sampleAlt": "The engineers review construction blueprints spread out on a wooden table.",
+      "sampleVi": "Hai công nhân đội mũ bảo hộ vàng đang cùng xem bản vẽ tại công trường."
+    }
+  ]
+}

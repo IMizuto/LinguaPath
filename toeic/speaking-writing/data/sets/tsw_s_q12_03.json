@@ -1,0 +1,109 @@
+{
+  "id": "tsw_s_q12_03",
+  "skill": "speaking",
+  "taskType": "sp_q12",
+  "code": "Q1–2",
+  "level": 3,
+  "targetBand": "160–190",
+  "title": "Đọc to Q1–2 #3: Thư thoại Hội nghị & Giới thiệu Diễn giả",
+  "topic": "Sự kiện Doanh nghiệp & Lễ trao giải",
+  "estMinutes": 6,
+  "guideVi": "Đoạn văn cấp độ cao chứa nhiều từ vựng học thuật và số máy lẻ. Hãy tạo điểm nhấn trang trọng ở lời giới thiệu diễn giả và đọc tách từng chữ số điện thoại/máy lẻ (4-2-0-8).",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Phát âm chuẩn xác, bật rõ phụ âm cuối (-s/-ed/-t)",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Trọng âm từ khóa và ngữ điệu lên xuống tự nhiên",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Ngắt cụm nhịp nhàng, tốc độ ổn định 110–155 từ/phút",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q12_03_1",
+      "itemType": "sp_q12",
+      "label": "Q1 • Thư thoại cập nhật lịch diễn đàn doanh nghiệp",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "UK",
+      "text": "Hello, Ms. Patel. This is Daniel Brooks calling from the Corporate Events Office regarding Thursday's Annual Supply Chain Forum. Because several international delegates have requested additional discussion time, we have rescheduled the sustainability panel from ten-thirty to eleven-fifteen in Conference Hall C. Your presentation slides have already been uploaded to the main podium computer, and technical staff will test your microphone twenty minutes beforehand. Please call me at extension 4208 if you require any further adjustments.",
+      "intonationGuide": "**Hello**, Ms. Patel↘. This is **Daniel Brooks** / calling from the **Corporate Events Office** / regarding **Thursday's** Annual Supply Chain Forum↘. Because several **international delegates** / have requested **additional** discussion time↗, / we have **rescheduled** the sustainability panel / from **ten-thirty**↗ / to **eleven-fifteen**↘ / in **Conference Hall C**↘. Your **presentation slides** / have already been **uploaded** to the main podium computer↗, / and **technical staff** will test your microphone / **twenty minutes** beforehand↘. Please **call me** at extension **4-2-0-8** / if you require any **further adjustments**↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Đọc tương phản rõ khung giờ cũ và mới: 'from ten-thirty ↗ to eleven-fifteen ↘'. Đọc chậm dãy số 'extension four-two-zero-eight' để đảm bảo độ rõ tuyệt đối.",
+      "keyPhrases": [
+        {
+          "en": "international delegates",
+          "vi": "các đại biểu quốc tế"
+        },
+        {
+          "en": "rescheduled the sustainability panel",
+          "vi": "dời lịch phiên thảo luận phát triển bền vững"
+        },
+        {
+          "en": "main podium computer",
+          "vi": "máy tính trên bục phát biểu chính"
+        },
+        {
+          "en": "twenty minutes beforehand",
+          "vi": "trước đó hai mươi phút"
+        },
+        {
+          "en": "further adjustments",
+          "vi": "các điều chỉnh bổ sung"
+        }
+      ],
+      "sample": "Hello, Ms. Patel. This is Daniel Brooks calling from the Corporate Events Office regarding Thursday's Annual Supply Chain Forum. Because several international delegates have requested additional discussion time, we have rescheduled the sustainability panel from ten-thirty to eleven-fifteen in Conference Hall C. Your presentation slides have already been uploaded to the main podium computer, and technical staff will test your microphone twenty minutes beforehand. Please call me at extension 4208 if you require any further adjustments.",
+      "sampleVi": "Xin chào cô Patel. Tôi là Daniel Brooks gọi từ Văn phòng Sự kiện Doanh nghiệp về Diễn đàn Chuỗi Cung ứng Thường niên vào thứ Năm. Do một số đại biểu quốc tế đề nghị thêm thời gian thảo luận, chúng tôi đã dời phiên tọa đàm về phát triển bền vững từ 10 giờ 30 sang 11 giờ 15 tại Hội trường C. Bài trình chiếu của cô đã được tải lên máy tính bục chính và nhân viên kỹ thuật sẽ kiểm tra micro trước 20 phút. Xin gọi lại cho tôi qua máy lẻ 4208 nếu cô cần điều chỉnh thêm."
+    },
+    {
+      "itemId": "tsw_s_q12_03_2",
+      "itemType": "sp_q12",
+      "label": "Q2 • Giới thiệu diễn giả chính tại lễ trao giải",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "US",
+      "text": "Ladies and gentlemen, it is my distinct honor to introduce tonight's keynote speaker, Dr. Elena Morales. Over the past two decades, Dr. Morales has pioneered renewable battery storage systems, published four acclaimed engineering textbooks, and mentored hundreds of young researchers worldwide. Last autumn, her laboratory earned the National Clean Energy Innovation Prize for reducing manufacturing emissions by forty percent. Tonight, she will share practical strategies for sustainable urban growth. Please join me in giving Dr. Morales a warm welcome.",
+      "intonationGuide": "**Ladies** and **gentlemen**↗, / it is my **distinct honor** / to introduce tonight's **keynote speaker**, / **Dr. Elena Morales**↘. Over the past **two decades**↗, / Dr. Morales has **pioneered** renewable battery storage systems↗, / **published** four acclaimed engineering textbooks↗, / and **mentored** hundreds of young researchers worldwide↘. Last **autumn**↗, / her **laboratory** earned the National Clean Energy **Innovation Prize** / for reducing **manufacturing emissions** / by **forty percent**↘. **Tonight**↗, / she will share **practical strategies** / for sustainable **urban growth**↘. Please **join me** / in giving Dr. Morales a **warm welcome**↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Tạo nhịp cao trào ở 3 động từ quá khứ phân từ song song: 'pioneered ... ↗, published ... ↗, and mentored ... ↘'. Nghỉ nhẹ nửa giây trước tên 'Dr. Elena Morales' để tăng sức nặng trang trọng.",
+      "keyPhrases": [
+        {
+          "en": "distinct honor",
+          "vi": "niềm vinh dự đặc biệt"
+        },
+        {
+          "en": "keynote speaker",
+          "vi": "diễn giả chính"
+        },
+        {
+          "en": "pioneered renewable battery storage",
+          "vi": "tiên phong trong công nghệ lưu trữ pin tái tạo"
+        },
+        {
+          "en": "manufacturing emissions",
+          "vi": "khí thải từ sản xuất công nghiệp"
+        },
+        {
+          "en": "sustainable urban growth",
+          "vi": "phát triển đô thị bền vững"
+        }
+      ],
+      "sample": "Ladies and gentlemen, it is my distinct honor to introduce tonight's keynote speaker, Dr. Elena Morales. Over the past two decades, Dr. Morales has pioneered renewable battery storage systems, published four acclaimed engineering textbooks, and mentored hundreds of young researchers worldwide. Last autumn, her laboratory earned the National Clean Energy Innovation Prize for reducing manufacturing emissions by forty percent. Tonight, she will share practical strategies for sustainable urban growth. Please join me in giving Dr. Morales a warm welcome.",
+      "sampleVi": "Thưa quý vị, tôi vô cùng vinh dự được giới thiệu diễn giả chính của đêm nay, Tiến sĩ Elena Morales. Trong hai thập kỷ qua, Tiến sĩ Morales đã tiên phong phát triển hệ thống lưu trữ pin năng lượng tái tạo, xuất bản bốn cuốn giáo trình kỹ thuật được đánh giá cao và hướng dẫn hàng trăm nhà nghiên cứu trẻ trên toàn cầu. Mùa thu năm ngoái, phòng thí nghiệm của bà nhận Giải thưởng Đổi mới Năng lượng Sạch Quốc gia nhờ giảm 40% khí thải sản xuất. Tối nay, bà sẽ chia sẻ các chiến lược thực tiễn cho tăng trưởng đô thị bền vững. Xin quý vị cùng dành một tràng pháo tay nồng nhiệt chào đón Tiến sĩ Morales."
+    }
+  ]
+}

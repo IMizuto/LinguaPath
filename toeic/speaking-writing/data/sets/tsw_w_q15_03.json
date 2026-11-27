@@ -1,0 +1,283 @@
+{
+  "id": "tsw_w_q15_03",
+  "skill": "writing",
+  "taskType": "wr_q15",
+  "code": "Q1–5",
+  "level": 2,
+  "targetBand": "140–170",
+  "title": "Q1–5 • Bộ 03: Cụm từ & Bị động Hiện tại hoàn thành",
+  "topic": "Giao thông, Kho vận & Siêu thị",
+  "estMinutes": 8,
+  "guideVi": "Mở rộng câu với cấu trúc 'have been + V3/ed', cụm phân từ bổ nghĩa cho chủ ngữ (A worker wearing..., People waiting under...) và danh từ ghép thương mại.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Dùng chính xác cả 2 từ khóa bắt buộc (đúng dạng hoặc biến thể hợp lệ)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Đúng ngữ pháp, thì câu và quy chuẩn viết hoa – dấu câu cuối câu",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Miêu tả sát ngữ cảnh bức tranh, câu rõ nghĩa và tự nhiên",
+      "weight": 25
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q15_03_1",
+      "itemType": "wr_q15",
+      "label": "Câu 1 • Chờ xe buýt trời mưa",
+      "durationMin": 8,
+      "image": "media/sw_p_10.svg",
+      "imageAlt": "Nhóm hành khách đang đứng và ngồi chờ xe buýt dưới mái che kính tại trạm đón khách trong cơn mưa nhẹ",
+      "keywords": [
+        {
+          "word": "wait",
+          "pos": "v",
+          "forms": [
+            "wait",
+            "waits",
+            "waited",
+            "waiting"
+          ]
+        },
+        {
+          "word": "shelter",
+          "pos": "n",
+          "forms": [
+            "shelter",
+            "shelters"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Động từ + giới từ: wait for + phương tiện + under a bus shelter",
+      "tipVi": "Đừng quên giới từ 'for' sau 'wait' khi nhắc đối tượng được chờ ('waiting for a bus'), rồi nối thêm 'under a bus shelter in the rain'.",
+      "keyPhrases": [
+        {
+          "en": "wait for a bus",
+          "vi": "chờ xe buýt"
+        },
+        {
+          "en": "under a bus shelter",
+          "vi": "dưới mái che trạm xe buýt"
+        },
+        {
+          "en": "in the light rain",
+          "vi": "trong cơn mưa nhẹ"
+        },
+        {
+          "en": "hold an umbrella",
+          "vi": "cầm chiếc ô"
+        }
+      ],
+      "sample": "Several commuters are waiting for a bus under a glass shelter in the rain.",
+      "sampleAlt": "People wait beneath the covered bus shelter while light rain falls.",
+      "sampleVi": "Một số hành khách đang chờ xe buýt dưới mái che kính trong cơn mưa."
+    },
+    {
+      "itemId": "w_q15_03_2",
+      "itemType": "wr_q15",
+      "label": "Câu 2 • Sắp xếp thùng hàng trong kho",
+      "durationMin": 8,
+      "image": "../listening/media/p1_06_1.svg",
+      "imageAlt": "Lối đi kho hàng không người với kệ kim loại chất đầy thùng các-tông và xe nâng vàng đỗ yên",
+      "keywords": [
+        {
+          "word": "stack",
+          "pos": "v",
+          "forms": [
+            "stack",
+            "stacks",
+            "stacked",
+            "stacking"
+          ]
+        },
+        {
+          "word": "warehouse",
+          "pos": "n",
+          "forms": [
+            "warehouse",
+            "warehouses"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Bị động hoàn thành: Boxes have been stacked on metal shelves in a warehouse",
+      "tipVi": "Từ 'stack' (xếp chồng) thường đi kèm 'high' hoặc 'on metal shelves' trong cảnh nhà kho không người.",
+      "keyPhrases": [
+        {
+          "en": "be stacked on shelves",
+          "vi": "được xếp chồng lên kệ"
+        },
+        {
+          "en": "inside a warehouse",
+          "vi": "bên trong nhà kho"
+        },
+        {
+          "en": "metal racks",
+          "vi": "giá kệ kim loại"
+        },
+        {
+          "en": "parked forklift",
+          "vi": "xe nâng đang đỗ"
+        }
+      ],
+      "sample": "Numerous cardboard boxes have been stacked on metal shelves in the warehouse.",
+      "sampleAlt": "Shipping cartons are stacked neatly along the aisle of a storage warehouse.",
+      "sampleVi": "Nhiều thùng các-tông đã được xếp chồng trên các kệ kim loại trong nhà kho."
+    },
+    {
+      "itemId": "w_q15_03_3",
+      "itemType": "wr_q15",
+      "label": "Câu 3 • Sân hiên quán cà phê",
+      "durationMin": 8,
+      "image": "../listening/media/p1_06_3.svg",
+      "imageAlt": "Khu bàn ghế quán cà phê ngoài trời không có khách, có ba chiếc ô kẻ đỏ trắng mở phía trên bàn",
+      "keywords": [
+        {
+          "word": "umbrella",
+          "pos": "n",
+          "forms": [
+            "umbrella",
+            "umbrellas"
+          ]
+        },
+        {
+          "word": "outdoor",
+          "pos": "adj",
+          "forms": [
+            "outdoor"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Tính từ đứng trước danh từ: outdoor tables / outdoor seating area (không thêm -s cho tính từ)",
+      "tipVi": "Lưu ý phân biệt 'outdoor' (tính từ đứng trước danh từ: outdoor tables) với 'outdoors' (trạng từ đứng cuối câu).",
+      "keyPhrases": [
+        {
+          "en": "outdoor seating area",
+          "vi": "khu vực ngồi ngoài trời"
+        },
+        {
+          "en": "open umbrellas",
+          "vi": "những chiếc ô đang mở"
+        },
+        {
+          "en": "over patio tables",
+          "vi": "phía trên các bàn sân hiên"
+        },
+        {
+          "en": "striped canopy",
+          "vi": "mái tán kẻ sọc"
+        }
+      ],
+      "sample": "Large striped umbrellas have been opened above the outdoor cafe tables.",
+      "sampleAlt": "Three umbrellas provide shade over empty tables in the outdoor dining area.",
+      "sampleVi": "Những chiếc ô kẻ sọc lớn đã được mở phía trên các bàn cà phê ngoài trời."
+    },
+    {
+      "itemId": "w_q15_03_4",
+      "itemType": "wr_q15",
+      "label": "Câu 4 • Đẩy xe chở thùng hàng",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_02.svg",
+      "imageAlt": "Công nhân kho mặc áo bảo hộ phản quang đang đẩy xe đẩy hàng chở ba thùng các-tông chồng lên nhau",
+      "keywords": [
+        {
+          "word": "push",
+          "pos": "v",
+          "forms": [
+            "push",
+            "pushes",
+            "pushed",
+            "pushing"
+          ]
+        },
+        {
+          "word": "cart",
+          "pos": "n",
+          "forms": [
+            "cart",
+            "carts"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Cụm phân từ rút gọn sau danh từ: a cart loaded with boxes",
+      "tipVi": "Thay vì viết câu đơn ngắn 'He is pushing a cart', hãy nâng cấp bằng cụm 'loaded with cardboard boxes' để ăn điểm Band 160+.",
+      "keyPhrases": [
+        {
+          "en": "push a hand cart",
+          "vi": "đẩy xe chở hàng"
+        },
+        {
+          "en": "loaded with boxes",
+          "vi": "chất đầy thùng hàng"
+        },
+        {
+          "en": "safety vest",
+          "vi": "áo bảo hộ phản quang"
+        },
+        {
+          "en": "hard hat",
+          "vi": "mũ bảo hộ cứng"
+        }
+      ],
+      "sample": "A warehouse worker in a yellow vest is pushing a cart loaded with boxes.",
+      "sampleAlt": "He pushes a heavily loaded cart past the tall storage shelves.",
+      "sampleVi": "Một công nhân kho mặc áo phản quang vàng đang đẩy chiếc xe đẩy chất đầy thùng hàng."
+    },
+    {
+      "itemId": "w_q15_03_5",
+      "itemType": "wr_q15",
+      "label": "Câu 5 • Mua sắm trong lối đi siêu thị",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_09.svg",
+      "imageAlt": "Khách mua sắm nữ trong lối đi siêu thị đang với tay lấy hộp hàng trên kệ cao cạnh chiếc xe đẩy mua hàng",
+      "keywords": [
+        {
+          "word": "reach",
+          "pos": "v",
+          "forms": [
+            "reach",
+            "reaches",
+            "reached",
+            "reaching"
+          ]
+        },
+        {
+          "word": "aisle",
+          "pos": "n",
+          "forms": [
+            "aisle",
+            "aisles"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Động từ đi kèm giới từ: reach for an item (vươn tay lấy món hàng)",
+      "tipVi": "Chú ý dùng 'reach for' khi nói với tay lấy đồ trên kệ ('reaching for a box in a grocery aisle').",
+      "keyPhrases": [
+        {
+          "en": "reach for a product",
+          "vi": "vươn tay lấy sản phẩm"
+        },
+        {
+          "en": "supermarket aisle",
+          "vi": "lối đi siêu thị"
+        },
+        {
+          "en": "upper shelf",
+          "vi": "ngăn kệ trên cao"
+        },
+        {
+          "en": "shopping trolley",
+          "vi": "xe đẩy mua hàng"
+        }
+      ],
+      "sample": "A shopper is reaching for a package on a high shelf in a supermarket aisle.",
+      "sampleAlt": "Standing beside her cart, the woman reaches toward an item in the aisle.",
+      "sampleVi": "Một khách mua hàng đang với tay lấy gói hàng trên kệ cao trong lối đi siêu thị."
+    }
+  ]
+}

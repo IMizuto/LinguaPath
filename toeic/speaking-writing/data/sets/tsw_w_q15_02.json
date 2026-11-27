@@ -1,0 +1,282 @@
+{
+  "id": "tsw_w_q15_02",
+  "skill": "writing",
+  "taskType": "wr_q15",
+  "code": "Q1–5",
+  "level": 1,
+  "targetBand": "120–150",
+  "title": "Q1–5 • Bộ 02: Giới từ Vị trí & Tả cảnh không người",
+  "topic": "Bố trí nội thất, Thiết bị & Bãi đỗ xe",
+  "estMinutes": 8,
+  "guideVi": "Luyện cách kết hợp động từ chỉ trạng thái / bị động (are arranged, are stacked, are parked) cùng giới từ vị trí chính xác (around, on, above, in front of) khi bức tranh không có người hoặc tả đồ vật.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Dùng chính xác cả 2 từ khóa bắt buộc (đúng dạng hoặc biến thể hợp lệ)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Đúng ngữ pháp, thì câu và quy chuẩn viết hoa – dấu câu cuối câu",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Miêu tả sát ngữ cảnh bức tranh, câu rõ nghĩa và tự nhiên",
+      "weight": 25
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q15_02_1",
+      "itemType": "wr_q15",
+      "label": "Câu 1 • Sửa chữa thiết bị văn phòng",
+      "durationMin": 8,
+      "image": "media/sw_p_09.svg",
+      "imageAlt": "Kỹ thuật viên đang dùng tua-vít sửa chiếc máy in mở nắp trên bàn làm việc văn phòng",
+      "keywords": [
+        {
+          "word": "repair",
+          "pos": "v",
+          "forms": [
+            "repair",
+            "repairs",
+            "repaired",
+            "repairing"
+          ]
+        },
+        {
+          "word": "printer",
+          "pos": "n",
+          "forms": [
+            "printer",
+            "printers"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Hiện tại tiếp diễn với thiết bị kỹ thuật: is repairing + a printer + with a tool",
+      "tipVi": "Bạn có thể thêm chi tiết 'with a screwdriver' hoặc 'on a wooden desk' để câu đầy đủ thông tin từ tranh.",
+      "keyPhrases": [
+        {
+          "en": "repair an office printer",
+          "vi": "sửa chiếc máy in văn phòng"
+        },
+        {
+          "en": "use a screwdriver",
+          "vi": "dùng tua-vít"
+        },
+        {
+          "en": "open the top cover",
+          "vi": "mở nắp trên"
+        },
+        {
+          "en": "next to a toolbox",
+          "vi": "cạnh hộp dụng cụ"
+        }
+      ],
+      "sample": "A technician is repairing an open printer on a desk with a screwdriver.",
+      "sampleAlt": "The man in a blue shirt repairs a malfunctioning printer beside his laptop.",
+      "sampleVi": "Một kỹ thuật viên đang sửa chiếc máy in đang mở nắp trên bàn bằng tua-vít."
+    },
+    {
+      "itemId": "w_q15_02_2",
+      "itemType": "wr_q15",
+      "label": "Câu 2 • Sắp xếp phòng họp",
+      "durationMin": 8,
+      "image": "../listening/media/p1_05_1.svg",
+      "imageAlt": "Phòng họp trống có chiếc bàn dài và các ghế xếp ngay ngắn xung quanh, tranh treo tường",
+      "keywords": [
+        {
+          "word": "arrange",
+          "pos": "v",
+          "forms": [
+            "arrange",
+            "arranges",
+            "arranged",
+            "arranging"
+          ]
+        },
+        {
+          "word": "around",
+          "pos": "prep",
+          "forms": [
+            "around"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Câu bị động tả trạng thái: Chairs are arranged / have been arranged around...",
+      "tipVi": "Tranh không có người thực hiện hành động → dùng câu bị động 'Chairs are neatly arranged around a long conference table.'",
+      "keyPhrases": [
+        {
+          "en": "be arranged around",
+          "vi": "được sắp xếp xung quanh"
+        },
+        {
+          "en": "conference table",
+          "vi": "bàn họp"
+        },
+        {
+          "en": "empty meeting room",
+          "vi": "phòng họp trống"
+        },
+        {
+          "en": "neatly placed",
+          "vi": "được đặt ngay ngắn"
+        }
+      ],
+      "sample": "Several office chairs are neatly arranged around a long conference table.",
+      "sampleAlt": "Chairs have been arranged around the table inside an empty meeting room.",
+      "sampleVi": "Một số ghế văn phòng được sắp xếp ngay ngắn quanh chiếc bàn họp dài."
+    },
+    {
+      "itemId": "w_q15_02_3",
+      "itemType": "wr_q15",
+      "label": "Câu 3 • Góc làm việc & Kệ sách",
+      "durationMin": 8,
+      "image": "../listening/media/p1_05_2.svg",
+      "imageAlt": "Góc phòng làm việc trống với kệ sách xếp đầy sách cạnh bàn có đèn học",
+      "keywords": [
+        {
+          "word": "book",
+          "pos": "n",
+          "forms": [
+            "book",
+            "books"
+          ]
+        },
+        {
+          "word": "shelf",
+          "pos": "n",
+          "forms": [
+            "shelf",
+            "shelves"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Danh từ số nhiều bất quy tắc: shelf → shelves; động từ lined up / placed on",
+      "tipVi": "Cẩn thận chia số nhiều đúng 'shelves' khi nói nhiều tầng kệ, hoặc dùng 'on a wooden shelf' cho số ít.",
+      "keyPhrases": [
+        {
+          "en": "lined up on shelves",
+          "vi": "xếp thẳng hàng trên kệ"
+        },
+        {
+          "en": "next to a desk lamp",
+          "vi": "cạnh đèn bàn"
+        },
+        {
+          "en": "wooden bookcase",
+          "vi": "tủ sách gỗ"
+        },
+        {
+          "en": "study corner",
+          "vi": "góc học tập / làm việc"
+        }
+      ],
+      "sample": "Many colorful books are lined up neatly on the wooden shelves.",
+      "sampleAlt": "Several rows of books fill the shelves beside a desk lamp.",
+      "sampleVi": "Nhiều cuốn sách đầy màu sắc được xếp ngay ngắn trên các kệ gỗ."
+    },
+    {
+      "itemId": "w_q15_02_4",
+      "itemType": "wr_q15",
+      "label": "Câu 4 • Khu vực ăn uống nhà hàng",
+      "durationMin": 8,
+      "image": "../listening/media/p1_05_3.svg",
+      "imageAlt": "Khu ăn uống trống của nhà hàng với ba bàn phủ khăn trắng và ba đèn thả treo phía trên",
+      "keywords": [
+        {
+          "word": "hang",
+          "pos": "v",
+          "forms": [
+            "hang",
+            "hangs",
+            "hung",
+            "hanging"
+          ]
+        },
+        {
+          "word": "above",
+          "pos": "prep",
+          "forms": [
+            "above"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Nội động từ chỉ vị trí: Lamps are hanging / hang above the dining tables",
+      "tipVi": "Với đồ vật treo lơ lửng không chạm bề mặt phía dưới, ưu tiên dùng 'hang above' (không dùng 'hang on' cho trần nhà cách xa bàn).",
+      "keyPhrases": [
+        {
+          "en": "hang above",
+          "vi": "treo phía trên"
+        },
+        {
+          "en": "dining tables",
+          "vi": "những chiếc bàn ăn"
+        },
+        {
+          "en": "white tablecloths",
+          "vi": "khăn trải bàn trắng"
+        },
+        {
+          "en": "restaurant area",
+          "vi": "khu vực nhà hàng"
+        }
+      ],
+      "sample": "Three round lamps are hanging directly above the covered dining tables.",
+      "sampleAlt": "Modern pendant lamps hang above three white tables in the restaurant.",
+      "sampleVi": "Ba chiếc đèn tròn đang treo ngay phía trên những chiếc bàn ăn phủ khăn."
+    },
+    {
+      "itemId": "w_q15_02_5",
+      "itemType": "wr_q15",
+      "label": "Câu 5 • Đỗ xe trước tòa nhà",
+      "durationMin": 8,
+      "image": "../listening/media/p1_06_4.svg",
+      "imageAlt": "Ba ô tô con đỗ ngay ngắn thành một hàng ngang trước tòa nhà văn phòng mặt kính",
+      "keywords": [
+        {
+          "word": "park",
+          "pos": "v",
+          "forms": [
+            "park",
+            "parks",
+            "parked",
+            "parking"
+          ]
+        },
+        {
+          "word": "front",
+          "pos": "n",
+          "forms": [
+            "front",
+            "fronts"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Cụm cố định: be parked in a row in front of + tòa nhà",
+      "tipVi": "Khi nhìn thấy nhiều xe đứng yên không có tài xế, dùng bị động 'are parked' kết hợp cụm 'in front of a glass building'.",
+      "keyPhrases": [
+        {
+          "en": "be parked in a row",
+          "vi": "được đỗ thành một hàng"
+        },
+        {
+          "en": "in front of a building",
+          "vi": "phía trước tòa nhà"
+        },
+        {
+          "en": "glass facade",
+          "vi": "mặt tiền kính"
+        },
+        {
+          "en": "outside the office",
+          "vi": "bên ngoài văn phòng"
+        }
+      ],
+      "sample": "Three cars are parked in a neat row in front of a glass office building.",
+      "sampleAlt": "Vehicles have been parked outside in front of the modern building.",
+      "sampleVi": "Ba chiếc ô tô đang đỗ thành một hàng ngay ngắn trước tòa nhà văn phòng bằng kính."
+    }
+  ]
+}

@@ -646,22 +646,23 @@
         </a>
 
         <!-- 3. KHÓA HỌC TOEIC -->
-        <a class="course-card lp-glass locked" href="#" onclick="return checkSkillFolder(event, 'Khóa học TOEIC')">
+        <a class="course-card lp-glass" href="toeic/index.html">
           <div class="card-top">
             <div class="card-icon tone-amber" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             </div>
             <div>
-              <span class="card-tag tag-amber">TOEIC • SẮP RA MẮT</span>
+              <span class="card-tag tag-amber">TOEIC 0–990 • 3,189 TỪ SRS</span>
               <h3 class="card-title">TOEIC</h3>
-              <p class="card-desc">Từ vựng thương mại, ngữ pháp &amp; đề Nghe–Đọc.</p>
+              <p class="card-desc">Lộ trình 0 → 990, từ vựng SRS, Nghe–Đọc ETS &amp; Speaking–Writing 0–200.</p>
             </div>
           </div>
           <div class="card-footer">
-            <div class="prog-row" style="margin-bottom:0;align-items:center;">
-              <span>Đang biên soạn</span>
-              <span class="prog-cta" style="color:var(--lg-rose);">Ủng hộ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            <div class="prog-row">
+              <span id="portalToeicSummary">Tiến độ: 0% (0 từ • 0/192 bài)</span>
+              <span class="prog-cta" style="color:#d97706;">Vào học <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
             </div>
+            <div class="lp-prog-bar"><div class="lp-prog-fill" id="portalToeicBar" style="width:0%;background:#d97706;"></div></div>
           </div>
         </a>
 
@@ -928,6 +929,13 @@
             </div>
             <button type="button" class="lp-offline-btn" data-offline-compact="1" data-offline-pack="ted"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-offline-label>Tải gói</span></button>
           </div>
+          <div class="lp-offline-row" data-offline-item>
+            <div class="lp-offline-meta">
+              <div class="lp-offline-name">TOEIC 0–990 cốt lõi</div>
+              <span class="lp-offline-status" data-offline-status role="status">3,189 từ SRS, 50 chuyên đề ngữ pháp &amp; danh mục đề ETS</span>
+            </div>
+            <button type="button" class="lp-offline-btn" data-offline-compact="1" data-offline-pack="toeic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-offline-label>Tải gói</span></button>
+          </div>
         </div>
       </div>
     </details>
@@ -1183,13 +1191,49 @@
         const hskSpeaking = Object.values(safeJson("lp_hsk_speaking_done_v1", {})).filter(Boolean).length;
         const hskMockRes = safeJson("lp_hsk_mock_results_v1", {});
         const hskBestById = hskMockRes && hskMockRes.bestById && typeof hskMockRes.bestById === "object" ? hskMockRes.bestById : {};
-        const hskMockPassed = Math.min(12, Object.values(hskBestById).filter(r => r && typeof r === "object" && r.passed === true).length);
+        const hskkMockRes = safeJson("lp_hskk_mock_results_v1", {});
+        const hskkBestById = hskkMockRes && hskkMockRes.bestById && typeof hskkMockRes.bestById === "object" ? hskkMockRes.bestById : {};
+        const hskMockPassed = Math.min(60,
+          Object.values(hskBestById).filter(r => r && typeof r === "object" && r.passed === true).length +
+          Object.values(hskkBestById).filter(r => r && typeof r === "object" && r.passed === true).length
+        );
         const hskDoneItems = hskLessons + hskGrammar + hskWriting + hskListening + hskReading + hskSpeaking + hskMockPassed;
-        const hskPct = Math.min(100, Math.round(((hskWords + hskDoneItems * 10) / (5112 + 876 * 10)) * 100));
+        const hskPct = Math.min(100, Math.round(((hskWords + hskDoneItems * 10) / (5112 + 924 * 10)) * 100));
         const hskSumEl = document.getElementById("portalHskSummary");
         const hskBarEl = document.getElementById("portalHskBar");
-        if (hskSumEl) hskSumEl.textContent = "Tiến độ: " + hskPct + "% (" + hskWords.toLocaleString("en-US") + " từ • " + hskDoneItems + "/876 bài)";
+        if (hskSumEl) hskSumEl.textContent = "Tiến độ: " + hskPct + "% (" + hskWords.toLocaleString("en-US") + " từ • " + hskDoneItems + "/924 bài)";
         if (hskBarEl) hskBarEl.style.width = hskPct + "%";
+
+        const toeicSrs = safeJson("lp_toeic_vocab_srs_v1", {});
+        const toeicWords = Object.values(toeicSrs).filter(st => st && typeof st === "object" && (st.ignored || st.reps > 0)).length;
+        const toeicGrammar = Math.min(50, Object.values(safeJson("lp_toeic_grammar_done_v1", {})).filter(Boolean).length);
+        const toeicListening = Math.min(48, Object.values(safeJson("lp_toeic_listening_done_v1", {})).filter(Boolean).length);
+        const toeicReading = Math.min(42, Object.values(safeJson("lp_toeic_reading_done_v1", {})).filter(Boolean).length);
+        const toeicMockRaw = safeJson("lp_toeic_mock_submissions_v1", []);
+        const toeicMockList = Array.isArray(toeicMockRaw)
+          ? toeicMockRaw
+          : (toeicMockRaw && typeof toeicMockRaw === "object"
+            ? Object.keys(toeicMockRaw.bestById && typeof toeicMockRaw.bestById === "object" ? toeicMockRaw.bestById : toeicMockRaw).map(k => {
+                const src = (toeicMockRaw.bestById && typeof toeicMockRaw.bestById === "object") ? toeicMockRaw.bestById : toeicMockRaw;
+                return Object.assign({ testId: k }, src[k] || {});
+              })
+            : []);
+        const toeicMockPassedSet = new Set();
+        toeicMockList.forEach((r, idx) => {
+          if (!r || typeof r !== "object") return;
+          const sc = Number(r.totalScore != null ? r.totalScore : (r.score != null ? r.score : NaN));
+          if (r.passed === true || (Number.isFinite(sc) && sc >= 350)) {
+            toeicMockPassedSet.add(String(r.testId || r.id || idx));
+          }
+        });
+        const toeicMockPassed = Math.min(20, toeicMockPassedSet.size);
+        const toeicSW = Math.min(32, Object.values(safeJson("lp_toeic_sw_done_v1", {})).filter(Boolean).length);
+        const toeicDoneItems = toeicGrammar + toeicListening + toeicReading + toeicMockPassed + toeicSW;
+        const toeicPct = Math.min(100, Math.round(((toeicWords + toeicDoneItems * 10) / (3189 + 192 * 10)) * 100));
+        const toeicSumEl = document.getElementById("portalToeicSummary");
+        const toeicBarEl = document.getElementById("portalToeicBar");
+        if (toeicSumEl) toeicSumEl.textContent = "Tiến độ: " + toeicPct + "% (" + toeicWords.toLocaleString("en-US") + " từ • " + toeicDoneItems + "/192 bài)";
+        if (toeicBarEl) toeicBarEl.style.width = toeicPct + "%";
       } catch (e) {}
     }
 
@@ -1214,13 +1258,13 @@
       "lp_hsk_writing_done_v1", "lp_hsk_writing_drafts_v1",
       "lp_hsk_listening_done_v1", "lp_hsk_listening_last_v1",
       "lp_hsk_reading_done_v1", "lp_hsk_reading_last_v1",
-      "lp_hsk_speaking_done_v1", "lp_hsk_mock_results_v1",
+      "lp_hsk_speaking_done_v1", "lp_hsk_mock_results_v1", "lp_hskk_mock_results_v1",
       "lp_hsk_shooter_best_v1", "lp_hsk_shooter_prefs_v1",
       "lp_hsk_roadmap_v1", "lp_ted_shadow_lang",
       "lp_ielts_roadmap_v1", "lp_ielts_foundation_done_v1", "lp_ielts_foundation_srs_v1"
     ];
     function isAppProgressKey(k) {
-      if (EXTRA_BACKUP_KEYS.includes(k) || k.startsWith("lp_pz_draft_")) return true;
+      if (EXTRA_BACKUP_KEYS.includes(k) || k.startsWith("lp_pz_draft_") || k.startsWith("lp_toeic_")) return true;
       if (!k.startsWith("s4_") || k.startsWith("s4_auth_")) return false;
       if (k === "s4_vocab_dark" || k === "s4_theme_style" || k === "s4_dock_min" || k.startsWith("s4_ghibli_")) return false;
       if (k.endsWith("_last_rendered_html") || k.endsWith("_last_sidebar_html") || k.endsWith("_last_lesson_cache")) return false;
@@ -1377,9 +1421,9 @@
     updateDashboardStats();
     applyViewFromHash();
   </script>
-  <script src="assets/s4-global-search.js?v=3"></script>
+  <script src="assets/s4-global-search.js?v=4"></script>
   <script src="assets/s4-offline.js"></script>
-  <script src="auth.js?v=33"></script>
+  <script src="auth.js?v=34"></script>
   <script src="assets/ghibli/ghibli-theme.js?v=27"></script>
 </body>
 </html>

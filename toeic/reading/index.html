@@ -1,0 +1,4156 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="study" data-course="toeic">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <title>Luyện Đọc TOEIC Part 5–7 CBT Split-Screen (42 bộ chuẩn ETS) | LinguaPath</title>
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=68">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+
+  <style>
+    @view-transition { navigation: auto; }
+    :root {
+      --primary: var(--lg-accent, #b45309);
+      --primary-soft: var(--lg-accent-soft, rgba(180, 83, 9, 0.14));
+      --ok: #15803d;
+      --ok-soft: rgba(22, 163, 74, 0.14);
+      --err: #dc2626;
+      --err-soft: rgba(220, 38, 38, 0.13);
+      --warn: #b45309;
+      --warn-soft: rgba(217, 119, 6, 0.16);
+      --teal: #0f766e;
+      --teal-soft: rgba(13, 148, 136, 0.14);
+      --info: #1d4ed8;
+      --info-soft: rgba(37, 99, 235, 0.13);
+      --violet: #7c3aed;
+      --violet-soft: rgba(124, 58, 237, 0.13);
+      --hl-bg: rgba(250, 204, 21, 0.48);
+      --hl-border: rgba(202, 138, 4, 0.55);
+      --cbt-fs-scale: 1;
+    }
+    html.dark, body.dark {
+      --ok: #4ade80;
+      --ok-soft: rgba(34, 197, 94, 0.18);
+      --err: #f87171;
+      --err-soft: rgba(239, 68, 68, 0.20);
+      --warn: #fbbf24;
+      --warn-soft: rgba(245, 158, 11, 0.20);
+      --teal: #5eead4;
+      --teal-soft: rgba(45, 212, 191, 0.18);
+      --info: #60a5fa;
+      --info-soft: rgba(96, 165, 250, 0.18);
+      --violet: #c4b5fd;
+      --violet-soft: rgba(167, 139, 250, 0.18);
+      --hl-bg: rgba(250, 204, 21, 0.34);
+      --hl-border: rgba(250, 204, 21, 0.62);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html {
+      background: transparent !important;
+      color: var(--lg-ink);
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+    body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent !important;
+      color: var(--lg-ink);
+      display: flex;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      touch-action: pan-y;
+    }
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+    button, input { font-family: inherit; }
+
+    body.sidebar-open { overflow: hidden !important; }
+    body.sidebar-open .main-wrap {
+      pointer-events: none !important;
+      user-select: none;
+      overflow: hidden !important;
+    }
+
+    /* ---------------- SIDEBAR & FILTERS ---------------- */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.48);
+      z-index: 10040;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      touch-action: none;
+      overscroll-behavior: none;
+    }
+    .sidebar-backdrop.open { display: block; }
+
+    .sidebar {
+      width: var(--lp-sidebar-w, 336px);
+      background: var(--lg-surface-strong, var(--lg-surface));
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      border-right: 1px solid var(--lg-hairline);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 200;
+      flex-shrink: 0;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+      transition: width 0.2s ease, opacity 0.2s ease;
+    }
+    @media (min-width: 1025px) {
+      body.sidebar-collapsed .sidebar {
+        width: 0 !important;
+        min-width: 0 !important;
+        border-right: none !important;
+        overflow: hidden !important;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+      .close-menu-btn { display: none !important; }
+    }
+
+    .sidebar-header {
+      padding: calc(11px + var(--s4-safe-top, 0px)) 12px 10px;
+      border-bottom: 1px solid var(--lg-divider);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .sidebar-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 14.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--lg-ink);
+      white-space: nowrap;
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-header h2 svg { color: var(--lg-accent); flex-shrink: 0; }
+    .sb-count-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 800;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .close-menu-btn {
+      display: none;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      color: var(--lg-ink);
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--lg-divider);
+      flex-shrink: 0;
+    }
+    .level-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+      padding: 7px 10px 6px;
+      border-bottom: 1px solid var(--lg-divider);
+      flex-shrink: 0;
+    }
+    .level-tab {
+      padding: 5px 2px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink-sub);
+      font-size: 10.6px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      text-align: center;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .level-tab:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
+    .level-tab.active {
+      background: var(--lg-accent);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .part-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 6px 10px 7px;
+      border-bottom: 1px solid var(--lg-divider);
+      flex-shrink: 0;
+    }
+    .part-tab {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink-sub);
+      font-size: 10.8px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .part-tab:hover { color: var(--lg-ink); border-color: var(--teal); }
+    .part-tab.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: transparent;
+    }
+    html.dark .part-tab.active { color: #0b1614; }
+
+    .lesson-list {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
+    .unit-group {
+      border: 1px solid var(--lg-hairline);
+      border-radius: 15px;
+      margin-bottom: 9px;
+      overflow: hidden;
+      background: var(--lg-wash);
+    }
+    .unit-group.open { border-color: var(--lg-accent); }
+    .unit-header {
+      padding: 9px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+    .unit-header:hover { background: var(--lg-wash-hover); }
+    .unit-group.open .unit-header { background: var(--lg-accent-soft); }
+    .unit-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .unit-name {
+      font-size: 12.2px;
+      font-weight: 800;
+      color: var(--lg-ink);
+      line-height: 1.32;
+      min-width: 0;
+    }
+    .unit-group.open .unit-name { color: var(--lg-accent); }
+    .unit-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--lg-ink-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .unit-meta.is-full { color: var(--ok); }
+
+    .unit-items {
+      display: none;
+      padding: 5px 6px 6px;
+      border-top: 1px solid var(--lg-divider);
+    }
+    .unit-group.open .unit-items { display: block; }
+
+    .lesson-item {
+      width: 100%;
+      text-align: left;
+      padding: 8px 9px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 3px;
+      transition: background 0.14s ease, color 0.14s ease;
+      font-size: 12.6px;
+      line-height: 1.35;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--lg-ink);
+      background: transparent;
+      border: 1px solid transparent;
+    }
+    .lesson-item:last-child { margin-bottom: 0; }
+    .lesson-item:hover { background: var(--lg-wash-hover); }
+    .lesson-item.active {
+      background: var(--lg-accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .lesson-item-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      min-width: 0;
+      flex: 1;
+    }
+    .lesson-num {
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 22px;
+      height: 20px;
+      border-radius: 6px;
+      background: var(--lg-seg-track);
+      color: var(--lg-ink-sub);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-variant-numeric: tabular-nums;
+    }
+    .lesson-item.active .lesson-num {
+      background: rgba(255, 255, 255, 0.24);
+      color: #fff;
+    }
+    .lesson-item-body { min-width: 0; flex: 1; }
+    .lesson-item-title { display: block; overflow-wrap: anywhere; }
+    .lesson-item-sub {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.6px;
+      color: var(--lg-ink-muted);
+      margin-top: 2px;
+      font-weight: 700;
+    }
+    .lesson-item.active .lesson-item-sub { color: rgba(255, 255, 255, 0.88); }
+    .sb-mini-badge {
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: var(--lg-seg-track);
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .lesson-item.active .sb-mini-badge { background: rgba(255, 255, 255, 0.22); }
+    .done-dot {
+      color: var(--ok);
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 2px;
+    }
+    .lesson-item.active .done-dot { color: #fff; }
+
+    /* ---------------- MAIN WRAP & TOPBAR ---------------- */
+    .main-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+      background: transparent;
+      overscroll-behavior: none;
+      position: relative;
+    }
+    .rd-topbar-wrap {
+      padding: calc(7px + var(--s4-safe-top, 0px)) calc(12px + env(safe-area-inset-right, 0px)) 0 calc(12px + env(safe-area-inset-left, 0px));
+      flex-shrink: 0;
+      z-index: 40;
+    }
+    .rd-topbar-wrap .lp-topbar {
+      margin-bottom: 0;
+      position: static;
+      flex-wrap: nowrap;
+      min-height: 46px;
+      padding: 5px 9px;
+    }
+    .menu-toggle-btn { white-space: nowrap; flex-shrink: 0; }
+
+    /* Main Scroll / Split Container */
+    .rd-main {
+      flex: 1;
+      min-height: 0;
+      min-width: 0;
+      max-width: 100%;
+      position: relative;
+      z-index: 1;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px 14px calc(16px + env(safe-area-inset-bottom, 0px));
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+    .rd-main.is-split-mode {
+      overflow: hidden;
+      padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .rd-shell {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .rd-shell.is-single {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 18px 20px;
+      overflow: visible;
+    }
+    .rd-shell.is-split {
+      flex: 1;
+      min-height: 0;
+      height: 100%;
+    }
+    .rd-shell.cbt-font-sm { --cbt-fs-scale: 0.91; }
+    .rd-shell.cbt-font-md { --cbt-fs-scale: 1; }
+    .rd-shell.cbt-font-lg { --cbt-fs-scale: 1.14; }
+
+    /* ---------------- BUTTONS & PILLS ---------------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12.6px;
+      cursor: pointer;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink);
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.12s ease;
+      text-shadow: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn:hover { background: var(--lg-wash-hover); border-color: var(--lg-accent); }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--lg-accent);
+      color: #fff;
+      border-color: transparent;
+    }
+    .btn-primary:hover { filter: brightness(1.06); background: var(--lg-accent); border-color: transparent; }
+    .btn-teal {
+      background: var(--teal-soft);
+      color: var(--teal);
+      border-color: rgba(13, 148, 136, 0.34);
+    }
+    .btn-teal.active, .btn-teal:hover {
+      background: var(--teal);
+      color: #fff;
+      border-color: transparent;
+    }
+    html.dark .btn-teal.active, html.dark .btn-teal:hover { color: #0b1614; }
+    .btn-done.completed {
+      background: var(--ok-soft);
+      color: var(--ok);
+      border-color: rgba(22, 163, 74, 0.42);
+    }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .btn-xs { padding: 4px 8px; font-size: 11.4px; }
+    .btn-icon-only { padding: 5px 7px; }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-shadow: none;
+      white-space: nowrap;
+    }
+    .meta-pill.is-stage { background: var(--lg-accent-soft); color: var(--lg-accent); }
+    .meta-pill.is-part { background: var(--teal-soft); color: var(--teal); }
+    .meta-pill.is-info { background: var(--info-soft); color: var(--info); }
+    .meta-pill.is-order { background: var(--lg-wash); color: var(--lg-ink-muted); border: 1px solid var(--lg-hairline); }
+
+    .seg-pills {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 2px;
+      border-radius: 999px;
+      background: var(--lg-seg-track);
+      border: 1px solid var(--lg-divider);
+      flex-shrink: 0;
+    }
+    .seg-pill {
+      border: none;
+      background: transparent;
+      color: var(--lg-ink-sub);
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.14s ease, color 0.14s ease;
+    }
+    .seg-pill:hover { color: var(--lg-ink); }
+    .seg-pill.active {
+      background: var(--lg-accent);
+      color: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.14);
+    }
+
+    /* ---------------- CBT HEADER & TOOLBAR ---------------- */
+    .cbt-head {
+      padding: 11px 15px 9px;
+      border-bottom: 1px solid var(--lg-divider);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--lg-wash);
+    }
+    .rd-shell.is-single .cbt-head {
+      padding: 0 0 12px;
+      background: transparent;
+      margin-bottom: 12px;
+    }
+    .cbt-head-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .cbt-title-block {
+      min-width: 0;
+      flex: 1 1 260px;
+    }
+    .cbt-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 4px;
+    }
+    .lesson-title {
+      margin: 0;
+      font-size: 17.5px;
+      font-weight: 800;
+      line-height: 1.3;
+      color: var(--lg-ink);
+      overflow-wrap: anywhere;
+    }
+    .rd-shell.is-single .lesson-title { font-size: 20px; }
+    .lesson-subtitle {
+      margin: 3px 0 0;
+      font-size: 12.8px;
+      color: var(--lg-ink-sub);
+      line-height: 1.44;
+      overflow-wrap: anywhere;
+    }
+    .cbt-head-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .cbt-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px 10px;
+      padding: 6px 10px;
+      border-radius: 14px;
+      background: var(--lg-surface);
+      border: 1px solid var(--lg-divider);
+    }
+    .cbt-tb-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    /* Countdown Timer */
+    .cbt-timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--lg-ink);
+      font-variant-numeric: tabular-nums;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .cbt-timer-pill svg { color: var(--lg-accent); flex-shrink: 0; }
+    .cbt-timer-pill.is-warn {
+      background: var(--warn-soft);
+      border-color: rgba(217, 119, 6, 0.48);
+      color: var(--warn);
+    }
+    .cbt-timer-pill.is-warn svg { color: var(--warn); }
+    .cbt-timer-pill.is-danger {
+      background: var(--err-soft);
+      border-color: rgba(220, 38, 38, 0.55);
+      color: var(--err);
+      animation: timerPulse 1.1s ease-in-out infinite;
+    }
+    .cbt-timer-pill.is-danger svg { color: var(--err); }
+    .cbt-timer-pill.is-free {
+      background: var(--teal-soft);
+      border-color: rgba(13, 148, 136, 0.36);
+      color: var(--teal);
+    }
+    .cbt-timer-pill.is-free svg { color: var(--teal); }
+    @keyframes timerPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.16); }
+      50% { box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.18); }
+    }
+
+    .hl-clear-btn {
+      display: none;
+      background: var(--hl-bg);
+      color: var(--lg-ink);
+      border-color: var(--hl-border);
+    }
+    .hl-clear-btn.has-hl { display: inline-flex; }
+
+    /* Mobile 3-mode Switcher */
+    .cbt-mob-switcher {
+      display: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      padding: 3px;
+      border-radius: 12px;
+      background: var(--lg-seg-track);
+      border: 1px solid var(--lg-divider);
+    }
+    .cbt-mob-tab {
+      border: none;
+      background: transparent;
+      color: var(--lg-ink-sub);
+      font-size: 11.8px;
+      font-weight: 800;
+      padding: 6px 4px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .cbt-mob-tab.active {
+      background: var(--lg-accent);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+    }
+
+    /* ---------------- CBT SPLIT-SCREEN BODY ---------------- */
+    .cbt-split {
+      flex: 1;
+      min-height: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+      position: relative;
+    }
+    .cbt-left {
+      flex: 0 0 var(--cbt-left-pct, 52%);
+      width: var(--cbt-left-pct, 52%);
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: transparent;
+    }
+    .cbt-right {
+      flex: 1 1 0%;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    /* Resizer Handle */
+    .split-resizer {
+      width: 11px;
+      flex: 0 0 11px;
+      cursor: col-resize;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-wash);
+      border-left: 1px solid var(--lg-divider);
+      border-right: 1px solid var(--lg-divider);
+      user-select: none;
+      touch-action: none;
+      z-index: 5;
+      transition: background 0.15s ease;
+    }
+    .split-resizer::before {
+      content: "";
+      width: 3px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--lg-ink-muted);
+      opacity: 0.45;
+      transition: opacity 0.15s ease, background 0.15s ease, height 0.15s ease;
+    }
+    .split-resizer:hover, .split-resizer.dragging {
+      background: var(--lg-accent-soft);
+    }
+    .split-resizer:hover::before, .split-resizer.dragging::before {
+      background: var(--lg-accent);
+      opacity: 1;
+      height: 60px;
+    }
+
+    /* Left Pane Passage Tabs & Scroll Area */
+    .cbt-left-tabs {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--lg-divider);
+      background: var(--lg-wash);
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex-shrink: 0;
+    }
+    .cbt-left-tabs::-webkit-scrollbar { display: none; }
+    .p-tab-btn {
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-surface);
+      color: var(--lg-ink-sub);
+      font-size: 11.8px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+    }
+    .p-tab-btn:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
+    .p-tab-btn.active {
+      background: var(--lg-accent);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .cbt-left-scroll, .cbt-right-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 13px 15px 22px;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ---------------- PASSAGE RENDERERS BY GENRE ---------------- */
+    .passage-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .rd-shell .passage-card {
+      border-radius: 16px !important;
+      padding: 0 !important;
+      background: var(--lg-surface);
+      border: 1px solid var(--lg-hairline);
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .rd-shell .passage-card.is-hidden { display: none; }
+    .passage-card-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 13px;
+      background: var(--lg-wash);
+      border-bottom: 1px solid var(--lg-divider);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--lg-ink);
+    }
+    .passage-bar-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .passage-bar-left svg { color: var(--lg-accent); flex-shrink: 0; }
+    .genre-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      flex-shrink: 0;
+    }
+    .genre-badge.is-chat { background: var(--teal-soft); color: var(--teal); }
+    .genre-badge.is-table { background: var(--info-soft); color: var(--info); }
+    .genre-badge.is-ad { background: var(--violet-soft); color: var(--violet); }
+    .genre-badge.is-review { background: var(--ok-soft); color: var(--ok); }
+
+    .passage-body {
+      padding: 13px 15px 15px;
+      font-size: calc(14.6px * var(--cbt-fs-scale));
+      line-height: 1.7;
+      color: var(--lg-ink);
+      overflow-wrap: anywhere;
+    }
+
+    /* Email / Memo Header Block */
+    .doc-email-meta {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 4px 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      background: var(--lg-wash);
+      border-left: 3px solid var(--lg-accent);
+      font-size: calc(13px * var(--cbt-fs-scale));
+      line-height: 1.48;
+    }
+    .doc-meta-k {
+      font-weight: 800;
+      color: var(--lg-ink-muted);
+      white-space: nowrap;
+    }
+    .doc-meta-v {
+      font-weight: 600;
+      color: var(--lg-ink);
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .doc-meta-v.is-subj { font-weight: 800; color: var(--lg-ink); }
+
+    /* Document / Article / Notice / Ad / Review Header */
+    .doc-head-block {
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--lg-divider);
+    }
+    .passage-card.genre-ad .doc-head-block {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--lg-accent-soft), var(--violet-soft));
+      border-bottom: none;
+    }
+    .passage-card.genre-notice .doc-head-block {
+      border-left: 3.5px solid var(--teal);
+      padding-left: 11px;
+      border-bottom: none;
+      padding-bottom: 2px;
+    }
+    .doc-title {
+      margin: 0;
+      font-size: calc(16px * var(--cbt-fs-scale));
+      font-weight: 800;
+      line-height: 1.36;
+      color: var(--lg-ink);
+    }
+    .doc-sub {
+      margin: 4px 0 0;
+      font-size: calc(12.8px * var(--cbt-fs-scale));
+      color: var(--lg-ink-sub);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+    .doc-stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      color: #d97706;
+      margin-top: 4px;
+    }
+    html.dark .doc-stars { color: #fbbf24; }
+
+    .doc-p {
+      margin: 0 0 11px;
+      font-size: calc(14.5px * var(--cbt-fs-scale));
+      line-height: 1.72;
+      color: var(--lg-ink);
+      white-space: pre-line;
+    }
+    .doc-p:last-child { margin-bottom: 0; }
+
+    /* Chat Bubbles */
+    .chat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .chat-bubble {
+      padding: 9px 12px;
+      border-radius: 14px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-divider);
+      max-width: 94%;
+    }
+    .chat-bubble.is-alt {
+      align-self: flex-end;
+      background: var(--lg-accent-soft);
+      border-color: rgba(180, 83, 9, 0.25);
+    }
+    html.dark .chat-bubble.is-alt {
+      border-color: rgba(245, 158, 11, 0.28);
+    }
+    .chat-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 3px;
+    }
+    .chat-sender {
+      font-size: calc(12.4px * var(--cbt-fs-scale));
+      font-weight: 800;
+      color: var(--lg-accent);
+    }
+    .chat-bubble.is-alt .chat-sender { color: var(--teal); }
+    .chat-time {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      white-space: nowrap;
+    }
+    .chat-text {
+      font-size: calc(14px * var(--cbt-fs-scale));
+      line-height: 1.58;
+      color: var(--lg-ink);
+    }
+
+    /* Document HTML Table (Mobile safe horizontal scroll) */
+    .doc-table-wrap {
+      margin-top: 11px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .doc-table-wrap:first-child { margin-top: 0; }
+    .doc-table-caption {
+      font-size: calc(12.6px * var(--cbt-fs-scale));
+      font-weight: 800;
+      color: var(--lg-accent);
+      margin-bottom: 6px;
+    }
+    .doc-table-scroll {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 11px;
+      border: 1px solid var(--lg-divider);
+    }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: calc(13px * var(--cbt-fs-scale));
+    }
+    .doc-table th, .doc-table td {
+      padding: 7px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--lg-divider);
+      line-height: 1.45;
+      vertical-align: top;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+    .doc-table th {
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .doc-table tbody tr:nth-child(even) td { background: var(--lg-wash); }
+    .doc-table tbody tr:last-child td { border-bottom: none; }
+    .doc-table-note {
+      margin-top: 6px;
+      font-size: 11.8px;
+      color: var(--lg-ink-muted);
+      font-style: italic;
+    }
+
+    /* Part 6 Interactive Blank Chips */
+    .p6-blank-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 8px;
+      margin: 0 2px;
+      border-radius: 8px;
+      border: 1.5px solid var(--lg-accent);
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      font-size: 0.9em;
+      font-weight: 800;
+      line-height: 1.45;
+      cursor: pointer;
+      vertical-align: baseline;
+      transition: transform 0.12s ease, background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+    }
+    .p6-blank-chip:hover {
+      background: var(--lg-accent);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .p6-blank-chip.is-answered {
+      background: var(--info-soft);
+      border-color: var(--info);
+      color: var(--info);
+    }
+    .p6-blank-chip.is-correct {
+      background: var(--ok-soft);
+      border-color: #16a34a;
+      color: var(--ok);
+    }
+    .p6-blank-chip.is-wrong {
+      background: var(--err-soft);
+      border-color: #dc2626;
+      color: var(--err);
+    }
+    .p6-blank-chip.is-focused {
+      box-shadow: 0 0 0 3px var(--lg-accent-soft);
+    }
+    .p6-chip-ans {
+      font-weight: 800;
+      opacity: 0.92;
+    }
+
+    /* Highlight Mark & Floating Popover */
+    mark.cbt-hl {
+      background: var(--hl-bg);
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 4px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    .cbt-hl-popover {
+      position: fixed;
+      z-index: 10200;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 5px;
+      border-radius: 999px;
+      background: var(--lg-modal-surface, var(--lg-surface-strong));
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      border: 1px solid var(--lg-hairline);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.24), inset 0 1px 0 var(--lg-rim-top);
+    }
+    .cbt-hl-popover button {
+      border: none;
+      background: transparent;
+      color: var(--lg-ink);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: background 0.14s ease, color 0.14s ease;
+    }
+    .cbt-hl-popover button.hl-do:hover {
+      background: var(--hl-bg);
+    }
+    .cbt-hl-popover button.hl-del {
+      color: var(--err);
+    }
+    .cbt-hl-popover button.hl-del:hover {
+      background: var(--err-soft);
+    }
+
+    /* ---------------- RIGHT PANE: PALETTE, QUESTIONS & RESULTS ---------------- */
+    .cbt-palette-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 13px;
+      border-bottom: 1px solid var(--lg-divider);
+      background: var(--lg-wash);
+      flex-shrink: 0;
+    }
+    .rd-shell.is-single .cbt-palette-bar {
+      border-radius: 14px;
+      border: 1px solid var(--lg-divider);
+      margin-bottom: 14px;
+    }
+    .pal-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .pal-label {
+      font-size: 11.8px;
+      font-weight: 800;
+      color: var(--lg-ink-muted);
+      margin-right: 2px;
+    }
+    .q-pal-btn {
+      position: relative;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 6px;
+      border-radius: 8px;
+      border: 1.5px solid var(--lg-hairline);
+      background: var(--lg-surface);
+      color: var(--lg-ink);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-variant-numeric: tabular-nums;
+      transition: border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
+    }
+    .q-pal-btn:hover { border-color: var(--lg-accent); }
+    .q-pal-btn.is-answered {
+      background: var(--lg-accent-soft);
+      border-color: var(--lg-accent);
+      color: var(--lg-accent);
+    }
+    .q-pal-btn.is-correct {
+      background: var(--ok-soft);
+      border-color: #16a34a;
+      color: var(--ok);
+    }
+    .q-pal-btn.is-wrong {
+      background: var(--err-soft);
+      border-color: #dc2626;
+      color: var(--err);
+    }
+    .q-pal-btn.is-flagged::after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f59e0b;
+      border: 1.5px solid var(--lg-surface);
+    }
+    .pal-stat {
+      font-size: 11.8px;
+      font-weight: 800;
+      color: var(--lg-ink-sub);
+      white-space: nowrap;
+    }
+
+    /* Strategy Tip Box */
+    .read-tip-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 10px 12px;
+      border-radius: 13px;
+      background: var(--lg-wash);
+      border-left: 3.5px solid var(--lg-accent);
+      margin-bottom: 13px;
+    }
+    .read-tip-ico {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .read-tip-lbl {
+      font-size: 10.6px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.45px;
+      color: var(--lg-accent);
+      margin-bottom: 2px;
+    }
+    .read-tip-text {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--lg-ink);
+      overflow-wrap: anywhere;
+    }
+
+    /* Score Banner */
+    .score-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      margin-bottom: 13px;
+      font-size: 13.4px;
+      font-weight: 700;
+      line-height: 1.48;
+    }
+    .score-banner.is-pass {
+      background: var(--ok-soft);
+      color: var(--ok);
+      border: 1px solid rgba(22, 163, 74, 0.36);
+    }
+    .score-banner.is-retry {
+      background: var(--err-soft);
+      color: var(--err);
+      border: 1px solid rgba(220, 38, 38, 0.34);
+    }
+    .score-banner-sub {
+      font-size: 12.2px;
+      font-weight: 600;
+      color: var(--lg-ink-sub);
+      margin-top: 3px;
+    }
+
+    /* Paraphrase Comparison Table Card */
+    .para-card {
+      border-radius: 15px;
+      background: var(--lg-surface);
+      border: 1px solid var(--lg-hairline);
+      padding: 12px 13px;
+      margin-bottom: 14px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .para-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .para-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.2px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+    .para-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: calc(12.8px * var(--cbt-fs-scale));
+    }
+    .para-table th, .para-table td {
+      padding: 7px 9px;
+      text-align: left;
+      border-bottom: 1px solid var(--lg-divider);
+      line-height: 1.45;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+    .para-table th {
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-weight: 800;
+      font-size: 11.6px;
+    }
+    .para-table tbody tr:nth-child(even) td { background: var(--lg-wash); }
+    .para-table tbody tr:last-child td { border-bottom: none; }
+    .para-en-src { font-weight: 700; color: var(--lg-ink); }
+    .para-en-ans { font-weight: 800; color: var(--lg-accent); }
+    .rd-para-vi { color: var(--lg-ink-sub); font-weight: 600; }
+
+    /* Question Cards */
+    .q-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .q-card {
+      background: var(--lg-surface);
+      border: 1px solid var(--lg-divider);
+      border-radius: 16px;
+      padding: 13px 14px;
+      min-width: 0;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+    .q-card.is-flagged { border-color: rgba(217, 119, 6, 0.55); }
+    .q-card.is-graded-right { border-color: rgba(22, 163, 74, 0.50); }
+    .q-card.is-graded-wrong { border-color: rgba(220, 38, 38, 0.48); }
+    .q-card.is-focused {
+      border-color: var(--lg-accent);
+      box-shadow: 0 0 0 3px var(--lg-accent-soft);
+    }
+
+    .q-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 9px;
+    }
+    .q-head-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-width: 0;
+    }
+    .q-num-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 7px;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      font-size: 11.8px;
+      font-weight: 800;
+    }
+    .q-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 7px;
+      background: var(--violet-soft);
+      color: var(--violet);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .q-tag-pill.is-cross { background: var(--teal-soft); color: var(--teal); }
+    .q-passage-ref {
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink-muted);
+      border-radius: 7px;
+      padding: 2px 7px;
+      font-size: 10.8px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .q-passage-ref:hover { border-color: var(--lg-accent); color: var(--lg-accent); }
+
+    .q-flag-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink-muted);
+      font-size: 11.2px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+    }
+    .q-flag-btn:hover { border-color: var(--warn); color: var(--warn); }
+    .q-flag-btn.is-flagged {
+      background: var(--warn-soft);
+      border-color: rgba(217, 119, 6, 0.50);
+      color: var(--warn);
+    }
+
+    .q-prompt {
+      font-size: calc(14.4px * var(--cbt-fs-scale));
+      font-weight: 700;
+      line-height: 1.58;
+      color: var(--lg-ink);
+      margin-bottom: 10px;
+      overflow-wrap: anywhere;
+    }
+    .q-blank-slot {
+      display: inline-block;
+      padding: 0 7px;
+      margin: 0 2px;
+      border-radius: 6px;
+      border-bottom: 2px solid var(--lg-accent);
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      font-weight: 800;
+    }
+
+    .quiz-opts {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 7px;
+    }
+    .rd-shell.is-single .quiz-opts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .q-opt {
+      width: 100%;
+      text-align: left;
+      padding: 8px 11px;
+      border-radius: 11px;
+      border: 1.5px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink);
+      font-size: calc(13.6px * var(--cbt-fs-scale));
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.44;
+      overflow-wrap: anywhere;
+      transition: border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
+    }
+    .q-opt:hover:not(:disabled) { border-color: var(--lg-accent); background: var(--lg-wash-hover); }
+    .q-opt:disabled { cursor: default; }
+    .q-opt-letter {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      background: var(--lg-seg-track);
+      color: var(--lg-ink-sub);
+      font-size: 11.4px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .q-opt.selected {
+      border-color: var(--lg-accent);
+      background: var(--lg-accent-soft);
+      font-weight: 700;
+    }
+    .q-opt.selected .q-opt-letter { background: var(--lg-accent); color: #fff; }
+    .q-opt.correct {
+      border-color: #16a34a !important;
+      background: var(--ok-soft) !important;
+      color: var(--ok) !important;
+      font-weight: 800;
+    }
+    .q-opt.correct .q-opt-letter { background: #16a34a; color: #fff; }
+    .q-opt.wrong {
+      border-color: #dc2626 !important;
+      background: var(--err-soft) !important;
+      color: var(--err) !important;
+      font-weight: 700;
+    }
+    .q-opt.wrong .q-opt-letter { background: #dc2626; color: #fff; }
+
+    .q-exp-box {
+      margin-top: 9px;
+      padding: 9px 11px;
+      border-radius: 11px;
+      background: var(--lg-wash);
+      border-left: 3.5px solid var(--lg-accent);
+      font-size: calc(13px * var(--cbt-fs-scale));
+      line-height: 1.56;
+      color: var(--lg-ink);
+      overflow-wrap: anywhere;
+    }
+    .q-exp-box.is-ok { border-left-color: #16a34a; }
+    .q-exp-box.is-err { border-left-color: #dc2626; }
+    .q-exp-head {
+      font-size: 11.8px;
+      font-weight: 800;
+      margin-bottom: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .q-exp-box.is-ok .q-exp-head { color: var(--ok); }
+    .q-exp-box.is-err .q-exp-head { color: var(--err); }
+
+    /* Submit Bar & Lesson Nav */
+    .submit-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 9px;
+      margin-top: 15px;
+      padding: 12px 14px;
+      border-radius: 15px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+    }
+    .submit-bar-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    .submit-hint {
+      font-size: 11.8px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+    }
+    .nav-footer.lp-lesson-nav {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 15px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-divider);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ---------------- TAP-TO-LOOKUP WORDS & POPUP ---------------- */
+    .rd-w { display: inline; }
+    .tap-word {
+      display: inline;
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 0 1px;
+      border-bottom: 1px dotted rgba(180, 83, 9, 0.42);
+      transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+    }
+    html.dark .tap-word { border-bottom-color: rgba(245, 158, 11, 0.48); }
+    .tap-word:hover, .tap-word:focus-visible, .tap-word.is-active {
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      border-bottom-color: var(--lg-accent);
+      outline: none;
+    }
+
+    .dict-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10300;
+      background: var(--lg-modal-backdrop, rgba(15, 23, 42, 0.38));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+    .dict-backdrop.open { display: flex; }
+    .dict-sheet {
+      width: 100%;
+      max-width: 470px;
+      max-height: 82vh;
+      overflow-y: auto;
+      padding: 18px 18px 20px;
+      border-radius: 22px;
+      background: var(--lg-modal-surface, var(--lg-surface-strong));
+      border: 1px solid var(--lg-hairline);
+      box-shadow: 0 22px 52px rgba(15, 23, 42, 0.32), inset 0 1px 0 var(--lg-rim-top, rgba(255, 255, 255, 0.45));
+      color: var(--lg-ink);
+      overscroll-behavior: contain;
+    }
+    .dict-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--lg-divider);
+    }
+    .dict-word-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 7px;
+    }
+    .dict-word {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--lg-accent);
+      margin: 0;
+    }
+    .dict-pos {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+    .dict-ipa {
+      font-size: 13px;
+      color: var(--lg-ink-muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      margin-top: 3px;
+    }
+    .dict-audio-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .dict-accent-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+    }
+    .dict-accent-btn:hover {
+      background: var(--lg-accent);
+      color: #fff;
+      border-color: transparent;
+    }
+    .dict-def-vi {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--lg-ink);
+      margin-bottom: 5px;
+    }
+    .dict-def-en {
+      font-size: 13px;
+      color: var(--lg-ink-sub);
+      line-height: 1.5;
+      margin-bottom: 11px;
+    }
+    .dict-sec {
+      margin-top: 10px;
+      padding-top: 9px;
+      border-top: 1px dashed var(--lg-divider);
+    }
+    .dict-sec-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--lg-ink-muted);
+      margin-bottom: 6px;
+    }
+    .dict-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .dict-chip {
+      padding: 3px 9px;
+      border-radius: 8px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-divider);
+      font-size: 12.2px;
+      font-weight: 700;
+      color: var(--lg-ink);
+    }
+    .dict-trap-box {
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 11px;
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      font-size: 12.8px;
+      line-height: 1.5;
+      color: var(--lg-ink);
+    }
+    html.dark .dict-trap-box {
+      background: rgba(239, 68, 68, 0.13);
+      border-color: rgba(248, 113, 113, 0.30);
+    }
+    .dict-trap-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--err);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+    .dict-fallback-note {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--lg-wash);
+      font-size: 13px;
+      color: var(--lg-ink-sub);
+      line-height: 1.55;
+    }
+
+    .loading-state {
+      padding: 44px 18px;
+      text-align: center;
+      color: var(--lg-ink-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    /* ---------------- RESPONSIVE (1024px, 820px, 600px, 580px / 360px) ---------------- */
+    @media (max-width: 1024px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 10050;
+        transform: translateX(-100%);
+        width: min(88vw, 336px);
+        max-width: 336px;
+        border-right: none;
+        box-shadow: none;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.22s ease, visibility 0.22s;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
+        border-right: 1px solid var(--lg-hairline);
+        box-shadow: 8px 0 32px rgba(0, 0, 0, 0.35);
+      }
+      .close-menu-btn { display: inline-flex; }
+    }
+
+    @media (max-width: 820px) {
+      .cbt-mob-switcher { display: grid; }
+      .cbt-split { flex-direction: column; }
+      .split-resizer { display: none !important; }
+      .cbt-left {
+        width: 100% !important;
+        flex: 0 0 46%;
+        border-bottom: 2px solid var(--lg-hairline);
+      }
+      .cbt-right {
+        width: 100% !important;
+        flex: 1 1 54%;
+      }
+      .cbt-split.mob-view-left .cbt-left {
+        flex: 1 1 100%;
+        border-bottom: none;
+      }
+      .cbt-split.mob-view-left .cbt-right { display: none; }
+      .cbt-split.mob-view-right .cbt-left { display: none; }
+      .cbt-split.mob-view-right .cbt-right { flex: 1 1 100%; }
+    }
+
+    @media (max-width: 640px) {
+      .rd-shell.is-single .quiz-opts { grid-template-columns: minmax(0, 1fr); }
+      .dict-backdrop { align-items: flex-end; padding: 0; }
+      .dict-sheet {
+        max-width: 100%;
+        border-radius: 22px 22px 0 0;
+        padding: 16px 15px calc(18px + env(safe-area-inset-bottom, 0px));
+      }
+      /* Stack Paraphrase Table into readable full-width cards on narrow phones */
+      .para-table thead { display: none; }
+      .para-table, .para-table tbody, .para-table tr, .para-table td {
+        display: block;
+        width: 100%;
+      }
+      .para-table tr {
+        padding: 8px 9px;
+        margin-bottom: 7px;
+        border-radius: 11px;
+        border: 1px solid var(--lg-divider);
+        background: var(--lg-wash);
+      }
+      .para-table tr:last-child { margin-bottom: 0; }
+      .para-table td {
+        padding: 2px 0;
+        border-bottom: none;
+        background: transparent !important;
+      }
+      .para-table td::before {
+        content: attr(data-label) ": ";
+        font-size: 10.8px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--lg-ink-muted);
+      }
+    }
+
+    @media (max-width: 580px) {
+      .rd-topbar-wrap { padding: calc(5px + var(--s4-safe-top, 0px)) 7px 0; }
+      .rd-topbar-wrap .lp-topbar {
+        padding: 4px 8px;
+        gap: 5px;
+        min-height: 44px;
+        height: 44px;
+        border-radius: 16px;
+      }
+      .rd-topbar-wrap .lp-top-left { gap: 5px; flex: 0 1 auto; }
+      .rd-topbar-wrap .lp-top-actions { gap: 5px; }
+      .rd-topbar-wrap .lp-brand { display: none; }
+      .rd-topbar-wrap .lp-back-pill { height: 32px; padding: 0 9px; font-size: 12px; gap: 3px; }
+      .rd-topbar-wrap .lp-icon-btn { height: 32px; min-width: 32px; padding: 0 7px; font-size: 11.8px; }
+
+      .rd-main { padding: 7px 7px calc(12px + env(safe-area-inset-bottom, 6px)); }
+      .rd-main.is-split-mode { padding: 6px 7px calc(7px + env(safe-area-inset-bottom, 4px)); }
+      .rd-shell { border-radius: 17px; }
+      .rd-shell.is-single { padding: 13px 11px; }
+
+      .cbt-head { padding: 8px 10px 7px; gap: 6px; }
+      .cbt-meta-row .meta-pill.is-order { display: none; }
+      .lesson-title { font-size: 15.2px; }
+      .lesson-subtitle { display: none; }
+      .rd-shell.is-single .lesson-subtitle { display: block; font-size: 12.2px; }
+      .cbt-head-right .btn-done span { display: none; }
+      .cbt-head-right .btn-done { padding: 5px 8px; }
+
+      .cbt-toolbar { padding: 5px 7px; gap: 5px; border-radius: 11px; }
+      .cbt-timer-pill { padding: 3px 8px; font-size: 12px; gap: 4px; }
+      .cbt-toolbar .btn { padding: 4px 7px; font-size: 11.2px; gap: 3px; }
+      .cbt-toolbar .seg-pill { padding: 3px 7px; font-size: 11px; }
+      .cbt-tb-hide-xs { display: none; }
+
+      .cbt-left-tabs { padding: 6px 9px; gap: 4px; }
+      .p-tab-btn { padding: 4px 9px; font-size: 11.2px; }
+      .cbt-left-scroll, .cbt-right-scroll { padding: 10px 10px 16px; }
+      .passage-body { padding: 11px 11px 12px; }
+      .doc-email-meta { padding: 8px 9px; gap: 3px 7px; }
+      .doc-table th, .doc-table td { padding: 6px 8px; font-size: 12px; overflow-wrap: normal; word-break: normal; }
+      .doc-table th { white-space: nowrap; }
+
+      .cbt-palette-bar { padding: 6px 9px; gap: 5px; }
+      .q-pal-btn { min-width: 25px; height: 25px; font-size: 11.2px; }
+      .q-card { padding: 11px 11px; border-radius: 14px; }
+      .submit-bar { padding: 10px 11px; }
+      .nav-footer.lp-lesson-nav { padding: 9px 10px; gap: 6px; }
+      .nav-footer.lp-lesson-nav .btn { padding: 6px 9px; font-size: 11.6px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <aside class="sidebar" id="sidebar" aria-label="Danh sách 42 bộ Luyện Đọc TOEIC">
+    <div class="sidebar-header">
+      <div class="sidebar-head-row">
+        <h2>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <span>Luyện Đọc TOEIC</span>
+        </h2>
+        <span class="sb-count-pill" id="sidebarProgBadge">0/42</span>
+        <button type="button" class="close-menu-btn" id="btnCloseSidebar" title="Đóng mục lục" aria-label="Đóng mục lục">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="lp-prog-bar"><div class="lp-prog-fill" id="sidebarProgBar" style="width:0%;background:var(--lg-accent);"></div></div>
+    </div>
+
+    <div class="search-box">
+      <div class="s4-search-group is-compact">
+        <div class="s4-search-field">
+          <input type="text" id="searchInput" class="s4-search-input" placeholder="Tìm bộ đọc, Part 5-7, thể loại..." autocomplete="off">
+          <button type="button" id="searchInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <button type="button" id="searchInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="level-tabs" id="levelTabs" role="tablist" aria-label="Lọc 4 Chặng điểm TOEIC"></div>
+    <div class="part-tabs" id="partTabs" role="tablist" aria-label="Lọc theo 5 dạng Đọc TOEIC"></div>
+    <div class="lesson-list" id="lessonList"></div>
+  </aside>
+
+  <div class="main-wrap">
+    <div class="rd-topbar-wrap">
+      <header class="lp-topbar lp-glass">
+        <div class="lp-top-left">
+          <button type="button" class="lp-icon-btn menu-toggle-btn" id="btnToggleSidebar" aria-label="Mục lục bộ đọc" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            <span class="s4-desk-sb-lbl lp-hide-xs">Ẩn mục lục</span>
+          </button>
+          <a href="../index.html" class="lp-back-pill" id="lpBackBtn" title="Về Khóa học TOEIC">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <span>TOEIC</span>
+          </a>
+          <div class="lp-brand">
+            <div class="lp-brand-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div class="lp-brand-text">
+              <h1 class="lp-brand-title" id="topbarTitle">Luyện Đọc TOEIC</h1>
+            </div>
+          </div>
+        </div>
+        <div class="lp-top-actions">
+          <button type="button" class="lp-icon-btn donate" id="btnReadingDonate" title="Ủng hộ dự án" aria-label="Ủng hộ dự án">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <span class="lp-hide-xs">Ủng hộ</span>
+          </button>
+          <button type="button" class="lp-icon-btn" id="btnReadingDark" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+        </div>
+      </header>
+    </div>
+
+    <main class="rd-main" id="mainScroll">
+      <div class="rd-shell lp-glass" id="lessonContent"></div>
+    </main>
+  </div>
+
+  <div class="cbt-hl-popover" id="cbtHlPopover" role="toolbar" aria-label="Công cụ Highlight văn bản">
+    <button type="button" class="hl-do" id="btnApplyHl">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg>
+      <span>Highlight</span>
+    </button>
+    <button type="button" class="hl-del" id="btnRemoveHl">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+      <span>Xóa</span>
+    </button>
+  </div>
+
+  <div class="dict-backdrop" id="toeicDictPopup" role="dialog" aria-modal="true" aria-label="Tra từ nhanh TOEIC">
+    <div class="dict-sheet" id="toeicDictSheet"></div>
+  </div>
+
+  <script src="data/reading_manifest.js?v=1"></script>
+  <script src="../../assets/s4-ui.js?v=68"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=27"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var DONE_KEY = "lp_toeic_reading_done_v1";
+      var LAST_KEY = "lp_toeic_reading_last_v1";
+      var DAYS_KEY = "lp_toeic_vocab_days_v1";
+      var LETTERS = ["A", "B", "C", "D"];
+
+      var LEVEL_META = {
+        1: { label: "0–350", title: "Chặng 1 • Part 5 Phản xạ 5s (0–350)", shortName: "Chặng 1 • 0–350" },
+        2: { label: "350–550", title: "Chặng 2 • Part 6 & Part 7 Đơn (350–550)", shortName: "Chặng 2 • 350–550" },
+        3: { label: "550–750", title: "Chặng 3 • Part 7 Đoạn kép (550–750)", shortName: "Chặng 3 • 550–750" },
+        4: { label: "750–990", title: "Chặng 4 • Part 7 Đoạn ba (750–990)", shortName: "Chặng 4 • 750–990" }
+      };
+
+      var PART_FILTERS = [
+        { id: "all", label: "Tất cả" },
+        { id: "part5", label: "Part 5" },
+        { id: "part6", label: "Part 6" },
+        { id: "part7s", label: "Part 7 Đơn" },
+        { id: "part7d", label: "Part 7 Kép" },
+        { id: "part7t", label: "Part 7 Ba" }
+      ];
+
+      var PART_ALIASES = {
+        "5": "part5", "p5": "part5", "part5": "part5",
+        "6": "part6", "p6": "part6", "part6": "part6",
+        "7s": "part7s", "p7s": "part7s", "part7s": "part7s", "single": "part7s",
+        "7d": "part7d", "p7d": "part7d", "part7d": "part7d", "double": "part7d",
+        "7t": "part7t", "p7t": "part7t", "part7t": "part7t", "triple": "part7t"
+      };
+
+      var GENRE_LABELS = {
+        email: "Email",
+        chat: "Tin nhắn",
+        memo: "Memo nội bộ",
+        notice: "Thông báo",
+        letter: "Thư tín",
+        article: "Bài báo",
+        ad: "Quảng cáo",
+        review: "Đánh giá",
+        table: "Bảng biểu"
+      };
+
+      var CUSTOM_SVG = {
+        pause: '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>',
+        mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+        chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+        fileText: '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+        table: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/>',
+        split: '<rect width="18" height="18" x="3" y="3" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/>',
+        star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+        infinity: '<path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z"/>',
+        bookSearch: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+        listChecks: '<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>'
+      };
+
+      var MANIFEST = window.LP_TOEIC_READING_MANIFEST || { lessons: [] };
+      var ALL_LESSONS = Array.isArray(MANIFEST.lessons) ? MANIFEST.lessons.slice() : [];
+      ALL_LESSONS.sort(function (a, b) { return (Number(a.order) || 0) - (Number(b.order) || 0); });
+
+      var drillCache = new Map();
+      var fetchSeq = 0;
+
+      // App State
+      var completedMap = safeReadJson(DONE_KEY, {});
+      var currentLevelFilter = 0;
+      var currentPartFilter = "all";
+      var currentSearchQuery = "";
+      var openLevels = new Set([1]);
+      var activeId = "";
+      var activeDrill = null;
+
+      // CBT UI State
+      var cbtLeftPct = 52;
+      var cbtFontSize = "md";   // "sm" | "md" | "lg"
+      var cbtMobileView = "split"; // "split" | "left" | "right"
+      var activePassageTab = "all"; // "all" | "0" | "1" | "2"
+      var dictModeEnabled = false;
+
+      // Exercise State (reset per drill)
+      var answers = {};   // qIdx -> optIdx
+      var flagged = {};   // qIdx -> boolean
+      var graded = false;
+
+      // Timer State
+      var timerInterval = null;
+      var timerLimitSec = 0;
+      var timerRemainSec = 0;
+      var timerElapsedSec = 0;
+      var timerRunning = false;
+      var timerFree = false;
+      var timerWarnNotified = false;
+
+      // DOM refs
+      var listEl = document.getElementById("lessonList");
+      var contentEl = document.getElementById("lessonContent");
+      var mainScrollEl = document.getElementById("mainScroll");
+      var searchInput = document.getElementById("searchInput");
+      var sidebarEl = document.getElementById("sidebar");
+      var levelTabsEl = document.getElementById("levelTabs");
+      var partTabsEl = document.getElementById("partTabs");
+      var hlPopoverEl = document.getElementById("cbtHlPopover");
+
+      function safeReadJson(key, fb) {
+        try {
+          var raw = localStorage.getItem(key);
+          if (!raw) return fb;
+          var parsed = JSON.parse(raw);
+          return parsed !== null && typeof parsed === "object" ? parsed : fb;
+        } catch (e) { return fb; }
+      }
+
+      function esc(str) {
+        if (window.S4UI && typeof window.S4UI.escapeHtml === "function") {
+          return window.S4UI.escapeHtml(str);
+        }
+        return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      function svgIcon(name, size) {
+        var sz = Number(size) > 0 ? Number(size) : 15;
+        if (CUSTOM_SVG[name]) {
+          return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + CUSTOM_SVG[name] + '</svg>';
+        }
+        if (window.S4UI && typeof window.S4UI.icon === "function") {
+          return window.S4UI.icon(name, sz);
+        }
+        return "";
+      }
+
+      function pad2(n) {
+        var v = Number(n) || 0;
+        return v < 10 ? "0" + v : String(v);
+      }
+
+      function formatClock(sec) {
+        var s = Math.max(0, Math.floor(Number(sec) || 0));
+        var m = Math.floor(s / 60);
+        var r = s % 60;
+        return pad2(m) + ":" + pad2(r);
+      }
+
+      function showToast(type, msg, duration) {
+        if (window.S4UI && typeof window.S4UI.toast === "function") {
+          window.S4UI.toast({ type: type || "info", message: String(msg || ""), duration: duration || 2200 });
+        }
+      }
+
+      function cleanOptionText(raw) {
+        return String(raw == null ? "" : raw).replace(/^\s*\(?[A-D]\)?[.):]\s+/i, "").trim();
+      }
+
+      function normalizeDictWord(raw) {
+        return String(raw == null ? "" : raw)
+          .toLowerCase()
+          .replace(/[’‘`]/g, "'")
+          .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "")
+          .trim();
+      }
+
+      function wrapWordsMarkup(rawText) {
+        var str = String(rawText == null ? "" : rawText);
+        if (!str) return "";
+        var re = /[\u00C0-\u1EF9A-Za-z]+(?:['’-][\u00C0-\u1EF9A-Za-z]+)*/g;
+        var asciiWordRe = /^[A-Za-z]{2,}(?:['’-][A-Za-z]+)*$/;
+        var out = "";
+        var lastIdx = 0;
+        var m;
+        var cls = dictModeEnabled ? "rd-w tap-word" : "rd-w";
+        var extraAttr = dictModeEnabled ? ' role="button" tabindex="0"' : "";
+        while ((m = re.exec(str)) !== null) {
+          if (m.index > lastIdx) {
+            out += esc(str.slice(lastIdx, m.index));
+          }
+          var token = m[0];
+          if (asciiWordRe.test(token)) {
+            var norm = token.toLowerCase().replace(/’/g, "'");
+            out += '<span class="' + cls + '" data-word="' + esc(norm) + '"' + extraAttr + '>' + esc(token) + '</span>';
+          } else {
+            out += esc(token);
+          }
+          lastIdx = m.index + token.length;
+        }
+        if (lastIdx < str.length) {
+          out += esc(str.slice(lastIdx));
+        }
+        return out;
+      }
+
+      function renderPassageText(rawText, isPart6) {
+        var str = String(rawText == null ? "" : rawText);
+        if (!str) return "";
+        if (!isPart6) return wrapWordsMarkup(str);
+        var parts = str.split(/(\[\d+\])/g);
+        var out = "";
+        for (var i = 0; i < parts.length; i++) {
+          var seg = parts[i];
+          var bm = /^\[(\d+)\]$/.exec(seg);
+          if (bm) {
+            var num = Number(bm[1]);
+            out += buildP6ChipHtml(num);
+          } else if (seg) {
+            out += wrapWordsMarkup(seg);
+          }
+        }
+        return out;
+      }
+
+      function findQIdxByNum(num) {
+        if (!activeDrill || !Array.isArray(activeDrill.questions)) return -1;
+        var qs = activeDrill.questions;
+        for (var i = 0; i < qs.length; i++) {
+          if (Number(qs[i].num) === Number(num)) return i;
+        }
+        if (num >= 1 && num <= qs.length) return num - 1;
+        return -1;
+      }
+
+      function buildP6ChipHtml(num) {
+        var qIdx = findQIdxByNum(num);
+        var q = (qIdx >= 0 && activeDrill && activeDrill.questions) ? activeDrill.questions[qIdx] : null;
+        var chosen = qIdx >= 0 ? answers[qIdx] : undefined;
+        var cls = "p6-blank-chip";
+        var ansLabel = "";
+        if (typeof chosen === "number") {
+          ansLabel = ' <span class="p6-chip-ans">' + (LETTERS[chosen] || "") + '</span>';
+          if (graded && q) {
+            cls += (chosen === Number(q.ans)) ? " is-correct" : " is-wrong";
+          } else {
+            cls += " is-answered";
+          }
+        } else if (graded && q) {
+          cls += " is-wrong";
+          ansLabel = ' <span class="p6-chip-ans">' + (LETTERS[Number(q.ans)] || "") + '</span>';
+        }
+        return '<button type="button" class="' + cls + '" data-jump-q="' + num + '" data-p6-blank="' + num + '" title="Nhảy tới Câu ' + num + '">[' + num + ']' + ansLabel + '</button>';
+      }
+
+      function syncP6BlankChips() {
+        if (!activeDrill || activeDrill.part !== "part6" || !contentEl) return;
+        var chips = contentEl.querySelectorAll(".p6-blank-chip[data-p6-blank]");
+        for (var i = 0; i < chips.length; i++) {
+          var chip = chips[i];
+          var num = Number(chip.getAttribute("data-p6-blank"));
+          var qIdx = findQIdxByNum(num);
+          var q = qIdx >= 0 ? activeDrill.questions[qIdx] : null;
+          var chosen = qIdx >= 0 ? answers[qIdx] : undefined;
+          chip.classList.remove("is-answered", "is-correct", "is-wrong");
+          var ansText = "";
+          if (typeof chosen === "number") {
+            ansText = ' <span class="p6-chip-ans">' + (LETTERS[chosen] || "") + '</span>';
+            if (graded && q) {
+              chip.classList.add(chosen === Number(q.ans) ? "is-correct" : "is-wrong");
+            } else {
+              chip.classList.add("is-answered");
+            }
+          } else if (graded && q) {
+            chip.classList.add("is-wrong");
+            ansText = ' <span class="p6-chip-ans">' + (LETTERS[Number(q.ans)] || "") + '</span>';
+          }
+          chip.innerHTML = "[" + num + "]" + ansText;
+        }
+      }
+
+      /* ---------------- THEME & SIDEBAR CONTROLS ---------------- */
+      function syncDarkBtn() {
+        var btn = document.getElementById("btnReadingDark");
+        if (!btn) return;
+        var isDark = document.documentElement.classList.contains("dark");
+        if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+          window.S4UI.renderThemeButton(btn, isDark);
+        } else {
+          btn.innerHTML = svgIcon(isDark ? "sun" : "moon", 16);
+        }
+      }
+
+      window.toggleDark = function () {
+        if (typeof window.toggleDarkModeOnly === "function") {
+          window.toggleDarkModeOnly();
+        } else {
+          var isDark = !document.documentElement.classList.contains("dark");
+          document.documentElement.classList.toggle("dark", isDark);
+          if (document.body) document.body.classList.toggle("dark", isDark);
+          try { localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0"); } catch (e) {}
+          var s = localStorage.getItem("s4_theme_style") || "ghibli";
+          var mt = document.getElementById("metaThemeColor");
+          if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+        }
+        syncDarkBtn();
+      };
+
+      window.toggleMenu = function (open) {
+        if (window.S4UI && typeof window.S4UI.toggleSidebar === "function") {
+          var opened = window.S4UI.toggleSidebar(typeof open === "boolean" ? open : undefined);
+          var isMobile = window.innerWidth <= 1024;
+          document.body.classList.toggle("sidebar-open", isMobile && opened);
+          var mw = document.querySelector(".main-wrap");
+          if (mw && "inert" in mw) mw.inert = isMobile && opened;
+          return opened;
+        }
+        var isOpen = Boolean(open) && window.innerWidth <= 1024;
+        if (sidebarEl) sidebarEl.classList.toggle("open", isOpen);
+        document.body.classList.toggle("sidebar-open", isOpen);
+        var bd = document.getElementById("sidebarBackdrop");
+        if (bd) bd.classList.toggle("open", isOpen);
+        var mw2 = document.querySelector(".main-wrap");
+        if (mw2 && "inert" in mw2) mw2.inert = isOpen;
+        return isOpen;
+      };
+
+      /* ---------------- PROGRESS & STREAK ---------------- */
+      function recordReadingStreak(id, isDone) {
+        var rKey = "r_" + id;
+        try {
+          var days = safeReadJson(DAYS_KEY, {});
+          if (isDone) {
+            var now = new Date();
+            var today = now.getFullYear() + "-" + pad2(now.getMonth() + 1) + "-" + pad2(now.getDate());
+            var arr = Array.isArray(days[today]) ? days[today] : [];
+            if (arr.indexOf(rKey) === -1) arr.push(rKey);
+            days[today] = arr;
+            localStorage.setItem(DAYS_KEY, JSON.stringify(days));
+          } else {
+            var changed = false;
+            Object.keys(days).forEach(function (dateKey) {
+              if (Array.isArray(days[dateKey]) && days[dateKey].indexOf(rKey) !== -1) {
+                days[dateKey] = days[dateKey].filter(function (x) { return x !== rKey; });
+                if (days[dateKey].length === 0) delete days[dateKey];
+                changed = true;
+              }
+            });
+            if (changed) localStorage.setItem(DAYS_KEY, JSON.stringify(days));
+          }
+        } catch (e) {}
+      }
+
+      function setLessonDone(id, forceState, silentToast) {
+        if (!id) return;
+        var next = typeof forceState === "boolean" ? forceState : !completedMap[id];
+        if (next) completedMap[id] = true;
+        else delete completedMap[id];
+        try { localStorage.setItem(DONE_KEY, JSON.stringify(completedMap)); } catch (e) {}
+        recordReadingStreak(id, next);
+        if (window.S4Auth && typeof window.S4Auth.scheduleCloudSync === "function") {
+          try { window.S4Auth.scheduleCloudSync(); } catch (e) {}
+        }
+        updateProgressUI();
+        renderSidebar();
+        syncDoneButtons(id);
+        if (!silentToast) {
+          showToast(next ? "success" : "info", next ? "Đã đánh dấu hoàn thành bộ đọc!" : "Đã bỏ đánh dấu hoàn thành.");
+        }
+      }
+
+      function syncDoneButtons(id) {
+        if (id !== activeId) return;
+        var isDone = Boolean(completedMap[id]);
+        var html = isDone
+          ? (svgIcon("check", 14) + "<span>Đã hoàn thành</span>")
+          : (svgIcon("target", 14) + "<span>Đánh dấu hoàn thành</span>");
+        ["btnToggleDone", "btnFooterDone"].forEach(function (btnId) {
+          var el = document.getElementById(btnId);
+          if (el) {
+            el.classList.toggle("completed", isDone);
+            el.innerHTML = html;
+          }
+        });
+      }
+
+      function updateProgressUI() {
+        var total = ALL_LESSONS.length || 42;
+        var done = ALL_LESSONS.filter(function (x) { return Boolean(completedMap[x.id]); }).length;
+        var pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+        var badge = document.getElementById("sidebarProgBadge");
+        var bar = document.getElementById("sidebarProgBar");
+        if (badge) badge.textContent = done + "/" + total;
+        if (bar) bar.style.width = pct + "%";
+      }
+
+      /* ---------------- COUNTDOWN TIMER ENGINE ---------------- */
+      function stopTimerLoop() {
+        timerRunning = false;
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+      }
+
+      function getDefaultMinutes(drill) {
+        if (drill && Number(drill.timeLimitMin) > 0) return Number(drill.timeLimitMin);
+        var p = drill ? drill.part : "";
+        if (p === "part5") return 4;
+        if (p === "part6") return 8;
+        if (p === "part7t") return 12;
+        return 10;
+      }
+
+      function initTimerForDrill(drill, autoStart) {
+        stopTimerLoop();
+        var mins = getDefaultMinutes(drill);
+        timerLimitSec = mins * 60;
+        timerRemainSec = timerLimitSec;
+        timerElapsedSec = 0;
+        timerFree = false;
+        timerWarnNotified = false;
+        if (autoStart) startTimer();
+        else updateTimerUI();
+      }
+
+      function startTimer() {
+        if (timerRunning) return;
+        if (!timerFree && timerRemainSec <= 0) {
+          timerRemainSec = timerLimitSec;
+        }
+        timerRunning = true;
+        timerInterval = setInterval(function () {
+          if (!timerRunning) return;
+          timerElapsedSec++;
+          if (!timerFree && timerLimitSec > 0) {
+            timerRemainSec = Math.max(0, timerRemainSec - 1);
+            if (timerRemainSec === 0) {
+              stopTimerLoop();
+              if (!timerWarnNotified) {
+                timerWarnNotified = true;
+                showToast("warn", "Đã hết thời gian gợi ý! Bạn có thể nộp bài để xem điểm và giải thích.", 3400);
+              }
+            }
+          }
+          updateTimerUI();
+        }, 1000);
+        updateTimerUI();
+      }
+
+      function pauseTimer() {
+        stopTimerLoop();
+        updateTimerUI();
+      }
+
+      function toggleTimerRunning() {
+        if (timerRunning) pauseTimer();
+        else startTimer();
+      }
+
+      function resetTimer() {
+        stopTimerLoop();
+        timerRemainSec = timerLimitSec;
+        timerElapsedSec = 0;
+        timerWarnNotified = false;
+        startTimer();
+      }
+
+      function toggleTimerFreeMode() {
+        timerFree = !timerFree;
+        if (timerFree) {
+          if (!timerRunning && !graded) startTimer();
+        } else {
+          if (timerRemainSec <= 0) timerRemainSec = timerLimitSec;
+        }
+        updateTimerUI();
+      }
+
+      function updateTimerUI() {
+        var box = document.getElementById("cbtTimerBox");
+        var txt = document.getElementById("cbtTimerText");
+        var btnToggle = document.getElementById("btnTimerToggle");
+        var btnFree = document.getElementById("btnTimerFree");
+        if (txt) {
+          txt.textContent = timerFree ? ("Tự do " + formatClock(timerElapsedSec)) : formatClock(timerRemainSec);
+        }
+        if (box) {
+          var isDanger = !timerFree && timerLimitSec > 0 && timerRemainSec <= 60;
+          var isWarn = !timerFree && timerLimitSec > 0 && !isDanger && timerRemainSec <= Math.ceil(timerLimitSec * 0.25);
+          box.classList.toggle("is-free", timerFree);
+          box.classList.toggle("is-warn", isWarn);
+          box.classList.toggle("is-danger", isDanger);
+        }
+        if (btnToggle) {
+          btnToggle.innerHTML = timerRunning
+            ? (svgIcon("pause", 12) + '<span class="cbt-tb-hide-xs">Tạm dừng</span>')
+            : (svgIcon("play", 12) + '<span class="cbt-tb-hide-xs">Bắt đầu</span>');
+          btnToggle.title = timerRunning ? "Tạm dừng đồng hồ" : "Bắt đầu đếm giờ";
+        }
+        if (btnFree) {
+          btnFree.classList.toggle("active", timerFree);
+          btnFree.setAttribute("aria-pressed", timerFree ? "true" : "false");
+        }
+      }
+
+      /* ---------------- SIDEBAR FILTERING & RENDERING ---------------- */
+      function matchesLesson(l, q) {
+        if (!q) return true;
+        var genreStr = Array.isArray(l.genres)
+          ? l.genres.map(function (g) { return g + " " + (GENRE_LABELS[g] || ""); }).join(" ")
+          : "";
+        var hay = [
+          l.id, "bo " + l.order, "bai " + l.order, l.title, l.subtitle, l.part, l.partLabel, genreStr
+        ].join(" ");
+        if (window.S4UI && typeof window.S4UI.matchesSearch === "function") {
+          return window.S4UI.matchesSearch(hay, q);
+        }
+        return hay.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+      }
+
+      function getFilteredLessons() {
+        var q = currentSearchQuery.trim();
+        return ALL_LESSONS.filter(function (l) {
+          if (currentLevelFilter > 0 && Number(l.level) !== currentLevelFilter) return false;
+          if (currentPartFilter !== "all" && String(l.part || "").toLowerCase() !== currentPartFilter) return false;
+          return matchesLesson(l, q);
+        });
+      }
+
+      function renderFilterTabs() {
+        if (levelTabsEl) {
+          var lvTabs = [
+            { lv: 0, label: "Tất cả" },
+            { lv: 1, label: "0–350" },
+            { lv: 2, label: "350–550" },
+            { lv: 3, label: "550–750" },
+            { lv: 4, label: "750–990" }
+          ];
+          levelTabsEl.innerHTML = lvTabs.map(function (t) {
+            var active = currentLevelFilter === t.lv ? " active" : "";
+            return '<button type="button" class="level-tab' + active + '" data-lv="' + t.lv + '" role="tab" aria-selected="' + (currentLevelFilter === t.lv ? "true" : "false") + '">' + t.label + '</button>';
+          }).join("");
+        }
+        if (partTabsEl) {
+          partTabsEl.innerHTML = PART_FILTERS.map(function (p) {
+            var active = currentPartFilter === p.id ? " active" : "";
+            return '<button type="button" class="part-tab' + active + '" data-part="' + p.id + '" role="tab" aria-selected="' + (currentPartFilter === p.id ? "true" : "false") + '">' + p.label + '</button>';
+          }).join("");
+        }
+      }
+
+      function clearFilters() {
+        currentLevelFilter = 0;
+        currentPartFilter = "all";
+        currentSearchQuery = "";
+        if (searchInput) {
+          searchInput.value = "";
+          if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") {
+            window.S4UI.syncSearchClear(searchInput);
+          }
+        }
+        renderSidebar();
+      }
+
+      function renderSidebar() {
+        renderFilterTabs();
+        updateProgressUI();
+        if (!listEl) return;
+
+        var filtered = getFilteredLessons();
+        var q = currentSearchQuery.trim();
+
+        if (!filtered.length) {
+          listEl.innerHTML = '<div class="s4-empty-state" style="margin-top:8px;padding:24px 12px;">'
+            + '<div style="color:var(--lg-ink-muted);">' + svgIcon("search", 26) + '</div>'
+            + '<div style="font-size:13.5px;font-weight:800;color:var(--lg-ink);">Không tìm thấy bộ đọc phù hợp</div>'
+            + (q ? '<div style="font-size:12px;">Từ khóa "<strong>' + esc(q) + '</strong>" không khớp bộ nào.</div>' : "")
+            + '<button type="button" class="s4-pz-clear-chip" id="btnClearSearchEmpty">' + svgIcon("close", 12) + '<span>Xóa bộ lọc</span></button>'
+            + '</div>';
+          var clrBtn = document.getElementById("btnClearSearchEmpty");
+          if (clrBtn) clrBtn.addEventListener("click", clearFilters);
+          return;
+        }
+
+        var byLevel = new Map();
+        filtered.forEach(function (l) {
+          var lv = Number(l.level) || 1;
+          if (!byLevel.has(lv)) byLevel.set(lv, []);
+          byLevel.get(lv).push(l);
+        });
+
+        var html = "";
+        [1, 2, 3, 4].forEach(function (lv) {
+          var items = byLevel.get(lv);
+          if (!items || !items.length) return;
+          var meta = LEVEL_META[lv] || LEVEL_META[1];
+          var doneCount = items.filter(function (x) { return Boolean(completedMap[x.id]); }).length;
+          var isOpen = Boolean(q) || currentLevelFilter === lv || currentPartFilter !== "all" || openLevels.has(lv);
+          var isFull = doneCount === items.length && items.length > 0;
+
+          html += '<div class="unit-group' + (isOpen ? " open" : "") + '" data-unit-lv="' + lv + '">'
+            + '<div class="unit-header" data-toggle-unit="' + lv + '">'
+            +   '<div class="unit-header-top">'
+            +     '<span class="unit-name">' + esc(meta.title) + '</span>'
+            +     '<span class="unit-meta' + (isFull ? " is-full" : "") + '">' + svgIcon(isOpen ? "chevronDown" : "chevronRight", 13) + '</span>'
+            +   '</div>'
+            +   '<span class="unit-meta' + (isFull ? " is-full" : "") + '">' + doneCount + '/' + items.length + ' bộ</span>'
+            + '</div>'
+            + '<div class="unit-items">'
+            + items.map(function (l) {
+                var isAct = l.id === activeId;
+                var isDone = Boolean(completedMap[l.id]);
+                var qCnt = Number(l.questionCount) || 0;
+                var pCnt = Number(l.passageCount) || 0;
+                var mins = Number(l.timeLimitMin) || 0;
+                return '<button type="button" class="lesson-item' + (isAct ? " active" : "") + '" data-lesson-id="' + esc(l.id) + '">'
+                  + '<span class="lesson-item-left">'
+                  +   '<span class="lesson-num">' + pad2(l.order) + '</span>'
+                  +   '<span class="lesson-item-body">'
+                  +     '<span class="lesson-item-title">' + esc(l.title) + '</span>'
+                  +     '<span class="lesson-item-sub">'
+                  +       '<span>' + esc(l.partLabel || l.part) + '</span>'
+                  +       (qCnt > 0 ? '<span class="sb-mini-badge">' + qCnt + ' câu</span>' : '')
+                  +       (pCnt > 0 ? '<span class="sb-mini-badge">' + pCnt + ' đoạn</span>' : '')
+                  +       (mins > 0 ? '<span>' + mins + 'p</span>' : '')
+                  +     '</span>'
+                  +   '</span>'
+                  + '</span>'
+                  + (isDone ? '<span class="done-dot" aria-label="Đã hoàn thành">' + svgIcon("check", 14) + '</span>' : '')
+                  + '</button>';
+              }).join("")
+            + '</div>'
+            + '</div>';
+        });
+
+        listEl.innerHTML = html;
+      }
+
+      /* ---------------- LAZY DRILL LOADER ---------------- */
+      function resolveDrillUrl(meta) {
+        var f = String((meta && meta.file) || "").trim();
+        if (!f) return "data/drills/" + encodeURIComponent(meta.id) + ".json";
+        if (/^(https?:|\/|data\/|\.\.?\/)/i.test(f)) return f;
+        return "data/" + f.replace(/^\/+/, "");
+      }
+
+      function fetchDrill(meta) {
+        if (!meta || !meta.id) return Promise.reject(new Error("Thiếu mã bộ đọc"));
+        if (drillCache.has(meta.id)) {
+          return Promise.resolve(drillCache.get(meta.id));
+        }
+        var url = resolveDrillUrl(meta);
+        return fetch(url, { cache: "default" }).then(function (resp) {
+          if (!resp.ok) throw new Error("HTTP " + resp.status);
+          return resp.json();
+        }).then(function (json) {
+          drillCache.set(meta.id, json);
+          return json;
+        });
+      }
+
+      function selectLesson(id, resetScroll) {
+        var meta = ALL_LESSONS.find(function (x) { return x.id === id; });
+        if (!meta) return;
+        stopTimerLoop();
+        hideHlPopover();
+        closeDictPopup();
+        activeId = meta.id;
+        activeDrill = null;
+        answers = {};
+        flagged = {};
+        graded = false;
+        dictModeEnabled = false;
+        activePassageTab = "all";
+        openLevels.add(Number(meta.level) || 1);
+        try { localStorage.setItem(LAST_KEY, meta.id); } catch (e) {}
+        renderSidebar();
+
+        if (mainScrollEl) mainScrollEl.classList.remove("is-split-mode");
+        if (contentEl) {
+          contentEl.className = "rd-shell lp-glass is-single cbt-font-" + cbtFontSize;
+          contentEl.innerHTML = '<div class="loading-state">'
+            + svgIcon("reading", 28)
+            + '<div>Đang nạp bộ đọc ' + esc(meta.title) + '...</div>'
+            + '</div>';
+        }
+        if (resetScroll !== false && mainScrollEl) mainScrollEl.scrollTop = 0;
+
+        var seq = ++fetchSeq;
+        fetchDrill(meta).then(function (drill) {
+          if (seq !== fetchSeq) return;
+          activeDrill = drill;
+          initTimerForDrill(drill, true);
+          renderLesson(resetScroll !== false);
+        }).catch(function (err) {
+          if (seq !== fetchSeq) return;
+          if (contentEl) {
+            contentEl.innerHTML = '<div class="loading-state">'
+              + svgIcon("alert", 28)
+              + '<div>Không tải được dữ liệu bộ đọc (' + esc(err && err.message ? err.message : "lỗi mạng") + ').</div>'
+              + '<button type="button" class="btn btn-primary" id="btnRetryDrill">' + svgIcon("refresh", 14) + '<span>Thử tải lại</span></button>'
+              + '</div>';
+            var retry = document.getElementById("btnRetryDrill");
+            if (retry) retry.addEventListener("click", function () { selectLesson(meta.id, false); });
+          }
+        });
+      }
+
+      /* ---------------- SCORE COMPUTATION ---------------- */
+      function computeScore(drill) {
+        var qs = Array.isArray(drill && drill.questions) ? drill.questions : [];
+        var total = qs.length, correct = 0, answered = 0, flagCount = 0;
+        for (var i = 0; i < qs.length; i++) {
+          var chosen = answers[i];
+          if (typeof chosen === "number") {
+            answered++;
+            if (chosen === Number(qs[i].ans)) correct++;
+          }
+          if (flagged[i]) flagCount++;
+        }
+        var pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+        return { correct: correct, total: total, answered: answered, pct: pct, flagCount: flagCount };
+      }
+
+      /* ---------------- PASSAGE RENDERER ---------------- */
+      function genreIconName(genre) {
+        if (genre === "email") return "mail";
+        if (genre === "chat") return "chat";
+        if (genre === "table") return "table";
+        if (genre === "review") return "star";
+        return "fileText";
+      }
+
+      function renderDocTable(tbl, isPart6) {
+        if (!tbl || (!Array.isArray(tbl.headers) && !Array.isArray(tbl.rows))) return "";
+        var headers = Array.isArray(tbl.headers) ? tbl.headers : [];
+        var rows = Array.isArray(tbl.rows) ? tbl.rows : [];
+        var capHtml = tbl.caption ? '<div class="doc-table-caption">' + renderPassageText(tbl.caption, isPart6) + '</div>' : "";
+        var headHtml = headers.length
+          ? '<thead><tr>' + headers.map(function (h) { return '<th>' + renderPassageText(h, isPart6) + '</th>'; }).join("") + '</tr></thead>'
+          : "";
+        var bodyHtml = rows.length
+          ? '<tbody>' + rows.map(function (r) {
+              var cells = Array.isArray(r) ? r : [r];
+              return '<tr>' + cells.map(function (c) { return '<td>' + renderPassageText(c, isPart6) + '</td>'; }).join("") + '</tr>';
+            }).join("") + '</tbody>'
+          : "";
+        var noteHtml = tbl.note ? '<div class="doc-table-note">' + renderPassageText(tbl.note, isPart6) + '</div>' : "";
+        return '<div class="doc-table-wrap">'
+          + capHtml
+          + '<div class="doc-table-scroll"><table class="doc-table">' + headHtml + bodyHtml + '</table></div>'
+          + noteHtml
+          + '</div>';
+      }
+
+      function renderPassageCard(p, pIdx, isPart6) {
+        var genre = String((p && p.genre) || "notice").toLowerCase();
+        var genreLbl = GENRE_LABELS[genre] || genre.toUpperCase();
+        var genreCls = genre === "chat" ? " is-chat" : (genre === "table" ? " is-table" : (genre === "ad" ? " is-ad" : (genre === "review" ? " is-review" : "")));
+        var meta = (p && p.meta && typeof p.meta === "object") ? p.meta : {};
+        var isHidden = activePassageTab !== "all" && String(activePassageTab) !== String(pIdx);
+
+        var headerBlock = "";
+        if (genre === "email" || (genre === "memo" && (meta.to || meta.from || meta.subject))) {
+          var rows = [];
+          if (meta.from) rows.push({ k: "From:", v: meta.from });
+          if (meta.to) rows.push({ k: "To:", v: meta.to });
+          if (meta.cc) rows.push({ k: "Cc:", v: meta.cc });
+          if (meta.date) rows.push({ k: "Date:", v: meta.date });
+          if (meta.subject) rows.push({ k: genre === "memo" ? "Re:" : "Subject:", v: meta.subject, subj: true });
+          if (meta.title && !meta.subject) rows.push({ k: "Title:", v: meta.title, subj: true });
+          if (rows.length) {
+            headerBlock = '<div class="doc-email-meta">'
+              + rows.map(function (r) {
+                  return '<span class="doc-meta-k">' + esc(r.k) + '</span>'
+                    + '<span class="doc-meta-v' + (r.subj ? " is-subj" : "") + '">' + renderPassageText(r.v, isPart6) + '</span>';
+                }).join("")
+              + '</div>';
+          }
+        } else {
+          var titleStr = meta.title || meta.subject || meta.product || meta.channel || "";
+          var subBits = [];
+          if (meta.subtitle) subBits.push(meta.subtitle);
+          if (meta.author) subBits.push("By " + meta.author);
+          if (meta.reviewer) subBits.push("Reviewer: " + meta.reviewer);
+          if (meta.from && !meta.to) subBits.push(meta.from);
+          if (meta.source) subBits.push(meta.source);
+          if (meta.date) subBits.push(meta.date);
+          var ratingNum = Number(meta.rating || 0);
+          var starsHtml = "";
+          if (ratingNum > 0 && ratingNum <= 5) {
+            starsHtml = '<div class="doc-stars" aria-label="' + ratingNum + '/5 sao">';
+            for (var s = 0; s < 5; s++) {
+              starsHtml += '<svg width="13" height="13" viewBox="0 0 24 24" fill="' + (s < ratingNum ? "currentColor" : "none") + '" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+            }
+            starsHtml += '</div>';
+          }
+          if (titleStr || subBits.length || starsHtml) {
+            headerBlock = '<div class="doc-head-block">'
+              + (titleStr ? '<h3 class="doc-title">' + renderPassageText(titleStr, isPart6) + '</h3>' : '')
+              + (subBits.length ? '<div class="doc-sub">' + renderPassageText(subBits.join(" • "), isPart6) + '</div>' : '')
+              + starsHtml
+              + '</div>';
+          }
+          if (genre === "letter" && (meta.to || meta.from || meta.address)) {
+            var lRows = [];
+            if (meta.from) lRows.push({ k: "From:", v: meta.from });
+            if (meta.to) lRows.push({ k: "To:", v: meta.to });
+            if (meta.address) lRows.push({ k: "Address:", v: meta.address });
+            if (lRows.length) {
+              headerBlock += '<div class="doc-email-meta">'
+                + lRows.map(function (r) {
+                    return '<span class="doc-meta-k">' + esc(r.k) + '</span><span class="doc-meta-v">' + renderPassageText(r.v, isPart6) + '</span>';
+                  }).join("")
+                + '</div>';
+            }
+          }
+        }
+
+        // Chat Messages
+        var chatHtml = "";
+        if (Array.isArray(p.messages) && p.messages.length) {
+          var senders = [];
+          chatHtml = '<div class="chat-list">' + p.messages.map(function (msg) {
+            var snd = String(msg.sender || "Staff");
+            if (senders.indexOf(snd) === -1) senders.push(snd);
+            var altCls = (senders.indexOf(snd) % 2 === 1) ? " is-alt" : "";
+            return '<div class="chat-bubble' + altCls + '">'
+              + '<div class="chat-meta">'
+              +   '<span class="chat-sender">' + esc(snd) + '</span>'
+              +   (msg.time ? '<span class="chat-time">' + esc(msg.time) + '</span>' : '')
+              + '</div>'
+              + '<div class="chat-text">' + renderPassageText(msg.text || "", isPart6) + '</div>'
+              + '</div>';
+          }).join("") + '</div>';
+        }
+
+        // Paragraphs
+        var parasHtml = "";
+        if (Array.isArray(p.paragraphs) && p.paragraphs.length) {
+          parasHtml = p.paragraphs.map(function (para) {
+            return '<p class="doc-p">' + renderPassageText(para, isPart6) + '</p>';
+          }).join("");
+        }
+
+        // Embedded or Standalone Table
+        var tableHtml = p.table ? renderDocTable(p.table, isPart6) : "";
+
+        return '<article class="passage-card genre-' + esc(genre) + (isHidden ? " is-hidden" : "") + '" id="passage_' + esc(p.pid || ("p" + (pIdx + 1))) + '" data-p-idx="' + pIdx + '">'
+          + '<div class="passage-card-bar">'
+          +   '<span class="passage-bar-left">' + svgIcon(genreIconName(genre), 14) + '<span>' + esc(p.label || ("Văn bản " + (pIdx + 1))) + '</span></span>'
+          +   '<span class="genre-badge' + genreCls + '">' + esc(genreLbl) + '</span>'
+          + '</div>'
+          + '<div class="passage-body">'
+          +   headerBlock
+          +   chatHtml
+          +   parasHtml
+          +   tableHtml
+          + '</div>'
+          + '</article>';
+      }
+
+      /* ---------------- SCORE BANNER & PARAPHRASE TABLE ---------------- */
+      function renderScoreAndParaphraseHtml(drill, scoreInfo) {
+        if (!graded || !drill) return "";
+        var passed = scoreInfo.pct >= 70;
+        var bannerHtml = '<div class="score-banner ' + (passed ? "is-pass" : "is-retry") + '" id="drillScoreBanner">'
+          + '<span style="flex-shrink:0;margin-top:1px;">' + svgIcon(passed ? "award" : "alert", 19) + '</span>'
+          + '<div style="flex:1;min-width:0;">'
+          +   '<div>Kết quả: ' + scoreInfo.correct + '/' + scoreInfo.total + ' câu đúng (' + scoreInfo.pct + '%) • Thời gian: ' + formatClock(timerElapsedSec)
+          +     (passed ? ' — Đạt chuẩn hoàn thành!' : ' — Cần >= 70% để hoàn thành')
+          +   '</div>'
+          +   '<div class="score-banner-sub">Đã mở 100% giải thích tiếng Việt'
+          +     (Array.isArray(drill.paraphrases) && drill.paraphrases.length ? ', Bảng Paraphrase' : '')
+          +     ' &amp; bật chế độ Tra từ (chạm vào từ tiếng Anh trong văn bản để xem nghĩa).</div>'
+          + '</div>'
+          + '</div>';
+
+        var paraHtml = "";
+        var paras = Array.isArray(drill.paraphrases) ? drill.paraphrases : [];
+        if (paras.length) {
+          paraHtml = '<section class="para-card" id="paraphraseCard" aria-label="Bảng đối chiếu từ khóa Paraphrase">'
+            + '<div class="para-head">'
+            +   '<span class="para-title">' + svgIcon("layers", 15) + '<span>Bảng Đối chiếu Từ khóa Paraphrase</span></span>'
+            +   '<span class="meta-pill is-part">' + paras.length + ' cặp</span>'
+            + '</div>'
+            + '<table class="para-table">'
+            +   '<thead><tr><th>Trong Văn bản</th><th>Trong Đáp án</th><th>Nghĩa tiếng Việt</th></tr></thead>'
+            +   '<tbody>'
+            +   paras.map(function (pr) {
+                  return '<tr>'
+                    + '<td data-label="Văn bản" class="para-en-src">' + wrapWordsMarkup(pr.text || "") + '</td>'
+                    + '<td data-label="Đáp án" class="para-en-ans">' + wrapWordsMarkup(pr.answer || "") + '</td>'
+                    + '<td data-label="Nghĩa Việt" class="rd-para-vi">' + esc(pr.vi || "") + '</td>'
+                    + '</tr>';
+                }).join("")
+            +   '</tbody>'
+            + '</table>'
+            + '</section>';
+        }
+
+        return bannerHtml + paraHtml;
+      }
+
+      /* ---------------- QUESTION CARDS & MINI PALETTE ---------------- */
+      function renderPaletteHtml(drill, scoreInfo) {
+        var qs = Array.isArray(drill.questions) ? drill.questions : [];
+        var pills = qs.map(function (q, qIdx) {
+          var num = Number(q.num) || (qIdx + 1);
+          var cls = "q-pal-btn";
+          var chosen = answers[qIdx];
+          if (graded) {
+            cls += (chosen === Number(q.ans)) ? " is-correct" : " is-wrong";
+          } else if (typeof chosen === "number") {
+            cls += " is-answered";
+          }
+          if (flagged[qIdx]) cls += " is-flagged";
+          return '<button type="button" class="' + cls + '" data-jump-q="' + num + '" data-pal-idx="' + qIdx + '" title="Câu ' + num + (flagged[qIdx] ? ' (Đang cắm cờ)' : '') + '">' + num + '</button>';
+        }).join("");
+
+        return '<div class="cbt-palette-bar" id="cbtPaletteBar">'
+          + '<div class="pal-left"><span class="pal-label">Câu:</span>' + pills + '</div>'
+          + '<span class="pal-stat" id="palStatText">Đã chọn ' + scoreInfo.answered + '/' + scoreInfo.total
+          +   (scoreInfo.flagCount > 0 ? (' • ' + scoreInfo.flagCount + ' cờ') : '')
+          + '</span>'
+          + '</div>';
+      }
+
+      function renderQuestionPrompt(rawPrompt, qIdx, q) {
+        var str = String(rawPrompt || "");
+        if (activeDrill && activeDrill.part === "part6") {
+          return esc(str);
+        }
+        if (str.indexOf("_____") === -1) {
+          return wrapWordsMarkup(str);
+        }
+        var chosen = answers[qIdx];
+        var opts = Array.isArray(q.opts) ? q.opts : [];
+        var fillText = (typeof chosen === "number" && opts[chosen]) ? cleanOptionText(opts[chosen]) : "_____";
+        var chunks = str.split("_____");
+        return chunks.map(function (ch) { return wrapWordsMarkup(ch); })
+          .join('<span class="q-blank-slot" data-blank-slot="' + qIdx + '">' + esc(fillText) + '</span>');
+      }
+
+      function renderQuestionCardsHtml(drill) {
+        var qs = Array.isArray(drill.questions) ? drill.questions : [];
+        var passages = Array.isArray(drill.passages) ? drill.passages : [];
+        return '<div class="q-list" id="questionList">' + qs.map(function (q, qIdx) {
+          var num = Number(q.num) || (qIdx + 1);
+          var chosen = answers[qIdx];
+          var isFlagged = Boolean(flagged[qIdx]);
+          var isRight = graded && chosen === Number(q.ans);
+          var cardCls = "q-card"
+            + (isFlagged ? " is-flagged" : "")
+            + (graded ? (isRight ? " is-graded-right" : " is-graded-wrong") : "");
+
+          var tagTxt = String(q.tag || "").trim();
+          var isCrossTag = /nối chéo|điền câu|suy luận/i.test(tagTxt);
+
+          var passageRefHtml = "";
+          if (q.passageId && passages.length > 1) {
+            var pMatchIdx = passages.findIndex(function (p) { return p.pid === q.passageId; });
+            if (pMatchIdx >= 0) {
+              passageRefHtml = '<button type="button" class="q-passage-ref" data-jump-passage="' + pMatchIdx + '" title="Mở Văn bản ' + (pMatchIdx + 1) + '">VB ' + (pMatchIdx + 1) + '</button>';
+            }
+          }
+
+          var opts = Array.isArray(q.opts) ? q.opts.slice(0, 4) : [];
+          var optsHtml = opts.map(function (opt, oIdx) {
+            var oCls = "q-opt";
+            if (!graded && chosen === oIdx) oCls += " selected";
+            if (graded) {
+              if (oIdx === Number(q.ans)) oCls += " correct";
+              else if (chosen === oIdx && oIdx !== Number(q.ans)) oCls += " wrong";
+            }
+            return '<button type="button" class="' + oCls + '" data-pick-q="' + qIdx + '" data-pick-opt="' + oIdx + '"' + (graded ? " disabled" : "") + '>'
+              + '<span class="q-opt-letter">' + LETTERS[oIdx] + '</span>'
+              + '<span>' + wrapWordsMarkup(cleanOptionText(opt)) + '</span>'
+              + '</button>';
+          }).join("");
+
+          var expHtml = "";
+          if (graded) {
+            var ansLetter = LETTERS[Number(q.ans)] || "A";
+            expHtml = '<div class="q-exp-box ' + (isRight ? "is-ok" : "is-err") + '">'
+              + '<div class="q-exp-head">' + svgIcon(isRight ? "check" : "info", 13)
+              +   '<span>' + (isRight ? ("Chính xác • Đáp án (" + ansLetter + ")") : ("Đáp án đúng: (" + ansLetter + ")")) + '</span>'
+              + '</div>'
+              + '<div>' + esc(q.exp || "") + '</div>'
+              + '</div>';
+          }
+
+          return '<article class="' + cardCls + '" id="qCard_' + num + '" data-q-idx="' + qIdx + '">'
+            + '<div class="q-card-head">'
+            +   '<div class="q-head-left">'
+            +     '<span class="q-num-pill">Câu ' + num + '</span>'
+            +     (tagTxt ? '<span class="q-tag-pill' + (isCrossTag ? " is-cross" : "") + '">' + esc(tagTxt) + '</span>' : '')
+            +     passageRefHtml
+            +   '</div>'
+            +   '<button type="button" class="q-flag-btn' + (isFlagged ? " is-flagged" : "") + '" data-flag-q="' + qIdx + '" aria-pressed="' + (isFlagged ? "true" : "false") + '" title="Cắm cờ xem lại câu ' + num + '">'
+            +     svgIcon("flag", 12)
+            +     '<span>' + (isFlagged ? "Đã cắm cờ" : "Xem lại") + '</span>'
+            +   '</button>'
+            + '</div>'
+            + '<div class="q-prompt">' + renderQuestionPrompt(q.q, qIdx, q) + '</div>'
+            + '<div class="quiz-opts">' + optsHtml + '</div>'
+            + expHtml
+            + '</article>';
+        }).join("") + '</div>';
+      }
+
+      /* ---------------- MAIN LESSON RENDER ---------------- */
+      function renderLesson(resetScroll) {
+        if (!contentEl) return;
+        if (!activeDrill) {
+          if (!ALL_LESSONS.length) {
+            contentEl.innerHTML = '<div class="loading-state">Chưa có danh mục bộ Luyện Đọc TOEIC.</div>';
+          }
+          return;
+        }
+        var d = activeDrill;
+        var idx = ALL_LESSONS.findIndex(function (x) { return x.id === d.id; });
+        var lv = Number(d.level) || 1;
+        var lvMeta = LEVEL_META[lv] || LEVEL_META[1];
+        var isDone = Boolean(completedMap[d.id]);
+        var prevLesson = idx > 0 ? ALL_LESSONS[idx - 1] : null;
+        var nextLesson = (idx >= 0 && idx < ALL_LESSONS.length - 1) ? ALL_LESSONS[idx + 1] : null;
+        var passages = Array.isArray(d.passages) ? d.passages : [];
+        var isSplit = passages.length > 0;
+        var isPart6 = d.part === "part6";
+        var scoreInfo = computeScore(d);
+
+        if (mainScrollEl) mainScrollEl.classList.toggle("is-split-mode", isSplit);
+        contentEl.className = "rd-shell lp-glass " + (isSplit ? "is-split" : "is-single") + " cbt-font-" + cbtFontSize;
+
+        var doneBtnContent = isDone
+          ? (svgIcon("check", 14) + '<span>Đã hoàn thành</span>')
+          : (svgIcon("target", 14) + '<span>Đánh dấu hoàn thành</span>');
+
+        var toolbarHtml =
+          '<div class="cbt-toolbar">'
+          + '<div class="cbt-tb-group">'
+          +   '<span class="cbt-timer-pill" id="cbtTimerBox">' + svgIcon("clock", 14) + '<span id="cbtTimerText">' + formatClock(timerRemainSec) + '</span></span>'
+          +   '<button type="button" class="btn btn-xs" id="btnTimerToggle">' + svgIcon(timerRunning ? "pause" : "play", 12) + '<span class="cbt-tb-hide-xs">' + (timerRunning ? "Tạm dừng" : "Bắt đầu") + '</span></button>'
+          +   '<button type="button" class="btn btn-xs btn-icon-only" id="btnTimerReset" title="Đặt lại đồng hồ" aria-label="Đặt lại đồng hồ">' + svgIcon("refresh", 12) + '</button>'
+          +   '<button type="button" class="btn btn-xs btn-teal' + (timerFree ? " active" : "") + '" id="btnTimerFree" title="Tắt giới hạn thời gian" aria-pressed="' + (timerFree ? "true" : "false") + '">' + svgIcon("infinity", 12) + '<span>Tự do</span></button>'
+          + '</div>'
+          + '<div class="cbt-tb-group">'
+          +   '<button type="button" class="btn btn-xs btn-teal' + (dictModeEnabled ? " active" : "") + '" id="btnToggleDictMode" aria-pressed="' + (dictModeEnabled ? "true" : "false") + '" title="Bật/tắt chạm tra từ điển TOEIC trong văn bản">'
+          +     svgIcon("search", 12) + '<span>Tra từ</span>'
+          +   '</button>'
+          +   (isSplit ? '<button type="button" class="btn btn-xs hl-clear-btn" id="btnClearAllHl" title="Xóa toàn bộ Highlight">' + svgIcon("brush", 12) + '<span id="hlCountLbl">0</span></button>' : '')
+          +   '<div class="seg-pills" role="group" aria-label="Cỡ chữ đọc">'
+          +     '<button type="button" class="seg-pill' + (cbtFontSize === "sm" ? " active" : "") + '" data-set-font="sm">A-</button>'
+          +     '<button type="button" class="seg-pill' + (cbtFontSize === "md" ? " active" : "") + '" data-set-font="md">A</button>'
+          +     '<button type="button" class="seg-pill' + (cbtFontSize === "lg" ? " active" : "") + '" data-set-font="lg">A+</button>'
+          +   '</div>'
+          + '</div>'
+          + '</div>';
+
+        var mobSwitcherHtml = isSplit
+          ? '<div class="cbt-mob-switcher" role="tablist" aria-label="Chế độ xem trên di động">'
+            + '<button type="button" class="cbt-mob-tab' + (cbtMobileView === "split" ? " active" : "") + '" data-mob-view="split">' + svgIcon("split", 13) + '<span>Chia đôi</span></button>'
+            + '<button type="button" class="cbt-mob-tab' + (cbtMobileView === "left" ? " active" : "") + '" data-mob-view="left">' + svgIcon("fileText", 13) + '<span>Văn bản</span></button>'
+            + '<button type="button" class="cbt-mob-tab' + (cbtMobileView === "right" ? " active" : "") + '" data-mob-view="right">' + svgIcon("listChecks", 13) + '<span>Câu hỏi</span></button>'
+            + '</div>'
+          : "";
+
+        var headerHtml =
+          '<div class="cbt-head">'
+          + '<div class="cbt-head-top">'
+          +   '<div class="cbt-title-block">'
+          +     '<div class="cbt-meta-row">'
+          +       '<span class="meta-pill is-stage">' + esc(lvMeta.shortName) + '</span>'
+          +       '<span class="meta-pill is-part">' + esc(d.partLabel || d.part) + '</span>'
+          +       '<span class="meta-pill is-info">' + scoreInfo.total + ' câu' + (passages.length ? (' • ' + passages.length + ' văn bản') : '') + '</span>'
+          +       '<span class="meta-pill is-order">Bộ ' + pad2(d.order) + '/' + (ALL_LESSONS.length || 42) + '</span>'
+          +     '</div>'
+          +     '<h2 class="lesson-title">' + esc(d.title) + '</h2>'
+          +     (d.subtitle ? '<p class="lesson-subtitle">' + esc(d.subtitle) + '</p>' : '')
+          +   '</div>'
+          +   '<div class="cbt-head-right">'
+          +     '<button type="button" class="btn btn-sm btn-done' + (isDone ? " completed" : "") + '" id="btnToggleDone">' + doneBtnContent + '</button>'
+          +   '</div>'
+          + '</div>'
+          + toolbarHtml
+          + mobSwitcherHtml
+          + '</div>';
+
+        var tipHtml = d.tips
+          ? '<div class="read-tip-box">'
+            + '<div class="read-tip-ico" aria-hidden="true">' + svgIcon("lightbulb", 14) + '</div>'
+            + '<div style="flex:1;min-width:0;">'
+            +   '<div class="read-tip-lbl">Chiến lược đọc nhanh ETS</div>'
+            +   '<div class="read-tip-text">' + esc(d.tips) + '</div>'
+            + '</div>'
+            + '</div>'
+          : "";
+
+        var actionsFooterHtml =
+          '<div class="submit-bar">'
+          + '<div class="submit-bar-btns">'
+          +   '<button type="button" class="btn btn-primary" id="btnGradeDrill">' + svgIcon("check", 14) + '<span>Nộp bài &amp; Chấm điểm</span></button>'
+          +   '<button type="button" class="btn" id="btnResetDrill">' + svgIcon("refresh", 14) + '<span>Làm lại</span></button>'
+          + '</div>'
+          + '<span class="submit-hint">Đạt &ge; 70% tự động hoàn thành bộ đọc</span>'
+          + '</div>'
+          + '<div class="nav-footer lp-lesson-nav">'
+          +   (prevLesson ? '<button type="button" class="btn btn-sm" data-nav-id="' + esc(prevLesson.id) + '">' + svgIcon("arrowLeft", 13) + '<span>Bộ trước</span></button>' : '<div></div>')
+          +   '<button type="button" class="btn btn-sm btn-done' + (isDone ? " completed" : "") + '" id="btnFooterDone">' + doneBtnContent + '</button>'
+          +   (nextLesson ? '<button type="button" class="btn btn-sm btn-primary" data-nav-id="' + esc(nextLesson.id) + '"><span>Bộ tiếp</span>' + svgIcon("arrowRight", 13) + '</button>' : '<div></div>')
+          + '</div>';
+
+        if (isSplit) {
+          var passageTabsHtml = "";
+          if (passages.length >= 2) {
+            passageTabsHtml = '<div class="cbt-left-tabs" role="tablist" aria-label="Chọn nhanh văn bản">'
+              + '<button type="button" class="p-tab-btn' + (activePassageTab === "all" ? " active" : "") + '" data-passage-tab="all">Tất cả (' + passages.length + ')</button>'
+              + passages.map(function (p, pIdx) {
+                  return '<button type="button" class="p-tab-btn' + (String(activePassageTab) === String(pIdx) ? " active" : "") + '" data-passage-tab="' + pIdx + '">Văn bản ' + (pIdx + 1) + '</button>';
+                }).join("")
+              + '</div>';
+          }
+
+          var passagesHtml = '<div class="passage-stack">'
+            + passages.map(function (p, pIdx) { return renderPassageCard(p, pIdx, isPart6); }).join("")
+            + '</div>';
+
+          contentEl.innerHTML =
+            headerHtml
+            + '<div class="cbt-split mob-view-' + cbtMobileView + '" id="cbtSplitArea">'
+            +   '<section class="cbt-left" id="cbtLeftPane" style="--cbt-left-pct:' + cbtLeftPct + '%;" aria-label="Cột văn bản đọc hiểu">'
+            +     passageTabsHtml
+            +     '<div class="cbt-left-scroll" id="cbtLeftScroll">'
+            +       tipHtml
+            +       passagesHtml
+            +     '</div>'
+            +   '</section>'
+            +   '<div class="split-resizer" id="cbtResizer" role="separator" aria-orientation="vertical" aria-label="Kéo giãn tỷ lệ hai cột" tabindex="0" title="Kéo để chỉnh tỷ lệ cột (nhấp đúp để đặt lại)"></div>'
+            +   '<section class="cbt-right" id="cbtRightPane" aria-label="Cột câu hỏi và đáp án">'
+            +     renderPaletteHtml(d, scoreInfo)
+            +     '<div class="cbt-right-scroll" id="cbtRightScroll">'
+            +       '<div id="cbtResultsSlot">' + renderScoreAndParaphraseHtml(d, scoreInfo) + '</div>'
+            +       renderQuestionCardsHtml(d)
+            +       actionsFooterHtml
+            +     '</div>'
+            +   '</section>'
+            + '</div>';
+
+          bindSplitResizer();
+        } else {
+          // Part 5 focused single-column layout
+          contentEl.innerHTML =
+            headerHtml
+            + tipHtml
+            + renderPaletteHtml(d, scoreInfo)
+            + '<div id="cbtResultsSlot">' + renderScoreAndParaphraseHtml(d, scoreInfo) + '</div>'
+            + renderQuestionCardsHtml(d)
+            + actionsFooterHtml;
+        }
+
+        updateTimerUI();
+        updateHlCountUI();
+
+        if (resetScroll) {
+          if (mainScrollEl) mainScrollEl.scrollTop = 0;
+          var ls = document.getElementById("cbtLeftScroll");
+          var rs = document.getElementById("cbtRightScroll");
+          if (ls) ls.scrollTop = 0;
+          if (rs) rs.scrollTop = 0;
+        }
+      }
+
+      /* ---------------- IN-PLACE QUESTION / PALETTE / DICT UPDATES ---------------- */
+      function syncPaletteAndStats() {
+        if (!activeDrill) return;
+        var sc = computeScore(activeDrill);
+        var qs = activeDrill.questions || [];
+        for (var i = 0; i < qs.length; i++) {
+          var btn = contentEl ? contentEl.querySelector('.q-pal-btn[data-pal-idx="' + i + '"]') : null;
+          if (!btn) continue;
+          var chosen = answers[i];
+          btn.classList.toggle("is-flagged", Boolean(flagged[i]));
+          btn.classList.remove("is-answered", "is-correct", "is-wrong");
+          if (graded) {
+            btn.classList.add(chosen === Number(qs[i].ans) ? "is-correct" : "is-wrong");
+          } else if (typeof chosen === "number") {
+            btn.classList.add("is-answered");
+          }
+        }
+        var stat = document.getElementById("palStatText");
+        if (stat) {
+          stat.textContent = "Đã chọn " + sc.answered + "/" + sc.total + (sc.flagCount > 0 ? (" • " + sc.flagCount + " cờ") : "");
+        }
+      }
+
+      function setDictMode(enable, silent) {
+        dictModeEnabled = Boolean(enable);
+        if (contentEl) {
+          var words = contentEl.querySelectorAll(".rd-w[data-word]");
+          for (var i = 0; i < words.length; i++) {
+            var w = words[i];
+            if (dictModeEnabled) {
+              w.classList.add("tap-word");
+              w.setAttribute("role", "button");
+              w.setAttribute("tabindex", "0");
+            } else {
+              w.classList.remove("tap-word", "is-active");
+              w.removeAttribute("role");
+              w.removeAttribute("tabindex");
+            }
+          }
+        }
+        var btn = document.getElementById("btnToggleDictMode");
+        if (btn) {
+          btn.classList.toggle("active", dictModeEnabled);
+          btn.setAttribute("aria-pressed", dictModeEnabled ? "true" : "false");
+        }
+        if (!silent) {
+          showToast("info", dictModeEnabled ? "Đã bật Tra từ: chạm vào từ tiếng Anh bất kỳ để tra nghĩa & nghe UK/US/AU." : "Đã tắt chế độ Tra từ.", 2100);
+        }
+      }
+
+      function jumpToQuestion(num) {
+        if (!contentEl) return;
+        if (window.innerWidth <= 820 && cbtMobileView === "left") {
+          setMobileView("split");
+        }
+        var card = document.getElementById("qCard_" + num);
+        if (!card) return;
+        try { card.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        card.classList.add("is-focused");
+        setTimeout(function () { card.classList.remove("is-focused"); }, 1400);
+      }
+
+      function setPassageTab(tabVal) {
+        activePassageTab = String(tabVal || "all");
+        if (!contentEl) return;
+        var tabs = contentEl.querySelectorAll(".p-tab-btn[data-passage-tab]");
+        for (var i = 0; i < tabs.length; i++) {
+          tabs[i].classList.toggle("active", tabs[i].getAttribute("data-passage-tab") === activePassageTab);
+        }
+        var cards = contentEl.querySelectorAll(".passage-card[data-p-idx]");
+        for (var j = 0; j < cards.length; j++) {
+          var idxStr = cards[j].getAttribute("data-p-idx");
+          cards[j].classList.toggle("is-hidden", activePassageTab !== "all" && idxStr !== activePassageTab);
+        }
+        var ls = document.getElementById("cbtLeftScroll");
+        if (ls) ls.scrollTop = 0;
+        hideHlPopover();
+      }
+
+      function setMobileView(mode) {
+        cbtMobileView = (mode === "left" || mode === "right") ? mode : "split";
+        var sp = document.getElementById("cbtSplitArea");
+        if (sp) {
+          sp.classList.remove("mob-view-split", "mob-view-left", "mob-view-right");
+          sp.classList.add("mob-view-" + cbtMobileView);
+        }
+        if (contentEl) {
+          var tabs = contentEl.querySelectorAll(".cbt-mob-tab[data-mob-view]");
+          for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.toggle("active", tabs[i].getAttribute("data-mob-view") === cbtMobileView);
+          }
+        }
+        hideHlPopover();
+      }
+
+      function setFontSize(sz) {
+        cbtFontSize = (sz === "sm" || sz === "lg") ? sz : "md";
+        if (contentEl) {
+          contentEl.classList.remove("cbt-font-sm", "cbt-font-md", "cbt-font-lg");
+          contentEl.classList.add("cbt-font-" + cbtFontSize);
+          var btns = contentEl.querySelectorAll("[data-set-font]");
+          for (var i = 0; i < btns.length; i++) {
+            btns[i].classList.toggle("active", btns[i].getAttribute("data-set-font") === cbtFontSize);
+          }
+        }
+      }
+
+      function gradeActiveDrill() {
+        if (!activeDrill) return;
+        graded = true;
+        pauseTimer();
+        setDictMode(true, true);
+
+        var sc = computeScore(activeDrill);
+        var resSlot = document.getElementById("cbtResultsSlot");
+        if (resSlot) {
+          resSlot.innerHTML = renderScoreAndParaphraseHtml(activeDrill, sc);
+        }
+
+        // Re-render only question cards in place so user highlights in .cbt-left stay intact!
+        var qListOld = document.getElementById("questionList");
+        if (qListOld) {
+          var tmp = document.createElement("div");
+          tmp.innerHTML = renderQuestionCardsHtml(activeDrill);
+          if (tmp.firstElementChild) qListOld.replaceWith(tmp.firstElementChild);
+        }
+
+        syncPaletteAndStats();
+        syncP6BlankChips();
+
+        if (sc.pct >= 70) {
+          if (!completedMap[activeDrill.id]) {
+            setLessonDone(activeDrill.id, true, true);
+            showToast("success", "Chúc mừng! Đạt " + sc.correct + "/" + sc.total + " (" + sc.pct + "%) — Đã hoàn thành bộ đọc!", 2800);
+          } else {
+            showToast("success", "Xuất sắc! Bạn đạt " + sc.correct + "/" + sc.total + " (" + sc.pct + "%).", 2200);
+          }
+        } else {
+          showToast("warn", "Đúng " + sc.correct + "/" + sc.total + " (" + sc.pct + "%). Xem giải thích & Bảng Paraphrase bên dưới nhé!", 2600);
+        }
+
+        if (window.innerWidth <= 820 && cbtMobileView === "left") {
+          setMobileView("right");
+        }
+        var rs = document.getElementById("cbtRightScroll");
+        if (rs) rs.scrollTop = 0;
+        else if (mainScrollEl) mainScrollEl.scrollTop = 0;
+      }
+
+      function resetActiveDrill() {
+        if (!activeDrill) return;
+        answers = {};
+        flagged = {};
+        graded = false;
+        dictModeEnabled = false;
+        activePassageTab = "all";
+        hideHlPopover();
+        closeDictPopup();
+        initTimerForDrill(activeDrill, true);
+        renderLesson(true);
+      }
+
+      /* ---------------- DRAGGABLE SPLIT-SCREEN RESIZER (22% - 78%) ---------------- */
+      var resizerGlobalsBound = false;
+      var isDraggingResizer = false;
+
+      function bindSplitResizer() {
+        var resizer = document.getElementById("cbtResizer");
+        if (!resizer) return;
+
+        function startDrag(e) {
+          if (window.innerWidth <= 820) return;
+          isDraggingResizer = true;
+          resizer.classList.add("dragging");
+          document.body.style.cursor = "col-resize";
+          document.body.style.userSelect = "none";
+          hideHlPopover();
+          if (e && e.cancelable) e.preventDefault();
+        }
+
+        resizer.onmousedown = startDrag;
+        resizer.addEventListener("touchstart", function (e) {
+          if (e.touches && e.touches.length === 1) startDrag(e);
+        }, { passive: false });
+        resizer.ondblclick = function () {
+          cbtLeftPct = 52;
+          var lp = document.getElementById("cbtLeftPane");
+          if (lp) lp.style.setProperty("--cbt-left-pct", "52%");
+        };
+        resizer.onkeydown = function (e) {
+          if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            e.preventDefault();
+            cbtLeftPct = Math.max(22, Math.min(78, cbtLeftPct + (e.key === "ArrowLeft" ? -3 : 3)));
+            var lp = document.getElementById("cbtLeftPane");
+            if (lp) lp.style.setProperty("--cbt-left-pct", cbtLeftPct + "%");
+          }
+        };
+
+        if (resizerGlobalsBound) return;
+        resizerGlobalsBound = true;
+
+        function doDrag(clientX) {
+          if (!isDraggingResizer) return;
+          var sp = document.getElementById("cbtSplitArea");
+          var lp = document.getElementById("cbtLeftPane");
+          if (!sp || !lp) return;
+          var rect = sp.getBoundingClientRect();
+          if (!rect.width) return;
+          var pct = Math.max(22, Math.min(78, Math.round(((clientX - rect.left) / rect.width) * 100)));
+          cbtLeftPct = pct;
+          lp.style.setProperty("--cbt-left-pct", pct + "%");
+        }
+
+        function endDrag() {
+          if (!isDraggingResizer) return;
+          isDraggingResizer = false;
+          var r = document.getElementById("cbtResizer");
+          if (r) r.classList.remove("dragging");
+          document.body.style.cursor = "";
+          document.body.style.userSelect = "";
+        }
+
+        window.addEventListener("mousemove", function (e) {
+          if (isDraggingResizer) doDrag(e.clientX);
+        });
+        window.addEventListener("mouseup", endDrag);
+        window.addEventListener("touchmove", function (e) {
+          if (isDraggingResizer && e.touches && e.touches.length === 1) {
+            doDrag(e.touches[0].clientX);
+            if (e.cancelable) e.preventDefault();
+          }
+        }, { passive: false });
+        window.addEventListener("touchend", endDrag);
+        window.addEventListener("touchcancel", endDrag);
+      }
+
+      /* ---------------- PASSAGE HIGHLIGHT TOOL (IN-RAM <mark class="cbt-hl">) ---------------- */
+      var lastHlRange = null;
+
+      function isRangeInLeftPane(range) {
+        var leftScroll = document.getElementById("cbtLeftScroll");
+        if (!range || !leftScroll || range.collapsed) return false;
+        if (!range.startContainer || !range.startContainer.isConnected) return false;
+        if (!leftScroll.contains(range.commonAncestorContainer)) return false;
+        return Boolean(range.toString().trim());
+      }
+
+      function hideHlPopover() {
+        if (hlPopoverEl) hlPopoverEl.style.display = "none";
+      }
+
+      function positionHlPopover(range) {
+        if (!hlPopoverEl || !range) return;
+        var rect = range.getBoundingClientRect();
+        if (!rect || (rect.width === 0 && rect.height === 0)) {
+          hideHlPopover();
+          return;
+        }
+        hlPopoverEl.style.display = "inline-flex";
+        var pw = hlPopoverEl.offsetWidth || 168;
+        var ph = hlPopoverEl.offsetHeight || 38;
+        var top = rect.top - ph - 8;
+        if (top < 54) top = rect.bottom + 8;
+        if (top + ph > window.innerHeight - 8) top = Math.max(54, window.innerHeight - ph - 8);
+        var left = Math.max(8, Math.min(window.innerWidth - pw - 8, rect.left + rect.width / 2 - pw / 2));
+        hlPopoverEl.style.top = Math.round(top) + "px";
+        hlPopoverEl.style.left = Math.round(left) + "px";
+      }
+
+      function updateHlCountUI() {
+        var leftScroll = document.getElementById("cbtLeftScroll");
+        var btn = document.getElementById("btnClearAllHl");
+        var lbl = document.getElementById("hlCountLbl");
+        if (!btn) return;
+        var cnt = leftScroll ? leftScroll.querySelectorAll("mark.cbt-hl").length : 0;
+        btn.classList.toggle("has-hl", cnt > 0);
+        if (lbl) lbl.textContent = "Xóa HL (" + cnt + ")";
+      }
+
+      function unwrapMark(m) {
+        if (!m || !m.parentNode) return;
+        var p = m.parentNode;
+        while (m.firstChild) p.insertBefore(m.firstChild, m);
+        p.removeChild(m);
+        p.normalize();
+      }
+
+      function applyHighlightToRange(range) {
+        if (!isRangeInLeftPane(range)) return;
+        var leftScroll = document.getElementById("cbtLeftScroll");
+        var root = range.commonAncestorContainer;
+        if (root.nodeType === 3) root = root.parentNode;
+
+        var textNodes = [];
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var node;
+        while ((node = walker.nextNode())) {
+          if (!node.nodeValue || !node.nodeValue.trim()) continue;
+          if (!leftScroll.contains(node)) continue;
+          var parentEl = node.parentElement;
+          if (!parentEl) continue;
+          if (parentEl.closest("button, .p6-blank-chip, mark.cbt-hl")) continue;
+          try {
+            if (range.intersectsNode(node)) textNodes.push(node);
+          } catch (e) {}
+        }
+
+        for (var i = 0; i < textNodes.length; i++) {
+          var tn = textNodes[i];
+          var start = (tn === range.startContainer) ? range.startOffset : 0;
+          var end = (tn === range.endContainer) ? range.endOffset : tn.nodeValue.length;
+          if (end <= start) continue;
+          var targetNode = tn;
+          if (end < targetNode.nodeValue.length) targetNode.splitText(end);
+          if (start > 0) targetNode = targetNode.splitText(start);
+          var mark = document.createElement("mark");
+          mark.className = "cbt-hl";
+          targetNode.parentNode.insertBefore(mark, targetNode);
+          mark.appendChild(targetNode);
+        }
+
+        lastHlRange = null;
+        var sel = window.getSelection();
+        if (sel) sel.removeAllRanges();
+        updateHlCountUI();
+      }
+
+      function removeHighlightFromRange(range) {
+        var leftScroll = document.getElementById("cbtLeftScroll");
+        if (!leftScroll) return;
+        var marks = leftScroll.querySelectorAll("mark.cbt-hl");
+        var removed = 0;
+        if (range && isRangeInLeftPane(range)) {
+          for (var i = 0; i < marks.length; i++) {
+            try {
+              if (range.intersectsNode(marks[i])) {
+                unwrapMark(marks[i]);
+                removed++;
+              }
+            } catch (e) {}
+          }
+        }
+        if (removed === 0 && marks.length > 0) {
+          for (var j = 0; j < marks.length; j++) unwrapMark(marks[j]);
+          removed = marks.length;
+        }
+        lastHlRange = null;
+        var sel = window.getSelection();
+        if (sel) sel.removeAllRanges();
+        updateHlCountUI();
+        if (removed > 0) showToast("info", "Đã xóa Highlight.", 1500);
+      }
+
+      function clearAllHighlights() {
+        var leftScroll = document.getElementById("cbtLeftScroll");
+        if (!leftScroll) return;
+        var marks = leftScroll.querySelectorAll("mark.cbt-hl");
+        for (var i = 0; i < marks.length; i++) unwrapMark(marks[i]);
+        updateHlCountUI();
+        hideHlPopover();
+        showToast("info", "Đã xóa toàn bộ Highlight trong bài.", 1600);
+      }
+
+      var hlSelTimer = null;
+      function checkLeftSelection() {
+        var sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.rangeCount) {
+          var r = sel.getRangeAt(0);
+          if (isRangeInLeftPane(r)) {
+            lastHlRange = r.cloneRange();
+            positionHlPopover(r);
+            return;
+          }
+        }
+        hideHlPopover();
+      }
+
+      document.addEventListener("selectionchange", function () {
+        clearTimeout(hlSelTimer);
+        hlSelTimer = setTimeout(checkLeftSelection, 90);
+      });
+      document.addEventListener("mouseup", function (e) {
+        if (e.target && typeof e.target.closest === "function" && e.target.closest("#cbtHlPopover")) return;
+        setTimeout(checkLeftSelection, 30);
+      });
+      document.addEventListener("touchend", function (e) {
+        if (e.target && typeof e.target.closest === "function" && e.target.closest("#cbtHlPopover")) return;
+        setTimeout(checkLeftSelection, 60);
+      });
+
+      if (hlPopoverEl) {
+        hlPopoverEl.addEventListener("mousedown", function (e) { e.preventDefault(); });
+      }
+      var btnApplyHl = document.getElementById("btnApplyHl");
+      if (btnApplyHl) {
+        btnApplyHl.addEventListener("click", function () {
+          var sel = window.getSelection();
+          var r = (sel && !sel.isCollapsed && sel.rangeCount && isRangeInLeftPane(sel.getRangeAt(0)))
+            ? sel.getRangeAt(0).cloneRange()
+            : lastHlRange;
+          if (r) applyHighlightToRange(r);
+          hideHlPopover();
+        });
+      }
+      var btnRemoveHl = document.getElementById("btnRemoveHl");
+      if (btnRemoveHl) {
+        btnRemoveHl.addEventListener("click", function () {
+          var sel = window.getSelection();
+          var r = (sel && !sel.isCollapsed && sel.rangeCount && isRangeInLeftPane(sel.getRangeAt(0)))
+            ? sel.getRangeAt(0).cloneRange()
+            : lastHlRange;
+          removeHighlightFromRange(r);
+          hideHlPopover();
+        });
+      }
+
+      /* ---------------- LAZY TAP-TO-LOOKUP TOEIC DICTIONARY (0 KB ON BOOT) ---------------- */
+      var vocabLoadPromise = null;
+      var vocabMap = null;
+      var vocabWfMap = null;
+      var currentDictEntry = null;
+      var currentDictWord = "";
+      var dictOpenSeq = 0;
+
+      var IRREGULAR_LEMMAS = {
+        held: "hold", sent: "send", paid: "pay", made: "make", wrote: "write", written: "write",
+        took: "take", taken: "take", gave: "give", given: "give", spoke: "speak", spoken: "speak",
+        met: "meet", sold: "sell", bought: "buy", built: "build", found: "find", kept: "keep",
+        left: "leave", brought: "bring", thought: "think", told: "tell", said: "say", went: "go",
+        gone: "go", saw: "see", seen: "see", came: "come", ran: "run", sat: "sit", stood: "stand",
+        led: "lead", heard: "hear", understood: "understand", began: "begin", begun: "begin",
+        chose: "choose", chosen: "choose", drove: "drive", driven: "drive", flew: "fly",
+        flown: "fly", grew: "grow", grown: "grow", knew: "know", known: "know", spent: "spend",
+        won: "win", lost: "lose", caught: "catch", taught: "teach", meant: "mean", dealt: "deal",
+        drew: "draw", drawn: "draw", fell: "fall", fallen: "fall", felt: "feel", forgot: "forget",
+        forgotten: "forget", got: "get", gotten: "get", hung: "hang", laid: "lay", lent: "lend",
+        lit: "light", rose: "rise", risen: "rise", shown: "show", wore: "wear", worn: "wear",
+        broke: "break", broken: "break", torn: "tear", tore: "tear"
+      };
+
+      function loadScriptOnce(src) {
+        return new Promise(function (resolve) {
+          var existing = document.querySelector('script[data-lazy-vocab="' + src + '"]');
+          if (existing) {
+            if (existing.dataset.loaded === "1") return resolve(true);
+            existing.addEventListener("load", function () { resolve(true); }, { once: true });
+            existing.addEventListener("error", function () { resolve(false); }, { once: true });
+            return;
+          }
+          var s = document.createElement("script");
+          s.src = src;
+          s.async = true;
+          s.dataset.lazyVocab = src;
+          s.onload = function () { s.dataset.loaded = "1"; resolve(true); };
+          s.onerror = function () { resolve(false); };
+          document.head.appendChild(s);
+        });
+      }
+
+      function buildVocabLookupMaps() {
+        vocabMap = new Map();
+        vocabWfMap = new Map();
+        var chunks = window.__LP_TOEIC_VOCAB_CHUNKS || {};
+        [1, 2, 3, 4].forEach(function (lv) {
+          var list = chunks[lv];
+          if (!Array.isArray(list)) return;
+          for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            if (!item || !item.word) continue;
+            var key = normalizeDictWord(item.word);
+            if (key && !vocabMap.has(key)) vocabMap.set(key, item);
+            if (Array.isArray(item.wf)) {
+              for (var j = 0; j < item.wf.length; j++) {
+                var wfHead = normalizeDictWord(String(item.wf[j] || "").replace(/\([^)]*\)/g, ""));
+                if (wfHead && !vocabWfMap.has(wfHead)) vocabWfMap.set(wfHead, item);
+              }
+            }
+          }
+        });
+      }
+
+      function ensureToeicVocabLoaded() {
+        if (vocabMap) return Promise.resolve(vocabMap);
+        if (vocabLoadPromise) return vocabLoadPromise;
+        var chunks = window.__LP_TOEIC_VOCAB_CHUNKS || {};
+        var jobs = [1, 2, 3, 4].map(function (lv) {
+          if (Array.isArray(chunks[lv]) && chunks[lv].length) return Promise.resolve(true);
+          return loadScriptOnce("../vocab/data/vocab_u_" + lv + ".js?v=1");
+        });
+        vocabLoadPromise = Promise.all(jobs).then(function () {
+          buildVocabLookupMaps();
+          return vocabMap;
+        });
+        return vocabLoadPromise;
+      }
+
+      function lookupToeicWord(rawWord) {
+        if (!vocabMap) return null;
+        var w = normalizeDictWord(rawWord);
+        if (!w) return null;
+        if (vocabMap.has(w)) return { entry: vocabMap.get(w), via: "" };
+
+        var candidates = [];
+        if (w.endsWith("'s")) candidates.push(w.slice(0, -2));
+        if (IRREGULAR_LEMMAS[w]) candidates.push(IRREGULAR_LEMMAS[w]);
+        if (w.endsWith("ies") && w.length > 4) candidates.push(w.slice(0, -3) + "y");
+        if (w.endsWith("es") && w.length > 3) candidates.push(w.slice(0, -2));
+        if (w.endsWith("s") && w.length > 2) candidates.push(w.slice(0, -1));
+        if (w.endsWith("ied") && w.length > 4) candidates.push(w.slice(0, -3) + "y");
+        if (w.endsWith("ed") && w.length > 3) {
+          var stemEd = w.slice(0, -2);
+          candidates.push(stemEd, stemEd + "e");
+          if (stemEd.length >= 3 && stemEd.charAt(stemEd.length - 1) === stemEd.charAt(stemEd.length - 2)) {
+            candidates.push(stemEd.slice(0, -1));
+          }
+        }
+        if (w.endsWith("ing") && w.length > 4) {
+          var stemIng = w.slice(0, -3);
+          candidates.push(stemIng, stemIng + "e");
+          if (stemIng.length >= 3 && stemIng.charAt(stemIng.length - 1) === stemIng.charAt(stemIng.length - 2)) {
+            candidates.push(stemIng.slice(0, -1));
+          }
+        }
+        if (w.endsWith("ly") && w.length > 4) {
+          candidates.push(w.slice(0, -2));
+          if (w.endsWith("ily")) candidates.push(w.slice(0, -3) + "y");
+        }
+        if (w.endsWith("er") && w.length > 4) candidates.push(w.slice(0, -2), w.slice(0, -1));
+        if (w.endsWith("est") && w.length > 5) candidates.push(w.slice(0, -3), w.slice(0, -2));
+
+        for (var i = 0; i < candidates.length; i++) {
+          var c = candidates[i];
+          if (c && vocabMap.has(c)) return { entry: vocabMap.get(c), via: c };
+        }
+        if (vocabWfMap && vocabWfMap.has(w)) {
+          var wfEntry = vocabWfMap.get(w);
+          return { entry: wfEntry, via: wfEntry.word };
+        }
+        return null;
+      }
+
+      function speakDictWord(word, accent) {
+        var clean = String(word || "").trim();
+        if (!clean) return;
+        var lang = accent === "en-GB" ? "en-GB" : (accent === "en-AU" ? "en-AU" : "en-US");
+        var audioUrl = "";
+        if (currentDictEntry && normalizeDictWord(currentDictEntry.word) === normalizeDictWord(clean)) {
+          if (lang === "en-GB" && currentDictEntry.localUkAudio) audioUrl = currentDictEntry.localUkAudio;
+          else if (lang === "en-US" && currentDictEntry.localUsAudio) audioUrl = currentDictEntry.localUsAudio;
+          if (audioUrl && audioUrl.indexOf("media/") === 0) audioUrl = "../vocab/" + audioUrl;
+        }
+        if (window.S4UI && typeof window.S4UI.speakEnglish === "function") {
+          window.S4UI.speakEnglish(clean, { lang: lang, rate: 0.95, audioUrl: audioUrl });
+          return;
+        }
+        if ("speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === "function") {
+          try {
+            window.speechSynthesis.cancel();
+            var u = new window.SpeechSynthesisUtterance(clean);
+            u.lang = lang;
+            u.rate = 0.95;
+            window.speechSynthesis.speak(u);
+          } catch (e) {}
+        }
+      }
+
+      function renderDictPopupContent(tappedRaw, hit, loading) {
+        var sheet = document.getElementById("toeicDictSheet");
+        if (!sheet) return;
+        var entry = hit && hit.entry ? hit.entry : null;
+        currentDictEntry = entry;
+        currentDictWord = entry ? entry.word : tappedRaw;
+        var displayWord = entry ? entry.word : tappedRaw;
+
+        var audioBtns = '<div class="dict-audio-row">'
+          + '<button type="button" class="dict-accent-btn" data-dict-spk="en-GB">' + svgIcon("volume", 13) + '<span>UK</span></button>'
+          + '<button type="button" class="dict-accent-btn" data-dict-spk="en-US">' + svgIcon("volume", 13) + '<span>US</span></button>'
+          + '<button type="button" class="dict-accent-btn" data-dict-spk="en-AU">' + svgIcon("volume", 13) + '<span>AU</span></button>'
+          + '</div>';
+
+        var bodyHtml = "";
+        if (loading) {
+          bodyHtml = '<div class="dict-fallback-note">Đang nạp từ điển 3.189 từ TOEIC (chỉ nạp 1 lần duy nhất trong phiên)...</div>';
+        } else if (entry) {
+          var wfList = Array.isArray(entry.wf) ? entry.wf.filter(Boolean) : [];
+          var colList = Array.isArray(entry.col) ? entry.col.filter(Boolean) : [];
+          bodyHtml =
+            (hit.via && normalizeDictWord(hit.via) !== normalizeDictWord(tappedRaw)
+              ? '<div style="font-size:11.8px;font-weight:700;color:var(--lg-ink-muted);margin-bottom:6px;">Tra từ: <strong>' + esc(tappedRaw) + '</strong> &rarr; từ gốc TOEIC</div>'
+              : '')
+            + '<div class="dict-def-vi">' + esc(entry.defVi || "") + '</div>'
+            + (entry.defEn ? '<div class="dict-def-en">' + esc(entry.defEn) + '</div>' : '')
+            + (wfList.length
+              ? '<div class="dict-sec"><div class="dict-sec-lbl">Word Family</div><div class="dict-chips">'
+                + wfList.map(function (w) { return '<span class="dict-chip">' + esc(w) + '</span>'; }).join("")
+                + '</div></div>'
+              : '')
+            + (colList.length
+              ? '<div class="dict-sec"><div class="dict-sec-lbl">Collocations chuẩn TOEIC</div><div class="dict-chips">'
+                + colList.map(function (c) { return '<span class="dict-chip">' + esc(c) + '</span>'; }).join("")
+                + '</div></div>'
+              : '')
+            + (entry.trap
+              ? '<div class="dict-trap-box"><div class="dict-trap-lbl">Nghĩa bẫy hay gặp trong ETS</div><div>' + esc(entry.trap) + '</div></div>'
+              : '');
+        } else {
+          bodyHtml = '<div class="dict-fallback-note">'
+            + 'Từ <strong>' + esc(tappedRaw) + '</strong> chưa nằm trong 3.189 từ trọng tâm TOEIC (thường là từ chức năng, tên riêng hoặc con số). Bạn vẫn có thể bấm 3 nút <strong>UK / US / AU</strong> ở trên để nghe phát âm chuẩn.'
+            + '</div>';
+        }
+
+        sheet.innerHTML =
+          '<div class="dict-head">'
+          + '<div style="min-width:0;flex:1;">'
+          +   '<div class="dict-word-line">'
+          +     '<h3 class="dict-word">' + esc(displayWord) + '</h3>'
+          +     (entry && entry.pos ? '<span class="dict-pos">' + esc(entry.pos) + '</span>' : '')
+          +     (entry && entry.level ? '<span class="meta-pill is-stage" style="padding:2px 7px;font-size:10.5px;">Chặng ' + entry.level + '</span>' : '')
+          +   '</div>'
+          +   (entry && entry.ipa ? '<div class="dict-ipa">' + esc(entry.ipa) + '</div>' : '')
+          + '</div>'
+          + '<button type="button" class="btn btn-sm" id="btnCloseDictPopup" aria-label="Đóng tra từ">' + svgIcon("close", 13) + '<span>Đóng</span></button>'
+          + '</div>'
+          + audioBtns
+          + bodyHtml;
+      }
+
+      function openDictPopup(rawWord, anchorEl) {
+        var clean = String(rawWord || "").trim();
+        if (!clean) return;
+        hideHlPopover();
+        var prevAct = contentEl ? contentEl.querySelectorAll(".tap-word.is-active") : [];
+        for (var i = 0; i < prevAct.length; i++) prevAct[i].classList.remove("is-active");
+        if (anchorEl) anchorEl.classList.add("is-active");
+
+        var modal = document.getElementById("toeicDictPopup");
+        if (!modal) return;
+        modal.classList.add("open");
+
+        var seq = ++dictOpenSeq;
+        if (vocabMap) {
+          var hitNow = lookupToeicWord(clean);
+          renderDictPopupContent(clean, hitNow, false);
+          return;
+        }
+        renderDictPopupContent(clean, null, true);
+        ensureToeicVocabLoaded().then(function () {
+          if (seq !== dictOpenSeq) return;
+          var hit = lookupToeicWord(clean);
+          renderDictPopupContent(clean, hit, false);
+        });
+      }
+
+      function closeDictPopup() {
+        var modal = document.getElementById("toeicDictPopup");
+        if (modal) modal.classList.remove("open");
+        var prevAct = contentEl ? contentEl.querySelectorAll(".tap-word.is-active") : [];
+        for (var i = 0; i < prevAct.length; i++) prevAct[i].classList.remove("is-active");
+      }
+
+      /* ---------------- EVENT BINDINGS ---------------- */
+      if (window.S4UI && typeof window.S4UI.initSmartBackButton === "function") {
+        window.S4UI.initSmartBackButton({
+          element: "#lpBackBtn",
+          defaultUrl: "../index.html",
+          defaultLabel: "TOEIC",
+          roadmapUrl: "../roadmap/index.html",
+          roadmapLabel: "Lộ trình"
+        });
+      }
+
+      var btnToggleSb = document.getElementById("btnToggleSidebar");
+      if (btnToggleSb) btnToggleSb.addEventListener("click", function () { window.toggleMenu(); });
+      var btnCloseSb = document.getElementById("btnCloseSidebar");
+      if (btnCloseSb) btnCloseSb.addEventListener("click", function () { window.toggleMenu(false); });
+      var sbBackdrop = document.getElementById("sidebarBackdrop");
+      if (sbBackdrop) sbBackdrop.addEventListener("click", function () { window.toggleMenu(false); });
+
+      var btnDonate = document.getElementById("btnReadingDonate");
+      if (btnDonate) {
+        btnDonate.addEventListener("click", function () {
+          if (window.S4Auth && typeof window.S4Auth.openDonateModal === "function") {
+            window.S4Auth.openDonateModal();
+          }
+        });
+      }
+
+      var btnDark = document.getElementById("btnReadingDark");
+      if (btnDark) btnDark.addEventListener("click", function () { window.toggleDark(); });
+      syncDarkBtn();
+      if (typeof MutationObserver !== "undefined") {
+        new MutationObserver(syncDarkBtn).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      }
+
+      if (levelTabsEl) {
+        levelTabsEl.addEventListener("click", function (e) {
+          var btn = e.target.closest(".level-tab");
+          if (!btn) return;
+          currentLevelFilter = Number(btn.getAttribute("data-lv") || 0);
+          if (currentLevelFilter > 0) openLevels.add(currentLevelFilter);
+          renderSidebar();
+        });
+      }
+
+      if (partTabsEl) {
+        partTabsEl.addEventListener("click", function (e) {
+          var btn = e.target.closest(".part-tab");
+          if (!btn) return;
+          currentPartFilter = btn.getAttribute("data-part") || "all";
+          renderSidebar();
+        });
+      }
+
+      if (listEl) {
+        listEl.addEventListener("click", function (e) {
+          var unitHdr = e.target.closest("[data-toggle-unit]");
+          if (unitHdr) {
+            var uLv = Number(unitHdr.getAttribute("data-toggle-unit") || 1);
+            if (openLevels.has(uLv)) openLevels.delete(uLv);
+            else openLevels.add(uLv);
+            renderSidebar();
+            return;
+          }
+          var itemBtn = e.target.closest("[data-lesson-id]");
+          if (itemBtn) {
+            var lid = itemBtn.getAttribute("data-lesson-id");
+            if (lid) {
+              selectLesson(lid, true);
+              if (window.innerWidth <= 1024) window.toggleMenu(false);
+            }
+          }
+        });
+      }
+
+      if (contentEl) {
+        contentEl.addEventListener("keydown", function (e) {
+          var tw = e.target.closest(".tap-word[data-word]");
+          if (tw && dictModeEnabled && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            openDictPopup(tw.getAttribute("data-word") || tw.textContent, tw);
+          }
+        });
+
+        contentEl.addEventListener("click", function (e) {
+          // 1. Part 6 Blank Chip or Mini Palette jump
+          var jumpBtn = e.target.closest("[data-jump-q]");
+          if (jumpBtn) {
+            var qNum = Number(jumpBtn.getAttribute("data-jump-q"));
+            if (qNum > 0) jumpToQuestion(qNum);
+            return;
+          }
+
+          // 2. Passage quick ref from question card
+          var jumpPBtn = e.target.closest("[data-jump-passage]");
+          if (jumpPBtn) {
+            var pIdx = jumpPBtn.getAttribute("data-jump-passage");
+            setPassageTab(pIdx);
+            if (window.innerWidth <= 820 && cbtMobileView === "right") setMobileView("split");
+            return;
+          }
+
+          // 3. Tap-to-lookup word (only when dictModeEnabled & not dragging a text selection)
+          var tapWord = e.target.closest(".tap-word[data-word]");
+          if (tapWord && dictModeEnabled) {
+            var sel = window.getSelection();
+            if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+              // Avoid intercepting clicks on interactive option buttons before grading
+              if (!e.target.closest(".q-opt:not(:disabled)")) {
+                e.stopPropagation();
+                openDictPopup(tapWord.getAttribute("data-word") || tapWord.textContent, tapWord);
+                return;
+              }
+            }
+          }
+
+          // 4. Toolbar Controls
+          if (e.target.closest("#btnTimerToggle")) { toggleTimerRunning(); return; }
+          if (e.target.closest("#btnTimerReset")) { resetTimer(); return; }
+          if (e.target.closest("#btnTimerFree")) { toggleTimerFreeMode(); return; }
+          if (e.target.closest("#btnToggleDictMode")) { setDictMode(!dictModeEnabled, false); return; }
+          if (e.target.closest("#btnClearAllHl")) { clearAllHighlights(); return; }
+
+          var fontBtn = e.target.closest("[data-set-font]");
+          if (fontBtn) {
+            setFontSize(fontBtn.getAttribute("data-set-font"));
+            return;
+          }
+
+          var mobViewBtn = e.target.closest("[data-mob-view]");
+          if (mobViewBtn) {
+            setMobileView(mobViewBtn.getAttribute("data-mob-view"));
+            return;
+          }
+
+          var pTabBtn = e.target.closest("[data-passage-tab]");
+          if (pTabBtn) {
+            setPassageTab(pTabBtn.getAttribute("data-passage-tab"));
+            return;
+          }
+
+          // 5. Flag question for review
+          var flagBtn = e.target.closest("[data-flag-q]");
+          if (flagBtn) {
+            var fq = Number(flagBtn.getAttribute("data-flag-q"));
+            flagged[fq] = !flagged[fq];
+            flagBtn.classList.toggle("is-flagged", Boolean(flagged[fq]));
+            flagBtn.setAttribute("aria-pressed", flagged[fq] ? "true" : "false");
+            var sp = flagBtn.querySelector("span");
+            if (sp) sp.textContent = flagged[fq] ? "Đã cắm cờ" : "Xem lại";
+            var card = flagBtn.closest(".q-card");
+            if (card) card.classList.toggle("is-flagged", Boolean(flagged[fq]));
+            syncPaletteAndStats();
+            return;
+          }
+
+          // 6. Pick answer option (in-place DOM update to preserve passage highlights!)
+          var optBtn = e.target.closest("[data-pick-q]");
+          if (optBtn && !graded) {
+            var qi = Number(optBtn.getAttribute("data-pick-q"));
+            var oi = Number(optBtn.getAttribute("data-pick-opt"));
+            answers[qi] = oi;
+            var qCard = optBtn.closest(".q-card");
+            if (qCard) {
+              var allOpts = qCard.querySelectorAll(".q-opt[data-pick-opt]");
+              for (var k = 0; k < allOpts.length; k++) {
+                allOpts[k].classList.toggle("selected", Number(allOpts[k].getAttribute("data-pick-opt")) === oi);
+              }
+              var blankSlot = qCard.querySelector('[data-blank-slot="' + qi + '"]');
+              var qObj = activeDrill && activeDrill.questions && activeDrill.questions[qi];
+              if (blankSlot && qObj && qObj.opts && qObj.opts[oi]) {
+                blankSlot.textContent = cleanOptionText(qObj.opts[oi]);
+              }
+            }
+            syncPaletteAndStats();
+            syncP6BlankChips();
+            return;
+          }
+
+          // 7. Submit / Reset / Done / Lesson Nav
+          if (e.target.closest("#btnGradeDrill")) { gradeActiveDrill(); return; }
+          if (e.target.closest("#btnResetDrill")) { resetActiveDrill(); return; }
+          if (e.target.closest("#btnToggleDone") || e.target.closest("#btnFooterDone")) {
+            setLessonDone(activeId);
+            return;
+          }
+          var navBtn = e.target.closest("[data-nav-id]");
+          if (navBtn) {
+            selectLesson(navBtn.getAttribute("data-nav-id"), true);
+          }
+        });
+      }
+
+      // Dict Popup events
+      var dictModal = document.getElementById("toeicDictPopup");
+      if (dictModal) {
+        dictModal.addEventListener("click", function (e) {
+          if (e.target === dictModal || e.target.closest("#btnCloseDictPopup")) {
+            closeDictPopup();
+            return;
+          }
+          var spkBtn = e.target.closest("[data-dict-spk]");
+          if (spkBtn) {
+            speakDictWord(currentDictWord, spkBtn.getAttribute("data-dict-spk"));
+          }
+        });
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          if (dictModal && dictModal.classList.contains("open")) {
+            closeDictPopup();
+          } else if (document.body.classList.contains("sidebar-open")) {
+            window.toggleMenu(false);
+          } else {
+            hideHlPopover();
+          }
+        }
+      });
+
+      window.addEventListener("resize", function () {
+        hideHlPopover();
+        if (window.innerWidth > 1024 && (
+          document.body.classList.contains("sidebar-open") ||
+          (sidebarEl && sidebarEl.classList.contains("open"))
+        )) {
+          window.toggleMenu(false);
+        }
+      });
+
+      window.addEventListener("pagehide", stopTimerLoop);
+      window.addEventListener("beforeunload", stopTimerLoop);
+
+      var searchTimer = null;
+      if (window.S4UI && typeof window.S4UI.bindSearchBar === "function" && searchInput) {
+        window.S4UI.bindSearchBar({
+          input: searchInput,
+          clearBtn: "searchInput_clear",
+          searchBtn: "searchInput_btn",
+          delay: 160,
+          onSearch: function (val) {
+            clearTimeout(searchTimer);
+            currentSearchQuery = val || "";
+            renderSidebar();
+          }
+        });
+      } else if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          clearTimeout(searchTimer);
+          searchTimer = setTimeout(function () {
+            currentSearchQuery = searchInput.value || "";
+            renderSidebar();
+          }, 160);
+        });
+      }
+
+      /* ---------------- INIT FROM URL QUERY ---------------- */
+      (function init() {
+        var sp = null;
+        try { sp = new URLSearchParams(window.location.search); } catch (e) {}
+
+        var reqLv = sp ? Number(sp.get("level") || 0) : 0;
+        if (reqLv >= 1 && reqLv <= 4) {
+          currentLevelFilter = reqLv;
+          openLevels = new Set([reqLv]);
+        }
+
+        var rawPart = sp ? String(sp.get("part") || "").trim().toLowerCase() : "";
+        var mappedPart = PART_ALIASES[rawPart] || rawPart;
+        if (mappedPart && PART_FILTERS.some(function (p) { return p.id === mappedPart; })) {
+          currentPartFilter = mappedPart;
+        }
+
+        var reqQ = sp ? String(sp.get("q") || "").trim() : "";
+        if (reqQ && searchInput) {
+          currentSearchQuery = reqQ;
+          searchInput.value = reqQ;
+          if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") {
+            window.S4UI.syncSearchClear(searchInput);
+          }
+        }
+
+        var reqId = sp ? String(sp.get("id") || "").trim() : "";
+        var picked = null;
+        if (reqId) {
+          picked = ALL_LESSONS.find(function (x) { return x.id === reqId; }) || null;
+        }
+        if (!picked && (currentLevelFilter > 0 || currentPartFilter !== "all")) {
+          var filteredInit = getFilteredLessons();
+          if (filteredInit.length) picked = filteredInit[0];
+        }
+        if (!picked) {
+          var saved = "";
+          try { saved = localStorage.getItem(LAST_KEY) || ""; } catch (e) {}
+          if (saved) picked = ALL_LESSONS.find(function (x) { return x.id === saved; }) || null;
+        }
+        if (!picked && ALL_LESSONS.length) {
+          picked = ALL_LESSONS[0];
+        }
+
+        if (picked) {
+          openLevels = new Set([Number(picked.level) || 1]);
+          selectLesson(picked.id, true);
+          if (listEl) {
+            var actItem = listEl.querySelector(".lesson-item.active");
+            if (actItem && typeof actItem.scrollIntoView === "function") {
+              try { actItem.scrollIntoView({ block: "nearest" }); } catch (e) {}
+            }
+          }
+        } else {
+          renderSidebar();
+          renderLesson(true);
+        }
+      })();
+    })();
+  </script>
+</body>
+</html>

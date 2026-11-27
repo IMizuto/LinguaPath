@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_08",
+  "order": 40,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Đào tạo Sản phẩm & Hướng dẫn Mã lỗi Thiết bị",
+  "subtitle": "Tập huấn bán hàng máy lọc không khí mới và xử lý mã lỗi máy in thông minh",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Trong bài Đào tạo sản phẩm/Hướng dẫn kỹ thuật, hãy chú ý các tính năng vượt trội so với đời cũ (lighter, quieter, tool-free) và đối chiếu đúng mã lỗi (Error Code) với hành động xử lý trong bảng.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Tập huấn bán hàng Máy lọc Không khí đời mới",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Product Trainer",
+          "accent": "en-US",
+          "en": "Welcome to today's retail training session, everyone. Next Friday, our showrooms launch the AeroPure 500, our quietest residential air purifier yet.",
+          "vi": "Chào mừng mọi người đến với buổi tập huấn bán lẻ hôm nay. Thứ Sáu tuần tới, các phòng trưng bày của ta sẽ ra mắt AeroPure 500, máy lọc không khí gia đình êm nhất từ trước tới nay của hãng."
+        },
+        {
+          "spk": "M",
+          "name": "Product Trainer",
+          "accent": "en-US",
+          "en": "Compared with last year's model, it uses thirty percent less electricity and operates at a whisper-soft twenty-four decibels in night mode.",
+          "vi": "So với mẫu năm ngoái, máy tiêu thụ ít hơn ba mươi phần trăm điện năng và vận hành cực êm chỉ hai mươi bốn đề-xi-ben ở chế độ ban đêm."
+        },
+        {
+          "spk": "M",
+          "name": "Product Trainer",
+          "accent": "en-US",
+          "en": "We also redesigned the rear panel with magnetic latches—customers don't want to read a forty-page manual just to change a filter.",
+          "vi": "Chúng tôi cũng thiết kế lại nắp sau bằng chốt nam châm—khách hàng không muốn phải đọc cuốn sách hướng dẫn bốn mươi trang chỉ để thay màng lọc đâu."
+        },
+        {
+          "spk": "M",
+          "name": "Product Trainer",
+          "accent": "en-US",
+          "en": "Now, let's pair up at the demo tables so each of you can practice snapping the filter cartridge in and out in under ten seconds.",
+          "vi": "Bây giờ, mọi người hãy ghép cặp tại các bàn mẫu để từng người thực hành tháo lắp lõi lọc trong chưa đầy mười giây."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Who is the intended audience for this talk?",
+          "opts": [
+            "Factory assembly supervisors",
+            "Showroom sales staff",
+            "Appliance repair technicians",
+            "Wholesale shipping coordinators"
+          ],
+          "ans": 1,
+          "exp": "Người nói mở đầu 'retail training session' và nói 'our showrooms launch the AeroPure 500' → nhân viên bán hàng tại phòng trưng bày ('Showroom sales staff'). Chọn (B)."
+        },
+        {
+          "num": 2,
+          "q": "What does the trainer imply when he says, \"customers don't want to read a forty-page manual just to change a filter\"?",
+          "opts": [
+            "The printed manual will be discontinued.",
+            "Staff should summarize the manual during checkout.",
+            "Customers rarely remember to replace filters.",
+            "Filter replacement on the new model is very simple."
+          ],
+          "ans": 3,
+          "exp": "Ông nói hãng thiết kế nắp chốt nam châm mới rồi nói câu đó, sau đó cho nhân viên tập tháo lắp dưới 10 giây → ngụ ý việc thay màng lọc ở mẫu mới cực kỳ đơn giản. Chọn (D)."
+        },
+        {
+          "num": 3,
+          "q": "What will the listeners do next?",
+          "opts": [
+            "Practice replacing a filter cartridge",
+            "Measure the machine's noise level",
+            "Watch a promotional commercial",
+            "Complete an online product quiz"
+          ],
+          "ans": 0,
+          "exp": "Câu cuối hướng dẫn: 'pair up at the demo tables so each of you can practice snapping the filter cartridge in and out' → thực hành tháo lắp lõi lọc. Chọn (A)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Hướng dẫn Xử lý Mã lỗi Máy in Đa năng",
+      "accent": "en-US",
+      "graphic": {
+        "title": "SmartPrint Pro Error Codes",
+        "headers": [
+          "Code",
+          "Issue",
+          "Recommended Action"
+        ],
+        "rows": [
+          [
+            "E-12",
+            "Paper Tray Jam",
+            "Open Side Door B"
+          ],
+          [
+            "E-24",
+            "Toner Low",
+            "Replace Black Cartridge"
+          ],
+          [
+            "E-38",
+            "Network Timeout",
+            "Restart Wi-Fi Module"
+          ],
+          [
+            "E-45",
+            "Fuser Overheat",
+            "Call IT Helpdesk"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "IT Specialist",
+          "accent": "en-US",
+          "en": "Hi team, I'm giving a quick five-minute walkthrough of the new SmartPrint Pro copiers we installed on floors two through five.",
+          "vi": "Chào cả nhóm, tôi sẽ hướng dẫn nhanh năm phút về các máy in đa năng SmartPrint Pro mới lắp đặt từ tầng hai đến tầng năm."
+        },
+        {
+          "spk": "W",
+          "name": "IT Specialist",
+          "accent": "en-US",
+          "en": "Every machine now features a color touchscreen that displays a short error code whenever printing pauses, and we taped a quick-reference chart right beside the lid.",
+          "vi": "Mỗi máy giờ đều có màn hình cảm ứng màu hiển thị mã lỗi ngắn mỗi khi tạm dừng in, và chúng tôi đã dán sẵn bảng tra cứu nhanh ngay cạnh nắp máy."
+        },
+        {
+          "spk": "W",
+          "name": "IT Specialist",
+          "accent": "en-US",
+          "en": "You can resolve the first three codes yourselves in less than a minute, but if you ever see the code indicating an overheating fuser, please do not open any panels—contact our helpdesk immediately so a technician can inspect it safely.",
+          "vi": "Mọi người có thể tự xử lý ba mã đầu trong chưa đầy một phút, nhưng nếu thấy mã báo bộ sấy quá nhiệt, tuyệt đối không mở bất kỳ nắp nào—hãy liên hệ bộ phận kỹ thuật ngay để kỹ thuật viên kiểm tra an toàn."
+        },
+        {
+          "spk": "W",
+          "name": "IT Specialist",
+          "accent": "en-US",
+          "en": "Replacement toner cartridges are stocked in the supply closet next to the break room.",
+          "vi": "Hộp mực thay thế được trữ sẵn trong tủ văn phòng phẩm cạnh phòng nghỉ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Where can employees find the error-code reference chart?",
+          "opts": [
+            "Inside the staff handbook",
+            "On the company intranet homepage",
+            "Posted next to the copier lid",
+            "Inside the break room supply closet"
+          ],
+          "ans": 2,
+          "exp": "Chuyên viên CNTT nói: 'we taped a quick-reference chart right beside the lid' → dán ngay cạnh nắp máy in. Chọn (C)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. For which error code must staff NOT open the machine panels?",
+          "opts": [
+            "E-12",
+            "E-45",
+            "E-38",
+            "E-24"
+          ],
+          "ans": 1,
+          "exp": "Cô cảnh báo không mở nắp máy khi gặp 'the code indicating an overheating fuser' (bộ sấy quá nhiệt). Tra bảng: 'Fuser Overheat' là mã 'E-45'. Chọn (B)."
+        },
+        {
+          "num": 6,
+          "q": "Where are extra toner cartridges stored?",
+          "opts": [
+            "At the IT helpdesk",
+            "Underneath each printer stand",
+            "In the fifth-floor mailroom",
+            "In the supply closet near the break room"
+          ],
+          "ans": 3,
+          "exp": "Câu cuối nêu: 'stocked in the supply closet next to the break room' → trong tủ vật tư cạnh phòng nghỉ. Chọn (D)."
+        }
+      ]
+    }
+  ]
+}

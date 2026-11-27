@@ -1,0 +1,210 @@
+{
+  "id": "tsw_w_q67_02",
+  "skill": "writing",
+  "taskType": "wr_q67",
+  "code": "Q6–7",
+  "level": 2,
+  "targetBand": "140–170",
+  "title": "Q6–7 • Bộ 02: Xác nhận Đơn hàng & Điều phối Giao vận",
+  "topic": "Đặt hàng doanh nghiệp, Nội thất & Dịch vụ ăn uống",
+  "estMinutes": 20,
+  "guideVi": "Luyện cách phản hồi email xác nhận đơn hàng B2B: đặt câu hỏi làm rõ lịch giao/bến bốc dỡ, cung cấp chính xác thông số đơn hàng (số lượng, lưu ý đặc biệt) và giữ văn phong lịch sự.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Hoàn thành đầy đủ 2–3 nhiệm vụ yêu cầu trong đề (Directions)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục email thương mại chuẩn (Chào – Nội dung – Kết) & độ dài 80–170 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Giọng văn chuyên nghiệp, từ vựng chuẩn xác và liên kết mạch lạc",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q67_02_1",
+      "itemType": "wr_q67",
+      "label": "Email 1 • Xác nhận lịch giao nội thất văn phòng",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Oakline Office Furniture <dispatch@oaklinefurniture.com>",
+        "to": "Facilities Manager <facilities@crestviewmedia.com>",
+        "subject": "Updated Delivery Date for Order #OF-8820",
+        "sent": "Monday, July 8, 11:05 A.M."
+      },
+      "emailBody": "Dear Facilities Team,\n\nThank you for ordering twenty ergonomic office chairs and five conference tables from Oakline. Your shipment was originally scheduled for Friday, July 12.\n\nHowever, our delivery trucks are fully booked on Friday morning. We would like to move your delivery to Monday, July 15, between 1:00 P.M. and 3:00 P.M. Please let us know if this updated window works for your building and whether our crew needs any special parking instructions.\n\nBest regards,\nOakline Dispatch Department",
+      "directionsEn": "Respond to the e-mail as if you are the facilities manager at Crestview Media. In your e-mail, confirm or adjust the delivery time, make ONE request regarding installation, and provide TWO details about building access.",
+      "directionsVi": "Trả lời email với vai trò quản lý cơ sở vật chất tại Crestview Media. Hãy xác nhận hoặc điều chỉnh thời gian giao hàng, đưa ra MỘT yêu cầu về lắp đặt và cung cấp HAI chi tiết về lối vào/bãi đỗ xe của tòa nhà.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Xác nhận khung giờ giao chiều thứ Hai 15/7 (hoặc đề xuất giờ khác)",
+          "checkType": "info",
+          "hintEn": "The updated delivery window on Monday, July 15, from 1:00 to 3:00 P.M. works well for us.",
+          "signals": [
+            "confirm",
+            "monday",
+            "july 15",
+            "works",
+            "schedule",
+            "afternoon"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Đưa ra 1 yêu cầu về lắp đặt hoặc dọn bao bì",
+          "checkType": "request",
+          "hintEn": "Could your crew assemble the five conference tables in Room 402 and remove the packaging boxes?",
+          "signals": [
+            "could",
+            "please",
+            "assemble",
+            "install",
+            "assembly",
+            "setup",
+            "packaging",
+            "request"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Cung cấp 2 thông tin hướng dẫn lối vào / thang máy / chỗ đỗ xe",
+          "checkType": "info",
+          "hintEn": "First, please use the rear loading dock on Pine Street. Second, register with security to use the freight elevator.",
+          "signals": [
+            "dock",
+            "parking",
+            "entrance",
+            "street",
+            "elevator",
+            "security",
+            "badge",
+            "gate"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Dùng cấu trúc lịch sự 'Could your team please...' hoặc 'We would appreciate it if...' cho phần yêu cầu lắp đặt.",
+      "keyPhrases": [
+        {
+          "en": "delivery window",
+          "vi": "khung giờ giao hàng"
+        },
+        {
+          "en": "rear loading dock",
+          "vi": "bến bốc dỡ phía sau"
+        },
+        {
+          "en": "freight elevator",
+          "vi": "thang máy chở hàng"
+        },
+        {
+          "en": "assemble the tables",
+          "vi": "lắp ráp các bàn họp"
+        },
+        {
+          "en": "security desk",
+          "vi": "bàn bảo vệ"
+        }
+      ],
+      "sample": "Dear Oakline Dispatch Team,\n\nThank you for updating us regarding Order #OF-8820. I am writing to confirm that the proposed delivery window on Monday, July 15, between 1:00 P.M. and 3:00 P.M. works well for our office.\n\nWhen your crew arrives, could you please assemble the five conference tables inside our fourth-floor meeting room and take away all empty cardboard packaging? That would save our team significant time.\n\nFor smooth building access, please note two important details. First, delivery trucks should park at the rear loading dock located on Pine Street rather than the main lobby entrance. Second, your drivers will need to check in at the security desk with photo ID to receive temporary passes for the freight elevator.\n\nPlease call me at extension 204 if the truck arrives early.\n\nBest regards,\nMarcus Vance\nFacilities Manager, Crestview Media",
+      "sampleVi": "Kính gửi Bộ phận Điều vận Oakline,\n\nCảm ơn quý công ty đã cập nhật thông tin về đơn hàng #OF-8820. Tôi viết thư xác nhận khung giờ giao hàng đề xuất vào thứ Hai, ngày 15/7 từ 13:00 đến 15:00 hoàn toàn phù hợp với văn phòng chúng tôi.\n\nKhi đội ngũ giao hàng tới nơi, quý công ty có thể lắp ráp giúp năm chiếc bàn họp trong phòng họp tầng bốn và thu dọn toàn bộ thùng các-tông rỗng không? Việc đó sẽ giúp chúng tôi tiết kiệm rất nhiều thời gian.\n\nĐể việc vào tòa nhà thuận lợi, xin lưu ý hai chi tiết sau. Thứ nhất, xe tải cần đỗ tại bến bốc dỡ phía sau trên đường Pine thay vì lối sảnh chính. Thứ hai, tài xế cần xuất trình giấy tờ tùy thân tại bàn bảo vệ để nhận thẻ tạm sử dụng thang máy chở hàng.\n\nVui lòng gọi máy lẻ 204 nếu xe tới sớm.\n\nTrân trọng,\nMarcus Vance\nQuản lý Cơ sở vật chất, Crestview Media"
+    },
+    {
+      "itemId": "w_q67_02_2",
+      "itemType": "wr_q67",
+      "label": "Email 2 • Đặt suất ăn trưa cho khóa đào tạo",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "GreenBowl Catering <orders@greenbowlcatering.com>",
+        "to": "Training Coordinator <events@meridianbank.com>",
+        "subject": "Lunch Order Confirmation — August 22 Workshop",
+        "sent": "Wednesday, August 14, 2:20 P.M."
+      },
+      "emailBody": "Hello Meridian Bank Events,\n\nWe received your preliminary inquiry for boxed lunches on Thursday, August 22. Before we lock in the kitchen schedule, we need your final guest count and any dietary restrictions.\n\nAlso, please tell us if you have any questions about our buffet setup or payment terms.\n\nWarm regards,\nGreenBowl Catering",
+      "directionsEn": "Respond to the e-mail as if you are the training coordinator at Meridian Bank. In your e-mail, provide TWO details about the lunch order (headcount and dietary needs) and ask TWO questions about setup and payment.",
+      "directionsVi": "Trả lời email với vai trò điều phối viên đào tạo tại Meridian Bank. Hãy cung cấp HAI thông tin về đơn đặt ăn (số lượng khách và yêu cầu ăn kiêng) và hỏi HAI câu về việc bày trí cũng như thanh toán.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Cung cấp số lượng suất ăn chốt & yêu cầu thực đơn ăn chay/dị ứng",
+          "checkType": "info",
+          "hintEn": "Our final count is 45 guests, including six vegetarian meals and two gluten-free boxes.",
+          "signals": [
+            "guests",
+            "people",
+            "lunches",
+            "boxes",
+            "vegetarian",
+            "vegan",
+            "gluten",
+            "allergy",
+            "dietary"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Hỏi 1 câu về giờ giao / thời gian bày bàn buffet",
+          "checkType": "question",
+          "hintEn": "What time will your staff arrive to set up the lunch tables?",
+          "signals": [
+            "?",
+            "arrive",
+            "setup",
+            "set up",
+            "time",
+            "when"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Hỏi 1 câu về phương thức thanh toán hoặc hóa đơn công ty",
+          "checkType": "question",
+          "hintEn": "Can we pay by corporate credit card or invoice after the event?",
+          "signals": [
+            "?",
+            "pay",
+            "payment",
+            "invoice",
+            "card",
+            "deposit"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Nêu con số cụ thể rõ ràng (ví dụ 45 suất tổng, trong đó 6 suất chay và 2 suất không gluten) giúp email chuyên nghiệp và sát thực tế công sở.",
+      "keyPhrases": [
+        {
+          "en": "final headcount",
+          "vi": "số lượng người tham dự chốt cuối"
+        },
+        {
+          "en": "dietary restrictions",
+          "vi": "hạn chế ăn uống / dị ứng"
+        },
+        {
+          "en": "vegetarian options",
+          "vi": "suất ăn chay"
+        },
+        {
+          "en": "corporate invoice",
+          "vi": "hóa đơn thanh toán doanh nghiệp"
+        },
+        {
+          "en": "beverages and utensils",
+          "vi": "đồ uống và dụng cụ ăn"
+        }
+      ],
+      "sample": "Dear GreenBowl Catering Team,\n\nThank you for following up on our lunch order for the August 22 training workshop. I am happy to share our final numbers and ask two quick questions.\n\nOur confirmed headcount is forty-five participants. Regarding dietary restrictions, six attendees require vegetarian meals and two need gluten-free boxes without nuts. The remaining thirty-seven lunches can be your standard assorted wraps and salads.\n\nBefore finalizing everything, could you please answer two questions? First, what time will your delivery staff arrive on August 22 to set up the serving tables in our third-floor lounge? Second, do you require an advance deposit, or may Meridian Bank settle the full corporate invoice within fifteen days after the event?\n\nThank you for your help, and we look forward to working with you.\n\nBest regards,\nLaura Chen\nTraining Coordinator, Meridian Bank",
+      "sampleVi": "Kính gửi Đội ngũ GreenBowl Catering,\n\nCảm ơn quý đơn vị đã phản hồi về đơn đặt ăn trưa cho buổi tập huấn ngày 22/8. Tôi xin gửi số liệu chốt cuối và hỏi nhanh hai câu hỏi sau.\n\nSố lượng người tham dự xác nhận là 45 người. Về chế độ ăn kiêng, có sáu học viên cần suất chay và hai người cần hộp không chứa gluten và các loại hạt. Ba mươi bảy suất còn lại có thể dùng thực đơn bánh cuốn và salad tiêu chuẩn.\n\nTrước khi chốt đơn, quý vị vui lòng giải đáp giúp hai câu hỏi sau nhé? Thứ nhất, nhân viên giao hàng sẽ tới lúc mấy giờ ngày 22/8 để bày trí bàn ăn tại sảnh nghỉ tầng ba? Thứ hai, quý vị có yêu cầu đặt cọc trước không, hay Meridian Bank có thể thanh toán toàn bộ hóa đơn doanh nghiệp trong vòng 15 ngày sau sự kiện?\n\nXin cảm ơn và mong được hợp tác cùng quý vị.\n\nTrân trọng,\nLaura Chen\nĐiều phối viên Đào tạo, Meridian Bank"
+    }
+  ]
+}

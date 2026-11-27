@@ -1,0 +1,198 @@
+{
+  "id": "tl_p3_01",
+  "order": 23,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Họp nội bộ & Lịch Hội nghị Khách hàng",
+  "subtitle": "Đổi phòng họp, kiểm tra thiết bị trình chiếu và đối chiếu bảng lịch sự kiện",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Đọc trước 3 câu hỏi để xác định ai nói gì. Với câu hỏi trong ngoặc kép, lắng nghe câu ngay trước hoặc sau nó để suy ra ý ngụ ý; với câu hỏi bảng biểu, đối chiếu thông tin nghe được (ví dụ tên phiên hoặc giờ) sang cột còn lại.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Chuyển phòng họp & Thiết bị trình chiếu",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Hi Rachel, have you finished updating the sales forecast slides for this afternoon's client review?",
+          "vi": "Chào Rachel, bạn đã cập nhật xong các trang chiếu dự báo doanh số cho buổi rà soát khách hàng chiều nay chưa?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Almost done—I just need to verify the regional revenue figures with accounting. By the way, are we still meeting in Room 204?",
+          "vi": "Gần xong rồi—tôi chỉ cần xác minh lại số liệu doanh thu theo khu vực với phòng kế toán. Nhân tiện, chúng ta vẫn họp ở phòng 204 chứ?"
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Actually, facilities just emailed to say the projector in Room 204 has a faulty cable. I was thinking of moving us upstairs.",
+          "vi": "Thực ra bên quản lý cơ sở vật chất vừa gửi email báo máy chiếu ở phòng 204 bị hỏng dây cáp. Tôi đang tính chuyển lên tầng trên."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "The third-floor boardroom is booked solid until three.",
+          "vi": "Phòng họp hội đồng ở tầng ba đã kín lịch đến tận ba giờ."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Good catch. In that case, let's reserve the training studio on the first floor—it has a large smart screen, and I'll send everyone a calendar update right now.",
+          "vi": "May mà bạn nhắc. Vậy thì hãy đặt phòng tập huấn ở tầng một—ở đó có màn hình thông minh lớn, và tôi sẽ gửi cập nhật lịch cho mọi người ngay bây giờ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why does the man want to change the meeting location?",
+          "opts": [
+            "Some presentation equipment is malfunctioning.",
+            "The room is too small for the clients.",
+            "The accounting department requested the space.",
+            "The air conditioning is under repair."
+          ],
+          "ans": 0,
+          "exp": "Người đàn ông nói: 'the projector in Room 204 has a faulty cable' (máy chiếu ở phòng 204 bị hỏng dây cáp) → đồng nghĩa với 'Some presentation equipment is malfunctioning' (Thiết bị trình chiếu gặp trục trặc). Chọn (A)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman mean when she says, \"The third-floor boardroom is booked solid until three\"?",
+          "opts": [
+            "They should postpone the review until tomorrow.",
+            "She needs to attend a workshop on the third floor.",
+            "The man's suggested room is not available.",
+            "The catering service will arrive at three o'clock."
+          ],
+          "ans": 2,
+          "exp": "Người đàn ông đề xuất chuyển lên tầng trên ('moving us upstairs'), người phụ nữ đáp phòng tầng 3 đã kín lịch ('booked solid') → ngụ ý phòng anh ấy gợi ý không còn trống. Chọn (C)."
+        },
+        {
+          "num": 3,
+          "q": "What will the man do next?",
+          "opts": [
+            "Verify regional revenue figures",
+            "Notify attendees about a room change",
+            "Replace a broken projector cable",
+            "Print copies of the sales slides"
+          ],
+          "ans": 1,
+          "exp": "Ở lượt cuối, người đàn ông nói: 'I'll send everyone a calendar update right now' (Tôi sẽ gửi cập nhật lịch cho mọi người ngay bây giờ) → báo cho người tham dự về việc đổi phòng. Chọn (B)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Lịch Hội nghị Khách hàng Thường niên",
+      "accent": "en-US",
+      "graphic": {
+        "title": "Annual Client Summit Schedule",
+        "headers": [
+          "Time",
+          "Session",
+          "Room"
+        ],
+        "rows": [
+          [
+            "9:00 AM",
+            "Opening Keynote",
+            "Grand Hall A"
+          ],
+          [
+            "10:30 AM",
+            "Cloud Analytics Demo",
+            "Cedar Room"
+          ],
+          [
+            "1:00 PM",
+            "Supply Chain Panel",
+            "Oak Room"
+          ],
+          [
+            "2:45 PM",
+            "Closing Q&A",
+            "Grand Hall A"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Daniel, we just got a surge in registrations for tomorrow's Annual Client Summit—nearly eighty people signed up for the Cloud Analytics Demo.",
+          "vi": "Daniel, chúng ta vừa nhận được lượng đăng ký tăng vọt cho Hội nghị Khách hàng Thường niên ngày mai—gần tám mươi người đã đăng ký phiên Trình diễn Phân tích Đám mây."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Eighty? The room currently assigned to that session only seats forty-five comfortably. We'll have people standing in the hallway.",
+          "vi": "Tám mươi người sao? Phòng hiện được phân cho phiên đó chỉ đủ chỗ ngồi thoải mái cho bốn mươi lăm người. Khách sẽ phải đứng ngoài hành lang mất."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Exactly. Fortunately, Grand Hall A is empty between ten and noon, so I already asked the venue coordinator to shift the demo there.",
+          "vi": "Chính xác. May là Đại sảnh A trống từ mười giờ đến trưa, nên tôi đã nhờ điều phối viên địa điểm chuyển phiên trình diễn sang đó."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "That's a huge relief. I'll have the interns update the printed signs at the registration desk before doors open at eight-thirty.",
+          "vi": "Thật nhẹ cả người. Tôi sẽ bảo các thực tập sinh cập nhật biển chỉ dẫn in sẵn tại bàn đăng ký trước khi mở cửa lúc tám giờ ba mươi."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What problem do the speakers discuss?",
+          "opts": [
+            "A guest speaker canceled unexpectedly.",
+            "Printed brochures contain outdated pricing.",
+            "The registration desk opened behind schedule.",
+            "Too many attendees registered for a session."
+          ],
+          "ans": 3,
+          "exp": "Người phụ nữ cho biết gần 80 người đăng ký ('a surge in registrations'), còn phòng hiện tại chỉ chứa được 45 người → quá đông người đăng ký cho một phiên. Chọn (D)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which room was originally scheduled for the relocated session?",
+          "opts": [
+            "Cedar Room",
+            "Grand Hall A",
+            "Oak Room",
+            "Registration Desk"
+          ],
+          "ans": 0,
+          "exp": "Phiên bị chuyển phòng là 'Cloud Analytics Demo'. Đối chiếu bảng lịch trình: 'Cloud Analytics Demo' lúc 10:30 AM ban đầu ở cột Room là 'Cedar Room'. Chọn (A)."
+        },
+        {
+          "num": 6,
+          "q": "What will the interns be asked to do?",
+          "opts": [
+            "Greet speakers at the entrance",
+            "Test the microphones in Grand Hall A",
+            "Revise directional signage",
+            "Email digital schedules to clients"
+          ],
+          "ans": 2,
+          "exp": "Người đàn ông nói: 'I'll have the interns update the printed signs' → đồng nghĩa với 'Revise directional signage' (Chỉnh sửa biển chỉ dẫn). Chọn (C)."
+        }
+      ]
+    }
+  ]
+}

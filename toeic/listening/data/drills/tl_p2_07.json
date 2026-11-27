@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_07",
+  "order": 19,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 07: Câu hỏi Phủ định & Câu hỏi đuôi (Tag Questions)",
+  "subtitle": "Xử lý chuẩn xác Didn't you...?, Isn't it...? và câu hỏi đuôi ..., haven't they? mà không bị nhầm Yes/No.",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "MẸO NHỚ NHANH: Trong tiếng Anh, Yes luôn đi với vế khẳng định (Yes, I did), No luôn đi với vế phủ định (No, I didn't) — BỎ QUA chữ 'n't' trong câu hỏi để không bị rối logic theo thói quen tiếng Việt!",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Negative/Tag",
+      "accent": "en-US",
+      "question": "Didn't you receive my email about the venue change?",
+      "questionVi": "Bạn không nhận được email của tôi về việc đổi địa điểm à?",
+      "options": [
+        "Sorry, I haven't checked my inbox all morning.",
+        "Yes, I have exact change for the bus.",
+        "At the riverside hotel."
+      ],
+      "optionsVi": [
+        "Xin lỗi, cả sáng nay tôi chưa kiểm tra hộp thư đến.",
+        "Vâng, tôi có tiền lẻ vừa đủ đi xe buýt.",
+        "Tại khách sạn ven sông."
+      ],
+      "ans": 0,
+      "exp": "Câu hỏi phủ định xác nhận việc nhận email → chọn (A) giải thích rõ lý do chưa thấy email. Loại (B) bẫy đa nghĩa 'change (thay đổi) / change (tiền lẻ)', (C) trả lời nơi chốn."
+    },
+    {
+      "num": 2,
+      "qType": "Negative/Tag",
+      "accent": "en-GB",
+      "question": "The quarterly financial report is due tomorrow, isn't it?",
+      "questionVi": "Báo cáo tài chính hàng quý đến hạn vào ngày mai, đúng không?",
+      "options": [
+        "Yes, the weather forecast looks nice.",
+        "Actually, the deadline was extended to Friday.",
+        "In the accounting folder."
+      ],
+      "optionsVi": [
+        "Vâng, dự báo thời tiết trông có vẻ đẹp.",
+        "Thực ra hạn chót đã được gia hạn đến thứ Sáu rồi.",
+        "Trong thư mục kế toán."
+      ],
+      "ans": 1,
+      "exp": "Câu hỏi đuôi kiểm chứng hạn nộp → chọn (B) dùng 'Actually' để đính chính thông tin (cực chuẩn ETS). Loại (A) lạc đề, (C) trả lời địa điểm."
+    },
+    {
+      "num": 3,
+      "qType": "Negative/Tag",
+      "accent": "en-US",
+      "question": "Isn't the lobby renovation supposed to finish this week?",
+      "questionVi": "Không phải việc cải tạo sảnh dự kiến xong trong tuần này sao?",
+      "options": [
+        "Yes, I am very weak after the flu.",
+        "By the elevator doors.",
+        "They ran into a delay with the tile delivery."
+      ],
+      "optionsVi": [
+        "Vâng, tôi rất yếu sau trận cảm cúm.",
+        "Ngay cạnh cửa thang máy.",
+        "Họ gặp sự chậm trễ ở khâu giao gạch lát."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) gián tiếp báo chưa xong kịp vì chậm giao gạch. Loại (A) bẫy đồng âm 'week / weak', (B) trả lời vị trí."
+    },
+    {
+      "num": 4,
+      "qType": "Negative/Tag",
+      "accent": "en-AU",
+      "question": "You have already booked the hotel rooms for the speakers, haven't you?",
+      "questionVi": "Bạn đã đặt phòng khách sạn cho các diễn giả rồi phải không?",
+      "options": [
+        "Yes, all five confirmations are on my desk.",
+        "No, the audio speakers are working fine.",
+        "For three nights downtown."
+      ],
+      "optionsVi": [
+        "Vâng, cả năm giấy xác nhận đều ở trên bàn tôi.",
+        "Không, loa âm thanh vẫn hoạt động tốt.",
+        "Trong ba đêm ở trung tâm thành phố."
+      ],
+      "ans": 0,
+      "exp": "Câu hỏi đuôi xác nhận việc đặt phòng → chọn (A) xác nhận kèm bằng chứng 'confirmations'. Loại (B) bẫy đa nghĩa 'speakers (diễn giả) / audio speakers (loa)', (C) trả lời thời lượng."
+    },
+    {
+      "num": 5,
+      "qType": "Negative/Tag",
+      "accent": "en-US",
+      "question": "Won't the new parking policy affect part-time staff?",
+      "questionVi": "Chính sách đỗ xe mới chẳng phải sẽ ảnh hưởng đến nhân viên bán thời gian sao?",
+      "options": [
+        "In the underground garage.",
+        "No, it only applies to full-time employees.",
+        "Yes, I parked near the park."
+      ],
+      "optionsVi": [
+        "Trong tầng hầm để xe.",
+        "Không, nó chỉ áp dụng cho nhân viên toàn thời gian thôi.",
+        "Vâng, tôi đã đỗ xe gần công viên."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) phủ định rõ ràng và bổ sung phạm vi áp dụng ('only applies to full-time employees'). Loại (A) địa điểm, (C) bẫy đồng âm/lặp từ 'parking / parked / park'."
+    },
+    {
+      "num": 6,
+      "qType": "Negative/Tag",
+      "accent": "en-GB",
+      "question": "Ms. Morales runs the Madrid branch, doesn't she?",
+      "questionVi": "Cô Morales điều hành chi nhánh Madrid, phải không?",
+      "options": [
+        "She goes running every morning.",
+        "Yes, a small tree branch fell down.",
+        "She did until she transferred to Lisbon last month."
+      ],
+      "optionsVi": [
+        "Cô ấy đi chạy bộ mỗi sáng.",
+        "Vâng, một cành cây nhỏ đã rơi xuống.",
+        "Trước đây đúng là thế cho đến khi cô ấy chuyển sang Lisbon tháng trước."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) cập nhật đúng tình trạng hiện tại ('She did until...'). Loại (A) bẫy đa nghĩa 'runs (điều hành) / running (chạy bộ)', (B) bẫy 'branch (chi nhánh) / tree branch (cành cây)'."
+    }
+  ]
+}

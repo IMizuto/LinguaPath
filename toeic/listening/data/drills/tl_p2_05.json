@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_05",
+  "order": 17,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 05: Câu hỏi Why & How (Lý do, Cách thức & Số lượng)",
+  "subtitle": "Làm chủ Why (Because / To-V / Ngầm hiểu nguyên nhân) và họ How (How long / How much / How often).",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "Câu hỏi 'Why' không nhất thiết phải trả lời bằng 'Because' — ETS rất hay dùng 'To + V' (chỉ mục đích) hoặc nêu thẳng nguyên nhân. Với 'How', nghe kỹ từ đi sau: How long (bao lâu), How much (giá), How often (tần suất).",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Why",
+      "accent": "en-US",
+      "question": "Why was the quarterly staff meeting rescheduled?",
+      "questionVi": "Tại sao cuộc họp nhân viên hàng quý bị dời lịch?",
+      "options": [
+        "Several directors are out of town.",
+        "In the third-floor boardroom.",
+        "Next Wednesday at two."
+      ],
+      "optionsVi": [
+        "Một vài giám đốc đang đi công tác xa.",
+        "Ở phòng họp tầng ba.",
+        "Thứ Tư tới lúc hai giờ."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) nêu trực tiếp nguyên nhân mà không cần dùng 'Because' — kiểu rất phổ biến trong TOEIC. Loại (B) địa điểm, (C) thời gian."
+    },
+    {
+      "num": 2,
+      "qType": "How",
+      "accent": "en-GB",
+      "question": "How long does it take to get to the train station?",
+      "questionVi": "Mất bao lâu để đi tới nhà ga tàu hỏa?",
+      "options": [
+        "Yes, the training was helpful.",
+        "Roughly fifteen minutes by taxi.",
+        "It is about two meters long."
+      ],
+      "optionsVi": [
+        "Vâng, khóa đào tạo rất hữu ích.",
+        "Khoảng mười lăm phút đi taxi.",
+        "Nó dài khoảng hai mét."
+      ],
+      "ans": 1,
+      "exp": "'How long does it take...' hỏi thời lượng di chuyển → chọn (B) 'Roughly fifteen minutes by taxi'. Loại (A) bẫy đồng âm 'train / training', (C) bẫy lặp từ 'long' đo chiều dài."
+    },
+    {
+      "num": 3,
+      "qType": "Why",
+      "accent": "en-US",
+      "question": "Why are you staying late at the office tonight?",
+      "questionVi": "Tại sao tối nay bạn lại ở lại văn phòng muộn thế?",
+      "options": [
+        "Yes, my bus was ten minutes late.",
+        "In a hotel near the airport.",
+        "To finish the presentation slides for tomorrow."
+      ],
+      "optionsVi": [
+        "Vâng, xe buýt của tôi bị trễ mười phút.",
+        "Ở một khách sạn gần sân bay.",
+        "Để hoàn thành các trang trình chiếu cho ngày mai."
+      ],
+      "ans": 2,
+      "exp": "Câu trả lời dùng 'To + V' chỉ mục đích cực chuẩn cho 'Why' → chọn (C). Loại (A) bẫy lặp từ 'late' + Yes, (B) bẫy liên tưởng 'staying / hotel'."
+    },
+    {
+      "num": 4,
+      "qType": "How",
+      "accent": "en-AU",
+      "question": "How much will it cost to repair the delivery van?",
+      "questionVi": "Chi phí sửa chiếc xe tải giao hàng là bao nhiêu?",
+      "options": [
+        "The mechanic estimated four hundred dollars.",
+        "At the garage on Oak Street.",
+        "Next Tuesday morning."
+      ],
+      "optionsVi": [
+        "Thợ sửa ước tính bốn trăm đô la.",
+        "Tại ga-ra trên phố Oak.",
+        "Sáng thứ Ba tới."
+      ],
+      "ans": 0,
+      "exp": "'How much will it cost' hỏi giá tiền → chọn (A) nêu rõ con số 'four hundred dollars'. Loại (B) nơi chốn, (C) thời gian."
+    },
+    {
+      "num": 5,
+      "qType": "How",
+      "accent": "en-US",
+      "question": "How often do we back up the customer database?",
+      "questionVi": "Chúng ta sao lưu cơ sở dữ liệu khách hàng thường xuyên thế nào?",
+      "options": [
+        "Please put it back on the shelf.",
+        "Every evening at midnight.",
+        "Over five thousand records."
+      ],
+      "optionsVi": [
+        "Vui lòng đặt nó lại lên kệ.",
+        "Mỗi buổi tối vào lúc nửa đêm.",
+        "Hơn năm nghìn hồ sơ."
+      ],
+      "ans": 1,
+      "exp": "'How often' hỏi tần suất → chọn (B) 'Every evening at midnight'. Loại (A) bẫy lặp từ 'back', (C) số lượng dữ liệu."
+    },
+    {
+      "num": 6,
+      "qType": "How",
+      "accent": "en-GB",
+      "question": "How did you hear about this job opening?",
+      "questionVi": "Bạn biết đến vị trí tuyển dụng này bằng cách nào?",
+      "options": [
+        "The store opens at nine.",
+        "No, I could not hear the speaker.",
+        "A former colleague recommended it to me."
+      ],
+      "optionsVi": [
+        "Cửa hàng mở cửa lúc chín giờ.",
+        "Không, tôi không nghe thấy diễn giả.",
+        "Một đồng nghiệp cũ đã giới thiệu nó cho tôi."
+      ],
+      "ans": 2,
+      "exp": "'How' hỏi cách thức biết tin → chọn (C) 'A former colleague recommended it to me'. Loại (A) bẫy từ 'opening / opens', (B) bẫy lặp từ 'hear'."
+    }
+  ]
+}

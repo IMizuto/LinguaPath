@@ -1,0 +1,192 @@
+{
+  "id": "tr_p7t_02",
+  "order": 32,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 02: Chính sách hội viên, Hóa đơn phòng Lab & Email khiếu nại",
+  "subtitle": "Tính toán chênh lệch chiết khấu hai bậc (12% vs 5%), phí vận chuyển lạnh và bảo hành thiết bị lỗi qua 3 văn bản.",
+  "timeLimitMin": 12,
+  "tips": "Với bộ Chính sách + Hóa đơn + Email khiếu nại, đừng chỉ nhìn con số tổng trên hóa đơn — hãy tách riêng từng nhóm hàng (Consumables 12% vs Precision Instruments 5%) để tìm chính xác khoản sai và khoản đúng.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Chính sách hội viên",
+      "genre": "ad",
+      "meta": {
+        "title": "BIOLAB DIRECT SUPPLY — GOLD INSTITUTIONAL MEMBERSHIP",
+        "subtitle": "Annual Institutional Plan ($400/year) • Effective Current Fiscal Year"
+      },
+      "paragraphs": [
+        "Designed for university laboratories and biotech research facilities, BioLab Gold Institutional Membership delivers tiered pricing and priority logistics:",
+        "• 12% discount on all laboratory consumables and glassware\n• 5% discount on precision instruments (centrifuges, microscopes, and incubators)\n• Complimentary cold-chain freight on any single order exceeding $2,500 before discounts (otherwise $95 flat fee)",
+        "Warranty Protection: Any precision instrument found defective upon arrival and reported within 14 calendar days of delivery qualifies for an immediate no-cost replacement, including prepaid return courier pickup."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Hóa đơn",
+      "genre": "table",
+      "meta": {
+        "title": "BIOLAB DIRECT SUPPLY — INVOICE #BL-7740",
+        "subtitle": "Issued: June 5 • Shipped To: Oakridge Biotech Institute (Gold Member #GM-118)"
+      },
+      "paragraphs": [
+        "Gross Subtotal: $2,900.00 | Applied Member Discount (5% flat): -$145.00 | Cold-Chain Freight: $95.00 | Net Total Billed: $2,850.00"
+      ],
+      "table": {
+        "headers": [
+          "SKU",
+          "Item Description",
+          "Category",
+          "Qty",
+          "Unit Price",
+          "Subtotal"
+        ],
+        "rows": [
+          [
+            "CG-102",
+            "Borosilicate Flask Set",
+            "Glassware",
+            "10",
+            "$80.00",
+            "$800.00"
+          ],
+          [
+            "CP-310",
+            "Sterile Pipette Tips (Case of 5,000)",
+            "Consumables",
+            "6",
+            "$150.00",
+            "$900.00"
+          ],
+          [
+            "PI-880",
+            "Benchtop Micro-Centrifuge",
+            "Precision Instrument",
+            "1",
+            "$1,200.00",
+            "$1,200.00"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "billing@biolabdirect.com",
+        "from": "Lin Chen <l.chen@oakridgebiotech.org>",
+        "date": "June 11",
+        "subject": "Billing Corrections & Defective Unit — Invoice #BL-7740"
+      },
+      "paragraphs": [
+        "Dear BioLab Billing & Support Team,",
+        "Our shipment under Invoice #BL-7740 arrived at Oakridge Biotech Institute on Monday, June 9. Upon reviewing the invoice and unpacking the equipment, I found three issues requiring adjustment.",
+        "First, although our Gold Membership ID is listed on the invoice, your system applied a flat 5% discount across the entire order rather than giving the higher member rate on our consumables and glassware. Second, because our pre-discount subtotal exceeds $2,500, the $95 cold-chain freight charge should be waived.",
+        "Finally, the Benchtop Micro-Centrifuge displayed a rotor-calibration error during initial power-up and cannot be operated safely. Please arrange a replacement unit and send a corrected invoice at your earliest convenience.",
+        "Sincerely,\nLin Chen\nLab Procurement Officer, Oakridge Biotech Institute"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the membership policy, within how many days of delivery must a defective instrument be reported to qualify for a free replacement?",
+      "opts": [
+        "7 days",
+        "14 days",
+        "30 days",
+        "45 days"
+      ],
+      "ans": 1,
+      "exp": "Văn bản 1 (đoạn 3) nêu rõ: 'reported within 14 calendar days of delivery qualifies for an immediate no-cost replacement' → Trong vòng 14 ngày kể từ khi nhận hàng."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"waived\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "doubled",
+        "postponed",
+        "verified",
+        "removed"
+      ],
+      "ans": 3,
+      "exp": "Trong câu 'the $95 cold-chain freight charge should be waived' (khoản phí vận chuyển lạnh $95 cần được miễn/bỏ đi), 'waived' đồng nghĩa với 'removed' (gỡ bỏ không tính phí)."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "What can be inferred about returning the defective Benchtop Micro-Centrifuge?",
+      "opts": [
+        "BioLab Direct Supply will pay for the return courier pickup.",
+        "Oakridge Biotech Institute missed the warranty reporting deadline.",
+        "The institute will receive store credit instead of a replacement unit.",
+        "Ms. Chen must deliver the broken centrifuge to a local warehouse."
+      ],
+      "ans": 0,
+      "exp": "Nối chéo Văn bản 1 & 3: Văn bản 1 cam kết 'immediate no-cost replacement, including prepaid return courier pickup' nếu báo lỗi trong vòng 14 ngày. Văn bản 3 cho thấy hàng tới ngày 9/6 và cô Chen báo lỗi ngày 11/6 (mới 2 ngày) → BioLab sẽ chịu chi phí chuyển phát thu hồi máy lỗi."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Which product on Invoice #BL-7740 received the correct membership discount rate?",
+      "opts": [
+        "Item CG-102 only",
+        "Item CP-310 only",
+        "Item PI-880 only",
+        "Both CG-102 and CP-310"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 1 quy định Gold Member được giảm 12% cho Glassware/Consumables và 5% cho Precision Instruments. Văn bản 2 áp dụng đồng loạt 5% cho cả đơn, và Văn bản 3 phàn nàn phần Consumables/Glassware bị thiếu ưu đãi → Chỉ riêng mã PI-880 (Precision Instrument — hưởng đúng 5%) là được tính đúng tỷ lệ chiết khấu!"
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "What is the correct total member discount that should appear on the revised invoice?",
+      "opts": [
+        "$145.00",
+        "$264.00",
+        "$348.00",
+        "$204.00"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: Từ Văn bản 1 & 2, nhóm Glassware + Consumables (CG-102 $800 + CP-310 $900 = $1,700) được giảm 12% = $204.00; nhóm Precision Instrument (PI-880 $1,200) được giảm 5% = $60.00. Tổng mức chiết khấu hội viên đúng phải là $204.00 + $60.00 = $264.00."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "complimentary cold-chain freight",
+      "answer": "the $95 cold-chain freight charge should be waived",
+      "vi": "miễn phí vận chuyển dây chuyền lạnh ↔ gỡ bỏ khoản phí $95"
+    },
+    {
+      "text": "prepaid return courier pickup",
+      "answer": "pay for the return courier pickup",
+      "vi": "chuyển phát thu hồi trả trước ↔ nhà cung cấp chịu phí thu hồi"
+    },
+    {
+      "text": "waived",
+      "answer": "removed",
+      "vi": "được miễn, được xóa bỏ phí"
+    },
+    {
+      "text": "exceeding $2,500 before discounts",
+      "answer": "pre-discount subtotal exceeds $2,500 ($2,900)",
+      "vi": "vượt $2,500 trước chiết khấu"
+    },
+    {
+      "text": "higher member rate on consumables and glassware",
+      "answer": "12% discount ($204 on $1,700)",
+      "vi": "mức chiết khấu cao hơn 12% cho vật tư tiêu hao và đồ thủy tinh"
+    },
+    {
+      "text": "displayed a rotor-calibration error upon initial power-up",
+      "answer": "defective upon arrival",
+      "vi": "báo lỗi cân chỉnh rô-to khi mới bật ↔ bị lỗi ngay khi giao tới"
+    }
+  ]
+}

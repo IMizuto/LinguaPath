@@ -1,0 +1,203 @@
+{
+  "id": "tl_p3_04",
+  "order": 26,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Công tác, Khách sạn & Lịch Tàu Tốc hành",
+  "subtitle": "Yêu cầu đổi phòng khách sạn yên tĩnh và chọn chuyến tàu kịp giờ thuyết trình",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Với bảng giờ tàu/chuyến bay, luôn chú ý múi giờ, thời gian đến (Arrival) so với giờ họp và các ràng buộc như cần thời gian di chuyển từ ga tới văn phòng.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Nhận phòng khách sạn & Xe đưa đón sân bay",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Welcome to the Crestview Hotel, sir. Do you have a reservation with us?",
+          "vi": "Chào mừng quý khách đến với Khách sạn Crestview. Ngài đã đặt phòng trước với chúng tôi chưa ạ?"
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Yes, under Martin Alvarez, for three nights. I have an early keynote presentation tomorrow, so is there any chance I could get a room away from the elevators?",
+          "vi": "Có, tên Martin Alvarez, đặt ba đêm. Sáng mai tôi có bài phát biểu chính từ sớm, nên không biết liệu tôi có thể lấy phòng xa khu thang máy được không?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Let me check our availability... You're currently in 602, which is right beside the lift, so I'll move you to 618 at the quiet corner overlooking the courtyard.",
+          "vi": "Để tôi kiểm tra phòng trống... Hiện tại ngài ở phòng 602 ngay sát thang máy, nên tôi sẽ chuyển ngài sang phòng 618 ở góc yên tĩnh nhìn ra sân trong."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "That sounds ideal, thank you. Also, does your complimentary airport shuttle run before six in the morning when I check out on Thursday?",
+          "vi": "Nghe thật lý tưởng, cảm ơn cô. Ngoài ra, xe trung chuyển sân bay miễn phí của khách sạn có chạy trước sáu giờ sáng vào thứ Năm khi tôi trả phòng không?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Our first shuttle leaves at five-fifteen sharp. I can put your name on Thursday's passenger list right now if you'd like.",
+          "vi": "Chuyến xe đầu tiên của chúng tôi khởi hành đúng năm giờ mười lăm. Nếu ngài muốn, tôi có thể ghi tên ngài vào danh sách hành khách thứ Năm ngay bây giờ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What does the man mean when he asks, \"is there any chance I could get a room away from the elevators?\"",
+          "opts": [
+            "He has difficulty using stairs.",
+            "He prefers a suite with a balcony.",
+            "He thinks his current room is too far from the lobby.",
+            "He wants a quiet room to rest before an event."
+          ],
+          "ans": 3,
+          "exp": "Anh nói 'I have an early keynote presentation tomorrow' rồi xin phòng xa thang máy, và lễ tân chuyển anh sang 'the quiet corner' → anh muốn phòng yên tĩnh nghỉ ngơi trước sự kiện. Chọn (D)."
+        },
+        {
+          "num": 2,
+          "q": "What feature does Room 618 have?",
+          "opts": [
+            "Direct access to the conference hall",
+            "A view of the hotel courtyard",
+            "Complimentary breakfast delivery",
+            "An upgraded work desk"
+          ],
+          "ans": 1,
+          "exp": "Lễ tân nói: 'move you to 618 at the quiet corner overlooking the courtyard' → nhìn ra sân trong ('A view of the hotel courtyard'). Chọn (B)."
+        },
+        {
+          "num": 3,
+          "q": "What does the woman offer to do for the man?",
+          "opts": [
+            "Call a private taxi for Thursday morning",
+            "Extend his stay by an extra night",
+            "Reserve him a seat on the airport shuttle",
+            "Print his presentation handouts"
+          ],
+          "ans": 2,
+          "exp": "Cô đề nghị: 'I can put your name on Thursday's passenger list right now' cho chuyến 'airport shuttle' → giữ chỗ trên xe trung chuyển sân bay. Chọn (C)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Chọn chuyến tàu đi công tác",
+      "accent": "en-US",
+      "graphic": {
+        "title": "East Coast Rail Departures",
+        "headers": [
+          "Train #",
+          "Departure",
+          "Arrival",
+          "Platform"
+        ],
+        "rows": [
+          [
+            "EC-104",
+            "7:10 AM",
+            "9:20 AM",
+            "Platform 2"
+          ],
+          [
+            "EC-108",
+            "8:00 AM",
+            "10:15 AM",
+            "Platform 5"
+          ],
+          [
+            "EC-112",
+            "9:05 AM",
+            "11:20 AM",
+            "Platform 3"
+          ],
+          [
+            "EC-116",
+            "10:15 AM",
+            "12:30 PM",
+            "Platform 1"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Owen, have you booked our train tickets to Boston for Wednesday's contract signing?",
+          "vi": "Owen, bạn đã đặt vé tàu đi Boston cho lễ ký kết hợp đồng ngày thứ Tư chưa?"
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-AU",
+          "en": "I'm looking at the East Coast Rail timetable right now. Our meeting at the client's office starts at eleven, and it's a twenty-five-minute cab ride from the station.",
+          "vi": "Tôi đang xem bảng giờ tàu East Coast Rail ngay đây. Cuộc họp tại văn phòng khách hàng bắt đầu lúc mười một giờ, và đi taxi từ nhà ga mất hai mươi lăm phút."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Okay, so the nine-oh-five train would make us late. Let's take the one arriving at ten-fifteen—that gives us a safe cushion without forcing us to wake up at five.",
+          "vi": "Được rồi, vậy chuyến chín giờ năm phút sẽ làm ta trễ. Hãy đi chuyến đến lúc mười giờ mười lăm—vừa có khoảng dự phòng an toàn mà không phải dậy từ năm giờ sáng."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-AU",
+          "en": "Agreed. I'll book two business-class seats on that train and expense them to the client travel code.",
+          "vi": "Đồng ý. Tôi sẽ đặt hai ghế hạng thương gia trên chuyến tàu đó và hạch toán vào mã công tác khách hàng."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why are the speakers traveling to Boston?",
+          "opts": [
+            "To sign a business contract",
+            "To inspect a new branch office",
+            "To attend a trade exhibition",
+            "To interview a regional director"
+          ],
+          "ans": 0,
+          "exp": "Người phụ nữ nói: 'for Wednesday's contract signing' → để ký hợp đồng kinh doanh. Chọn (A)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. From which platform will the speakers' train depart?",
+          "opts": [
+            "Platform 1",
+            "Platform 2",
+            "Platform 3",
+            "Platform 5"
+          ],
+          "ans": 3,
+          "exp": "Họ chọn chuyến đến lúc 10:15 AM ('the one arriving at ten-fifteen'). Tra bảng: chuyến đến 10:15 AM là EC-108 khởi hành tại 'Platform 5'. Chọn (D)."
+        },
+        {
+          "num": 6,
+          "q": "Why does the woman prefer that train over the earliest one?",
+          "opts": [
+            "The earliest train has no business-class seats.",
+            "She does not want to wake up extremely early.",
+            "The earliest train makes too many local stops.",
+            "Ticket prices drop after eight o'clock."
+          ],
+          "ans": 1,
+          "exp": "Cô giải thích chọn chuyến đó 'without forcing us to wake up at five' (không bắt chúng ta phải dậy lúc 5 giờ sáng). Chọn (B)."
+        }
+      ]
+    }
+  ]
+}

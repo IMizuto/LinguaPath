@@ -1,0 +1,93 @@
+{
+  "id": "tsw_s_q11_01",
+  "skill": "speaking",
+  "taskType": "sp_q11",
+  "code": "Q11",
+  "level": 3,
+  "targetBand": "150–180",
+  "title": "Nêu quan điểm Q11 #1: Làm việc Từ xa hay Tại Văn phòng?",
+  "topic": "Xu hướng Làm việc Hiện đại",
+  "estMinutes": 8,
+  "guideVi": "Sử dụng 45 giây chuẩn bị để chốt lập trường theo khung PREP (Point – Reason 1 & Example – Reason 2 & Example – Point Restated). Tránh phân vân 'cả hai đều có mặt tốt' làm loãng thời lượng 60 giây.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Nêu lập trường dứt khoát và giữ vững cấu trúc PREP/OREO",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Trình bày 2 lý do thuyết phục kèm ví dụ thực tế rõ ràng",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Từ vựng học thuật chính xác, ngữ pháp đa dạng và trôi chảy 60s",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q11_01_1",
+      "itemType": "sp_q11",
+      "label": "Q11 • Working from home vs. working in a traditional office",
+      "prepSec": 45,
+      "respSec": 60,
+      "accent": "US",
+      "promptEn": "Some people prefer working from home, while others prefer working in a traditional office with colleagues. Which work arrangement do you prefer, and why? Give specific reasons and examples to support your opinion.",
+      "promptVi": "Một số người thích làm việc tại nhà, trong khi những người khác thích làm việc tại văn phòng truyền thống cùng đồng nghiệp. Bạn thích hình thức nào hơn và tại sao? Hãy nêu lý do và ví dụ cụ thể để bảo vệ quan điểm.",
+      "outline": [
+        {
+          "step": "1. Point (Lập trường — 8s)",
+          "cue": "Nêu rõ lựa chọn: Prefer working from home because it saves commuting time and boosts focused productivity."
+        },
+        {
+          "step": "2. Reason 1 + Example (Lý do 1 — 20s)",
+          "cue": "Tiết kiệm thời gian & chi phí đi lại -> thêm năng lượng chăm sóc sức khỏe và chuẩn bị công việc (VD: tiết kiệm 1,5 giờ/ngày)."
+        },
+        {
+          "step": "3. Reason 2 + Example (Lý do 2 — 22s)",
+          "cue": "Tự chủ không gian yên tĩnh, ít bị gián đoạn -> hoàn thành nhiệm vụ phân tích nhanh hơn dù vẫn trao đổi trực tuyến hiệu quả."
+        },
+        {
+          "step": "4. Point Restated (Chốt lại — 10s)",
+          "cue": "Tóm tắt ngắn gọn hai lợi ích (flexibility and efficiency) để khép lại trọn vẹn trong 60 giây."
+        }
+      ],
+      "targetKeywords": [
+        "remote",
+        "commute",
+        "productivity",
+        "flexible",
+        "distractions",
+        "balance",
+        "efficiency"
+      ],
+      "tipVi": "Đọc mượt các từ nối chuyển ý 'First of all', 'For example', 'Second', 'For these reasons' để bài nói 60 giây có khung sườn rõ ràng ngay cả khi tốc độ nói vừa phải.",
+      "keyPhrases": [
+        {
+          "en": "eliminate a stressful daily commute",
+          "vi": "loại bỏ quãng đường đi làm căng thẳng hằng ngày"
+        },
+        {
+          "en": "achieve a healthier work-life balance",
+          "vi": "đạt được sự cân bằng công việc – cuộc sống lành mạnh hơn"
+        },
+        {
+          "en": "customize my workspace",
+          "vi": "tự tùy chỉnh không gian làm việc của mình"
+        },
+        {
+          "en": "fewer unexpected interruptions",
+          "vi": "ít bị gián đoạn đột xuất hơn"
+        },
+        {
+          "en": "for these reasons",
+          "vi": "vì những lý do trên"
+        }
+      ],
+      "sample": "Personally, I strongly prefer working from home rather than in a traditional office for two main reasons. First of all, remote work eliminates a stressful daily commute, which gives employees valuable time back for health and rest. For example, when I used to commute downtown, I spent nearly ninety minutes stuck in traffic every day. Working from home allows me to exercise in the morning and begin my tasks feeling refreshed. Second, a home office allows me to customize my workspace and avoid unexpected interruptions. In an open office, casual conversations frequently break my focus, whereas at home I can finish complex reports more efficiently while still collaborating with teammates through video calls. For these reasons, I believe working from home offers far better work-life balance and productivity.",
+      "sampleVi": "Cá nhân tôi thích làm việc tại nhà hơn hẳn làm việc tại văn phòng truyền thống vì hai lý do chính. Trước hết, làm việc từ xa loại bỏ quãng đường đi lại căng thẳng mỗi ngày, trả lại cho nhân viên khoảng thời gian quý giá để nghỉ ngơi và rèn luyện sức khỏe. Ví dụ, trước đây khi phải đi vào trung tâm, tôi tốn gần chín mươi phút kẹt xe mỗi ngày. Làm ở nhà cho phép tôi tập thể dục buổi sáng và bắt đầu công việc thật tỉnh táo. Thứ hai, góc làm việc tại nhà giúp tôi tự sắp xếp không gian và tránh các gián đoạn bất ngờ. Ở văn phòng mở, những cuộc trò chuyện ngẫu nhiên thường làm đứt mạch tập trung, trong khi ở nhà tôi hoàn thành báo cáo phức tạp hiệu quả hơn mà vẫn phối hợp nhóm tốt qua gọi video. Vì những lý do đó, tôi tin làm việc từ xa mang lại sự cân bằng và năng suất vượt trội hơn."
+    }
+  ]
+}

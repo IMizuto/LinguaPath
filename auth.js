@@ -33,10 +33,17 @@
   const P_SDONE = "lp_speaking_done_v1", P_SLAST = "lp_speaking_last_v1", P_SNOTES = "lp_speaking_notes_v1", P_SSUBS = "lp_speaking_submissions_v1", P_SPREFS = "lp_speaking_prefs_v1";
   const P_SSRS = "lp_speaking_vocab_srs_v1", P_SDAYS = "lp_speaking_vocab_days_v1", P_SSET = "lp_speaking_vocab_settings_v1", P_SSES = "lp_speaking_vocab_session_v1";
   const P_TDONE = "s4_ted_done", P_TLAST = "s4_ted_last", P_TPOS = "s4_ted_pos", P_TSUBVI = "s4_ted_show_vi", P_TSHADLANG = "lp_ted_shadow_lang";
-  const P_IELTS_RM = "lp_ielts_roadmap_v1", P_HSK_RM = "lp_hsk_roadmap_v1", P_HMOCK = "lp_hsk_mock_results_v1", P_HMWDONE = "lp_hsk_mw_done_v1", P_FND_DONE = "lp_ielts_foundation_done_v1", P_FND_SRS = "lp_ielts_foundation_srs_v1";
+  const P_IELTS_RM = "lp_ielts_roadmap_v1", P_HSK_RM = "lp_hsk_roadmap_v1", P_HMOCK = "lp_hsk_mock_results_v1", P_HHSKK_MOCK = "lp_hskk_mock_results_v1", P_HMWDONE = "lp_hsk_mw_done_v1", P_FND_DONE = "lp_ielts_foundation_done_v1", P_FND_SRS = "lp_ielts_foundation_srs_v1";
   const P_HVSRS = "lp_hsk_vocab_srs_v1", P_HVDAYS = "lp_hsk_vocab_days_v1", P_HVSET = "lp_hsk_vocab_settings_v1", P_HVSES = "lp_hsk_vocab_session_v1";
   const P_HLDONE = "lp_hsk_lessons_done_v1", P_HLLAST = "lp_hsk_lessons_last_v1", P_HWBDONE = "lp_hsk_workbook_done_v1";
   const P_HGDONE = "lp_hsk_grammar_done_v1", P_HGLAST = "lp_hsk_grammar_last_v1", P_HWDONE = "lp_hsk_writing_done_v1", P_HWDRAFTS = "lp_hsk_writing_drafts_v1", P_HLISDONE = "lp_hsk_listening_done_v1", P_HLISLAST = "lp_hsk_listening_last_v1", P_HRDONE = "lp_hsk_reading_done_v1", P_HRLAST = "lp_hsk_reading_last_v1", P_HSDONE = "lp_hsk_speaking_done_v1", P_HSHOOT = "lp_hsk_shooter_best_v1", P_HSHOOTPREF = "lp_hsk_shooter_prefs_v1";
+  const P_TOEIC_RM = "lp_toeic_roadmap_v1", P_TOEIC_PT = "lp_toeic_placement_v1";
+  const P_TVSRS = "lp_toeic_vocab_srs_v1", P_TVDAYS = "lp_toeic_vocab_days_v1", P_TVSET = "lp_toeic_vocab_settings_v1", P_TVSES = "lp_toeic_vocab_session_v1";
+  const P_TGDONE = "lp_toeic_grammar_done_v1", P_TGLAST = "lp_toeic_grammar_last_v1";
+  const P_TLISDONE = "lp_toeic_listening_done_v1", P_TLISLAST = "lp_toeic_listening_last_v1";
+  const P_TRDONE = "lp_toeic_reading_done_v1", P_TRLAST = "lp_toeic_reading_last_v1";
+  const P_TMOCKSUBS = "lp_toeic_mock_submissions_v1";
+  const P_TSWDONE = "lp_toeic_sw_done_v1", P_TSWLAST = "lp_toeic_sw_last_v1", P_TSWDRAFTS = "lp_toeic_sw_drafts_v1", P_TSWSUBS = "lp_toeic_sw_submissions_v1";
   const PROGRESS_KEYS = [
     P_SRS, P_DAYS, P_SET, P_VSES,
     P_GDONE, P_GLAST,
@@ -45,16 +52,22 @@
     P_PZFLAGS,
     P_WDONE, P_WLAST, P_WESSAYS, P_WNOTES, P_WSUBS,
     P_SDONE, P_SLAST, P_SNOTES, P_SSUBS, P_SPREFS, P_SSRS, P_SDAYS, P_SSET, P_SSES,
-    P_IELTS_RM, P_HSK_RM, P_HMOCK, P_HMWDONE, P_FND_DONE, P_FND_SRS,
+    P_IELTS_RM, P_HSK_RM, P_HMOCK, P_HHSKK_MOCK, P_HMWDONE, P_FND_DONE, P_FND_SRS,
     P_TDONE, P_TLAST, P_TPOS, P_TSUBVI, P_TSHADLANG,
     P_HVSRS, P_HVDAYS, P_HVSET, P_HVSES, P_HLDONE, P_HLLAST, P_HWBDONE,
-    P_HGDONE, P_HGLAST, P_HWDONE, P_HWDRAFTS, P_HLISDONE, P_HLISLAST, P_HRDONE, P_HRLAST, P_HSDONE, P_HSHOOT, P_HSHOOTPREF
+    P_HGDONE, P_HGLAST, P_HWDONE, P_HWDRAFTS, P_HLISDONE, P_HLISLAST, P_HRDONE, P_HRLAST, P_HSDONE, P_HSHOOT, P_HSHOOTPREF,
+    P_TOEIC_RM, P_TOEIC_PT,
+    P_TVSRS, P_TVDAYS, P_TVSET, P_TVSES,
+    P_TGDONE, P_TGLAST, P_TLISDONE, P_TLISLAST, P_TRDONE, P_TRLAST,
+    P_TMOCKSUBS, P_TSWDONE, P_TSWLAST, P_TSWDRAFTS, P_TSWSUBS
   ];
-  const SUBMISSION_KEYS = [P_SSUBS, P_WSUBS, P_RSUBS, P_LSUBS];
-  const DONE_MAP_KEYS = [P_GDONE, P_TDONE, P_HLDONE, P_HWBDONE, P_HGDONE, P_HLISDONE, P_HRDONE, P_HSDONE, P_HMWDONE, P_FND_DONE];
+  const SUBMISSION_KEYS = [P_SSUBS, P_WSUBS, P_RSUBS, P_LSUBS, P_TMOCKSUBS, P_TSWSUBS];
+  const DONE_MAP_KEYS = [P_GDONE, P_TDONE, P_HLDONE, P_HWBDONE, P_HGDONE, P_HLISDONE, P_HRDONE, P_HSDONE, P_HMWDONE, P_FND_DONE, P_TGDONE, P_TLISDONE, P_TRDONE, P_TSWDONE];
   const DONE_ARR_KEYS = [P_LDONE, P_RDONE, P_WDONE, P_SDONE];
-  const DELETABLE_MAP_KEYS = [P_WESSAYS, P_HWDRAFTS, P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES, P_RPZANS, P_LPZANS, P_PZFLAGS];
+  const DELETABLE_MAP_KEYS = [P_WESSAYS, P_HWDRAFTS, P_TSWDRAFTS, P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES, P_RPZANS, P_LPZANS, P_PZFLAGS];
   const isPzDraftKey = k => typeof k === "string" && /^lp_pz_draft_[A-Za-z0-9_-]+$/.test(k);
+  const isToeicMockDraftKey = k => typeof k === "string" && /^lp_toeic_mock_draft_v1:[A-Za-z0-9_-]+$/.test(k);
+  const isTrackedDraftKey = k => isPzDraftKey(k) || isToeicMockDraftKey(k);
   const HTML_CACHE_KEYS = [
     "s4_listen_last_rendered_html", "s4_listen_last_sidebar_html", "s4_listen_last_lesson_cache",
     "s4_read_last_rendered_html", "s4_read_last_sidebar_html", "s4_read_last_lesson_cache"
@@ -70,7 +83,9 @@
   const TOTAL_SPEAKING_VOCAB = 9214;
   const TOTAL_TED_LESSONS = 202;
   const TOTAL_HSK_VOCAB = 5112;
-  const TOTAL_HSK_ITEMS = 876;
+  const TOTAL_HSK_ITEMS = 924;
+  const TOTAL_TOEIC_VOCAB = 3189;
+  const TOTAL_TOEIC_ITEMS = 192;
 
   const AVATAR_PRESETS = ["🎓", "🦊", "🐼", "🦁", "🐯", "🐨", "🦉", "🦄", "🐲", "🚀", "⚡", "🌟", "💎", "🔥", "🍀", "🎯"];
 
@@ -429,7 +444,7 @@
     PROGRESS_KEYS.forEach(k => { const v = localStorage.getItem(k); if (v !== null) m[k] = v; });
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (isPzDraftKey(k)) {
+      if (isTrackedDraftKey(k)) {
         const v = localStorage.getItem(k);
         if (v !== null && v !== "") m[k] = v;
       }
@@ -444,13 +459,13 @@
       const existingDraftKeys = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (isPzDraftKey(k)) existingDraftKeys.push(k);
+        if (isTrackedDraftKey(k)) existingDraftKeys.push(k);
       }
       existingDraftKeys.forEach(k => {
         if (!map || map[k] === undefined || map[k] === null || map[k] === "") rawRemove(k);
       });
       Object.keys(map || {}).forEach(k => {
-        if (isPzDraftKey(k) && map[k] !== undefined && map[k] !== null && map[k] !== "") rawSet(k, String(map[k]));
+        if (isTrackedDraftKey(k) && map[k] !== undefined && map[k] !== null && map[k] !== "") rawSet(k, String(map[k]));
       });
       HTML_CACHE_KEYS.forEach(k => rawRemove(k));
     } finally { hookSuspended = false; }
@@ -487,7 +502,7 @@
     if (src.drafts && typeof src.drafts === "object" && !Array.isArray(src.drafts)) {
       Object.keys(src.drafts)
         .map(k => [k, Number(src.drafts[k] || 0)])
-        .filter(([k, ts]) => isPzDraftKey(k) && ts > 0 && (now - ts) < TOMB_TTL_MS)
+        .filter(([k, ts]) => isTrackedDraftKey(k) && ts > 0 && (now - ts) < TOMB_TTL_MS)
         .sort((a, z) => z[1] - a[1])
         .slice(0, 200)
         .forEach(([k, ts]) => { out.drafts[k] = ts; });
@@ -541,10 +556,10 @@
     if (SUBMISSION_KEYS.indexOf(k) >= 0) {
       const prevArr = parseJ(prevVal, []);
       const nextArr = parseJ(nextVal, []);
-      const nextIds = new Set((Array.isArray(nextArr) ? nextArr : []).map(it => it && it.id ? String(it.id) : "").filter(Boolean));
+      const nextIds = new Set((Array.isArray(nextArr) ? nextArr : []).map(it => submissionKey(it, k)).filter(Boolean));
       const b = ensureBucket("subs", k);
       (Array.isArray(prevArr) ? prevArr : []).forEach(it => {
-        const id = it && it.id ? String(it.id) : "";
+        const id = submissionKey(it, k);
         if (id && !nextIds.has(id)) { b[id] = now; changed = true; }
       });
       nextIds.forEach(id => { if (b[id]) { delete b[id]; changed = true; } });
@@ -570,6 +585,29 @@
           if (nextB[id] && b[tk]) { delete b[tk]; changed = true; }
         });
       });
+    } else if (k === P_TSWDRAFTS) {
+      const prevObj = parseJ(prevVal, {}), nextObj = parseJ(nextVal, {});
+      const b = ensureBucket("maps", k);
+      new Set(Object.keys(prevObj || {}).concat(Object.keys(nextObj || {}))).forEach(sk => {
+        const pv = prevObj && prevObj[sk], nv = nextObj && nextObj[sk];
+        const pIsObj = Boolean(pv && typeof pv === "object" && !Array.isArray(pv));
+        const nIsObj = Boolean(nv && typeof nv === "object" && !Array.isArray(nv));
+        if (pIsObj || nIsObj) {
+          const pMap = pIsObj ? pv : {}, nMap = nIsObj ? nv : {};
+          new Set(Object.keys(pMap).concat(Object.keys(nMap))).forEach(dk => {
+            const tk = sk + "::" + dk;
+            if (isNonEmptyMapVal(pMap[dk]) && !isNonEmptyMapVal(nMap[dk])) { b[tk] = now; changed = true; }
+            else if (isNonEmptyMapVal(nMap[dk]) && b[tk]) { delete b[tk]; changed = true; }
+          });
+          const pHadAny = pIsObj && Object.keys(pMap).some(dk => isNonEmptyMapVal(pMap[dk]));
+          const nHasAny = nIsObj && Object.keys(nMap).some(dk => isNonEmptyMapVal(nMap[dk]));
+          if (pHadAny && !nIsObj) { b[sk] = now; changed = true; }
+          else if (nHasAny && b[sk]) { delete b[sk]; changed = true; }
+        } else {
+          if (isNonEmptyMapVal(pv) && !isNonEmptyMapVal(nv)) { b[sk] = now; changed = true; }
+          else if (isNonEmptyMapVal(nv) && b[sk]) { delete b[sk]; changed = true; }
+        }
+      });
     } else if (DELETABLE_MAP_KEYS.indexOf(k) >= 0) {
       const prevObj = parseJ(prevVal, {}), nextObj = parseJ(nextVal, {});
       const b = ensureBucket("maps", k);
@@ -583,7 +621,7 @@
           delete b[sk]; changed = true;
         }
       });
-    } else if (isPzDraftKey(k)) {
+    } else if (isTrackedDraftKey(k)) {
       const hadPrev = prevVal !== null && prevVal !== undefined && String(prevVal) !== "";
       const hasNext = nextVal !== null && nextVal !== undefined && String(nextVal) !== "";
       if (hadPrev && !hasNext) { tombs.drafts[k] = now; changed = true; }
@@ -598,8 +636,8 @@
   }
   function sameProgress(a, b) {
     const allKeys = new Set(PROGRESS_KEYS);
-    Object.keys(a || {}).forEach(k => { if (isPzDraftKey(k)) allKeys.add(k); });
-    Object.keys(b || {}).forEach(k => { if (isPzDraftKey(k)) allKeys.add(k); });
+    Object.keys(a || {}).forEach(k => { if (isTrackedDraftKey(k)) allKeys.add(k); });
+    Object.keys(b || {}).forEach(k => { if (isTrackedDraftKey(k)) allKeys.add(k); });
     return Array.from(allKeys).every(k => {
       const x = a[k], y = b[k];
       if (x === undefined || y === undefined) return x === y;
@@ -672,6 +710,16 @@
     });
     return JSON.stringify(out);
   }
+  function toTimeMs(v) {
+    if (typeof v === "number" && Number.isFinite(v)) return v;
+    if (typeof v === "string" && v.trim()) {
+      const n = Number(v);
+      if (Number.isFinite(n)) return n;
+      const p = Date.parse(v);
+      return Number.isFinite(p) ? p : 0;
+    }
+    return 0;
+  }
   function mergeRoadmapState(aStr, bStr, preferLocalScalar) {
     const a = parseJ(aStr, null), b = parseJ(bStr, null);
     const oa = a && typeof a === "object" && !Array.isArray(a) ? a : null;
@@ -679,17 +727,7 @@
     if (!oa && !ob) return undefined;
     if (!oa) return JSON.stringify(ob);
     if (!ob) return JSON.stringify(oa);
-    const toTs = v => {
-      if (typeof v === "number" && Number.isFinite(v)) return v;
-      if (typeof v === "string" && v.trim()) {
-        const n = Number(v);
-        if (Number.isFinite(n)) return n;
-        const p = Date.parse(v);
-        return Number.isFinite(p) ? p : 0;
-      }
-      return 0;
-    };
-    const ta = toTs(oa.updatedAt), tb = toTs(ob.updatedAt);
+    const ta = toTimeMs(oa.updatedAt), tb = toTimeMs(ob.updatedAt);
     const useLocal = tb !== ta ? (ta > tb) : Boolean(preferLocalScalar);
     const newer = useLocal ? oa : ob;
     const older = useLocal ? ob : oa;
@@ -704,6 +742,17 @@
     if (newer.pace !== undefined) out.pace = newer.pace;
     out.updatedAt = tb > ta ? ob.updatedAt : (ta > tb ? oa.updatedAt : (newer.updatedAt || older.updatedAt || ""));
     return JSON.stringify(out);
+  }
+  function mergePlacementState(aStr, bStr, preferLocalScalar) {
+    const a = parseJ(aStr, null), b = parseJ(bStr, null);
+    const oa = a && typeof a === "object" && !Array.isArray(a) ? a : null;
+    const ob = b && typeof b === "object" && !Array.isArray(b) ? b : null;
+    if (!oa && !ob) return undefined;
+    if (!oa) return JSON.stringify(ob);
+    if (!ob) return JSON.stringify(oa);
+    const ta = toTimeMs(oa.at || oa.updatedAt), tb = toTimeMs(ob.at || ob.updatedAt);
+    if (ta !== tb) return JSON.stringify(ta > tb ? oa : ob);
+    return JSON.stringify(preferLocalScalar ? oa : ob);
   }
   function mergeHskMock(aStr, bStr) {
     const a = parseJ(aStr, {}) || {}, b = parseJ(bStr, {}) || {};
@@ -869,27 +918,72 @@
     return JSON.stringify(out);
   }
   /**
-   * Merge two submission history arrays (Speaking, Writing, Reading/Listening PZ) deduplicated by id.
+   * Merge two submission history arrays (Speaking, Writing, Reading/Listening PZ, TOEIC Mock/S&W) deduplicated safely.
    */
+  const submissionKey = (it, storageKey) => {
+    if (!it || typeof it !== "object") return "";
+    if (storageKey === P_TSWSUBS) {
+      const base = it.id ? String(it.id) : "";
+      if (!base) return "";
+      const t = toTimeMs(it.ts || it.timestamp || it.createdAt);
+      return t ? (base + ":" + t) : base;
+    }
+    if (it.id) return String(it.id);
+    if (storageKey === P_TMOCKSUBS && it.testId) {
+      const t = toTimeMs(it.submittedAt || it.ts || it.timestamp || it.createdAt);
+      return String(it.testId) + ":" + String(t);
+    }
+    return "";
+  };
   const submissionStamp = it => Math.max(
-    Number(it && it.timestamp || 0),
-    Number(it && it.createdAt || 0),
-    Number(it && it.aiEvaluation && it.aiEvaluation.updatedAt || 0)
+    toTimeMs(it && it.timestamp),
+    toTimeMs(it && it.createdAt),
+    toTimeMs(it && it.submittedAt),
+    toTimeMs(it && it.ts),
+    toTimeMs(it && it.aiEvaluation && it.aiEvaluation.updatedAt)
   );
-  function mergeSubmissionHistory(aStr, bStr, maxKeep, localTombs, remoteTombs) {
+  function mergeSubmissionHistory(aStr, bStr, maxKeep, localTombs, remoteTombs, storageKey) {
     const a = parseJ(aStr, []), b = parseJ(bStr, []);
     const lt = localTombs || {}, rt = remoteTombs || {};
     const map = {};
     [].concat(Array.isArray(a) ? a : [], Array.isArray(b) ? b : []).forEach(it => {
-      if (!it || typeof it !== "object" || !it.id) return;
-      const id = String(it.id);
+      const id = submissionKey(it, storageKey);
+      if (!id) return;
       const delTs = Math.max(Number(lt[id] || 0), Number(rt[id] || 0));
       if (delTs > 0 && delTs >= submissionStamp(it)) return;
       const prev = map[id];
       if (!prev || submissionStamp(it) >= submissionStamp(prev)) map[id] = it;
     });
     const list = Object.values(map).sort((x, y) => submissionStamp(y) - submissionStamp(x));
-    return JSON.stringify(list.slice(0, maxKeep || 80));
+    const cap = maxKeep || 80;
+    if (list.length <= cap) return JSON.stringify(list);
+    if (storageKey === P_TMOCKSUBS || storageKey === P_TSWSUBS) {
+      const bestByGroup = {};
+      list.forEach(it => {
+        const gKey = storageKey === P_TMOCKSUBS
+          ? String(it.testId || it.id || "")
+          : (String(it.skill || "") + "|" + String(it.id || ""));
+        if (!gKey) return;
+        const sc = storageKey === P_TMOCKSUBS
+          ? Number(it.totalScore != null ? it.totalScore : (it.score || 0))
+          : Number(it.score200 || 0);
+        const cur = bestByGroup[gKey];
+        if (!cur || sc > cur.sc) bestByGroup[gKey] = { sc, key: submissionKey(it, storageKey) };
+      });
+      const protectedKeys = new Set(Object.values(bestByGroup).map(v => v.key).filter(Boolean));
+      const kept = [], keptSet = new Set();
+      for (let i = 0; i < list.length && kept.length < cap; i++) {
+        const k = submissionKey(list[i], storageKey);
+        if (protectedKeys.has(k)) { kept.push(list[i]); keptSet.add(k); }
+      }
+      for (let i = 0; i < list.length && kept.length < cap; i++) {
+        const k = submissionKey(list[i], storageKey);
+        if (!keptSet.has(k)) { kept.push(list[i]); keptSet.add(k); }
+      }
+      kept.sort((x, y) => submissionStamp(y) - submissionStamp(x));
+      return JSON.stringify(kept);
+    }
+    return JSON.stringify(list.slice(0, cap));
   }
   /**
    * Merge per-lesson text notes respecting local/remote tombstones so cleared notes stay deleted.
@@ -926,18 +1020,58 @@
     });
     return JSON.stringify(out);
   }
+  /**
+   * Merge nested 2-level draft map ({ [setId]: { [itemKey]: text } }) with per-field & per-set tombstones.
+   */
+  function mergeNestedDraftMap(localStr, remoteStr, localTombs, remoteTombs, localTs, preferLocal) {
+    const r = parseJ(remoteStr, {}), l = parseJ(localStr, {});
+    const lt = localTombs || {}, rt = remoteTombs || {};
+    const isFilled = v => v !== undefined && v !== null && v !== "" && v !== false;
+    const isPlainObj = v => Boolean(v && typeof v === "object" && !Array.isArray(v));
+    const hasAnyFilled = obj => isPlainObj(obj) && Object.keys(obj).some(dk => isFilled(obj[dk]));
+    const out = {};
+    new Set(Object.keys(r).concat(Object.keys(l))).forEach(sk => {
+      const lv = l[sk], rv = r[sk];
+      const lIsObj = isPlainObj(lv), rIsObj = isPlainObj(rv);
+      if (lIsObj || rIsObj) {
+        const lHas = hasAnyFilled(lv), rHas = hasAnyFilled(rv);
+        if (!lHas && rHas && (lt[sk] || rt[sk])) return;
+        if (lHas && !rHas && rt[sk] && Number(rt[sk]) > Number(localTs || 0)) return;
+        const lMap = lIsObj ? lv : {}, rMap = rIsObj ? rv : {};
+        const mergedBucket = {};
+        new Set(Object.keys(rMap).concat(Object.keys(lMap))).forEach(dk => {
+          const tk = sk + "::" + dk;
+          const hasL = isFilled(lMap[dk]), hasR = isFilled(rMap[dk]);
+          if (!hasL && hasR && (lt[tk] || rt[tk])) return;
+          if (hasL && !hasR && rt[tk] && Number(rt[tk]) > Number(localTs || 0)) return;
+          if (hasL && hasR) mergedBucket[dk] = preferLocal ? lMap[dk] : rMap[dk];
+          else if (hasL) mergedBucket[dk] = lMap[dk];
+          else if (hasR) mergedBucket[dk] = rMap[dk];
+        });
+        if (Object.keys(mergedBucket).length) out[sk] = mergedBucket;
+      } else {
+        const hasL = isFilled(lv), hasR = isFilled(rv);
+        if (!hasL && hasR && (lt[sk] || rt[sk])) return;
+        if (hasL && !hasR && rt[sk] && Number(rt[sk]) > Number(localTs || 0)) return;
+        if (hasL && hasR) out[sk] = preferLocal ? lv : rv;
+        else if (hasL) out[sk] = lv;
+        else if (hasR) out[sk] = rv;
+      }
+    });
+    return JSON.stringify(out);
+  }
   function mergeProgress(local, remote, sync, rts, localTombsRaw, remoteTombsRaw) {
     const out = {};
     const localTs = Number((sync && sync.localTs) || 0);
     const preferLocalScalar = Boolean(sync && sync.dirty && localTs >= Number(rts || 0));
     const lT = normalizeTombs(localTombsRaw);
     const rT = normalizeTombs(remoteTombsRaw);
-    // 1. SRS Maps (Vocab, Listening, Reading, Speaking, HSK Vocab, IELTS Foundation)
-    [P_SRS, P_LSRS, P_RSRS, P_SSRS, P_HVSRS, P_FND_SRS].forEach(k => {
+    // 1. SRS Maps (Vocab, Listening, Reading, Speaking, HSK Vocab, IELTS Foundation, TOEIC Vocab)
+    [P_SRS, P_LSRS, P_RSRS, P_SSRS, P_HVSRS, P_FND_SRS, P_TVSRS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSrsMap(local[k], remote[k]);
     });
-    // 2. Study Days Maps (Vocab, Listening, Reading, Speaking, HSK Vocab)
-    [P_DAYS, P_LDAYS, P_RDAYS, P_SDAYS, P_HVDAYS].forEach(k => {
+    // 2. Study Days Maps (Vocab, Listening, Reading, Speaking, HSK Vocab, TOEIC)
+    [P_DAYS, P_LDAYS, P_RDAYS, P_SDAYS, P_HVDAYS, P_TVDAYS].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeDaysMap(local[k], remote[k]);
     });
     // 3. Done Maps / Lists (respecting tombstones)
@@ -947,15 +1081,21 @@
     if (local[P_HWDONE] !== undefined || remote[P_HWDONE] !== undefined) {
       out[P_HWDONE] = mergeHskWritingDone(local[P_HWDONE], remote[P_HWDONE], lT.done[P_HWDONE], rT.done[P_HWDONE], localTs);
     }
-    [P_IELTS_RM, P_HSK_RM].forEach(k => {
+    [P_IELTS_RM, P_HSK_RM, P_TOEIC_RM].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) {
         const v = mergeRoadmapState(local[k], remote[k], preferLocalScalar);
         if (v !== undefined) out[k] = v;
       }
     });
-    if (local[P_HMOCK] !== undefined || remote[P_HMOCK] !== undefined) {
-      out[P_HMOCK] = mergeHskMock(local[P_HMOCK], remote[P_HMOCK]);
+    if (local[P_TOEIC_PT] !== undefined || remote[P_TOEIC_PT] !== undefined) {
+      const v = mergePlacementState(local[P_TOEIC_PT], remote[P_TOEIC_PT], preferLocalScalar);
+      if (v !== undefined) out[P_TOEIC_PT] = v;
     }
+    [P_HMOCK, P_HHSKK_MOCK].forEach(k => {
+      if (local[k] !== undefined || remote[k] !== undefined) {
+        out[k] = mergeHskMock(local[k], remote[k]);
+      }
+    });
     if (local[P_HSHOOT] !== undefined || remote[P_HSHOOT] !== undefined) {
       out[P_HSHOOT] = mergeHskShooterBest(local[P_HSHOOT], remote[P_HSHOOT]);
     }
@@ -968,6 +1108,9 @@
     if (local[P_HWDRAFTS] !== undefined || remote[P_HWDRAFTS] !== undefined) {
       out[P_HWDRAFTS] = mergeKeyMap(local[P_HWDRAFTS], remote[P_HWDRAFTS], lT.maps[P_HWDRAFTS], rT.maps[P_HWDRAFTS], localTs);
     }
+    if (local[P_TSWDRAFTS] !== undefined || remote[P_TSWDRAFTS] !== undefined) {
+      out[P_TSWDRAFTS] = mergeNestedDraftMap(local[P_TSWDRAFTS], remote[P_TSWDRAFTS], lT.maps[P_TSWDRAFTS], rT.maps[P_TSWDRAFTS], localTs, preferLocalScalar);
+    }
     [P_SNOTES, P_LNOTES, P_RNOTES, P_WNOTES].forEach(k => {
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeNotesMap(local[k], remote[k], lT.maps[k], rT.maps[k], localTs);
     });
@@ -975,7 +1118,10 @@
       if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeKeyMap(local[k], remote[k], lT.maps[k], rT.maps[k], localTs);
     });
     SUBMISSION_KEYS.forEach(k => {
-      if (local[k] !== undefined || remote[k] !== undefined) out[k] = mergeSubmissionHistory(local[k], remote[k], 80, lT.subs[k], rT.subs[k]);
+      if (local[k] !== undefined || remote[k] !== undefined) {
+        const cap = k === P_TMOCKSUBS ? 120 : (k === P_TSWSUBS ? 100 : 80);
+        out[k] = mergeSubmissionHistory(local[k], remote[k], cap, lT.subs[k], rT.subs[k], k);
+      }
     });
     // 4. TED Subtitle Position Map (keep max subtitle index per video)
     if (local[P_TPOS] !== undefined || remote[P_TPOS] !== undefined) {
@@ -985,7 +1131,7 @@
       out[P_TPOS] = JSON.stringify(m);
     }
     // 5. Last Lesson & Settings keys
-    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_WLAST, P_SLAST, P_SSET, P_TLAST, P_TSUBVI, P_TSHADLANG, P_HVSET, P_HLLAST, P_HGLAST, P_HLISLAST, P_HRLAST, P_HSHOOTPREF].forEach(k => {
+    [P_GLAST, P_SET, P_LLAST, P_LSET, P_RLAST, P_RSET, P_WLAST, P_SLAST, P_SSET, P_TLAST, P_TSUBVI, P_TSHADLANG, P_HVSET, P_HLLAST, P_HGLAST, P_HLISLAST, P_HRLAST, P_HSHOOTPREF, P_TVSET, P_TGLAST, P_TLISLAST, P_TRLAST, P_TSWLAST].forEach(k => {
       const v = preferLocalScalar
         ? (local[k] !== undefined ? local[k] : remote[k])
         : (remote[k] !== undefined ? remote[k] : local[k]);
@@ -995,6 +1141,10 @@
     if (local[P_VSES] !== undefined || remote[P_VSES] !== undefined) {
       const mergedVses = mergeVocabActiveSession(local[P_VSES], remote[P_VSES], out[P_SRS], preferLocalScalar);
       if (mergedVses !== undefined) out[P_VSES] = mergedVses;
+    }
+    if (local[P_TVSES] !== undefined || remote[P_TVSES] !== undefined) {
+      const mergedTvses = mergeVocabActiveSession(local[P_TVSES], remote[P_TVSES], out[P_TVSRS], preferLocalScalar);
+      if (mergedTvses !== undefined) out[P_TVSES] = mergedTvses;
     }
     [[P_LSES, P_LSRS], [P_RSES, P_RSRS], [P_SSES, P_SSRS], [P_HVSES, P_HVSRS]].forEach(([k, srsKey]) => {
       if (local[k] !== undefined || remote[k] !== undefined) {
@@ -1018,6 +1168,32 @@
       if (lv && !rv && rT.drafts[k] && Number(rT.drafts[k]) > localTs) return;
       const chosen = preferLocalScalar ? (lv || rv) : (rv || lv);
       if (chosen) { out[k] = chosen; keptDrafts++; }
+    });
+    // 8. TOEIC Mock Test per-test drafts (lp_toeic_mock_draft_v1:<testId>), capped at 40 keys & respecting savedAt + tombstones
+    const toeicDraftKeys = Array.from(new Set(
+      Object.keys(local || {}).concat(Object.keys(remote || {})).filter(isToeicMockDraftKey)
+    ));
+    let keptToeicDrafts = 0;
+    toeicDraftKeys.forEach(k => {
+      if (keptToeicDrafts >= 40) return;
+      const lv = local && local[k] ? String(local[k]) : "";
+      const rv = remote && remote[k] ? String(remote[k]) : "";
+      const lObj = lv ? parseJ(lv, null) : null;
+      const rObj = rv ? parseJ(rv, null) : null;
+      const lSaved = toTimeMs(lObj && lObj.savedAt);
+      const rSaved = toTimeMs(rObj && rObj.savedAt);
+      const lDelTs = Number(lT.drafts[k] || 0);
+      const rDelTs = Number(rT.drafts[k] || 0);
+      if (!lv && rv && ((lDelTs > 0 && lDelTs >= rSaved) || (rDelTs > 0 && rDelTs >= rSaved))) return;
+      if (lv && !rv && rDelTs > 0 && rDelTs > Math.max(localTs, lSaved)) return;
+      let chosen = "";
+      if (lv && rv) {
+        if (lSaved !== rSaved) chosen = lSaved > rSaved ? lv : rv;
+        else chosen = preferLocalScalar ? lv : rv;
+      } else {
+        chosen = lv || rv;
+      }
+      if (chosen) { out[k] = chosen; keptToeicDrafts++; }
     });
     return out;
   }
@@ -1048,6 +1224,27 @@
       const cnt = b && typeof b === "object" ? Object.values(b).filter(Boolean).length : 0;
       return sum + Math.min(caps[bk], cnt);
     }, 0);
+  }
+
+  function countToeicMockPassed(raw) {
+    const parsed = parseJ(raw, []);
+    const list = Array.isArray(parsed)
+      ? parsed
+      : (parsed && typeof parsed === "object"
+        ? Object.keys(parsed.bestById && typeof parsed.bestById === "object" ? parsed.bestById : parsed).map(k => {
+            const src = (parsed.bestById && typeof parsed.bestById === "object") ? parsed.bestById : parsed;
+            return Object.assign({ testId: k }, src[k] || {});
+          })
+        : []);
+    const passedSet = new Set();
+    list.forEach((r, idx) => {
+      if (!r || typeof r !== "object") return;
+      const sc = Number(r.totalScore != null ? r.totalScore : (r.score != null ? r.score : NaN));
+      if (r.passed === true || (Number.isFinite(sc) && sc >= 350)) {
+        passedSet.add(String(r.testId || r.id || idx));
+      }
+    });
+    return Math.min(20, passedSet.size);
   }
 
   function countSrsEntries(raw, maxVocabIdx) {
@@ -1100,35 +1297,53 @@
     const hskReading = countDoneEntries(map[P_HRDONE]);
     const hskSpeaking = countDoneEntries(map[P_HSDONE]);
     const hskMockBest = (parseJ(map[P_HMOCK], {}) || {}).bestById;
-    const hskMockPassed = Math.min(12, hskMockBest && typeof hskMockBest === "object" ? Object.values(hskMockBest).filter(r => r && r.passed === true).length : 0);
+    const hskkMockBest = (parseJ(map[P_HHSKK_MOCK], {}) || {}).bestById;
+    const hskMockPassed = Math.min(60,
+      (hskMockBest && typeof hskMockBest === "object" ? Object.values(hskMockBest).filter(r => r && r.passed === true).length : 0) +
+      (hskkMockBest && typeof hskkMockBest === "object" ? Object.values(hskkMockBest).filter(r => r && r.passed === true).length : 0)
+    );
     const hskMwDone = countDoneEntries(map[P_HMWDONE]);
     const hskDoneItems = hskLessons + hskGrammar + hskWriting + hskListening + hskReading + hskSpeaking + hskMockPassed;
     const hskPct = Math.min(100, Math.round(((hskWords + hskDoneItems * 10) / (TOTAL_HSK_VOCAB + TOTAL_HSK_ITEMS * 10)) * 100));
 
-    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords + speakingWords + hskWords;
-    const totalLessonsAll = grammarDone + listeningDone + readingDone + writingDone + speakingDone + tedDone + hskDoneItems;
-    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due + speakSrsStat.due + hskDue;
+    // TOEIC 0-990 (3,189 từ vựng SRS + 192 bài: 50 Grammar + 48 Listening + 42 Reading + 20 Mock >= 350 + 32 S&W)
+    const toeicSrsStat = countSrsEntries(map[P_TVSRS]);
+    const toeicWords = Math.min(TOTAL_TOEIC_VOCAB, toeicSrsStat.totalDone);
+    const toeicDue = toeicSrsStat.due;
+    const toeicGrammar = Math.min(50, countDoneEntries(map[P_TGDONE]));
+    const toeicListening = Math.min(48, countDoneEntries(map[P_TLISDONE]));
+    const toeicReading = Math.min(42, countDoneEntries(map[P_TRDONE]));
+    const toeicMockPassed = countToeicMockPassed(map[P_TMOCKSUBS]);
+    const toeicSW = Math.min(32, countDoneEntries(map[P_TSWDONE]));
+    const toeicDoneItems = toeicGrammar + toeicListening + toeicReading + toeicMockPassed + toeicSW;
+    const toeicPct = Math.min(100, Math.round(((toeicWords + toeicDoneItems * 10) / (TOTAL_TOEIC_VOCAB + TOTAL_TOEIC_ITEMS * 10)) * 100));
+
+    const totalWordsAll = vocabLearned + vocabIgnored + listeningWords + readingWords + speakingWords + hskWords + toeicWords;
+    const totalLessonsAll = grammarDone + listeningDone + readingDone + writingDone + speakingDone + tedDone + hskDoneItems + toeicDoneItems;
+    const totalDueAll = vocabDue + lisSrsStat.due + readSrsStat.due + speakSrsStat.due + hskDue + toeicDue;
 
     const vocabPct = Math.min(100, Math.round(((vocabLearned + vocabIgnored) / TOTAL_VOCAB) * 100));
     const grammarPct = Math.min(100, Math.round((grammarDone / TOTAL_GRAMMAR) * 100));
     const overallPct = Math.min(100, Math.round(
-      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_SPEAKING_VOCAB + TOTAL_HSK_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_WRITING_LESSONS + TOTAL_SPEAKING_LESSONS + TOTAL_TED_LESSONS + TOTAL_HSK_ITEMS)) * 100
+      ((totalWordsAll + totalLessonsAll) / (TOTAL_VOCAB + TOTAL_LISTENING_VOCAB + TOTAL_READING_VOCAB + TOTAL_SPEAKING_VOCAB + TOTAL_HSK_VOCAB + TOTAL_TOEIC_VOCAB + TOTAL_GRAMMAR + TOTAL_LISTENING_LESSONS + TOTAL_READING_LESSONS + TOTAL_WRITING_LESSONS + TOTAL_SPEAKING_LESSONS + TOTAL_TED_LESSONS + TOTAL_HSK_ITEMS + TOTAL_TOEIC_ITEMS)) * 100
     ));
 
-    // Merge study days across IELTS Vocab, Listening, Reading, Speaking & HSK Vocab for accurate streak
+    // Merge study days across IELTS Vocab, Listening, Reading, Speaking, HSK & TOEIC for accurate streak
     const daysV = parseJ(map[P_DAYS], {});
     const daysL = parseJ(map[P_LDAYS], {});
     const daysR = parseJ(map[P_RDAYS], {});
     const daysS = parseJ(map[P_SDAYS], {});
     const daysH = parseJ(map[P_HVDAYS], {});
+    const daysT = parseJ(map[P_TVDAYS], {});
     const days = {};
-    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR), Object.keys(daysS), Object.keys(daysH))).forEach(d => {
+    new Set(Object.keys(daysV).concat(Object.keys(daysL), Object.keys(daysR), Object.keys(daysS), Object.keys(daysH), Object.keys(daysT))).forEach(d => {
       days[d] = Array.from(new Set([].concat(
         Array.isArray(daysV[d]) ? daysV[d] : [],
         Array.isArray(daysL[d]) ? daysL[d] : [],
         Array.isArray(daysR[d]) ? daysR[d] : [],
         Array.isArray(daysS[d]) ? daysS[d] : [],
-        Array.isArray(daysH[d]) ? daysH[d] : []
+        Array.isArray(daysH[d]) ? daysH[d] : [],
+        Array.isArray(daysT[d]) ? daysT[d] : []
       )));
     });
 
@@ -1173,6 +1388,15 @@
       hskDoneItems,
       hskMwDone,
       hskPct,
+      toeicWords,
+      toeicDue,
+      toeicGrammar,
+      toeicListening,
+      toeicReading,
+      toeicMockPassed,
+      toeicSW,
+      toeicDoneItems,
+      toeicPct,
       totalWordsAll,
       totalLessonsAll,
       totalDueAll,
@@ -1202,6 +1426,9 @@
       hskWords: st.hskWords,
       hskDoneItems: st.hskDoneItems,
       hskPct: st.hskPct,
+      toeicWords: st.toeicWords,
+      toeicDoneItems: st.toeicDoneItems,
+      toeicPct: st.toeicPct,
       totalWordsAll: st.totalWordsAll,
       totalLessonsAll: st.totalLessonsAll,
       overallPct: st.overallPct,
@@ -1213,8 +1440,13 @@
   function hasNonEmptyData(raw) {
     if (!raw) return false;
     const parsed = parseJ(raw, null);
+    const hasVal = v => {
+      if (Array.isArray(v)) return v.length > 0;
+      if (v && typeof v === "object") return Object.keys(v).some(k => hasVal(v[k]));
+      return Boolean(v);
+    };
     if (Array.isArray(parsed)) return parsed.length > 0;
-    if (parsed && typeof parsed === "object") return Object.keys(parsed).some(k => Boolean(parsed[k]));
+    if (parsed && typeof parsed === "object") return hasVal(parsed);
     return String(raw).trim().length > 0;
   }
   function hasRoadmapData(raw) {
@@ -1222,7 +1454,7 @@
     if (!rm || typeof rm !== "object" || Array.isArray(rm)) return false;
     if (rm.updatedAt) return true;
     if (rm.skipped && typeof rm.skipped === "object" && Object.keys(rm.skipped).some(k => rm.skipped[k])) return true;
-    if (rm.startLevel && rm.startLevel !== "foundation") return true;
+    if (rm.startLevel && rm.startLevel !== "foundation" && rm.startLevel !== "zero") return true;
     if (rm.pace && rm.pace !== "standard") return true;
     return false;
   }
@@ -1236,11 +1468,11 @@
   function hasProgress(map) {
     if (!map || typeof map !== "object") return false;
     const s = progressStats(map);
-    if (s.totalWordsAll > 0 || s.totalLessonsAll > 0 || s.hskWords > 0 || s.hskDoneItems > 0 || s.hskMwDone > 0) return true;
-    if (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_SSES] || map[P_HVSES] || map[P_LPOS]) return true;
-    if ([P_WDONE, P_WESSAYS, P_LSUBS, P_RSUBS, P_WSUBS, P_SSUBS, P_LNOTES, P_RNOTES, P_WNOTES, P_SNOTES, P_HWDRAFTS, P_HSHOOT, P_RPZANS, P_LPZANS, P_HMWDONE].some(k => hasNonEmptyData(map[k]))) return true;
-    if (hasHskMockData(map[P_HMOCK]) || hasRoadmapData(map[P_IELTS_RM]) || hasRoadmapData(map[P_HSK_RM])) return true;
-    return Object.keys(map).some(k => isPzDraftKey(k) && Boolean(map[k]));
+    if (s.totalWordsAll > 0 || s.totalLessonsAll > 0 || s.hskWords > 0 || s.hskDoneItems > 0 || s.hskMwDone > 0 || s.toeicWords > 0 || s.toeicDoneItems > 0) return true;
+    if (map[P_VSES] || map[P_LSES] || map[P_RSES] || map[P_SSES] || map[P_HVSES] || map[P_TVSES] || map[P_LPOS]) return true;
+    if ([P_WDONE, P_WESSAYS, P_LSUBS, P_RSUBS, P_WSUBS, P_SSUBS, P_LNOTES, P_RNOTES, P_WNOTES, P_SNOTES, P_HWDRAFTS, P_HSHOOT, P_RPZANS, P_LPZANS, P_HMWDONE, P_TOEIC_PT, P_TMOCKSUBS, P_TSWDRAFTS, P_TSWSUBS].some(k => hasNonEmptyData(map[k]))) return true;
+    if (hasHskMockData(map[P_HMOCK]) || hasHskMockData(map[P_HHSKK_MOCK]) || hasRoadmapData(map[P_IELTS_RM]) || hasRoadmapData(map[P_HSK_RM]) || hasRoadmapData(map[P_TOEIC_RM])) return true;
+    return Object.keys(map).some(k => isTrackedDraftKey(k) && Boolean(map[k]));
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
@@ -1267,7 +1499,7 @@
     pushTimer = setTimeout(() => { pushProgress().catch(() => {}); }, hasOw ? 250 : 3500);
   }
   Storage.prototype.setItem = function (k, v) {
-    const isTracked = !hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k));
+    const isTracked = !hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isTrackedDraftKey(k));
     const prevVal = isTracked ? localStorage.getItem(k) : null;
     _setItem.call(this, k, v);
     if (isTracked) {
@@ -1276,7 +1508,7 @@
     }
   };
   Storage.prototype.removeItem = function (k) {
-    const isTracked = !hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isPzDraftKey(k));
+    const isTracked = !hookSuspended && this === localStorage && (PROGRESS_KEYS.indexOf(k) >= 0 || isTrackedDraftKey(k));
     const prevVal = isTracked ? localStorage.getItem(k) : null;
     _removeItem.call(this, k);
     if (isTracked) {
@@ -1528,7 +1760,7 @@
     const draftKeys = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (isPzDraftKey(k)) draftKeys.push(k);
+      if (isTrackedDraftKey(k)) draftKeys.push(k);
     }
     draftKeys.forEach(k => rawRemove(k));
   }
@@ -2044,6 +2276,14 @@
                   Từ vựng SRS: <b>${st.hskWords} / ${TOTAL_HSK_VOCAB} từ</b>${st.hskDue ? ` • Cần ôn: <b style="color:#dc2626">${st.hskDue}</b>` : ""}
                 </div>
               </div>
+              <div style="padding:10px;border-radius:10px;background:rgba(217,119,6,0.09);">
+                <div style="font-size:12px;color:#64748b;font-weight:600;display:inline-flex;align-items:center;gap:5px;">${uiIcon("briefcase", 13, "")} TOEIC 0–990</div>
+                <div style="font-size:15.5px;font-weight:800;color:#b45309;margin:2px 0;">${st.toeicDoneItems} / ${TOTAL_TOEIC_ITEMS} bài <span style="font-size:12px;">(${st.toeicPct}%)</span></div>
+                <div class="s4-prog-track"><div class="s4-prog-bar" style="width:${st.toeicPct}%;background:#d97706;"></div></div>
+                <div style="font-size:11px;color:#64748b;margin-top:6px;">
+                  Từ vựng SRS: <b>${st.toeicWords.toLocaleString("en-US")} / ${TOTAL_TOEIC_VOCAB.toLocaleString("en-US")} từ</b>${st.toeicDue ? ` • Cần ôn: <b style="color:#dc2626">${st.toeicDue}</b>` : ""}
+                </div>
+              </div>
             </div>
           </div>
           <div class="s4-stat-box">
@@ -2544,6 +2784,8 @@
       const tedDone = Number(u.tedDone) || 0;
       const hskWords = Number(u.hskWords) || 0;
       const hskDoneItems = Number(u.hskDoneItems) || 0;
+      const toeicWords = Number(u.toeicWords) || 0;
+      const toeicDoneItems = Number(u.toeicDoneItems) || 0;
 
       const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
       const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
@@ -2599,6 +2841,10 @@
             <div style="padding:8px 10px;background:rgba(185,28,28,0.08);border-radius:8px;">
               <div style="font-size:11px;color:#64748b;">HSK 1–6</div>
               <div style="font-size:14.5px;font-weight:800;color:#b91c1c;">${hskDoneItems} bài • ${hskWords} từ</div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(217,119,6,0.09);border-radius:8px;">
+              <div style="font-size:11px;color:#64748b;">TOEIC 0–990</div>
+              <div style="font-size:14.5px;font-weight:800;color:#b45309;">${toeicDoneItems} / ${TOTAL_TOEIC_ITEMS} bài • ${toeicWords.toLocaleString("en-US")} / ${TOTAL_TOEIC_VOCAB.toLocaleString("en-US")} từ</div>
             </div>
           </div>
         </div>`;
@@ -2818,6 +3064,7 @@
               readingDone: st.readingDone, readingWords: st.readingWords, writingDone: st.writingDone,
               speakingDone: st.speakingDone, speakingWords: st.speakingWords, tedDone: st.tedDone,
               hskWords: st.hskWords, hskDoneItems: st.hskDoneItems,
+              toeicWords: st.toeicWords, toeicDoneItems: st.toeicDoneItems, toeicPct: st.toeicPct,
               overallPct: st.overallPct, streakDays: st.streakDays, totalStudyDays: st.totalStudyDays
             });
             render();
@@ -3001,7 +3248,11 @@
     canAccessVocabTopic, canAccessGrammarSection,
     openLoginModal, openProfileModal, openDonateModal, openAdminModal, openInstallModal, closeModals,
     logout, syncNow: () => syncProgress(false),
+    scheduleCloudSync: onProgressChanged,
     mergeProgress: mergeProgress,
+    progressStats: progressStats,
+    getProgressStats: () => progressStats(readProgress()),
+    isToeicMockDraftKey: isToeicMockDraftKey,
     allowOverwriteOnce: allowOverwriteOnce
   };
 

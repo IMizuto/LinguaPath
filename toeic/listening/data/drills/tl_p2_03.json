@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_03",
+  "order": 15,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 03: Câu hỏi When (Thời điểm & Hạn chót)",
+  "subtitle": "Phân biệt mốc thời gian quá khứ – hiện tại – tương lai và cấu trúc mệnh đề thời gian (As soon as / Until).",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "Với câu hỏi 'When', hãy chú ý THÌ của câu hỏi: hỏi quá khứ ('When did...') chọn mốc quá khứ ('Two days ago'), hỏi tương lai ('When will...') chọn mốc tương lai ('Next Friday', 'As soon as...').",
+  "items": [
+    {
+      "num": 1,
+      "qType": "When",
+      "accent": "en-US",
+      "question": "When is the invoice due to the vendor?",
+      "questionVi": "Khi nào hóa đơn đến hạn thanh toán cho nhà cung cấp?",
+      "options": [
+        "By the fifteenth of this month.",
+        "About six hundred dollars.",
+        "Yes, I spoke to the vendor."
+      ],
+      "optionsVi": [
+        "Trước ngày mười lăm tháng này.",
+        "Khoảng sáu trăm đô la.",
+        "Vâng, tôi đã nói chuyện với nhà cung cấp."
+      ],
+      "ans": 0,
+      "exp": "'When' hỏi hạn chót → chọn (A) 'By the fifteenth of this month'. Loại (B) hỏi số tiền (How much), (C) bẫy Yes + lặp từ 'vendor'."
+    },
+    {
+      "num": 2,
+      "qType": "When",
+      "accent": "en-GB",
+      "question": "When did the maintenance team fix the air conditioner?",
+      "questionVi": "Đội bảo trì đã sửa máy điều hòa vào lúc nào?",
+      "options": [
+        "It is still quite warm in the lobby.",
+        "Late yesterday afternoon.",
+        "On the roof of the west wing."
+      ],
+      "optionsVi": [
+        "Ở sảnh vẫn còn khá ấm.",
+        "Vào cuối chiều hôm qua.",
+        "Trên mái của khu nhà phía tây."
+      ],
+      "ans": 1,
+      "exp": "Câu hỏi quá khứ 'When did...' → khớp mốc thời gian quá khứ (B) 'Late yesterday afternoon'. Loại (A) nhận xét nhiệt độ, (C) trả lời nơi chốn."
+    },
+    {
+      "num": 3,
+      "qType": "When",
+      "accent": "en-US",
+      "question": "When will the new warehouse facility open?",
+      "questionVi": "Khi nào cơ sở nhà kho mới sẽ khai trương?",
+      "options": [
+        "Near the main highway exit.",
+        "No, the doors are locked.",
+        "Sometime early next spring."
+      ],
+      "optionsVi": [
+        "Gần lối ra đường cao tốc chính.",
+        "Không, các cửa đang khóa.",
+        "Vào khoảng đầu mùa xuân tới."
+      ],
+      "ans": 2,
+      "exp": "Câu hỏi tương lai 'When will...' → chọn (C) 'Sometime early next spring'. Loại (A) nơi chốn, (B) bẫy liên tưởng 'open / locked' và sai dạng No."
+    },
+    {
+      "num": 4,
+      "qType": "When",
+      "accent": "en-AU",
+      "question": "When does the express train to Brighton depart?",
+      "questionVi": "Khi nào chuyến tàu tốc hành đi Brighton khởi hành?",
+      "options": [
+        "At seven forty-five from track four.",
+        "From the sales department.",
+        "Because of the heavy rain."
+      ],
+      "optionsVi": [
+        "Lúc bảy giờ bốn lăm từ đường ray số bốn.",
+        "Từ phòng kinh doanh.",
+        "Vì trời mưa to."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) cung cấp chính xác giờ khởi hành ('At seven forty-five'). Loại (B) bẫy gần âm 'depart / department', (C) trả lời lý do (Why)."
+    },
+    {
+      "num": 5,
+      "qType": "When",
+      "accent": "en-US",
+      "question": "When can we expect the revised architectural drawings?",
+      "questionVi": "Khi nào chúng ta có thể nhận được bản vẽ kiến trúc đã chỉnh sửa?",
+      "options": [
+        "The architect lives downtown.",
+        "As soon as the manager signs off on them.",
+        "Twelve pages in total."
+      ],
+      "optionsVi": [
+        "Kiến trúc sư sống ở trung tâm thành phố.",
+        "Ngay khi người quản lý ký duyệt chúng.",
+        "Tổng cộng mười hai trang."
+      ],
+      "ans": 1,
+      "exp": "Mệnh đề chỉ thời điểm 'As soon as...' (ngay khi...) là dạng trả lời rất hay gặp cho 'When' → chọn (B). Loại (A) bẫy họ từ 'architectural / architect', (C) số lượng."
+    },
+    {
+      "num": 6,
+      "qType": "When",
+      "accent": "en-GB",
+      "question": "When was the last time we inspected the fire alarms?",
+      "questionVi": "Lần cuối cùng chúng ta kiểm tra chuông báo cháy là khi nào?",
+      "options": [
+        "In every hallway on this floor.",
+        "Yes, the alarm is very loud.",
+        "About six months ago."
+      ],
+      "optionsVi": [
+        "Ở mọi hành lang trên tầng này.",
+        "Vâng, chuông báo rất to.",
+        "Khoảng sáu tháng trước."
+      ],
+      "ans": 2,
+      "exp": "Câu hỏi quá khứ 'When was the last time...' → khớp mốc quá khứ (C) 'About six months ago'. Loại (A) nơi chốn và (B) bẫy Yes + lặp từ 'alarm'."
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "id": "tr_p6_08",
+  "order": 14,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 08: Thư Mời Diễn giả & Kiểm kê Kho Cuối năm",
+  "subtitle": "Hoàn thiện kỹ năng Part 6 với Thư mời trang trọng (Letter) và Memo điều phối kho vận (Memo).",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Động từ \"address\" ngoài nghĩa \"địa chỉ\" còn là động từ cực hay gặp trong TOEIC với nghĩa \"phát biểu trước đám đông\" (address the audience) hoặc \"giải quyết vấn đề\" (address a concern).",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thư mời",
+      "genre": "letter",
+      "meta": {
+        "title": "GLOBAL SUSTAINABILITY FORUM",
+        "subtitle": "August 22 • Dear Dr. Alvarez,"
+      },
+      "paragraphs": [
+        "The organizing committee of the Global Sustainability Forum has closely followed your [1] research on circular manufacturing over the past decade. On behalf of our board, I am honored to invite you to [2] more than 600 industry leaders as our opening keynote speaker in Vienna on November 14.",
+        "Your presentation would last approximately forty minutes, followed by a brief question-and-answer session with delegates. [3]",
+        "We would greatly appreciate your [4] by September 15 so that we can finalize the printed summit program. Please reach out to my office with any questions.",
+        "Respectfully yours,\nClaire Dubois, Summit Chair"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Memo nội bộ",
+      "genre": "memo",
+      "meta": {
+        "to": "All Logistics & Customer Support Staff",
+        "from": "Owen Gallagher, Warehouse Director",
+        "date": "December 11",
+        "subject": "Annual Year-End Inventory Audit"
+      },
+      "paragraphs": [
+        "Our annual physical inventory audit will take place on Friday, December 27, and Saturday, December 28. Outbound parcel shipping [5] during both days so warehouse teams can reconcile every shelf against our central database.",
+        "No regular freight orders will leave the facility [6] urgent medical supply contracts pre-approved by senior management. [7]",
+        "Customer support agents are asked to review open order queues [8] before December 23 and advise clients of the two-day pause in advance."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "impress",
+        "impressive",
+        "impression",
+        "impressively"
+      ],
+      "ans": 1,
+      "exp": "Giữa tính từ sở hữu \"your\" và danh từ \"research\" cần một tính từ bổ nghĩa. Chọn \"impressive\" (B - ấn tượng). Loại (A) động từ, (C) danh từ, (D) trạng từ."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "address",
+        "manufacture",
+        "purchase",
+        "postpone"
+      ],
+      "ans": 0,
+      "exp": "Cấu trúc \"address + đối tượng khán giả\" (more than 600 industry leaders) mang nghĩa \"phát biểu trước ai\". Chọn \"address\" (A). Loại (B) sản xuất, (C) mua sắm, (D) trì hoãn."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "All airline reservations must be paid personally by each invited speaker.",
+        "The conference venue does not provide microphones or projection screens.",
+        "The forum will cover round-trip business-class airfare and three nights of hotel accommodation.",
+        "Delegates should submit their passport applications at least six months ago."
+      ],
+      "ans": 2,
+      "exp": "Trong thư mời diễn giả chính (keynote speaker), sau phần mô tả thời lượng bài phát biểu là phần quyền lợi tài trợ di chuyển & lưu trú. Câu (C) cực kỳ trang trọng và đúng chuẩn thực tế ETS. Loại (A), (B) thiếu lịch sự/phi lý; (D) sai ngữ pháp (\"must... ago\")."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "respond",
+        "responsive",
+        "responsively",
+        "response"
+      ],
+      "ans": 3,
+      "exp": "Sau tính từ sở hữu \"your\" cần một danh từ (\"your response by September 15\" = phản hồi của ông/bà trước ngày 15/9). Chọn \"response\" (D). Loại (A) động từ, (B) tính từ, (C) trạng từ."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Bị động & Thì",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "will be suspended",
+        "has suspended",
+        "was suspending",
+        "suspended"
+      ],
+      "ans": 0,
+      "exp": "Sự kiện diễn ra trong tương lai (\"December 27–28\", ngày gửi memo là 11/12) và chủ ngữ \"Outbound parcel shipping\" (việc xuất gửi bưu kiện) mang nghĩa bị động (\"sẽ bị tạm ngưng\"). Chọn \"will be suspended\" (A). Loại (B), (C), (D) đều chủ động hoặc sai thì."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Giới từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [6]:",
+      "opts": [
+        "unless",
+        "except for",
+        "although",
+        "because"
+      ],
+      "ans": 1,
+      "exp": "Phía sau là cụm danh từ \"urgent medical supply contracts...\" và câu mang nghĩa loại trừ (\"Không có đơn hàng thường nào rời kho NGOẠI TRỪ các hợp đồng vật tư y tế khẩn cấp\"). Chọn cụm giới từ \"except for\" (B). Loại (A), (C), (D) đều là liên từ cần mệnh đề S + V."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [7]:",
+      "opts": [
+        "The cafeteria will serve holiday desserts on Friday afternoon.",
+        "New employees should pick up their uniforms at the front gate.",
+        "Our accounting software was recently translated into four languages.",
+        "Standard dispatch operations will resume promptly at 6:00 A.M. on Monday, December 30."
+      ],
+      "ans": 3,
+      "exp": "Sau khi nêu lịch tạm ngưng xuất hàng trong 2 ngày 27–28/12 và ngoại lệ y tế, câu (D) cung cấp thông tin quan trọng nhất tiếp theo: thời điểm hoạt động giao nhận bình thường hoạt động trở lại (Thứ Hai 30/12). Loại (A), (B), (C) lạc đề."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "thorough",
+        "thoroughness",
+        "thoroughly",
+        "more thorough"
+      ],
+      "ans": 2,
+      "exp": "Bổ nghĩa cho cụm động từ \"review open order queues\" (rà soát hàng đợi đơn hàng đang mở) cần trạng từ chỉ cách thức. Chọn \"thoroughly\" (C - một cách kỹ lưỡng). Loại (A) tính từ, (B) danh từ, (D) tính từ so sánh hơn."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "address more than 600 industry leaders",
+      "answer": "opening keynote speaker",
+      "vi": "phát biểu trước hơn 600 lãnh đạo ngành ↔ diễn giả khai mạc chính"
+    },
+    {
+      "text": "will be suspended during both days",
+      "answer": "two-day pause",
+      "vi": "sẽ bị tạm ngưng trong cả hai ngày ↔ đợt tạm dừng hai ngày"
+    },
+    {
+      "text": "advise clients... in advance",
+      "answer": "notify customers before December 23",
+      "vi": "báo trước cho khách hàng ↔ thông báo khách hàng trước ngày 23/12"
+    }
+  ]
+}

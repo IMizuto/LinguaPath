@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="640" height="380">
+<defs>
+  <linearGradient id="bg02" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fef3c7"/><stop offset="100%" stop-color="#fde68a"/></linearGradient>
+  <linearGradient id="cnt02" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#78350f"/><stop offset="100%" stop-color="#451a03"/></linearGradient>
+</defs>
+<rect width="640" height="380" fill="url(#bg02)"/>
+<rect y="294" width="640" height="86" fill="#d6d3d1"/>
+<!-- Menu chalkboard on back wall -->
+<rect x="44" y="28" width="218" height="106" rx="6" fill="#1e293b" stroke="#92400e" stroke-width="5"/>
+<rect x="62" y="44" width="76" height="8" rx="2" fill="#f59e0b"/>
+<rect x="62" y="62" width="110" height="5" rx="1" fill="#e2e8f0"/><rect x="210" y="62" width="32" height="5" rx="1" fill="#fde047"/>
+<rect x="62" y="78" width="96" height="5" rx="1" fill="#e2e8f0"/><rect x="210" y="78" width="32" height="5" rx="1" fill="#fde047"/>
+<rect x="62" y="94" width="122" height="5" rx="1" fill="#e2e8f0"/><rect x="210" y="94" width="32" height="5" rx="1" fill="#fde047"/>
+<rect x="62" y="110" width="88" height="5" rx="1" fill="#cbd5e1"/><rect x="210" y="110" width="32" height="5" rx="1" fill="#fde047"/>
+<!-- Pendant lamps -->
+<line x1="160" y1="0" x2="160" y2="22" stroke="#44403c" stroke-width="2.5"/>
+<line x1="340" y1="0" x2="340" y2="46" stroke="#44403c" stroke-width="2.5"/>
+<path d="M318 68 C320 46 360 46 362 68 Z" fill="#d97706"/><ellipse cx="340" cy="68" rx="22" ry="5" fill="#fef08a"/>
+<line x1="510" y1="0" x2="510" y2="46" stroke="#44403c" stroke-width="2.5"/>
+<path d="M488 68 C490 46 530 46 532 68 Z" fill="#d97706"/><ellipse cx="510" cy="68" rx="22" ry="5" fill="#fef08a"/>
+<!-- Window on right with seated patrons -->
+<rect x="444" y="88" width="174" height="142" rx="4" fill="#e0f2fe" stroke="#92400e" stroke-width="4"/>
+<line x1="531" y1="88" x2="531" y2="230" stroke="#92400e" stroke-width="3"/>
+<circle cx="486" cy="204" r="13" fill="#f5c6a5"/><path d="M472 222 C474 216 498 216 500 222 L504 268 L468 268 Z" fill="#2563eb"/>
+<circle cx="576" cy="206" r="13" fill="#e5b38a"/><path d="M562 224 C564 218 588 218 590 224 L594 268 L558 268 Z" fill="#7c3aed"/>
+<rect x="498" y="250" width="66" height="8" rx="3" fill="#92400e"/><rect x="527" y="258" width="8" height="46" fill="#57534e"/>
+<rect x="514" y="238" width="10" height="12" rx="2" fill="#ffffff"/><rect x="538" y="238" width="10" height="12" rx="2" fill="#ffffff"/>
+<!-- Shelf behind counter -->
+<rect x="282" y="114" width="136" height="8" rx="2" fill="#92400e"/>
+<rect x="292" y="92" width="18" height="22" rx="2" fill="#b45309"/><rect x="316" y="96" width="16" height="18" rx="2" fill="#15803d"/><rect x="338" y="90" width="20" height="24" rx="2" fill="#dc2626"/><rect x="366" y="98" width="14" height="16" rx="2" fill="#f8fafc"/><rect x="386" y="98" width="14" height="16" rx="2" fill="#f8fafc"/>
+<!-- Barista behind counter -->
+<circle cx="196" cy="166" r="18" fill="#f5c6a5"/>
+<path d="M178 162 C180 144 214 144 216 162 Z" fill="#1e293b"/>
+<rect x="176" y="156" width="42" height="6" rx="2" fill="#065f46"/>
+<path d="M170 190 C174 182 218 182 222 190 L226 244 L166 244 Z" fill="#ffffff"/>
+<rect x="176" y="196" width="40" height="48" rx="3" fill="#047857"/>
+<path d="M214 198 L254 202 L254 212 L212 210 Z" fill="#f5c6a5"/>
+<!-- Takeaway coffee cup handed across counter -->
+<polygon points="252,190 270,190 267,214 255,214" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="251" y="186" width="20" height="5" rx="2" fill="#334155"/>
+<rect x="253" y="198" width="16" height="8" fill="#b45309"/>
+<!-- Espresso machine & Pastry display on counter -->
+<rect x="44" y="166" width="84" height="66" rx="5" fill="#475569" stroke="#1e293b" stroke-width="3"/>
+<rect x="54" y="176" width="64" height="18" rx="2" fill="#94a3b8"/>
+<rect x="64" y="210" width="14" height="16" rx="2" fill="#ffffff"/><rect x="92" y="210" width="14" height="16" rx="2" fill="#ffffff"/>
+<path d="M280 232 L286 184 L396 184 L402 232 Z" fill="#e0f2fe" fill-opacity="0.65" stroke="#64748b" stroke-width="2.5"/>
+<line x1="284" y1="208" x2="398" y2="208" stroke="#94a3b8" stroke-width="2"/>
+<ellipse cx="308" cy="202" rx="12" ry="6" fill="#d97706"/><ellipse cx="342" cy="202" rx="12" ry="6" fill="#b45309"/><ellipse cx="374" cy="202" rx="11" ry="6" fill="#f59e0b"/>
+<ellipse cx="312" cy="224" rx="13" ry="6" fill="#92400e"/><ellipse cx="352" cy="224" rx="14" ry="6" fill="#d97706"/>
+<!-- Main Cafe Counter -->
+<rect x="22" y="232" width="400" height="14" rx="3" fill="#d97706"/>
+<rect x="28" y="246" width="388" height="92" fill="url(#cnt02)"/>
+<line x1="120" y1="246" x2="120" y2="338" stroke="#92400e" stroke-width="2"/><line x1="220" y1="246" x2="220" y2="338" stroke="#92400e" stroke-width="2"/><line x1="320" y1="246" x2="320" y2="338" stroke="#92400e" stroke-width="2"/>
+<!-- Customer 1 receiving coffee -->
+<circle cx="306" cy="178" r="19" fill="#f3c49d"/>
+<path d="M286 178 C286 154 326 154 326 180 L328 202 L318 196 L318 176 C312 166 294 166 288 178 Z" fill="#451a03"/>
+<path d="M280 206 C284 196 328 196 332 206 L338 308 L274 308 Z" fill="#0284c7"/>
+<path d="M284 214 L264 202 L262 212 L286 226 Z" fill="#0369a1"/>
+<rect x="284" y="308" width="18" height="60" fill="#1e293b"/><rect x="310" y="308" width="18" height="60" fill="#0f172a"/>
+<!-- Customer 2 waiting in line with phone -->
+<circle cx="408" cy="186" r="18" fill="#e5b38a"/>
+<path d="M390 184 C392 166 424 166 426 184 C418 176 398 176 390 184 Z" fill="#1e293b"/>
+<path d="M382 212 C386 202 430 202 434 212 L438 310 L378 310 Z" fill="#ea580c"/>
+<rect x="366" y="232" width="12" height="20" rx="2" fill="#0f172a"/>
+<rect x="388" y="310" width="17" height="58" fill="#334155"/><rect x="412" y="310" width="17" height="58" fill="#1e293b"/>
+</svg>

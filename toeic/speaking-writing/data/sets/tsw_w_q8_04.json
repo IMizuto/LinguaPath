@@ -1,0 +1,98 @@
+{
+  "id": "tsw_w_q8_04",
+  "skill": "writing",
+  "taskType": "wr_q8",
+  "code": "Q8",
+  "level": 4,
+  "targetBand": "180–200",
+  "title": "Q8 • Đề 04: Tự động hóa & Công cụ Số nơi Công sở",
+  "topic": "Công nghệ tại Nơi làm việc & Sức khỏe Tinh thần",
+  "estMinutes": 30,
+  "guideVi": "Bài luận mức 180–200 đòi hỏi khả năng phân tích hai mặt vấn đề (cơ hội tăng hiệu quả vs áp lực kết nối liên tục), lập luận chặt chẽ và vốn từ chuyên ngành công nghệ/quản trị.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Lập trường nhất quán, lý lẽ thuyết phục kèm ví dụ thực tế cụ thể",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục 4 đoạn mạch lạc, đủ từ nối học thuật và độ dài >= 300 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Đa dạng cấu trúc câu phức và vốn từ vựng công sở chuẩn xác",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q8_04_1",
+      "itemType": "wr_q8",
+      "label": "Essay • Tác động của tự động hóa và công cụ số",
+      "durationMin": 30,
+      "promptEn": "Digital tools and automated software have transformed modern offices. Do you think these technologies create more opportunities for employees or cause greater workplace stress? Give reasons and examples to support your opinion.",
+      "promptVi": "Các công cụ số và phần mềm tự động hóa đã làm thay đổi diện mạo văn phòng hiện đại. Bạn cho rằng những công nghệ này tạo ra nhiều cơ hội hơn cho nhân viên hay gây ra áp lực công việc lớn hơn? Hãy nêu lý do và ví dụ chứng minh.",
+      "minWords": 300,
+      "outline": [
+        {
+          "part": "Mở bài (Introduction)",
+          "guideVi": "Nhắc đến sự phổ biến của phần mềm tự động và công cụ cộng tác số; khẳng định chúng tạo nhiều cơ hội phát triển hơn dù cần quy tắc sử dụng hợp lý.",
+          "starterEn": "Digital automation and cloud communication tools have reshaped virtually every white-collar profession. Although constant notifications can feel demanding, I firmly believe these technologies create far more career opportunities than stress when managed sensibly."
+        },
+        {
+          "part": "Thân bài 1 (Lý do 1 • Giải phóng khỏi việc lặp lại & Học kỹ năng giá trị cao)",
+          "guideVi": "Tự động hóa xử lý nhập liệu/báo cáo thô giúp nhân viên tập trung tư duy sáng tạo, chiến lược và phục vụ khách hàng.",
+          "starterEn": "Primarily, automated software relieves employees of repetitive administrative tasks and opens doors to higher-value responsibilities..."
+        },
+        {
+          "part": "Thân bài 2 (Lý do 2 • Cộng tác xuyên biên giới & Kiểm soát căng thẳng)",
+          "guideVi": "Công cụ số mở cơ hội thăng tiến/làm việc toàn cầu; phân tích rằng stress đến từ văn hóa quản lý chứ không phải bản thân công cụ.",
+          "starterEn": "Additionally, modern digital platforms broaden career horizons by enabling seamless collaboration across continents..."
+        },
+        {
+          "part": "Kết bài (Conclusion)",
+          "guideVi": "Tóm lược hai lợi ích và kết luận rằng tự động hóa là đòn bẩy tích cực nếu có ranh giới thời gian rõ ràng.",
+          "starterEn": "In conclusion, digital tools overwhelmingly expand professional growth, efficiency, and global access for office workers..."
+        }
+      ],
+      "targetKeywords": [
+        "automation",
+        "administrative",
+        "efficiency",
+        "opportunity",
+        "burnout",
+        "boundaries",
+        "creativity",
+        "global",
+        "software"
+      ],
+      "tipVi": "Nhấn mạnh ý 'công cụ chỉ là phương tiện — quy định tắt thông báo ngoài giờ làm mới quyết định mức độ stress'. Đây là góc nhìn sắc sảo đạt điểm rất cao ở Q8.",
+      "keyPhrases": [
+        {
+          "en": "repetitive administrative tasks",
+          "vi": "các công việc hành chính lặp đi lặp lại"
+        },
+        {
+          "en": "higher-value responsibilities",
+          "vi": "những trọng trách mang giá trị cao hơn"
+        },
+        {
+          "en": "cross-border collaboration",
+          "vi": "hợp tác xuyên biên giới"
+        },
+        {
+          "en": "digital burnout",
+          "vi": "kiệt sức do kết nối số"
+        },
+        {
+          "en": "clear communication boundaries",
+          "vi": "ranh giới giao tiếp ngoài giờ rõ ràng"
+        }
+      ],
+      "sample": "Digital automation and cloud communication platforms have fundamentally reshaped modern office work across almost every major industry. While some critics worry that rapid technological change increases job anxiety and constant after-hours expectations, others emphasize its empowering potential. In my view, automated tools overwhelmingly create greater long-term career opportunities for employees than workplace stress.\n\nPrimarily, automation frees office professionals from tedious manual routines and allows them to pursue higher-value responsibilities that require careful human judgment. Tasks such as sorting vendor invoices, scheduling routine calendar reminders, and compiling basic weekly spreadsheets used to consume half of an administrator's workweek. Today, intelligent software completes these repetitive steps within minutes, enabling staff to focus on creativity, client relationships, and strategic data analysis. For example, an accounting assistant at a midsize trading firm who adopted automated expense-tracking software reduced monthly closing paperwork by two full days and invested that spare capacity in earning a financial-planning certificate, ultimately securing a well-deserved promotion.\n\nAdditionally, modern digital platforms expand professional opportunities by connecting talented workers to global knowledge and cross-border project teams. Employees living in smaller regional cities can now collaborate seamlessly on international assignments, attend live online training seminars, and showcase specialized skills without relocating. Critics rightly point out that instant messaging applications can cause digital burnout when managers expect immediate replies late at night. However, such stress stems from poor corporate communication policies rather than the software itself. Organizations that establish clear after-hours boundaries—such as disabling non-urgent notifications after six o'clock—enable employees to enjoy remarkable workplace efficiency without sacrificing personal rest or mental well-being.\n\nIn conclusion, automated software and digital tools generate far more opportunity than pressure in contemporary workplaces. By eliminating monotonous administrative paperwork, supporting continuous skill advancement, and broadening access to global collaboration, modern technology steadily empowers dedicated office workers across diverse industries to build much more rewarding, flexible, and genuinely sustainable professional careers.",
+      "sampleVi": "Tự động hóa số và các nền tảng đám mây đã tái định hình sâu sắc công việc văn phòng hiện đại. Trong khi một số ý kiến lo ngại công nghệ thay đổi quá nhanh làm tăng âu lo và áp lực trực tuyến 24/7, nhiều người lại nhìn thấy sức mạnh trao quyền của nó. Theo tôi, các công cụ tự động hóa mang lại nhiều cơ hội nghề nghiệp hơn hẳn so với căng thẳng nơi công sở.\n\nTrước hết, tự động hóa giải phóng nhân viên khỏi những công việc thủ công nhàm chán để theo đuổi các nhiệm vụ giá trị cao hơn. Các khâu như phân loại hóa đơn, nhắc lịch định kỳ hay tổng hợp bảng tính cơ bản từng chiếm nửa tuần làm việc của nhân sự hành chính. Ngày nay, phần mềm xử lý chúng chỉ trong vài phút, giúp nhân viên tập trung giải quyết vấn đề sáng tạo, chăm sóc khách hàng và phân tích chiến lược. Ví dụ, một trợ lý kế toán tại công ty thương mại tầm trung sau khi áp dụng phần mềm theo dõi chi phí tự động đã giảm hai ngày làm việc mỗi kỳ khóa sổ và tận dụng thời gian đó học chứng chỉ hoạch định tài chính để được thăng chức.\n\nBên cạnh đó, nền tảng số mở rộng cơ hội nghề nghiệp nhờ kết nối người lao động với tri thức toàn cầu và các nhóm xuyên quốc gia. Nhân sự ở các thành phố nhỏ nay vẫn có thể tham gia dự án quốc tế và hội thảo chuyên môn mà không cần chuyển chỗ ở. Dù ứng dụng nhắn tin tức thời dễ gây kiệt sức nếu sếp đòi trả lời lúc đêm khuya, áp lực ấy bắt nguồn từ chính sách quản lý yếu kém chứ không phải lỗi của phần mềm. Khi công ty thiết lập ranh giới giao tiếp rõ ràng ngoài giờ, nhân viên hưởng trọn hiệu suất cao mà vẫn khỏe mạnh tinh thần.\n\nTóm lại, phần mềm tự động hóa và công cụ số tạo ra cơ hội lớn hơn rất nhiều so với áp lực. Nhờ xóa bỏ giấy tờ đơn điệu và mở rộng hợp tác toàn cầu, công nghệ giúp người lao động xây dựng sự nghiệp giá trị hơn."
+    }
+  ]
+}

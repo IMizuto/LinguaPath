@@ -1,0 +1,165 @@
+{
+  "id": "tsw_s_q810_01",
+  "skill": "speaking",
+  "taskType": "sp_q810",
+  "code": "Q8–10",
+  "level": 2,
+  "targetBand": "140–170",
+  "title": "Dùng bảng biểu Q8–10 #1: Lịch trình Hội nghị Đổi mới Công nghệ",
+  "topic": "Hội thảo & Sự kiện Chuyên ngành",
+  "estMinutes": 8,
+  "guideVi": "Trong 45 giây đọc bảng ban đầu, luôn chú ý kỹ dòng Ghi chú (Note) ở cuối bảng vì câu Q9 gần như chắc chắn hỏi bẫy dựa trên chi tiết thay đổi phòng, dời giờ hoặc hủy sự kiện!",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Trích xuất đúng ngày giờ, địa điểm và chi tiết từ bảng biểu",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Đính chính lịch sự thông tin sai ở Q9 và tổng hợp đủ ý ở Q10",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Diễn đạt mạch lạc, phát âm rõ số liệu và tên riêng",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q810_01_1",
+      "itemType": "sp_q810",
+      "label": "Q8–10 • Annual Innovation Summit Schedule",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "US",
+      "docTitle": "Annual Innovation Summit — Friday, October 16 (Harborview Convention Center)",
+      "docNote": "Updated Notice: The 1:30 PM Cloud Security Workshop has been moved from Room 204 to Auditorium B, and the 3:00 PM Networking Mixer is canceled due to hall maintenance.",
+      "tableHeaders": [
+        "Time",
+        "Session Title",
+        "Speaker",
+        "Location"
+      ],
+      "tableRows": [
+        [
+          "8:30 AM – 9:15 AM",
+          "Registration & Welcome Coffee",
+          "Event Staff",
+          "Main Lobby"
+        ],
+        [
+          "9:30 AM – 10:45 AM",
+          "Keynote: Practical AI in Business",
+          "Dr. Marcus Chen",
+          "Grand Ballroom"
+        ],
+        [
+          "11:00 AM – 12:15 PM",
+          "Panel: Digital Retail Trends",
+          "Sarah Lopez",
+          "Room 204"
+        ],
+        [
+          "1:30 PM – 2:45 PM",
+          "Cloud Security Workshop",
+          "Dr. Marcus Chen",
+          "Room 204 (Moved: Auditorium B)"
+        ],
+        [
+          "3:00 PM – 4:00 PM",
+          "Networking Mixer (Canceled)",
+          "All Delegates",
+          "Terrace Hall"
+        ]
+      ],
+      "targetKeywords": [
+        "8:30",
+        "Main Lobby",
+        "Auditorium B",
+        "canceled",
+        "Marcus Chen",
+        "Keynote",
+        "Cloud Security"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 8,
+          "questionEn": "Hi, I'm attending the Annual Innovation Summit on Friday. When does registration start, and where should I go to check in?",
+          "questionVi": "Chào bạn, tôi sẽ tham dự Hội nghị Đổi mới Thường niên vào thứ Sáu. Khi nào bắt đầu đăng ký và tôi nên đến đâu để làm thủ tục?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": false,
+          "sample": "Registration and welcome coffee start at 8:30 AM and run until 9:15 AM. You can check in at the Main Lobby of the Harborview Convention Center.",
+          "sampleVi": "Phần đăng ký và cà phê chào mừng bắt đầu lúc 8 giờ 30 sáng và kéo dài đến 9 giờ 15. Bạn có thể làm thủ tục tại Sảnh Chính của Trung tâm Hội nghị Harborview.",
+          "keywords": [
+            "8:30 AM",
+            "9:15 AM",
+            "Main Lobby",
+            "Harborview"
+          ]
+        },
+        {
+          "qNum": 9,
+          "questionEn": "I was told the Cloud Security Workshop is in Room 204 and there is a Networking Mixer afterward at 3:00 PM. Is that still right?",
+          "questionVi": "Tôi nghe nói Hội thảo Bảo mật Đám mây diễn ra ở Phòng 204 và sau đó có buổi Giao lưu lúc 3 giờ chiều. Thông tin đó có còn đúng không?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": true,
+          "sample": "Actually, there have been two updates. The Cloud Security Workshop has been moved from Room 204 to Auditorium B, and unfortunately, the 3:00 PM Networking Mixer has been canceled due to hall maintenance.",
+          "sampleVi": "Thực ra đã có hai thay đổi cập nhật. Hội thảo Bảo mật Đám mây đã được chuyển từ Phòng 204 sang Hội trường B, và rất tiếc buổi Giao lưu lúc 3 giờ chiều đã bị hủy do bảo trì sảnh.",
+          "keywords": [
+            "Actually",
+            "moved",
+            "Auditorium B",
+            "canceled",
+            "maintenance"
+          ]
+        },
+        {
+          "qNum": 10,
+          "questionEn": "I really admire Dr. Marcus Chen's research. Could you give me all the details about the sessions he is leading?",
+          "questionVi": "Tôi rất ngưỡng mộ các nghiên cứu của Tiến sĩ Marcus Chen. Bạn có thể cung cấp toàn bộ thông tin về những phiên do ông ấy dẫn dắt không?",
+          "prepSec": 3,
+          "respSec": 30,
+          "isCorrection": false,
+          "sample": "Certainly. Dr. Marcus Chen is leading two sessions on Friday. First, he will deliver the keynote address titled Practical AI in Business from 9:30 AM to 10:45 AM in the Grand Ballroom. Second, he will lead the Cloud Security Workshop in the afternoon from 1:30 PM to 2:45 PM. Please note that this workshop was relocated to Auditorium B.",
+          "sampleVi": "Chắc chắn rồi. Tiến sĩ Marcus Chen sẽ dẫn dắt hai phiên vào thứ Sáu. Đầu tiên, ông trình bày bài diễn văn chính mang tên Trí tuệ Nhân tạo Thực tiễn trong Kinh doanh từ 9 giờ 30 đến 10 giờ 45 sáng tại Phòng Đại tiệc. Thứ hai, ông hướng dẫn Hội thảo Bảo mật Đám mây vào buổi chiều từ 1 giờ 30 đến 2 giờ 45. Xin lưu ý hội thảo này đã chuyển sang Hội trường B.",
+          "keywords": [
+            "two sessions",
+            "9:30 AM",
+            "Grand Ballroom",
+            "1:30 PM",
+            "Auditorium B"
+          ]
+        }
+      ],
+      "tipVi": "Với câu đính chính Q9, mở đầu thật lịch sự bằng 'Actually, there has been a change...' hoặc 'I'm afraid that information is outdated...'. Với Q10, luôn báo tổng số mục trước ('Dr. Chen is leading two sessions') rồi đọc lần lượt giờ, tên phiên và phòng.",
+      "keyPhrases": [
+        {
+          "en": "Actually, there have been two updates",
+          "vi": "Thực ra vừa có hai cập nhật mới"
+        },
+        {
+          "en": "has been moved to Auditorium B",
+          "vi": "đã được chuyển sang Hội trường B"
+        },
+        {
+          "en": "canceled due to hall maintenance",
+          "vi": "bị hủy do bảo trì sảnh"
+        },
+        {
+          "en": "leading two sessions",
+          "vi": "dẫn dắt hai phiên hội thảo"
+        },
+        {
+          "en": "deliver the keynote address",
+          "vi": "trình bày bài phát biểu chính"
+        }
+      ],
+      "sample": "Q8: Registration begins at 8:30 AM and runs until 9:15 AM in the Main Lobby.\n\nQ9: Actually, there are two changes: the Cloud Security Workshop has been moved to Auditorium B, and the 3:00 PM Networking Mixer is canceled due to hall maintenance.\n\nQ10: Dr. Marcus Chen is leading two sessions: first, the Keynote on Practical AI in Business from 9:30 to 10:45 AM in the Grand Ballroom; and second, the Cloud Security Workshop from 1:30 to 2:45 PM in Auditorium B.",
+      "sampleVi": "Q8: Đăng ký bắt đầu lúc 8:30 và kéo dài tới 9:15 sáng tại Sảnh Chính.\n\nQ9: Thực ra có hai thay đổi: Hội thảo Bảo mật Đám mây đã chuyển sang Hội trường B và buổi Giao lưu lúc 3:00 chiều bị hủy do bảo trì sảnh.\n\nQ10: Tiến sĩ Marcus Chen phụ trách hai phiên: thứ nhất là Bài phát biểu chính về AI Thực tiễn trong Kinh doanh từ 9:30 đến 10:45 sáng tại Phòng Đại tiệc; thứ hai là Hội thảo Bảo mật Đám mây từ 1:30 đến 2:45 chiều tại Hội trường B."
+    }
+  ]
+}

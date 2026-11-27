@@ -1,0 +1,139 @@
+{
+  "id": "tr_p7d_02",
+  "order": 22,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 02: Tin tuyển dụng & Email đổi lịch phỏng vấn",
+  "subtitle": "Nối thông tin giữa mô tả công việc tại Harborline Logistics và thư phản hồi của ứng viên Mateo Silva.",
+  "timeLimitMin": 10,
+  "tips": "Với cặp Tin tuyển dụng ↔ Email ứng viên, hãy đặc biệt để ý câu hỏi NOT/thiếu thông tin: đối chiếu từng yêu cầu trong tin tuyển dụng với kinh nghiệm mà ứng viên liệt kê trong email.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Tin tuyển dụng",
+      "genre": "ad",
+      "meta": {
+        "title": "NOW HIRING: SUPPLY CHAIN COORDINATOR",
+        "subtitle": "Harborline Logistics • Seattle, WA (Full-Time, On-Site)"
+      },
+      "paragraphs": [
+        "Harborline Logistics is seeking a detail-oriented Supply Chain Coordinator to join our growing Pacific Operations team. The successful candidate will track international ocean and air freight shipments, liaise with customs brokers, prepare weekly inventory forecasts, and resolve carrier delays.",
+        "Qualifications:\n• Bachelor's degree in Logistics, Business Administration, or a related discipline\n• At least three years of hands-on freight coordination experience\n• Proficiency with enterprise inventory software (such as CargoTrack or SAP)\n• Bilingual fluency in Spanish or Mandarin is strongly preferred",
+        "How to Apply: Email your résumé and cover letter to hiring@harborlinelogistics.com by Monday, May 19. Shortlisted candidates will be invited for in-person interviews at our Seattle headquarters on May 27 or May 28. All interviewees must bring printed contact information for two professional references."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "hiring@harborlinelogistics.com",
+        "from": "Mateo Silva <m.silva@mailgrid.net>",
+        "date": "May 22",
+        "subject": "Interview Scheduling — Supply Chain Coordinator"
+      },
+      "paragraphs": [
+        "Dear Ms. Vance,",
+        "Thank you very much for considering my application for the Supply Chain Coordinator position and for offering me an interview slot on Tuesday, May 27, at 10:00 A.M. Having spent the past five years managing Pacific freight shipments using SAP—and communicating daily with suppliers in both English and Spanish—I am enthusiastic about contributing to Harborline Logistics.",
+        "Unfortunately, I am scheduled to be in Portland on May 27 to conduct a mandatory quarterly warehouse audit for my current employer, Pacific Rim Distributors, and I will not return to Seattle until late that evening. Would it be possible to reschedule my interview for the following morning at any time before noon?",
+        "I will be sure to bring the printed details of two former supervisors as requested in the posting. Thank you for your flexibility, and I look forward to meeting the team.",
+        "Sincerely,\nMateo Silva"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the job advertisement, what is considered a strong advantage for applicants?",
+      "opts": [
+        "Being fluent in a second specified language",
+        "Having previous experience as a customs broker",
+        "Willingness to travel frequently to Portland",
+        "Holding a commercial driving license"
+      ],
+      "ans": 0,
+      "exp": "Văn bản 1 (mục Qualifications) nêu: 'Bilingual fluency in Spanish or Mandarin is strongly preferred' → Thành thạo song ngữ tiếng Tây Ban Nha hoặc tiếng Quan Thoại là lợi thế lớn."
+    },
+    {
+      "num": 2,
+      "tag": "Ý chính",
+      "q": "What is the main purpose of Mr. Silva's email?",
+      "opts": [
+        "To withdraw his job application due to a schedule conflict",
+        "To inquire about the salary range for the open position",
+        "To request a different day for his scheduled interview",
+        "To submit additional contact details for his references"
+      ],
+      "ans": 2,
+      "exp": "Trong Văn bản 2 (đoạn 2), anh Silva giải thích phải đi công tác ở Portland ngày 27/5 và hỏi: 'Would it be possible to reschedule my interview for the following morning at any time before noon?' → Mục đích chính là xin đổi sang ngày phỏng vấn khác."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"mandatory\" in paragraph 2 is closest in meaning to",
+      "opts": [
+        "temporary",
+        "unexpected",
+        "confidential",
+        "required"
+      ],
+      "ans": 3,
+      "exp": "Cụm 'a mandatory quarterly warehouse audit' nghĩa là cuộc kiểm tra kho hàng quý bắt buộc. Vì vậy 'mandatory' đồng nghĩa với 'required' (bắt buộc)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "Which qualification listed in the job advertisement does Mr. Silva NOT explicitly mention in his email?",
+      "opts": [
+        "Experience coordinating freight shipments",
+        "A bachelor's degree in a relevant field",
+        "Proficiency in enterprise inventory software",
+        "Bilingual language skills"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Trong Văn bản 2, anh Silva nhắc tới 5 năm quản lý vận tải Thái Bình Dương (A), sử dụng thành thạo SAP (C), và giao tiếp song ngữ Anh–Tây Ban Nha (D), nhưng KHÔNG đề cập tới bằng cử nhân (Bachelor's degree — yêu cầu đầu tiên ở Văn bản 1)."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "When does Mr. Silva ask to visit Harborline Logistics's Seattle headquarters?",
+      "opts": [
+        "On the morning of May 28",
+        "On the afternoon of May 27",
+        "On Monday, May 19",
+        "On the evening of May 28"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 cho biết lịch phỏng vấn trực tiếp tại trụ sở Seattle diễn ra vào ngày 27/5 hoặc 28/5. Văn bản 2 anh Silva xin chuyển lịch ngày 27/5 sang 'the following morning at any time before noon' → Sáng ngày 28/5."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "bilingual fluency in Spanish or Mandarin is strongly preferred",
+      "answer": "being fluent in a second specified language",
+      "vi": "ưu tiên mạnh ứng viên thành thạo tiếng Tây Ban Nha hoặc tiếng Trung"
+    },
+    {
+      "text": "reschedule my interview for the following morning",
+      "answer": "request a different day for his scheduled interview",
+      "vi": "dời lịch phỏng vấn sang sáng hôm sau ↔ đề nghị đổi ngày phỏng vấn"
+    },
+    {
+      "text": "mandatory",
+      "answer": "required",
+      "vi": "bắt buộc"
+    },
+    {
+      "text": "two former supervisors",
+      "answer": "two professional references",
+      "vi": "hai quản lý cũ ↔ hai người tham chiếu nghề nghiệp"
+    },
+    {
+      "text": "in-person interviews at our Seattle headquarters",
+      "answer": "visit Harborline Logistics's Seattle headquarters",
+      "vi": "phỏng vấn trực tiếp tại trụ sở Seattle"
+    }
+  ]
+}

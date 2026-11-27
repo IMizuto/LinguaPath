@@ -1,0 +1,98 @@
+{
+  "id": "tl_p1_04",
+  "order": 10,
+  "level": 1,
+  "part": "part1",
+  "partLabel": "Part 1 • Tả tranh",
+  "title": "Part 1 • Bài 04: Tả người ngoài trời, giao thông & bảo trì",
+  "subtitle": "Làm quen giọng Úc cùng nhóm từ vựng công trường, công viên, vạch sang đường và chăm sóc cây.",
+  "accent": "en-AU",
+  "defaultRate": 1,
+  "tips": "Tranh ngoài trời hay xuất hiện các từ vựng đặc trưng như ladder (thang), crosswalk (vạch sang đường), bench (ghế công viên), watering can (bình tưới). Nghe kỹ động từ để tránh bẫy gần âm.",
+  "items": [
+    {
+      "num": 1,
+      "accent": "en-AU",
+      "speaker": "M",
+      "image": "media/p1_04_1.svg",
+      "imageAlt": "Công nhân đội mũ bảo hộ vàng và áo phản quang đang leo thang tựa tường gạch",
+      "options": [
+        "A worker is digging a trench with a shovel.",
+        "A worker is pushing a loaded wheelbarrow.",
+        "A worker is climbing a ladder.",
+        "A worker is driving a yellow bulldozer."
+      ],
+      "optionsVi": [
+        "Một công nhân đang đào rãnh bằng xẻng.",
+        "Một công nhân đang đẩy một chiếc xe cút kít đầy đồ.",
+        "Một công nhân đang leo lên một chiếc thang.",
+        "Một công nhân đang lái một chiếc máy ủi màu vàng."
+      ],
+      "ans": 2,
+      "exp": "Công nhân đội mũ bảo hộ vàng đang bước chân và vịn tay leo thang tựa tường gạch → chọn (C). Loại (A)(B)(D) vì không có xẻng, xe cút kít hay máy ủi (dù mũ màu vàng dễ gây liên tưởng bẫy 'yellow')."
+    },
+    {
+      "num": 2,
+      "accent": "en-AU",
+      "speaker": "W",
+      "image": "media/p1_04_2.svg",
+      "imageAlt": "Người phụ nữ ngồi trên ghế gỗ công viên dưới tán cây đang đọc một cuốn sách mở",
+      "options": [
+        "She is reading a book on a bench.",
+        "She is riding a bicycle along a trail.",
+        "She is jogging across a wooden bridge.",
+        "She is feeding birds beside a fountain."
+      ],
+      "optionsVi": [
+        "Cô ấy đang đọc sách trên một chiếc ghế băng.",
+        "Cô ấy đang đạp xe dọc theo đường mòn.",
+        "Cô ấy đang chạy bộ qua một cây cầu gỗ.",
+        "Cô ấy đang cho chim ăn bên cạnh đài phun nước."
+      ],
+      "ans": 0,
+      "exp": "Người phụ nữ ngồi trên ghế băng công viên, tay cầm cuốn sách mở trước mặt → chọn (A). Loại (B)(C)(D) vì không có xe đạp, cầu gỗ hay đài phun nước."
+    },
+    {
+      "num": 3,
+      "accent": "en-AU",
+      "speaker": "M",
+      "image": "media/p1_04_3.svg",
+      "imageAlt": "Hai người đi bộ đang băng qua vạch kẻ sang đường trên phố có đèn giao thông",
+      "options": [
+        "Cyclists are locking bikes to a metal rack.",
+        "Workers are repairing a building roof.",
+        "Passengers are seated inside a city bus.",
+        "Pedestrians are crossing a street."
+      ],
+      "optionsVi": [
+        "Người đi xe đạp đang khóa xe vào giá kim loại.",
+        "Công nhân đang sửa mái của một tòa nhà.",
+        "Hành khách đang ngồi bên trong xe buýt nội đô.",
+        "Người đi bộ đang băng qua đường."
+      ],
+      "ans": 3,
+      "exp": "Hai người đi bộ (pedestrians) đang bước qua vạch kẻ trắng trên mặt đường phố → chọn (D). Loại (A)(B)(C) vì sai hoàn toàn đối tượng và bối cảnh."
+    },
+    {
+      "num": 4,
+      "accent": "en-AU",
+      "speaker": "W",
+      "image": "media/p1_04_4.svg",
+      "imageAlt": "Người làm vườn đội mũ rộng vành cầm bình tưới màu xanh đang tưới chậu hoa",
+      "options": [
+        "He is raking fallen leaves into a pile.",
+        "He is watering some plants.",
+        "He is trimming branches with a saw.",
+        "He is mowing a wide grassy lawn."
+      ],
+      "optionsVi": [
+        "Anh ấy đang cào lá rụng thành một đống.",
+        "Anh ấy đang tưới một vài chậu cây.",
+        "Anh ấy đang tỉa cành cây bằng cưa.",
+        "Anh ấy đang cắt một bãi cỏ rộng."
+      ],
+      "ans": 1,
+      "exp": "Người làm vườn cầm bình tưới có dòng nước đổ xuống các chậu hoa → chọn (B). Loại (A)(C)(D) vì không có cào lá, cưa hay máy cắt cỏ."
+    }
+  ]
+}

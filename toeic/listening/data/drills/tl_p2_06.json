@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_06",
+  "order": 18,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 06: Câu hỏi Yes / No (Trợ động từ)",
+  "subtitle": "Luyện nghe câu hỏi bắt đầu bằng Do/Did/Have/Is/Are/Will/Can với cả đáp án trực tiếp lẫn gián tiếp.",
+  "accent": "en-GB",
+  "defaultRate": 1,
+  "tips": "Câu hỏi Yes/No có thể trả lời trực tiếp bằng Yes/No/Sure/Of course, NHƯNG nhiều câu chuẩn ETS sẽ bỏ chữ Yes/No và trả lời thẳng thông tin (ví dụ: 'I sent it this morning'). Hãy bám sát chủ ngữ và động từ chính!",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Yes/No",
+      "accent": "en-GB",
+      "question": "Have you submitted your travel expense receipts yet?",
+      "questionVi": "Bạn đã nộp hóa đơn chi phí công tác chưa?",
+      "options": [
+        "Yes, I handed them to accounting yesterday.",
+        "A round-trip ticket to London.",
+        "At the front desk downstairs."
+      ],
+      "optionsVi": [
+        "Rồi, tôi đã đưa chúng cho phòng kế toán hôm qua.",
+        "Một tấm vé khứ hồi đi London.",
+        "Tại quầy lễ tân ở tầng dưới."
+      ],
+      "ans": 0,
+      "exp": "Câu hỏi 'Have you... yet?' → chọn (A) xác nhận đã nộp kèm chi tiết thời gian hợp lý. Loại (B) và (C) không trả lời chuyện đã nộp hay chưa."
+    },
+    {
+      "num": 2,
+      "qType": "Yes/No",
+      "accent": "en-US",
+      "question": "Did the client approve the revised floor plan?",
+      "questionVi": "Khách hàng đã duyệt bản vẽ mặt bằng chỉnh sửa chưa?",
+      "options": [
+        "On the fourth floor.",
+        "Not yet, they asked for one more change.",
+        "Next Monday at noon."
+      ],
+      "optionsVi": [
+        "Ở tầng bốn.",
+        "Vẫn chưa, họ yêu cầu thêm một chỉnh sửa nữa.",
+        "Trưa thứ Hai tới."
+      ],
+      "ans": 1,
+      "exp": "'Not yet' (vẫn chưa) là cách phủ định tự nhiên cho câu hỏi Yes/No → chọn (B). Loại (A) bẫy lặp từ 'floor', (C) thời gian không ăn khớp."
+    },
+    {
+      "num": 3,
+      "qType": "Yes/No",
+      "accent": "en-AU",
+      "question": "Is the cafeteria still serving hot lunch?",
+      "questionVi": "Nhà ăn nhân viên vẫn còn phục vụ bữa trưa nóng chứ?",
+      "options": [
+        "The coffee is very hot.",
+        "No, I rarely go to the gym.",
+        "I believe they close the kitchen at two."
+      ],
+      "optionsVi": [
+        "Cà phê rất nóng.",
+        "Không, tôi hiếm khi đi phòng tập.",
+        "Tôi tin là họ đóng cửa bếp lúc hai giờ."
+      ],
+      "ans": 2,
+      "exp": "Đáp án gián tiếp chuẩn ETS (C) cung cấp giờ đóng bếp để người hỏi tự biết còn kịp ăn hay không. Loại (A) bẫy lặp từ 'hot', (B) sai chủ đề."
+    },
+    {
+      "num": 4,
+      "qType": "Yes/No",
+      "accent": "en-GB",
+      "question": "Will Ms. Takahashi be joining us for the site visit?",
+      "questionVi": "Cô Takahashi sẽ tham gia chuyến khảo sát thực địa cùng chúng ta chứ?",
+      "options": [
+        "She has another appointment at that time.",
+        "The website is running smoothly.",
+        "Yes, it was a great visit last year."
+      ],
+      "optionsVi": [
+        "Cô ấy có một cuộc hẹn khác vào giờ đó.",
+        "Trang web đang hoạt động rất mượt mà.",
+        "Vâng, năm ngoái đó là một chuyến thăm tuyệt vời."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) từ chối gián tiếp rõ nghĩa ('có hẹn khác vào giờ đó' = sẽ không đi được). Loại (B) bẫy đồng âm 'site / website', (C) sai thì quá khứ."
+    },
+    {
+      "num": 5,
+      "qType": "Yes/No",
+      "accent": "en-US",
+      "question": "Do we have enough printer toner in stock?",
+      "questionVi": "Chúng ta có đủ mực máy in trong kho không?",
+      "options": [
+        "The stock market rose today.",
+        "Let me check the supply closet.",
+        "Yes, print twenty copies please."
+      ],
+      "optionsVi": [
+        "Thị trường chứng khoán hôm nay tăng điểm.",
+        "Để tôi kiểm tra tủ vật tư xem sao.",
+        "Vâng, làm ơn in hai mươi bản nhé."
+      ],
+      "ans": 1,
+      "exp": "Phản hồi thực tế 'Let me check...' (để tôi kiểm tra) rất hay là đáp án đúng trong Part 2 → chọn (B). Loại (A) bẫy đa nghĩa 'in stock / stock market', (C) bẫy từ 'printer / print'."
+    },
+    {
+      "num": 6,
+      "qType": "Yes/No",
+      "accent": "en-GB",
+      "question": "Are those shipping crates ready for pickup?",
+      "questionVi": "Những kiện hàng vận chuyển kia đã sẵn sàng để lấy đi chưa?",
+      "options": [
+        "By express air mail.",
+        "No, the ship already sailed.",
+        "Just two more labels to attach."
+      ],
+      "optionsVi": [
+        "Bằng đường hàng không chuyển phát nhanh.",
+        "Không, con tàu đã nhổ neo rồi.",
+        "Chỉ còn dán thêm hai nhãn nữa thôi."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) ngụ ý sắp xong ngay ('chỉ còn dán thêm 2 nhãn'). Loại (A) phương thức gửi, (B) bẫy gần âm 'shipping / ship'."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "id": "tl_p3_05",
+  "order": 27,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Tiếp thị, Ấn phẩm In ấn & Gian hàng Triển lãm",
+  "subtitle": "Xử lý lỗi in ấn tờ rơi quảng cáo và chọn gói tài trợ gian hàng sự kiện",
+  "accent": "en-GB",
+  "defaultRate": 1.0,
+  "tips": "Chú ý sự khác biệt giữa kênh in ấn (brochure/proof/press) và kênh kỹ thuật số (QR code/social media), cũng như các ràng buộc diện tích hoặc chi phí trong bảng gói tài trợ.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Chỉnh sửa tờ rơi ra mắt sản phẩm",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Fiona, the product team just decided to extend the introductory discount on our smart thermostat through the end of October. Can we change the date on the promotional brochures?",
+          "vi": "Fiona, nhóm sản phẩm vừa quyết định kéo dài chương trình giảm giá ra mắt cho bộ điều nhiệt thông minh đến hết tháng Mười. Ta có thể sửa ngày trên tờ rơi quảng bá không?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "The print shop already has our proof on press.",
+          "vi": "Nhà in đã cho bản duyệt của chúng ta lên máy in rồi."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Oh, so stopping the run now would cost a fortune. What can we do so customers don't see an expired offer?",
+          "vi": "Ồ, vậy dừng đợt in bây giờ sẽ tốn cả đống tiền. Ta có thể làm gì để khách hàng không thấy ưu đãi đã hết hạn?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Luckily, the QR code on the back panel links directly to our landing page. I'll update the banner online immediately and order small gold stickers showing the extended deadline for the retail copies.",
+          "vi": "May là mã QR ở mặt sau dẫn thẳng tới trang đích của ta. Tôi sẽ cập nhật biểu ngữ trực tuyến ngay lập tức và đặt in nhãn dán nhỏ màu vàng ghi hạn mới cho các bản tại cửa hàng."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What change did the product team make?",
+          "opts": [
+            "They lengthened the duration of a promotional offer.",
+            "They delayed the launch of a smart thermostat.",
+            "They lowered the wholesale price of a device.",
+            "They redesigned the company logo on brochures."
+          ],
+          "ans": 0,
+          "exp": "Người đàn ông nói: 'extend the introductory discount... through the end of October' → kéo dài thời gian của ưu đãi quảng bá ('lengthened the duration of a promotional offer'). Chọn (A)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman mean when she says, \"The print shop already has our proof on press\"?",
+          "opts": [
+            "The brochures are ready for store delivery.",
+            "The printer failed to follow the color guidelines.",
+            "It is too late to alter the brochure design cheaply.",
+            "She still needs to approve the final layout."
+          ],
+          "ans": 2,
+          "exp": "Câu 'bản duyệt đã lên máy in rồi' khiến người đàn ông đáp 'stopping the run now would cost a fortune' → đã quá muộn để sửa thiết kế mà không tốn kém. Chọn (C)."
+        },
+        {
+          "num": 3,
+          "q": "How will the woman handle the printed retail brochures?",
+          "opts": [
+            "By recalling them from partner stores",
+            "By attaching updated deadline stickers",
+            "By replacing the QR code on the cover",
+            "By inserting a separate coupon card"
+          ],
+          "ans": 1,
+          "exp": "Cô nói sẽ 'order small gold stickers showing the extended deadline for the retail copies' → dán nhãn cập nhật hạn ưu đãi lên bản in. Chọn (B)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Chọn gói tài trợ Gian hàng Triển lãm",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "Expo Booth Sponsorship Tiers",
+        "headers": [
+          "Package",
+          "Booth Size",
+          "Fee"
+        ],
+        "rows": [
+          [
+            "Starter",
+            "3m × 3m",
+            "$2,500"
+          ],
+          [
+            "Business",
+            "6m × 3m",
+            "$4,800"
+          ],
+          [
+            "Premier",
+            "6m × 6m",
+            "$8,200"
+          ],
+          [
+            "Platinum",
+            "9m × 6m",
+            "$12,500"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "Maya, we need to finalize our booth reservation for the Home Tech Expo by five o'clock today so we don't lose the early-bird spot.",
+          "vi": "Maya, ta cần chốt đặt gian hàng cho Triển lãm Công nghệ Gia dụng trước năm giờ chiều nay để khỏi mất suất đăng ký sớm."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Right. Last year we booked the Starter tier, and our demo table felt way too cramped whenever more than five visitors stopped by.",
+          "vi": "Đúng rồi. Năm ngoái ta đặt gói Starter, và bàn trình diễn chật chội quá mức mỗi khi có hơn năm khách ghé qua."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "True, and this year we're bringing two interactive display walls, which require at least thirty-six square meters of floor space.",
+          "vi": "Chuẩn đấy, lại thêm năm nay ta mang theo hai vách trưng bày tương tác, cần diện tích sàn tối thiểu ba mươi sáu mét vuông."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Then let's go with the smallest package that gives us thirty-six square meters—finance approved up to nine thousand dollars for this expo anyway.",
+          "vi": "Vậy hãy chọn gói nhỏ nhất cho chúng ta đủ ba mươi sáu mét vuông—dù sao phòng tài chính cũng đã duyệt tối đa chín nghìn đô la cho kỳ triển lãm này."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What issue did the company experience at last year's expo?",
+          "opts": [
+            "Their display equipment malfunctioned.",
+            "Foot traffic near their booth was low.",
+            "They missed the early-bird deadline.",
+            "Their exhibition space was too small."
+          ],
+          "ans": 3,
+          "exp": "Maya nói: 'our demo table felt way too cramped' (bàn trình diễn quá chật chội) → diện tích gian hàng năm ngoái quá nhỏ. Chọn (D)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which sponsorship package will the speakers select?",
+          "opts": [
+            "Premier",
+            "Business",
+            "Starter",
+            "Platinum"
+          ],
+          "ans": 0,
+          "exp": "Họ cần tối thiểu 36 m² ('thirty-six square meters') và ngân sách tối đa $9,000. Tra bảng: Starter (9 m²), Business (18 m²), Premier (6m × 6m = 36 m², giá $8,200), Platinum (54 m², $12,500) → chọn gói 'Premier'. Chọn (A)."
+        },
+        {
+          "num": 6,
+          "q": "What is the maximum amount finance approved for the booth?",
+          "opts": [
+            "$2,500",
+            "$4,800",
+            "$9,000",
+            "$8,200"
+          ],
+          "ans": 2,
+          "exp": "Người phụ nữ nói rõ: 'finance approved up to nine thousand dollars for this expo' → $9,000 (chú ý đừng nhầm với giá gói $8,200!). Chọn (C)."
+        }
+      ]
+    }
+  ]
+}

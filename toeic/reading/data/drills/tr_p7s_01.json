@@ -1,0 +1,199 @@
+{
+  "id": "tr_p7s_01",
+  "order": 15,
+  "level": 2,
+  "part": "part7s",
+  "partLabel": "Part 7 • Đoạn đơn",
+  "title": "Part 7 Đơn • Bộ 01: Email Sửa Đơn hàng & Chat Chuẩn bị Demo",
+  "subtitle": "Luyện kỹ năng đọc nhanh Email thương mại và chuỗi tin nhắn Chat nhóm (Text Message Chain) chuẩn ETS.",
+  "timeLimitMin": 10,
+  "tips": "Mẹo Part 7 Đoạn đơn: Đọc câu hỏi trước để gạch chân từ khóa (tên riêng, ngày tháng, mục đích). Với câu hỏi \"Ý định người viết\" trong chuỗi Chat, luôn đọc 2 tin nhắn ngay trước và 1 tin nhắn ngay sau câu trích dẫn để hiểu ẩn ý!",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "orders@cascadeofficesupplies.com",
+        "from": "n.tran@brightbridge.co",
+        "date": "March 14",
+        "subject": "Revision to Purchase Order #4821"
+      },
+      "paragraphs": [
+        "Dear Cascade Customer Support,",
+        "Yesterday afternoon, our office placed Purchase Order #4821 for twelve ergonomic desk chairs and six rolling file cabinets for our newly opened Bellevue branch. Before the shipment leaves your warehouse, I would like to request two adjustments to the order.",
+        "First, please reduce the number of file cabinets from six to four, as our accounting staff decided to store most client records digitally. Second, we need the twelve chairs delivered no later than Thursday, March 20, because our new hires start orientation the following morning. If upgrading to express delivery requires an extra fee, please send an updated invoice so our finance office can approve it right away.",
+        "Thank you for your prompt help.\nNadia Tran, Office Manager, BrightBridge Consulting"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Tin nhắn Chat",
+      "genre": "chat",
+      "meta": {
+        "title": "Chicago Client Demo Team",
+        "subtitle": "Internal Messaging App • May 8"
+      },
+      "paragraphs": [],
+      "messages": [
+        {
+          "sender": "Liam Carter",
+          "time": "9:42 A.M.",
+          "text": "Hi everyone, I just arrived at Lakefront Tower for our 11:00 A.M. product demo with Sterling Retail. The conference room is ready, but their wall display only has a USB-C port."
+        },
+        {
+          "sender": "Mina Park",
+          "time": "9:44 A.M.",
+          "text": "Oh no, my presentation laptop only has an HDMI output. Is there an IT desk in the building lobby?"
+        },
+        {
+          "sender": "Liam Carter",
+          "time": "9:46 A.M.",
+          "text": "I asked the receptionist, and their building technician is off-site until noon."
+        },
+        {
+          "sender": "Devon Brooks",
+          "time": "9:48 A.M.",
+          "text": "Don’t worry—I’m still ten minutes away in a taxi, and I have a spare HDMI-to-USB-C adapter in my backpack."
+        },
+        {
+          "sender": "Mina Park",
+          "time": "9:50 A.M.",
+          "text": "That saves us! Also, did anyone remember to print the twenty pricing booklets?"
+        },
+        {
+          "sender": "Devon Brooks",
+          "time": "9:51 A.M.",
+          "text": "Yes, I picked them up from QuickPrint this morning. I’ll meet you both in Conference Room 402 at 10:05."
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Ý chính",
+      "q": "Why did Ms. Tran send the email to Cascade Office Supplies?",
+      "opts": [
+        "To report damaged furniture received at the Bellevue branch",
+        "To modify an existing order and request faster shipping",
+        "To cancel a contract with a digital archiving vendor",
+        "To inquire about discounts on bulk office chairs"
+      ],
+      "ans": 1,
+      "exp": "Trong đoạn 1–2 của Văn bản 1, bà Tran viết \"I would like to request two adjustments to the order\" (giảm số tủ hồ sơ từ 6 xuống 4 và nâng cấp giao hàng nhanh trước 20/3). Chọn (B). Loại (A) hàng chưa rời kho, (C) và (D) không được đề cập."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "Why does BrightBridge Consulting need fewer file cabinets?",
+      "opts": [
+        "The Bellevue office has limited floor space.",
+        "The cabinet model they wanted is currently out of stock.",
+        "The accounting team plans to keep records electronically.",
+        "Several new employees will work remotely from home."
+      ],
+      "ans": 2,
+      "exp": "Đoạn 2 nêu rõ: \"as our accounting staff decided to store most client records digitally\" (do nhân viên kế toán quyết định lưu hầu hết hồ sơ khách hàng dạng kỹ thuật số). Cụm \"store... digitally\" được paraphrase thành \"keep records electronically\" ở đáp án (C). Loại (A), (B), (D)."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "What is scheduled to happen on Friday, March 21?",
+      "opts": [
+        "New staff members will begin their orientation.",
+        "Cascade Office Supplies will issue a refund.",
+        "The finance office will close for inventory.",
+        "Twelve additional cabinets will be ordered."
+      ],
+      "ans": 0,
+      "exp": "Bà Tran cần ghế giao chậm nhất vào Thứ Năm 20/3 (\"Thursday, March 20\") \"because our new hires start orientation the following morning\" (vì nhân viên mới bắt đầu buổi hội nhập vào sáng hôm sau — tức Thứ Sáu 21/3). Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 4,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "What problem does Mr. Carter report at 9:42 A.M.?",
+      "opts": [
+        "The client canceled the 11:00 A.M. presentation.",
+        "The meeting room screen has a limited connection type.",
+        "He forgot the printed pricing booklets at the office.",
+        "The receptionist could not find their room reservation."
+      ],
+      "ans": 1,
+      "exp": "Lúc 9:42 A.M., Liam Carter nhắn: \"their wall display only has a USB-C port\" (màn hình gắn tường chỉ có cổng USB-C), gây bất tương thích với cổng HDMI trên laptop của Mina. Chọn (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Ý định người viết",
+      "q": "At 9:50 A.M., what does Ms. Park mean when she writes, \"That saves us!\"?",
+      "opts": [
+        "She is relieved that Mr. Brooks can solve the cable issue.",
+        "She thinks the taxi fare is cheaper than taking the train.",
+        "She wants to postpone the demonstration until noon.",
+        "She believes the client will agree to lower prices."
+      ],
+      "ans": 0,
+      "exp": "Ngay trước tin nhắn lúc 9:50 A.M., Devon Brooks báo anh có mang theo đầu chuyển HDMI-sang-USB-C dự phòng trong ba lô. Mina đáp \"That saves us!\" để bày tỏ sự nhẹ nhõm vì Devon giải quyết được sự cố dây cáp trước giờ thuyết trình. Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Suy luận",
+      "q": "What did Mr. Brooks do earlier that morning?",
+      "opts": [
+        "He spoke with the building technician at Lakefront Tower.",
+        "He repaired Ms. Park’s laptop before leaving the office.",
+        "He visited a print shop to collect handout materials.",
+        "He reserved Conference Room 402 for Sterling Retail."
+      ],
+      "ans": 2,
+      "exp": "Lúc 9:51 A.M., Devon viết về 20 cuốn bảng giá: \"I picked them up from QuickPrint this morning\" (Tôi đã lấy chúng ở tiệm in QuickPrint sáng nay). \"pricing booklets\" ↔ \"handout materials\", \"QuickPrint\" ↔ \"a print shop\". Chọn (C). Loại (A), (B), (D)."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "NOT / Ngoại trừ",
+      "q": "Which of the following is NOT stated in the text message chain?",
+      "opts": [
+        "The product demonstration is scheduled for 11:00 A.M.",
+        "The building technician will be unavailable until midday.",
+        "Mr. Brooks is traveling to Lakefront Tower by taxi.",
+        "Sterling Retail requested forty printed pricing booklets."
+      ],
+      "ans": 3,
+      "exp": "Lúc 9:50 A.M., Mina nhắc tới \"the twenty pricing booklets\" (20 cuốn), KHÔNG phải 40 cuốn → (D) sai sự thật. Các đáp án (A) 11:00 A.M., (B) off-site until noon, (C) in a taxi đều có nêu rõ trong đoạn chat."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "request two adjustments to the order",
+      "answer": "modify an existing order",
+      "vi": "yêu cầu hai điều chỉnh cho đơn hàng ↔ sửa đổi đơn hàng hiện có"
+    },
+    {
+      "text": "store most client records digitally",
+      "answer": "keep records electronically",
+      "vi": "lưu hầu hết hồ sơ khách hàng dạng số ↔ lưu giữ hồ sơ điện tử"
+    },
+    {
+      "text": "only has a USB-C port",
+      "answer": "has a limited connection type",
+      "vi": "chỉ có cổng USB-C ↔ có loại cổng kết nối hạn chế"
+    },
+    {
+      "text": "picked them up from QuickPrint",
+      "answer": "visited a print shop to collect handout materials",
+      "vi": "lấy tài liệu từ QuickPrint ↔ ghé tiệm in lấy tài liệu phát tay"
+    },
+    {
+      "text": "off-site until noon",
+      "answer": "unavailable until midday",
+      "vi": "ra ngoài tới trưa ↔ không có mặt tới giữa trưa"
+    }
+  ]
+}

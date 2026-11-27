@@ -1,0 +1,198 @@
+{
+  "id": "tl_p3_03",
+  "order": 25,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Tuyển dụng, Phỏng vấn & Lịch Đào tạo Nhân sự mới",
+  "subtitle": "Sắp xếp lịch phỏng vấn ứng viên vòng hai và điều chỉnh lịch hội nhập nhân viên mới",
+  "accent": "en-AU",
+  "defaultRate": 1.0,
+  "tips": "Trong chủ đề HR, chú ý các chức danh (candidate, trainer, hiring manager) và từ chỉ lịch hẹn bị trùng (conflict, tied up, barely have time).",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Chốt lịch phỏng vấn vòng hai",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Kenji, I just wrapped up the first-round interviews for the senior software engineer position, and two candidates really stood out—especially Priya Nair.",
+          "vi": "Kenji, tôi vừa hoàn tất vòng phỏng vấn đầu tiên cho vị trí kỹ sư phần mềm cao cấp, và có hai ứng viên thực sự nổi bật—đặc biệt là Priya Nair."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "I saw her portfolio on the hiring portal; her experience leading cloud migrations is exactly what our team needs. Can we bring her in for a technical panel on Thursday?",
+          "vi": "Tôi đã xem hồ sơ năng lực của cô ấy trên cổng tuyển dụng; kinh nghiệm dẫn dắt chuyển đổi đám mây của cô ấy đúng là thứ nhóm mình cần. Ta có thể mời cô ấy phỏng vấn hội đồng kỹ thuật vào thứ Năm không?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "I barely have time to grab lunch on Thursday.",
+          "vi": "Thứ Năm tôi thậm chí còn chẳng có nổi thời gian đi ăn trưa."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Right, you're running the campus recruiting fair all day. How about Friday at ten instead? I'll invite David from cybersecurity to join us.",
+          "vi": "Đúng rồi, bạn phụ trách ngày hội tuyển dụng tại trường đại học cả ngày mà. Vậy thứ Sáu lúc mười giờ thì sao? Tôi sẽ mời David bên an ninh mạng tham gia cùng chúng ta."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Friday morning works well. I'll call Priya this afternoon to confirm her availability and share the coding exercise in advance.",
+          "vi": "Sáng thứ Sáu rất ổn. Chiều nay tôi sẽ gọi cho Priya để xác nhận lịch rảnh và gửi trước bài tập lập trình."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What impressed the man about Priya Nair?",
+          "opts": [
+            "Her academic degree in cybersecurity",
+            "Her presentation at a campus recruiting fair",
+            "Her background in cloud migration projects",
+            "Her recommendation from a former manager"
+          ],
+          "ans": 2,
+          "exp": "Người đàn ông nói: 'her experience leading cloud migrations is exactly what our team needs' → kinh nghiệm dẫn dắt dự án chuyển đổi đám mây. Chọn (C)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman mean when she says, \"I barely have time to grab lunch on Thursday\"?",
+          "opts": [
+            "Her schedule on Thursday is completely full.",
+            "The cafeteria is overcrowded on Thursdays.",
+            "She prefers interviewing candidates over lunch.",
+            "She forgot to reserve a conference room."
+          ],
+          "ans": 0,
+          "exp": "Câu nói 'chẳng có nổi thời gian ăn trưa vào thứ Năm' là cách diễn đạt gián tiếp rằng lịch thứ Năm đã kín mít ('completely full') nên không thể phỏng vấn hôm đó. Chọn (A)."
+        },
+        {
+          "num": 3,
+          "q": "What will the woman send to Priya this afternoon?",
+          "opts": [
+            "A formal employment contract",
+            "Directions to the office building",
+            "A list of panel interviewers",
+            "A technical preparation task"
+          ],
+          "ans": 3,
+          "exp": "Ở cuối hội thoại, cô nói sẽ 'share the coding exercise in advance' → bài tập lập trình gửi trước đồng nghĩa với 'A technical preparation task'. Chọn (D)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Lịch Tập huấn Nhân viên mới",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "New Hire Orientation Timetable",
+        "headers": [
+          "Day",
+          "Workshop",
+          "Lead Trainer"
+        ],
+        "rows": [
+          [
+            "Monday",
+            "Company Policies & HR",
+            "Linda Cho"
+          ],
+          [
+            "Tuesday",
+            "IT Security & Tools",
+            "Marcus Reed"
+          ],
+          [
+            "Wednesday",
+            "Product Architecture",
+            "Sonia Patel"
+          ],
+          [
+            "Thursday",
+            "Client Service Standards",
+            "Owen Brooks"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Sonia, thanks for dropping by. We have twelve new hires starting next week, and I wanted to double-check the orientation timetable with you.",
+          "vi": "Sonia, cảm ơn bạn đã ghé qua. Tuần tới chúng ta có mười hai nhân viên mới bắt đầu làm việc, và tôi muốn kiểm tra lại lịch hội nhập cùng bạn."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "I'm all set for my session, though Marcus Reed just texted me—he's been called out to our Manchester branch on Tuesday for an urgent server upgrade.",
+          "vi": "Tôi đã chuẩn bị xong cho buổi của mình, tuy nhiên Marcus Reed vừa nhắn cho tôi—anh ấy được điều tới chi nhánh Manchester vào thứ Ba để nâng cấp máy chủ khẩn cấp."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Oh no, we really can't delay that workshop because the new staff need their network logins before your session the next day.",
+          "vi": "Ôi không, ta thực sự không thể hoãn buổi tập huấn đó vì nhân viên mới cần có tài khoản mạng trước buổi học của bạn vào ngày hôm sau."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Marcus already arranged for his deputy, Hannah, to cover for him using his slide deck. I just thought you should update the handout before printing it.",
+          "vi": "Marcus đã sắp xếp để phó phòng của anh ấy là Hannah dạy thay bằng bộ slide của anh ấy rồi. Tôi chỉ nghĩ bạn nên cập nhật tờ lịch phát tay trước khi in."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why will Marcus Reed be away on Tuesday?",
+          "opts": [
+            "He is attending an overseas conference.",
+            "He has to handle a server upgrade at another branch.",
+            "He is on scheduled annual leave.",
+            "He is interviewing IT candidates in Manchester."
+          ],
+          "ans": 1,
+          "exp": "Sonia nói: 'he's been called out to our Manchester branch on Tuesday for an urgent server upgrade' → đi xử lý nâng cấp máy chủ ở chi nhánh khác. Chọn (B)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which workshop will Hannah lead?",
+          "opts": [
+            "Company Policies & HR",
+            "Product Architecture",
+            "IT Security & Tools",
+            "Client Service Standards"
+          ],
+          "ans": 2,
+          "exp": "Hannah sẽ dạy thay Marcus Reed vào thứ Ba. Đối chiếu bảng: Marcus Reed phụ trách 'IT Security & Tools'. Chọn (C)."
+        },
+        {
+          "num": 6,
+          "q": "What does the woman suggest the man do?",
+          "opts": [
+            "Modify the printed schedule handout",
+            "Create a new set of training slides",
+            "Postpone orientation by one week",
+            "Issue temporary logins to the new hires"
+          ],
+          "ans": 0,
+          "exp": "Câu cuối Sonia nói: 'you should update the handout before printing it' → sửa tờ lịch phát tay trước khi in ('Modify the printed schedule handout'). Chọn (A)."
+        }
+      ]
+    }
+  ]
+}

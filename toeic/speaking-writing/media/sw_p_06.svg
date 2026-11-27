@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="640" height="380">
+<defs>
+  <linearGradient id="sky06" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bae6fd"/><stop offset="100%" stop-color="#ecfeff"/></linearGradient>
+  <linearGradient id="deck06" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d6d3d1"/><stop offset="100%" stop-color="#a8a29e"/></linearGradient>
+</defs>
+<rect width="640" height="380" fill="url(#sky06)"/>
+<!-- Modern glass office building facade on left -->
+<rect x="0" y="20" width="184" height="236" fill="#64748b"/>
+<rect x="14" y="38" width="44" height="54" fill="#bae6fd"/><rect x="70" y="38" width="44" height="54" fill="#93c5fd"/><rect x="126" y="38" width="44" height="54" fill="#bae6fd"/>
+<rect x="14" y="106" width="44" height="54" fill="#93c5fd"/><rect x="70" y="106" width="44" height="54" fill="#bae6fd"/><rect x="126" y="106" width="44" height="54" fill="#93c5fd"/>
+<rect x="14" y="174" width="44" height="72" fill="#e0f2fe"/><rect x="70" y="174" width="100" height="72" fill="#e0f2fe"/>
+<!-- Lush park garden trees & hedges in background -->
+<circle cx="540" cy="112" r="68" fill="#16a34a"/><circle cx="604" cy="144" r="54" fill="#15803d"/><circle cx="476" cy="146" r="52" fill="#22c55e"/>
+<rect x="532" y="168" width="22" height="86" fill="#78350f"/>
+<ellipse cx="266" cy="236" rx="76" ry="30" fill="#16a34a"/><ellipse cx="420" cy="238" rx="92" ry="32" fill="#22c55e"/><ellipse cx="560" cy="242" rx="84" ry="28" fill="#15803d"/>
+<!-- Office garden patio terrace floor -->
+<rect y="254" width="640" height="126" fill="url(#deck06)"/>
+<line x1="0" y1="296" x2="640" y2="296" stroke="#78716c" stroke-width="1.5"/>
+<line x1="0" y1="338" x2="640" y2="338" stroke="#78716c" stroke-width="1.5"/>
+<!-- Sun umbrella over outdoor patio table -->
+<rect x="330" y="96" width="10" height="236" fill="#57534e"/>
+<polygon points="184,104 486,104 335,44" fill="#0d9488"/>
+<polygon points="244,104 426,104 335,44" fill="#14b8a6"/>
+<polygon points="298,104 372,104 335,44" fill="#0f766e"/>
+<!-- Colleague 1 (Woman seated left, pointing toward laptop) -->
+<rect x="160" y="236" width="52" height="82" rx="6" fill="#44403c"/>
+<rect x="168" y="318" width="8" height="44" fill="#292524"/><rect x="198" y="318" width="8" height="44" fill="#292524"/>
+<circle cx="218" cy="176" r="19" fill="#f5c6a5"/>
+<path d="M198 176 C198 152 238 152 238 180 L240 202 L230 196 L230 174 C224 166 206 166 200 176 Z" fill="#451a03"/>
+<path d="M190 206 C194 196 240 196 244 206 L250 286 L186 286 Z" fill="#e11d48"/>
+<path d="M236 218 L280 232 L276 242 L232 230 Z" fill="#be123c"/>
+<rect x="200" y="286" width="44" height="20" fill="#1e293b"/>
+<rect x="228" y="302" width="16" height="58" fill="#1e293b"/>
+<!-- Colleague 2 (Man seated right, leaning in with notebook) -->
+<rect x="454" y="236" width="52" height="82" rx="6" fill="#44403c"/>
+<rect x="462" y="318" width="8" height="44" fill="#292524"/><rect x="492" y="318" width="8" height="44" fill="#292524"/>
+<circle cx="448" cy="174" r="19" fill="#e5b38a"/>
+<path d="M430 172 C432 152 464 152 466 172 C458 164 438 164 430 172 Z" fill="#1e293b"/>
+<path d="M422 204 C426 194 472 194 476 204 L482 286 L418 286 Z" fill="#2563eb"/>
+<path d="M426 218 L384 234 L388 244 L430 230 Z" fill="#1d4ed8"/>
+<rect x="424" y="286" width="44" height="20" fill="#334155"/>
+<rect x="424" y="302" width="16" height="58" fill="#334155"/>
+<!-- Outdoor Patio Table -->
+<rect x="234" y="256" width="202" height="12" rx="4" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+<rect x="328" y="268" width="14" height="82" fill="#475569"/>
+<ellipse cx="335" cy="352" rx="44" ry="8" fill="#334155"/>
+<!-- Open Silver Laptop, Coffee Cups, Notebook on table -->
+<polygon points="292,248 352,248 358,256 286,256" fill="#94a3b8"/>
+<polygon points="300,210 356,210 352,248 292,248" fill="#475569"/>
+<polygon points="304,214 352,214 348,244 296,244" fill="#38bdf8"/>
+<rect x="252" y="236" width="16" height="20" rx="3" fill="#f59e0b"/><rect x="250" y="233" width="20" height="4" rx="1" fill="#ffffff"/>
+<rect x="392" y="236" width="16" height="20" rx="3" fill="#0ea5e9"/><rect x="390" y="233" width="20" height="4" rx="1" fill="#ffffff"/>
+<rect x="364" y="244" width="22" height="12" rx="2" fill="#fef08a" stroke="#ca8a04" stroke-width="1.5"/>
+<!-- Messenger bag resting beside left chair -->
+<rect x="132" y="314" width="38" height="32" rx="5" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+<line x1="132" y1="326" x2="170" y2="326" stroke="#b45309" stroke-width="2"/>
+</svg>

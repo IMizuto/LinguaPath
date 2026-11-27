@@ -1,0 +1,202 @@
+{
+  "id": "tsw_w_q67_05",
+  "skill": "writing",
+  "taskType": "wr_q67",
+  "code": "Q6–7",
+  "level": 4,
+  "targetBand": "180–200",
+  "title": "Q6–7 • Bộ 05: Bảo trì Hệ thống IT & Hạ tầng Tòa nhà",
+  "topic": "Nâng cấp máy chủ cuối tuần & Bảo trì thang máy/điều hòa",
+  "estMinutes": 20,
+  "guideVi": "Đạt mức điểm cao nhất (180–200) bằng cách kết hợp nhuần nhuyễn các mệnh đề nhượng bộ, cấu trúc câu điều kiện lịch sự ('Should your team require...', 'To minimize disruption...') và từ vựng kỹ thuật/quản trị.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Hoàn thành đầy đủ 2–3 nhiệm vụ yêu cầu trong đề (Directions)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục email thương mại chuẩn (Chào – Nội dung – Kết) & độ dài 80–170 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Giọng văn chuyên nghiệp, từ vựng chuẩn xác và liên kết mạch lạc",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q67_05_1",
+      "itemType": "wr_q67",
+      "label": "Email 1 • Điều phối lịch bảo trì máy chủ IT cuối tuần",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "IT Infrastructure <it-ops@kestrelbank.com>",
+        "to": "Department Heads <managers@kestrelbank.com>",
+        "subject": "Scheduled Server Migration — This Saturday 8:00 A.M.–4:00 P.M.",
+        "sent": "Wednesday, November 6, 1:30 P.M."
+      },
+      "emailBody": "Dear Department Heads,\n\nTo boost network security, the IT team will migrate our internal file servers and billing portal this Saturday from 8:00 A.M. to 4:00 P.M. All shared drives and remote VPN connections will be offline during this eight-hour window.\n\nIf any team has urgent weekend deadlines or requires temporary access to specific project folders, please contact us by Thursday noon.\n\nRegards,\nDaniel Osei, IT Operations Lead",
+      "directionsEn": "Respond to the e-mail as if you are the Customer Billing Manager. In your e-mail, explain TWO urgent problems the Saturday outage will cause for your team and make ONE specific request to minimize disruption.",
+      "directionsVi": "Trả lời email với tư cách Trưởng phòng Thanh toán Khách hàng. Hãy nêu HAI vấn đề cấp bách mà việc ngắt máy chủ thứ Bảy sẽ gây ra cho nhóm bạn và đưa ra MỘT đề xuất/yêu cầu cụ thể nhằm giảm thiểu gián đoạn.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Nêu 2 tác vụ gấp ngày thứ Bảy bị ảnh hưởng (chốt hóa đơn & hỗ trợ VPN)",
+          "checkType": "info",
+          "hintEn": "First, our billing specialists process overseas client invoices on Saturday mornings; second, remote staff rely on VPN access.",
+          "signals": [
+            "billing",
+            "invoice",
+            "invoices",
+            "client",
+            "deadline",
+            "vpn",
+            "remote",
+            "offline",
+            "problem",
+            "urgent"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Đưa ra 1 yêu cầu cụ thể (dời khung giờ tối muộn hoặc cấp bản sao dự phòng)",
+          "checkType": "request",
+          "hintEn": "Could your team start the migration after 2:00 P.M. or export a temporary read-only folder for Saturday morning?",
+          "signals": [
+            "could",
+            "would",
+            "request",
+            "shift",
+            "delay",
+            "postpone",
+            "backup",
+            "export",
+            "folder",
+            "window"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Dù phản đối lịch IT, hãy giữ giọng văn hợp tác ('While we fully support the security upgrade, our team faces two urgent challenges...') để ghi điểm phong cách điều hành chuyên nghiệp.",
+      "keyPhrases": [
+        {
+          "en": "minimize operational disruption",
+          "vi": "giảm thiểu gián đoạn vận hành"
+        },
+        {
+          "en": "security upgrade",
+          "vi": "nâng cấp bảo mật"
+        },
+        {
+          "en": "remote VPN access",
+          "vi": "truy cập VPN từ xa"
+        },
+        {
+          "en": "temporary backup folder",
+          "vi": "thư mục sao lưu tạm thời"
+        },
+        {
+          "en": "mutual convenience",
+          "vi": "thuận tiện cho cả hai bên"
+        }
+      ],
+      "sample": "Dear Mr. Osei,\n\nWhile our department fully supports the security upgrade, taking the billing portal offline from 8:00 A.M. to 4:00 P.M. this Saturday will create two urgent difficulties for our team.\n\nFirst, five billing specialists are scheduled to finalize month-end corporate invoices for our European clients on Saturday morning under strict contract deadlines. Second, two team members working remotely must connect through VPN to verify payment receipts before 1:00 P.M.\n\nTo minimize operational disruption, could your IT crew either postpone the migration start time until 2:00 P.M. or export a temporary offline copy of the November_Billing folder onto an encrypted local drive for our morning shift?\n\nPlease let me know by Friday morning if either adjustment is feasible.\n\nBest regards,\nGrace Holloway\nCustomer Billing Manager",
+      "sampleVi": "Kính gửi anh Osei,\n\nMặc dù phòng chúng tôi hoàn toàn ủng hộ việc nâng cấp bảo mật, việc ngắt cổng thanh toán từ 8:00 đến 16:00 thứ Bảy này sẽ gây ra hai trở ngại cấp bách cho nhóm.\n\nThứ nhất, năm chuyên viên thanh toán có lịch hoàn tất hóa đơn cuối tháng cho khách hàng châu Âu vào sáng thứ Bảy theo đúng hạn hợp đồng. Thứ hai, hai nhân sự làm việc từ xa bắt buộc phải kết nối qua VPN để đối chiếu biên lai trước 13:00.\n\nĐể giảm thiểu gián đoạn vận hành, đội IT có thể dời giờ bắt đầu chuyển đổi sang 14:00 chiều, hoặc xuất giúp một bản sao tạm thời của thư mục November_Billing sang ổ lưu trữ nội bộ mã hóa cho ca sáng không?\n\nVui lòng báo lại trước sáng thứ Sáu xem phương án nào khả thi nhé.\n\nTrân trọng,\nGrace Holloway\nTrưởng phòng Thanh toán Khách hàng"
+    },
+    {
+      "itemId": "w_q67_05_2",
+      "itemType": "wr_q67",
+      "label": "Email 2 • Thông báo bảo trì thang máy & điều hòa cho khách thuê",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Apex Consulting Group <office@apexconsult.com>",
+        "to": "Building Management <management@skylineplaza.com>",
+        "subject": "Concerns About Tuesday Elevator & HVAC Shutdown",
+        "sent": "Friday, November 15, 4:45 P.M."
+      },
+      "emailBody": "Dear Skyline Plaza Management,\n\nWe just saw the lobby notice stating that the passenger elevators and air conditioning on the sixth floor will be shut down next Tuesday from 9:00 A.M. to 2:00 P.M.\n\nOur firm is hosting thirty visiting executives on the sixth floor that morning. Could you explain why this work is happening during business hours and what accommodations you can provide?\n\nSincerely,\nApex Consulting Group",
+      "directionsEn": "Respond to the e-mail as if you are the Skyline Plaza Building Manager. In your e-mail, apologize for the inconvenience, explain ONE urgent safety reason for the Tuesday work, and offer TWO alternative accommodations for the client's meeting.",
+      "directionsVi": "Trả lời email với vai trò Quản lý Tòa nhà Skyline Plaza. Hãy xin lỗi về sự bất tiện, giải thích MỘT lý do an toàn khẩn cấp cho đợt bảo trì thứ Ba và đề xuất HAI giải pháp bố trí thay thế cho cuộc họp của khách thuê.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Xin lỗi khách thuê vì ảnh hưởng tới buổi tiếp đón 30 lãnh đạo cấp cao",
+          "checkType": "apology",
+          "hintEn": "Please accept our sincere apologies for any inconvenience caused to your executive meeting next Tuesday.",
+          "signals": [
+            "apologize",
+            "apology",
+            "apologies",
+            "sorry",
+            "regret",
+            "inconvenience"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Giải thích 1 lý do an toàn bắt buộc phải xử lý ngay trong giờ hành chính",
+          "checkType": "info",
+          "hintEn": "Inspectors detected a damaged valve that requires immediate daytime repair for building safety compliance.",
+          "signals": [
+            "safety",
+            "inspection",
+            "inspector",
+            "urgent",
+            "repair",
+            "compliance",
+            "cable",
+            "valve"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Đề xuất 2 phương án hỗ trợ thay thế (mượn phòng họp tầng khác + thang dự phòng/giảm phí)",
+          "checkType": "suggestion",
+          "hintEn": "We can reserve our spacious second-floor conference suite free of charge and dedicate the east service elevator for your guests.",
+          "signals": [
+            "conference",
+            "room",
+            "suite",
+            "floor",
+            "elevator",
+            "complimentary",
+            "free",
+            "alternative",
+            "offer"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Dùng cấu trúc nhượng bộ + thiện chí hỗ trợ tối đa ('To ensure your executive event proceeds seamlessly, we would like to offer two immediate solutions...') để thể hiện đẳng cấp dịch vụ.",
+      "keyPhrases": [
+        {
+          "en": "mandatory safety inspection",
+          "vi": "kiểm định an toàn bắt buộc"
+        },
+        {
+          "en": "proceed seamlessly",
+          "vi": "diễn ra suôn sẻ"
+        },
+        {
+          "en": "complimentary access",
+          "vi": "sử dụng hoàn toàn miễn phí"
+        },
+        {
+          "en": "dedicated escort",
+          "vi": "nhân viên điều phối riêng"
+        },
+        {
+          "en": "climate-controlled suite",
+          "vi": "phòng họp có điều hòa đầy đủ"
+        }
+      ],
+      "sample": "Dear Apex Consulting Team,\n\nPlease accept our sincere apologies for the concern our Tuesday maintenance notice caused ahead of your important executive meeting.\n\nNormally, we schedule major repairs overnight; however, municipal inspectors identified a worn cooling valve and elevator sensor today that must be replaced during certified daytime inspection hours for mandatory safety compliance.\n\nTo ensure your event proceeds seamlessly, we would like to offer two immediate accommodations. First, we have reserved our climate-controlled Grand Conference Suite on the second floor for your thirty guests at no charge, complete with full projector equipment. Second, our staff will dedicate the east express elevator exclusively for your visitors and provide lobby escorts throughout the morning.\n\nPlease call my direct line if you would like to tour the second-floor suite today.\n\nBest regards,\nVictor Alvarez\nBuilding Manager, Skyline Plaza",
+      "sampleVi": "Kính gửi Công ty Tư vấn Apex,\n\nXin chân thành xin lỗi quý công ty vì thông báo bảo trì ngày thứ Ba đã gây lo ngại trước cuộc họp cấp cao quan trọng của quý vị.\n\nThông thường, chúng tôi luôn bố trí sửa chữa lớn vào ban đêm; tuy nhiên, thanh tra thành phố hôm nay phát hiện một van làm mát và cảm biến thang máy bị mòn bắt buộc phải thay thế trong khung giờ kiểm định ban ngày để đảm bảo tuân thủ an toàn.\n\nĐể sự kiện của quý công ty diễn ra suôn sẻ, chúng tôi xin đề xuất hai giải pháp hỗ trợ ngay lập tức. Thứ nhất, chúng tôi đã giữ miễn phí Phòng Hội nghị Lớn có đầy đủ điều hòa và máy chiếu tại tầng hai cho 30 khách mời của quý vị. Thứ hai, nhân viên tòa nhà sẽ bố trí riêng thang máy tốc hành phía đông cùng lễ tân đón dẫn khách suốt buổi sáng.\n\nVui lòng gọi số máy trực tiếp của tôi nếu quý vị muốn xem trước phòng họp tầng hai hôm nay.\n\nTrân trọng,\nVictor Alvarez\nQuản lý Tòa nhà Skyline Plaza"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "id": "tr_p7t_12",
+  "order": 42,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 12: Bài báo tài chính, Báo cáo doanh thu Quý 2 & Email CFO",
+  "subtitle": "Tổng hợp phân tích thương vụ sáp nhập SunPeak, biên lợi nhuận 4 khu vực châu Á – TBD và kế hoạch phân bổ vốn Quý 3.",
+  "timeLimitMin": 12,
+  "tips": "Ở câu hỏi tài chính mức 900+, đừng nhầm lẫn giữa 3 chỉ số: Doanh thu lớn nhất (East Asia $96M), Tăng trưởng nhanh nhất & Biên lợi nhuận cao nhất (Oceania +41.2% / 26.8%), và Ngưỡng ưu tiên cấp vốn (>= 20% Operating Margin).",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Bài báo tài chính",
+      "genre": "article",
+      "meta": {
+        "title": "Helios Energy Expands Grid-Storage Footprint After SunPeak Acquisition",
+        "subtitle": "Asia-Pacific Energy Journal • July 28 • By Daniel Tan"
+      },
+      "paragraphs": [
+        "Singapore-headquartered Helios Energy completed its acquisition of Australian battery-storage developer SunPeak Storage in late March, instantly strengthening Helios's commercial presence across Oceania. Energy analysts report that while Helios's legacy solar-panel manufacturing margins in East Asia have narrowed sharply amid fierce price competition, demand for utility-scale grid storage across Southeast Asia and Oceania has accelerated ahead of national renewable-energy mandates.",
+        "Investors are closely watching whether Helios's high-margin storage business can offset slowing panel growth. The executive board is scheduled to present full second-quarter financial results and updated third-quarter investment guidance at its annual shareholders' briefing on August 18."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng doanh thu Quý 2",
+      "genre": "table",
+      "meta": {
+        "title": "HELIOS ENERGY — Q2 REGIONAL FINANCIAL SUMMARY (APRIL – JUNE)",
+        "subtitle": "Consolidated Q2 Revenue: $291.0M (USD) • Internal Board Packet"
+      },
+      "paragraphs": [
+        "Corporate Capital Rule: Regions must achieve a Q2 Operating Margin of at least 20.0% to qualify for priority Q3 manufacturing and R&D capital reallocation."
+      ],
+      "table": {
+        "headers": [
+          "Region",
+          "Q2 Revenue",
+          "YoY Growth",
+          "Operating Margin",
+          "Primary Business Line"
+        ],
+        "rows": [
+          [
+            "East Asia",
+            "$96.0M",
+            "+2.1%",
+            "11.5%",
+            "Solar Panel Manufacturing"
+          ],
+          [
+            "Southeast Asia",
+            "$84.0M",
+            "+18.5%",
+            "22.4%",
+            "Utility Solar & Grid Storage"
+          ],
+          [
+            "Oceania",
+            "$62.5M",
+            "+41.2%",
+            "26.8%",
+            "Grid-Scale Battery Storage"
+          ],
+          [
+            "South Asia",
+            "$48.5M",
+            "+14.0%",
+            "19.0%",
+            "Commercial Microgrids"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email chiến lược",
+      "genre": "email",
+      "meta": {
+        "to": "Executive Board Members, Helios Energy",
+        "from": "Rachel Tan, CFO <r.tan@heliosenergy.sg>",
+        "date": "August 4",
+        "subject": "Q3 Capital Reallocation Proposal — August 18 Shareholders' Briefing"
+      },
+      "paragraphs": [
+        "Dear Board Members,",
+        "Attached are our finalized Q2 regional numbers ahead of the August 18 shareholders' briefing. As expected, East Asia remained our largest revenue generator, yet its operating margin dropped well below our 20% capital-priority benchmark—confirming analysts' observations regarding intense price pressure in legacy solar panels.",
+        "By contrast, the market strengthened by our late-March acquisition delivered both our highest year-over-year revenue expansion and our strongest operating profitability. Accordingly, Finance proposes reallocating $18 million in Q3 manufacturing and R&D capital away from East Asia into the two regions that exceeded our 20% margin benchmark.",
+        "Please submit any requested revisions to the investor slide deck by Tuesday, August 12, so Communications can lock the final presentation.",
+        "Sincerely,\nRachel Tan\nChief Financial Officer"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "When will Helios Energy present its full Q2 financial results to shareholders?",
+      "opts": [
+        "July 28",
+        "August 4",
+        "August 12",
+        "August 18"
+      ],
+      "ans": 3,
+      "exp": "Cả Văn bản 1 ('at its annual shareholders' briefing on August 18') và Văn bản 3 ('August 18 shareholders' briefing') đều khẳng định lịch báo cáo cổ đông là ngày 18/8."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the article, the word \"narrowed\" in paragraph 1 is closest in meaning to",
+      "opts": [
+        "shrunk",
+        "doubled",
+        "stabilized",
+        "recovered"
+      ],
+      "ans": 0,
+      "exp": "Trong cụm 'solar-panel manufacturing margins in East Asia have narrowed sharply' (biên lợi nhuận sản xuất tấm pin mặt trời tại Đông Á đã bị thu hẹp mạnh), 'narrowed' đồng nghĩa với 'shrunk' (co lại/giảm sút)."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "According to the table and CFO's email, which region achieved double-digit YoY growth yet will NOT receive a share of the $18 million Q3 capital reallocation?",
+      "opts": [
+        "East Asia",
+        "Southeast Asia",
+        "South Asia",
+        "Oceania"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo Văn bản 2 & 3: Văn bản 2 & 3 quy định chỉ các khu vực có biên lợi nhuận hoạt động (Operating Margin) đạt tối thiểu 20.0% mới được nhận khoản tái phân bổ vốn $18M (gồm Southeast Asia 22.4% và Oceania 26.8%). South Asia tuy tăng trưởng hai chữ số (+14.0%) nhưng biên lợi nhuận chỉ đạt 19.0% (< 20%) nên KHÔNG được nhận!"
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Which region's +41.2% year-over-year revenue surge was directly boosted by the SunPeak Storage acquisition?",
+      "opts": [
+        "Southeast Asia",
+        "Oceania",
+        "East Asia",
+        "South Asia"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 1 cho biết thương vụ mua lại SunPeak Storage (Úc) cuối tháng 3 giúp củng cố ngay lập tức thị trường Oceania. (2) Văn bản 2 cho thấy Oceania đạt mức tăng trưởng cao nhất +41.2% và biên lợi nhuận cao nhất 26.8%. (3) Văn bản 3 xác nhận thị trường được củng cố từ thương vụ tháng 3 đạt cả tốc độ tăng trưởng lẫn biên lợi nhuận cao nhất."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "What accounts for East Asia's low 11.5% operating margin despite generating $96.0M in Q2 revenue?",
+      "opts": [
+        "Unexpected construction delays on commercial microgrids",
+        "One-time acquisition costs from purchasing SunPeak Storage",
+        "Fierce price competition in legacy solar-panel manufacturing",
+        "A sudden decline in national renewable-energy mandates"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 2 cho thấy East Asia có doanh thu lớn nhất ($96.0M) ở mảng Solar Panel Manufacturing nhưng biên lợi nhuận chỉ 11.5%. (2) Văn bản 3 khẳng định mức biên thấp này xác nhận nhận định của giới phân tích về áp lực giá ở mảng tấm pin truyền thống. (3) Văn bản 1 nêu rõ nguyên nhân là 'fierce price competition' (cạnh tranh giá gay gắt)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "narrowed sharply",
+      "answer": "shrunk / dropped well below benchmark",
+      "vi": "bị thu hẹp mạnh ↔ sụt giảm sâu"
+    },
+    {
+      "text": "fierce price competition",
+      "answer": "intense price pressure",
+      "vi": "cạnh tranh giá gay gắt ↔ áp lực giá khốc liệt"
+    },
+    {
+      "text": "the market strengthened by our late-March acquisition",
+      "answer": "Oceania (after acquiring Australian SunPeak Storage)",
+      "vi": "thị trường được củng cố nhờ thương vụ tháng 3 ↔ Châu Đại Dương"
+    },
+    {
+      "text": "the two regions that exceeded our 20% margin benchmark",
+      "answer": "Southeast Asia (22.4%) and Oceania (26.8%)",
+      "vi": "hai khu vực vượt chuẩn biên lợi nhuận 20%"
+    },
+    {
+      "text": "largest revenue generator",
+      "answer": "East Asia ($96.0M in Q2 revenue)",
+      "vi": "thị trường tạo doanh thu lớn nhất ↔ Đông Á ($96 triệu)"
+    },
+    {
+      "text": "strongest operating profitability",
+      "answer": "26.8% operating margin (Oceania)",
+      "vi": "khả năng sinh lời hoạt động cao nhất"
+    }
+  ]
+}

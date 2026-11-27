@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_02",
+  "order": 34,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Tin nhắn Thoại & Báo giá Bảo dưỡng Xe",
+  "subtitle": "Tin nhắn đổi lịch phòng khám nha khoa và báo giá hạng mục sửa ô tô từ gara",
+  "accent": "en-GB",
+  "defaultRate": 1.0,
+  "tips": "Với Tin nhắn thoại (Voicemail), chú ý ngay 2 câu đầu để biết ai gọi cho ai (This is... calling from...), và nghe kỹ hành động yêu cầu người nghe gọi lại hoặc xác nhận ở câu cuối.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Tin nhắn thoại từ phòng khám nha khoa",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Clinic Coordinator",
+          "accent": "en-GB",
+          "en": "Hello Mr. Reynolds, this is Clara calling from Oakridge Dental Care regarding your routine checkup booked for Thursday at four o'clock.",
+          "vi": "Xin chào ông Reynolds, tôi là Clara gọi từ Phòng khám Nha khoa Oakridge về lịch khám định kỳ của ông vào bốn giờ chiều thứ Năm."
+        },
+        {
+          "spk": "W",
+          "name": "Clinic Coordinator",
+          "accent": "en-GB",
+          "en": "You mentioned last month that you'd prefer an earlier slot so you wouldn't miss your son's football match.",
+          "vi": "Tháng trước ông có nói rằng ông muốn một khung giờ sớm hơn để không bỏ lỡ trận bóng đá của con trai."
+        },
+        {
+          "spk": "W",
+          "name": "Clinic Coordinator",
+          "accent": "en-GB",
+          "en": "Dr. Patel's morning schedule just opened up after another patient rescheduled, so we now have a nine-thirty opening on the same day.",
+          "vi": "Lịch buổi sáng của bác sĩ Patel vừa trống chỗ sau khi một bệnh nhân khác đổi ngày, nên giờ chúng tôi có suất chín giờ ba mươi vào đúng ngày hôm đó."
+        },
+        {
+          "spk": "W",
+          "name": "Clinic Coordinator",
+          "accent": "en-GB",
+          "en": "Please ring us back on extension 204 before noon tomorrow if you'd like to claim that time; otherwise, we'll keep your original afternoon booking.",
+          "vi": "Vui lòng gọi lại cho chúng tôi theo số máy lẻ 204 trước trưa mai nếu ông muốn giữ khung giờ đó; nếu không, chúng tôi sẽ giữ nguyên lịch buổi chiều ban đầu của ông."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why is Clara calling Mr. Reynolds?",
+          "opts": [
+            "To cancel his Thursday appointment",
+            "To confirm his insurance coverage",
+            "To remind him to bring X-ray records",
+            "To offer him an earlier appointment time"
+          ],
+          "ans": 3,
+          "exp": "Clara gọi để báo có suất 9:30 sáng trống đúng như mong muốn đổi giờ sớm hơn của ông → 'To offer him an earlier appointment time'. Chọn (D)."
+        },
+        {
+          "num": 2,
+          "q": "What does Clara mean when she says, \"Dr. Patel's morning schedule just opened up\"?",
+          "opts": [
+            "The clinic has extended its morning operating hours.",
+            "An earlier appointment slot has become available.",
+            "Dr. Patel recently joined Oakridge Dental Care.",
+            "Morning consultations are now discounted."
+          ],
+          "ans": 1,
+          "exp": "Cụm 'schedule just opened up after another patient rescheduled' nghĩa là một suất hẹn sớm hơn vừa trống chỗ ('become available'). Chọn (B)."
+        },
+        {
+          "num": 3,
+          "q": "What will happen if Mr. Reynolds does not call back before noon tomorrow?",
+          "opts": [
+            "He will be charged a cancellation fee.",
+            "He will be assigned to a different dentist.",
+            "His appointment will remain at 4:00 PM.",
+            "The clinic will text him a new date next week."
+          ],
+          "ans": 2,
+          "exp": "Câu cuối nói: 'otherwise, we'll keep your original afternoon booking' (lịch ban đầu lúc 4 giờ chiều). Chọn (C)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Tin nhắn thoại từ Xưởng Sửa chữa Ô tô",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "Auto Repair Estimate",
+        "headers": [
+          "Service",
+          "Status",
+          "Cost"
+        ],
+        "rows": [
+          [
+            "Synthetic Oil Change",
+            "Completed",
+            "$75"
+          ],
+          [
+            "Tire Rotation",
+            "Completed",
+            "$40"
+          ],
+          [
+            "Front Brake Pads",
+            "Needs Approval",
+            "$210"
+          ],
+          [
+            "Cabin Air Filter",
+            "Recommended",
+            "$45"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Service Advisor",
+          "accent": "en-GB",
+          "en": "Hi Ms. Sato, this is Derek calling from Westfield Auto Service about the silver hatchback you dropped off this morning.",
+          "vi": "Chào cô Sato, tôi là Derek gọi từ Xưởng Dịch vụ Ô tô Westfield về chiếc xe màu bạc cô gửi lại sáng nay."
+        },
+        {
+          "spk": "M",
+          "name": "Service Advisor",
+          "accent": "en-GB",
+          "en": "Our mechanics finished the routine maintenance items on schedule, and your tires have plenty of tread left.",
+          "vi": "Thợ máy của chúng tôi đã hoàn tất các hạng mục bảo dưỡng định kỳ đúng hạn, và lốp xe của cô vẫn còn nhiều rãnh gai."
+        },
+        {
+          "spk": "M",
+          "name": "Service Advisor",
+          "accent": "en-GB",
+          "en": "However, during our multi-point inspection, we saw that one major safety component is worn down to two millimeters, and we've sent an itemized estimate to your phone.",
+          "vi": "Tuy nhiên, trong lúc kiểm tra đa điểm, chúng tôi thấy một bộ phận an toàn quan trọng đã mòn chỉ còn hai milimét, và chúng tôi đã gửi bảng dự toán chi tiết vào điện thoại cô."
+        },
+        {
+          "spk": "M",
+          "name": "Service Advisor",
+          "accent": "en-GB",
+          "en": "If you approve that two-hundred-and-ten-dollar repair before two o'clock, we have the parts in stock and can still have your car ready by five-thirty today.",
+          "vi": "Nếu cô duyệt hạng mục sửa chữa hai trăm mười đô la đó trước hai giờ chiều, chúng tôi có sẵn phụ tùng trong kho và vẫn có thể giao xe cho cô lúc năm giờ ba mươi hôm nay."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What has the garage already finished doing?",
+          "opts": [
+            "Performing routine oil and tire maintenance",
+            "Ordering new tires for the hatchback",
+            "Replacing the cabin air filter",
+            "Installing new front brake pads"
+          ],
+          "ans": 0,
+          "exp": "Derek nói thợ đã hoàn tất 'routine maintenance items' — đối chiếu bảng trạng thái 'Completed' là Synthetic Oil Change và Tire Rotation. Chọn (A)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which item requires Ms. Sato's approval before 2:00 PM?",
+          "opts": [
+            "Synthetic Oil Change",
+            "Tire Rotation",
+            "Cabin Air Filter",
+            "Front Brake Pads"
+          ],
+          "ans": 3,
+          "exp": "Derek nhắc tới 'two-hundred-and-ten-dollar repair' và bộ phận an toàn bị mòn. Đối chiếu bảng: '$210' và trạng thái 'Needs Approval' là 'Front Brake Pads'. Chọn (D)."
+        },
+        {
+          "num": 6,
+          "q": "When will the vehicle be ready if Ms. Sato approves the work in time?",
+          "opts": [
+            "At 2:00 PM today",
+            "At 5:30 PM today",
+            "Tomorrow morning at 9:00 AM",
+            "After parts arrive next week"
+          ],
+          "ans": 1,
+          "exp": "Câu cuối Derek cam kết: 'we have the parts in stock and can still have your car ready by five-thirty today'. Chọn (B)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_07",
+  "order": 39,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Thông báo Sân bay & Lịch Phà Cảng biển",
+  "subtitle": "Thông báo đổi cửa khởi hành, hỗ trợ nối chuyến và điều chỉnh giờ phà do gió mạnh",
+  "accent": "en-GB",
+  "defaultRate": 1.0,
+  "tips": "Trong thông báo vận tải (sân bay/ga tàu/bến phà), cần cực kỳ tập trung vào số hiệu chuyến (flight/route), số cửa/tàu (gate/vessel), lý do chậm (weather/crew/inspection) và yêu cầu cho hành khách nối chuyến.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Thông báo đổi cửa lên máy bay tại sân bay",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Gate Agent",
+          "accent": "en-GB",
+          "en": "May I have your attention, please? This is a gate change and delay update for EuroAir Flight 412 bound for Frankfurt.",
+          "vi": "Xin quý khách vui lòng chú ý. Đây là thông báo đổi cửa và cập nhật hoãn chuyến cho chuyến bay EuroAir 412 đi Frankfurt."
+        },
+        {
+          "spk": "W",
+          "name": "Gate Agent",
+          "accent": "en-GB",
+          "en": "Due to a brief technical check on our incoming aircraft, boarding will now begin forty minutes later at Gate B19, just down the corridor to your left.",
+          "vi": "Do một đợt kiểm tra kỹ thuật ngắn đối với tàu bay đến, việc lên máy bay sẽ bắt đầu muộn hơn bốn mươi phút tại Cửa B19, ngay cuối hành lang bên trái quý vị."
+        },
+        {
+          "spk": "W",
+          "name": "Gate Agent",
+          "accent": "en-GB",
+          "en": "Anyone with a tight connection in Frankfurt should step up to the desk right away.",
+          "vi": "Bất kỳ hành khách nào có giờ nối chuyến gấp tại Frankfurt xin vui lòng tiến lên quầy ngay lập tức."
+        },
+        {
+          "spk": "W",
+          "name": "Gate Agent",
+          "accent": "en-GB",
+          "en": "In addition, complimentary refreshment vouchers are being distributed by our ground staff here—just scan your boarding pass to claim yours.",
+          "vi": "Ngoài ra, nhân viên mặt đất của chúng tôi đang phát phiếu đồ ăn thức uống miễn phí tại đây—chỉ cần quét thẻ lên máy bay để nhận."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why has EuroAir Flight 412 been delayed?",
+          "opts": [
+            "The arriving plane requires a technical inspection.",
+            "Heavy fog has closed the runway in Frankfurt.",
+            "Baggage loading equipment broke down.",
+            "A replacement flight crew is still in transit."
+          ],
+          "ans": 0,
+          "exp": "Nhân viên thông báo: 'Due to a brief technical check on our incoming aircraft' → tàu bay đến cần kiểm tra kỹ thuật. Chọn (A)."
+        },
+        {
+          "num": 2,
+          "q": "Why does the agent say, \"Anyone with a tight connection in Frankfurt should step up to the desk right away\"?",
+          "opts": [
+            "To check whether their luggage is overweight",
+            "To invite them to board the plane before other passengers",
+            "To offer priority assistance with rebooking onward flights",
+            "To collect customs declaration forms early"
+          ],
+          "ans": 2,
+          "exp": "Khi chuyến bay bị trễ 40 phút, yêu cầu khách nối chuyến gấp lên quầy ngay ngụ ý hãng sẽ ưu tiên hỗ trợ đổi hoặc sắp xếp lại chuyến bay kế tiếp ('assistance with rebooking onward flights'). Chọn (C)."
+        },
+        {
+          "num": 3,
+          "q": "What must passengers show to receive a refreshment voucher?",
+          "opts": [
+            "Their passport",
+            "Their boarding pass",
+            "A frequent-flyer card",
+            "A baggage claim tag"
+          ],
+          "ans": 1,
+          "exp": "Câu cuối hướng dẫn: 'just scan your boarding pass to claim yours' → quét thẻ lên máy bay ('boarding pass'). Chọn (B)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Điều chỉnh Lịch Phà Cảng biển",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "Harbor Ferry Timetable",
+        "headers": [
+          "Route",
+          "Vessel",
+          "New Departure"
+        ],
+        "rows": [
+          [
+            "North Pier",
+            "Sea Breeze",
+            "11:15 AM"
+          ],
+          [
+            "Emerald Island",
+            "Blue Horizon",
+            "11:40 AM"
+          ],
+          [
+            "West Marina",
+            "Harbor Star",
+            "12:05 PM"
+          ],
+          [
+            "Lighthouse Cove",
+            "Wave Runner",
+            "12:30 PM"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Terminal Announcer",
+          "accent": "en-GB",
+          "en": "Attention all passengers at Pier 4 Terminal. High crosswinds across the outer bay have slowed incoming vessels this morning.",
+          "vi": "Xin chú ý toàn thể hành khách tại Nhà ga Bến số 4. Gió ngang mạnh ngoài vịnh đã làm chậm các tàu cập bến sáng nay."
+        },
+        {
+          "spk": "M",
+          "name": "Terminal Announcer",
+          "accent": "en-GB",
+          "en": "Please check the overhead monitors for revised sailing times on all four coastal routes.",
+          "vi": "Vui lòng theo dõi màn hình phía trên để xem giờ khởi hành điều chỉnh của cả bốn tuyến ven biển."
+        },
+        {
+          "spk": "M",
+          "name": "Terminal Announcer",
+          "accent": "en-GB",
+          "en": "Passengers holding tickets for the Blue Horizon are advised that boarding will begin ten minutes prior to the revised departure time at Berth 2.",
+          "vi": "Hành khách có vé tàu Blue Horizon lưu ý việc lên tàu sẽ bắt đầu trước giờ khởi hành mới mười phút tại Cầu tàu số 2."
+        },
+        {
+          "spk": "M",
+          "name": "Terminal Announcer",
+          "accent": "en-GB",
+          "en": "If the new schedule no longer suits your travel plans, you may exchange your ticket for any afternoon sailing at Window 3 with no change fee.",
+          "vi": "Nếu lịch mới không còn phù hợp với kế hoạch của quý vị, quý vị có thể đổi vé sang bất kỳ chuyến buổi chiều nào tại Cửa sổ số 3 mà không mất phí đổi."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What has caused the ferry schedule changes?",
+          "opts": [
+            "Dock repairs at Pier 4",
+            "Heavy weekend tourist volume",
+            "A fuel shortage at the marina",
+            "Strong winds over the bay"
+          ],
+          "ans": 3,
+          "exp": "Thông báo giải thích: 'High crosswinds across the outer bay have slowed incoming vessels' → gió mạnh trên vịnh. Chọn (D)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Where is the Blue Horizon sailing to?",
+          "opts": [
+            "Emerald Island",
+            "North Pier",
+            "West Marina",
+            "Lighthouse Cove"
+          ],
+          "ans": 0,
+          "exp": "Tra bảng cột Vessel = 'Blue Horizon' → cột Route tương ứng là 'Emerald Island' (khởi hành mới lúc 11:40 AM). Chọn (A)."
+        },
+        {
+          "num": 6,
+          "q": "What can passengers do at Window 3?",
+          "opts": [
+            "Purchase life jackets",
+            "Claim lost luggage",
+            "Switch to a later ferry for free",
+            "Book a shuttle bus to the city"
+          ],
+          "ans": 2,
+          "exp": "Câu cuối nêu rõ: 'exchange your ticket for any afternoon sailing at Window 3 with no change fee' → đổi sang chuyến phà muộn hơn miễn phí. Chọn (C)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "tl_p1_06",
+  "order": 12,
+  "level": 1,
+  "part": "part1",
+  "partLabel": "Part 1 • Tả tranh",
+  "title": "Part 1 • Bài 06: Tranh cảnh không người — Kho, bến cảng & đường phố",
+  "subtitle": "Luyện nghe cấu trúc bị động trạng thái (stacked, docked, set up, parked) trong bối cảnh ngoài trời & kho bãi.",
+  "accent": "en-GB",
+  "defaultRate": 1,
+  "tips": "Trong ảnh kho hàng, bến tàu hoặc bãi đỗ xe không người, chú ý các phân từ trạng thái quen thuộc: stacked (xếp chồng), docked/moored (neo đậu), set up (dựng sẵn), parked in a row (đỗ thành hàng).",
+  "items": [
+    {
+      "num": 1,
+      "accent": "en-GB",
+      "speaker": "M",
+      "image": "media/p1_06_1.svg",
+      "imageAlt": "Lối đi kho hàng không người với kệ kim loại chất đầy thùng các-tông và xe nâng vàng đỗ yên",
+      "options": [
+        "Cardboard boxes are stacked on metal shelves.",
+        "A forklift is being driven out of the warehouse.",
+        "Open boxes have spilled across the aisle.",
+        "Delivery trucks are parked beside the shelves."
+      ],
+      "optionsVi": [
+        "Các thùng các-tông được xếp chồng trên những kệ kim loại.",
+        "Một chiếc xe nâng đang được lái ra khỏi nhà kho.",
+        "Các thùng mở nắp đã đổ tràn khắp lối đi.",
+        "Các xe tải giao hàng đang đỗ cạnh những chiếc kệ."
+      ],
+      "ans": 0,
+      "exp": "Các thùng các-tông nâu xếp ngay ngắn trên hai dãy kệ sắt hai bên → chọn (A). Loại (B) vì xe nâng không có người lái (bẫy 'is being driven'); loại (C) lối đi gọn gàng; loại (D) không có xe tải."
+    },
+    {
+      "num": 2,
+      "accent": "en-GB",
+      "speaker": "W",
+      "image": "media/p1_06_2.svg",
+      "imageAlt": "Cảnh bến cảng yên bình có ba thuyền buồm trắng neo đậu dọc theo cầu tàu gỗ",
+      "options": [
+        "A cargo ship is being unloaded at the dock.",
+        "Cars are crossing a suspension bridge.",
+        "Several boats are docked along a pier.",
+        "Swimmers are resting near a lighthouse."
+      ],
+      "optionsVi": [
+        "Một tàu chở hàng đang được bốc dỡ tại bến cảng.",
+        "Ô tô đang chạy qua một cây cầu treo.",
+        "Một vài chiếc thuyền đang neo đậu dọc theo cầu tàu.",
+        "Người bơi đang nghỉ ngơi gần một ngọn hải đăng."
+      ],
+      "ans": 2,
+      "exp": "Ba chiếc thuyền buồm trắng buộc dây neo đậu dọc theo cầu tàu gỗ (pier) → chọn (C). Loại (A) bẫy 'being unloaded' không có người; (B)(D) không có cầu treo hay hải đăng."
+    },
+    {
+      "num": 3,
+      "accent": "en-GB",
+      "speaker": "M",
+      "image": "media/p1_06_3.svg",
+      "imageAlt": "Khu bàn ghế quán cà phê ngoài trời không có khách, có ba chiếc ô kẻ đỏ trắng mở phía trên bàn",
+      "options": [
+        "Customers are ordering drinks on the patio.",
+        "The patio umbrellas have been folded up.",
+        "Bicycles are chained to the cafe tables.",
+        "Umbrellas have been set up over outdoor tables."
+      ],
+      "optionsVi": [
+        "Khách hàng đang gọi đồ uống ngoài sân hiên.",
+        "Những chiếc ô ngoài trời đã được gấp gọn lại.",
+        "Xe đạp đang được xích vào các bàn cà phê.",
+        "Những chiếc ô đã được dựng mở phía trên các bàn ngoài trời."
+      ],
+      "ans": 3,
+      "exp": "Các chiếc ô đỏ trắng đều đang mở rộng che phía trên dãy bàn ghế ngoài trời → chọn (D). Loại (A) không có khách; (B) sai ngược nghĩa vì ô đang mở; (C) không có xe đạp."
+    },
+    {
+      "num": 4,
+      "accent": "en-GB",
+      "speaker": "W",
+      "image": "media/p1_06_4.svg",
+      "imageAlt": "Ba ô tô con đỗ ngay ngắn thành một hàng ngang trước tòa nhà văn phòng mặt kính",
+      "options": [
+        "Vehicles are being washed outside a garage.",
+        "Cars are parked in a row in front of a building.",
+        "Traffic cones are blocking the main entrance.",
+        "A commuter train is passing over a bridge."
+      ],
+      "optionsVi": [
+        "Các phương tiện đang được rửa bên ngoài nhà xe.",
+        "Ô tô đang đỗ thành một hàng phía trước một tòa nhà.",
+        "Các cọc tiêu giao thông đang chặn lối vào chính.",
+        "Một chuyến tàu ngoại ô đang chạy qua cầu."
+      ],
+      "ans": 1,
+      "exp": "Ba chiếc ô tô đỗ thẳng hàng trong vạch kẻ ngay trước tòa nhà mặt kính → chọn (B). Loại (A) bẫy 'being washed' khi không có người; (C)(D) không có cọc tiêu hay tàu hỏa."
+    }
+  ]
+}

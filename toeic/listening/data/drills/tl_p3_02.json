@@ -1,0 +1,198 @@
+{
+  "id": "tl_p3_02",
+  "order": 24,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Đặt hàng, Giao thiếu & Bảng Cước Vận chuyển",
+  "subtitle": "Khiếu nại đơn hàng linh kiện giao thiếu và nâng cấp gói vận chuyển nhanh",
+  "accent": "en-GB",
+  "defaultRate": 1.0,
+  "tips": "Chú ý động từ chỉ nguyên nhân sự cố (missing, damaged, delayed) và các mức giá/thời gian trong bảng cước vận chuyển để tính đúng phương án người nói chọn.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Khiếu nại giao thiếu linh kiện",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Hello, I'm calling from Meridian Electronics regarding purchase order 4820. Our shipment of circuit boards arrived this morning, but we're short by fifty units.",
+          "vi": "Xin chào, tôi gọi từ Meridian Electronics về đơn đặt hàng số 4820. Lô bảng mạch của chúng tôi đã đến sáng nay, nhưng bị thiếu năm mươi chiếc."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "I sincerely apologize for that, Ms. Hughes. Let me pull up your packing slip... Yes, it looks like one crate was accidentally left at our loading dock.",
+          "vi": "Tôi thành thật xin lỗi về việc này, cô Hughes. Để tôi mở phiếu đóng gói của cô... Đúng rồi, có vẻ một thùng hàng đã vô tình bị sót lại ở bến bốc hàng của chúng tôi."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "That's going to push our assembly line back by two days.",
+          "vi": "Chuyện đó sẽ làm dây chuyền lắp ráp của chúng tôi bị chậm lại tận hai ngày đấy."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "I completely understand the urgency. We can dispatch the missing crate by overnight courier at no extra charge so it reaches your factory by nine tomorrow morning.",
+          "vi": "Tôi hoàn toàn hiểu tính cấp bách. Chúng tôi có thể gửi thùng hàng bị thiếu bằng chuyển phát qua đêm hoàn toàn miễn phí để kịp đến nhà máy của cô trước chín giờ sáng mai."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "That would be great. Please email me the tracking number as soon as the courier picks it up.",
+          "vi": "Thế thì tốt quá. Vui lòng gửi email cho tôi mã vận đơn ngay khi bên giao hàng lấy kiện hàng."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why is the woman calling?",
+          "opts": [
+            "To cancel a pending purchase order",
+            "To report an incomplete delivery",
+            "To request a revised invoice",
+            "To complain about damaged packaging"
+          ],
+          "ans": 1,
+          "exp": "Người phụ nữ nói: 'we're short by fifty units' (chúng tôi bị thiếu 50 chiếc) → báo cáo đơn hàng giao không đủ ('an incomplete delivery'). Chọn (B)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman imply when she says, \"That's going to push our assembly line back by two days\"?",
+          "opts": [
+            "She wants to switch to another supplier immediately.",
+            "The factory is scheduled to close for maintenance.",
+            "The man miscalculated the number of crates.",
+            "She needs the missing items delivered urgently."
+          ],
+          "ans": 3,
+          "exp": "Câu nói dây chuyền lắp ráp bị chậm 2 ngày nhấn mạnh mức độ khẩn cấp; ngay sau đó người đàn ông đáp 'I completely understand the urgency' và đề nghị chuyển phát qua đêm → cô cần hàng giao gấp. Chọn (D)."
+        },
+        {
+          "num": 3,
+          "q": "What does the woman ask the man to send her?",
+          "opts": [
+            "A courier tracking code",
+            "A revised packing slip",
+            "A refund confirmation",
+            "A warehouse inspection report"
+          ],
+          "ans": 0,
+          "exp": "Cuối hội thoại, người phụ nữ yêu cầu: 'Please email me the tracking number' → mã theo dõi vận đơn ('A courier tracking code'). Chọn (A)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Lựa chọn Gói Cước Vận chuyển",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "Express Freight Rate Table",
+        "headers": [
+          "Service Tier",
+          "Delivery Window",
+          "Cost"
+        ],
+        "rows": [
+          [
+            "Economy Ground",
+            "5–7 business days",
+            "$45"
+          ],
+          [
+            "Standard Air",
+            "3 business days",
+            "$95"
+          ],
+          [
+            "Priority Next-Day",
+            "Next business day",
+            "$160"
+          ],
+          [
+            "Same-Day Charter",
+            "Within 6 hours",
+            "$310"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "Claire, the prototype lighting fixtures for the Melbourne showroom are finally boxed and ready to ship.",
+          "vi": "Claire, các mẫu đèn nguyên mẫu cho phòng trưng bày ở Melbourne cuối cùng đã đóng thùng và sẵn sàng gửi đi rồi."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Wonderful! Today is Tuesday, and the showroom manager needs them installed before Friday afternoon's press preview.",
+          "vi": "Tuyệt vời! Hôm nay là thứ Ba, và quản lý phòng trưng bày cần lắp đặt chúng trước buổi xem trước cho báo chí vào chiều thứ Sáu."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "Then Economy Ground is definitely out. Should I pay for Priority Next-Day just to be safe?",
+          "vi": "Vậy thì gói Đường bộ Tiết kiệm chắc chắn bị loại rồi. Tôi có nên trả tiền cho gói Ưu tiên Ngày hôm sau cho chắc chắn không?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Actually, if we ship them this morning with the three-day option, they'll arrive Friday morning—still plenty of time to mount them, and we stay under our $120 shipping budget.",
+          "vi": "Thực ra, nếu ta gửi sáng nay bằng gói ba ngày làm việc, hàng sẽ đến sáng thứ Sáu—vẫn dư thời gian để lắp đèn, và chúng ta giữ được chi phí dưới ngân sách vận chuyển 120 đô la."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What is scheduled to take place on Friday afternoon?",
+          "opts": [
+            "A factory safety audit",
+            "A lighting design workshop",
+            "A media preview event",
+            "A budget review meeting"
+          ],
+          "ans": 2,
+          "exp": "Người phụ nữ nhắc tới 'Friday afternoon's press preview' (buổi xem trước cho báo chí chiều thứ Sáu) → 'press' đồng nghĩa với 'media'. Chọn (C)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. How much will the speakers pay for shipping?",
+          "opts": [
+            "$45",
+            "$95",
+            "$160",
+            "$310"
+          ],
+          "ans": 1,
+          "exp": "Người phụ nữ chọn 'the three-day option' (gói 3 ngày làm việc) và dưới ngân sách $120. Đối chiếu bảng: '3 business days' là gói Standard Air có giá '$95'. Chọn (B)."
+        },
+        {
+          "num": 6,
+          "q": "Why does the woman reject the Priority Next-Day option?",
+          "opts": [
+            "It is unavailable for Melbourne deliveries.",
+            "The fixtures have not been inspected yet.",
+            "The courier does not carry fragile lighting.",
+            "It exceeds the allocated shipping budget."
+          ],
+          "ans": 3,
+          "exp": "Cô giải thích chọn gói 3 ngày giúp 'we stay under our $120 shipping budget' (giữ dưới ngân sách $120), trong khi Priority Next-Day tốn $160 → vượt ngân sách. Chọn (D)."
+        }
+      ]
+    }
+  ]
+}

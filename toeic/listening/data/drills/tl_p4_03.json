@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_03",
+  "order": 35,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Quảng cáo Thương mại & Gói Hội viên Phòng tập",
+  "subtitle": "Quảng cáo khai trương chuỗi cà phê hữu cơ và ưu đãi gói hội viên thể hình",
+  "accent": "en-AU",
+  "defaultRate": 1.0,
+  "tips": "Trong bài Quảng cáo (Advertisement), hãy lắng nghe đặc điểm nổi bật của sản phẩm/dịch vụ, điều kiện nhận ưu đãi (first 100 guests, code, before Sunday) và đối chiếu khung giờ tập trong bảng giá.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Quảng cáo khai trương quán cà phê hữu cơ",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Radio Host",
+          "accent": "en-AU",
+          "en": "Why settle for burnt office coffee when barista-crafted espresso is right around the corner?",
+          "vi": "Tại sao phải chấp nhận ly cà phê văn phòng cháy khét khi tách espresso do barista pha chế nằm ngay góc phố?"
+        },
+        {
+          "spk": "M",
+          "name": "Radio Host",
+          "accent": "en-AU",
+          "en": "Sunbeam Roasters is thrilled to announce the grand opening of our fourth Melbourne café this Saturday on Collins Street.",
+          "vi": "Sunbeam Roasters hân hoan thông báo khai trương quán cà phê thứ tư tại Melbourne vào thứ Bảy này trên phố Collins."
+        },
+        {
+          "spk": "M",
+          "name": "Radio Host",
+          "accent": "en-AU",
+          "en": "Every bean we brew is ethically sourced from small highland farms and roasted fresh each dawn in our local workshop.",
+          "vi": "Mỗi hạt cà phê chúng tôi pha đều có nguồn gốc bền vững từ các nông trại vùng cao nhỏ và được rang mới mỗi rạng sáng tại xưởng địa phương."
+        },
+        {
+          "spk": "M",
+          "name": "Radio Host",
+          "accent": "en-AU",
+          "en": "Stop by between seven and eleven this Saturday, and the first one hundred visitors will receive a complimentary reusable travel mug with any beverage purchase!",
+          "vi": "Hãy ghé thăm từ bảy đến mười một giờ sáng thứ Bảy này, và một trăm vị khách đầu tiên sẽ nhận được một bình giữ nhiệt tái sử dụng miễn phí khi mua bất kỳ đồ uống nào!"
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why does the speaker ask, \"Why settle for burnt office coffee when barista-crafted espresso is right around the corner?\"",
+          "opts": [
+            "To persuade nearby workers to visit the new café",
+            "To criticize a rival café on Collins Street",
+            "To advertise office coffee machine repairs",
+            "To recruit experienced baristas for Saturday"
+          ],
+          "ans": 0,
+          "exp": "Câu hỏi tu từ mở đầu nhắm vào dân văn phòng uống cà phê không ngon ở công ty để thuyết phục họ ghé quán mới ngay gần đó ('persuade nearby workers to visit'). Chọn (A)."
+        },
+        {
+          "num": 2,
+          "q": "What is emphasized about Sunbeam Roasters' coffee beans?",
+          "opts": [
+            "They are imported pre-ground from Europe.",
+            "They are decaffeinated naturally.",
+            "They are roasted freshly every morning locally.",
+            "They are only sold in bulk to corporations."
+          ],
+          "ans": 2,
+          "exp": "Quảng cáo nhấn mạnh: 'roasted fresh each dawn in our local workshop' → rang mới mỗi sáng tại xưởng địa phương. Chọn (C)."
+        },
+        {
+          "num": 3,
+          "q": "How can a visitor get a free travel mug on Saturday?",
+          "opts": [
+            "By signing up for a monthly bean subscription",
+            "By arriving among the first 100 paying customers",
+            "By bringing an old mug to recycle",
+            "By sharing a post on social media"
+          ],
+          "ans": 1,
+          "exp": "Câu cuối nêu điều kiện: 'the first one hundred visitors will receive a complimentary reusable travel mug with any beverage purchase' → nằm trong 100 khách mua hàng đầu tiên. Chọn (B)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Ưu đãi Gói Hội viên Phòng tập PeakFit",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "PeakFit Membership Rates",
+        "headers": [
+          "Tier",
+          "Access Hours",
+          "Monthly Price"
+        ],
+        "rows": [
+          [
+            "Daylight Pass",
+            "9:00 AM – 4:00 PM",
+            "$39"
+          ],
+          [
+            "Standard Club",
+            "5:00 AM – 10:00 PM",
+            "$59"
+          ],
+          [
+            "All-Access 24/7",
+            "24 Hours + Pool",
+            "$79"
+          ],
+          [
+            "Executive Plus",
+            "24 Hours + Personal Trainer",
+            "$125"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Spokesperson",
+          "accent": "en-AU",
+          "en": "Ready to refresh your fitness routine this spring? PeakFit Health Club has just renovated our aquatic center and added twenty new rowing machines.",
+          "vi": "Sẵn sàng làm mới lịch tập luyện mùa xuân này chưa? Câu lạc bộ Sức khỏe PeakFit vừa tân trang khu bơi lội và bổ sung hai mươi máy chèo thuyền mới."
+        },
+        {
+          "spk": "W",
+          "name": "Spokesperson",
+          "accent": "en-AU",
+          "en": "Whether you prefer quiet midday workouts or late-night cardio sessions, we have four flexible monthly memberships with zero long-term lock-in contracts.",
+          "vi": "Dù bạn thích tập buổi trưa yên tĩnh hay chạy cardio khuya, chúng tôi đều có bốn gói hội viên theo tháng linh hoạt mà không ràng buộc hợp đồng dài hạn."
+        },
+        {
+          "spk": "W",
+          "name": "Spokesperson",
+          "accent": "en-AU",
+          "en": "For this week only, new members who enroll in our seventy-nine-dollar tier will have the fifty-dollar joining fee completely waived.",
+          "vi": "Chỉ trong tuần này, hội viên mới đăng ký gói bảy mươi chín đô la sẽ được miễn hoàn toàn phí gia nhập năm mươi đô la."
+        },
+        {
+          "spk": "W",
+          "name": "Spokesperson",
+          "accent": "en-AU",
+          "en": "Visit peakfitclub.com.au or drop in for a free tour before Sunday evening to lock in your spring discount.",
+          "vi": "Truy cập peakfitclub.com.au hoặc ghé tham quan miễn phí trước tối Chủ nhật để giữ ưu đãi mùa xuân của bạn."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What recent upgrade did PeakFit Health Club make?",
+          "opts": [
+            "It opened a rooftop running track.",
+            "It expanded its underground parking lot.",
+            "It launched an online nutrition app.",
+            "It upgraded its swimming area and rowing gear."
+          ],
+          "ans": 3,
+          "exp": "Người nói giới thiệu: 'renovated our aquatic center and added twenty new rowing machines' → 'aquatic center' đồng nghĩa với 'swimming area'. Chọn (D)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which membership tier waives the joining fee this week?",
+          "opts": [
+            "All-Access 24/7",
+            "Standard Club",
+            "Daylight Pass",
+            "Executive Plus"
+          ],
+          "ans": 0,
+          "exp": "Quảng cáo nói ưu đãi áp dụng cho 'our seventy-nine-dollar tier' ($79). Tra bảng: mức '$79' là gói 'All-Access 24/7'. Chọn (A)."
+        },
+        {
+          "num": 6,
+          "q": "What benefit applies to all four PeakFit memberships?",
+          "opts": [
+            "Free weekly personal training",
+            "Complimentary towel laundry",
+            "No long-term contract commitment",
+            "Unlimited guest passes on weekends"
+          ],
+          "ans": 2,
+          "exp": "Cô nhấn mạnh: 'four flexible monthly memberships with zero long-term lock-in contracts' → không ràng buộc hợp đồng dài hạn. Chọn (C)."
+        }
+      ]
+    }
+  ]
+}

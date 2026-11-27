@@ -1,0 +1,275 @@
+{
+  "id": "tsw_w_q15_05",
+  "skill": "writing",
+  "taskType": "wr_q15",
+  "code": "Q1–5",
+  "level": 3,
+  "targetBand": "170–190",
+  "title": "Q1–5 • Bộ 05: Câu phức Mệnh đề quan hệ & Band 180+",
+  "topic": "Khách sạn, Thư viện, Quán cà phê & Phòng họp",
+  "estMinutes": 8,
+  "guideVi": "Chinh phục thang điểm tối đa bằng mệnh đề quan hệ ('who is standing...', 'that is located...'), cấu trúc V-ing rút gọn và động từ kép (hand ... to, select ... from).",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Dùng chính xác cả 2 từ khóa bắt buộc (đúng dạng hoặc biến thể hợp lệ)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Đúng ngữ pháp, thì câu và quy chuẩn viết hoa – dấu câu cuối câu",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Miêu tả sát ngữ cảnh bức tranh, câu rõ nghĩa và tự nhiên",
+      "weight": 25
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q15_05_1",
+      "itemType": "wr_q15",
+      "label": "Câu 1 • Nhận phòng tại quầy lễ tân",
+      "durationMin": 8,
+      "image": "media/sw_p_12.svg",
+      "imageAlt": "Nhân viên lễ tân khách sạn đứng sau quầy đang trao chìa khóa phòng cho vị khách mang vali",
+      "keywords": [
+        {
+          "word": "receptionist",
+          "pos": "n",
+          "forms": [
+            "receptionist",
+            "receptionists"
+          ]
+        },
+        {
+          "word": "key",
+          "pos": "n",
+          "forms": [
+            "key",
+            "keys"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Mệnh đề quan hệ / Phân từ & Động từ cho–nhận: hand a room key to a guest",
+      "tipVi": "Sử dụng 'The receptionist who is standing behind the front desk is handing a room key to a hotel guest.' để đạt tối đa điểm ngữ pháp.",
+      "keyPhrases": [
+        {
+          "en": "hand a room key to",
+          "vi": "trao chìa khóa phòng cho"
+        },
+        {
+          "en": "hotel front desk",
+          "vi": "quầy lễ tân khách sạn"
+        },
+        {
+          "en": "check in",
+          "vi": "làm thủ tục nhận phòng"
+        },
+        {
+          "en": "rolling suitcase",
+          "vi": "vali kéo"
+        }
+      ],
+      "sample": "The receptionist standing behind the desk is handing a room key to a guest with a suitcase.",
+      "sampleAlt": "A hotel receptionist who wears a uniform gives a key to an arriving traveler.",
+      "sampleVi": "Nhân viên lễ tân đứng sau quầy đang trao chìa khóa phòng cho vị khách mang vali."
+    },
+    {
+      "itemId": "w_q15_05_2",
+      "itemType": "wr_q15",
+      "label": "Câu 2 • Pha chế sau quầy cà phê",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_05.svg",
+      "imageAlt": "Nhân viên pha chế mặc tạp dề xanh đứng sau quầy gỗ rót sữa vào tách cạnh máy pha cà phê",
+      "keywords": [
+        {
+          "word": "apron",
+          "pos": "n",
+          "forms": [
+            "apron",
+            "aprons"
+          ]
+        },
+        {
+          "word": "behind",
+          "pos": "prep",
+          "forms": [
+            "behind"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Mệnh đề quan hệ mô tả trang phục: A barista who is wearing an apron + stands behind...",
+      "tipVi": "Kết hợp từ khóa chỉ trang phục ('wearing a green apron') với vị trí ('behind the cafe counter') trong một câu phức mượt mà.",
+      "keyPhrases": [
+        {
+          "en": "wear a green apron",
+          "vi": "mặc tạp dề xanh"
+        },
+        {
+          "en": "behind the counter",
+          "vi": "phía sau quầy"
+        },
+        {
+          "en": "espresso machine",
+          "vi": "máy pha espresso"
+        },
+        {
+          "en": "pastry display case",
+          "vi": "tủ trưng bày bánh ngọt"
+        }
+      ],
+      "sample": "A barista who is wearing a green apron is pouring milk behind the cafe counter.",
+      "sampleAlt": "Standing behind a wooden counter, the worker in an apron prepares a hot beverage.",
+      "sampleVi": "Một nhân viên pha chế mặc tạp dề xanh đang rót sữa phía sau quầy cà phê."
+    },
+    {
+      "itemId": "w_q15_05_3",
+      "itemType": "wr_q15",
+      "label": "Câu 3 • Bãi đỗ xe ngoài trời",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_10.svg",
+      "imageAlt": "Bốn ô tô đỗ ngay ngắn thành hàng trong các ô kẻ vạch trắng ở bãi đỗ xe ngoài trời",
+      "keywords": [
+        {
+          "word": "vehicle",
+          "pos": "n",
+          "forms": [
+            "vehicle",
+            "vehicles"
+          ]
+        },
+        {
+          "word": "between",
+          "pos": "prep",
+          "forms": [
+            "between"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Câu bị động kết hợp giới từ chính xác: parked neatly between painted white lines",
+      "tipVi": "Dùng 'vehicles' (số nhiều) với 'are parked' và mô tả vị trí 'between painted white lines in an outdoor parking lot'.",
+      "keyPhrases": [
+        {
+          "en": "painted white lines",
+          "vi": "những vạch sơn trắng"
+        },
+        {
+          "en": "marked parking spaces",
+          "vi": "các ô đỗ xe có kẻ vạch"
+        },
+        {
+          "en": "outdoor parking lot",
+          "vi": "bãi đỗ xe ngoài trời"
+        },
+        {
+          "en": "neatly aligned",
+          "vi": "xếp thẳng hàng ngay ngắn"
+        }
+      ],
+      "sample": "Four vehicles are neatly parked between painted white lines in an outdoor parking lot.",
+      "sampleAlt": "Several vehicles stand parked between marked lines near streetlights and trees.",
+      "sampleVi": "Bốn chiếc xe được đỗ ngay ngắn giữa các vạch sơn trắng trong bãi đỗ xe ngoài trời."
+    },
+    {
+      "itemId": "w_q15_05_4",
+      "itemType": "wr_q15",
+      "label": "Câu 4 • Họp nhóm bên màn chiếu",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_11.svg",
+      "imageAlt": "Bốn đồng nghiệp ngồi quanh bàn họp hình bầu dục có máy tính xách tay trước màn chiếu biểu đồ tròn",
+      "keywords": [
+        {
+          "word": "colleague",
+          "pos": "n",
+          "forms": [
+            "colleague",
+            "colleagues"
+          ]
+        },
+        {
+          "word": "screen",
+          "pos": "n",
+          "forms": [
+            "screen",
+            "screens"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Câu phức kết hợp trạng thái ngồi họp và bối cảnh màn chiếu phía sau",
+      "tipVi": "Nhấn mạnh 'Four colleagues seated around a table' + 'in front of a projection screen showing a chart' để đạt trọn 3/3 điểm.",
+      "keyPhrases": [
+        {
+          "en": "seated around a table",
+          "vi": "ngồi quanh bàn"
+        },
+        {
+          "en": "projection screen",
+          "vi": "màn hình máy chiếu"
+        },
+        {
+          "en": "pie chart",
+          "vi": "biểu đồ tròn"
+        },
+        {
+          "en": "discuss a project",
+          "vi": "thảo luận về một dự án"
+        }
+      ],
+      "sample": "Four colleagues are holding a meeting in front of a screen that displays a pie chart.",
+      "sampleAlt": "Colleagues seated around an oval table discuss data shown on a presentation screen.",
+      "sampleVi": "Bốn đồng nghiệp đang họp trước một màn hình trình chiếu biểu đồ tròn."
+    },
+    {
+      "itemId": "w_q15_05_5",
+      "itemType": "wr_q15",
+      "label": "Câu 5 • Chọn sách tại thư viện",
+      "durationMin": 8,
+      "image": "../mock/media/m_p1_12.svg",
+      "imageAlt": "Khách nam đứng cạnh kệ sách gỗ cao trong thư viện đang rút một cuốn sách khỏi kệ bên cạnh bàn đọc sách",
+      "keywords": [
+        {
+          "word": "select",
+          "pos": "v",
+          "forms": [
+            "select",
+            "selects",
+            "selected",
+            "selecting"
+          ]
+        },
+        {
+          "word": "beside",
+          "pos": "prep",
+          "forms": [
+            "beside"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Động từ chọn lựa + giới từ vị trí: select a book from + kệ + beside + bàn đọc",
+      "tipVi": "Đừng nhầm 'beside' (bên cạnh) với 'besides' (ngoài ra). Câu chuẩn dùng 'beside a wooden reading table'.",
+      "keyPhrases": [
+        {
+          "en": "select a book from a shelf",
+          "vi": "chọn một cuốn sách từ kệ"
+        },
+        {
+          "en": "beside a reading table",
+          "vi": "bên cạnh bàn đọc sách"
+        },
+        {
+          "en": "public library",
+          "vi": "thư viện công cộng"
+        },
+        {
+          "en": "green desk lamp",
+          "vi": "đèn bàn màu xanh lá"
+        }
+      ],
+      "sample": "A man is selecting a book from a tall shelf beside a reading table in the library.",
+      "sampleAlt": "Standing beside a desk with a green lamp, the visitor selects a book from the bookcase.",
+      "sampleVi": "Một người đàn ông đang chọn một cuốn sách từ chiếc kệ cao bên cạnh bàn đọc trong thư viện."
+    }
+  ]
+}

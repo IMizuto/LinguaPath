@@ -1,0 +1,195 @@
+{
+  "id": "tr_p7t_11",
+  "order": 41,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 11: Tiêu chí chuyển văn phòng, Bảng đấu thầu & Email chốt nhà thầu",
+  "subtitle": "Sàng lọc 4 báo giá chuyển trụ sở công ty phần mềm CloudBridge theo 4 tiêu chí bắt buộc về ngân sách, cuối tuần và bảo hiểm IT.",
+  "timeLimitMin": 12,
+  "tips": "Với dạng bài đấu thầu 4 nhà cung cấp, hãy dùng bảng tiêu chí ở Văn bản 1 để gạch loại từng nhà thầu ở Văn bản 2 — đề ETS rất hay hỏi lý do loại một nhà thầu giá rẻ hơn hoặc đắt hơn.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Memo tiêu chí",
+      "genre": "memo",
+      "meta": {
+        "to": "Procurement Committee",
+        "from": "Jason Wu, VP of Operations, CloudBridge Software",
+        "date": "March 3",
+        "subject": "Mandatory Vendor Criteria — Headquarters Relocation"
+      },
+      "paragraphs": [
+        "CloudBridge Software will relocate our 85-person headquarters from Market Street to Harborview Tech Park over the weekend of April 18–19. To avoid halting software support and weekday client operations, our selected moving contractor must satisfy ALL four mandatory requirements:",
+        "1. Total contract price must not exceed our $18,000 relocation budget cap.\n2. Full weekend execution (Saturday and Sunday) must be guaranteed.\n3. Quote must include specialized anti-static packing and IT server rack insurance of at least $250,000.\n4. Reusable eco-crates must be delivered at least five days ahead of moving day so employees can pack personal workstations."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng so sánh báo giá",
+      "genre": "table",
+      "meta": {
+        "title": "COMMERCIAL RELOCATION CONTRACTOR BID SUMMARY (85-PERSON HQ)",
+        "subtitle": "Compiled by CloudBridge Procurement • March 9"
+      },
+      "paragraphs": [
+        "All four quotes include loading-dock permits, modular desk disassembly/reassembly, and full worker liability coverage."
+      ],
+      "table": {
+        "headers": [
+          "Contractor",
+          "Total Quote",
+          "Schedule Window",
+          "IT & Server Insurance",
+          "Packing Supplies"
+        ],
+        "rows": [
+          [
+            "Atlas Heavy Logistics",
+            "$14,800",
+            "Weekdays Only",
+            "$500,000 (Anti-Static)",
+            "Eco-crates (5 days prior)"
+          ],
+          [
+            "MetroShift Commercial",
+            "$16,500",
+            "Sat–Sun Available",
+            "$300,000 (Anti-Static)",
+            "Eco-crates (7 days prior)"
+          ],
+          [
+            "SwiftLine Movers",
+            "$17,400",
+            "Sat–Sun Available",
+            "$150,000 (Standard Freight)",
+            "Cardboard boxes (3 days prior)"
+          ],
+          [
+            "Beacon Premier Relocations",
+            "$19,200",
+            "Sat–Sun Available",
+            "$400,000 (Anti-Static)",
+            "Eco-crates (7 days prior)"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email trao hợp đồng",
+      "genre": "email",
+      "meta": {
+        "to": "dispatch@metroshift.com",
+        "from": "Jason Wu <j.wu@cloudbridgesoft.com>",
+        "date": "March 12",
+        "subject": "Award of Headquarters Relocation Contract — April 18–19"
+      },
+      "paragraphs": [
+        "Dear MetroShift Commercial Team,",
+        "I am pleased to inform you that CloudBridge Software has selected MetroShift Commercial for our upcoming headquarters relocation on April 18–19. Although another bidder submitted a lower price quote, weekend availability and comprehensive anti-static server coverage were strictly non-negotiable for our executive team.",
+        "Per your proposal timeline, please schedule the drop-off of our reusable eco-crates at the Market Street loading dock on Saturday, April 11, so staff can begin packing Monday morning. Additionally, both Market Street Properties and Harborview Tech Park require your certificate of insurance naming both buildings as additional insureds no later than April 1.",
+        "Best regards,\nJason Wu\nVP of Operations, CloudBridge Software"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the memo, why is CloudBridge Software scheduling its office move over a weekend?",
+      "opts": [
+        "To qualify for a $1,500 weekend contractor discount",
+        "Because Harborview Tech Park restricts weekday loading docks",
+        "To avoid disrupting weekday software support and client operations",
+        "Because reusable eco-crates are only delivered on Saturdays"
+      ],
+      "ans": 2,
+      "exp": "Văn bản 1 (đoạn 1) giải thích rõ: 'To avoid halting software support and weekday client operations' → Nhằm tránh làm gián đoạn hoạt động hỗ trợ phần mềm và phục vụ khách hàng trong ngày làm việc."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"non-negotiable\" in paragraph 2 is closest in meaning to",
+      "opts": [
+        "affordable",
+        "flexible",
+        "temporary",
+        "strictly required"
+      ],
+      "ans": 3,
+      "exp": "Trong câu 'weekend availability and comprehensive anti-static server coverage were strictly non-negotiable' (khả năng làm cuối tuần và bảo hiểm máy chủ chống tĩnh điện là điều không thể thương lượng/bắt buộc tuyệt đối), 'non-negotiable' gần nghĩa nhất với 'strictly required'."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Which contractor met all operational, insurance, and eco-crate criteria but was disqualified solely because of price?",
+      "opts": [
+        "SwiftLine Movers",
+        "Beacon Premier Relocations",
+        "Atlas Heavy Logistics",
+        "MetroShift Commercial"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Beacon Premier Relocations đạt đầy đủ yêu cầu cuối tuần (Sat–Sun), bảo hiểm chống tĩnh điện $400,000 (>= $250,000) và thùng eco giao trước 7 ngày (>= 5 ngày), nhưng báo giá $19,200 vượt trần ngân sách $18,000 → Chỉ bị loại duy nhất vì giá."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Which company is Mr. Wu referring to when he writes \"another bidder submitted a lower price quote\"?",
+      "opts": [
+        "Atlas Heavy Logistics",
+        "SwiftLine Movers",
+        "Beacon Premier Relocations",
+        "Market Street Properties"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 3 trao hợp đồng cho MetroShift Commercial ($16,500 ở Văn bản 2) và nhắc có nhà thầu khác báo giá thấp hơn nhưng không đáp ứng điều kiện làm cuối tuần. (2) Tra bảng Văn bản 2, đơn vị duy nhất rẻ hơn $16,500 là Atlas Heavy Logistics ($14,800) — bị loại vì chỉ làm ngày thường ('Weekdays Only')."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "How much IT and server insurance coverage will CloudBridge Software receive under the awarded contract?",
+      "opts": [
+        "$150,000",
+        "$250,000",
+        "$400,000",
+        "$300,000"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 1 yêu cầu tối thiểu $250,000; Văn bản 3 xác nhận trao hợp đồng cho MetroShift Commercial; tra Văn bản 2, gói bảo hiểm IT & máy chủ của MetroShift là $300,000 (chống tĩnh điện)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "avoid halting weekday client operations",
+      "answer": "avoid disrupting weekday operations",
+      "vi": "tránh làm đình trệ hoạt động ngày thường"
+    },
+    {
+      "text": "non-negotiable",
+      "answer": "strictly required / mandatory",
+      "vi": "không thể thương lượng ↔ bắt buộc tuyệt đối"
+    },
+    {
+      "text": "another bidder submitted a lower price quote",
+      "answer": "Atlas Heavy Logistics ($14,800 vs $16,500)",
+      "vi": "nhà thầu khác chào giá thấp hơn ↔ Atlas ($14,800)"
+    },
+    {
+      "text": "7 days prior (April 11 for April 18)",
+      "answer": "at least five days ahead of moving day",
+      "vi": "giao thùng trước 7 ngày (vượt yêu cầu tối thiểu 5 ngày)"
+    },
+    {
+      "text": "must not exceed $18,000 budget cap",
+      "answer": "Beacon Premier ($19,200) disqualified solely on price",
+      "vi": "không vượt trần $18,000 ↔ Beacon bị loại do giá $19,200"
+    },
+    {
+      "text": "certificate of insurance naming both buildings",
+      "answer": "proof of coverage for Market Street & Harborview",
+      "vi": "giấy chứng nhận bảo hiểm ghi tên cả hai tòa nhà"
+    }
+  ]
+}

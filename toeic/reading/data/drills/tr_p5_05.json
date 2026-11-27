@@ -1,0 +1,119 @@
+{
+  "id": "tr_p5_05",
+  "order": 5,
+  "level": 1,
+  "part": "part5",
+  "partLabel": "Part 5 • Câu đơn",
+  "title": "Part 5 • Bộ 05: Từ vựng Văn phòng, Hợp đồng & Nhân sự",
+  "subtitle": "Luyện 8 cụm từ thương mại tần suất cao nhất Part 5 (comply with, eligible, reimburse, allocate...).",
+  "timeLimitMin": 4,
+  "tips": "Mẹo làm câu Từ vựng: Khi 4 đáp án là 4 từ khác nghĩa nhau nhưng cùng từ loại, hãy đọc nhanh cụm động từ – tân ngữ hoặc giới từ đi kèm (collocation) ngay quanh chỗ trống để chọn từ khớp ngữ cảnh doanh nghiệp.",
+  "passages": [],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Từ vựng (Động từ)",
+      "q": "All food processing plants in the province must _____ with updated sanitation regulations starting in July.",
+      "opts": [
+        "comply",
+        "obey",
+        "follow",
+        "observe"
+      ],
+      "ans": 0,
+      "exp": "Sau chỗ trống có giới từ \"with\". Chỉ động từ \"comply\" đi với giới từ \"with\" (comply with = tuân thủ quy định). Chọn (A). Loại (B) obey, (C) follow, (D) observe vì đều là ngoại động từ đi thẳng với tân ngữ, không đi với \"with\"."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng (Tính từ)",
+      "q": "Full-time staff who have completed at least six months of service are _____ for the tuition assistance program.",
+      "opts": [
+        "capable",
+        "eligible",
+        "reliable",
+        "available"
+      ],
+      "ans": 1,
+      "exp": "Cấu trúc \"be eligible for + phúc lợi/chương trình\" nghĩa là \"đủ điều kiện hưởng\". Chọn \"eligible\" (B). Loại (A) \"capable\" đi với \"of\", (C) \"reliable\" (đáng tin cậy - sai nghĩa), (D) \"available\" (có sẵn/rảnh - không khớp ngữ cảnh tiêu chuẩn thâm niên 6 tháng)."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng (Động từ)",
+      "q": "The company will _____ employees for reasonable meal and lodging expenses incurred during business travel.",
+      "opts": [
+        "refund",
+        "donate",
+        "reimburse",
+        "deposit"
+      ],
+      "ans": 2,
+      "exp": "Cấu trúc \"reimburse somebody for expenses\" là cụm cực kỳ quen thuộc trong TOEIC, nghĩa là \"hoàn trả công tác phí cho nhân viên\". Chọn (C). Loại (A) \"refund\" dùng cho hoàn tiền mua hàng trả lại cho khách, (B) quyên góp, (D) gửi tiền/đặt cọc."
+    },
+    {
+      "num": 4,
+      "tag": "Từ vựng (Danh từ)",
+      "q": "After two hours of negotiation, both labor representatives and management reached a _____ on overtime pay.",
+      "opts": [
+        "proposal",
+        "deadline",
+        "hesitation",
+        "consensus"
+      ],
+      "ans": 3,
+      "exp": "Cụm cố định \"reach a consensus on something\" nghĩa là \"đạt được sự đồng thuận về vấn đề gì\". Chọn \"consensus\" (D). Loại (A) đề xuất (dùng với submit/review), (B) hạn chót (dùng với meet/miss), (C) sự do dự."
+    },
+    {
+      "num": 5,
+      "tag": "Từ vựng (Trạng từ)",
+      "q": "Customer service representatives are trained to respond _____ to all warranty claims received online.",
+      "opts": [
+        "promptly",
+        "hardly",
+        "barely",
+        "nearly"
+      ],
+      "ans": 0,
+      "exp": "Ngữ cảnh chăm sóc khách hàng cần trạng từ mang nghĩa \"nhanh chóng, kịp thời\". Chọn \"promptly\" (A). Loại (B) hầu như không, (C) vừa đủ/hầu như không, (D) gần như."
+    },
+    {
+      "num": 6,
+      "tag": "Từ vựng (Động từ)",
+      "q": "Next quarter, the finance board will _____ additional funds to upgrade cybersecurity across regional offices.",
+      "opts": [
+        "postpone",
+        "allocate",
+        "cancel",
+        "withdraw"
+      ],
+      "ans": 1,
+      "exp": "Cụm \"allocate funds to + V/N\" nghĩa là \"phân bổ ngân sách cho hạng mục nào đó\". Chọn \"allocate\" (B). Loại (A) trì hoãn, (C) hủy bỏ, (D) rút lui/rút tiền."
+    },
+    {
+      "num": 7,
+      "tag": "Từ vựng (Tính từ)",
+      "q": "Attendance at Friday’s fire safety drill is _____ for all personnel working inside the main building.",
+      "opts": [
+        "optional",
+        "frequent",
+        "mandatory",
+        "temporary"
+      ],
+      "ans": 2,
+      "exp": "Diễn tập an toàn phòng cháy chữa cháy cho toàn bộ nhân viên trong tòa nhà mang tính \"bắt buộc\". Chọn \"mandatory\" (C = required). Loại (A) tùy chọn, (B) thường xuyên, (D) tạm thời."
+    },
+    {
+      "num": 8,
+      "tag": "Từ vựng (Động từ)",
+      "q": "The warehouse director decided to _____ a barcode tracking system to reduce misplaced shipments.",
+      "opts": [
+        "attend",
+        "contain",
+        "remain",
+        "implement"
+      ],
+      "ans": 3,
+      "exp": "Cụm \"implement a system/policy\" nghĩa là \"triển khai, áp dụng một hệ thống/chính sách\". Chọn \"implement\" (D). Loại (A) tham dự, (B) chứa đựng, (C) duy trì/vẫn còn (nội động từ)."
+    }
+  ],
+  "paraphrases": []
+}

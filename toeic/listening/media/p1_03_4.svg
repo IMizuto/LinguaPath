@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" width="480" height="280">
+<defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f1f5f9"/><stop offset="100%" stop-color="#e2e8f0"/></linearGradient></defs>
+<rect width="480" height="280" fill="url(#w)"/><rect y="196" width="480" height="84" fill="#cbd5e1"/><line x1="0" y1="196" x2="480" y2="196" stroke="#cbd5e1" stroke-width="2"/>
+<rect x="260" y="24" width="190" height="106" rx="5" fill="#ffffff" stroke="#475569" stroke-width="4"/>
+<rect x="278" y="42" width="154" height="12" rx="2" fill="#0ea5e9"/>
+<rect x="278" y="64" width="70" height="48" rx="3" fill="#e0f2fe"/><rect x="358" y="64" width="74" height="12" rx="2" fill="#94a3b8"/>
+<rect x="358" y="84" width="60" height="10" rx="2" fill="#cbd5e1"/><rect x="358" y="102" width="68" height="10" rx="2" fill="#cbd5e1"/>
+<path d="M294 114 C294 102 338 102 338 114 L342 162 L290 162 Z" fill="#2563eb"/>
+<circle cx="316" cy="84" r="16" fill="#f5cba7"/><path d="M300 84 C300 64 332 64 334 88 Z" fill="#3f2718"/>
+<path d="M334 122 L366 102 L371 110 L338 132 Z" fill="#2563eb"/>
+<polygon points="282,158 350,158 342,232 290,232" fill="#92400e"/>
+<rect x="274" y="152" width="84" height="10" rx="3" fill="#78350f"/>
+<path d="M316 152 L316 138 L324 134" fill="none" stroke="#1e293b" stroke-width="2.5"/>
+
+<path d="M42 176 C42 164 82 164 82 176 L84 214 L40 214 Z" fill="#475569"/>
+<circle cx="62" cy="152" r="14" fill="#1e293b"/>
+<rect x="40" y="192" width="44" height="28" rx="5" fill="#334155"/>
+<path d="M104 176 C104 164 144 164 144 176 L146 214 L102 214 Z" fill="#0f766e"/>
+<circle cx="124" cy="152" r="14" fill="#451a03"/>
+<rect x="102" y="192" width="44" height="28" rx="5" fill="#334155"/>
+<path d="M166 176 C166 164 206 164 206 176 L208 214 L164 214 Z" fill="#7c3aed"/>
+<circle cx="186" cy="152" r="14" fill="#1e293b"/>
+<rect x="164" y="192" width="44" height="28" rx="5" fill="#334155"/>
+<path d="M72 214 C72 202 112 202 112 214 L114 252 L70 252 Z" fill="#b45309"/>
+<circle cx="92" cy="190" r="14" fill="#3f2718"/>
+<rect x="70" y="230" width="44" height="28" rx="5" fill="#334155"/>
+<path d="M136 214 C136 202 176 202 176 214 L178 252 L134 252 Z" fill="#0369a1"/>
+<circle cx="156" cy="190" r="14" fill="#0f172a"/>
+<rect x="134" y="230" width="44" height="28" rx="5" fill="#334155"/>
+</svg>

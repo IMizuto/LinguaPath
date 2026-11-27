@@ -1,0 +1,128 @@
+{
+  "id": "tl_adv_04",
+  "order": 44,
+  "level": 4,
+  "part": "part2",
+  "partLabel": "Chặng 4 • Bẫy Part 2 (850+)",
+  "title": "Bẫy Part 2 • Câu Trần thuật Hàm ý, Phủ định & Câu hỏi Đuôi",
+  "subtitle": "Giải mã câu phàn nàn/nhận xét không có dấu hỏi và câu hỏi phủ định/đuôi tốc độ 1.15x",
+  "accent": "en-GB",
+  "defaultRate": 1.15,
+  "tips": "1) Với câu trần thuật (Statement), hãy xác định hàm ý (phàn nàn → đưa giải pháp; báo tin → phản hồi phù hợp). 2) Với câu hỏi phủ định ('Didn't you...?') và câu hỏi đuôi ('..., right?'), trả lời dựa theo SỰ THẬT (Yes = có làm, No = không làm), bỏ qua từ 'not' trong câu hỏi!",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Statement • Problem",
+      "accent": "en-GB",
+      "question": "The projector bulb in Conference Room B keeps flickering.",
+      "questionVi": "Bóng đèn máy chiếu ở Phòng họp B cứ nhấp nháy liên tục.",
+      "options": [
+        "I'll submit an urgent ticket to IT right now.",
+        "The conference lasted three full days.",
+        "No, I haven't planted the flower bulbs."
+      ],
+      "optionsVi": [
+        "Tôi sẽ gửi yêu cầu khẩn cho bộ phận CNTT ngay.",
+        "Hội nghị kéo dài trọn ba ngày.",
+        "Không, tôi chưa trồng mấy củ hoa."
+      ],
+      "ans": 0,
+      "exp": "Câu trần thuật nêu sự cố thiết bị → đáp án (A) đưa ngay hướng xử lý (gửi yêu cầu IT). Loại (B) bẫy lặp 'conference'; loại (C) bẫy đa nghĩa 'bulb' (bóng đèn vs củ hoa)."
+    },
+    {
+      "num": 2,
+      "qType": "Negative Question",
+      "accent": "en-AU",
+      "question": "Didn't the courier pick up the signed contracts an hour ago?",
+      "questionVi": "Chẳng phải nhân viên chuyển phát đã lấy các bản hợp đồng đã ký cách đây một tiếng rồi sao?",
+      "options": [
+        "He called to say he's stuck in bridge traffic.",
+        "Yes, we contracted a local catering firm.",
+        "I'll pick the blue folder instead."
+      ],
+      "optionsVi": [
+        "Anh ấy gọi báo đang bị kẹt xe ở khu cầu.",
+        "Vâng, ta đã ký hợp đồng với một đơn vị ẩm thực địa phương.",
+        "Tôi sẽ chọn bìa hồ sơ màu xanh thay thế."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) giải thích lý do anh ta chưa tới lấy hàng (đang kẹt xe). Loại (B) lặp 'contract'; loại (C) lặp 'pick'."
+    },
+    {
+      "num": 3,
+      "qType": "Tag Question",
+      "accent": "en-US",
+      "question": "The quarterly town hall starts at two o'clock, doesn't it?",
+      "questionVi": "Buổi họp toàn thể hàng quý bắt đầu lúc hai giờ, đúng không nhỉ?",
+      "options": [
+        "It's located right beside City Hall.",
+        "Actually, the CEO pushed it back by thirty minutes.",
+        "Two quarters make fifty cents."
+      ],
+      "optionsVi": [
+        "Nó nằm ngay bên cạnh Tòa thị chính.",
+        "Thực ra giám đốc điều hành đã lùi lại ba mươi phút.",
+        "Hai đồng hai mươi lăm xu là năm mươi xu."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) đính chính giờ bắt đầu mới ('pushed it back by thirty minutes'). Loại (A) bẫy lặp 'Hall'; loại (C) bẫy đa nghĩa 'quarter'."
+    },
+    {
+      "num": 4,
+      "qType": "Statement • Compliment/Update",
+      "accent": "en-GB",
+      "question": "I heard our Singapore branch exceeded its annual revenue target already.",
+      "questionVi": "Tôi nghe nói chi nhánh Singapore đã vượt chỉ tiêu doanh thu cả năm rồi.",
+      "options": [
+        "I haven't heard any noise from the hallway.",
+        "That explains why headquarters is sending them a bonus.",
+        "The flight to Singapore boards at Gate 12."
+      ],
+      "optionsVi": [
+        "Tôi chưa nghe thấy tiếng ồn nào từ hành lang.",
+        "Thảo nào trụ sở chính đang thưởng cho họ.",
+        "Chuyến bay đi Singapore lên cửa số 12."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) nối tiếp mạch thông tin tích cực ('Thảo nào trụ sở đang gửi tiền thưởng'). Loại (A) bẫy lặp 'heard'; loại (C) bẫy lặp 'Singapore'."
+    },
+    {
+      "num": 5,
+      "qType": "Negative Question",
+      "accent": "en-AU",
+      "question": "Wouldn't it be cheaper to lease the forklifts rather than buy them outright?",
+      "questionVi": "Thuê xe nâng chẳng phải sẽ rẻ hơn là mua đứt luôn sao?",
+      "options": [
+        "Our lease expires at the end of June.",
+        "No, the warehouse is on the west side.",
+        "Finance ran the numbers and reached the exact same conclusion."
+      ],
+      "optionsVi": [
+        "Hợp đồng thuê văn phòng của ta hết hạn cuối tháng Sáu.",
+        "Không, nhà kho nằm ở phía Tây.",
+        "Phòng tài chính đã tính toán và đi tới đúng kết luận đó."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) đồng tình với nhận định tài chính ('reached the exact same conclusion'). Loại (A) bẫy lặp từ 'lease' sai đối tượng; loại (B) trả lời lạc đề."
+    },
+    {
+      "num": 6,
+      "qType": "Statement • Implied Request",
+      "accent": "en-US",
+      "question": "We're running dangerously low on shipping labels in the mailroom.",
+      "questionVi": "Phòng văn thư sắp cạn sạch nhãn vận chuyển rồi đấy.",
+      "options": [
+        "I usually run three miles before breakfast.",
+        "The ship docks early tomorrow morning.",
+        "I placed a rush order with OfficeDirect an hour ago."
+      ],
+      "optionsVi": [
+        "Tôi thường chạy bộ ba dặm trước bữa sáng.",
+        "Con tàu cập cảng vào sáng sớm mai.",
+        "Một tiếng trước tôi đã đặt đơn hỏa tốc với OfficeDirect rồi."
+      ],
+      "ans": 2,
+      "exp": "Câu trần thuật báo sắp hết vật tư (hàm ý cần đặt thêm) → đáp án (C) trấn an đã đặt hàng gấp rồi ('placed a rush order'). Loại (A) bẫy 'run'; loại (B) bẫy 'ship'."
+    }
+  ]
+}

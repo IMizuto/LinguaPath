@@ -1,0 +1,133 @@
+{
+  "id": "tsw_s_q34_03",
+  "skill": "speaking",
+  "taskType": "sp_q34",
+  "code": "Q3–4",
+  "level": 3,
+  "targetBand": "160–190",
+  "title": "Tả tranh Q3–4 #3: Quầy Check-in Sân bay & Sân hiên Văn phòng",
+  "topic": "Du lịch Hàng không & Không gian Làm việc Mở",
+  "estMinutes": 8,
+  "guideVi": "Ở mức Band 160–190, hãy kết hợp mệnh đề quan hệ rút gọn (a traveler standing with a red suitcase) và câu dự đoán nhẹ nhàng ở cuối (They seem to be discussing a new project) để bài nói tự nhiên hơn.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Mô tả đầy đủ nhân vật chính, hành động và bối cảnh chung",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Dùng đúng thì hiện tại tiếp diễn và giới từ chỉ vị trí",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Phát âm rõ, câu mạch lạc và tận dụng trọn 30 giây",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q34_03_1",
+      "itemType": "sp_q34",
+      "label": "Q3 • Hành khách làm thủ tục check-in tại quầy sân bay",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "UK",
+      "image": "media/sw_p_05.svg",
+      "imageAlt": "Hành khách đứng cạnh vali kéo màu đỏ đang đưa hộ chiếu cho nhân viên hàng không tại quầy check-in sân bay có cửa kính lớn nhìn ra máy bay.",
+      "outlineSteps": [
+        "Bối cảnh chung: Sảnh làm thủ tục hiện đại tại nhà ga sân bay (a modern airport check-in terminal).",
+        "Hành động chính: Một hành khách đứng trước quầy đưa giấy tờ/thẻ lên máy bay cho nữ nhân viên hàng không mặc đồng phục xanh đậm đứng sau màn hình máy tính.",
+        "Chi tiết hành lý & hàng chờ: Chiếc vali kéo màu đỏ đặt ngay cạnh vị khách; phía bên phải có thêm một hành khách khác kéo vali màu xanh gần dây chắn hàng.",
+        "Hậu cảnh: Bảng thông tin chuyến bay treo phía trên và khung cửa kính lớn nhìn ra thân máy bay đỗ ngoài đường băng."
+      ],
+      "targetKeywords": [
+        "airport",
+        "check-in",
+        "counter",
+        "suitcase",
+        "agent",
+        "traveler",
+        "departure",
+        "airplane"
+      ],
+      "tipVi": "Tránh nhầm 'luggage' (không đếm được) với 'suitcase' (đếm được). Chú ý miêu tả chi tiết nổi bật qua cửa sổ kính: 'an airplane parked on the runway outside'.",
+      "keyPhrases": [
+        {
+          "en": "airport check-in counter",
+          "vi": "quầy làm thủ tục sân bay"
+        },
+        {
+          "en": "uniformed airline agent",
+          "vi": "nhân viên hàng không mặc đồng phục"
+        },
+        {
+          "en": "handing over travel documents",
+          "vi": "đang đưa giấy tờ đi lại"
+        },
+        {
+          "en": "red rolling suitcase",
+          "vi": "chiếc vali kéo màu đỏ"
+        },
+        {
+          "en": "overhead departure board",
+          "vi": "bảng thông tin khởi hành treo phía trên"
+        }
+      ],
+      "sample": "This photograph depicts a busy check-in area inside a modern airport terminal. On the left, a uniformed airline agent stands behind a blue check-in counter equipped with a computer monitor. Across from her, a traveler wearing a teal shirt is handing over a passport or boarding pass, with a red rolling suitcase resting beside him. Behind a queue barrier on the right, another passenger is wheeling a blue suitcase forward. Overhead, digital departure boards are displayed, and through the wide glass windows in the background, an airplane can be seen parked outside.",
+      "sampleVi": "Bức ảnh mô tả khu vực làm thủ tục nhộn nhịp bên trong một nhà ga sân bay hiện đại. Bên trái, một nhân viên hàng không mặc đồng phục đứng sau quầy check-in màu xanh có trang bị màn hình máy tính. Đối diện cô ấy, một hành khách mặc áo xanh ngọc đang đưa hộ chiếu hoặc thẻ lên máy bay, bên cạnh là chiếc vali kéo màu đỏ. Phía sau dải dây chắn hàng bên phải, một hành khách khác đang kéo vali xanh tiến lên. Phía trên treo bảng thông tin chuyến bay điện tử, và qua lớp cửa kính lớn ở hậu cảnh có thể thấy một chiếc máy bay đang đỗ bên ngoài."
+    },
+    {
+      "itemId": "tsw_s_q34_03_2",
+      "itemType": "sp_q34",
+      "label": "Q4 • Hai đồng nghiệp trao đổi bên laptop ngoài sân hiên văn phòng",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "US",
+      "image": "media/sw_p_06.svg",
+      "imageAlt": "Hai đồng nghiệp nam và nữ ngồi dưới ô che nắng ngoài sân hiên có cây xanh cạnh tòa nhà văn phòng kính, cùng thảo luận bên chiếc laptop mở.",
+      "outlineSteps": [
+        "Bối cảnh chung: Hai đồng nghiệp đang làm việc cùng nhau tại sân hiên ngoài trời nhiều cây xanh cạnh tòa nhà văn phòng.",
+        "Hành động chính: Một phụ nữ mặc áo đỏ bên trái và một người đàn ông mặc áo xanh bên phải ngồi đối diện quanh bàn tròn dưới chiếc ô lớn màu xanh ngọc, cùng nhìn vào chiếc laptop đang mở.",
+        "Chi tiết đồ vật: Trên bàn có laptop bạc, sổ tay vàng và hai ly đồ uống; chiếc túi đeo chéo màu nâu đặt cạnh ghế bên trái.",
+        "Hậu cảnh & ấn tượng: Tòa nhà văn phòng ốp kính ở bên trái, hàng cây xanh tươi phía sau bên phải; bầu không khí làm việc cởi mở và thoải mái."
+      ],
+      "targetKeywords": [
+        "colleagues",
+        "laptop",
+        "umbrella",
+        "terrace",
+        "discussing",
+        "table",
+        "trees",
+        "office"
+      ],
+      "tipVi": "Dùng cấu trúc 'facing each other' (ngồi đối diện nhau) và 'shaded by a large umbrella' (được che mát dưới chiếc ô lớn) để diễn đạt cảnh ngoài trời rất tự nhiên.",
+      "keyPhrases": [
+        {
+          "en": "outdoor office terrace",
+          "vi": "sân hiên ngoài trời của văn phòng"
+        },
+        {
+          "en": "shaded by a large teal umbrella",
+          "vi": "được che mát dưới chiếc ô lớn màu xanh ngọc"
+        },
+        {
+          "en": "reviewing work on an open laptop",
+          "vi": "cùng xem xét công việc trên laptop mở"
+        },
+        {
+          "en": "glass office facade",
+          "vi": "mặt tiền kính của tòa nhà văn phòng"
+        },
+        {
+          "en": "relaxed, collaborative atmosphere",
+          "vi": "bầu không khí thoải mái và hợp tác"
+        }
+      ],
+      "sample": "This picture shows two colleagues having a discussion on a sunny outdoor office terrace. Seated facing each other at a white patio table under a large teal sun umbrella, a woman in a red shirt and a man in a blue shirt are both looking closely at an open laptop between them. On the table, there are two drinks and a yellow notebook, while a brown messenger bag rests beside the woman's chair. A modern glass office building stands on the left, and lush green trees and bushes fill the park-like background on the right. The atmosphere appears relaxed and collaborative.",
+      "sampleVi": "Bức tranh cho thấy hai đồng nghiệp đang thảo luận trên sân hiên ngoài trời đầy nắng của một văn phòng. Ngồi đối diện nhau quanh chiếc bàn trắng dưới tán ô lớn màu xanh ngọc, người phụ nữ mặc áo đỏ và người đàn ông mặc áo xanh đều đang chăm chú nhìn vào chiếc laptop mở đặt ở giữa. Trên bàn có hai ly đồ uống cùng một cuốn sổ màu vàng, trong khi chiếc túi đeo chéo màu nâu đặt cạnh ghế của người phụ nữ. Một tòa nhà văn phòng hiện đại bằng kính nằm ở bên trái, còn phía sau bên phải là hàng cây và bụi cỏ xanh tươi như công viên. Bầu không khí trông rất thoải mái và gắn kết."
+    }
+  ]
+}

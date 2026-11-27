@@ -1,0 +1,141 @@
+{
+  "id": "tr_p7d_10",
+  "order": 30,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 10: Quy định công tác phí & Email giải trình",
+  "subtitle": "Đối chiếu hạn mức lưu trú theo nhóm thành phố (Tier-1) và thời hạn nộp chứng từ điện tử trên hồ sơ công tác Chicago.",
+  "timeLimitMin": 10,
+  "tips": "Trong dạng Memo chính sách ↔ Email thanh toán, hãy chú ý danh sách ngoại lệ (như nhóm thành phố Tier-1: New York, Chicago, San Francisco, Boston) và mốc ngày hoàn thành chuyến công tác để kiểm tra có đúng hạn hay không.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Quy định nội bộ (Memo)",
+      "genre": "memo",
+      "meta": {
+        "to": "All Department Heads & Traveling Staff",
+        "from": "Finance & Accounting Department, Veloce Manufacturing",
+        "date": "January 10",
+        "subject": "Updated Travel Reimbursement Policy (Effective February 1)"
+      },
+      "paragraphs": [
+        "Beginning February 1, all business travel expense reports must be submitted electronically through the Expensify Pro portal within 10 business days of returning from a trip. Paper reimbursement forms will no longer be accepted.",
+        "Updated Daily Expense Caps:\n• Lodging: Up to $220 per night in standard cities; up to $285 per night in Tier-1 metro areas (New York, Chicago, San Francisco, and Boston).\n• Meals: Up to $75 per day (alcoholic beverages are non-reimbursable).\n• Ground Transportation: Economy rideshare, airport taxis, and commuter rail fares are fully reimbursed with digital receipts. Rental cars require prior written approval from a Vice President.",
+        "Exceptions: Any single expense exceeding the applicable daily cap must be accompanied by a brief written justification signed by the employee's department director."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email giải trình",
+      "genre": "email",
+      "meta": {
+        "to": "reimbursements@velocemfg.com",
+        "from": "Carlos Mendez <c.mendez@velocemfg.com>",
+        "date": "February 19",
+        "subject": "Expense Report #EX-309 — Chicago Trade Show"
+      },
+      "paragraphs": [
+        "Hello Accounting Team,",
+        "I have just uploaded digital Expense Report #EX-309 along with all itemized receipts for my three-night trip to Chicago (February 11–14) to attend the Midwest Industrial Expo.",
+        "I am writing to flag one item that exceeds our daily threshold: my room at the Downtown Plaza Hotel cost $310 per night. Because the citywide expo filled every standard-rate hotel within five miles of the convention center, that was the lowest available corporate rate. As required, my Sales Director, Patricia Vance, has reviewed and signed the attached justification letter.",
+        "All other costs fall comfortably within policy—I relied strictly on commuter trains and airport taxis rather than renting a car, and my daily meal receipts averaged under $65 (excluding Thursday's client dinner, which was billed separately to the Marketing budget).",
+        "Best regards,\nCarlos Mendez\nRegional Sales Lead"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the memo, what must an employee obtain before renting a car on a business trip?",
+      "opts": [
+        "A corporate discount voucher from Expensify Pro",
+        "Three competing price quotes from rental agencies",
+        "Prior written permission from a vice president",
+        "A signed receipt from the Marketing department"
+      ],
+      "ans": 2,
+      "exp": "Văn bản 1 (mục Ground Transportation) quy định: 'Rental cars require prior written approval from a Vice President.' → Phải có phê duyệt bằng văn bản trước từ một Phó Chủ tịch."
+    },
+    {
+      "num": 2,
+      "tag": "Ý chính",
+      "q": "Why did Mr. Mendez contact the accounting team?",
+      "opts": [
+        "To request a paper reimbursement form for his trade show expenses",
+        "To explain a lodging charge that exceeded the company's daily cap",
+        "To ask whether a client dinner can be paid by the Sales budget",
+        "To complain about slow reimbursement processing in Expensify Pro"
+      ],
+      "ans": 1,
+      "exp": "Văn bản 2 (đoạn 3) nêu mục đích viết thư: 'I am writing to flag one item that exceeds our daily threshold: my room at the Downtown Plaza Hotel cost $310 per night' kèm thư giải trình đã được Giám đốc kinh doanh ký duyệt."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"threshold\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "limit",
+        "duration",
+        "penalty",
+        "refund"
+      ],
+      "ans": 0,
+      "exp": "Trong câu 'exceeds our daily threshold' (vượt quá ngưỡng chi phí hằng ngày — tương ứng với 'daily cap' ở Văn bản 1), 'threshold' đồng nghĩa với 'limit' (hạn mức/giới hạn)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "By how much per night did Mr. Mendez's hotel rate exceed Veloce Manufacturing's lodging cap for Chicago?",
+      "opts": [
+        "$90",
+        "$75",
+        "$35",
+        "$25"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 xếp Chicago vào nhóm Tier-1 metro areas với hạn mức lưu trú tối đa $285/đêm (chú ý tránh bẫy $220 của thành phố thường!). Văn bản 2 cho biết giá phòng của ông Mendez là $310/đêm → Mức vượt trần là $310 − $285 = $25/đêm."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What can be concluded about Expense Report #EX-309?",
+      "opts": [
+        "It requires approval from a Vice President because of local transportation.",
+        "It was submitted within the required 10-business-day period.",
+        "It will be rejected because paper forms are no longer accepted.",
+        "It exceeded the company's daily limit for meals."
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 yêu cầu nộp báo cáo điện tử trong vòng 10 ngày làm việc sau khi trở về. Văn bản 2 cho biết chuyến đi kết thúc ngày 14/2 và ông Mendez đã tải báo cáo điện tử lên ngày 19/2 (chỉ sau 3–4 ngày làm việc) → Hoàn toàn đúng hạn quy định."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "daily expense cap",
+      "answer": "daily threshold / limit",
+      "vi": "trần chi phí hằng ngày ↔ ngưỡng/hạn mức hằng ngày"
+    },
+    {
+      "text": "prior written approval",
+      "answer": "prior written permission",
+      "vi": "phê duyệt bằng văn bản trước"
+    },
+    {
+      "text": "submitted electronically through the portal",
+      "answer": "uploaded digital Expense Report",
+      "vi": "nộp điện tử qua cổng hệ thống ↔ tải lên báo cáo chi phí số"
+    },
+    {
+      "text": "within 10 business days of returning",
+      "answer": "returned Feb 14, uploaded Feb 19",
+      "vi": "trong vòng 10 ngày làm việc sau khi về"
+    },
+    {
+      "text": "Tier-1 metro areas (Chicago: $285/night)",
+      "answer": "exceeded cap by $25 ($310 vs $285)",
+      "vi": "đô thị nhóm 1 Chicago $285/đêm ↔ vượt $25"
+    }
+  ]
+}

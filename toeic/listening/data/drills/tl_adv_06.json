@@ -1,0 +1,198 @@
+{
+  "id": "tl_adv_06",
+  "order": 46,
+  "level": 4,
+  "part": "part3",
+  "partLabel": "Chặng 4 • Bẫy P3–4 (1.2x)",
+  "title": "Hội thoại 3 người 1.2x • Hợp đồng Bản quyền & Ngân sách APAC",
+  "subtitle": "Thẩm định điều khoản pháp lý và tái phân bổ ngân sách tiếp thị đa quốc gia ở 1.2x",
+  "accent": "en-GB",
+  "defaultRate": 1.2,
+  "tips": "Đề 850–990 thường lồng phép tính nhẹ hoặc điều kiện phân bổ ngân sách vào bảng Graphic. Nghe thật kỹ xem hạng mục nào bị cắt giảm (reallocate/shift) sang hạng mục nào.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Hội thoại 3 người: Thẩm định điều khoản bản quyền phần mềm",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Before we sign the software licensing deal with Novus Data, did everyone read the markups our outside counsel sent over?",
+          "vi": "Trước khi ký thỏa thuận cấp phép phần mềm với Novus Data, mọi người đã đọc các chỉnh sửa mà luật sư bên ngoài gửi sang chưa?"
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-AU",
+          "en": "I did. Overall the pricing structure is solid, except for the auto-renewal clause that locks us in for another three years unless we give ninety days' notice.",
+          "vi": "Tôi đọc rồi. Nhìn chung khung giá rất tốt, chỉ trừ điều khoản tự động gia hạn trói buộc ta thêm ba năm nữa nếu không báo trước chín mươi ngày."
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-US",
+          "en": "Legal flagged clause nine before we even finished the first draft.",
+          "vi": "Phòng pháp chế đã đánh dấu cảnh báo điều khoản số chín ngay cả trước khi ta hoàn tất bản thảo đầu tiên."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Right—and they also want a cap on annual renewal hikes at four percent instead of leaving it open-ended.",
+          "vi": "Đúng vậy—họ còn muốn đặt trần mức tăng giá gia hạn hằng năm ở mức bốn phần trăm thay vì để bỏ ngỏ."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-AU",
+          "en": "That's completely reasonable. Novus is eager to close before quarter-end next Friday, so we have solid leverage. I'll send them our counter-proposal today with a one-year renewal option and the four-percent cap.",
+          "vi": "Hoàn toàn hợp lý. Novus đang rất nóng lòng chốt hợp đồng trước cuối quý vào thứ Sáu tuần tới, nên ta có lợi thế đàm phán vững. Hôm nay tôi sẽ gửi họ đề xuất phản hồi gồm gia hạn một năm và trần bốn phần trăm."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What concern does Man 1 raise about the draft contract?",
+          "opts": [
+            "The initial licensing fee is above market rate.",
+            "Data storage servers are located overseas.",
+            "Technical support hours are not clearly defined.",
+            "The automatic renewal period is overly restrictive."
+          ],
+          "ans": 3,
+          "exp": "Man 1 nêu lo ngại về 'the auto-renewal clause that locks us in for another three years' → thời hạn tự động gia hạn quá bó buộc. Chọn (D)."
+        },
+        {
+          "num": 2,
+          "q": "What does Man 2 imply when he says, \"Legal flagged clause nine before we even finished the first draft\"?",
+          "opts": [
+            "The legal team delayed the negotiation unnecessarily.",
+            "The problematic clause was recognized as a risk early on.",
+            "Clause nine was accidentally deleted from the draft.",
+            "Outside counsel did not read the latest revision."
+          ],
+          "ans": 1,
+          "exp": "Pháp chế đã đánh dấu cảnh báo ngay từ trước khi xong bản nháp đầu → điều khoản gây rủi ro này đã được nhận diện từ rất sớm. Chọn (B)."
+        },
+        {
+          "num": 3,
+          "q": "Why does Man 1 believe Novus Data is likely to accept their counter-proposal?",
+          "opts": [
+            "The speakers agreed to prepay for three years.",
+            "Another software vendor offered a lower price.",
+            "Novus Data wants to finalize the deal before the quarter ends.",
+            "Novus Data recently changed its legal counsel."
+          ],
+          "ans": 2,
+          "exp": "Man 1 nói: 'Novus is eager to close before quarter-end next Friday, so we have solid leverage' → đối tác muốn chốt xong trước cuối quý. Chọn (C)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Hội thoại 3 người: Phân bổ Ngân sách Ra mắt APAC",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "APAC Launch Budget Allocation",
+        "headers": [
+          "Market",
+          "Primary Channel",
+          "Budget ($K)"
+        ],
+        "rows": [
+          [
+            "Tokyo",
+            "Transit Billboards",
+            "$85K"
+          ],
+          [
+            "Singapore",
+            "Digital Video Ads",
+            "$60K"
+          ],
+          [
+            "Seoul",
+            "Influencer Events",
+            "$75K"
+          ],
+          [
+            "Sydney",
+            "Print Magazines",
+            "$40K"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "Let's review our Asia-Pacific product launch budget before we submit it to the CFO.",
+          "vi": "Hãy rà lại ngân sách ra mắt sản phẩm khu vực châu Á – Thái Bình Dương trước khi trình lên giám đốc tài chính."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Looking at our pre-order analytics, engagement in Singapore is surging—triple what we projected—whereas print-ad conversions in our smallest budget market have been nearly flat.",
+          "vi": "Nhìn số liệu đặt trước thì tương tác ở Singapore đang tăng vọt—gấp ba lần dự báo—trong khi chuyển đổi từ quảng cáo báo in ở thị trường ngân sách nhỏ nhất gần như đi ngang."
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-AU",
+          "en": "I saw those numbers too. Rather than asking the CFO for extra funds, why not shift fifteen thousand dollars out of the print magazine allocation and put it straight into Singapore's digital video campaign?",
+          "vi": "Tôi cũng thấy số liệu đó. Thay vì xin CFO cấp thêm tiền, sao không chuyển mười lăm nghìn đô la từ khoản tạp chí in sang thẳng chiến dịch video số ở Singapore?"
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "Keeping total spending unchanged will definitely win faster sign-off. Let's update the summary chart and leave Tokyo and Seoul untouched.",
+          "vi": "Giữ nguyên tổng chi tiêu chắc chắn sẽ được duyệt nhanh hơn. Hãy cập nhật bảng tóm tắt và giữ nguyên Tokyo cùng Seoul."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Look at the graphic. Which market's budget is going to be reduced?",
+          "opts": [
+            "Sydney",
+            "Singapore",
+            "Seoul",
+            "Tokyo"
+          ],
+          "ans": 0,
+          "exp": "Họ quyết định rút $15K khỏi 'the print magazine allocation' (thị trường ngân sách nhỏ nhất). Tra bảng: Print Magazines ($40K) thuộc về 'Sydney'. Chọn (A)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. What will Singapore's revised budget be after the shift?",
+          "opts": [
+            "$45K",
+            "$60K",
+            "$90K",
+            "$75K"
+          ],
+          "ans": 3,
+          "exp": "Ngân sách gốc của Singapore là $60K, cộng thêm $15K chuyển từ Sydney → '$75K'. Chọn (D)."
+        },
+        {
+          "num": 6,
+          "q": "Why does Man 1 favor reallocating funds instead of requesting more money?",
+          "opts": [
+            "Print magazines already missed their deadline.",
+            "It will speed up approval from the CFO.",
+            "Currency exchange rates are unfavorable.",
+            "Tokyo's billboard vendor offered a rebate."
+          ],
+          "ans": 1,
+          "exp": "Man 1 giải thích: 'Keeping total spending unchanged will definitely win faster sign-off' → giúp được CFO phê duyệt nhanh hơn. Chọn (B)."
+        }
+      ]
+    }
+  ]
+}

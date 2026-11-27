@@ -1,0 +1,93 @@
+{
+  "id": "tsw_s_q11_03",
+  "skill": "speaking",
+  "taskType": "sp_q11",
+  "code": "Q11",
+  "level": 4,
+  "targetBand": "180–200",
+  "title": "Nêu quan điểm Q11 #3: Thăng chức theo Hiệu suất hay Thâm niên?",
+  "topic": "Quản trị Nhân sự & Đánh giá Năng lực",
+  "estMinutes": 8,
+  "guideVi": "Với dạng Đồng ý / Không đồng ý (Agree/Disagree), hãy khẳng định ngay 'I completely agree that...' ở câu đầu, tránh lạc sang kể chuyện dài dòng không liên quan đến tiêu chí thăng chức.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Nêu lập trường dứt khoát và giữ vững cấu trúc PREP/OREO",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Trình bày 2 lý do thuyết phục kèm ví dụ thực tế rõ ràng",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Từ vựng học thuật chính xác, ngữ pháp đa dạng và trôi chảy 60s",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q11_03_1",
+      "itemType": "sp_q11",
+      "label": "Q11 • Promoting employees based on performance vs. seniority",
+      "prepSec": 45,
+      "respSec": 60,
+      "accent": "US",
+      "promptEn": "Do you agree or disagree with the following statement? Companies should promote employees based on their actual work performance rather than the number of years they have worked for the organization. Use specific reasons and examples to support your opinion.",
+      "promptVi": "Bạn đồng ý hay không đồng ý với nhận định sau? Doanh nghiệp nên thăng chức cho nhân viên dựa trên hiệu suất công việc thực tế thay vì số năm làm việc tại tổ chức. Hãy dùng lý do và ví dụ cụ thể để chứng minh.",
+      "outline": [
+        {
+          "step": "1. Point (Lập trường — 8s)",
+          "cue": "I strongly agree that promotions should be based primarily on measurable performance rather than seniority."
+        },
+        {
+          "step": "2. Reason 1 + Example (Lý do 1 — 22s)",
+          "cue": "Thúc đẩy động lực & đổi mới: Nhân viên trẻ tài năng có động lực cống hiến và ở lại thay vì chuyển sang đối thủ."
+        },
+        {
+          "step": "3. Reason 2 + Example (Lý do 2 — 20s)",
+          "cue": "Đặt đúng người lãnh đạo cho hiệu quả doanh nghiệp: Thâm niên lâu không tự động đồng nghĩa năng lực quản lý nhóm tốt."
+        },
+        {
+          "step": "4. Point Restated (Chốt lại — 10s)",
+          "cue": "Khen thưởng thâm niên bằng phúc lợi/thưởng riêng, nhưng vị trí quản lý phải thuộc về người đạt hiệu suất cao nhất."
+        }
+      ],
+      "targetKeywords": [
+        "performance",
+        "seniority",
+        "promotion",
+        "motivation",
+        "talent",
+        "leadership",
+        "merit"
+      ],
+      "tipVi": "Cụm kết sắc bén 'loyalty can be rewarded through bonuses, but leadership roles must be earned through merit' tạo ấn tượng tư duy phản biện rất cao cho Band 190–200.",
+      "keyPhrases": [
+        {
+          "en": "measurable work performance",
+          "vi": "hiệu suất công việc có thể đo lường"
+        },
+        {
+          "en": "retain high-performing talent",
+          "vi": "giữ chân nhân tài hiệu suất cao"
+        },
+        {
+          "en": "years of service",
+          "vi": "số năm công tác / thâm niên"
+        },
+        {
+          "en": "foster a culture of innovation",
+          "vi": "nuôi dưỡng văn hóa đổi mới"
+        },
+        {
+          "en": "earned through merit",
+          "vi": "đạt được dựa trên thực lực"
+        }
+      ],
+      "sample": "I completely agree that companies should promote employees based on actual work performance rather than years of service. First, merit-based promotion motivates staff at every level and helps organizations retain top talent. If capable younger employees see that hard work and creative problem-solving are genuinely rewarded, they stay energized and committed instead of leaving for competitors. For example, at a marketing agency where I interned, an analyst who redesigned the client reporting process was promoted within two years, which inspired the entire department. Second, seniority alone does not guarantee strong leadership skills. Placing the most effective performer in a management role ensures better decision-making and higher team productivity. While long-term loyalty should certainly be recognized through bonuses or extra leave, leadership promotions must always be earned through performance.",
+      "sampleVi": "Tôi hoàn toàn đồng ý rằng doanh nghiệp nên thăng chức cho nhân viên dựa trên hiệu suất công việc thực tế thay vì số năm công tác. Thứ nhất, thăng chức theo thực lực tạo động lực cho nhân sự ở mọi cấp và giúp tổ chức giữ chân nhân tài hàng đầu. Nếu nhân viên trẻ có năng lực thấy sự nỗ lực và tư duy giải quyết vấn đề sáng tạo được ghi nhận xứng đáng, họ sẽ luôn nhiệt huyết gắn bó thay vì rời sang đối thủ. Ví dụ, tại công ty tiếp thị nơi tôi từng thực tập, một chuyên viên phân tích tái thiết kế quy trình báo cáo khách hàng đã được thăng chức chỉ sau hai năm, truyền cảm hứng mạnh mẽ cho cả phòng ban. Thứ hai, thâm niên đơn thuần không đảm bảo kỹ năng lãnh đạo giỏi. Đặt người đạt hiệu suất tốt nhất vào vị trí quản lý giúp quyết định sáng suốt hơn và nâng cao năng suất tập thể. Dù sự gắn bó lâu năm rất đáng trân trọng qua tiền thưởng hay ngày phép, việc bổ nhiệm lãnh đạo luôn phải dựa trên hiệu quả thực tế."
+    }
+  ]
+}

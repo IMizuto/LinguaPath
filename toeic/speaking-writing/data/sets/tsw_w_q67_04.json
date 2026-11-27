@@ -1,0 +1,210 @@
+{
+  "id": "tsw_w_q67_04",
+  "skill": "writing",
+  "taskType": "wr_q67",
+  "code": "Q6–7",
+  "level": 3,
+  "targetBand": "160–190",
+  "title": "Q6–7 • Bộ 04: Tuyển dụng Nhân sự & Đào tạo Nội bộ",
+  "topic": "Mời phỏng vấn ứng viên & Tập huấn phần mềm doanh nghiệp",
+  "estMinutes": 20,
+  "guideVi": "Thực hành kỹ năng viết email trong bối cảnh nhân sự (HR): xác nhận lịch phỏng vấn chuyên nghiệp, hỏi chi tiết chuẩn bị và trao đổi với quản lý về khóa đào tạo kỹ năng mới.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Hoàn thành đầy đủ 2–3 nhiệm vụ yêu cầu trong đề (Directions)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục email thương mại chuẩn (Chào – Nội dung – Kết) & độ dài 80–170 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Giọng văn chuyên nghiệp, từ vựng chuẩn xác và liên kết mạch lạc",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q67_04_1",
+      "itemType": "wr_q67",
+      "label": "Email 1 • Xác nhận lịch phỏng vấn ứng viên",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Talent Acquisition <hr@solarisretail.com>",
+        "to": "Minh Nguyen <m.nguyen@mailbox.com>",
+        "subject": "Interview Invitation — Project Coordinator Position",
+        "sent": "Monday, October 7, 10:00 A.M."
+      },
+      "emailBody": "Dear Minh Nguyen,\n\nThank you for applying for the Project Coordinator position at Solaris Retail. Our hiring panel was impressed with your resume and would like to invite you for an interview on Thursday, October 17, at 10:30 A.M. at our downtown headquarters.\n\nPlease reply by Wednesday to confirm your availability and let us know if you have any questions before your visit.\n\nBest regards,\nRachel Lin, HR Specialist",
+      "directionsEn": "Respond to the e-mail as if you are the job applicant. In your e-mail, confirm your attendance, ask TWO questions about the interview format and required documents, and thank the hiring team.",
+      "directionsVi": "Trả lời email với vai trò ứng viên dự tuyển. Hãy xác nhận tham gia buổi phỏng vấn, hỏi HAI câu về hình thức phỏng vấn cũng như hồ sơ cần mang theo, và bày tỏ lời cảm ơn đội ngũ tuyển dụng.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Xác nhận tham dự đúng hẹn sáng thứ Năm 17/10 lúc 10:30",
+          "checkType": "info",
+          "hintEn": "I am pleased to confirm my availability for the interview on Thursday, October 17, at 10:30 A.M.",
+          "signals": [
+            "confirm",
+            "available",
+            "attend",
+            "october 17",
+            "10:30",
+            "pleased"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Hỏi câu 1 về hình thức / thời lượng phỏng vấn hoặc số người phỏng vấn",
+          "checkType": "question",
+          "hintEn": "Could you let me know how long the interview will last and whether there will be a practical exercise?",
+          "signals": [
+            "?",
+            "format",
+            "long",
+            "panel",
+            "assessment",
+            "test",
+            "expect"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Hỏi câu 2 về tài liệu, portfolio hoặc giấy tờ cần mang theo",
+          "checkType": "question",
+          "hintEn": "Should I bring printed copies of my portfolio, references, or identification?",
+          "signals": [
+            "?",
+            "bring",
+            "document",
+            "documents",
+            "portfolio",
+            "resume",
+            "references",
+            "copies"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Thể hiện thái độ chuyên nghiệp, nhiệt huyết bằng lời cảm ơn ngắn ở câu đầu và câu cuối, đồng thời tách rõ 2 câu hỏi để HR dễ trả lời.",
+      "keyPhrases": [
+        {
+          "en": "confirm my availability",
+          "vi": "xác nhận lịch rảnh tham dự"
+        },
+        {
+          "en": "interview format",
+          "vi": "hình thức phỏng vấn"
+        },
+        {
+          "en": "printed copies",
+          "vi": "bản in cứng"
+        },
+        {
+          "en": "list of references",
+          "vi": "danh sách người tham chiếu"
+        },
+        {
+          "en": "look forward to meeting",
+          "vi": "mong chờ được gặp gỡ"
+        }
+      ],
+      "sample": "Dear Ms. Lin,\n\nThank you very much for inviting me to interview for the Project Coordinator position at Solaris Retail. I sincerely appreciate the hiring panel's consideration and am pleased to confirm that I will attend on Thursday, October 17, at 10:30 A.M.\n\nTo prepare thoroughly for our meeting, could you kindly answer two brief questions? First, what will the format and expected duration of the interview be, and will there be a brief written task? Second, besides photo identification for building security, should I bring printed copies of my resume, project portfolio, and a list of professional references?\n\nThank you again for this opportunity. I look forward to meeting you and the team next Thursday.\n\nBest regards,\nMinh Nguyen",
+      "sampleVi": "Kính gửi chị Lin,\n\nXin chân thành cảm ơn chị đã mời tôi tham dự buổi phỏng vấn cho vị trí Điều phối viên Dự án tại Solaris Retail. Tôi rất trân trọng sự cân nhắc của hội đồng tuyển dụng và xin xác nhận sẽ có mặt đúng hẹn vào thứ Năm, ngày 17/10 lúc 10:30 sáng.\n\nĐể chuẩn bị chu đáo cho buổi gặp mặt, chị vui lòng giải đáp giúp hai câu hỏi ngắn sau được không? Thứ nhất, hình thức và thời lượng dự kiến của buổi phỏng vấn sẽ như thế nào, và có bài kiểm tra viết ngắn nào không? Thứ hai, ngoài giấy tờ tùy thân để qua cổng bảo vệ, tôi có cần mang theo bản in CV, hồ sơ dự án và danh sách người tham chiếu không?\n\nMột lần nữa xin cảm ơn quý công ty. Tôi rất mong được gặp chị và đội ngũ vào thứ Năm tới.\n\nTrân trọng,\nMinh Nguyen"
+    },
+    {
+      "itemId": "w_q67_04_2",
+      "itemType": "wr_q67",
+      "label": "Email 2 • Đăng ký & trao đổi về khóa đào tạo nội bộ",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Finance Director <h.ward@vertexcorp.com>",
+        "to": "Accounting Staff <accounting@vertexcorp.com>",
+        "subject": "Mandatory Training: CloudLedger 4.0 Software",
+        "sent": "Wednesday, October 23, 9:15 A.M."
+      },
+      "emailBody": "Dear Accounting Team,\n\nNext month we are migrating all financial reporting to CloudLedger 4.0. All team members must attend a two-day training workshop in November.\n\nWe will offer two sessions: November 5–6 and November 19–20. Please reply with your preferred dates and let me know if you need any software access or preparation materials beforehand.\n\nBest,\nHenry Ward",
+      "directionsEn": "Respond to the e-mail as if you are an accountant at Vertex Corp. In your e-mail, select ONE training session with a brief reason, make ONE request regarding preparation materials, and ask ONE question about the workshop.",
+      "directionsVi": "Trả lời email với tư cách nhân viên kế toán tại Vertex Corp. Hãy chọn MỘT đợt tập huấn kèm lý do ngắn, đưa ra MỘT yêu cầu về tài liệu chuẩn bị trước và hỏi MỘT câu về nội dung/lịch trình buổi học.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Chọn 1 trong 2 đợt tập huấn (5–6/11 hoặc 19–20/11) kèm lý do công việc",
+          "checkType": "info",
+          "hintEn": "I would like to attend the November 19–20 session because our monthly audit closes on November 8.",
+          "signals": [
+            "november",
+            "session",
+            "prefer",
+            "attend",
+            "because",
+            "audit",
+            "report"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Yêu cầu cấp tài khoản thử nghiệm hoặc tài liệu hướng dẫn trước buổi học",
+          "checkType": "request",
+          "hintEn": "Could you send the user manual and temporary login credentials beforehand?",
+          "signals": [
+            "manual",
+            "guide",
+            "materials",
+            "login",
+            "access",
+            "account",
+            "credentials",
+            "please"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Hỏi 1 câu về laptop cá nhân hoặc lịch học chi tiết trong 2 ngày",
+          "checkType": "question",
+          "hintEn": "Should participants bring their own company laptops to the training room?",
+          "signals": [
+            "?",
+            "laptop",
+            "computer",
+            "schedule",
+            "room",
+            "hours",
+            "bring"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Khi giải thích lý do chọn đợt tập huấn với sếp, hãy viện dẫn mốc công việc (ví dụ khóa sổ tháng hoặc kiểm toán) để tạo lý do chuyên nghiệp.",
+      "keyPhrases": [
+        {
+          "en": "training session",
+          "vi": "đợt tập huấn / khóa đào tạo"
+        },
+        {
+          "en": "monthly closing",
+          "vi": "kỳ khóa sổ hằng tháng"
+        },
+        {
+          "en": "user manual",
+          "vi": "tài liệu hướng dẫn sử dụng"
+        },
+        {
+          "en": "sandbox access",
+          "vi": "quyền truy cập môi trường thử nghiệm"
+        },
+        {
+          "en": "training schedule",
+          "vi": "lịch trình tập huấn"
+        }
+      ],
+      "sample": "Dear Mr. Ward,\n\nThank you for organizing the upcoming CloudLedger 4.0 training workshop. I would like to register for the November 19–20 session, as our team will be finalizing the monthly tax filings and client reconciliations during the first week of November.\n\nTo prepare effectively in advance, could IT please provide my temporary sandbox login credentials and a digital copy of the CloudLedger user manual by next Friday? Reviewing the new menu layout early will help me follow the exercises smoothly.\n\nIn addition, I have one quick question: should participants bring their own company laptops to the workshop, or will desktop workstations already be set up in the training room?\n\nThank you for your support.\n\nBest regards,\nSophia Patel\nSenior Accountant",
+      "sampleVi": "Kính gửi anh Ward,\n\nCảm ơn anh đã tổ chức khóa tập huấn phần mềm CloudLedger 4.0 sắp tới. Tôi xin đăng ký tham gia đợt ngày 19–20/11 vì trong tuần đầu tháng 11 nhóm tôi cần hoàn tất hồ sơ kê khai thuế tháng và đối soát khách hàng.\n\nĐể chuẩn bị hiệu quả trước buổi học, bộ phận IT có thể cấp giúp tôi tài khoản thử nghiệm tạm thời và bản mềm tài liệu hướng dẫn CloudLedger trước thứ Sáu tuần tới không? Việc xem trước giao diện mới sẽ giúp tôi theo kịp bài thực hành nhanh hơn.\n\nNgoài ra, tôi có một câu hỏi nhỏ: học viên có cần mang theo laptop công ty cá nhân tới buổi học không, hay phòng tập huấn đã bố trí sẵn máy tính để bàn rồi ạ?\n\nXin cảm ơn sự hỗ trợ của anh.\n\nTrân trọng,\nSophia Patel\nKế toán viên Cao cấp"
+    }
+  ]
+}

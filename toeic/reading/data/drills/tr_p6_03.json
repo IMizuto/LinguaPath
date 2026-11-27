@@ -1,0 +1,173 @@
+{
+  "id": "tr_p6_03",
+  "order": 9,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 03: Thư Tri ân Đối tác & Tin khai trương Kho vận",
+  "subtitle": "Thực chiến dạng Thư thương mại (Letter) và Bài báo kinh doanh (Article) chuẩn đề thi ETS.",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Trong bài báo (Article), hãy chú ý thì của các động từ xung quanh (hiện tại hay quá khứ) và mối liên hệ giữa chủ ngữ ở câu trước với đại từ/danh từ ở câu Điền câu.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thư thương mại",
+      "genre": "letter",
+      "meta": {
+        "title": "BRIGHTLEAF PACKAGING INC.",
+        "subtitle": "July 14 • Dear Ms. Lindqvist,"
+      },
+      "paragraphs": [
+        "On behalf of everyone at Brightleaf Packaging, thank you for your continued trust in our company. Over the past five years, we [1] closely with Nordic Bakery Group to supply recyclable cartons for all twenty of your retail stores.",
+        "To celebrate this five-year milestone, we are pleased to offer your company an [2] 15 percent discount on all bulk orders placed between August 1 and October 31. [3] Simply enter code PARTNER15 when confirming your order online.",
+        "We look forward to supporting [4] upcoming product launches this autumn. Please contact me directly if you would like to request custom samples.",
+        "Warm regards,\nDavid Okafor, Account Director"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bài báo kinh doanh",
+      "genre": "article",
+      "meta": {
+        "title": "Meridian Logistics Opens Automated Hub in Rotterdam",
+        "subtitle": "European Trade Daily • September 4"
+      },
+      "paragraphs": [
+        "ROTTERDAM — Meridian Logistics officially unveiled its 40,000-square-meter distribution center near the Port of Rotterdam on Tuesday. The facility doubles the company’s regional sorting [5], allowing it to process up to 180,000 parcels daily.",
+        "The warehouse is [6] with robotic conveyor belts and real-time customs tracking software. [7]",
+        "[8], Meridian announced plans to hire 120 local technicians and operations specialists over the next six months to support the expanded workload."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Thì động từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "will partner",
+        "have partnered",
+        "partnering",
+        "are partnered"
+      ],
+      "ans": 1,
+      "exp": "Cụm thời gian \"Over the past five years\" (trong suốt 5 năm qua) là dấu hiệu chuẩn của thì Hiện tại hoàn thành. Chọn \"have partnered\" (B). Loại (A) tương lai, (C) thiếu trợ động từ, (D) bị động sai cấu trúc với \"partner with\"."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "exclusive",
+        "accidental",
+        "outdated",
+        "urgent"
+      ],
+      "ans": 0,
+      "exp": "Mạo từ \"an\" trước chỗ trống báo hiệu từ bắt đầu bằng âm nguyên âm, và ngữ cảnh ưu đãi tri ân riêng cho đối tác 5 năm cần tính từ \"exclusive\" (A - độc quyền, dành riêng). Loại (B) tình cờ, (C) lỗi thời, (D) khẩn cấp."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "Our warehouse will close permanently at the end of this week.",
+        "We regret to inform you that shipping fees have tripled since January.",
+        "This special rate applies to both standard boxes and custom-printed bags.",
+        "All bakery employees must attend a mandatory food safety seminar."
+      ],
+      "ans": 2,
+      "exp": "Câu trước vừa nhắc tới mức giảm giá 15% (\"an exclusive 15 percent discount\"), và câu (C) giải thích phạm vi áp dụng của mức ưu đãi này (\"This special rate applies to...\") trước khi câu sau hướng dẫn nhập mã PARTNER15. Loại (A), (B) mâu thuẫn tinh thần tri ân; (D) lạc đề."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Đại từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "you",
+        "yours",
+        "yourself",
+        "your"
+      ],
+      "ans": 3,
+      "exp": "Trước cụm danh từ \"upcoming product launches\" cần tính từ sở hữu. Chọn \"your\" (D). Loại (A) chủ ngữ/tân ngữ, (B) đại từ sở hữu không đứng trước danh từ, (C) đại từ phản thân."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "capacity",
+        "salary",
+        "receipt",
+        "permission"
+      ],
+      "ans": 0,
+      "exp": "Phía sau giải thích trung tâm có thể xử lý tới 180.000 bưu kiện mỗi ngày → tăng gấp đôi \"công suất/năng lực phân loại\" (sorting capacity). Chọn \"capacity\" (A). Loại (B) tiền lương, (C) biên lai, (D) sự cho phép."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Cấu trúc bị động",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [6]:",
+      "opts": [
+        "equip",
+        "equipping",
+        "equipped",
+        "equipment"
+      ],
+      "ans": 2,
+      "exp": "Cấu trúc cố định \"be equipped with + thiết bị\" nghĩa là \"được trang bị cái gì\". Chọn \"equipped\" (C). Loại (A) động từ nguyên mẫu, (B) V-ing, (D) danh từ."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [7]:",
+      "opts": [
+        "The port authority recently opened a passenger ferry terminal for tourists.",
+        "According to executives, these technologies will cut average transit times by nearly a full day.",
+        "Rotterdam is famous for its modern architecture and waterfront museums.",
+        "Last winter’s storms damaged several fishing vessels along the coast."
+      ],
+      "ans": 1,
+      "exp": "Câu trước vừa nêu 2 công nghệ trong nhà kho (\"robotic conveyor belts and real-time customs tracking software\"). Câu (B) nối tiếp bằng cụm \"these technologies\" và chỉ ra lợi ích rút ngắn thời gian vận chuyển. Loại (A), (C), (D) hoàn toàn lệch chủ đề logistics."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Từ nối",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "Otherwise",
+        "Nevertheless",
+        "Instead",
+        "Furthermore"
+      ],
+      "ans": 3,
+      "exp": "Đoạn 3 bổ sung thêm thông tin tích cực mới (kế hoạch tuyển thêm 120 kỹ thuật viên địa phương) bên cạnh việc khai trương trung tâm tự động hóa. Chọn trạng từ bổ sung \"Furthermore\" (D - Hơn nữa). Loại (A) nếu không thì, (B) tuy nhiên, (C) thay vào đó."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "Over the past five years",
+      "answer": "five-year milestone",
+      "vi": "trong suốt 5 năm qua ↔ cột mốc 5 năm"
+    },
+    {
+      "text": "doubles the company’s regional sorting capacity",
+      "answer": "process up to 180,000 parcels daily",
+      "vi": "tăng gấp đôi công suất phân loại ↔ xử lý tới 180.000 bưu kiện mỗi ngày"
+    },
+    {
+      "text": "robotic conveyor belts and real-time customs tracking software",
+      "answer": "these technologies",
+      "vi": "băng chuyền rô-bốt và phần mềm theo dõi hải quan ↔ những công nghệ này"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "tsw_w_q8_03",
+  "skill": "writing",
+  "taskType": "wr_q8",
+  "code": "Q8",
+  "level": 4,
+  "targetBand": "170–195",
+  "title": "Q8 • Đề 03: Thăng chức theo Thành tích Cá nhân hay Kết quả Nhóm?",
+  "topic": "Đánh giá Hiệu suất & Động lực Tổ chức",
+  "estMinutes": 30,
+  "guideVi": "Đây là đề tài hay gặp ở Band 170–195: cân bằng giữa đóng góp cá nhân và năng lực phối hợp nhóm. Hãy trình bày lập luận sắc bén với ví dụ đo lường rõ ràng.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Lập trường nhất quán, lý lẽ thuyết phục kèm ví dụ thực tế cụ thể",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục 4 đoạn mạch lạc, đủ từ nối học thuật và độ dài >= 300 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Đa dạng cấu trúc câu phức và vốn từ vựng công sở chuẩn xác",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q8_03_1",
+      "itemType": "wr_q8",
+      "label": "Essay • Tiêu chí thưởng và thăng chức tại doanh nghiệp",
+      "durationMin": 30,
+      "promptEn": "Should employee promotions and annual bonuses be based primarily on teamwork or on individual achievements? Give specific reasons and examples to support your view.",
+      "promptVi": "Việc thăng chức và thưởng cuối năm của nhân viên nên dựa chủ yếu vào khả năng làm việc nhóm hay thành tích cá nhân? Hãy nêu lý do cụ thể và ví dụ bảo vệ quan điểm của bạn.",
+      "minWords": 300,
+      "outline": [
+        {
+          "part": "Mở bài (Introduction)",
+          "guideVi": "Giới thiệu tầm quan trọng của đánh giá hiệu suất công bằng và chọn lập trường rõ ràng (ví dụ: ưu tiên thành tích cá nhân kết hợp ghi nhận hợp tác, hoặc ưu tiên tinh thần đồng đội).",
+          "starterEn": "Designing a fair evaluation system is one of the greatest challenges for human resources leaders. While teamwork is essential in modern business, I believe promotions and bonuses should still rely primarily on measurable individual achievements."
+        },
+        {
+          "part": "Thân bài 1 (Lý do 1 • Công bằng & Động lực phấn đấu)",
+          "guideVi": "Giải thích đánh giá theo đóng góp cá nhân tránh tình trạng ỷ lại ('free-rider') và khuyến khích người giỏi nỗ lực.",
+          "starterEn": "First and foremost, rewarding individual performance ensures fairness and prevents capable staff from feeling discouraged by unequal effort..."
+        },
+        {
+          "part": "Thân bài 2 (Lý do 2 • Làm rõ vai trò lãnh đạo & Khắc phục nhược điểm)",
+          "guideVi": "Giải thích thăng chức là lên vị trí trách nhiệm cao hơn; đề cập cách vẫn đưa hợp tác nhóm vào thành tích cá nhân (chia sẻ thông tin, hỗ trợ đồng nghiệp).",
+          "starterEn": "Secondly, promotions place employees into roles with greater accountability, which requires clear evidence of personal initiative and competence..."
+        },
+        {
+          "part": "Kết bài (Conclusion)",
+          "guideVi": "Tổng kết và nhấn mạnh sự công bằng minh bạch giúp cả tập thể tiến lên.",
+          "starterEn": "In summary, anchoring bonuses and career advancement to individual merit—while valuing constructive collaboration—motivates excellence across the firm..."
+        }
+      ],
+      "targetKeywords": [
+        "promotion",
+        "achievement",
+        "teamwork",
+        "fairness",
+        "accountability",
+        "motivation",
+        "merit",
+        "productivity",
+        "contribution"
+      ],
+      "tipVi": "Dùng thuật ngữ quản trị chuẩn TOEIC như 'measurable contribution', 'accountability', 'free-rider problem' (tình trạng dựa dẫm trong nhóm), 'merit-based evaluation'.",
+      "keyPhrases": [
+        {
+          "en": "merit-based system",
+          "vi": "hệ thống đánh giá dựa trên thực lực"
+        },
+        {
+          "en": "measurable contribution",
+          "vi": "đóng góp có thể đo lường được"
+        },
+        {
+          "en": "personal accountability",
+          "vi": "trách nhiệm giải trình cá nhân"
+        },
+        {
+          "en": "constructive collaboration",
+          "vi": "sự hợp tác mang tính xây dựng"
+        },
+        {
+          "en": "career advancement",
+          "vi": "thăng tiến sự nghiệp"
+        }
+      ],
+      "sample": "Designing an equitable reward system is one of the most delicate responsibilities in modern corporate management. Although complex cross-departmental projects require extensive group coordination, opinions differ sharply on whether annual bonuses and promotions should prioritize collective output or personal merit. In my view, basing career advancement primarily on individual achievements is considerably fairer and far more effective for sustaining long-term organizational productivity.\n\nFirst and foremost, evaluating personal contributions guarantees genuine fairness and sustains strong workplace motivation across departments. In large cross-functional project teams, members rarely contribute equal hours, technical insight, or problem-solving effort. If every participant receives identical bonuses solely because the overall group meets a quarterly target, dedicated high performers quickly feel undervalued while less diligent colleagues benefit passively from others' hard work. For instance, in a regional sales department, tying quarterly bonuses directly to each representative's verified client retention rate and closed contracts encourages every salesperson to prepare thoroughly and serve key accounts proactively rather than relying passively on top teammates.\n\nSecondly, promotions elevate individuals into supervisory positions of greater authority and personal accountability, which cannot be assessed accurately through shared group averages alone. Senior managers must verify whether a candidate can make sound decisions independently, meet strict deadlines, and resolve unexpected client issues under pressure. Supporters of team-based rewards sometimes worry that focusing on individual metrics might spark unhealthy internal rivalry. However, companies can easily prevent this problem by including constructive collaboration—such as mentoring new hires, reviewing teammates' proposals, or sharing research templates—as an explicit individual evaluation goal. Consequently, staff remain eager to assist peers without ever sacrificing personal excellence.\n\nIn conclusion, anchoring bonuses and promotions primarily to individual achievement provides clear transparency, protects employee morale, and identifies genuinely capable future leaders. When organizations consistently reward personal merit alongside supportive workplace behavior, both dedicated individual specialists and entire project teams steadily thrive together for lasting corporate success.",
+      "sampleVi": "Thiết kế hệ thống khen thưởng công bằng là một trong những nhiệm vụ tinh tế nhất trong quản trị doanh nghiệp. Dù các dự án hiện đại đòi hỏi nhiều sự phối hợp nhóm, nhiều người vẫn tranh luận xem thưởng và thăng chức nên ưu tiên thành quả tập thể hay thực lực cá nhân. Theo quan điểm của tôi, lấy thành tích cá nhân làm cơ sở chính cho việc thăng tiến sẽ công bằng và hiệu quả hơn nhiều cho hiệu suất dài hạn.\n\nTrước hết, đánh giá đóng góp cá nhân đảm bảo tính công bằng và duy trì động lực cao. Trong các nhóm dự án lớn, các thành viên hiếm khi bỏ ra công sức và chuyên môn ngang nhau. Nếu ai cũng nhận mức thưởng giống hệt chỉ vì cả nhóm đạt chỉ tiêu, những người tận tâm xuất sắc sẽ thấy bị đánh giá thấp trong khi người làm việc cầm chừng vẫn hưởng lợi thụ động. Ví dụ, ở một phòng kinh doanh khu vực, việc gắn thưởng quý với tỷ lệ giữ chân khách hàng và hợp đồng chốt được của từng chuyên viên thúc đẩy mỗi người chủ động phục vụ khách hàng thay vì trông chờ đồng đội.\n\nThứ hai, thăng chức đưa nhân sự lên vị trí có quyền hạn và trách nhiệm cao hơn—điều không thể đo lường chính xác qua điểm bình quân của nhóm. Nhà quản lý cần biết ứng viên có khả năng xử lý vấn đề độc lập, đúng hạn và dẫn dắt tác vụ phức tạp dưới áp lực hay không. Người ủng hộ thưởng theo nhóm lo ngại chỉ số cá nhân sẽ gây cạnh tranh thiếu lành mạnh; tuy nhiên, công ty dễ dàng khắc phục bằng cách đưa tiêu chí hợp tác xây dựng—như hướng dẫn nhân viên mới hay chia sẻ tài liệu—vào chính mục tiêu đánh giá từng cá nhân.\n\nTóm lại, gắn thưởng và thăng chức chủ yếu vào thành tích cá nhân tạo ra sự minh bạch, bảo vệ tinh thần làm việc và chọn lọc đúng người lãnh đạo. Khi doanh nghiệp ghi nhận xứng đáng năng lực riêng song hành với thái độ hỗ trợ đồng nghiệp, cả cá nhân lẫn tập thể đều cùng phát triển."
+    }
+  ]
+}

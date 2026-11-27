@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_04",
+  "order": 36,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Hướng dẫn Tham quan Xưởng Gốm & Bảo tàng Hàng hải",
+  "subtitle": "Nội quy tham quan nhà máy gốm thủ công và hướng dẫn phòng trưng bày bảo tàng",
+  "accent": "en-GB",
+  "defaultRate": 1.0,
+  "tips": "Trong bài Hướng dẫn tham quan (Tour Guide), luôn có 3 ý kinh điển: (1) Đang ở đâu, (2) Quy định/cảnh báo khi tham quan (no photos, stay behind rope), và (3) Điểm dừng tiếp theo (gift shop, courtyard, gallery).",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Tham quan Xưởng Gốm Thủ công",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Tour Guide",
+          "accent": "en-GB",
+          "en": "Welcome everyone to Heritage Kilns, where master artisans have been shaping fine stoneware by hand since 1928.",
+          "vi": "Chào mừng mọi người đến với Heritage Kilns, nơi các nghệ nhân bậc thầy chế tác đồ gốm đá cao cấp bằng tay từ năm 1928."
+        },
+        {
+          "spk": "W",
+          "name": "Tour Guide",
+          "accent": "en-GB",
+          "en": "In a moment, we'll walk past the glazing tables and enter our historic wood-fired kiln room, where pieces are baked at over twelve hundred degrees.",
+          "vi": "Một lát nữa, chúng ta sẽ đi qua các bàn tráng men và bước vào phòng lò nung củi lịch sử, nơi sản phẩm được nung ở hơn một nghìn hai trăm độ."
+        },
+        {
+          "spk": "W",
+          "name": "Tour Guide",
+          "accent": "en-GB",
+          "en": "Please keep your cameras tucked away in the kiln room—some of the glazes we're testing this season are proprietary designs for luxury hotels.",
+          "vi": "Xin vui lòng cất máy ảnh đi khi vào phòng lò nung—một số màu men chúng tôi đang thử nghiệm mùa này là thiết kế độc quyền cho các khách sạn hạng sang."
+        },
+        {
+          "spk": "W",
+          "name": "Tour Guide",
+          "accent": "en-GB",
+          "en": "Afterward, you'll have thirty minutes in our factory outlet shop, where your tour wristband gives you fifteen percent off slightly imperfect pieces.",
+          "vi": "Sau đó, quý khách sẽ có ba mươi phút tại cửa hàng xưởng, nơi vòng tay tham quan giúp quý khách giảm mười lăm phần trăm cho các sản phẩm có lỗi nhỏ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Where is the tour taking place?",
+          "opts": [
+            "At a luxury hotel kitchen",
+            "At a traditional ceramics factory",
+            "At an architectural museum",
+            "At a glassblowing school"
+          ],
+          "ans": 1,
+          "exp": "Hướng dẫn viên giới thiệu 'Heritage Kilns, where master artisans have been shaping fine stoneware by hand' → xưởng gốm truyền thống ('ceramics factory'). Chọn (B)."
+        },
+        {
+          "num": 2,
+          "q": "What does the guide mean when she says, \"Please keep your cameras tucked away in the kiln room\"?",
+          "opts": [
+            "Flash lighting could damage ancient pottery.",
+            "The kiln room is too hot for electronic devices.",
+            "Visitors should leave their bags at the entrance.",
+            "Photography is prohibited in that area."
+          ],
+          "ans": 3,
+          "exp": "Cô yêu cầu cất máy ảnh vì đang thử nghiệm 'proprietary designs' (thiết kế độc quyền bí mật) → cấm chụp ảnh ở khu vực đó ('Photography is prohibited'). Chọn (D)."
+        },
+        {
+          "num": 3,
+          "q": "What benefit does the tour wristband provide?",
+          "opts": [
+            "A discount at the factory outlet shop",
+            "Complimentary tea in the courtyard",
+            "Priority shipping on fragile orders",
+            "Free admission to a pottery workshop"
+          ],
+          "ans": 0,
+          "exp": "Câu cuối nói: 'your tour wristband gives you fifteen percent off' tại cửa hàng xưởng → giảm giá tại cửa hàng xưởng. Chọn (A)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Hướng dẫn Tham quan Bảo tàng Hàng hải",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "Maritime Museum Gallery Guide",
+        "headers": [
+          "Wing",
+          "Exhibit",
+          "Opening Time"
+        ],
+        "rows": [
+          [
+            "North Wing",
+            "Age of Exploration Maps",
+            "9:00 AM"
+          ],
+          [
+            "East Wing",
+            "Steamship Engines",
+            "9:30 AM"
+          ],
+          [
+            "South Wing",
+            "Polar Expeditions",
+            "10:00 AM"
+          ],
+          [
+            "West Wing",
+            "Modern Submarines",
+            "10:30 AM"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Museum Announcer",
+          "accent": "en-GB",
+          "en": "Good morning, visitors, and thank you for joining us at the National Maritime Museum in Greenwich.",
+          "vi": "Chào buổi sáng quý khách tham quan, và cảm ơn quý vị đã đến với Bảo tàng Hàng hải Quốc gia tại Greenwich."
+        },
+        {
+          "spk": "M",
+          "name": "Museum Announcer",
+          "accent": "en-GB",
+          "en": "Audio guide headsets in six languages are available free of charge at the information desk beneath the main compass dome.",
+          "vi": "Tai nghe thuyết minh tự động bằng sáu ngôn ngữ được cung cấp miễn phí tại bàn thông tin dưới mái vòm la bàn chính."
+        },
+        {
+          "spk": "M",
+          "name": "Museum Announcer",
+          "accent": "en-GB",
+          "en": "Please note that our Polar Expeditions gallery will open forty-five minutes later than posted today while curators install a newly restored sled from 1912.",
+          "vi": "Xin lưu ý phòng trưng bày Các Cuộc Thám hiểm Vùng Cực hôm nay sẽ mở muộn hơn bốn mươi lăm phút so với giờ niêm yết trong lúc các giám tuyển lắp đặt chiếc xe trượt tuyết năm 1912 mới được phục chế."
+        },
+        {
+          "spk": "M",
+          "name": "Museum Announcer",
+          "accent": "en-GB",
+          "en": "In the meantime, we invite you to enjoy our harbor café or catch the short documentary screening in the North Wing theater at nine-fifteen.",
+          "vi": "Trong lúc chờ đợi, kính mời quý khách ghé quán cà phê bến cảng hoặc xem buổi chiếu phim tài liệu ngắn tại rạp Cánh Bắc lúc chín giờ mười lăm."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Where can visitors borrow complimentary audio guides?",
+          "opts": [
+            "Inside the harbor café",
+            "At the North Wing theater",
+            "At the information desk under the main dome",
+            "Next to the ticket booths outside"
+          ],
+          "ans": 2,
+          "exp": "Thông báo nêu rõ: 'at the information desk beneath the main compass dome'. Chọn (C)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which wing will open at 10:45 AM today?",
+          "opts": [
+            "North Wing",
+            "South Wing",
+            "East Wing",
+            "West Wing"
+          ],
+          "ans": 1,
+          "exp": "Phòng 'Polar Expeditions' mở muộn hơn 45 phút so với giờ niêm yết. Tra bảng: Polar Expeditions ở 'South Wing' có giờ gốc 10:00 AM → cộng 45 phút = 10:45 AM. Chọn (B)."
+        },
+        {
+          "num": 6,
+          "q": "Why is the gallery opening delayed?",
+          "opts": [
+            "A private school group reserved it.",
+            "A documentary crew is filming inside.",
+            "The lighting system needs calibration.",
+            "Curators are setting up a restored artifact."
+          ],
+          "ans": 3,
+          "exp": "Lý do được nêu là: 'while curators install a newly restored sled from 1912' → các giám tuyển đang lắp đặt hiện vật vừa phục chế. Chọn (D)."
+        }
+      ]
+    }
+  ]
+}

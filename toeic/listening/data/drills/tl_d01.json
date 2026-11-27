@@ -1,0 +1,98 @@
+{
+  "id": "tl_d01",
+  "order": 1,
+  "level": 1,
+  "part": "dictation",
+  "partLabel": "Dictation • Lấy gốc",
+  "title": "Dictation 01 • Âm cuối -s/-ed trong câu văn phòng",
+  "subtitle": "Luyện bắt rõ đuôi số nhiều, chia động từ ngôi 3 và quá khứ đơn ở tốc độ chậm 0.75x.",
+  "accent": "en-US",
+  "defaultRate": 0.75,
+  "tips": "Người mới học thường bỏ sót âm gió /s/, /z/ ở cuối danh từ số nhiều và âm /t/, /d/, /ɪd/ của động từ đuôi -ed. Hãy nghe kỹ nhịp cuối mỗi từ khóa.",
+  "items": [
+    {
+      "num": 1,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "The manager reviewed the quarterly budget reports.",
+      "masked": "The manager _____ the _____ budget _____.",
+      "blanks": [
+        "reviewed",
+        "quarterly",
+        "reports"
+      ],
+      "vi": "Người quản lý đã xem xét các báo cáo ngân sách hàng quý.",
+      "phoneticTip": "Chú ý đuôi /d/ ở 'reviewed', trọng âm đầu 'QUAR-ter-ly' và âm cuối /s/ trong 'reports'."
+    },
+    {
+      "num": 2,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "Several clients arrived early for the morning briefing.",
+      "masked": "Several _____ _____ early for the morning _____.",
+      "blanks": [
+        "clients",
+        "arrived",
+        "briefing"
+      ],
+      "vi": "Một vài khách hàng đã đến sớm cho buổi họp giao ban sáng.",
+      "phoneticTip": "Chú ý nối âm 'arrived early' (/d/ nối sang nguyên âm /ɜː/) và cụm 'clients' có âm /ts/."
+    },
+    {
+      "num": 3,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "She schedules weekly meetings with the design department.",
+      "masked": "She _____ _____ meetings with the design _____.",
+      "blanks": [
+        "schedules",
+        "weekly",
+        "department"
+      ],
+      "vi": "Cô ấy lên lịch các cuộc họp hàng tuần với phòng thiết kế.",
+      "phoneticTip": "Phát âm Mỹ đọc 'schedules' là /ˈskedʒ.uːlz/ có đuôi /z/; nhấn âm 2 ở 'de-PART-ment'."
+    },
+    {
+      "num": 4,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "Our technicians upgraded the office network yesterday.",
+      "masked": "Our _____ _____ the office _____ yesterday.",
+      "blanks": [
+        "technicians",
+        "upgraded",
+        "network"
+      ],
+      "vi": "Các kỹ thuật viên của chúng tôi đã nâng cấp mạng văn phòng hôm qua.",
+      "phoneticTip": "Đuôi '-ed' sau âm /d/ trong 'upgraded' phát âm rõ thành 1 âm tiết /ɪd/."
+    },
+    {
+      "num": 5,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "All signed contracts must be filed before Friday.",
+      "masked": "All _____ _____ must be _____ before Friday.",
+      "blanks": [
+        "signed",
+        "contracts",
+        "filed"
+      ],
+      "vi": "Tất cả các hợp đồng đã ký phải được lưu hồ sơ trước thứ Sáu.",
+      "phoneticTip": "Phân biệt danh từ 'CON-tracts' (nhấn âm 1) và đuôi /d/ gọn trong 'signed', 'filed'."
+    },
+    {
+      "num": 6,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "The receptionist printed badges for the visiting guests.",
+      "masked": "The receptionist _____ _____ for the visiting _____.",
+      "blanks": [
+        "printed",
+        "badges",
+        "guests"
+      ],
+      "vi": "Nhân viên lễ tân đã in thẻ tên cho các vị khách đến thăm.",
+      "phoneticTip": "Đuôi '-ed' sau /t/ đọc /ɪd/ ('printed'), đuôi '-es' sau /dʒ/ đọc /ɪz/ ('badges')."
+    }
+  ]
+}

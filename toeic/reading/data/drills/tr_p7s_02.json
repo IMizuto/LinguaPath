@@ -1,0 +1,207 @@
+{
+  "id": "tr_p7s_02",
+  "order": 16,
+  "level": 2,
+  "part": "part7s",
+  "partLabel": "Part 7 • Đoạn đơn",
+  "title": "Part 7 Đơn • Bộ 02: Chính sách Làm việc Hybrid & Bảng Lịch Đào tạo",
+  "subtitle": "Luyện đối chiếu thông tin Memo nhân sự và đọc bảng lịch trình kèm ghi chú chân trang (Table).",
+  "timeLimitMin": 10,
+  "tips": "Mẹo đọc Bảng biểu (Table): Đừng bao giờ bỏ qua các dòng ghi chú (Note / *) nằm ngay bên dưới bảng — trong đề thi TOEIC, có tới 70% câu hỏi Suy luận và Ngoại trừ (NOT) giấu đáp án ở phần ghi chú đó!",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Memo nội bộ",
+      "genre": "memo",
+      "meta": {
+        "to": "All Full-Time Staff, Crestview Media",
+        "from": "Elena Vance, Chief Operating Officer",
+        "date": "September 3",
+        "subject": "Permanent Hybrid Work Schedule"
+      },
+      "paragraphs": [
+        "Following a successful six-month trial period, Crestview Media is pleased to adopt our hybrid work arrangement permanently beginning October 1. Under this policy, eligible employees may work remotely up to two days per week—specifically on Mondays and Fridays—while working on-site from Tuesday through Thursday.",
+        "To ensure smooth collaboration across departments, all staff working from home must remain reachable on TeamChat during core hours (9:30 A.M. to 4:00 P.M.) and log their weekly remote days in the HR calendar every Thursday afternoon.",
+        "Please note that newly hired employees must complete their first ninety days entirely on-site before joining the hybrid program. Staff who prefer working in the office five days a week may continue to do so."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng lịch đào tạo",
+      "genre": "table",
+      "meta": {
+        "title": "AUTUMN PROFESSIONAL DEVELOPMENT WORKSHOPS",
+        "subtitle": "Hosted by Northbridge Business Center • All Sessions Run 1:30 P.M. – 4:30 P.M."
+      },
+      "paragraphs": [
+        "Registration is open to local professionals and corporate teams. Early enrollment is strongly encouraged due to limited classroom seating."
+      ],
+      "table": {
+        "headers": [
+          "Date",
+          "Workshop Title",
+          "Instructor",
+          "Room",
+          "Max Seats",
+          "Fee"
+        ],
+        "rows": [
+          [
+            "Oct 8",
+            "Data Storytelling with Charts",
+            "Dr. Kevin Cho",
+            "Room 204",
+            "20",
+            "$85"
+          ],
+          [
+            "Oct 15",
+            "Negotiating Vendor Contracts",
+            "Laura Mendes",
+            "Hall B",
+            "35",
+            "$110"
+          ],
+          [
+            "Oct 22",
+            "Executive Presentation Skills",
+            "Tariq Hassan",
+            "Room 108",
+            "15",
+            "$120"
+          ],
+          [
+            "Oct 29",
+            "Project Budgeting Fundamentals",
+            "Dr. Kevin Cho",
+            "Room 204",
+            "25",
+            "$95"
+          ]
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Ý chính",
+      "q": "What is the main purpose of the memo?",
+      "opts": [
+        "To announce the permanent continuation of a flexible work policy",
+        "To recruit temporary editors for the autumn publishing season",
+        "To inform employees about a change in office building hours",
+        "To evaluate the performance of newly hired managers"
+      ],
+      "ans": 0,
+      "exp": "Đoạn 1 của Văn bản 1 mở đầu: \"Crestview Media is pleased to adopt our hybrid work arrangement permanently beginning October 1\" (chính thức áp dụng lâu dài chế độ làm việc kết hợp). Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "NOT / Ngoại trừ",
+      "q": "According to the memo, which of the following is NOT required for remote employees?",
+      "opts": [
+        "Being available on TeamChat between 9:30 A.M. and 4:00 P.M.",
+        "Recording remote workdays on the HR calendar each Thursday",
+        "Working in the office from Tuesday to Thursday",
+        "Submitting a written productivity summary every Friday evening"
+      ],
+      "ans": 3,
+      "exp": "Văn bản yêu cầu: có mặt trên TeamChat từ 9:30–16:00 (A), đăng ký lịch trên HR calendar mỗi chiều Thứ Năm (B), và làm trực tiếp tại văn phòng Thứ Ba–Thứ Năm (C). Hoàn toàn KHÔNG yêu cầu nộp báo cáo năng suất tối Thứ Sáu → chọn (D)."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "Who must wait before participating in the hybrid work schedule?",
+      "opts": [
+        "Department supervisors",
+        "Recently hired employees",
+        "Part-time contractors",
+        "Staff who have worked more than six months"
+      ],
+      "ans": 1,
+      "exp": "Đoạn 3 nêu rõ: \"newly hired employees must complete their first ninety days entirely on-site before joining the hybrid program\" (nhân viên mới tuyển phải làm trực tiếp trọn 90 ngày đầu trước khi tham gia). \"newly hired\" ↔ \"Recently hired\" → chọn (B)."
+    },
+    {
+      "num": 4,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "Which workshop has the smallest maximum class size?",
+      "opts": [
+        "Data Storytelling with Charts",
+        "Negotiating Vendor Contracts",
+        "Executive Presentation Skills",
+        "Project Budgeting Fundamentals"
+      ],
+      "ans": 2,
+      "exp": "Tra cột \"Max Seats\" trong bảng: Data Storytelling (20), Negotiating Vendor Contracts (35), Executive Presentation Skills (15), Project Budgeting (25). Nhỏ nhất là 15 ghế của lớp \"Executive Presentation Skills\" → chọn (C)."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "What do the October 8 and October 29 workshops have in common?",
+      "opts": [
+        "They have the same registration fee.",
+        "They are both taught by the same instructor in the same room.",
+        "They accommodate up to thirty-five participants.",
+        "They focus exclusively on contract negotiations."
+      ],
+      "ans": 1,
+      "exp": "So sánh hàng 1 (Oct 8) và hàng 4 (Oct 29): cả hai đều do \"Dr. Kevin Cho\" giảng dạy tại \"Room 204\". Phí khác nhau ($85 vs $95), sức chứa khác nhau (20 vs 25). Chọn (B)."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "How long does each workshop session last?",
+      "opts": [
+        "Two hours",
+        "Four hours",
+        "Three hours",
+        "A full business day"
+      ],
+      "ans": 2,
+      "exp": "Dòng phụ đề ngay trên bảng ghi: \"All Sessions Run 1:30 P.M. – 4:30 P.M.\" (từ 1:30 chiều đến 4:30 chiều = đúng 3 tiếng). Chọn (C). Loại (A), (B), (D)."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Suy luận",
+      "q": "How much would it cost for one person to attend both the October 8 and October 15 workshops?",
+      "opts": [
+        "$180",
+        "$230",
+        "$205",
+        "$195"
+      ],
+      "ans": 3,
+      "exp": "Tra cột \"Fee\": lớp Oct 8 giá $85 + lớp Oct 15 giá $110 = $195. Chọn (D). Kiểm tra lại: $85 + $95 = $180 (A), $110 + $120 = $230 (B), $85 + $120 = $205 (C)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "adopt our hybrid work arrangement permanently",
+      "answer": "permanent continuation of a flexible work policy",
+      "vi": "áp dụng lâu dài chế độ làm việc kết hợp ↔ duy trì vĩnh viễn chính sách làm việc linh hoạt"
+    },
+    {
+      "text": "remain reachable on TeamChat",
+      "answer": "Being available on TeamChat",
+      "vi": "luôn liên lạc được trên TeamChat ↔ có mặt/sẵn sàng trên TeamChat"
+    },
+    {
+      "text": "newly hired employees",
+      "answer": "Recently hired employees",
+      "vi": "nhân viên mới tuyển ↔ nhân viên vừa được tuyển dụng"
+    },
+    {
+      "text": "1:30 P.M. – 4:30 P.M.",
+      "answer": "Three hours",
+      "vi": "1:30 chiều – 4:30 chiều ↔ ba tiếng đồng hồ"
+    }
+  ]
+}

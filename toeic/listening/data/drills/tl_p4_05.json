@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_05",
+  "order": 37,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Bản tin Giao thông, Thời tiết & Lịch Sự kiện Thành phố",
+  "subtitle": "Cảnh báo ùn tắc giờ cao điểm và thông báo dời địa điểm sự kiện do mưa lớn",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Trong bản tin phát thanh giao thông/thời tiết, chú ý nguyên nhân tắc đường (overturned truck, construction, flooding), tuyến đường thay thế (alternate route) và chương trình tiếp theo sau bản tin.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Bản tin giao thông buổi sáng",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Traffic Reporter",
+          "accent": "en-US",
+          "en": "You're listening to Metro 98.5 with your seven-thirty morning traffic report. Drivers heading downtown on Interstate 90 should brace for heavy delays.",
+          "vi": "Quý vị đang nghe đài Metro 98.5 với bản tin giao thông bảy giờ ba mươi sáng. Các tài xế hướng vào trung tâm trên xa lộ Interstate 90 nên chuẩn bị cho tình trạng chậm trễ nghiêm trọng."
+        },
+        {
+          "spk": "M",
+          "name": "Traffic Reporter",
+          "accent": "en-US",
+          "en": "Two northbound lanes near the Riverfront Bridge are blocked after a delivery van broke down during the early rain shower, backing traffic up nearly four miles.",
+          "vi": "Hai làn hướng Bắc gần Cầu Riverfront đang bị chặn sau khi một xe tải giao hàng chết máy trong cơn mưa rào sáng sớm, khiến dòng xe ùn ứ dài gần bốn dặm."
+        },
+        {
+          "spk": "M",
+          "name": "Traffic Reporter",
+          "accent": "en-US",
+          "en": "If you haven't left the driveway yet, consider taking the commuter rail—trains are running right on schedule with extra carriages added.",
+          "vi": "Nếu quý vị vẫn chưa lái xe ra khỏi nhà, hãy cân nhắc đi tàu ngoại ô—các chuyến tàu đang chạy đúng giờ và còn nối thêm toa."
+        },
+        {
+          "spk": "M",
+          "name": "Traffic Reporter",
+          "accent": "en-US",
+          "en": "Emergency tow trucks expect to clear the highway by eight-fifteen. Stay tuned, because up next is Lisa Chang with today's financial market preview.",
+          "vi": "Xe cứu hộ dự kiến sẽ giải tỏa xong xa lộ trước tám giờ mười lăm. Đừng chuyển kênh, vì ngay sau đây là Lisa Chang với bản tin nhận định thị trường tài chính hôm nay."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What caused the traffic backup on Interstate 90?",
+          "opts": [
+            "Road repaving on Riverfront Bridge",
+            "A flooded highway tunnel",
+            "A stalled delivery vehicle",
+            "A parade heading downtown"
+          ],
+          "ans": 2,
+          "exp": "Bản tin cho biết 'a delivery van broke down' (một xe giao hàng bị chết máy/hỏng) → đồng nghĩa với 'A stalled delivery vehicle'. Chọn (C)."
+        },
+        {
+          "num": 2,
+          "q": "What does the reporter mean when he says, \"If you haven't left the driveway yet, consider taking the commuter rail\"?",
+          "opts": [
+            "Public transit will be much faster than driving this morning.",
+            "Commuter train tickets are free during rainstorms.",
+            "Parking garages downtown are completely full.",
+            "Highway tolls have increased during rush hour."
+          ],
+          "ans": 0,
+          "exp": "Vì đường cao tốc tắc gần 4 dặm trong khi tàu chạy đúng giờ, lời khuyên đi tàu ngoại ô ngụ ý phương tiện công cộng sáng nay nhanh hơn nhiều so với lái xe. Chọn (A)."
+        },
+        {
+          "num": 3,
+          "q": "What will listeners hear immediately after this report?",
+          "opts": [
+            "A weekend weather forecast",
+            "An interview with city transit officials",
+            "Local sports highlights",
+            "A business and finance update"
+          ],
+          "ans": 3,
+          "exp": "Câu cuối giới thiệu: 'up next is Lisa Chang with today's financial market preview' → bản tin kinh doanh và tài chính. Chọn (D)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Dự báo Thời tiết & Dời Địa điểm Sự kiện Cuối tuần",
+      "accent": "en-US",
+      "graphic": {
+        "title": "Weekend Civic Events",
+        "headers": [
+          "Event",
+          "Original Venue",
+          "Backup Venue"
+        ],
+        "rows": [
+          [
+            "Farmers Market",
+            "Central Plaza",
+            "Pavilion B"
+          ],
+          [
+            "Jazz in the Park",
+            "Lakeside Lawn",
+            "Civic Theater"
+          ],
+          [
+            "Youth Art Fair",
+            "Botanical Garden",
+            "Library Atrium"
+          ],
+          [
+            "Charity 5K Run",
+            "Harbor Trail",
+            "Postponed"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Weather Anchor",
+          "accent": "en-US",
+          "en": "Good evening, everyone. A fast-moving coastal storm is set to bring steady rain and gusty winds across the metro area all day Saturday.",
+          "vi": "Chào buổi tối quý vị. Một cơn bão ven biển di chuyển nhanh sẽ mang theo mưa liên tục và gió giật trên toàn khu đô thị suốt ngày thứ Bảy."
+        },
+        {
+          "spk": "W",
+          "name": "Weather Anchor",
+          "accent": "en-US",
+          "en": "Because of the soggy forecast, city organizers have already activated indoor backup locations for Saturday's public events.",
+          "vi": "Do dự báo mưa ẩm ướt, ban tổ chức thành phố đã kích hoạt sẵn các địa điểm dự phòng trong nhà cho những sự kiện công cộng ngày thứ Bảy."
+        },
+        {
+          "spk": "W",
+          "name": "Weather Anchor",
+          "accent": "en-US",
+          "en": "In particular, families planning to attend the Youth Art Fair should head straight to the indoor backup site instead of the Botanical Garden—parking validation will be offered at the garage next door.",
+          "vi": "Đặc biệt, các gia đình dự định tham dự Hội chợ Nghệ thuật Thanh thiếu niên nên đi thẳng tới địa điểm dự phòng trong nhà thay vì Vườn Bách thảo—vé gửi xe sẽ được xác nhận miễn giảm tại nhà xe kế bên."
+        },
+        {
+          "spk": "W",
+          "name": "Weather Anchor",
+          "accent": "en-US",
+          "en": "Skies will clear up nicely by Sunday morning, with mild temperatures reaching seventy-two degrees by midday.",
+          "vi": "Bầu trời sẽ quang đãng trở lại vào sáng Chủ nhật, với nhiệt độ dễ chịu đạt bảy mươi hai độ F vào giữa trưa."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What weather is predicted for Saturday?",
+          "opts": [
+            "Unusually hot and humid conditions",
+            "Persistent rain and strong winds",
+            "Early morning fog followed by sunshine",
+            "Freezing temperatures overnight"
+          ],
+          "ans": 1,
+          "exp": "Dự báo nói: 'steady rain and gusty winds... all day Saturday' → mưa liên tục và gió mạnh ('Persistent rain and strong winds'). Chọn (B)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Where will the Youth Art Fair take place?",
+          "opts": [
+            "Pavilion B",
+            "Civic Theater",
+            "Library Atrium",
+            "Central Plaza"
+          ],
+          "ans": 2,
+          "exp": "Bản tin bảo khách dự 'Youth Art Fair' đi thẳng tới địa điểm dự phòng trong nhà. Tra bảng: Backup Venue của Youth Art Fair là 'Library Atrium'. Chọn (C)."
+        },
+        {
+          "num": 6,
+          "q": "What is mentioned about Sunday's weather?",
+          "opts": [
+            "It will clear up with mild temperatures.",
+            "Showers will continue until noon.",
+            "Coastal wind advisories will remain active.",
+            "All outdoor events will stay canceled."
+          ],
+          "ans": 0,
+          "exp": "Câu cuối nói: 'Skies will clear up nicely by Sunday morning, with mild temperatures' → trời quang đãng, nhiệt độ dịu nhẹ. Chọn (A)."
+        }
+      ]
+    }
+  ]
+}

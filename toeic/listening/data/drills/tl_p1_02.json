@@ -1,0 +1,98 @@
+{
+  "id": "tl_p1_02",
+  "order": 8,
+  "level": 1,
+  "part": "part1",
+  "partLabel": "Part 1 • Tả tranh",
+  "title": "Part 1 • Bài 02: Tả 1 người tại nhà hàng & cửa hàng",
+  "subtitle": "Luyện nghe nhóm động từ phục vụ, nấu ăn, mua sắm và chọn hàng trên kệ (pouring, reaching, preparing).",
+  "accent": "en-GB",
+  "defaultRate": 1,
+  "tips": "Trong bối cảnh quán ăn/siêu thị, chú ý động từ mô tả tay đang cầm vật gì (pouring a beverage, reaching for an item, slicing food) và vị trí đứng (behind a counter).",
+  "items": [
+    {
+      "num": 1,
+      "accent": "en-GB",
+      "speaker": "M",
+      "image": "media/p1_02_1.svg",
+      "imageAlt": "Nhân viên phục vụ đeo tạp dề đang rót cà phê từ bình thủy tinh vào tách trên bàn",
+      "options": [
+        "He is stacking chairs on top of a table.",
+        "He is wiping down a glass window.",
+        "He is pouring a beverage into a cup.",
+        "He is washing plates in a sink."
+      ],
+      "optionsVi": [
+        "Anh ấy đang xếp chồng ghế lên mặt bàn.",
+        "Anh ấy đang lau chùi một ô cửa kính.",
+        "Anh ấy đang rót đồ uống vào một chiếc tách.",
+        "Anh ấy đang rửa đĩa trong bồn rửa."
+      ],
+      "ans": 2,
+      "exp": "Nam phục vụ cầm bình nghiêng rót đồ uống nâu vào tách trắng đặt trên bàn → chọn (C). Loại (A)(B)(D) vì không có ghế xếp chồng, cửa kính hay bồn rửa."
+    },
+    {
+      "num": 2,
+      "accent": "en-GB",
+      "speaker": "W",
+      "image": "media/p1_02_2.svg",
+      "imageAlt": "Khách hàng nữ cầm giỏ mua sắm vươn tay lấy một hộp hàng trên kệ siêu thị",
+      "options": [
+        "She is paying for groceries at a cash register.",
+        "She is reaching for an item on a shelf.",
+        "She is sweeping the supermarket aisle.",
+        "She is loading boxes into a delivery truck."
+      ],
+      "optionsVi": [
+        "Cô ấy đang thanh toán hàng tạp hóa tại máy tính tiền.",
+        "Cô ấy đang với tay lấy một món hàng trên kệ.",
+        "Cô ấy đang quét lối đi trong siêu thị.",
+        "Cô ấy đang chất thùng hàng lên xe tải giao hàng."
+      ],
+      "ans": 1,
+      "exp": "Người phụ nữ cầm giỏ mua sắm và giơ tay với lấy sản phẩm ở tầng kệ cao → chọn (B). Loại (A) không có quầy thu ngân, (C)(D) sai hành động."
+    },
+    {
+      "num": 3,
+      "accent": "en-GB",
+      "speaker": "M",
+      "image": "media/p1_02_3.svg",
+      "imageAlt": "Đầu bếp đội mũ trắng đang cắt rau củ trên thớt gỗ tại quầy bếp",
+      "options": [
+        "He is preparing food on a counter.",
+        "He is sweeping an outdoor patio.",
+        "He is unloading supplies from a van.",
+        "He is polishing silverware at a dining table."
+      ],
+      "optionsVi": [
+        "Anh ấy đang sơ chế thực phẩm trên quầy bếp.",
+        "Anh ấy đang quét sân hiên ngoài trời.",
+        "Anh ấy đang dỡ hàng tiếp tế từ xe tải nhỏ.",
+        "Anh ấy đang đánh bóng đồ bạc tại bàn ăn."
+      ],
+      "ans": 0,
+      "exp": "Đầu bếp mặc áo trắng, đội mũ bếp đang dùng dao sơ chế cà chua và rau trên thớt ở quầy bếp → chọn (A). Loại (B)(C)(D) vì sai không gian và hành động."
+    },
+    {
+      "num": 4,
+      "accent": "en-GB",
+      "speaker": "W",
+      "image": "media/p1_02_4.svg",
+      "imageAlt": "Nữ nhân viên bán hàng đứng phía sau quầy gỗ đặt máy tính tiền và túi giấy",
+      "options": [
+        "She is hanging winter coats on a rack.",
+        "She is rearranging flower pots by the door.",
+        "She is kneeling to tie her shoelace.",
+        "She is standing behind a counter."
+      ],
+      "optionsVi": [
+        "Cô ấy đang treo áo khoác mùa đông lên giá.",
+        "Cô ấy đang sắp xếp lại các chậu hoa cạnh cửa.",
+        "Cô ấy đang quỳ xuống buộc dây giày.",
+        "Cô ấy đang đứng phía sau một chiếc quầy."
+      ],
+      "ans": 3,
+      "exp": "Tranh vẽ nữ nhân viên đứng ngay phía sau quầy thu ngân gỗ có máy tính tiền và túi giấy → chọn (D). Loại (A)(B)(C) vì không có áo khoác, chậu hoa hay tư thế quỳ."
+    }
+  ]
+}

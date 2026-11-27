@@ -1,0 +1,98 @@
+{
+  "id": "tl_d03",
+  "order": 3,
+  "level": 1,
+  "part": "dictation",
+  "partLabel": "Dictation • Lấy gốc",
+  "title": "Dictation 03 • Ngày tháng, giờ giấc & số lượng (Giọng Anh)",
+  "subtitle": "Rèn tai bắt chuẩn số đếm (-teen vs -ty), giờ họp, thứ ngày và tháng theo giọng Anh–Anh.",
+  "accent": "en-GB",
+  "defaultRate": 0.75,
+  "tips": "Giọng Anh–Anh (en-GB) thường không cong lưỡi âm /r/ cuối âm tiết (như 'forty', 'platform') và đọc rõ âm /t/. Phân biệt kỹ trọng âm '-TEEN' (thir-TEEN) với '-ty' (FOR-ty).",
+  "items": [
+    {
+      "num": 1,
+      "speaker": "W",
+      "accent": "en-GB",
+      "sentence": "The training workshop begins at nine fifteen sharp.",
+      "masked": "The _____ workshop begins at nine _____ _____.",
+      "blanks": [
+        "training",
+        "fifteen",
+        "sharp"
+      ],
+      "vi": "Hội thảo đào tạo bắt đầu đúng chín giờ mười lăm phút.",
+      "phoneticTip": "Chú ý trọng âm rơi vào âm 2 ở 'fif-TEEN' và từ 'sharp' nghĩa là 'đúng giờ'."
+    },
+    {
+      "num": 2,
+      "speaker": "M",
+      "accent": "en-GB",
+      "sentence": "Please reserve forty chairs for the October seminar.",
+      "masked": "Please _____ _____ chairs for the October _____.",
+      "blanks": [
+        "reserve",
+        "forty",
+        "seminar"
+      ],
+      "vi": "Vui lòng giữ trước bốn mươi ghế cho buổi hội thảo tháng Mười.",
+      "phoneticTip": "Giọng Anh đọc 'forty' là /ˈfɔː.ti/ không cong lưỡi /r/, khác rõ với 'fourteen'."
+    },
+    {
+      "num": 3,
+      "speaker": "W",
+      "accent": "en-GB",
+      "sentence": "Our branch office opens on Tuesday mornings at eight.",
+      "masked": "Our _____ office opens on _____ mornings at _____.",
+      "blanks": [
+        "branch",
+        "Tuesday",
+        "eight"
+      ],
+      "vi": "Văn phòng chi nhánh của chúng tôi mở cửa vào các sáng thứ Ba lúc tám giờ.",
+      "phoneticTip": "Giọng Anh đọc 'branch' với âm /ɑː/ mở (/brɑːntʃ/) và 'Tuesday' có âm /tjuːz/."
+    },
+    {
+      "num": 4,
+      "speaker": "M",
+      "accent": "en-GB",
+      "sentence": "The express train departs from platform thirteen.",
+      "masked": "The _____ train _____ from platform _____.",
+      "blanks": [
+        "express",
+        "departs",
+        "thirteen"
+      ],
+      "vi": "Chuyến tàu tốc hành khởi hành từ sân ga số mười ba.",
+      "phoneticTip": "Âm /ɑː/ dài không cong lưỡi trong 'departs' (/dɪˈpɑːts/) và nhấn âm 2 'thir-TEEN'."
+    },
+    {
+      "num": 5,
+      "speaker": "W",
+      "accent": "en-GB",
+      "sentence": "We need to submit the expense forms by November twelfth.",
+      "masked": "We need to _____ the _____ forms by November _____.",
+      "blanks": [
+        "submit",
+        "expense",
+        "twelfth"
+      ],
+      "vi": "Chúng ta cần nộp các mẫu thanh toán chi phí trước ngày mười hai tháng Mười Một.",
+      "phoneticTip": "Chú ý tổ hợp phụ âm cuối /lfθ/ của số thứ tự 'twelfth' và nhấn âm 2 'sub-MIT'."
+    },
+    {
+      "num": 6,
+      "speaker": "M",
+      "accent": "en-GB",
+      "sentence": "The annual audit will take approximately three weeks.",
+      "masked": "The _____ audit will take _____ three _____.",
+      "blanks": [
+        "annual",
+        "approximately",
+        "weeks"
+      ],
+      "vi": "Cuộc kiểm toán hàng năm sẽ mất khoảng ba tuần.",
+      "phoneticTip": "Nhấn âm 2 ở 'ap-PROX-i-mate-ly' và nghe nguyên âm dài /iː/ trong 'weeks'."
+    }
+  ]
+}

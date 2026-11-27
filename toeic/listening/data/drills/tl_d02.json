@@ -1,0 +1,98 @@
+{
+  "id": "tl_d02",
+  "order": 2,
+  "level": 1,
+  "part": "dictation",
+  "partLabel": "Dictation • Lấy gốc",
+  "title": "Dictation 02 • Nối âm (Linking) trong câu tả hành động",
+  "subtitle": "Làm quen hiện tượng phụ âm nối nguyên âm trong các cụm động từ nền tảng Part 1.",
+  "accent": "en-US",
+  "defaultRate": 0.75,
+  "tips": "Trong tiếng Anh nói tự nhiên, cụm động từ như 'setting up', 'picking up', 'handing out' được nối liền như một từ dài. Hãy nghe cả cụm thay vì tách rời từng chữ.",
+  "items": [
+    {
+      "num": 1,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "A worker is setting up an exhibition booth.",
+      "masked": "A worker is _____ up an _____ _____.",
+      "blanks": [
+        "setting",
+        "exhibition",
+        "booth"
+      ],
+      "vi": "Một công nhân đang dựng một gian hàng triển lãm.",
+      "phoneticTip": "Chú ý nối âm 'up an exhibition' và âm /θ/ nhẹ ở cuối từ 'booth'."
+    },
+    {
+      "num": 2,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "The woman is picking up a package from the counter.",
+      "masked": "The woman is _____ up a _____ from the _____.",
+      "blanks": [
+        "picking",
+        "package",
+        "counter"
+      ],
+      "vi": "Người phụ nữ đang nhấc một kiện hàng từ trên quầy.",
+      "phoneticTip": "Nghe liền mạch 'picking-up-a' và âm cuối /dʒ/ của từ 'package'."
+    },
+    {
+      "num": 3,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "Two colleagues are looking over an architectural plan.",
+      "masked": "Two _____ are _____ over an _____ plan.",
+      "blanks": [
+        "colleagues",
+        "looking",
+        "architectural"
+      ],
+      "vi": "Hai đồng nghiệp đang xem xét một bản vẽ kiến trúc.",
+      "phoneticTip": "Từ 'colleagues' đọc /ˈkɑː.liːɡz/ (2 âm tiết); nối 'looking over an'."
+    },
+    {
+      "num": 4,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "He is handing out copies of the updated agenda.",
+      "masked": "He is _____ out _____ of the updated _____.",
+      "blanks": [
+        "handing",
+        "copies",
+        "agenda"
+      ],
+      "vi": "Anh ấy đang phát các bản sao của chương trình họp đã cập nhật.",
+      "phoneticTip": "Cụm 'handing out' nối mượt /ŋ/ sang /aʊ/; nhấn âm 2 ở 'a-GEN-da'."
+    },
+    {
+      "num": 5,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "A technician is plugging in a projector near the screen.",
+      "masked": "A technician is _____ in a _____ near the _____.",
+      "blanks": [
+        "plugging",
+        "projector",
+        "screen"
+      ],
+      "vi": "Một kỹ thuật viên đang cắm điện máy chiếu gần màn hình.",
+      "phoneticTip": "Nghe nối cụm 'plugging-in-a'; nhấn âm 2 ở 'pro-JEC-tor'."
+    },
+    {
+      "num": 6,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "Passengers are lining up at the boarding gate.",
+      "masked": "Passengers are _____ up at the _____ _____.",
+      "blanks": [
+        "lining",
+        "boarding",
+        "gate"
+      ],
+      "vi": "Các hành khách đang xếp hàng tại cổng lên máy bay.",
+      "phoneticTip": "Nối 'lining up at' rất nhanh; phân biệt 'boarding' (/ɔːr/) với 'boring'."
+    }
+  ]
+}

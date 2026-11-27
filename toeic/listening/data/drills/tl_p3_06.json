@@ -1,0 +1,198 @@
+{
+  "id": "tl_p3_06",
+  "order": 28,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Bảo trì Cơ sở vật chất & Lịch Sửa chữa Tòa nhà",
+  "subtitle": "Xử lý sự cố điều hòa văn phòng và theo dõi lịch bảo dưỡng khu vực tòa nhà",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Chú ý từ vựng về bảo trì tòa nhà (HVAC, thermostat, east wing, out of service, contractor) và ngày/khu vực bị ảnh hưởng trong bảng lịch bảo dưỡng.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Sự cố hệ thống điều hòa khu Đông",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Hi Tessa, did building management get back to you about the heating issue on the fourth floor?",
+          "vi": "Chào Tessa, ban quản lý tòa nhà đã phản hồi bạn về sự cố hệ thống sưởi ở tầng bốn chưa?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "They did—an HVAC technician came by this morning and found a cracked valve. Unfortunately, the replacement part won't arrive until tomorrow afternoon.",
+          "vi": "Họ trả lời rồi—một kỹ thuật viên điều hòa đã ghé qua sáng nay và phát hiện van bị nứt. Tiếc là linh kiện thay thế đến chiều mai mới về tới."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Oh, that explains why my desk feels freezing. I was planning to stay in the east wing to finish our quarterly audit today.",
+          "vi": "Ồ, thảo nào bàn làm việc của tôi lạnh cóng. Hôm nay tôi đang định ngồi ở cánh Đông để làm nốt đợt kiểm toán quý."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "You might want to bring a sweater if you're working in the east wing. Or better yet, management opened up the vacant offices on the second floor for anyone who wants to relocate temporarily.",
+          "vi": "Bạn nên mang theo áo len nếu làm việc ở cánh Đông đấy. Hoặc tốt hơn nữa là ban quản lý đã mở các phòng trống ở tầng hai cho ai muốn chuyển chỗ tạm thời."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "I'll grab my laptop and move downstairs right after lunch then. Thanks for letting me know!",
+          "vi": "Vậy tôi sẽ cầm laptop xuống tầng dưới ngay sau bữa trưa. Cảm ơn bạn đã báo nhé!"
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why hasn't the heating system been repaired yet?",
+          "opts": [
+            "No technician was available this morning.",
+            "A required component has not been delivered.",
+            "Management has not approved the repair quote.",
+            "The fourth floor is locked for an audit."
+          ],
+          "ans": 1,
+          "exp": "Tessa giải thích: 'the replacement part won't arrive until tomorrow afternoon' (linh kiện thay thế chiều mai mới đến) → linh kiện cần thiết chưa được giao. Chọn (B)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman mean when she says, \"You might want to bring a sweater if you're working in the east wing\"?",
+          "opts": [
+            "The office dress code has become more casual.",
+            "She left a jacket at the man's workstation.",
+            "The man should meet clients outdoors.",
+            "The temperature in that area will remain cold."
+          ],
+          "ans": 3,
+          "exp": "Do hệ thống sưởi hỏng van chưa sửa xong trong hôm nay, lời khuyên mang áo len ngụ ý khu cánh Đông vẫn sẽ tiếp tục lạnh ('remain cold'). Chọn (D)."
+        },
+        {
+          "num": 3,
+          "q": "What does the man decide to do after lunch?",
+          "opts": [
+            "Move to a workspace on the second floor",
+            "Call the HVAC technician for an update",
+            "Work from home for the afternoon",
+            "Postpone the quarterly audit until tomorrow"
+          ],
+          "ans": 0,
+          "exp": "Sau khi Tessa nhắc tới phòng trống ở tầng hai ('second floor'), người đàn ông đáp: 'I'll grab my laptop and move downstairs right after lunch' → chuyển xuống tầng hai làm việc. Chọn (A)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Lịch Bảo dưỡng Định kỳ Tòa nhà",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "Building Maintenance Schedule",
+        "headers": [
+          "Date",
+          "Area",
+          "Work Type"
+        ],
+        "rows": [
+          [
+            "May 12",
+            "Main Lobby",
+            "Floor Polishing"
+          ],
+          [
+            "May 14",
+            "North Elevators",
+            "Cable Inspection"
+          ],
+          [
+            "May 16",
+            "Underground Garage",
+            "Line Repainting"
+          ],
+          [
+            "May 18",
+            "Rooftop Terrace",
+            "Lighting Upgrade"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Graham, we received the updated building maintenance schedule for May, and one item conflicts with our client reception.",
+          "vi": "Graham, chúng ta vừa nhận được lịch bảo dưỡng tòa nhà cập nhật cho tháng Năm, và có một mục bị trùng với buổi tiệc đón tiếp khách hàng của mình."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "Let me look... Our evening reception is on May 18, right? And we were planning to host cocktails outdoors on the terrace.",
+          "vi": "Để tôi xem... Tiệc đón khách buổi tối của ta diễn ra vào ngày 18 tháng Năm đúng không? Và ta đang tính tổ chức tiệc cocktail ngoài trời trên sân thượng."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Exactly. Plus, the contractor told me they'll need to shut off power up there from four o'clock onward.",
+          "vi": "Đúng vậy. Hơn nữa, nhà thầu bảo tôi họ sẽ phải cắt điện trên đó từ bốn giờ chiều trở đi."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "Okay, no problem. Let's call the building supervisor to see if they can push the lighting work to May 19; otherwise, we can move the reception into the Atrium Lounge.",
+          "vi": "Được rồi, không sao đâu. Hãy gọi giám sát tòa nhà xem họ có dời việc lắp đèn sang 19 tháng Năm được không; nếu không thì ta chuyển tiệc vào Sảnh Atrium."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "What event are the speakers organizing?",
+          "opts": [
+            "A rooftop lighting demonstration",
+            "A contractor safety briefing",
+            "An evening reception for clients",
+            "A staff parking reallocation"
+          ],
+          "ans": 2,
+          "exp": "Họ nhắc đến 'our client reception' và 'Our evening reception is on May 18' → buổi tiệc đón tiếp khách hàng buổi tối. Chọn (C)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. What maintenance work conflicts with the speakers' event?",
+          "opts": [
+            "Floor Polishing",
+            "Lighting Upgrade",
+            "Line Repainting",
+            "Cable Inspection"
+          ],
+          "ans": 1,
+          "exp": "Sự kiện diễn ra ngày May 18 tại sân thượng ('terrace'). Đối chiếu bảng: ngày May 18 ở Rooftop Terrace là 'Lighting Upgrade'. Chọn (B)."
+        },
+        {
+          "num": 6,
+          "q": "What backup plan does the man mention?",
+          "opts": [
+            "Hiring an external generator",
+            "Canceling the catering order",
+            "Shortening the reception to two hours",
+            "Hosting the event in the Atrium Lounge"
+          ],
+          "ans": 3,
+          "exp": "Câu cuối Graham nói: 'otherwise, we can move the reception into the Atrium Lounge' → phương án dự phòng là tổ chức ở Atrium Lounge. Chọn (D)."
+        }
+      ]
+    }
+  ]
+}

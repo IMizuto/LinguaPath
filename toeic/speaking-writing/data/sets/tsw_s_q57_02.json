@@ -1,0 +1,125 @@
+{
+  "id": "tsw_s_q57_02",
+  "skill": "speaking",
+  "taskType": "sp_q57",
+  "code": "Q5–7",
+  "level": 3,
+  "targetBand": "150–180",
+  "title": "Trả lời câu hỏi Q5–7 #2: Đi làm Hằng ngày & Không gian Văn phòng",
+  "topic": "Công việc & Di chuyển Đô thị",
+  "estMinutes": 7,
+  "guideVi": "Chủ đề công sở rất hay xuất hiện trong Q5–7. Luyện cách chuyển mạch mượt giữa mô tả thói quen cá nhân (Q5), nhận xét ưu nhược điểm (Q6) và đề xuất giải pháp thực tế (Q7).",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Trả lời thẳng trọng tâm và đủ ý cho cả 3 câu Q5, Q6, Q7",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Mở rộng lý do kèm ví dụ thực tế thuyết phục ở câu Q7 (30s)",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Từ vựng tự nhiên, ngữ pháp chính xác và phản xạ mượt",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q57_02_1",
+      "itemType": "sp_q57",
+      "label": "Q5–7 • Khảo sát nhân sự về di chuyển và môi trường làm việc",
+      "prepSec": 3,
+      "respSec": 30,
+      "accent": "UK",
+      "scenarioEn": "Imagine that an international human resources magazine is interviewing office workers about their daily commute and workplace setup. You have agreed to answer three questions.",
+      "scenarioVi": "Hãy tưởng tượng một tạp chí nhân sự quốc tế đang phỏng vấn nhân viên văn phòng về quãng đường đi làm hằng ngày và không gian làm việc. Bạn đồng ý trả lời ba câu hỏi sau.",
+      "targetKeywords": [
+        "commute",
+        "subway",
+        "productive",
+        "quiet",
+        "flexible",
+        "workspace",
+        "traffic"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 5,
+          "questionEn": "How do you usually commute to work or school, and how long does the trip take?",
+          "questionVi": "Bạn thường đi làm hoặc đi học bằng phương tiện gì và mất bao lâu?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "I usually take the subway to the office, and the journey takes about thirty-five minutes each way. Taking public transit lets me listen to podcasts instead of worrying about heavy traffic.",
+          "sampleVi": "Tôi thường đi tàu điện ngầm đến văn phòng và mỗi chiều mất khoảng 35 phút. Đi phương tiện công cộng giúp tôi nghe podcast thay vì lo lắng chuyện kẹt xe.",
+          "keywords": [
+            "subway",
+            "thirty-five minutes",
+            "public transit",
+            "podcasts",
+            "traffic"
+          ]
+        },
+        {
+          "qNum": 6,
+          "questionEn": "Do you prefer working in an open-plan office or in a quiet private room? Why?",
+          "questionVi": "Bạn thích làm việc trong văn phòng không gian mở hay phòng riêng yên tĩnh? Tại sao?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "I prefer a quiet private room because background noise easily breaks my concentration. When I need to write detailed reports or analyze data, a calm space makes me much more productive.",
+          "sampleVi": "Tôi thích phòng riêng yên tĩnh hơn vì tiếng ồn xung quanh rất dễ làm tôi mất tập trung. Khi cần viết báo cáo chi tiết hay phân tích số liệu, không gian yên ắng giúp tôi làm việc năng suất hơn nhiều.",
+          "keywords": [
+            "quiet",
+            "private room",
+            "concentration",
+            "noise",
+            "productive"
+          ]
+        },
+        {
+          "qNum": 7,
+          "questionEn": "What is one improvement companies could make to reduce employees' commuting stress?",
+          "questionVi": "Đâu là một cải tiến doanh nghiệp có thể áp dụng để giảm áp lực đi làm hằng ngày cho nhân viên?",
+          "prepSec": 3,
+          "respSec": 30,
+          "sample": "In my view, the most effective improvement is offering flexible starting hours. If employees can begin work at either eight or ten in the morning, they can avoid peak rush-hour congestion and arrive at the office feeling far less exhausted. Additionally, companies could subsidize monthly bus or train passes to encourage sustainable travel. For example, a colleague of mine switched to a flexible schedule last year and cut her daily commute time nearly in half, which noticeably boosted her energy and job satisfaction.",
+          "sampleVi": "Theo quan điểm của tôi, cải tiến hiệu quả nhất là áp dụng giờ bắt đầu làm việc linh hoạt. Nếu nhân viên có thể bắt đầu lúc tám giờ hoặc mười giờ sáng, họ sẽ tránh được giờ cao điểm kẹt xe và đến công ty với tinh thần đỡ mệt mỏi hơn hẳn. Ngoài ra, công ty có thể hỗ trợ vé xe buýt hoặc tàu tháng để khuyến khích di chuyển bền vững. Ví dụ, một đồng nghiệp của tôi chuyển sang lịch linh hoạt năm ngoái và giảm gần một nửa thời gian đi lại, nhờ đó tăng rõ rệt năng lượng và sự hài lòng trong công việc.",
+          "keywords": [
+            "flexible",
+            "starting hours",
+            "rush-hour",
+            "subsidize",
+            "job satisfaction"
+          ]
+        }
+      ],
+      "tipVi": "Ở câu Q7 dạng đề xuất giải pháp ('What is one improvement...'), hãy nêu rõ tên giải pháp ngay câu 1, giải thích cơ chế tác động ở câu 2–3 và chốt bằng một ví dụ nhỏ từ đồng nghiệp hoặc bản thân.",
+      "keyPhrases": [
+        {
+          "en": "each way",
+          "vi": "mỗi chiều đi/về"
+        },
+        {
+          "en": "open-plan office",
+          "vi": "văn phòng không gian mở"
+        },
+        {
+          "en": "breaks my concentration",
+          "vi": "làm gián đoạn sự tập trung của tôi"
+        },
+        {
+          "en": "flexible starting hours",
+          "vi": "giờ bắt đầu làm việc linh hoạt"
+        },
+        {
+          "en": "peak rush-hour congestion",
+          "vi": "tắc nghẽn vào giờ cao điểm"
+        }
+      ],
+      "sample": "Q5: I take the subway to the office, which takes about thirty-five minutes each way and lets me listen to podcasts.\n\nQ6: I prefer a quiet private room because background chatter easily breaks my concentration when writing reports.\n\nQ7: Companies should offer flexible starting hours so staff can avoid peak rush-hour traffic and arrive energized. Subsidizing transit passes would also help; a colleague cut her commute almost in half this way and felt much happier at work.",
+      "sampleVi": "Q5: Tôi đi tàu điện ngầm đến công ty, mất khoảng 35 phút mỗi chiều và có thể nghe podcast.\n\nQ6: Tôi thích phòng riêng yên tĩnh vì tiếng nói chuyện xung quanh dễ làm mất tập trung khi viết báo cáo.\n\nQ7: Doanh nghiệp nên áp dụng giờ bắt đầu linh hoạt để nhân viên tránh giờ cao điểm và đến công ty tràn đầy năng lượng. Hỗ trợ vé tàu xe cũng rất hữu ích; một đồng nghiệp của tôi đã giảm gần một nửa thời gian đi lại theo cách này và thấy hài lòng hơn hẳn."
+    }
+  ]
+}

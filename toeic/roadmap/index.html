@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="portal" data-course="toeic">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        document.documentElement.style.setProperty("--s4-safe-top", (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <title>Lộ Trình Học TOEIC 0 → 990 — LinguaPath</title>
+
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=68">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition { navigation: auto; }
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+      touch-action: pan-y;
+      min-height: 100vh;
+      background: transparent !important;
+      color: var(--lg-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html.theme-ghibli, html.theme-ghibli body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    .rm-glass {
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      border: 1px solid var(--lg-hairline);
+      text-shadow: var(--lg-text-halo);
+      box-shadow:
+        inset 0 1.5px 0 var(--lg-rim-top),
+        inset 1px 0 0 var(--lg-rim-side),
+        inset 0 -1px 0 var(--lg-rim-bot),
+        var(--lg-shadow);
+    }
+    .rm-cta-btn, .rm-pill.active, .rm-badge.status-done {
+      text-shadow: none;
+    }
+
+    .rm-shell {
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+      padding:
+        calc(10px + var(--s4-safe-top, 0px))
+        calc(14px + env(safe-area-inset-right, 0px))
+        calc(88px + env(safe-area-inset-bottom, 0px))
+        calc(14px + env(safe-area-inset-left, 0px));
+    }
+
+    .rm-topbar {
+      position: sticky;
+      top: calc(8px + var(--s4-safe-top, 0px));
+      z-index: 40;
+      border-radius: 22px;
+      padding: 8px 10px;
+      margin-bottom: 14px;
+      background: var(--lg-surface-strong);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rm-top-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .rm-back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      color: var(--lg-ink);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.16s ease, transform 0.15s ease;
+    }
+    .rm-back-pill:hover { background: var(--lg-wash-hover); }
+    .rm-back-pill:active { transform: scale(0.97); }
+
+    .rm-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+    .rm-brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+      flex-shrink: 0;
+    }
+    .rm-brand-text { min-width: 0; }
+    .rm-brand-title {
+      margin: 0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: var(--lg-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rm-brand-sub {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--lg-ink-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rm-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .rm-icon-btn {
+      height: 36px;
+      min-width: 36px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-wash);
+      color: var(--lg-ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      text-shadow: none;
+      transition: background 0.16s ease, transform 0.15s ease;
+    }
+    .rm-icon-btn:hover { background: var(--lg-wash-hover); }
+    .rm-icon-btn:active { transform: scale(0.96); }
+    .rm-icon-btn.donate {
+      background: var(--lg-rose-soft);
+      color: var(--lg-rose);
+      border-color: rgba(225, 29, 72, 0.24);
+    }
+
+    .rm-summary-strip {
+      border-radius: 22px;
+      padding: 12px 8px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+    }
+    .rm-sum-cell {
+      padding: 4px 10px;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      min-width: 0;
+      position: relative;
+      border-radius: 14px;
+      transition: background 0.16s ease;
+    }
+    .rm-sum-cell + .rm-sum-cell::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 16%;
+      bottom: 16%;
+      width: 1px;
+      background: var(--lg-divider);
+    }
+    .rm-sum-cell.clickable:hover { background: var(--lg-wash); }
+    .rm-sum-num {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--lg-accent);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rm-sum-num.is-stage { color: var(--lg-green); }
+    .rm-sum-num.is-due { color: var(--lg-rose); }
+    .rm-sum-lbl {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rm-panel {
+      border-radius: 24px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .rm-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .rm-panel-title {
+      margin: 0;
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--lg-ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .rm-panel-title svg { color: var(--lg-accent); flex-shrink: 0; }
+    .rm-ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--lg-wash);
+      border: 1px solid var(--lg-hairline);
+      color: var(--lg-ink-sub);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .rm-ghost-btn:hover { background: var(--lg-wash-hover); color: var(--lg-ink); }
+
+    .rm-seg-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 12px;
+    }
+    .rm-seg-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.45px;
+      color: var(--lg-ink-muted);
+      margin-bottom: 6px;
+    }
+    .rm-seg-track {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 15px;
+      background: var(--lg-seg-track);
+    }
+    .rm-seg-btn {
+      flex: 1 1 0;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      color: var(--lg-ink-sub);
+      border-radius: 11px;
+      padding: 7px 6px;
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-shadow: none;
+      transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+    }
+    .rm-seg-btn small {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--lg-ink-muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .rm-seg-btn:hover { color: var(--lg-ink); }
+    .rm-seg-btn.active {
+      background: var(--lg-seg-active);
+      color: var(--lg-accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    .rm-seg-btn.active small { color: var(--lg-ink-sub); }
+    .rm-inline-note {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--lg-ink-sub);
+    }
+    .rm-inline-note svg { color: var(--lg-accent); flex-shrink: 0; }
+
+    .rm-focus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-focus-item {
+      border-radius: 16px;
+      padding: 13px;
+      background: var(--lg-wash);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      transition: background 0.16s ease, transform 0.16s ease;
+    }
+    .rm-focus-item:hover { background: var(--lg-wash-hover); transform: translateY(-1px); }
+    .rm-focus-item.is-due { background: var(--lg-rose-soft); }
+
+    .rm-item-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+    }
+    .rm-mod-ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-accent-soft);
+      color: var(--lg-accent);
+    }
+    .rm-mod-ico.mod-vocab { background: #dbeafe; color: #1d4ed8; }
+    .rm-mod-ico.mod-grammar { background: #ccfbf1; color: #0f766e; }
+    .rm-mod-ico.mod-listening { background: #fef3c7; color: #b45309; }
+    .rm-mod-ico.mod-reading { background: #dcfce7; color: #15803d; }
+    .rm-mod-ico.mod-mock { background: #f3e8ff; color: #7e22ce; }
+    html.dark .rm-mod-ico.mod-vocab { background: rgba(59, 130, 246, 0.22); color: #93c5fd; }
+    html.dark .rm-mod-ico.mod-grammar { background: rgba(20, 184, 166, 0.22); color: #5eead4; }
+    html.dark .rm-mod-ico.mod-listening { background: rgba(245, 158, 11, 0.22); color: #fcd34d; }
+    html.dark .rm-mod-ico.mod-reading { background: rgba(34, 197, 94, 0.22); color: #86efac; }
+    html.dark .rm-mod-ico.mod-mock { background: rgba(168, 85, 247, 0.22); color: #d8b4fe; }
+    .rm-focus-item.is-due .rm-mod-ico {
+      background: rgba(225, 29, 72, 0.16);
+      color: var(--lg-rose);
+    }
+
+    .rm-item-kicker {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--lg-accent);
+      margin-bottom: 2px;
+    }
+    .rm-focus-item.is-due .rm-item-kicker { color: var(--lg-rose); }
+    .rm-item-title {
+      margin: 0;
+      font-size: 13.8px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--lg-ink);
+    }
+    .rm-item-hint {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--lg-ink-muted);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+    .rm-focus-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--lg-divider);
+    }
+    .rm-prog-txt {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+    }
+    .rm-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--lg-accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: filter 0.15s ease, transform 0.14s ease;
+    }
+    .rm-cta-btn:hover { filter: brightness(1.08); }
+    .rm-cta-btn:active { transform: scale(0.97); }
+    .rm-focus-item.is-due .rm-cta-btn { background: #e11d48; }
+
+    .rm-nav-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 16px 0 12px;
+    }
+    .rm-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .rm-pills-scroll {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px;
+      scrollbar-width: none;
+      flex: 1;
+      min-width: 0;
+    }
+    .rm-pills-scroll::-webkit-scrollbar { display: none; }
+    .rm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--lg-hairline);
+      background: var(--lg-surface);
+      backdrop-filter: var(--lg-blur);
+      -webkit-backdrop-filter: var(--lg-blur);
+      color: var(--lg-ink-sub);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .rm-pill:hover { color: var(--lg-ink); border-color: var(--lg-accent); }
+    .rm-pill.active {
+      background: var(--lg-accent);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.14);
+    }
+    .rm-pill.done-pill:not(.active) {
+      color: var(--lg-green);
+      border-color: rgba(16, 185, 129, 0.36);
+    }
+
+    .rm-stage {
+      border-radius: 24px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    .rm-stage.is-current {
+      border-color: rgba(180, 83, 9, 0.42);
+    }
+    html.dark .rm-stage.is-current {
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    .rm-stage-head {
+      padding: 15px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+      transition: background 0.16s ease;
+    }
+    .rm-stage-head:hover { background: var(--lg-wash); }
+    .rm-stage-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .rm-stage-ico {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--lg-wash-hover);
+      color: var(--lg-accent);
+    }
+    .rm-stage-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .rm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--lg-wash-hover);
+      color: var(--lg-ink-sub);
+    }
+    .rm-badge.band { background: var(--lg-accent-soft); color: var(--lg-accent); }
+    .rm-badge.status-done { background: var(--lg-green-soft); color: var(--lg-green); }
+    .rm-badge.status-cur { background: var(--lg-accent-soft); color: var(--lg-accent); }
+    .rm-stage-title {
+      margin: 0 0 3px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--lg-ink);
+      line-height: 1.35;
+    }
+    .rm-stage-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+    }
+    .rm-stage-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+    .rm-stage-pct {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--lg-accent);
+      white-space: nowrap;
+    }
+    .rm-chevron {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--lg-wash);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lg-ink-sub);
+      transition: transform 0.2s ease;
+    }
+    .rm-stage.open .rm-chevron { transform: rotate(180deg); }
+
+    .rm-stage-bar-wrap { padding: 0 18px 14px; }
+    .rm-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: var(--lg-bar-track, var(--lg-divider));
+      overflow: hidden;
+    }
+    .rm-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .rm-stage-body {
+      display: none;
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--lg-divider);
+    }
+    .rm-stage.open .rm-stage-body { display: block; }
+    .rm-stage-goal {
+      margin: 0 0 6px;
+      font-size: 13px;
+      color: var(--lg-ink-sub);
+      line-height: 1.45;
+    }
+    .rm-stage-tip {
+      margin: 0 0 12px;
+      padding: 5px 0 5px 10px;
+      border-left: 3px solid var(--lg-amber);
+      font-size: 12px;
+      color: var(--lg-ink-sub);
+      line-height: 1.4;
+    }
+
+    .rm-tasks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-task {
+      border-radius: 16px;
+      padding: 13px;
+      background: var(--lg-wash);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      transition: background 0.16s ease;
+    }
+    .rm-task:hover { background: var(--lg-wash-hover); }
+    .rm-task.is-done { background: var(--lg-green-soft); }
+    .rm-task.is-skipped { opacity: 0.78; }
+    .rm-task-desc {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--lg-ink-muted);
+      line-height: 1.4;
+    }
+    .rm-task-hint {
+      margin-top: 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-accent);
+    }
+    .rm-task.is-done .rm-task-hint { color: var(--lg-green); }
+
+    .rm-task-foot { display: flex; flex-direction: column; gap: 7px; }
+    .rm-task-prog-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--lg-ink-muted);
+      gap: 8px;
+    }
+    .rm-task-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .rm-skip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background: var(--lg-seg-track);
+      color: var(--lg-ink-sub);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .rm-skip-btn:hover { background: var(--lg-wash-hover); color: var(--lg-ink); }
+    .rm-skip-btn.active {
+      background: var(--lg-green-soft);
+      color: var(--lg-green);
+    }
+
+    .rm-skill-strip {
+      border-radius: 20px;
+      padding: 11px 14px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .rm-skill-cell {
+      border: 1px solid transparent;
+      background: var(--lg-wash);
+      border-radius: 14px;
+      padding: 9px 10px;
+      text-align: left;
+      font-family: inherit;
+      color: var(--lg-ink);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.14s ease;
+    }
+    .rm-skill-cell:hover { background: var(--lg-wash-hover); border-color: var(--lg-hairline); transform: translateY(-1px); }
+    .rm-skill-cell.is-lagging { border-color: rgba(217, 119, 6, 0.45); background: rgba(245, 158, 11, 0.10); }
+    .rm-skill-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .rm-skill-name { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; color: var(--lg-ink); }
+    .rm-skill-pct { font-size: 12.5px; font-weight: 800; color: var(--lg-ink); }
+    .rm-skill-sub { font-size: 10.5px; font-weight: 700; color: var(--lg-ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rm-skill-cell.is-lagging .rm-skill-sub { color: var(--lg-amber); }
+
+    .rm-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: var(--lg-modal-backdrop, rgba(15, 23, 42, 0.36));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 16px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .rm-modal-card {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 22px;
+      padding: 18px;
+      margin: auto;
+      background: var(--lg-modal-surface, var(--lg-surface-strong));
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+    }
+    .rm-pt-q {
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: var(--lg-wash);
+    }
+    .rm-pt-opt {
+      text-align: left;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--lg-hairline);
+      background: transparent;
+      color: var(--lg-ink);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.14s ease, border-color 0.14s ease;
+    }
+    .rm-pt-opt:hover { background: var(--lg-wash-hover); }
+    .rm-pt-opt.selected { border-color: var(--lg-accent); background: var(--lg-accent-soft); }
+
+    @media (max-width: 760px) {
+      .rm-seg-grid, .rm-focus-grid, .rm-tasks-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .rm-brand-sub, .rm-hide-xs { display: none; }
+      .rm-skill-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 10px; border-radius: 18px; gap: 8px; }
+      .rm-topbar { padding: 7px 9px; border-radius: 18px; }
+      .rm-summary-strip { padding: 10px 4px; border-radius: 18px; }
+      .rm-sum-num { font-size: 17.5px; }
+      .rm-sum-lbl { font-size: 11px; }
+      .rm-panel { padding: 14px; border-radius: 20px; }
+      .rm-stage { border-radius: 20px; }
+      .rm-stage-head { padding: 14px; }
+      .rm-stage-bar-wrap { padding: 0 14px 12px; }
+      .rm-stage-body { padding: 12px 14px 14px; }
+    }
+    @media (max-width: 390px) {
+      .rm-seg-track { flex-wrap: wrap; }
+      .rm-seg-btn { flex: 1 1 calc(50% - 4px); }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+
+  <div class="rm-shell">
+    <header class="rm-topbar rm-glass">
+      <div class="rm-top-left">
+        <a href="../index.html" class="rm-back-pill" id="rmBackBtn" title="Về Cổng TOEIC">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>TOEIC</span>
+        </a>
+        <div class="rm-brand">
+          <div class="rm-brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+          </div>
+          <div class="rm-brand-text">
+            <h1 class="rm-brand-title">Lộ Trình Học TOEIC</h1>
+            <div class="rm-brand-sub">4 Chặng từ số 0 → 990 • Nghe–Đọc ETS</div>
+          </div>
+        </div>
+      </div>
+      <div class="rm-top-actions">
+        <button type="button" class="rm-icon-btn donate" id="rmDonateBtn" title="Ủng hộ dự án">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="rm-hide-xs">Ủng hộ</span>
+        </button>
+        <button type="button" class="rm-icon-btn" id="rmDarkBtn" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+
+    <section class="rm-summary-strip rm-glass" aria-label="Tổng quan lộ trình TOEIC">
+      <div class="rm-sum-cell">
+        <div class="rm-sum-num" id="sumOverallPct">0%</div>
+        <div class="rm-sum-lbl" id="sumTasksDone">0 / 24 học phần</div>
+      </div>
+      <div class="rm-sum-cell">
+        <div class="rm-sum-num is-stage" id="sumCurrentStage">Chặng 1</div>
+        <div class="rm-sum-lbl" id="sumStageLevel">0 → 350+</div>
+      </div>
+      <a class="rm-sum-cell clickable" id="sumDueLink" href="../vocab/index.html?filter=due&from=roadmap" title="Mở ôn tập từ vựng TOEIC SRS đến hạn">
+        <div class="rm-sum-num is-due" id="sumDueWords">0</div>
+        <div class="rm-sum-lbl">Từ TOEIC SRS cần ôn</div>
+      </a>
+    </section>
+
+    <section class="rm-skill-strip rm-glass" id="skillBreakdownStrip" aria-label="Tiến độ 4 kỹ năng TOEIC"></section>
+
+    <section class="rm-panel rm-glass">
+      <div class="rm-panel-head">
+        <h2 class="rm-panel-title" id="prefTitle">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <span>Cá nhân hóa lộ trình</span>
+        </h2>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <button type="button" class="rm-ghost-btn" id="btnOpenPlacement" style="border-color:var(--lg-accent);color:var(--lg-accent);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Đánh giá đầu vào (5 phút)</span>
+          </button>
+          <button type="button" class="rm-ghost-btn" id="btnResetPrefs">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Mặc định</span>
+          </button>
+        </div>
+      </div>
+      <div class="rm-seg-grid">
+        <div>
+          <div class="rm-seg-label">Xuất phát điểm</div>
+          <div class="rm-seg-track" id="startLevelChips"></div>
+        </div>
+        <div>
+          <div class="rm-seg-label">Nhịp học / ngày</div>
+          <div class="rm-seg-track" id="paceChips"></div>
+        </div>
+      </div>
+      <div class="rm-inline-note" id="prefDescNote"></div>
+    </section>
+
+    <section class="rm-panel rm-glass">
+      <div class="rm-panel-head">
+        <h2 class="rm-panel-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <span>Hôm nay học gì?</span>
+        </h2>
+        <span style="font-size:12px;font-weight:700;color:var(--lg-ink-muted);" id="focusStageLabel"></span>
+      </div>
+      <div class="rm-focus-grid" id="dailyFocusGrid"></div>
+    </section>
+
+    <nav class="rm-nav-wrap" aria-label="Điều hướng chặng và kỹ năng TOEIC">
+      <div class="rm-nav-row">
+        <div class="rm-pills-scroll" id="stageNavPills"></div>
+        <button type="button" class="rm-ghost-btn" id="btnToggleAllStages">Mở tất cả</button>
+      </div>
+      <div class="rm-pills-scroll" id="moduleFilterPills"></div>
+    </nav>
+
+    <section id="stagesContainer" aria-label="Chi tiết 4 chặng lộ trình TOEIC"></section>
+  </div>
+
+  <div id="placementModal" class="rm-modal-backdrop" role="dialog" aria-modal="true" aria-label="Đánh giá đầu vào TOEIC nhanh 5 phút">
+    <div class="rm-modal-card rm-glass">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">
+        <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--lg-ink);">Đánh giá đầu vào TOEIC (10 câu • ~5 phút)</h3>
+        <button type="button" class="rm-ghost-btn" id="btnClosePlacement">Đóng</button>
+      </div>
+      <div id="placementBody"></div>
+    </div>
+  </div>
+
+  <script src="roadmap_data.js?v=1"></script>
+  <script src="roadmap.js?v=1"></script>
+  <script src="../../assets/s4-ui.js?v=68"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var FALLBACK_SVG = {
+        vocab: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>',
+        grammar: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/>',
+        listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+        reading: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+        mock: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+        bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+        play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+        arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+        check: '<polyline points="20 6 9 17 4 12"/>',
+        clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        chevronDown: '<path d="m6 9 6 6 6-6"/>',
+        info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+        sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+        sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+        moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+        volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>'
+      };
+
+      var MODULE_ICON_MAP = {
+        vocab: "vocab",
+        grammar: "grammar",
+        listening: "listening",
+        reading: "reading",
+        mock: "award"
+      };
+
+      function svgIcon(name, size) {
+        var sz = size || 16;
+        var mapped = MODULE_ICON_MAP[name] || name;
+        if (window.S4UI && typeof window.S4UI.icon === "function") {
+          return window.S4UI.icon(mapped, sz);
+        }
+        var body = FALLBACK_SVG[name] || FALLBACK_SVG[mapped] || FALLBACK_SVG.sparkle;
+        return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
+      }
+
+      var MODULE_FILTERS = [
+        { id: "all", icon: "sparkle", label: "Tất cả" },
+        { id: "vocab", icon: "vocab", label: "Từ vựng SRS" },
+        { id: "grammar", icon: "grammar", label: "Ngữ pháp" },
+        { id: "listening", icon: "listening", label: "Nghe P1–4" },
+        { id: "reading", icon: "reading", label: "Đọc P5–7" },
+        { id: "mock", icon: "mock", label: "Thi thử ETS" }
+      ];
+
+      var MODULE_STEP_MAP = {
+        vocab: "Phân hệ Từ vựng TOEIC (Bước 2)",
+        grammar: "Phân hệ Ngữ pháp TOEIC (Bước 3)",
+        listening: "Phân hệ Luyện Nghe Part 1–4 (Bước 4)",
+        reading: "Phân hệ Luyện Đọc Part 5–7 (Bước 5)",
+        mock: "Phòng Thi Thử TOEIC 10–990 (Bước 6)"
+      };
+
+      var openStages = {};
+      var userToggledStage = false;
+      var activeModuleFilter = "all";
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      function syncDarkIcon() {
+        var btn = document.getElementById("rmDarkBtn");
+        if (!btn) return;
+        var isDark = document.documentElement.classList.contains("dark");
+        if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+          window.S4UI.renderThemeButton(btn, isDark);
+          return;
+        }
+        btn.innerHTML = svgIcon(isDark ? "sun" : "moon", 16);
+        btn.title = isDark ? "Đang ở chế độ Tối — Bấm để chuyển sang Sáng" : "Đang ở chế độ Sáng — Bấm để chuyển sang Tối";
+      }
+
+      function toggleDarkMode() {
+        if (window.toggleDarkModeOnly) {
+          window.toggleDarkModeOnly();
+        } else {
+          var isDark = !document.documentElement.classList.contains("dark");
+          document.documentElement.classList.toggle("dark", isDark);
+          if (document.body) document.body.classList.toggle("dark", isDark);
+          try { localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0"); } catch (e) {}
+        }
+        syncDarkIcon();
+      }
+
+      function notifyPendingModule(mod) {
+        var label = MODULE_STEP_MAP[mod] || "Phân hệ này";
+        var msg = label + " sẽ được mở khóa ở các bước triển khai kế tiếp.";
+        if (window.S4UI && typeof window.S4UI.toast === "function") {
+          window.S4UI.toast("info", msg);
+        } else {
+          alert(msg);
+        }
+      }
+
+      function renderAll() {
+        var data = window.LP_TOEIC_ROADMAP_DATA;
+        var api = window.LPToeicRoadmap;
+        if (!data || !api) return;
+
+        var ev = api.evaluateRoadmap({ urlPrefix: "../../" });
+        if (!ev) return;
+
+        if (!userToggledStage && ev.activeStage) {
+          openStages = {};
+          openStages[ev.activeStage.id] = true;
+        }
+
+        document.getElementById("sumOverallPct").textContent = ev.overallPct + "%";
+        document.getElementById("sumTasksDone").textContent = ev.completedTasks + " / " + ev.totalTasks + " học phần";
+        document.getElementById("sumCurrentStage").textContent = ev.activeStage ? ("Chặng " + ev.activeStage.order) : "Hoàn tất";
+        document.getElementById("sumStageLevel").textContent = ev.activeStage ? (ev.activeStage.levelRange + " • " + ev.activeStage.estWeeks) : "900+";
+        document.getElementById("sumDueWords").textContent = ev.dueWordsTotal.toLocaleString("en-US");
+        var dueLinkEl = document.getElementById("sumDueLink");
+        if (dueLinkEl) {
+          if (ev.dueTargetUrl) dueLinkEl.setAttribute("href", ev.dueTargetUrl);
+          dueLinkEl.setAttribute("data-pending-mod", data.READY_MODULES.vocab === false ? "vocab" : "");
+        }
+
+        var skillStrip = document.getElementById("skillBreakdownStrip");
+        if (skillStrip && ev.skillBreakdown && Array.isArray(ev.skillBreakdown.items)) {
+          skillStrip.innerHTML = ev.skillBreakdown.items.map(function (it) {
+            var lagCls = it.isLagging ? " is-lagging" : "";
+            var sub = it.isLagging
+              ? ("Cần ưu tiên • " + it.doneTasks + "/" + it.totalTasks + " phần")
+              : (it.doneTasks + "/" + it.totalTasks + " học phần");
+            return '<button type="button" class="rm-skill-cell' + lagCls + '" data-action="filter-mod" data-id="' + esc(it.key) + '" title="Lọc nhanh các học phần ' + esc(it.label) + '">'
+              + '<div class="rm-skill-top">'
+              + '  <span class="rm-skill-name">' + svgIcon(it.icon, 14) + '<span>' + esc(it.label) + '</span></span>'
+              + '  <span class="rm-skill-pct">' + it.pct + '%</span>'
+              + '</div>'
+              + '<div class="rm-bar" style="height:4px;"><div class="rm-bar-fill" style="width:' + it.pct + '%;background:' + esc(it.color) + ';"></div></div>'
+              + '<div class="rm-skill-sub">' + esc(sub) + '</div>'
+              + '</button>';
+          }).join("");
+        }
+
+        document.getElementById("startLevelChips").innerHTML = data.START_LEVELS.map(function (lv) {
+          var act = lv.id === ev.state.startLevel ? " active" : "";
+          return '<button type="button" class="rm-seg-btn' + act + '" data-action="start" data-id="' + esc(lv.id) + '">'
+            + esc(lv.shortLabel || lv.label) + '<small>' + esc(lv.badge) + '</small></button>';
+        }).join("");
+
+        document.getElementById("paceChips").innerHTML = data.PACES.map(function (pc) {
+          var act = pc.id === ev.state.pace ? " active" : "";
+          return '<button type="button" class="rm-seg-btn' + act + '" data-action="pace" data-id="' + esc(pc.id) + '">'
+            + esc(pc.label) + '<small>' + esc(pc.dailyDesc) + '</small></button>';
+        }).join("");
+
+        var ptSavedNote = "";
+        try {
+          var ptSaved = JSON.parse(localStorage.getItem(data.PLACEMENT_KEY) || "null");
+          if (ptSaved && typeof ptSaved.score === "number" && ptSaved.recLabel) {
+            ptSavedNote = ' • Đánh giá gần nhất: <b>' + ptSaved.score + '/10</b> (Gợi ý: <b>' + esc(ptSaved.recLabel) + '</b>).';
+          }
+        } catch (e) {}
+
+        document.getElementById("prefDescNote").innerHTML = svgIcon("info", 15)
+          + '<span>' + esc(ev.startLevel.desc)
+          + (ev.activeStage ? (' Lịch tham khảo <b>Chặng ' + ev.activeStage.order + '</b>: <b>' + esc(ev.activeStage.estWeeks) + '</b> (' + esc(ev.pace.dailyDesc) + ').') : '')
+          + ptSavedNote + '</span>';
+
+        document.getElementById("focusStageLabel").textContent = ev.activeStage
+          ? ("Chặng " + ev.activeStage.order + " • " + ev.activeStage.levelRange)
+          : "";
+
+        var focusEl = document.getElementById("dailyFocusGrid");
+        if (!ev.dailyFocus.length) {
+          focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần lộ trình TOEIC 0 → 990. Hãy duy trì luyện Full Test và ôn SRS hằng ngày.</div>';
+        } else {
+          focusEl.innerHTML = ev.dailyFocus.map(function (item) {
+            var dueCls = item.isDueBanner ? " is-due" : "";
+            var iconName = item.isDueBanner ? "bell" : item.module;
+            var progTxt = item.isDueBanner
+              ? "Ưu tiên hôm nay"
+              : (item.done.toLocaleString("en-US") + "/" + item.total.toLocaleString("en-US") + " " + esc(item.unitLabel) + " (" + item.pct + "%)");
+            var pendAttr = item.isModuleReady === false ? (' data-pending-mod="' + esc(item.module) + '"') : "";
+            var ctaTxt = item.isModuleReady === false ? "Sắp mở" : "Học ngay";
+            return '<div class="rm-focus-item' + dueCls + '">'
+              + '<div class="rm-item-top">'
+              + '  <div class="rm-mod-ico mod-' + esc(item.module) + '">' + svgIcon(iconName, 18) + '</div>'
+              + '  <div style="min-width:0;flex:1;">'
+              + '    <div class="rm-item-kicker">' + esc(item.moduleLabel) + '</div>'
+              + '    <h3 class="rm-item-title">' + esc(item.title) + '</h3>'
+              + '    <div class="rm-item-hint">' + esc(item.nextHint) + '</div>'
+              + '  </div>'
+              + '</div>'
+              + '<div class="rm-focus-foot">'
+              + '  <span class="rm-prog-txt">' + progTxt + '</span>'
+              + '  <a class="rm-cta-btn" href="' + esc(item.nextUrl) + '"' + pendAttr + '>' + svgIcon("play", 12) + '<span>' + ctaTxt + '</span></a>'
+              + '</div>'
+              + '</div>';
+          }).join("");
+        }
+
+        document.getElementById("stageNavPills").innerHTML = ev.stages.map(function (st) {
+          var cls = "rm-pill" + (ev.activeStage && ev.activeStage.id === st.id ? " active" : "") + (st.isCompleted ? " done-pill" : "");
+          var suffix = st.isCompleted ? svgIcon("check", 12) : ("<span>• " + st.pct + "%</span>");
+          return '<button type="button" class="' + cls + '" data-action="jump-stage" data-id="' + esc(st.id) + '">'
+            + svgIcon(st.icon, 13) + '<span>Chặng ' + st.order + '</span>' + suffix + '</button>';
+        }).join("");
+
+        document.getElementById("moduleFilterPills").innerHTML = MODULE_FILTERS.map(function (mf) {
+          var cls = "rm-pill" + (activeModuleFilter === mf.id ? " active" : "");
+          return '<button type="button" class="' + cls + '" data-action="filter-mod" data-id="' + esc(mf.id) + '">'
+            + svgIcon(mf.icon, 13) + '<span>' + esc(mf.label) + '</span></button>';
+        }).join("");
+
+        var allOpen = ev.stages.every(function (st) { return Boolean(openStages[st.id]); });
+        document.getElementById("btnToggleAllStages").textContent = allOpen ? "Thu gọn" : "Mở tất cả";
+
+        document.getElementById("stagesContainer").innerHTML = ev.stages.map(function (st) {
+          var isOpen = Boolean(openStages[st.id]);
+          var isCur = ev.activeStage && ev.activeStage.id === st.id;
+          var statusBadge = st.preCompletedByLevel
+            ? '<span class="rm-badge status-done">' + svgIcon("check", 11) + '<span>Đã qua theo nền tảng</span></span>'
+            : (st.isCompleted
+              ? '<span class="rm-badge status-done">' + svgIcon("check", 11) + '<span>Hoàn thành</span></span>'
+              : (isCur ? '<span class="rm-badge status-cur">Đang học</span>' : '<span class="rm-badge">Sắp tới</span>'));
+
+          var filteredTasks = st.tasks.filter(function (tk) {
+            return activeModuleFilter === "all" || tk.module === activeModuleFilter;
+          });
+
+          var tasksHtml = filteredTasks.length ? filteredTasks.map(function (tk) {
+            var cls = "rm-task" + (tk.isEffectiveDone ? " is-done" : "") + (tk.isSkipped ? " is-skipped" : "");
+            var countText = tk.evalType === "due_review"
+              ? (tk.isCompleted ? "Sạch từ đến hạn" : "Cần ôn tập")
+              : (tk.done.toLocaleString("en-US") + " / " + tk.total.toLocaleString("en-US") + " " + esc(tk.unitLabel) + " (" + tk.rawPct + "%)");
+            var skipLabel = tk.isSkipped ? "Đã bỏ qua" : "Đã vững";
+            var skipBtn = tk.isCompleted ? "" : (
+              '<button type="button" class="rm-skip-btn' + (tk.isSkipped ? " active" : "") + '" data-action="skip-task" data-id="' + esc(tk.id) + '">'
+              + svgIcon("check", 12) + '<span>' + skipLabel + '</span></button>'
+            );
+            var pendAttr = tk.isModuleReady === false ? (' data-pending-mod="' + esc(tk.module) + '"') : "";
+            var ctaText = tk.isModuleReady === false ? "Sắp mở" : (tk.isCompleted ? "Ôn lại" : "Vào học");
+
+            return '<div class="' + cls + '">'
+              + '<div class="rm-item-top">'
+              + '  <div class="rm-mod-ico mod-' + esc(tk.module) + '">' + svgIcon(tk.evalType === "due_review" ? "bell" : tk.module, 17) + '</div>'
+              + '  <div style="min-width:0;flex:1;">'
+              + '    <div class="rm-item-kicker">' + esc(tk.moduleLabel) + (tk.isCompleted ? ' • Hoàn thành' : (tk.isSkipped ? ' • Đã bỏ qua' : '')) + '</div>'
+              + '    <h4 class="rm-item-title">' + esc(tk.title) + '</h4>'
+              + '    <p class="rm-task-desc">' + esc(tk.desc) + '</p>'
+              + '    <div class="rm-task-hint">' + esc(tk.nextHint) + '</div>'
+              + '  </div>'
+              + '</div>'
+              + '<div class="rm-task-foot">'
+              + '  <div class="rm-task-prog-row"><span>' + countText + '</span><span>' + tk.pct + '%</span></div>'
+              + '  <div class="rm-bar"><div class="rm-bar-fill" style="width:' + tk.pct + '%;background:' + (tk.isEffectiveDone ? 'var(--lg-green)' : st.color) + ';"></div></div>'
+              + '  <div class="rm-task-actions">'
+              +      skipBtn
+              + '    <a class="rm-cta-btn" href="' + esc(tk.nextUrl) + '"' + pendAttr + ' style="margin-left:auto;"><span>' + ctaText + '</span>' + svgIcon("arrowRight", 13) + '</a>'
+              + '  </div>'
+              + '</div>'
+              + '</div>';
+          }).join("") : '<div style="grid-column:1/-1;font-size:13px;color:var(--lg-ink-muted);padding:6px 2px;">Chặng này không có học phần thuộc bộ lọc kỹ năng đang chọn.</div>';
+
+          return '<article class="rm-stage rm-glass' + (isOpen ? " open" : "") + (isCur ? " is-current" : "") + '" id="stageCard_' + esc(st.id) + '">'
+            + '<div class="rm-stage-head" data-action="toggle-stage" data-id="' + esc(st.id) + '">'
+            + '  <div class="rm-stage-left">'
+            + '    <div class="rm-stage-ico">' + svgIcon(st.icon, 20) + '</div>'
+            + '    <div style="min-width:0;">'
+            + '      <div class="rm-stage-badges">'
+            + '        <span class="rm-badge">' + esc(st.badge) + '</span>'
+            + '        <span class="rm-badge band">' + esc(st.levelRange) + '</span>'
+            +          statusBadge
+            + '      </div>'
+            + '      <h3 class="rm-stage-title">' + esc(st.title) + '</h3>'
+            + '      <div class="rm-stage-meta">' + svgIcon("clock", 13) + '<span>Lịch tham khảo: ' + esc(st.estWeeks) + ' • ' + st.doneTaskCount + '/' + st.totalTaskCount + ' học phần</span></div>'
+            + '    </div>'
+            + '  </div>'
+            + '  <div class="rm-stage-right">'
+            + '    <span class="rm-stage-pct">' + st.pct + '%</span>'
+            + '    <span class="rm-chevron">' + svgIcon("chevronDown", 15) + '</span>'
+            + '  </div>'
+            + '</div>'
+            + '<div class="rm-stage-bar-wrap"><div class="rm-bar"><div class="rm-bar-fill" style="width:' + st.pct + '%;background:' + (st.isCompleted ? 'var(--lg-green)' : st.color) + ';"></div></div></div>'
+            + '<div class="rm-stage-body">'
+            + '  <p class="rm-stage-goal"><b>Mục tiêu chặng:</b> ' + esc(st.goal) + '</p>'
+            + '  <div class="rm-stage-tip"><b>Mẹo học:</b> ' + esc(st.tip) + '</div>'
+            + '  <div class="rm-tasks-grid">' + tasksHtml + '</div>'
+            + '</div>'
+            + '</article>';
+        }).join("");
+      }
+
+      function handleActionClick(e) {
+        var pendLink = e.target && e.target.closest ? e.target.closest("[data-pending-mod]") : null;
+        if (pendLink) {
+          var pendMod = pendLink.getAttribute("data-pending-mod");
+          if (pendMod) {
+            e.preventDefault();
+            notifyPendingModule(pendMod);
+            return;
+          }
+        }
+        var btn = e.target && e.target.closest ? e.target.closest("[data-action]") : null;
+        if (!btn) return;
+        var action = btn.getAttribute("data-action");
+        var id = btn.getAttribute("data-id") || "";
+        var api = window.LPToeicRoadmap;
+        var data = window.LP_TOEIC_ROADMAP_DATA;
+
+        if (action === "start" && api) {
+          api.setStartLevel(id);
+          userToggledStage = false;
+          renderAll();
+        } else if (action === "pace" && api) {
+          api.setPace(id);
+          renderAll();
+        } else if (action === "skip-task" && api) {
+          api.toggleSkipTask(id);
+          renderAll();
+        } else if (action === "jump-stage") {
+          userToggledStage = true;
+          openStages[id] = true;
+          renderAll();
+          var el = document.getElementById("stageCard_" + id);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (action === "filter-mod") {
+          activeModuleFilter = id || "all";
+          if (activeModuleFilter !== "all" && data) {
+            userToggledStage = true;
+            data.STAGES.forEach(function (s) { openStages[s.id] = true; });
+          }
+          renderAll();
+        } else if (action === "toggle-stage") {
+          userToggledStage = true;
+          openStages[id] = !openStages[id];
+          var card = document.getElementById("stageCard_" + id);
+          if (card) card.classList.toggle("open", Boolean(openStages[id]));
+          var toggleBtn = document.getElementById("btnToggleAllStages");
+          if (toggleBtn && data) {
+            var allOpen = data.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
+            toggleBtn.textContent = allOpen ? "Thu gọn" : "Mở tất cả";
+          }
+        }
+      }
+
+      document.addEventListener("click", handleActionClick);
+
+      var darkBtnEl = document.getElementById("rmDarkBtn");
+      if (darkBtnEl) darkBtnEl.addEventListener("click", toggleDarkMode);
+
+      var donateBtnEl = document.getElementById("rmDonateBtn");
+      if (donateBtnEl) {
+        donateBtnEl.addEventListener("click", function () {
+          if (window.S4Auth && typeof window.S4Auth.openDonateModal === "function") {
+            window.S4Auth.openDonateModal();
+          }
+        });
+      }
+
+      var resetBtnEl = document.getElementById("btnResetPrefs");
+      if (resetBtnEl) {
+        resetBtnEl.addEventListener("click", function () {
+          if (!window.LPToeicRoadmap) return;
+          window.LPToeicRoadmap.resetPrefs();
+          userToggledStage = false;
+          activeModuleFilter = "all";
+          renderAll();
+          if (window.S4UI && typeof window.S4UI.toast === "function") {
+            window.S4UI.toast("info", "Đã đặt lại cấu hình lộ trình TOEIC về mặc định.");
+          }
+        });
+      }
+
+      var toggleAllBtn = document.getElementById("btnToggleAllStages");
+      if (toggleAllBtn) {
+        toggleAllBtn.addEventListener("click", function () {
+          var data = window.LP_TOEIC_ROADMAP_DATA;
+          if (!data) return;
+          userToggledStage = true;
+          var allOpen = data.STAGES.every(function (s) { return Boolean(openStages[s.id]); });
+          data.STAGES.forEach(function (s) {
+            openStages[s.id] = !allOpen;
+            var card = document.getElementById("stageCard_" + s.id);
+            if (card) card.classList.toggle("open", !allOpen);
+          });
+          toggleAllBtn.textContent = allOpen ? "Mở tất cả" : "Thu gọn";
+        });
+      }
+
+      // Đánh giá đầu vào TOEIC nhanh (10 câu • ~5 phút • 3 giọng US/UK/AU + Part 5–7)
+      var TOEIC_PLACEMENT_QS = [
+        {
+          id: "tp1", tier: "Part 1 (0–350)", group: "Nghe nền tảng",
+          audioText: "The technician is inspecting a printer beside the desk.", audioAccent: "en-US",
+          prompt: "Nghe câu mô tả tranh (giọng Mỹ US). Người kỹ thuật viên đang làm gì?",
+          opts: ["Đang kiểm tra máy in bên cạnh bàn", "Đang dọn dẹp phòng họp", "Đang giao hàng ở sảnh"], ans: 0
+        },
+        {
+          id: "tp2", tier: "Part 5 (0–350)", group: "Ngữ pháp & Từ vựng",
+          prompt: "Chọn từ loại đúng: “Ms. Linh gave a very ____ presentation at the quarterly meeting.”",
+          opts: ["inform", "informative", "information"], ans: 1
+        },
+        {
+          id: "tp3", tier: "Part 5 (350–550)", group: "Ngữ pháp & Từ vựng",
+          prompt: "“All visitors must ____ their badges at the security desk before entering.”",
+          opts: ["register", "registration", "registered"], ans: 0
+        },
+        {
+          id: "tp4", tier: "Part 2 (350–550)", group: "Nghe nền tảng",
+          audioText: "When will the revised budget report be ready? Not until Friday afternoon.", audioAccent: "en-GB",
+          prompt: "Nghe cặp hỏi–đáp Part 2 (giọng Anh UK). Báo cáo ngân sách mới khi nào mới xong?",
+          opts: ["Sáng thứ Hai", "Tận chiều thứ Sáu", "Cuối tháng sau"], ans: 1
+        },
+        {
+          id: "tp5", tier: "Part 5 (550–750)", group: "Ngữ pháp & Từ vựng",
+          prompt: "“____ the heavy rain this morning, the outdoor product launch started on schedule.”",
+          opts: ["Although", "Despite", "Because"], ans: 1
+        },
+        {
+          id: "tp6", tier: "Part 6 (550–750)", group: "Ngữ pháp & Từ vựng",
+          prompt: "“The warehouse manager ____ to Tokyo last month to negotiate a supply contract.”",
+          opts: ["has transferred", "was transferred", "transferring"], ans: 1
+        },
+        {
+          id: "tp7", tier: "Part 7 (550–750)", group: "Đọc hiểu & Paraphrase",
+          prompt: "Thông báo ghi: “All invoices submitted after 4 P.M. will be processed on the following business day.” Nếu gửi hóa đơn lúc 5 P.M. thứ Sáu, khi nào được xử lý?",
+          opts: ["Trong tối thứ Sáu", "Vào thứ Bảy", "Vào ngày làm việc tiếp theo (thứ Hai)"], ans: 2
+        },
+        {
+          id: "tp8", tier: "Part 4 (750+)", group: "Nghe nền tảng",
+          audioText: "Attention passengers: Flight 402 to Melbourne has been relocated from Gate 8 to Gate 14 due to routine maintenance.", audioAccent: "en-AU",
+          prompt: "Nghe thông báo sân bay (giọng Úc AU). Chuyến bay đi Melbourne có thay đổi gì?",
+          opts: ["Bị hủy hoàn toàn", "Đổi cửa khởi hành sang Gate 14", "Đổi giờ bay sang ngày mai"], ans: 1
+        },
+        {
+          id: "tp9", tier: "Part 5 (850+)", group: "Ngữ pháp & Từ vựng",
+          prompt: "“____ you require additional copies of the annual report, please contact the accounting office.”",
+          opts: ["Should", "Had", "Were"], ans: 0
+        },
+        {
+          id: "tp10", tier: "Part 7 (850+)", group: "Đọc hiểu & Paraphrase",
+          prompt: "Trong Part 7, cụm “complimentary refreshments will be provided” đồng nghĩa gần nhất với đáp án nào?",
+          opts: ["Guests must pay for snacks.", "Free drinks and light food will be served.", "The conference room has been renovated."], ans: 1
+        }
+      ];
+      var ptAns = {};
+      var ptSubmitted = false;
+
+      function getToeicRecommendation(score) {
+        if (score <= 3) return { levelId: "zero", label: "Chặng 1 • Mất gốc (0 → 350+)", note: "Nên bắt đầu từ Chặng 1 với 12 chuyên đề từ loại/thì cơ bản, 800 từ tả tranh Part 1 và nghe chậm 0.75x." };
+        if (score <= 5) return { levelId: "basic", label: "Chặng 2 • Nền tảng (~350 → 550+)", note: "Bạn đã có nền cơ bản; phù hợp đi từ Chặng 2 (600 Essential Words, Part 2 hỏi–đáp, Part 6 & Part 7 đoạn đơn)." };
+        if (score <= 8) return { levelId: "intermediate", label: "Chặng 3 • Trung cấp (~550 → 750+)", note: "Nền tảng khá tốt! Hãy vào Chặng 3 luyện Part 3–4 hội thoại/bài nói, Part 7 đoạn kép và Full Test." };
+        return { levelId: "advanced", label: "Chặng 4 • Bứt phá (~750 → 900+)", note: "Trình độ rất tốt! Phù hợp luyện đảo ngữ/giả định, bẫy Part 2 gián tiếp, Part 7 ba đoạn và Full Test mốc 900+." };
+      }
+
+      function playPlacementSample(text, accent) {
+        if (window.S4UI && typeof window.S4UI.speakEnglish === "function") {
+          window.S4UI.speakEnglish(text, accent || "en-US");
+          return;
+        }
+        if (typeof speechSynthesis !== "undefined") {
+          try {
+            speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = accent || "en-US";
+            u.rate = 0.95;
+            speechSynthesis.speak(u);
+          } catch (e) {}
+        }
+      }
+
+      function renderPlacementModal() {
+        var body = document.getElementById("placementBody");
+        if (!body) return;
+        var data = window.LP_TOEIC_ROADMAP_DATA;
+        if (ptSubmitted) {
+          var score = 0;
+          var byGroup = {};
+          TOEIC_PLACEMENT_QS.forEach(function (q) {
+            if (!byGroup[q.group]) byGroup[q.group] = { ok: 0, total: 0 };
+            byGroup[q.group].total++;
+            if (ptAns[q.id] === q.ans) { score++; byGroup[q.group].ok++; }
+          });
+          var rec = getToeicRecommendation(score);
+          try {
+            localStorage.setItem((data && data.PLACEMENT_KEY) || "lp_toeic_placement_v1", JSON.stringify({
+              score: score, total: TOEIC_PLACEMENT_QS.length, recLevel: rec.levelId, recLabel: rec.label, at: new Date().toISOString()
+            }));
+          } catch (e) {}
+          var grpHtml = Object.keys(byGroup).map(function (g) {
+            return '<span class="rm-badge" style="padding:4px 9px;">' + esc(g) + ': ' + byGroup[g].ok + '/' + byGroup[g].total + '</span>';
+          }).join("");
+          body.innerHTML = '<div class="rm-pt-q" style="margin-bottom:12px;">'
+            + '<div style="font-size:18px;font-weight:800;color:var(--lg-accent);">Kết quả: ' + score + '/' + TOEIC_PLACEMENT_QS.length + ' câu đúng</div>'
+            + '<div style="font-size:14px;font-weight:800;color:var(--lg-ink);margin-top:4px;">Gợi ý xuất phát điểm: ' + esc(rec.label) + '</div>'
+            + '<p style="margin:6px 0 8px;font-size:12.5px;color:var(--lg-ink-sub);line-height:1.45;">' + esc(rec.note) + '</p>'
+            + '<div style="display:flex;gap:6px;flex-wrap:wrap;">' + grpHtml + '</div>'
+            + '</div>'
+            + '<p style="margin:0 0 12px;font-size:12px;color:var(--lg-ink-muted);">Toàn bộ 4 chặng TOEIC luôn mở tự do — gợi ý này chỉ giúp xếp đúng điểm xuất phát và bạn có thể đổi bất cứ lúc nào.</p>'
+            + '<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">'
+            + '  <button type="button" class="rm-ghost-btn" id="btnRetryPlacement">Làm lại</button>'
+            + '  <button type="button" class="rm-cta-btn" id="btnApplyPlacement" style="border:none;cursor:pointer;" data-rec-level="' + esc(rec.levelId) + '">Áp dụng gợi ý ngay</button>'
+            + '</div>';
+          var retryB = document.getElementById("btnRetryPlacement");
+          if (retryB) retryB.addEventListener("click", function () { ptAns = {}; ptSubmitted = false; renderPlacementModal(); });
+          var applyB = document.getElementById("btnApplyPlacement");
+          if (applyB) applyB.addEventListener("click", function () { window.__toeicPtApply(rec.levelId); });
+          return;
+        }
+
+        var answered = Object.keys(ptAns).length;
+        body.innerHTML = '<p style="margin:0 0 10px;font-size:12.5px;color:var(--lg-ink-muted);">Bài test tùy chọn gồm 10 câu (có đủ 3 giọng Nghe Mỹ/Anh/Úc &amp; Part 5–7) giúp gợi ý chặng xuất phát. <b>Không khóa bài học nào</b>. Đã chọn: <b>' + answered + '/' + TOEIC_PLACEMENT_QS.length + '</b>.</p>'
+          + '<div style="display:grid;gap:10px;">' + TOEIC_PLACEMENT_QS.map(function (q, i) {
+            var playBtn = q.audioText
+              ? '<button type="button" class="rm-ghost-btn" data-tpt-play="' + i + '" style="flex-shrink:0;">' + svgIcon("volume", 13) + '<span>Nghe mẫu</span></button>'
+              : '';
+            return '<div class="rm-pt-q">'
+              + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">'
+              + '  <div><span class="rm-badge" style="margin-bottom:4px;">Câu ' + (i + 1) + ' • ' + esc(q.tier) + '</span>'
+              + '  <div style="font-size:13px;font-weight:800;color:var(--lg-ink);line-height:1.4;">' + esc(q.prompt) + '</div></div>'
+              +    playBtn
+              + '</div>'
+              + '<div style="display:grid;gap:6px;">' + q.opts.map(function (op, oi) {
+                var sel = ptAns[q.id] === oi ? " selected" : "";
+                return '<button type="button" class="rm-pt-opt' + sel + '" data-tpt-q="' + esc(q.id) + '" data-tpt-opt="' + oi + '">' + esc(op) + '</button>';
+              }).join("") + '</div></div>';
+          }).join("") + '</div>'
+          + '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px;">'
+          + '  <button type="button" class="rm-cta-btn" id="btnSubmitPlacement" style="border:none;cursor:pointer;">Chấm điểm &amp; xem gợi ý</button>'
+          + '</div>';
+
+        body.querySelectorAll("[data-tpt-play]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var q = TOEIC_PLACEMENT_QS[Number(b.getAttribute("data-tpt-play"))];
+            if (q && q.audioText) playPlacementSample(q.audioText, q.audioAccent);
+          });
+        });
+        body.querySelectorAll("[data-tpt-q]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            ptAns[b.getAttribute("data-tpt-q")] = Number(b.getAttribute("data-tpt-opt"));
+            renderPlacementModal();
+          });
+        });
+        var subB = document.getElementById("btnSubmitPlacement");
+        if (subB) subB.addEventListener("click", function () { ptSubmitted = true; renderPlacementModal(); });
+      }
+
+      var releasePlacementFocus;
+      window.__toeicOpenPlacement = function () {
+        ptAns = {};
+        ptSubmitted = false;
+        var m = document.getElementById("placementModal");
+        if (m) m.style.display = "flex";
+        renderPlacementModal();
+        if (!releasePlacementFocus && m && window.S4UI && window.S4UI.keepDialogFocus) {
+          releasePlacementFocus = window.S4UI.keepDialogFocus(m);
+        }
+      };
+      window.__toeicClosePlacement = function () {
+        var m = document.getElementById("placementModal");
+        if (m) m.style.display = "none";
+        if (releasePlacementFocus) releasePlacementFocus();
+        releasePlacementFocus = null;
+      };
+      window.__toeicPtApply = function (levelId) {
+        if (window.LPToeicRoadmap) window.LPToeicRoadmap.setStartLevel(levelId);
+        userToggledStage = false;
+        window.__toeicClosePlacement();
+        renderAll();
+        if (window.S4UI && typeof window.S4UI.toast === "function") {
+          window.S4UI.toast("success", "Đã áp dụng chặng xuất phát TOEIC theo kết quả đánh giá đầu vào.");
+        }
+      };
+
+      var openPtBtn = document.getElementById("btnOpenPlacement");
+      if (openPtBtn) openPtBtn.addEventListener("click", window.__toeicOpenPlacement);
+      var closePtBtn = document.getElementById("btnClosePlacement");
+      if (closePtBtn) closePtBtn.addEventListener("click", window.__toeicClosePlacement);
+      var ptModalEl = document.getElementById("placementModal");
+      if (ptModalEl) {
+        ptModalEl.addEventListener("click", function (ev) {
+          if (ev.target === ptModalEl) window.__toeicClosePlacement();
+        });
+      }
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") window.__toeicClosePlacement();
+      });
+
+      syncDarkIcon();
+      renderAll();
+      if (typeof MutationObserver !== "undefined") {
+        new MutationObserver(syncDarkIcon).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      }
+      window.addEventListener("pageshow", function () { syncDarkIcon(); renderAll(); });
+      window.addEventListener("focus", renderAll);
+      window.addEventListener("storage", renderAll);
+    })();
+  </script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=27"></script>
+</body>
+</html>

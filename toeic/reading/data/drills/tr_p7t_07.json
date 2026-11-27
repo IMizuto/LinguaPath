@@ -1,0 +1,190 @@
+{
+  "id": "tr_p7t_07",
+  "order": 37,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 07: Lịch bảo trì tòa nhà, Danh bạ tầng & Email làm việc từ xa",
+  "subtitle": "Đối chiếu phân khu tầng bảo trì điều hòa/thang máy của Apex Tower với bảng danh bạ công ty thuê và email công ty luật.",
+  "timeLimitMin": 12,
+  "tips": "Với dạng Thông báo bảo trì phân khu + Danh bạ tầng + Email nội bộ, bước đầu tiên là xác định công ty viết email nằm ở TẦNG NÀO → thuộc PHASE NÀO → từ đó biết ngay ngày cắt điện/điều hòa, thang máy dự phòng và công ty hàng xóm cùng bị ảnh hưởng.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thông báo bảo trì",
+      "genre": "notice",
+      "meta": {
+        "title": "APEX TOWER PROPERTY MANAGEMENT — HVAC & ELEVATOR UPGRADE",
+        "subtitle": "30-Story Commercial Complex • May Modernization Schedule"
+      },
+      "paragraphs": [
+        "To minimize disruption across Apex Tower, our HVAC chiller replacement and elevator control upgrade will be executed in three phased zones:",
+        "• Phase 1 (May 12–13) — Low-Rise Zone (Floors 2–10): Air conditioning shut off 08:00–17:00; Low-Rise Elevator Bank A closed.\n• Phase 2 (May 15–16) — Mid-Rise Zone (Floors 11–20): Air conditioning shut off 08:00–17:00; Mid-Rise Elevator Bank B closed (the Freight Elevator remains operational for essential escorted access).\n• Phase 3 (May 19–20) — High-Rise Zone (Floors 21–30): Air conditioning shut off 08:00–17:00; Express Bank C closed.",
+        "Complimentary Meeting Space: Tenants whose floors are affected may reserve temporary conference rooms in the Ground Floor Business Center through the Tenant Portal at least 72 hours in advance."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Danh bạ tòa nhà",
+      "genre": "table",
+      "meta": {
+        "title": "APEX TOWER — MAJOR CORPORATE TENANT DIRECTORY",
+        "subtitle": "Updated Q2 Leasing Office Directory"
+      },
+      "paragraphs": [
+        "Main reception security desk is located in the Ground Floor Atrium. After-hours badge access remains active throughout May."
+      ],
+      "table": {
+        "headers": [
+          "Tenant Company",
+          "Industry",
+          "Occupied Floors",
+          "Headcount"
+        ],
+        "rows": [
+          [
+            "Vanguard Media Group",
+            "Digital Publishing",
+            "Floors 6–8",
+            "90 staff"
+          ],
+          [
+            "Sterling & Partners LLP",
+            "Legal Services",
+            "Floors 14–16",
+            "145 staff"
+          ],
+          [
+            "Northgate Cloud Labs",
+            "Software Engineering",
+            "Floors 18–19",
+            "120 staff"
+          ],
+          [
+            "Cobalt Capital Advisors",
+            "Investment Banking",
+            "Floors 24–26",
+            "110 staff"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email nội bộ",
+      "genre": "email",
+      "meta": {
+        "to": "All Boston Attorneys & Paralegals",
+        "from": "Elena Martinez <e.martinez@sterlingllp.com>",
+        "date": "May 6",
+        "subject": "Mandatory Remote Workdays During Building Maintenance"
+      },
+      "paragraphs": [
+        "Dear Colleagues,",
+        "As announced by Apex Tower Property Management, our building's phased HVAC and elevator modernization begins next week. Because operating without air conditioning and standard passenger elevators across our three floors would interfere with client meetings, leadership has authorized mandatory remote work on both days our zone is shut down.",
+        "For the two litigation teams hosting scheduled in-person depositions on the first day of our zone's shutdown, Operations has already reserved two complimentary conference rooms in the Ground Floor Business Center—well ahead of the building's booking requirement.",
+        "Finally, any IT staff member who must enter Floor 15 during the shutdown to retrieve physical archive drives should coordinate with lobby security to ride the operational alternative elevator.",
+        "Best regards,\nElena Martinez\nDirector of Office Operations, Sterling & Partners LLP"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the notice, how far in advance must tenants reserve complimentary Ground Floor conference rooms?",
+      "opts": [
+        "At least 24 hours",
+        "At least 48 hours",
+        "At least 72 hours",
+        "At least 7 days"
+      ],
+      "ans": 2,
+      "exp": "Văn bản 1 (đoạn 3) nêu rõ: 'may reserve temporary conference rooms in the Ground Floor Business Center through the Tenant Portal at least 72 hours in advance.' → Ít nhất 72 giờ trước."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"authorized\" in paragraph 2 is closest in meaning to",
+      "opts": [
+        "postponed",
+        "approved",
+        "restricted",
+        "outsourced"
+      ],
+      "ans": 1,
+      "exp": "Trong câu 'leadership has authorized mandatory remote work' (ban lãnh đạo đã phê duyệt chế độ làm việc từ xa bắt buộc), 'authorized' đồng nghĩa với 'approved' (chấp thuận/phê duyệt)."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Which other corporate tenant listed in the directory will experience maintenance during the SAME phase as Sterling & Partners LLP?",
+      "opts": [
+        "Vanguard Media Group",
+        "Cobalt Capital Advisors",
+        "Both Vanguard Media Group and Cobalt Capital Advisors",
+        "Northgate Cloud Labs"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 1 & 2: Sterling & Partners LLP thuê tầng 14–16 → thuộc Mid-Rise Zone (tầng 11–20, Phase 2). Tra bảng Văn bản 2, công ty khác cùng nằm trong khoảng tầng 11–20 là Northgate Cloud Labs (tầng 18–19). Vanguard (6–8) thuộc Phase 1 và Cobalt (24–26) thuộc Phase 3."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "On which dates will attorneys and paralegals at Sterling & Partners LLP work remotely?",
+      "opts": [
+        "May 15 and May 16",
+        "May 12 and May 13",
+        "May 19 and May 20",
+        "May 6 and May 7"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 3 cho biết nhân viên Sterling & Partners làm việc từ xa cả 2 ngày khu vực tầng của công ty bị đóng bảo trì. (2) Văn bản 2 cho biết công ty đặt tại Floors 14–16. (3) Văn bản 1 quy định Floors 11–20 bảo trì trong Phase 2 vào ngày 15–16/5."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Which elevator will Sterling & Partners IT personnel use if they must retrieve archive drives from Floor 15 during the shutdown?",
+      "opts": [
+        "Low-Rise Elevator Bank A",
+        "Mid-Rise Elevator Bank B",
+        "The Freight Elevator",
+        "Express Bank C"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 3 dặn nhân viên IT lên tầng 15 cần phối hợp bảo vệ đi 'the operational alternative elevator'. Đối chiếu Văn bản 1 (Phase 2 — tầng 11–20), cụm thang khách Mid-Rise Bank B đóng cửa, chỉ còn 'the Freight Elevator remains operational for essential escorted access' → Thang máy chở hàng (Freight Elevator)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "well ahead of the building's booking requirement",
+      "answer": "more than 72 hours in advance (May 6 for May 15)",
+      "vi": "đặt sớm hơn nhiều so với yêu cầu trước 72 giờ"
+    },
+    {
+      "text": "authorized",
+      "answer": "approved",
+      "vi": "phê duyệt, cho phép"
+    },
+    {
+      "text": "operational alternative elevator",
+      "answer": "the Freight Elevator (escorted access)",
+      "vi": "thang máy thay thế đang hoạt động ↔ thang chở hàng"
+    },
+    {
+      "text": "our three floors (Sterling & Partners)",
+      "answer": "Floors 14–16 (Mid-Rise Zone, Phase 2)",
+      "vi": "ba tầng văn phòng của công ty ↔ tầng 14–16"
+    },
+    {
+      "text": "both days our zone is shut down",
+      "answer": "May 15 and May 16",
+      "vi": "cả hai ngày khu vực ngừng hoạt động ↔ 15 và 16/5"
+    },
+    {
+      "text": "interfere with client meetings",
+      "answer": "disrupt client consultations",
+      "vi": "gây gián đoạn các buổi gặp gỡ khách hàng"
+    }
+  ]
+}

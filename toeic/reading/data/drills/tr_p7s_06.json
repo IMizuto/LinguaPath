@@ -1,0 +1,172 @@
+{
+  "id": "tr_p7s_06",
+  "order": 20,
+  "level": 2,
+  "part": "part7s",
+  "partLabel": "Part 7 • Đoạn đơn",
+  "title": "Part 7 Đơn • Bộ 06: Hướng dẫn Gian hàng Triển lãm & Phà Năng lượng Mặt trời",
+  "subtitle": "Tổng ôn Part 7 Đoạn đơn với Email điều phối triển lãm thương mại và Bài báo công nghệ xanh.",
+  "timeLimitMin": 10,
+  "tips": "Mẹo Part 7: Với câu hỏi Suy luận (Inference), tránh chọn phương án quá tuyệt đối (\"always\", \"never\", \"all\") hoặc suy diễn ngoài bài. Đáp án đúng luôn là một kết luận hợp lý bám sát trực tiếp vào 1–2 câu dữ kiện trong văn bản.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "All Registered Exhibitors",
+        "from": "Operations Team, Pacific CleanTech Expo",
+        "date": "August 4",
+        "subject": "Booth Setup & Freight Instructions (August 14–16)"
+      },
+      "paragraphs": [
+        "Dear Exhibitors,",
+        "With the Pacific CleanTech Expo opening in ten days at the Bayview Convention Center, please review the following setup guidelines carefully. Exhibitor move-in for Hall C runs from 8:00 A.M. to 6:00 P.M. on Wednesday, August 13. All display materials must be fully assembled before the safety walk-through at 7:00 P.M.",
+        "Vehicles delivering heavy crates must enter via Loading Dock 3 on Harbor Street, where our freight crew will supply hand trucks at no charge. Please note that electrical outlets and high-speed wired Internet are NOT included in standard booth packages; exhibitors requiring power connections must place an order through the venue portal by Friday, August 8, to avoid a 20 percent rush fee.",
+        "Exhibitor badges can be collected at the North Lobby Desk starting at 7:30 A.M. on August 13. Each registered company receives up to four complimentary staff passes.",
+        "Warm regards,\nPacific CleanTech Expo Operations Team"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bài báo",
+      "genre": "article",
+      "meta": {
+        "title": "BlueWave Ferries Introduces Solar-Assisted Catamarans",
+        "subtitle": "Maritime Business Review • October 22"
+      },
+      "paragraphs": [
+        "AUCKLAND — Coastal transit operator BlueWave Ferries began commercial service this week with two newly built solar-assisted catamarans connecting downtown Auckland to Waiheke Island. Each 240-passenger vessel features lightweight aluminum hulls and rooftop photovoltaic panels that power onboard lighting, air conditioning, and navigation screens.",
+        "According to Managing Director Grant Holloway, the hybrid propulsion system reduces diesel fuel consumption by roughly 45 percent compared with the company’s legacy vessels. \"Fuel represents our second-largest operating expense after crew salaries,\" Holloway said. \"These boats allow us to keep ticket prices stable while substantially lowering carbon emissions across the harbor.\"",
+        "Initial commuter feedback has been overwhelmingly positive, with passengers praising the smooth ride and quiet upper deck. BlueWave plans to order three more vessels from local shipbuilder Tasman Marine once a six-month performance assessment concludes in April."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "By what time must booth displays in Hall C be completely set up?",
+      "opts": [
+        "7:30 A.M. on August 13",
+        "8:00 A.M. on August 13",
+        "6:00 P.M. on August 13",
+        "7:00 P.M. on August 13"
+      ],
+      "ans": 3,
+      "exp": "Đoạn 1 nêu rõ: \"All display materials must be fully assembled before the safety walk-through at 7:00 P.M.\" (phải lắp dựng xong hoàn toàn trước đợt kiểm tra an toàn lúc 7:00 tối ngày 13/8). Chọn (D). Lưu ý 7:30 A.M. là giờ phát thẻ, 8:00–6:00 là khung giờ chuyển hàng vào."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "NOT / Ngoại trừ",
+      "q": "Which of the following is NOT provided free of charge to standard exhibitors?",
+      "opts": [
+        "Use of hand trucks at Loading Dock 3",
+        "Up to four staff exhibitor badges",
+        "Electrical outlets for booth equipment",
+        "Access to Hall C during move-in hours"
+      ],
+      "ans": 2,
+      "exp": "Đoạn 2 nói rõ: \"electrical outlets and high-speed wired Internet are NOT included in standard booth packages; exhibitors requiring power connections must place an order...\". Trong khi đó xe đẩy tay (hand trucks) miễn phí (\"at no charge\") và 4 thẻ nhân viên miễn phí (\"complimentary\"). Chọn (C)."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Suy luận",
+      "q": "What will happen if an exhibitor orders a power connection on August 10?",
+      "opts": [
+        "Their booth will be moved to a different hall.",
+        "They will be charged an extra 20 percent fee.",
+        "They will only receive two complimentary staff passes.",
+        "Their order will be automatically rejected."
+      ],
+      "ans": 1,
+      "exp": "Hạn đặt kết nối điện để tránh phí gấp 20% là Thứ Sáu 8/8 (\"by Friday, August 8, to avoid a 20 percent rush fee\"). Đặt vào ngày 10/8 (sau hạn chót 2 ngày) đồng nghĩa sẽ phải trả thêm 20% phụ phí gấp. Chọn (B)."
+    },
+    {
+      "num": 4,
+      "passageId": "p2",
+      "tag": "Ý chính",
+      "q": "What is the main topic of the article?",
+      "opts": [
+        "A ferry company’s launch of energy-efficient passenger boats",
+        "A labor dispute involving maritime crew salaries in Auckland",
+        "New environmental fines imposed on coastal shipbuilders",
+        "A seasonal decline in tourism to Waiheke Island"
+      ],
+      "ans": 0,
+      "exp": "Bài báo tập trung đưa tin hãng phà BlueWave đưa vào vận hành 2 tàu hai thân hỗ trợ năng lượng mặt trời giúp giảm 45% nhiên liệu diesel và giảm khí thải. Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In paragraph 2, the word \"legacy\" is closest in meaning to:",
+      "opts": [
+        "older",
+        "luxury",
+        "rented",
+        "damaged"
+      ],
+      "ans": 0,
+      "exp": "Câu gốc so sánh hệ thống mới giúp giảm 45% nhiên liệu so với \"the company’s legacy vessels\" (các tàu thế hệ cũ trước đây của công ty). \"legacy\" trong ngữ cảnh thiết bị/phương tiện nghĩa là \"older\" (đời cũ). Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "According to Mr. Holloway, what is BlueWave Ferries’ single largest operating cost?",
+      "opts": [
+        "Diesel fuel",
+        "Harbor docking fees",
+        "Solar panel maintenance",
+        "Staff wages"
+      ],
+      "ans": 3,
+      "exp": "Ông Holloway phát biểu: \"Fuel represents our second-largest operating expense after crew salaries\" (Nhiên liệu là chi phí vận hành lớn THỨ HAI sau tiền lương thủy thủ đoàn → chi phí lớn NHẤT là lương nhân viên \"crew salaries\" ↔ \"Staff wages\"). Chọn (D)."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Suy luận",
+      "q": "What must happen before BlueWave orders three additional catamarans?",
+      "opts": [
+        "Ticket prices must be raised to cover construction costs.",
+        "Tasman Marine must relocate its shipyard to Waiheke Island.",
+        "The company must finish a six-month evaluation of the new vessels.",
+        "Passenger capacity must be expanded beyond 240 seats."
+      ],
+      "ans": 2,
+      "exp": "Câu cuối bài báo nêu rõ: \"BlueWave plans to order three more vessels from local shipbuilder Tasman Marine once a six-month performance assessment concludes in April.\" (\"performance assessment\" ↔ \"evaluation\"). Chọn (C)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "fully assembled",
+      "answer": "completely set up",
+      "vi": "được lắp ráp hoàn chỉnh ↔ được dựng xong hoàn toàn"
+    },
+    {
+      "text": "rush fee",
+      "answer": "extra 20 percent fee",
+      "vi": "phí đặt gấp ↔ khoản phụ phí 20%"
+    },
+    {
+      "text": "crew salaries",
+      "answer": "Staff wages",
+      "vi": "tiền lương thủy thủ đoàn ↔ tiền lương nhân viên"
+    },
+    {
+      "text": "legacy vessels",
+      "answer": "older (boats)",
+      "vi": "tàu thế hệ cũ ↔ tàu đời cũ hơn"
+    },
+    {
+      "text": "six-month performance assessment concludes",
+      "answer": "finish a six-month evaluation",
+      "vi": "đợt đánh giá hiệu năng 6 tháng kết thúc ↔ hoàn tất đánh giá 6 tháng"
+    }
+  ]
+}

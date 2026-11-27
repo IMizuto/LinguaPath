@@ -121,6 +121,7 @@
     const p = (location.pathname || "").replace(/\\/g, "/").toLowerCase();
     if (p.includes("/ielts/")) return "ielts";
     if (p.includes("/hsk/")) return "hsk";
+    if (p.includes("/toeic/")) return "toeic";
     if (p.includes("/tedtalks/")) return "ted";
     return "";
   }

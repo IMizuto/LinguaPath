@@ -1,0 +1,141 @@
+{
+  "id": "tr_p7d_05",
+  "order": 25,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 05: Thư khiếu nại tiệc & Phản hồi CSKH",
+  "subtitle": "Kết nối thư phản ánh sự cố dịch vụ tiệc hội nghị với email bồi hoàn chi phí và đề xuất ưu đãi sự kiện kế tiếp.",
+  "timeLimitMin": 10,
+  "tips": "Với cặp Thư khiếu nại ↔ Email giải quyết, hãy chú ý phép tính đơn giá (tổng tiền bồi hoàn ÷ số suất ăn) và các cụm thay thế thời gian (VD: 'November conference' ↔ 'autumn event').",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thư khiếu nại",
+      "genre": "letter",
+      "meta": {
+        "title": "SUMMIT PHARMA GROUP — CLIENT FEEDBACK",
+        "subtitle": "July 7 • From: Rachel Kim, Event Director • To: Customer Relations Manager, Northstar Event Catering"
+      },
+      "paragraphs": [
+        "Dear Customer Relations Manager,",
+        "I am writing regarding Contract #NC-904 for Summit Pharma Group's annual leadership seminar held on July 3 at the Lakeside Conference Center. While the main hot buffet was flavorful and your waitstaff were attentive throughout the afternoon, two operational errors fell short of the standards we expected.",
+        "First, the breakfast pastry and coffee station was not set up until 8:45 A.M.—forty-five minutes after the 8:00 A.M. time specified in our contract—leaving early arrivals without refreshments prior to the opening address. Second, eight boxed vegan lunches ordered for attendees with dietary restrictions were mistakenly packed with vegetarian cheese wraps instead, leaving those guests without a suitable meal.",
+        "Given these issues, I am requesting a partial refund on our $3,400 invoice as well as a written explanation of the measures Northstar will implement to prevent similar lapses. We will review your response carefully before deciding whether to book your firm for our November regional conference.",
+        "Sincerely,\nRachel Kim\nEvent Director, Summit Pharma Group"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email phản hồi",
+      "genre": "email",
+      "meta": {
+        "to": "r.kim@summitpharma.com",
+        "from": "David Morales <d.morales@northstarcatering.com>",
+        "date": "July 9",
+        "subject": "Apology and Resolution — Contract #NC-904"
+      },
+      "paragraphs": [
+        "Dear Ms. Kim,",
+        "Please accept our sincere apologies for the service shortcomings at your July 3 seminar. After reviewing the event log with our operations team, we confirmed that an unscheduled road closure near Harbor Bridge delayed our morning delivery van, while a labeling error during our kitchen shift handover led to the mix-up with the specialty lunches.",
+        "To make this right, we are issuing a $450 refund directly to Summit Pharma's corporate card within three business days. This credit covers both the full $290 breakfast service charge and the $160 cost of the eight specialty lunches. In addition, we have instituted a mandatory two-person dietary verification checklist before any order leaves our kitchen.",
+        "We greatly value our relationship with Summit Pharma Group. Should you choose to partner with us again for your upcoming autumn event, I would be pleased to extend a 15% courtesy discount on the entire catering package.",
+        "Respectfully,\nDavid Morales\nDirector of Client Services, Northstar Event Catering"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "What aspect of Northstar Event Catering's service did Ms. Kim praise?",
+      "opts": [
+        "The main hot buffet and serving staff",
+        "The punctuality of the morning coffee service",
+        "The variety of specialty boxed lunches",
+        "The low cost of the catering package"
+      ],
+      "ans": 0,
+      "exp": "Văn bản 1 (đoạn 2) viết: 'While the main hot buffet was flavorful and your waitstaff were attentive throughout the afternoon...' → Bà Kim khen quầy buffet nóng chính và đội ngũ phục vụ."
+    },
+    {
+      "num": 2,
+      "tag": "Chi tiết",
+      "q": "According to Mr. Morales, why did the breakfast station arrive late?",
+      "opts": [
+        "The conference center doors were locked.",
+        "A kitchen oven broke down before dawn.",
+        "A road closure near a bridge delayed the delivery van.",
+        "The driver went to the wrong hotel address."
+      ],
+      "ans": 2,
+      "exp": "Văn bản 2 (đoạn 2) nêu rõ nguyên nhân: 'an unscheduled road closure near Harbor Bridge delayed our morning delivery van' → Đường gần cầu Harbor bị đóng đột xuất làm trễ xe giao hàng."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the letter, the word \"lapses\" in paragraph 4 is closest in meaning to",
+      "opts": [
+        "discounts",
+        "failures",
+        "menus",
+        "schedules"
+      ],
+      "ans": 1,
+      "exp": "Cụm 'to prevent similar lapses' (ngăn chặn những sai sót tương tự) xuất hiện sau khi bà Kim liệt kê 2 lỗi vận hành, và Văn bản 2 cũng paraphrase bằng 'service shortcomings' → 'lapses' gần nghĩa nhất với 'failures'."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What was the price of each boxed vegan lunch?",
+      "opts": [
+        "$12",
+        "$15",
+        "$18",
+        "$20"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 cho biết có 'eight boxed vegan lunches' (8 suất cơm hộp thuần chay). Văn bản 2 xác nhận hoàn trả '$160 cost of the eight specialty lunches' → Đơn giá mỗi hộp là $160 ÷ 8 = $20."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "For which event is Mr. Morales offering a 15% courtesy discount?",
+      "opts": [
+        "The November regional conference",
+        "Next year's July leadership seminar",
+        "A private dinner at Harbor Bridge",
+        "An employee holiday party in December"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo Văn bản 1 & 2: Trong Văn bản 2, ông Morales tặng ưu đãi 15% cho 'your upcoming autumn event' (sự kiện mùa thu sắp tới). Đối chiếu Văn bản 1 (đoạn 4), bà Kim nhắc tới sự kiện tiếp theo cần cân nhắc đặt tiệc là 'our November regional conference' (hội nghị khu vực tháng 11)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "waitstaff were attentive",
+      "answer": "serving staff (praised)",
+      "vi": "nhân viên phục vụ chu đáo"
+    },
+    {
+      "text": "lapses / operational errors",
+      "answer": "service shortcomings / failures",
+      "vi": "sai sót vận hành ↔ thiếu sót dịch vụ"
+    },
+    {
+      "text": "upcoming autumn event",
+      "answer": "November regional conference",
+      "vi": "sự kiện mùa thu sắp tới ↔ hội nghị khu vực tháng 11"
+    },
+    {
+      "text": "extend a 15% courtesy discount",
+      "answer": "offering a 15% courtesy discount",
+      "vi": "dành tặng mức chiết khấu thiện chí 15%"
+    },
+    {
+      "text": "eight specialty lunches ($160)",
+      "answer": "$20 per boxed vegan lunch",
+      "vi": "8 suất ăn đặc biệt giá $160 ↔ $20/suất"
+    }
+  ]
+}

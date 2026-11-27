@@ -1,0 +1,212 @@
+{
+  "id": "tl_p3_09",
+  "order": 31,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Hội thoại 3 người • Sự kiện & Sơ đồ Trung tâm Hội nghị",
+  "subtitle": "Phối hợp 3 vai (M1/W/M2) chốt tiệc công ty và chọn sảnh phù hợp sức chứa",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Trong hội thoại 3 người, lắng nghe kỹ tên riêng và vai trò của từng người (M1, Woman, M2) vì câu hỏi thường tách biệt việc người phụ nữ đề xuất và việc một trong hai người đàn ông đảm nhận.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Hội thoại 3 người: Tiệc tổng kết cuối năm",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-US",
+          "en": "Thanks for meeting, everyone. We need to lock in the final headcount for the year-end awards banquet with the caterer by Friday.",
+          "vi": "Cảm ơn mọi người đã họp. Ta cần chốt số lượng khách cuối cùng cho tiệc trao giải cuối năm với bên ẩm thực trước thứ Sáu."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "So far, one hundred and eighty employees have RSVPed yes, plus about twenty-five guests. Should we order meals for two hundred and ten just to be safe?",
+          "vi": "Đến hiện tại có một trăm tám mươi nhân viên xác nhận tham dự, cộng thêm khoảng hai mươi lăm khách mời. Ta có nên đặt hai trăm mười suất cho chắc không?"
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-AU",
+          "en": "We had forty people cancel at the last minute last December.",
+          "vi": "Tháng Mười Hai năm ngoái chúng ta có tận bốn mươi người hủy phút chót đấy."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-US",
+          "en": "Good point, Noah—we definitely don't want to waste food budget again. Let's send a quick reminder email tomorrow asking anyone whose plans changed to update the form by Thursday noon.",
+          "vi": "Ý hay đấy, Noah—ta chắc chắn không muốn lãng phí ngân sách đồ ăn nữa. Hãy gửi email nhắc nhẹ vào ngày mai để ai đổi kế hoạch cập nhật biểu mẫu trước trưa thứ Năm."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "I'll send out that reminder right away. Noah, could you also double-check that the banquet hall includes wireless microphones for the award winners?",
+          "vi": "Tôi sẽ gửi thư nhắc đó ngay. Noah, anh kiểm tra lại giúp xem sảnh tiệc có kèm micro không dây cho người nhận giải không nhé?"
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-AU",
+          "en": "Sure thing—I'm calling the venue manager after this meeting anyway.",
+          "vi": "Chắc chắn rồi—dù sao sau cuộc họp này tôi cũng gọi cho quản lý địa điểm."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What are the speakers mainly planning?",
+          "opts": [
+            "An annual awards dinner",
+            "A quarterly board election",
+            "A charity fundraising auction",
+            "A client product showcase"
+          ],
+          "ans": 0,
+          "exp": "Man 1 mở đầu bằng 'the year-end awards banquet' (tiệc trao giải cuối năm) → đồng nghĩa với 'An annual awards dinner'. Chọn (A)."
+        },
+        {
+          "num": 2,
+          "q": "What does Noah mean when he says, \"We had forty people cancel at the last minute last December\"?",
+          "opts": [
+            "The caterer failed to deliver enough meals.",
+            "The company should move the banquet to January.",
+            "Ordering extra meals may result in unnecessary waste.",
+            "Forty new staff members joined the company this year."
+          ],
+          "ans": 2,
+          "exp": "Người phụ nữ gợi ý đặt dư 210 suất, Noah nhắc lại năm ngoái 40 người hủy phút chót, và Man 1 đáp 'we definitely don't want to waste food budget again' → ngụ ý đặt dư có thể gây lãng phí. Chọn (C)."
+        },
+        {
+          "num": 3,
+          "q": "What will Noah check with the venue manager?",
+          "opts": [
+            "Whether vegetarian menus are available",
+            "Whether wireless microphones are provided",
+            "Whether parking passes are discounted",
+            "Whether the stage can be expanded"
+          ],
+          "ans": 1,
+          "exp": "Người phụ nữ nhờ Noah: 'double-check that the banquet hall includes wireless microphones' và anh đồng ý gọi quản lý địa điểm kiểm tra. Chọn (B)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Hội thoại 3 người: Sơ đồ Trung tâm Hội nghị",
+      "accent": "en-US",
+      "graphic": {
+        "title": "Grand Plaza Floor Directory",
+        "headers": [
+          "Floor",
+          "Hall",
+          "Capacity"
+        ],
+        "rows": [
+          [
+            "2nd Floor",
+            "Birch Room",
+            "60 guests"
+          ],
+          [
+            "3rd Floor",
+            "Maple Ballroom",
+            "180 guests"
+          ],
+          [
+            "4th Floor",
+            "Willow Suite",
+            "110 guests"
+          ],
+          [
+            "5th Floor",
+            "Skyline Hall",
+            "260 guests"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Guys, our regional healthcare symposium just passed one hundred and fifty paid tickets, and registrations don't close until Monday.",
+          "vi": "Các anh ơi, hội thảo chuyên đề y tế khu vực của ta vừa vượt mốc một trăm năm mươi vé đã thanh toán, mà đến thứ Hai mới đóng đăng ký."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "That's fantastic news, though it means the Willow Suite we originally reserved won't hold everyone.",
+          "vi": "Tin tuyệt vời đấy, nhưng điều đó có nghĩa là phòng Willow Suite ta đặt ban đầu sẽ không chứa nổi mọi người."
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-US",
+          "en": "I checked with Grand Plaza earlier—Skyline Hall is booked for a wedding, so our best option is the space on the third floor.",
+          "vi": "Tôi đã hỏi Grand Plaza trước đó rồi—Sảnh Skyline đã có tiệc cưới đặt, nên lựa chọn tốt nhất của ta là phòng ở tầng ba."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "One hundred and eighty seats should cover the final wave of sign-ups nicely. Can we cap online registration once we hit that limit?",
+          "vi": "Một trăm tám mươi chỗ chắc sẽ đủ cho đợt đăng ký cuối. Ta có thể khóa đăng ký trực tuyến ngay khi chạm giới hạn đó không?"
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "Yes, I'll set an automatic waitlist cap on the ticketing page as soon as we wrap up here.",
+          "vi": "Được chứ, tôi sẽ cài giới hạn tự động chuyển sang danh sách chờ trên trang bán vé ngay khi họp xong."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why can't the speakers use Skyline Hall?",
+          "opts": [
+            "Its rental fee exceeds their budget.",
+            "It is undergoing floor renovations.",
+            "It lacks audio-visual equipment.",
+            "Another event has already reserved it."
+          ],
+          "ans": 3,
+          "exp": "Man 2 cho biết: 'Skyline Hall is booked for a wedding' → đã có sự kiện khác (tiệc cưới) đặt trước. Chọn (D)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which hall will the symposium be moved to?",
+          "opts": [
+            "Maple Ballroom",
+            "Birch Room",
+            "Willow Suite",
+            "Skyline Hall"
+          ],
+          "ans": 0,
+          "exp": "Man 2 chọn 'the space on the third floor' với sức chứa 180 chỗ. Tra bảng: 3rd Floor là 'Maple Ballroom' (180 guests). Chọn (A)."
+        },
+        {
+          "num": 6,
+          "q": "What does Man 1 say he will do next?",
+          "opts": [
+            "Offer a refund to late registrants",
+            "Negotiate a discount with Grand Plaza",
+            "Configure an automatic waitlist on the ticket site",
+            "Order additional chairs for the Willow Suite"
+          ],
+          "ans": 2,
+          "exp": "Ở lượt cuối, Man 1 nói: 'I'll set an automatic waitlist cap on the ticketing page' → thiết lập danh sách chờ tự động trên trang vé. Chọn (C)."
+        }
+      ]
+    }
+  ]
+}

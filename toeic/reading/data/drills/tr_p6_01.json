@@ -1,0 +1,175 @@
+{
+  "id": "tr_p6_01",
+  "order": 7,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 01: Đăng ký Phúc lợi Nhân sự & Bảo trì Thang máy",
+  "subtitle": "Luyện 2 văn bản quen thuộc nhất công sở (Email nhân sự & Thông báo tòa nhà) kèm 2 câu Điền câu.",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Đừng chỉ nhìn quanh chỗ trống như Part 5. Với câu \"Điền câu\", hãy đọc kỹ câu ngay TRƯỚC và ngay SAU vị trí trống để bắt các từ nối liên kết (this, these, however, as a result) và mạch logic của đoạn văn.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "All Full-Time Staff",
+        "from": "Human Resources Department",
+        "date": "March 12",
+        "subject": "Annual Health Benefits Enrollment"
+      },
+      "paragraphs": [
+        "Dear Colleagues,",
+        "The open enrollment period for next year’s corporate health and dental plans begins on Monday, March 18. All eligible employees must review their current coverage and submit any changes through the HR portal [1] Friday, March 29. [2] Please note that paper forms will no longer be accepted this year.",
+        "During the first week of enrollment, benefits specialists will host two drop-in information sessions in Conference Room B to explain the expanded vision coverage. We appreciate your [3] attention to this deadline so that our payroll team can [4] all policy updates without delay.",
+        "Sincerely,\nHuman Resources Department"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Thông báo",
+      "genre": "notice",
+      "meta": {
+        "title": "ELEVATOR MODERNIZATION NOTICE",
+        "subtitle": "Harbor Plaza Management Office • Effective April 2–5"
+      },
+      "paragraphs": [
+        "To improve ride safety and energy efficiency, Harbor Plaza will upgrade the control systems in Elevators 1 and 2 next week. Both units [5] from 8:00 A.M. on Tuesday, April 2, until 6:00 P.M. on Friday, April 5.",
+        "[6], tenants and visitors traveling to floors 4 through 12 should use Elevators 3 and 4 located in the East Wing. Wait times may be slightly longer during peak morning and lunch hours.",
+        "Building management apologizes for any [7] caused by this scheduled maintenance. [8]"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Giới từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "by",
+        "until",
+        "during",
+        "among"
+      ],
+      "ans": 0,
+      "exp": "Động từ \"submit\" (nộp) là hành động hoàn tất trước hạn chót \"Friday, March 29\" nên dùng giới từ \"by\" (A - chậm nhất là). Loại (B) \"until\" dùng cho hành động kéo dài liên tục, (C) \"during\" + khoảng thời gian/sự kiện, (D) \"among\" chỉ không gian/nhóm."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [2]:",
+      "opts": [
+        "The office cafeteria will also introduce a new vegetarian menu next month.",
+        "Employees who do not make changes will automatically remain in their existing plan.",
+        "Previous participants must visit the clinic in person to pick up printed receipts.",
+        "Our department recently relocated to the fourth floor of the annex building."
+      ],
+      "ans": 1,
+      "exp": "Câu trước yêu cầu nhân viên xem lại gói bảo hiểm và nộp thay đổi qua cổng HR trước ngày 29/3; câu sau lưu ý không nhận bản giấy. Câu (B) nối mạch hoàn hảo: \"Nhân viên không thay đổi sẽ tự động giữ nguyên gói hiện tại\". Loại (A), (D) lạc đề; (C) mâu thuẫn với câu sau vì đề cập bản in."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [3]:",
+      "opts": [
+        "promptly",
+        "promptness",
+        "prompt",
+        "prompted"
+      ],
+      "ans": 2,
+      "exp": "Giữa tính từ sở hữu \"your\" và danh từ \"attention\" cần một tính từ bổ nghĩa. Chọn \"prompt\" (C - kịp thời, nhanh chóng). Loại (A) trạng từ, (B) danh từ, (D) động từ quá khứ/phân từ mang nghĩa bị thúc đẩy."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "cancel",
+        "delay",
+        "reserve",
+        "process"
+      ],
+      "ans": 3,
+      "exp": "Nhóm tính lương (payroll team) cần \"xử lý\" (process) tất cả cập nhật hợp đồng bảo hiểm không chậm trễ. Chọn \"process\" (D). Loại (A) hủy, (B) trì hoãn, (C) đặt trước."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Bị động & Thì",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "were closed",
+        "will be closed",
+        "are closing",
+        "have closed"
+      ],
+      "ans": 1,
+      "exp": "Mốc thời gian \"next week / April 2–5\" ở tương lai và chủ ngữ \"Both units\" (cả 2 thang máy) chịu tác động bị động (sẽ bị đóng cửa). Chọn \"will be closed\" (B). Loại (A) quá khứ, (C) và (D) thể chủ động."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Từ nối",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [6]:",
+      "opts": [
+        "However",
+        "Instead",
+        "Consequently",
+        "Nevertheless"
+      ],
+      "ans": 2,
+      "exp": "Đoạn 1 nói thang máy 1 và 2 đóng cửa → ĐOẠN 2 nêu hệ quả: khách thuê phải dùng thang máy 3 và 4 ở cánh Đông. Chọn trạng từ chỉ kết quả \"Consequently\" (C - Do đó). Loại (A), (D) chỉ tương phản; (B) \"Instead\" (thay vào đó) không phù hợp bằng quan hệ nhân–quả trực tiếp."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [7]:",
+      "opts": [
+        "inconvenience",
+        "inconvenient",
+        "inconveniently",
+        "inconvenienced"
+      ],
+      "ans": 0,
+      "exp": "Sau \"any\" cần một danh từ (\"apologizes for any inconvenience\" = xin lỗi vì bất kỳ sự bất tiện nào). Chọn \"inconvenience\" (A). Loại (B) tính từ, (C) trạng từ, (D) động từ/phân từ."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [8]:",
+      "opts": [
+        "The parking garage on Level B2 has permanently lowered its hourly rates.",
+        "Please remember to submit your annual lease renewal by December 1.",
+        "All freight deliveries were canceled last Monday due to icy roads.",
+        "If you require accessibility assistance during this period, please call the security desk at extension 104."
+      ],
+      "ans": 3,
+      "exp": "Câu kết của thông báo bảo trì thang máy thường cung cấp kênh liên hệ hỗ trợ cho người gặp khó khăn di chuyển trong thời gian đó (\"during this period\"). Chọn (D). Loại (A), (B) lạc đề; (C) dùng thì quá khứ không khớp lịch bảo trì tuần tới."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "paper forms will no longer be accepted",
+      "answer": "submit any changes through the HR portal",
+      "vi": "không còn nhận biểu mẫu giấy ↔ nộp trực tuyến qua cổng HR"
+    },
+    {
+      "text": "upgrade the control systems",
+      "answer": "scheduled maintenance",
+      "vi": "nâng cấp hệ thống điều khiển ↔ bảo trì định kỳ"
+    },
+    {
+      "text": "during this period",
+      "answer": "from Tuesday, April 2, until Friday, April 5",
+      "vi": "trong khoảng thời gian này ↔ từ Thứ Ba 2/4 đến Thứ Sáu 5/4"
+    }
+  ]
+}

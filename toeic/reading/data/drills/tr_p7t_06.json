@@ -1,0 +1,195 @@
+{
+  "id": "tr_p7t_06",
+  "order": 36,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 06: Bảng giá in ấn, Email đặt hàng triển lãm & Hóa đơn sai phí",
+  "subtitle": "Kiểm tra điều kiện áp mã khuyến mãi EXPO15, ngưỡng miễn phí ship $1,000 và khoản phụ thu in gấp bị tính nhầm.",
+  "timeLimitMin": 12,
+  "tips": "Với bộ Bảng giá dịch vụ + Email đặt hàng + Hóa đơn, hãy kiểm tra lần lượt 3 hạng mục hay gài bẫy nhất: (1) Mã giảm giá áp đúng món không? (2) Phí giao hàng đúng ngưỡng miễn chưa? (3) Có cộng nhầm phụ phí in gấp (Rush fee) không?",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Quảng cáo dịch vụ",
+      "genre": "ad",
+      "meta": {
+        "title": "COLORCRAFT PRINT STUDIO — TRADE SHOW PRINTING GUIDE",
+        "subtitle": "Fast Commercial Printing • Chicago Metro & Nationwide Shipping"
+      },
+      "paragraphs": [
+        "Prepare your booth with vibrant, fade-resistant displays from ColorCraft Print Studio:",
+        "• Standard Turnaround: 5 business days from artwork approval.\n• Rush Production (48-Hour Turnaround): Available for a 20% surcharge calculated on the print subtotal.\n• Courier Delivery: Complimentary standard courier delivery on print orders exceeding $1,000; $45 flat fee for orders of $1,000 or less.",
+        "Autumn Promotion: Enter promo code EXPO15 to receive 15% off retractable vinyl banner stands! Note: EXPO15 applies exclusively to banner stands and cannot be combined with discounts on brochures, spec cards, or rush fees."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email đặt hàng",
+      "genre": "email",
+      "meta": {
+        "to": "quotes@colorcraftprint.com",
+        "from": "Anna Kowalski <a.kowalski@medcorebio.com>",
+        "date": "September 8",
+        "subject": "Print Order for BioMed Expo — Delivery by Sept 15"
+      },
+      "paragraphs": [
+        "Hello ColorCraft Team,",
+        "MedCore Diagnostics would like to place the following print order for the BioMed Expo opening on September 17:\n• 4 Retractable Vinyl Banner Stands (33\" × 80\")\n• 1,000 Tri-Fold Glossy Brochures\n• 500 Laminated Product Spec Cards",
+        "Our print-ready PDF artwork is attached and already approved by our brand team. Since we do not need delivery at our Chicago office until Monday, September 15, your standard five-business-day turnaround works perfectly—we do NOT need rush production.",
+        "Please remember to apply promotional code EXPO15 to our banner stands and send over the confirmation invoice so we can issue a purchase order today.",
+        "Thank you,\nAnna Kowalski\nMarketing Coordinator, MedCore Diagnostics"
+      ]
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Hóa đơn xác nhận",
+      "genre": "table",
+      "meta": {
+        "title": "COLORCRAFT PRINT STUDIO — ORDER CONFIRMATION #CC-5519",
+        "subtitle": "Date: September 9 • Client: MedCore Diagnostics (Chicago, IL)"
+      },
+      "paragraphs": [
+        "Print Subtotal: $1,220.00 | Rush Production Surcharge: $244.00 | Promo Code EXPO15: -$90.00 | Standard Courier Shipping: $0.00 | Total Due: $1,374.00"
+      ],
+      "table": {
+        "headers": [
+          "Code",
+          "Item Description",
+          "Qty",
+          "Unit Price",
+          "Subtotal"
+        ],
+        "rows": [
+          [
+            "BN-33",
+            "Retractable Vinyl Banner Stand (33\" × 80\")",
+            "4",
+            "$150.00",
+            "$600.00"
+          ],
+          [
+            "BR-10",
+            "Tri-Fold Glossy Brochures (Pack of 500)",
+            "2",
+            "$220.00",
+            "$440.00"
+          ],
+          [
+            "SC-50",
+            "Laminated Product Spec Cards (Pack of 500)",
+            "1",
+            "$180.00",
+            "$180.00"
+          ],
+          [
+            "RS-48",
+            "48-Hour Rush Production Surcharge (20%)",
+            "1",
+            "$244.00",
+            "$244.00"
+          ]
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the advertisement, what restriction applies to promo code EXPO15?",
+      "opts": [
+        "It is valid only for orders placed with rush production.",
+        "It applies exclusively to retractable vinyl banner stands.",
+        "It requires a minimum order of 1,000 glossy brochures.",
+        "It cannot be used with complimentary courier delivery."
+      ],
+      "ans": 1,
+      "exp": "Văn bản 1 (đoạn 3) ghi rõ: 'EXPO15 applies exclusively to banner stands and cannot be combined with discounts on brochures, spec cards, or rush fees.' → Chỉ áp dụng riêng cho chân standee cuốn."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the advertisement, the word \"turnaround\" is closest in meaning to",
+      "opts": [
+        "processing time",
+        "refund policy",
+        "shipping weight",
+        "print resolution"
+      ],
+      "ans": 0,
+      "exp": "Trong cụm 'Standard Turnaround: 5 business days from artwork approval' và '48-Hour Turnaround', 'turnaround' chỉ khoảng thời gian hoàn thành xử lý/sản xuất đơn hàng → đồng nghĩa với 'processing time'."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Why was MedCore Diagnostics charged $0.00 for standard courier shipping?",
+      "opts": [
+        "Ms. Kowalski agreed to pick up the materials at the studio.",
+        "Promo code EXPO15 automatically waives all courier fees.",
+        "The company's print subtotal exceeded the $1,000 free-shipping threshold.",
+        "The delivery address was located inside the BioMed Expo hall."
+      ],
+      "ans": 2,
+      "exp": "Nối chéo Văn bản 1 & 3: Văn bản 1 quy định miễn phí giao hàng tiêu chuẩn cho đơn in vượt $1,000 ('exceeding $1,000'). Văn bản 3 cho thấy Print Subtotal là $1,220.00 (> $1,000) nên phí ship bằng $0.00."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "What billing mistake appears on Order Confirmation #CC-5519?",
+      "opts": [
+        "The EXPO15 discount was omitted from the banner stands.",
+        "Too many packs of Tri-Fold Glossy Brochures were billed.",
+        "Standard courier shipping was mistakenly charged at $45.",
+        "A 48-hour rush production surcharge was wrongly added."
+      ],
+      "ans": 3,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 2 cô Kowalski nhấn mạnh rõ 'standard five-business-day turnaround works perfectly—we do NOT need rush production'. Tuy nhiên hóa đơn ở Văn bản 3 lại tính thêm mã RS-48 '48-Hour Rush Production Surcharge (20%)' trị giá $244.00 (định nghĩa ở Văn bản 1). Còn mã EXPO15 giảm 15% × $600 = $90 và 2 gói 500 tờ rơi (= 1,000 tờ) đều hoàn toàn đúng!"
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Once the billing error is corrected, what should MedCore Diagnostics's final total due be?",
+      "opts": [
+        "$1,085.00",
+        "$1,130.00",
+        "$1,220.00",
+        "$1,284.00"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: Tổng tiền in = $1,220.00 (đủ miễn phí ship > $1,000); trừ mã EXPO15 hợp lệ cho 4 banner (15% × $600 = -$90.00); bỏ khoản phụ thu in gấp bị tính nhầm (-$244.00) → Tổng thanh toán đúng là $1,220.00 − $90.00 = $1,130.00 (hoặc $1,374.00 − $244.00 = $1,130.00)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "turnaround",
+      "answer": "processing time",
+      "vi": "thời gian hoàn tất xử lý đơn hàng"
+    },
+    {
+      "text": "applies exclusively to banner stands",
+      "answer": "15% off $600 = -$90.00",
+      "vi": "chỉ áp dụng riêng cho chân banner"
+    },
+    {
+      "text": "complimentary standard courier delivery on orders exceeding $1,000",
+      "answer": "charged $0.00 for shipping ($1,220 subtotal)",
+      "vi": "miễn phí giao hàng cho đơn trên $1,000"
+    },
+    {
+      "text": "we do NOT need rush production",
+      "answer": "rush production surcharge was wrongly added",
+      "vi": "không cần in gấp ↔ bị cộng nhầm phụ phí in gấp"
+    },
+    {
+      "text": "1,000 Tri-Fold Glossy Brochures",
+      "answer": "Qty 2 × Pack of 500",
+      "vi": "1.000 tờ rơi gấp ba ↔ 2 gói loại 500 tờ"
+    },
+    {
+      "text": "Total Due ($1,374) minus Rush Fee ($244)",
+      "answer": "$1,130.00 final total due",
+      "vi": "tổng hóa đơn trừ khoản phí in gấp sai bằng $1,130"
+    }
+  ]
+}

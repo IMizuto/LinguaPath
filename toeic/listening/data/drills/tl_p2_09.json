@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_09",
+  "order": 21,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 09: Yêu cầu, Đề nghị & Lời mời",
+  "subtitle": "Xử lý các mẫu lịch sự Could you...?, Would you like...?, Why don't we...? và Shall I...?",
+  "accent": "en-GB",
+  "defaultRate": 1,
+  "tips": "Lưu ý 'Why don't we...?' KHÔNG phải hỏi lý do (không trả lời bằng Because!) mà là lời ĐỀ NGHỊ ('Tại sao chúng ta không...?'). Đáp án đúng thường đồng ý ('That sounds great', 'Sure, no problem') hoặc từ chối lịch sự kèm lý do.",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Request/Offer",
+      "accent": "en-GB",
+      "question": "Could you help me move these display tables into the hall?",
+      "questionVi": "Bạn có thể giúp tôi chuyển mấy chiếc bàn trưng bày này vào hội trường không?",
+      "options": [
+        "Sure, give me just a second to save this file.",
+        "The museum display opens on Saturday.",
+        "Yes, I booked a table for two."
+      ],
+      "optionsVi": [
+        "Chắc chắn rồi, đợi tôi một giây để lưu tệp này đã.",
+        "Triển lãm bảo tàng mở cửa vào thứ Bảy.",
+        "Vâng, tôi đã đặt một bàn cho hai người."
+      ],
+      "ans": 0,
+      "exp": "Lời nhờ giúp đỡ 'Could you help me...' → chọn (A) đồng ý tự nhiên ('Sure, give me just a second...'). Loại (B) bẫy lặp từ 'display', (C) bẫy lặp từ 'table'."
+    },
+    {
+      "num": 2,
+      "qType": "Request/Offer",
+      "accent": "en-US",
+      "question": "Why don't we review the budget figures together after lunch?",
+      "questionVi": "Hay là chúng ta cùng xem lại số liệu ngân sách sau bữa trưa nhé?",
+      "options": [
+        "Because the restaurant was crowded.",
+        "That sounds like a good plan.",
+        "About ten thousand dollars."
+      ],
+      "optionsVi": [
+        "Bởi vì nhà hàng rất đông.",
+        "Nghe có vẻ là một kế hoạch hay đấy.",
+        "Khoảng mười nghìn đô la."
+      ],
+      "ans": 1,
+      "exp": "'Why don't we...?' là lời đề nghị → chọn (B) đồng ý 'That sounds like a good plan'. Loại (A) bẫy 'Why -> Because' cực kinh điển và (C) trả lời số tiền."
+    },
+    {
+      "num": 3,
+      "qType": "Request/Offer",
+      "accent": "en-AU",
+      "question": "Would you like me to reserve a conference room for your interview?",
+      "questionVi": "Bạn có muốn tôi đặt trước một phòng họp cho buổi phỏng vấn của bạn không?",
+      "options": [
+        "Yes, the view from the balcony is lovely.",
+        "Only two applicants arrived.",
+        "Thanks, that would be very helpful."
+      ],
+      "optionsVi": [
+        "Vâng, quang cảnh từ ban công thật đẹp.",
+        "Chỉ có hai ứng viên tới.",
+        "Cảm ơn, điều đó sẽ rất hữu ích."
+      ],
+      "ans": 2,
+      "exp": "Lời đề nghị giúp đỡ 'Would you like me to...' → chọn (C) cảm ơn và chấp nhận lịch sự. Loại (A) bẫy gần âm 'interview / view', (B) sai trọng tâm."
+    },
+    {
+      "num": 4,
+      "qType": "Request/Offer",
+      "accent": "en-GB",
+      "question": "Would you mind proofreading this client proposal before five?",
+      "questionVi": "Bạn có phiền đọc soát bản đề xuất khách hàng này trước năm giờ không?",
+      "options": [
+        "Not at all, send it right over.",
+        "At the client's headquarters.",
+        "Yes, five people are attending."
+      ],
+      "optionsVi": [
+        "Không phiền chút nào, cứ gửi ngay qua đây.",
+        "Tại trụ sở chính của khách hàng.",
+        "Vâng, năm người sẽ tham dự."
+      ],
+      "ans": 0,
+      "exp": "Với 'Would you mind...?' (Bạn có phiền không?), đồng ý giúp sẽ trả lời 'Not at all / No problem' → chọn (A). Loại (B) địa điểm, (C) bẫy lặp số 'five'."
+    },
+    {
+      "num": 5,
+      "qType": "Request/Offer",
+      "accent": "en-US",
+      "question": "Shall I call a taxi to take you to the airport?",
+      "questionVi": "Để tôi gọi taxi đưa bạn ra sân bay nhé?",
+      "options": [
+        "Yes, the taxes are due in April.",
+        "No thanks, my coworker is driving me.",
+        "Gate twelve in terminal B."
+      ],
+      "optionsVi": [
+        "Vâng, thuế đến hạn vào tháng Tư.",
+        "Không cần đâu cảm ơn, đồng nghiệp sẽ chở tôi đi.",
+        "Cổng mười hai ở nhà ga B."
+      ],
+      "ans": 1,
+      "exp": "Lời đề nghị 'Shall I...' → chọn (B) từ chối lịch sự kèm lý do ('No thanks, my coworker is driving me'). Loại (A) bẫy gần âm 'taxi / taxes', (C) cổng máy bay."
+    },
+    {
+      "num": 6,
+      "qType": "Request/Offer",
+      "accent": "en-GB",
+      "question": "How about ordering sandwiches from the bakery down the street?",
+      "questionVi": "Thế còn việc đặt bánh mì kẹp từ tiệm bánh cuối phố thì sao?",
+      "options": [
+        "Because I lost the receipt.",
+        "The order arrived last Friday.",
+        "Great idea — their menu has plenty of vegetarian options."
+      ],
+      "optionsVi": [
+        "Vì tôi làm mất hóa đơn rồi.",
+        "Đơn hàng đã tới thứ Sáu tuần trước.",
+        "Ý kiến hay đấy — thực đơn của họ có nhiều món chay."
+      ],
+      "ans": 2,
+      "exp": "'How about + V-ing?' là lời gợi ý → chọn (C) đồng tình 'Great idea'. Loại (A) trả lời lý do không liên quan, (B) bẫy lặp từ 'ordering / order'."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "id": "tl_adv_07",
+  "order": 47,
+  "level": 4,
+  "part": "part4",
+  "partLabel": "Chặng 4 • Bẫy P3–4 (1.2x)",
+  "title": "Bài nói nhanh Giọng Úc 1.2x • Báo cáo Cổ đông & Điều phối Cảng",
+  "subtitle": "Luyện tốc độ 1.2x giọng Úc với thuật ngữ tài chính và bảng đổi cầu tàu container",
+  "accent": "en-AU",
+  "defaultRate": 1.2,
+  "tips": "Giọng Úc (Australian English) ở tốc độ 1.2x thường lược âm /r/ cuối và làm mềm nguyên âm (như 'data', 'freight', 'margins'). Hãy chú ý cấu trúc tương phản ('despite', 'whereas', 'rather than') vì đáp án hay nằm ngay đó.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Tóm tắt kết quả kinh doanh quý cho cổ đông",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Chief Executive",
+          "accent": "en-AU",
+          "en": "Good afternoon, shareholders, and thank you for joining Southern Freight Group's Q2 earnings briefing from Sydney.",
+          "vi": "Chào buổi chiều các cổ đông, cảm ơn quý vị đã tham dự buổi công bố kết quả kinh doanh quý 2 của Tập đoàn Vận tải Southern Freight từ Sydney."
+        },
+        {
+          "spk": "M",
+          "name": "Chief Executive",
+          "accent": "en-AU",
+          "en": "Consolidated revenue rose eleven percent year-over-year to two hundred and forty million dollars, driven primarily by our cold-chain agricultural exports.",
+          "vi": "Doanh thu hợp nhất tăng mười một phần trăm so với cùng kỳ lên hai trăm bốn mươi triệu đô la, chủ yếu nhờ mảng xuất khẩu nông sản chuỗi lạnh."
+        },
+        {
+          "spk": "M",
+          "name": "Chief Executive",
+          "accent": "en-AU",
+          "en": "Our operating margins held steady despite the spike in marine fuel surcharges—thanks to the automated route-optimization software we rolled out in January.",
+          "vi": "Biên lợi nhuận hoạt động của chúng tôi vẫn giữ vững bất chấp phụ phí nhiên liệu hàng hải tăng vọt—nhờ phần mềm tối ưu hóa tuyến đường tự động triển khai từ tháng Một."
+        },
+        {
+          "spk": "M",
+          "name": "Chief Executive",
+          "accent": "en-AU",
+          "en": "Rather than issuing a special mid-year dividend, the board has voted to reinvest this quarter's surplus into electrifying forty percent of our regional delivery fleet before 2028.",
+          "vi": "Thay vì chi cổ tức đặc biệt giữa năm, hội đồng quản trị đã biểu quyết tái đầu tư khoản thặng dư quý này vào việc điện hóa bốn mươi phần trăm đội xe giao hàng khu vực trước năm 2028."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What was the main driver of the company's revenue growth?",
+          "opts": [
+            "Temperature-controlled farm exports",
+            "Domestic parcel deliveries",
+            "Warehouse property leases",
+            "Passenger ferry operations"
+          ],
+          "ans": 0,
+          "exp": "CEO nêu rõ: 'driven primarily by our cold-chain agricultural exports' → 'cold-chain agricultural exports' được paraphrase thành 'Temperature-controlled farm exports'. Chọn (A)."
+        },
+        {
+          "num": 2,
+          "q": "What does the speaker imply when he says, \"Our operating margins held steady despite the spike in marine fuel surcharges\"?",
+          "opts": [
+            "Fuel suppliers agreed to freeze shipping prices.",
+            "Profitability fell sharply during the second quarter.",
+            "Cost-saving software successfully offset rising fuel expenses.",
+            "The company suspended its overseas cargo routes."
+          ],
+          "ans": 2,
+          "exp": "Biên lợi nhuận giữ vững bất chấp giá nhiên liệu tăng mạnh 'thanks to the automated route-optimization software' → phần mềm tiết kiệm chi phí đã bù đắp thành công chi phí nhiên liệu tăng. Chọn (C)."
+        },
+        {
+          "num": 3,
+          "q": "How will the company use its Q2 surplus?",
+          "opts": [
+            "To pay a special mid-year shareholder dividend",
+            "To transition part of its delivery fleet to electric vehicles",
+            "To acquire a rival port operator",
+            "To build a new headquarters in Melbourne"
+          ],
+          "ans": 1,
+          "exp": "Câu cuối nói hội đồng chọn 'reinvest this quarter's surplus into electrifying forty percent of our regional delivery fleet' → chuyển đổi một phần đội xe sang xe điện. Chọn (B)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Điều phối Cầu tàu tại Cảng Logistics Sydney",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "Port Botany Berth Reassignment",
+        "headers": [
+          "Vessel",
+          "Original Berth",
+          "Revised Berth"
+        ],
+        "rows": [
+          [
+            "MV Tasman",
+            "Berth 3",
+            "Berth 5"
+          ],
+          [
+            "MV Coral Sea",
+            "Berth 4",
+            "Berth 4 (Unchanged)"
+          ],
+          [
+            "MV Pacific Dawn",
+            "Berth 6",
+            "Berth 2"
+          ],
+          [
+            "MV Southern Cross",
+            "Berth 7",
+            "Berth 9"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Port Dispatcher",
+          "accent": "en-AU",
+          "en": "Attention all container-yard crane operators and drayage supervisors at Port Botany Terminal.",
+          "vi": "Xin chú ý toàn thể nhân viên vận hành cần cẩu bãi container và giám sát xe đầu kéo tại Cảng Port Botany."
+        },
+        {
+          "spk": "W",
+          "name": "Port Dispatcher",
+          "accent": "en-AU",
+          "en": "A hydraulic fault on Gantry Crane 6 has forced us to close Berth 6 for emergency repairs until midnight tonight.",
+          "vi": "Sự cố thủy lực trên Cần cẩu Giàn số 6 buộc chúng tôi phải đóng Cầu tàu 6 để sửa chữa khẩn cấp cho đến nửa đêm nay."
+        },
+        {
+          "spk": "W",
+          "name": "Port Dispatcher",
+          "accent": "en-AU",
+          "en": "All crews originally assigned to unload the vessel scheduled for Berth 6 should relocate their chassis units immediately to its reassigned pier—customs inspectors have already been briefed on the shift.",
+          "vi": "Toàn bộ tổ đội ban đầu được phân bốc dỡ con tàu dự kiến cập Cầu tàu 6 hãy di chuyển ngay xe rơ-moóc tới cầu tàu mới được phân bổ lại—hải quan đã được thông báo về thay đổi này."
+        },
+        {
+          "spk": "W",
+          "name": "Port Dispatcher",
+          "accent": "en-AU",
+          "en": "Please log your revised bay code on your handheld scanners before commencing discharge so our inventory system stays synchronized.",
+          "vi": "Vui lòng nhập mã khu bốc dỡ mới lên máy quét cầm tay trước khi bắt đầu dỡ hàng để hệ thống tồn kho luôn đồng bộ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why has Berth 6 been closed until midnight?",
+          "opts": [
+            "A vessel ran aground near the channel.",
+            "Severe coastal swells damaged the pier.",
+            "Customs officers are conducting an audit.",
+            "A crane developed a hydraulic malfunction."
+          ],
+          "ans": 3,
+          "exp": "Thông báo nêu rõ: 'A hydraulic fault on Gantry Crane 6' → cần cẩu gặp sự cố thủy lực. Chọn (D)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Where should crews unloading the MV Pacific Dawn report?",
+          "opts": [
+            "Berth 2",
+            "Berth 4",
+            "Berth 5",
+            "Berth 9"
+          ],
+          "ans": 0,
+          "exp": "Tra bảng: con tàu ban đầu ở Berth 6 là 'MV Pacific Dawn', và cầu tàu phân bổ mới (Revised Berth) của nó là 'Berth 2'. Chọn (A)."
+        },
+        {
+          "num": 6,
+          "q": "What are workers instructed to do before unloading cargo?",
+          "opts": [
+            "Wait for a fresh clearance form from customs",
+            "Inspect the hydraulic valves on Crane 2",
+            "Enter the updated bay code into their scanners",
+            "Confirm overtime approval with yard dispatch"
+          ],
+          "ans": 2,
+          "exp": "Câu cuối hướng dẫn: 'log your revised bay code on your handheld scanners before commencing discharge' → nhập mã khu vực mới vào máy quét cầm tay. Chọn (C)."
+        }
+      ]
+    }
+  ]
+}

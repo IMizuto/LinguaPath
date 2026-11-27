@@ -1,0 +1,119 @@
+{
+  "id": "tr_p5_06",
+  "order": 6,
+  "level": 1,
+  "part": "part5",
+  "partLabel": "Part 5 • Câu đơn",
+  "title": "Part 5 • Bộ 06: Tổng hợp Bẫy Part 5 chuẩn ETS",
+  "subtitle": "Tránh các bẫy kinh điển: Mệnh đề quan hệ, To-V/V-ing, Cặp từ dễ nhầm, Liên từ tương quan & Giả định.",
+  "timeLimitMin": 4,
+  "tips": "Mẹo tránh bẫy: Đọc kỹ các cấu trúc cố định dễ lừa thí sinh như \"look forward to + V-ing\", \"whose + N\", \"not only... but also\", \"recommend that + S + V nguyên mẫu\" và cặp tính từ gần nghĩa (economic vs economical).",
+  "passages": [],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Mệnh đề quan hệ",
+      "q": "We are looking for a senior architect _____ portfolio includes sustainable commercial buildings.",
+      "opts": [
+        "who",
+        "whose",
+        "whom",
+        "which"
+      ],
+      "ans": 1,
+      "exp": "Giữa danh từ chỉ người \"a senior architect\" và danh từ \"portfolio\" (hồ sơ năng lực CỦA kiến trúc sư đó) cần đại từ quan hệ sở hữu. Chọn \"whose\" (B). Loại (A) \"who\" đứng trước động từ, (C) \"whom\" đứng trước S + V, (D) \"which\" chỉ vật."
+    },
+    {
+      "num": 2,
+      "tag": "Bẫy To-V / V-ing",
+      "q": "The organizing committee looks forward to _____ delegates from twenty-five countries at the summit.",
+      "opts": [
+        "welcome",
+        "welcomed",
+        "welcoming",
+        "welcomes"
+      ],
+      "ans": 2,
+      "exp": "Bẫy kinh điển TOEIC: Trong cụm \"look forward to\" (mong đợi điều gì), \"to\" là GIỚI TỪ chứ không phải \"to-V\", nên phía sau bắt buộc cộng V-ing. Chọn \"welcoming\" (C). Loại (A), (B), (D)."
+    },
+    {
+      "num": 3,
+      "tag": "Cặp từ dễ nhầm",
+      "q": "Switching to LED lighting proved to be an _____ choice that cut annual electricity bills by thirty percent.",
+      "opts": [
+        "economical",
+        "economic",
+        "economy",
+        "economist"
+      ],
+      "ans": 0,
+      "exp": "Phân biệt cặp bẫy: \"economical\" = tiết kiệm, ít tốn kém; \"economic\" = thuộc về nền kinh tế. Đèn LED giúp giảm 30% hóa đơn điện là lựa chọn \"tiết kiệm\" → chọn \"economical\" (A). Loại (B) sai sắc thái nghĩa, (C) danh từ nền kinh tế, (D) nhà kinh tế học."
+    },
+    {
+      "num": 4,
+      "tag": "Liên từ tương quan",
+      "q": "The revised warranty covers not only defective hardware components _____ accidental screen damage.",
+      "opts": [
+        "or",
+        "nor",
+        "and also",
+        "but also"
+      ],
+      "ans": 3,
+      "exp": "Cặp liên từ tương quan chuẩn là \"not only ... but also ...\" (không những ... mà còn ...). Chọn \"but also\" (D). Loại (A) đi với either, (B) đi với neither, (C) sai cấu trúc cặp."
+    },
+    {
+      "num": 5,
+      "tag": "Động từ dễ nhầm",
+      "q": "Please _____ all department heads immediately if the shipment from Rotterdam is delayed.",
+      "opts": [
+        "notify",
+        "announce",
+        "explain",
+        "speak"
+      ],
+      "ans": 0,
+      "exp": "Sau chỗ trống là tân ngữ CHỈ NGƯỜI trực tiếp (\"all department heads\"). Chỉ \"notify + người\" (thông báo cho ai) đi trực tiếp không cần giới từ \"to\". Chọn \"notify\" (A). Loại (B) announce + sự việc, (C) explain + sự việc (+ to sb), (D) speak + to sb."
+    },
+    {
+      "num": 6,
+      "tag": "Giả định cách",
+      "q": "The external auditor recommended that every branch _____ its petty cash receipts monthly.",
+      "opts": [
+        "verifies",
+        "verify",
+        "verified",
+        "verifying"
+      ],
+      "ans": 1,
+      "exp": "Cấu trúc giả định (Subjunctive): \"recommend/suggest/insist + that + S + (should) + V nguyên mẫu không chia\". Dù chủ ngữ \"every branch\" là số ít, động từ vẫn giữ nguyên mẫu \"verify\" (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 7,
+      "tag": "Cặp từ dễ nhầm",
+      "q": "Thank you for your _____ feedback regarding the layout of our newly launched online catalog.",
+      "opts": [
+        "construct",
+        "construction",
+        "constructive",
+        "constructing"
+      ],
+      "ans": 2,
+      "exp": "Trước danh từ \"feedback\" (phản hồi) cần một tính từ. \"Constructive feedback\" là collocation cực chuẩn nghĩa là \"phản hồi mang tính xây dựng\". Chọn (C). Loại (A) động từ, (B) danh từ sự xây dựng, (D) phân từ hiện tại (đang xây dựng)."
+    },
+    {
+      "num": 8,
+      "tag": "To-V / V-ing",
+      "q": "Management advised staff members _____ their passwords before leaving for the holiday break.",
+      "opts": [
+        "updating",
+        "update",
+        "updated",
+        "to update"
+      ],
+      "ans": 3,
+      "exp": "Cấu trúc \"advise + someone + to V\" (khuyên ai đó làm gì). Phía sau có tân ngữ \"staff members\" nên dùng \"to update\" (D). Lưu ý: chỉ dùng \"advise + V-ing\" khi KHÔNG có tân ngữ chỉ người phía sau. Loại (A), (B), (C)."
+    }
+  ],
+  "paraphrases": []
+}

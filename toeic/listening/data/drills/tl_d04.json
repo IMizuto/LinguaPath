@@ -1,0 +1,98 @@
+{
+  "id": "tl_d04",
+  "order": 4,
+  "level": 1,
+  "part": "dictation",
+  "partLabel": "Dictation • Lấy gốc",
+  "title": "Dictation 04 • Cặp từ dễ nhầm âm trong TOEIC",
+  "subtitle": "Phân biệt chuẩn xác các cặp bẫy đồng âm/gần âm hay xuất hiện trong Part 1–2.",
+  "accent": "en-US",
+  "defaultRate": 0.75,
+  "tips": "ETS rất hay gài bẫy các cặp từ gần âm như copy/coffee, walk/work, ship/sheet, price/prize. Hãy dựa vào cả độ dài nguyên âm lẫn ngữ cảnh câu để phân biệt.",
+  "items": [
+    {
+      "num": 1,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "Could you make ten copies before the coffee break?",
+      "masked": "Could you make ten _____ before the _____ _____?",
+      "blanks": [
+        "copies",
+        "coffee",
+        "break"
+      ],
+      "vi": "Bạn có thể sao chép mười bản trước giờ nghỉ uống cà phê không?",
+      "phoneticTip": "Phân biệt phụ âm môi /p/ trong 'copies' với âm răng-môi /f/ trong 'coffee'."
+    },
+    {
+      "num": 2,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "Many employees walk to work along the river path.",
+      "masked": "Many _____ _____ to _____ along the river path.",
+      "blanks": [
+        "employees",
+        "walk",
+        "work"
+      ],
+      "vi": "Nhiều nhân viên đi bộ đến chỗ làm dọc theo con đường ven sông.",
+      "phoneticTip": "'walk' có âm /ɔː/ tròn môi (âm 'l' câm), còn 'work' có âm /ɜːr/ cong lưỡi."
+    },
+    {
+      "num": 3,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "We will ship the balance sheet by express courier.",
+      "masked": "We will _____ the _____ _____ by express courier.",
+      "blanks": [
+        "ship",
+        "balance",
+        "sheet"
+      ],
+      "vi": "Chúng tôi sẽ gửi bảng cân đối kế toán qua chuyển phát nhanh.",
+      "phoneticTip": "Phân biệt nguyên âm ngắn /ɪ/ trong 'ship' với nguyên âm dài /iː/ trong 'sheet'."
+    },
+    {
+      "num": 4,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "The retail price includes a complimentary warranty.",
+      "masked": "The _____ _____ includes a complimentary _____.",
+      "blanks": [
+        "retail",
+        "price",
+        "warranty"
+      ],
+      "vi": "Giá bán lẻ đã bao gồm chế độ bảo hành miễn phí.",
+      "phoneticTip": "Âm cuối /s/ vô thanh ở 'price' (giá cả), khác âm /z/ hữu thanh ở 'prize' (giải thưởng)."
+    },
+    {
+      "num": 5,
+      "speaker": "M",
+      "accent": "en-US",
+      "sentence": "Please leave the invoice on the reception desk.",
+      "masked": "Please _____ the _____ on the reception _____.",
+      "blanks": [
+        "leave",
+        "invoice",
+        "desk"
+      ],
+      "vi": "Vui lòng để hóa đơn trên bàn lễ tân.",
+      "phoneticTip": "'leave' là âm /iː/ dài (để lại/rời đi), khác 'live' (/ɪ/); chú ý đuôi /sk/ của 'desk'."
+    },
+    {
+      "num": 6,
+      "speaker": "W",
+      "accent": "en-US",
+      "sentence": "The board members were pleased with the sales growth.",
+      "masked": "The _____ members were _____ with the sales _____.",
+      "blanks": [
+        "board",
+        "pleased",
+        "growth"
+      ],
+      "vi": "Các thành viên hội đồng quản trị rất hài lòng với mức tăng trưởng doanh số.",
+      "phoneticTip": "'board' (hội đồng) đồng âm với 'bored' (chán), nhận biết qua danh từ đi kèm 'members'."
+    }
+  ]
+}

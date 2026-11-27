@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_01",
+  "order": 13,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 01: Câu hỏi Who (Người & Phòng ban)",
+  "subtitle": "Phản xạ nhanh câu hỏi người: tên riêng, chức danh, phòng ban và câu trả lời gián tiếp.",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "Với câu hỏi 'Who', đáp án đúng thường nêu tên người (Ms. Park), chức vụ (the accounting manager), phòng ban (the HR team) hoặc cách hỏi lại gián tiếp ('I haven't been told yet'). Luôn loại câu bắt đầu bằng Yes/No.",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Who",
+      "accent": "en-US",
+      "question": "Who is in charge of organizing the trade show?",
+      "questionVi": "Ai phụ trách tổ chức triển lãm thương mại?",
+      "options": [
+        "Ms. Park from the marketing team.",
+        "At the convention center downtown.",
+        "Yes, the show starts tomorrow."
+      ],
+      "optionsVi": [
+        "Cô Park ở đội ngũ tiếp thị.",
+        "Ở trung tâm hội nghị trung tâm thành phố.",
+        "Vâng, triển lãm bắt đầu vào ngày mai."
+      ],
+      "ans": 0,
+      "exp": "Câu hỏi 'Who' hỏi người → chọn (A) nêu tên 'Ms. Park' và phòng ban. Loại (B) trả lời nơi chốn (Where), (C) bẫy Yes/No + lặp từ 'show'."
+    },
+    {
+      "num": 2,
+      "qType": "Who",
+      "accent": "en-GB",
+      "question": "Who left these sample fabrics on my desk?",
+      "questionVi": "Ai đã để những mẫu vải này trên bàn tôi vậy?",
+      "options": [
+        "Yes, they feel very soft.",
+        "Our supplier dropped them off earlier.",
+        "Next to the reception counter."
+      ],
+      "optionsVi": [
+        "Vâng, chúng có cảm giác rất mềm.",
+        "Nhà cung cấp của chúng ta đã ghé gửi chúng lúc sớm.",
+        "Ngay cạnh quầy lễ tân."
+      ],
+      "ans": 1,
+      "exp": "'Who' hỏi người để lại mẫu vải → chọn (B) 'Our supplier' (nhà cung cấp). Loại (A) sai dạng Yes/No, (C) trả lời địa điểm."
+    },
+    {
+      "num": 3,
+      "qType": "Who",
+      "accent": "en-US",
+      "question": "Who should I contact to reset my email password?",
+      "questionVi": "Tôi nên liên hệ ai để đặt lại mật khẩu email?",
+      "options": [
+        "By the end of this afternoon.",
+        "No, I already signed the contract.",
+        "Try calling the IT help desk."
+      ],
+      "optionsVi": [
+        "Trước cuối buổi chiều nay.",
+        "Không, tôi đã ký hợp đồng rồi.",
+        "Hãy thử gọi bộ phận hỗ trợ công nghệ thông tin."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) chỉ đúng bộ phận cần liên hệ ('the IT help desk'). Loại (A) trả lời thời gian, (B) gài bẫy đồng âm 'contact / contract' và sai dạng No."
+    },
+    {
+      "num": 4,
+      "qType": "Who",
+      "accent": "en-AU",
+      "question": "Who will be leading the new employee orientation?",
+      "questionVi": "Ai sẽ dẫn dắt buổi định hướng nhân viên mới?",
+      "options": [
+        "The human resources director.",
+        "In conference room B.",
+        "We hired five new people."
+      ],
+      "optionsVi": [
+        "Giám đốc nhân sự.",
+        "Trong phòng họp B.",
+        "Chúng tôi đã tuyển năm nhân viên mới."
+      ],
+      "ans": 0,
+      "exp": "Câu hỏi 'Who' → chọn (A) nêu rõ chức danh 'The human resources director'. Loại (B) trả lời địa điểm và (C) bẫy lặp từ 'new' nhưng trả lời số lượng."
+    },
+    {
+      "num": 5,
+      "qType": "Who",
+      "accent": "en-US",
+      "question": "Who reviewed the final draft of the press release?",
+      "questionVi": "Ai đã rà soát bản thảo cuối của thông cáo báo chí?",
+      "options": [
+        "A great view of the harbor.",
+        "I think David checked it this morning.",
+        "It will be published next Tuesday."
+      ],
+      "optionsVi": [
+        "Một tầm nhìn tuyệt đẹp ra bến cảng.",
+        "Tôi nghĩ David đã kiểm tra nó sáng nay.",
+        "Nó sẽ được công bố vào thứ Ba tới."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) nêu tên người 'David' kèm hành động đồng nghĩa 'checked' (= reviewed). Loại (A) bẫy đồng âm 'reviewed / view', (C) trả lời thời gian."
+    },
+    {
+      "num": 6,
+      "qType": "Who",
+      "accent": "en-GB",
+      "question": "Who has the key to the supply storage room?",
+      "questionVi": "Ai đang giữ chìa khóa phòng kho văn phòng phẩm?",
+      "options": [
+        "Some printer paper and envelopes.",
+        "Sure, I can supply more folders.",
+        "Check with the security guard downstairs."
+      ],
+      "optionsVi": [
+        "Ít giấy in và phong bì.",
+        "Chắc chắn rồi, tôi có thể cung cấp thêm bìa hồ sơ.",
+        "Hãy hỏi nhân viên bảo vệ ở tầng dưới."
+      ],
+      "ans": 2,
+      "exp": "Đáp án gián tiếp chuẩn ETS (C) hướng dẫn hỏi đúng người phụ trách ('the security guard'). Loại (A) liệt kê đồ vật và (B) bẫy lặp từ 'supply'."
+    }
+  ]
+}

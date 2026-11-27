@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="640" height="380">
+<defs>
+  <linearGradient id="sky05" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#e0f2fe"/></linearGradient>
+  <linearGradient id="flr05" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e2e8f0"/><stop offset="100%" stop-color="#cbd5e1"/></linearGradient>
+</defs>
+<rect width="640" height="380" fill="#f1f5f9"/>
+<!-- Airport terminal glass window & airplane outside -->
+<rect x="24" y="68" width="592" height="150" rx="6" fill="url(#sky05)" stroke="#64748b" stroke-width="4"/>
+<line x1="172" y1="68" x2="172" y2="218" stroke="#94a3b8" stroke-width="3"/>
+<line x1="320" y1="68" x2="320" y2="218" stroke="#94a3b8" stroke-width="3"/>
+<line x1="468" y1="68" x2="468" y2="218" stroke="#94a3b8" stroke-width="3"/>
+<rect x="24" y="186" width="592" height="32" fill="#cbd5e1"/>
+<!-- Stylized airplane silhouette outside -->
+<path d="M358 172 L456 172 C468 172 474 178 462 182 L352 182 Z" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+<polygon points="358,172 342,146 356,146 374,172" fill="#0284c7"/>
+<polygon points="402,178 424,192 436,192 422,178" fill="#94a3b8"/>
+<!-- Overhead blue departure / check-in signage -->
+<rect x="44" y="14" width="236" height="44" rx="5" fill="#1e3a8a"/>
+<rect x="60" y="26" width="94" height="8" rx="2" fill="#facc15"/>
+<rect x="60" y="40" width="144" height="6" rx="2" fill="#bfdbfe"/>
+<rect x="336" y="14" width="256" height="44" rx="5" fill="#0f172a"/>
+<rect x="352" y="24" width="76" height="6" rx="1" fill="#38bdf8"/><rect x="454" y="24" width="60" height="6" rx="1" fill="#4ade80"/><rect x="530" y="24" width="44" height="6" rx="1" fill="#facc15"/>
+<rect x="352" y="38" width="90" height="6" rx="1" fill="#e2e8f0"/><rect x="454" y="38" width="54" height="6" rx="1" fill="#facc15"/><rect x="530" y="38" width="44" height="6" rx="1" fill="#38bdf8"/>
+<!-- Terminal floor -->
+<rect y="246" width="640" height="134" fill="url(#flr05)"/>
+<!-- Airline agent behind check-in counter -->
+<circle cx="152" cy="176" r="18" fill="#f5c6a5"/>
+<path d="M134 174 C136 154 170 154 170 176 L172 192 L162 186 L162 172 C156 164 142 164 136 174 Z" fill="#3b261d"/>
+<path d="M126 202 C130 192 174 192 178 202 L182 246 L122 246 Z" fill="#1e3a8a"/>
+<polygon points="146,198 158,198 152,216" fill="#f59e0b"/>
+<!-- Check-in Counter & Monitor -->
+<rect x="32" y="236" width="240" height="14" rx="3" fill="#0284c7"/>
+<rect x="38" y="250" width="228" height="92" fill="#1e293b"/>
+<rect x="60" y="274" width="184" height="12" rx="2" fill="#38bdf8"/>
+<rect x="198" y="192" width="52" height="36" rx="3" fill="#334155"/><rect x="202" y="196" width="44" height="28" fill="#38bdf8"/><rect x="218" y="228" width="12" height="8" fill="#475569"/>
+<!-- Luggage scale beside counter -->
+<rect x="272" y="324" width="70" height="18" rx="3" fill="#64748b"/>
+<!-- Traveler 1 checking in (foreground) -->
+<circle cx="332" cy="174" r="19" fill="#e5b38a"/>
+<path d="M314 172 C316 152 348 152 350 172 C344 164 322 164 314 172 Z" fill="#1e293b"/>
+<path d="M306 202 C310 192 354 192 358 202 L364 298 L300 298 Z" fill="#0d9488"/>
+<!-- Arm handing passport/boarding pass -->
+<path d="M308 214 L268 218 L268 228 L312 226 Z" fill="#0f766e"/>
+<rect x="254" y="212" width="18" height="12" rx="1" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="310" y="298" width="18" height="64" fill="#334155"/><rect x="336" y="298" width="18" height="64" fill="#1e293b"/>
+<!-- Rolling suitcase next to Traveler 1 -->
+<rect x="372" y="268" width="50" height="78" rx="7" fill="#dc2626" stroke="#991b1b" stroke-width="2.5"/>
+<line x1="388" y1="268" x2="388" y2="230" stroke="#475569" stroke-width="3"/><line x1="406" y1="268" x2="406" y2="230" stroke="#475569" stroke-width="3"/>
+<rect x="384" y="226" width="26" height="6" rx="2" fill="#1e293b"/>
+<line x1="382" y1="286" x2="412" y2="286" stroke="#fca5a5" stroke-width="2"/><line x1="382" y1="306" x2="412" y2="306" stroke="#fca5a5" stroke-width="2"/>
+<circle cx="382" cy="350" r="6" fill="#0f172a"/><circle cx="412" cy="350" r="6" fill="#0f172a"/>
+<!-- Queue stanchions & Second passenger rolling luggage -->
+<rect x="454" y="268" width="6" height="72" fill="#475569"/><rect x="596" y="268" width="6" height="72" fill="#475569"/>
+<path d="M460 280 Q528 302 596 280" fill="none" stroke="#1d4ed8" stroke-width="4"/>
+<circle cx="526" cy="184" r="17" fill="#f5c6a5"/>
+<path d="M508 184 C508 164 544 164 544 186 L546 204 L536 198 L536 182 C530 174 516 174 510 184 Z" fill="#78350f"/>
+<path d="M502 208 C506 200 546 200 550 208 L554 288 L498 288 Z" fill="#ea580c"/>
+<rect x="556" y="256" width="38" height="64" rx="6" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+<line x1="574" y1="256" x2="574" y2="228" stroke="#475569" stroke-width="3"/>
+<circle cx="564" cy="324" r="5" fill="#0f172a"/><circle cx="586" cy="324" r="5" fill="#0f172a"/>
+</svg>

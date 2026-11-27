@@ -876,5 +876,2839 @@ window.LP_LESSON_SEARCH_DATA = [
     "desc": "Hỏi giá (How much), hỏi đường (Where is) và đề nghị lịch sự (Can I have / I'd like)",
     "aliases": [],
     "course": "ielts"
+  },
+  {
+    "id": "tl_d01",
+    "title": "Dictation 01 • Âm cuối -s/-ed trong câu văn phòng",
+    "desc": "Luyện bắt rõ đuôi số nhiều, chia động từ ngôi 3 và quá khứ đơn ở tốc độ chậm 0.75x.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "dictation",
+      "chép chính tả",
+      "lấy gốc nghe",
+      "giọng Mỹ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_d02",
+    "title": "Dictation 02 • Nối âm (Linking) trong câu tả hành động",
+    "desc": "Làm quen hiện tượng phụ âm nối nguyên âm trong các cụm động từ nền tảng Part 1.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "dictation",
+      "chép chính tả",
+      "lấy gốc nghe",
+      "giọng Mỹ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_d03",
+    "title": "Dictation 03 • Ngày tháng, giờ giấc & số lượng (Giọng Anh)",
+    "desc": "Rèn tai bắt chuẩn số đếm (-teen vs -ty), giờ họp, thứ ngày và tháng theo giọng Anh–Anh.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "dictation",
+      "chép chính tả",
+      "lấy gốc nghe",
+      "giọng Anh",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_d04",
+    "title": "Dictation 04 • Cặp từ dễ nhầm âm trong TOEIC",
+    "desc": "Phân biệt chuẩn xác các cặp bẫy đồng âm/gần âm hay xuất hiện trong Part 1–2.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "dictation",
+      "chép chính tả",
+      "lấy gốc nghe",
+      "giọng Mỹ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_d05",
+    "title": "Dictation 05 • Giới từ vị trí & không gian (Giọng Úc)",
+    "desc": "Làm quen ngữ điệu Anh–Úc qua các câu mô tả đồ vật và vị trí không gian chuẩn Part 1.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "dictation",
+      "chép chính tả",
+      "lấy gốc nghe",
+      "giọng Úc",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_d06",
+    "title": "Dictation 06 • Câu hỏi công sở ngắn nối bước Part 2",
+    "desc": "Nghe bắt nhanh trợ động từ, động từ chính và danh từ trọng tâm trong các câu hỏi ngắn.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "dictation",
+      "chép chính tả",
+      "lấy gốc nghe",
+      "giọng Anh",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p1_01",
+    "title": "Part 1 • Bài 01: Tả 1 người tại văn phòng",
+    "desc": "Nhận diện động từ hành động văn phòng (typing, operating, pointing, writing) ở thì hiện tại tiếp diễn.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 1",
+      "tả tranh",
+      "giọng Mỹ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p1_02",
+    "title": "Part 1 • Bài 02: Tả 1 người tại nhà hàng & cửa hàng",
+    "desc": "Luyện nghe nhóm động từ phục vụ, nấu ăn, mua sắm và chọn hàng trên kệ (pouring, reaching, preparing).",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 1",
+      "tả tranh",
+      "giọng Anh",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p1_03",
+    "title": "Part 1 • Bài 03: Tả nhiều người họp nhóm & giao tiếp",
+    "desc": "Phân biệt hành động chung của cả nhóm (seated around, shaking hands, listening) với hành động đơn lẻ.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 1",
+      "tả tranh",
+      "giọng Mỹ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p1_04",
+    "title": "Part 1 • Bài 04: Tả người ngoài trời, giao thông & bảo trì",
+    "desc": "Làm quen giọng Úc cùng nhóm từ vựng công trường, công viên, vạch sang đường và chăm sóc cây.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 1",
+      "tả tranh",
+      "giọng Úc",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p1_05",
+    "title": "Part 1 • Bài 05: Tranh tả vật trong phòng (Bẫy being + V-ed)",
+    "desc": "Chinh phục dạng tranh KHÔNG CÓ NGƯỜI — loại ngay bẫy bị động tiếp diễn (is/are being + V-ed).",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 1",
+      "tả tranh",
+      "giọng Mỹ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p1_06",
+    "title": "Part 1 • Bài 06: Tranh cảnh không người — Kho, bến cảng & đường phố",
+    "desc": "Luyện nghe cấu trúc bị động trạng thái (stacked, docked, set up, parked) trong bối cảnh ngoài trời & kho bãi.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 1",
+      "tả tranh",
+      "giọng Anh",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 1,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_01",
+    "title": "Part 2 • Bài 01: Câu hỏi Who (Người & Phòng ban)",
+    "desc": "Phản xạ nhanh câu hỏi người: tên riêng, chức danh, phòng ban và câu trả lời gián tiếp.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Mỹ",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_02",
+    "title": "Part 2 • Bài 02: Câu hỏi Where (Địa điểm & Vị trí)",
+    "desc": "Nhận diện câu trả lời giới từ nơi chốn (in, on, across from, upstairs) và tránh bẫy thời gian.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Anh",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_03",
+    "title": "Part 2 • Bài 03: Câu hỏi When (Thời điểm & Hạn chót)",
+    "desc": "Phân biệt mốc thời gian quá khứ – hiện tại – tương lai và cấu trúc mệnh đề thời gian (As soon as / Until).",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Mỹ",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_04",
+    "title": "Part 2 • Bài 04: Câu hỏi What & Which (Sự việc & Lựa chọn)",
+    "desc": "Bắt chuẩn cụm danh từ đi sau What/Which (What time, What kind, Which branch) theo giọng Úc–Mỹ–Anh.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Úc",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_05",
+    "title": "Part 2 • Bài 05: Câu hỏi Why & How (Lý do, Cách thức & Số lượng)",
+    "desc": "Làm chủ Why (Because / To-V / Ngầm hiểu nguyên nhân) và họ How (How long / How much / How often).",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Mỹ",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_06",
+    "title": "Part 2 • Bài 06: Câu hỏi Yes / No (Trợ động từ)",
+    "desc": "Luyện nghe câu hỏi bắt đầu bằng Do/Did/Have/Is/Are/Will/Can với cả đáp án trực tiếp lẫn gián tiếp.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Anh",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_07",
+    "title": "Part 2 • Bài 07: Câu hỏi Phủ định & Câu hỏi đuôi (Tag Questions)",
+    "desc": "Xử lý chuẩn xác Didn't you...?, Isn't it...? và câu hỏi đuôi ..., haven't they? mà không bị nhầm Yes/No.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Mỹ",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_08",
+    "title": "Part 2 • Bài 08: Câu hỏi Lựa chọn (A or B)",
+    "desc": "Làm quen 4 kiểu trả lời chuẩn của câu hỏi 'or': chọn A, chọn B, chọn cả hai (Either/Both) hoặc phương án thứ 3.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Úc",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_09",
+    "title": "Part 2 • Bài 09: Yêu cầu, Đề nghị & Lời mời",
+    "desc": "Xử lý các mẫu lịch sự Could you...?, Would you like...?, Why don't we...? và Shall I...?",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Anh",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p2_10",
+    "title": "Part 2 • Bài 10: Câu trần thuật (Statements)",
+    "desc": "Chinh phục dạng khó nhất Part 2: không có từ để hỏi — luyện phản hồi đồng cảm, giải pháp hoặc câu hỏi nối tiếp.",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Mỹ",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 2,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_01",
+    "title": "Họp nội bộ & Lịch Hội nghị Khách hàng",
+    "desc": "Đổi phòng họp, kiểm tra thiết bị trình chiếu và đối chiếu bảng lịch sự kiện",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_02",
+    "title": "Đặt hàng, Giao thiếu & Bảng Cước Vận chuyển",
+    "desc": "Khiếu nại đơn hàng linh kiện giao thiếu và nâng cấp gói vận chuyển nhanh",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Anh",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_03",
+    "title": "Tuyển dụng, Phỏng vấn & Lịch Đào tạo Nhân sự mới",
+    "desc": "Sắp xếp lịch phỏng vấn ứng viên vòng hai và điều chỉnh lịch hội nhập nhân viên mới",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Úc",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_04",
+    "title": "Công tác, Khách sạn & Lịch Tàu Tốc hành",
+    "desc": "Yêu cầu đổi phòng khách sạn yên tĩnh và chọn chuyến tàu kịp giờ thuyết trình",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_05",
+    "title": "Tiếp thị, Ấn phẩm In ấn & Gian hàng Triển lãm",
+    "desc": "Xử lý lỗi in ấn tờ rơi quảng cáo và chọn gói tài trợ gian hàng sự kiện",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Anh",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_06",
+    "title": "Bảo trì Cơ sở vật chất & Lịch Sửa chữa Tòa nhà",
+    "desc": "Xử lý sự cố điều hòa văn phòng và theo dõi lịch bảo dưỡng khu vực tòa nhà",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_07",
+    "title": "Bán lẻ, Đổi trả Hàng & Hóa đơn Mua sắm",
+    "desc": "Xử lý đổi kích cỡ áo khoác cho hội viên và kiểm tra sai sót trên hóa đơn siêu thị",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Úc",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_08",
+    "title": "Hỗ trợ CNTT & Nâng cấp Gói Lưu trữ Đám mây",
+    "desc": "Khắc phục lỗi đăng nhập sau bản vá phần mềm và chọn gói dung lượng cho nhóm thiết kế",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Anh",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_09",
+    "title": "Hội thoại 3 người • Sự kiện & Sơ đồ Trung tâm Hội nghị",
+    "desc": "Phối hợp 3 vai (M1/W/M2) chốt tiệc công ty và chọn sảnh phù hợp sức chứa",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p3_10",
+    "title": "Hội thoại 3 người • Ngân sách & Báo cáo Doanh số Quý",
+    "desc": "Phân tích chi phí nguyên liệu tăng và đối chiếu bảng doanh số chi nhánh theo khu vực",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Úc",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_01",
+    "title": "Thông báo Nội bộ & Lịch Tập huấn An toàn",
+    "desc": "Thông báo thay thẻ ra vào tòa nhà và lịch huấn luyện an toàn theo phòng ban",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_02",
+    "title": "Tin nhắn Thoại & Báo giá Bảo dưỡng Xe",
+    "desc": "Tin nhắn đổi lịch phòng khám nha khoa và báo giá hạng mục sửa ô tô từ gara",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Anh",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_03",
+    "title": "Quảng cáo Thương mại & Gói Hội viên Phòng tập",
+    "desc": "Quảng cáo khai trương chuỗi cà phê hữu cơ và ưu đãi gói hội viên thể hình",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Úc",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_04",
+    "title": "Hướng dẫn Tham quan Xưởng Gốm & Bảo tàng Hàng hải",
+    "desc": "Nội quy tham quan nhà máy gốm thủ công và hướng dẫn phòng trưng bày bảo tàng",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Anh",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_05",
+    "title": "Bản tin Giao thông, Thời tiết & Lịch Sự kiện Thành phố",
+    "desc": "Cảnh báo ùn tắc giờ cao điểm và thông báo dời địa điểm sự kiện do mưa lớn",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_06",
+    "title": "Giới thiệu Diễn giả & Chương trình Hội thảo Xanh",
+    "desc": "Lời giới thiệu kiến trúc sư tại lễ trao giải và lịch các phiên diễn đàn công nghệ xanh",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Úc",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_07",
+    "title": "Thông báo Sân bay & Lịch Phà Cảng biển",
+    "desc": "Thông báo đổi cửa khởi hành, hỗ trợ nối chuyến và điều chỉnh giờ phà do gió mạnh",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Anh",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_p4_08",
+    "title": "Đào tạo Sản phẩm & Hướng dẫn Mã lỗi Thiết bị",
+    "desc": "Tập huấn bán hàng máy lọc không khí mới và xử lý mã lỗi máy in thông minh",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Mỹ",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 3,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_01",
+    "title": "Bẫy Part 2 • Trả lời Gián tiếp & Chuyển nguồn Thông tin",
+    "desc": "Phản xạ tốc độ 1.15x với câu trả lời né tránh, chưa rõ thông tin hoặc chỉ sang nguồn khác",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Úc",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_02",
+    "title": "Bẫy Part 2 • Đồng âm, Từ Đa nghĩa & Lặp âm Gây nhiễu",
+    "desc": "Tránh bẫy homophone (board/bored, fare/fair, site/cite, copy/coffee) ở tốc độ 1.15x",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Anh",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_03",
+    "title": "Bẫy Part 2 • Hỏi lại bằng Câu hỏi & Câu Điều kiện",
+    "desc": "Nhận diện câu trả lời dạng câu hỏi ngược ('Didn't you hear...?') và câu có điều kiện",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Úc",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_04",
+    "title": "Bẫy Part 2 • Câu Trần thuật Hàm ý, Phủ định & Câu hỏi Đuôi",
+    "desc": "Giải mã câu phàn nàn/nhận xét không có dấu hỏi và câu hỏi phủ định/đuôi tốc độ 1.15x",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 2",
+      "hỏi đáp",
+      "giọng Anh",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_05",
+    "title": "Hội thoại 3 người 1.2x • Chuỗi cung ứng & Lịch Kiểm toán",
+    "desc": "Nghe nhanh 1.2x giọng Úc–Anh–Mỹ xử lý kẹt hải quan và phân công kiểm toán viên",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Úc",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_06",
+    "title": "Hội thoại 3 người 1.2x • Hợp đồng Bản quyền & Ngân sách APAC",
+    "desc": "Thẩm định điều khoản pháp lý và tái phân bổ ngân sách tiếp thị đa quốc gia ở 1.2x",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 3",
+      "hội thoại",
+      "giọng Anh",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_07",
+    "title": "Bài nói nhanh Giọng Úc 1.2x • Báo cáo Cổ đông & Điều phối Cảng",
+    "desc": "Luyện tốc độ 1.2x giọng Úc với thuật ngữ tài chính và bảng đổi cầu tàu container",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Úc",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tl_adv_08",
+    "title": "Bài nói nhanh Giọng Anh 1.2x • Pháp lý Sáng chế & Hội nghị FinTech",
+    "desc": "Luyện nghe giọng Anh-Anh chuẩn tốc độ 1.2x về gia hạn bằng sáng chế và đổi phiên diễn đàn",
+    "aliases": [
+      "toeic",
+      "toeic listening",
+      "luyện nghe toeic",
+      "nghe toeic",
+      "part 4",
+      "bài nói ngắn",
+      "giọng Anh",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "listening",
+    "level": 4,
+    "badge": "TOEIC Nghe"
+  },
+  {
+    "id": "tr_p5_01",
+    "title": "Part 5 • Bộ 01: Phản xạ Từ loại 5 giây (Word Form)",
+    "desc": "Nhận diện nhanh Danh – Động – Tính – Trạng từ dựa vào mạo từ, sở hữu cách và hậu tố.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 5",
+      "câu đơn",
+      "điền từ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 1,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p5_02",
+    "title": "Part 5 • Bộ 02: Đại từ & Hòa hợp Chủ–Vị",
+    "desc": "Chinh phục bảng đại từ nhân xưng/sở hữu/phản thân và quy tắc chia động từ số ít – số nhiều.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 5",
+      "câu đơn",
+      "điền từ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 1,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p5_03",
+    "title": "Part 5 • Bộ 03: Thì Động từ, Bị động & Phân từ",
+    "desc": "Xử lý chuẩn xác dấu hiệu thời gian (since, by the time, last), câu bị động và rút gọn phân từ.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 5",
+      "câu đơn",
+      "điền từ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 1,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p5_04",
+    "title": "Part 5 • Bộ 04: Giới từ & Liên từ kinh điển TOEIC",
+    "desc": "Phân biệt nhanh cặp bẫy Despite/Although, During/While, Because of/Because và By/Until.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 5",
+      "câu đơn",
+      "điền từ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 1,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p5_05",
+    "title": "Part 5 • Bộ 05: Từ vựng Văn phòng, Hợp đồng & Nhân sự",
+    "desc": "Luyện 8 cụm từ thương mại tần suất cao nhất Part 5 (comply with, eligible, reimburse, allocate...).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 5",
+      "câu đơn",
+      "điền từ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 1,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p5_06",
+    "title": "Part 5 • Bộ 06: Tổng hợp Bẫy Part 5 chuẩn ETS",
+    "desc": "Tránh các bẫy kinh điển: Mệnh đề quan hệ, To-V/V-ing, Cặp từ dễ nhầm, Liên từ tương quan & Giả định.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 5",
+      "câu đơn",
+      "điền từ",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 1,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_01",
+    "title": "Part 6 • Bộ 01: Đăng ký Phúc lợi Nhân sự & Bảo trì Thang máy",
+    "desc": "Luyện 2 văn bản quen thuộc nhất công sở (Email nhân sự & Thông báo tòa nhà) kèm 2 câu Điền câu.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "email",
+      "thông báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_02",
+    "title": "Part 6 • Bộ 02: Chính sách Công tác phí & Không gian Coworking",
+    "desc": "Kết hợp Thông báo nội bộ (Memo) tài chính và Quảng cáo (Ad) không gian làm việc chung.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "memo",
+      "quảng cáo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_03",
+    "title": "Part 6 • Bộ 03: Thư Tri ân Đối tác & Tin khai trương Kho vận",
+    "desc": "Thực chiến dạng Thư thương mại (Letter) và Bài báo kinh doanh (Article) chuẩn đề thi ETS.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "thư thương mại",
+      "bài báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_04",
+    "title": "Part 6 • Bộ 04: Đổi Lịch Tập huấn CNTT & Giờ Mở cửa Thư viện",
+    "desc": "Luyện kỹ năng xử lý thông báo dời lịch họp/đào tạo (Email) và thông báo cộng đồng (Notice).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "email",
+      "thông báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_05",
+    "title": "Part 6 • Bộ 05: Tuyển dụng Nội bộ & Bảo hành Thiết bị",
+    "desc": "Luyện văn phong tuyển dụng nhân sự (Memo) và thư phản hồi bảo hành khách hàng (Letter).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "memo",
+      "thư thương mại",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_06",
+    "title": "Part 6 • Bộ 06: Xác nhận Tiệc Hội nghị & Dịch vụ Lưu trữ Đám mây",
+    "desc": "Kết hợp Email điều phối sự kiện (Catering) và Quảng cáo phần mềm doanh nghiệp (SaaS Ad).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "email",
+      "quảng cáo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_07",
+    "title": "Part 6 • Bộ 07: Cải tạo Căn-tin Công ty & Xe buýt Điện Đô thị",
+    "desc": "Luyện thông báo cải tạo cơ sở vật chất (Notice) và bài báo giao thông xanh (Article).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "thông báo",
+      "bài báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p6_08",
+    "title": "Part 6 • Bộ 08: Thư Mời Diễn giả & Kiểm kê Kho Cuối năm",
+    "desc": "Hoàn thiện kỹ năng Part 6 với Thư mời trang trọng (Letter) và Memo điều phối kho vận (Memo).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 6",
+      "điền đoạn văn",
+      "thư thương mại",
+      "memo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7s_01",
+    "title": "Part 7 Đơn • Bộ 01: Email Sửa Đơn hàng & Chat Chuẩn bị Demo",
+    "desc": "Luyện kỹ năng đọc nhanh Email thương mại và chuỗi tin nhắn Chat nhóm (Text Message Chain) chuẩn ETS.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn đơn",
+      "đoạn đơn",
+      "email",
+      "tin nhắn chat",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7s_02",
+    "title": "Part 7 Đơn • Bộ 02: Chính sách Làm việc Hybrid & Bảng Lịch Đào tạo",
+    "desc": "Luyện đối chiếu thông tin Memo nhân sự và đọc bảng lịch trình kèm ghi chú chân trang (Table).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn đơn",
+      "đoạn đơn",
+      "memo",
+      "bảng biểu",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7s_03",
+    "title": "Part 7 Đơn • Bộ 03: Tin Tuyển dụng Robotics & Bài báo Mở rộng Thương hiệu",
+    "desc": "Rèn kỹ năng quét chi tiết Quảng cáo tuyển dụng (Ad) và xử lý câu Từ vựng ngữ cảnh trong Bài báo (Article).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn đơn",
+      "đoạn đơn",
+      "quảng cáo",
+      "bài báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7s_04",
+    "title": "Part 7 Đơn • Bộ 04: Thư Xin lỗi Khách hàng & Bảng Cước Chuyển phát",
+    "desc": "Thực hành xử lý Thư bồi thường dịch vụ (Letter) và Bảng cước vận chuyển nhiều điều kiện (Table).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn đơn",
+      "đoạn đơn",
+      "thư thương mại",
+      "bảng biểu",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7s_05",
+    "title": "Part 7 Đơn • Bộ 05: Chat Hỗ trợ Khách sạn & Thông báo Cải tạo Vườn Bách thảo",
+    "desc": "Thực chiến tin nhắn dịch vụ khách sạn (Chat) và thông báo tham quan công cộng (Notice).",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn đơn",
+      "đoạn đơn",
+      "tin nhắn chat",
+      "thông báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7s_06",
+    "title": "Part 7 Đơn • Bộ 06: Hướng dẫn Gian hàng Triển lãm & Phà Năng lượng Mặt trời",
+    "desc": "Tổng ôn Part 7 Đoạn đơn với Email điều phối triển lãm thương mại và Bài báo công nghệ xanh.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn đơn",
+      "đoạn đơn",
+      "email",
+      "bài báo",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 2,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_01",
+    "title": "Part 7 Kép • Bộ 01: Email khiếu nại & Hóa đơn thiết bị",
+    "desc": "Đối chiếu Email báo thiếu hàng với bảng Hóa đơn để xác định mã sản phẩm và mức chiết khấu doanh nghiệp.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "email",
+      "bảng biểu",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_02",
+    "title": "Part 7 Kép • Bộ 02: Tin tuyển dụng & Email đổi lịch phỏng vấn",
+    "desc": "Nối thông tin giữa mô tả công việc tại Harborline Logistics và thư phản hồi của ứng viên Mateo Silva.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "quảng cáo",
+      "email",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_03",
+    "title": "Part 7 Kép • Bộ 03: Lịch Hội nghị & Email điều chỉnh phòng",
+    "desc": "Kết hợp Bảng chương trình GreenTech Summit với Email cập nhật thay đổi địa điểm và thời lượng diễn giả.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "bảng biểu",
+      "email",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_04",
+    "title": "Part 7 Kép • Bộ 04: Trang sản phẩm & Đánh giá khách hàng",
+    "desc": "Đối chiếu thông số, phụ kiện đi kèm của máy pha cà phê BrewMaster Pro-X với trải nghiệm thực tế của chủ quán.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "quảng cáo",
+      "đánh giá",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_05",
+    "title": "Part 7 Kép • Bộ 05: Thư khiếu nại tiệc & Phản hồi CSKH",
+    "desc": "Kết nối thư phản ánh sự cố dịch vụ tiệc hội nghị với email bồi hoàn chi phí và đề xuất ưu đãi sự kiện kế tiếp.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "thư thương mại",
+      "email",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_06",
+    "title": "Part 7 Kép • Bộ 06: Chat nhóm IT & Memo bảo trì hệ thống",
+    "desc": "Liên kết tin nhắn nội bộ nhóm kỹ thuật với thông báo toàn công ty về lịch nâng cấp máy chủ và nghỉ bù.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "tin nhắn chat",
+      "memo",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_07",
+    "title": "Part 7 Kép • Bộ 07: Thông báo bãi xe tòa nhà & Email đổi gói",
+    "desc": "Nối quy định hệ thống nhận diện biển số mới tại Meridian Plaza với yêu cầu nâng cấp thẻ sạc xe điện của nhân viên.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "thông báo",
+      "email",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_08",
+    "title": "Part 7 Kép • Bộ 08: Bài báo giao thông & Thư gửi tòa soạn",
+    "desc": "Phân tích dự án tuyến xe buýt nhanh khu công nghiệp Riverbend và phản hồi của Hiệp hội Doanh nghiệp địa phương.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "bài báo",
+      "thư thương mại",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_09",
+    "title": "Part 7 Kép • Bộ 09: Bảng gói tiệc khách sạn & Email đặt sự kiện",
+    "desc": "Đối chiếu quy mô khách, loại hình tiệc và phụ phí thực đơn đặc biệt giữa bảng giá Grand Oak Hotel và yêu cầu đặt tiệc.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "bảng biểu",
+      "email",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7d_10",
+    "title": "Part 7 Kép • Bộ 10: Quy định công tác phí & Email giải trình",
+    "desc": "Đối chiếu hạn mức lưu trú theo nhóm thành phố (Tier-1) và thời hạn nộp chứng từ điện tử trên hồ sơ công tác Chicago.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn kép",
+      "đoạn kép",
+      "double passage",
+      "memo",
+      "email",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 3,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_01",
+    "title": "Part 7 Ba • Bộ 01: Giải thưởng Kiến trúc Xanh, Email đổi giờ & Lịch hội thảo",
+    "desc": "Nối chéo bài báo công bố giải thưởng, email điều chỉnh diễn giả và bảng lịch trình hội thảo tại Vancouver.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "bài báo",
+      "email",
+      "bảng biểu",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_02",
+    "title": "Part 7 Ba • Bộ 02: Chính sách hội viên, Hóa đơn phòng Lab & Email khiếu nại",
+    "desc": "Tính toán chênh lệch chiết khấu hai bậc (12% vs 5%), phí vận chuyển lạnh và bảo hành thiết bị lỗi qua 3 văn bản.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "quảng cáo",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_03",
+    "title": "Part 7 Ba • Bộ 03: Quy trình tuyển dụng, Lịch phỏng vấn & Email hoán đổi ca",
+    "desc": "Xác định ứng viên bị trễ chuyến bay, người đổi lịch và quyền lợi thanh toán vé máy bay qua 3 văn bản nhân sự.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "thông báo",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_04",
+    "title": "Part 7 Ba • Bộ 04: Bài báo khai trương Resort, Đánh giá khách & Email Giám đốc",
+    "desc": "Kết nối tin khai trương chuỗi khách sạn sinh thái Solis Suites với phản hồi 3 sao và chỉ đạo khắc phục nội bộ.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "bài báo",
+      "đánh giá",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_05",
+    "title": "Part 7 Ba • Bộ 05: Memo đào tạo An ninh mạng, Bảng lớp học & Chat nhóm",
+    "desc": "Xác định lộ trình bắt buộc (Foundation vs Refresher) dựa trên thâm niên, điểm kiểm tra năm ngoái và lịch công tác.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "memo",
+      "bảng biểu",
+      "tin nhắn chat",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_06",
+    "title": "Part 7 Ba • Bộ 06: Bảng giá in ấn, Email đặt hàng triển lãm & Hóa đơn sai phí",
+    "desc": "Kiểm tra điều kiện áp mã khuyến mãi EXPO15, ngưỡng miễn phí ship $1,000 và khoản phụ thu in gấp bị tính nhầm.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "quảng cáo",
+      "email",
+      "bảng biểu",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_07",
+    "title": "Part 7 Ba • Bộ 07: Lịch bảo trì tòa nhà, Danh bạ tầng & Email làm việc từ xa",
+    "desc": "Đối chiếu phân khu tầng bảo trì điều hòa/thang máy của Apex Tower với bảng danh bạ công ty thuê và email công ty luật.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "thông báo",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_08",
+    "title": "Part 7 Ba • Bộ 08: Bài báo ẩm thực, Bảng gói tiệc & Email đặt tiệc kỷ niệm",
+    "desc": "Kết hợp thông tin phòng riêng từ bài báo, phép tính ngân sách kèm 20% phí dịch vụ trên bảng giá và yêu cầu đặt bàn.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "bài báo",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_09",
+    "title": "Part 7 Ba • Bộ 09: Thư mời tài trợ, Bảng quyền lợi gói & Email xác nhận",
+    "desc": "Phân tích ưu đãi đăng ký sớm 10%, quy định treo băng-rôn trên cao và tổng số vé VIP của TerraDrone Robotics.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "thư thương mại",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_10",
+    "title": "Part 7 Ba • Bộ 10: Nâng cấp thẻ hội viên đường sắt, Đánh giá App & Email kỹ thuật",
+    "desc": "Giải mã lỗi phân hạng sai từ Platinum xuống Silver khiến tài khoản bị cộng thiếu điểm và mất nút nâng hạng ghế.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "thông báo",
+      "đánh giá",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_11",
+    "title": "Part 7 Ba • Bộ 11: Tiêu chí chuyển văn phòng, Bảng đấu thầu & Email chốt nhà thầu",
+    "desc": "Sàng lọc 4 báo giá chuyển trụ sở công ty phần mềm CloudBridge theo 4 tiêu chí bắt buộc về ngân sách, cuối tuần và bảo hiểm IT.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "memo",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tr_p7t_12",
+    "title": "Part 7 Ba • Bộ 12: Bài báo tài chính, Báo cáo doanh thu Quý 2 & Email CFO",
+    "desc": "Tổng hợp phân tích thương vụ sáp nhập SunPeak, biên lợi nhuận 4 khu vực châu Á – TBD và kế hoạch phân bổ vốn Quý 3.",
+    "aliases": [
+      "toeic",
+      "toeic reading",
+      "luyện đọc toeic",
+      "đọc hiểu toeic",
+      "part 7",
+      "part 7 đoạn ba",
+      "đoạn ba",
+      "triple passage",
+      "bài báo",
+      "bảng biểu",
+      "email",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "reading",
+    "level": 4,
+    "badge": "TOEIC Đọc"
+  },
+  {
+    "id": "tm_mini_01",
+    "title": "TOEIC Mini Test 01 — Khởi động ETS (50 câu)",
+    "desc": "100% câu hỏi mới chuẩn ETS • Bám sát Chặng 1 (0–350+): tả tranh công sở, hỏi–đáp nền tảng & email cơ bản.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "mini test 50 câu",
+      "mục tiêu 350+",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 1,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_mini_02",
+    "title": "TOEIC Mini Test 02 — Vượt mốc Lấy gốc (50 câu)",
+    "desc": "100% câu hỏi mới chuẩn ETS • Chốt mốc 350+ với hội thoại văn phòng, từ loại 5 giây & bảng biểu cơ bản.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "mini test 50 câu",
+      "mục tiêu 350+",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 1,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_mini_03",
+    "title": "TOEIC Mini Test 03 — Chuẩn đầu ra I (50 câu)",
+    "desc": "Mục tiêu 550+ • Đa giọng Mỹ–Anh–Úc, câu hỏi WH/Yes-No Part 2, điền câu Part 6 & đọc đối chiếu 2–3 đoạn.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "mini test 50 câu",
+      "mục tiêu 550+",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 2,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_mini_04",
+    "title": "TOEIC Mini Test 04 — Chuẩn đầu ra II (50 câu)",
+    "desc": "Mục tiêu 550+ • Tăng tốc phản xạ Part 3–4 có bảng Graphic, ngữ pháp bị động/liên từ & tin nhắn Chat.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "mini test 50 câu",
+      "mục tiêu 550+",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 2,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_mini_05",
+    "title": "TOEIC Mini Test 05 — Chuẩn đầu ra III (50 câu)",
+    "desc": "Mục tiêu 550+ • Tình huống tuyển dụng, đặt hàng, lịch sự kiện & kiểm tra tốc độ 30 phút liên hoàn.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "mini test 50 câu",
+      "mục tiêu 550+",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 2,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_mini_06",
+    "title": "TOEIC Mini Test 06 — Chốt mốc 550+ (50 câu)",
+    "desc": "Mục tiêu 550+ • Tổng kiểm tra 7 Part rút gọn trước khi bước vào luyện sức bền Full Test 200 câu.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "mini test 50 câu",
+      "mục tiêu 550+",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 2,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_01",
+    "title": "TOEIC Full Test 01 — ETS New Format",
+    "desc": "100% câu hỏi mới biên soạn • Đủ 200 câu 7 Part chuẩn cấu trúc ETS (45p LC + 75p RC) cho mục tiêu 750+.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 750+",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 3,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_02",
+    "title": "TOEIC Full Test 02 — Doanh nghiệp & Hội nghị",
+    "desc": "Tỷ lệ câu mới cao • Trọng tâm vận hành doanh nghiệp, lịch hội nghị Graphic & đối chiếu hóa đơn thương mại.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 750+",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 3,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_03",
+    "title": "TOEIC Full Test 03 — Logistics & Chuỗi cung ứng",
+    "desc": "Mục tiêu 750+ • Luyện nghe hội thoại Part 3, thông báo nội bộ Part 4 & xử lý cặp Email–Bảng biểu Part 7.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 750+",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 3,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_04",
+    "title": "TOEIC Full Test 04 — Tiếp thị & Dịch vụ Khách hàng",
+    "desc": "Mục tiêu 750+ • Cân bằng giọng Mỹ–Anh–Úc, bẫy phân từ/mệnh đề quan hệ Part 5–6 & Paraphrase Part 7.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 750+",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 3,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_05",
+    "title": "TOEIC Full Test 05 — Tài chính & Nhân sự",
+    "desc": "Mục tiêu 750+ • Rèn sức bền 120 phút liên tục với bài đọc báo cáo, chính sách phúc lợi & đơn đặt hàng.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 750+",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 3,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_06",
+    "title": "TOEIC Full Test 06 — Chốt mốc 750+ Doanh nghiệp",
+    "desc": "Mục tiêu 750+ • Bộ đề tổng hợp Chặng 3 kiểm chứng tốc độ dưới 45 giây/câu Đọc hiểu.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 750+",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 3,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_07",
+    "title": "TOEIC Full Test 07 — Bứt phá 850+ I",
+    "desc": "Mục tiêu 850+ • Tăng cường bẫy trả lời gián tiếp Part 2, câu hỏi ngụ ý Part 3–4 & nối chéo 3 văn bản.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_08",
+    "title": "TOEIC Full Test 08 — Bứt phá 850+ II",
+    "desc": "Mục tiêu 850+ • Ngữ pháp nâng cao (đảo ngữ, giả định cách), bảng biểu đa cột & bẫy đồng âm giọng Anh–Úc.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_09",
+    "title": "TOEIC Full Test 09 — Thực chiến 850+ III",
+    "desc": "Mục tiêu 850+ • Khai thác bẫy suy luận NOT/EXCEPT, đổi lịch sự kiện & chuỗi hội thoại 3 người tốc độ cao.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_10",
+    "title": "TOEIC Full Test 10 — Thực chiến 850+ IV",
+    "desc": "Mục tiêu 850+ • Đề mô phỏng phòng thi áp lực cao với mật độ Paraphrase dày đặc ở Part 7 Kép–Ba.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_11",
+    "title": "TOEIC Full Test 11 — Chinh phục 900+ V",
+    "desc": "Mục tiêu 850+ • Tổng hợp bẫy từ dễ nhầm Part 5–6, bài nói thương mại Part 4 & hồ sơ kiểm toán.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_12",
+    "title": "TOEIC Full Test 12 — Chinh phục 900+ VI",
+    "desc": "Mục tiêu 850+ • Tăng tỷ trọng câu hỏi ý định người nói trong ngoặc kép và suy luận đa nguồn thông tin.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_13",
+    "title": "TOEIC Full Test 13 — Đỉnh cao ETS VII",
+    "desc": "Mục tiêu 850+ • Rà soát điểm yếu ở cả 7 Part nhằm kiểm soát sai số dưới 15/200 câu.",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tm_full_14",
+    "title": "TOEIC Full Test 14 — Tổng duyệt 900+ VIII",
+    "desc": "Mục tiêu 850+ • Đề tổng duyệt cuối lộ trình mô phỏng sát đề thi thật ETS 200 câu (10–990 điểm).",
+    "aliases": [
+      "toeic",
+      "toeic mock",
+      "thi thử toeic",
+      "đề thi ets",
+      "ets",
+      "full test 200 câu",
+      "mục tiêu 850+",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "mock",
+    "level": 4,
+    "badge": "TOEIC Mock"
+  },
+  {
+    "id": "tsw_s_q12_01",
+    "title": "Đọc to Q1–2 #1: Thông báo Sân bay & Siêu thị",
+    "desc": "Q1–2 • Thông báo công cộng (Sân bay & Cửa hàng) • Mục tiêu 110–140",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q1–2",
+      "Thông báo công cộng (Sân bay & Cửa hàng)",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 1,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q12_02",
+    "title": "Đọc to Q1–2 #2: Dẫn Tour Tham quan & Bản tin Giao thông",
+    "desc": "Q1–2 • Hướng dẫn viên & Phát thanh viên • Mục tiêu 130–160",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q1–2",
+      "Hướng dẫn viên & Phát thanh viên",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q12_03",
+    "title": "Đọc to Q1–2 #3: Thư thoại Hội nghị & Giới thiệu Diễn giả",
+    "desc": "Q1–2 • Sự kiện Doanh nghiệp & Lễ trao giải • Mục tiêu 160–190",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q1–2",
+      "Sự kiện Doanh nghiệp & Lễ trao giải",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q34_01",
+    "title": "Tả tranh Q3–4 #1: Phòng họp Nhóm & Quán Cà phê",
+    "desc": "Q3–4 • Công sở & Dịch vụ Ẩm thực • Mục tiêu 110–140",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q3–4",
+      "Công sở & Dịch vụ Ẩm thực",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 1,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q34_02",
+    "title": "Tả tranh Q3–4 #2: Chợ Nông sản Ngoài trời & Kho Kỹ sư",
+    "desc": "Q3–4 • Mua sắm Đời sống & Công trường Kỹ thuật • Mục tiêu 140–170",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q3–4",
+      "Mua sắm Đời sống & Công trường Kỹ thuật",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q34_03",
+    "title": "Tả tranh Q3–4 #3: Quầy Check-in Sân bay & Sân hiên Văn phòng",
+    "desc": "Q3–4 • Du lịch Hàng không & Không gian Làm việc Mở • Mục tiêu 160–190",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q3–4",
+      "Du lịch Hàng không & Không gian Làm việc Mở",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q57_01",
+    "title": "Trả lời câu hỏi Q5–7 #1: Mua sắm Trực tuyến & Giao hàng",
+    "desc": "Q5–7 • Thói quen Tiêu dùng & Thương mại Điện tử • Mục tiêu 130–160",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q5–7",
+      "Thói quen Tiêu dùng & Thương mại Điện tử",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q57_02",
+    "title": "Trả lời câu hỏi Q5–7 #2: Đi làm Hằng ngày & Không gian Văn phòng",
+    "desc": "Q5–7 • Công việc & Di chuyển Đô thị • Mục tiêu 150–180",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q5–7",
+      "Công việc & Di chuyển Đô thị",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q57_03",
+    "title": "Trả lời câu hỏi Q5–7 #3: Học Kỹ năng Mới & Khóa học Trực tuyến",
+    "desc": "Q5–7 • Giáo dục Trọn đời & Nâng cao Nghề nghiệp • Mục tiêu 170–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q5–7",
+      "Giáo dục Trọn đời & Nâng cao Nghề nghiệp",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q810_01",
+    "title": "Dùng bảng biểu Q8–10 #1: Lịch trình Hội nghị Đổi mới Công nghệ",
+    "desc": "Q8–10 • Hội thảo & Sự kiện Chuyên ngành • Mục tiêu 140–170",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q8–10",
+      "Hội thảo & Sự kiện Chuyên ngành",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q810_02",
+    "title": "Dùng bảng biểu Q8–10 #2: Lịch trình Chuyến Công tác Chicago",
+    "desc": "Q8–10 • Công tác & Lịch gặp Đối tác • Mục tiêu 160–190",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q8–10",
+      "Công tác & Lịch gặp Đối tác",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q810_03",
+    "title": "Dùng bảng biểu Q8–10 #3: Chương trình Đào tạo Nhân viên Mới",
+    "desc": "Q8–10 • Nhân sự & Hội thảo Nội bộ • Mục tiêu 170–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q8–10",
+      "Nhân sự & Hội thảo Nội bộ",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q11_01",
+    "title": "Nêu quan điểm Q11 #1: Làm việc Từ xa hay Tại Văn phòng?",
+    "desc": "Q11 • Xu hướng Làm việc Hiện đại • Mục tiêu 150–180",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q11",
+      "Xu hướng Làm việc Hiện đại",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q11_02",
+    "title": "Nêu quan điểm Q11 #2: Tập đoàn Lớn hay Công ty Khởi nghiệp Nhỏ?",
+    "desc": "Q11 • Định hướng Phát triển Sự nghiệp • Mục tiêu 170–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q11",
+      "Định hướng Phát triển Sự nghiệp",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_q11_03",
+    "title": "Nêu quan điểm Q11 #3: Thăng chức theo Hiệu suất hay Thâm niên?",
+    "desc": "Q11 • Quản trị Nhân sự & Đánh giá Năng lực • Mục tiêu 180–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Q11",
+      "Quản trị Nhân sự & Đánh giá Năng lực",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_s_sim_01",
+    "title": "Thi thử Speaking rút gọn #1 (Đủ 5 dạng Q1–Q11)",
+    "desc": "Mini Sim • Tổng hợp Thực chiến 5 Phần ETS • Mục tiêu 160–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic speaking",
+      "luyện nói toeic",
+      "speaking",
+      "Mini Sim",
+      "Tổng hợp Thực chiến 5 Phần ETS",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q15_01",
+    "title": "Q1–5 • Bộ 01: Câu đơn & Hiện tại tiếp diễn (Nền tảng)",
+    "desc": "Q1–5 • Hành động công việc & Giao dịch hằng ngày • Mục tiêu 110–140",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q1–5",
+      "Hành động công việc & Giao dịch hằng ngày",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 1,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q15_02",
+    "title": "Q1–5 • Bộ 02: Giới từ Vị trí & Tả cảnh không người",
+    "desc": "Q1–5 • Bố trí nội thất, Thiết bị & Bãi đỗ xe • Mục tiêu 120–150",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q1–5",
+      "Bố trí nội thất, Thiết bị & Bãi đỗ xe",
+      "chặng 1"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 1,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q15_03",
+    "title": "Q1–5 • Bộ 03: Cụm từ & Bị động Hiện tại hoàn thành",
+    "desc": "Q1–5 • Giao thông, Kho vận & Siêu thị • Mục tiêu 140–170",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q1–5",
+      "Giao thông, Kho vận & Siêu thị",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q15_04",
+    "title": "Q1–5 • Bộ 04: Mệnh đề thời gian & Trạng từ mô tả",
+    "desc": "Q1–5 • Nhà hàng, Sân bay, Phòng thí nghiệm & Công trường • Mục tiêu 150–180",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q1–5",
+      "Nhà hàng, Sân bay, Phòng thí nghiệm & Công trường",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q15_05",
+    "title": "Q1–5 • Bộ 05: Câu phức Mệnh đề quan hệ & Band 180+",
+    "desc": "Q1–5 • Khách sạn, Thư viện, Quán cà phê & Phòng họp • Mục tiêu 170–190",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q1–5",
+      "Khách sạn, Thư viện, Quán cà phê & Phòng họp",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q67_01",
+    "title": "Q6–7 • Bộ 01: Phản hồi Khiếu nại Khách hàng & Bảo hành",
+    "desc": "Q6–7 • Chăm sóc khách hàng & Xử lý sự cố đơn hàng • Mục tiêu 130–160",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q6–7",
+      "Chăm sóc khách hàng & Xử lý sự cố đơn hàng",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q67_02",
+    "title": "Q6–7 • Bộ 02: Xác nhận Đơn hàng & Điều phối Giao vận",
+    "desc": "Q6–7 • Đặt hàng doanh nghiệp, Nội thất & Dịch vụ ăn uống • Mục tiêu 140–170",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q6–7",
+      "Đặt hàng doanh nghiệp, Nội thất & Dịch vụ ăn uống",
+      "chặng 2"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 2,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q67_03",
+    "title": "Q6–7 • Bộ 03: Mời Hội thảo & Đăng ký Triển lãm Thương mại",
+    "desc": "Q6–7 • Sự kiện chuyên ngành, Diễn giả & Gian hàng Expo • Mục tiêu 150–180",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q6–7",
+      "Sự kiện chuyên ngành, Diễn giả & Gian hàng Expo",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q67_04",
+    "title": "Q6–7 • Bộ 04: Tuyển dụng Nhân sự & Đào tạo Nội bộ",
+    "desc": "Q6–7 • Mời phỏng vấn ứng viên & Tập huấn phần mềm doanh nghiệp • Mục tiêu 160–190",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q6–7",
+      "Mời phỏng vấn ứng viên & Tập huấn phần mềm doanh nghiệp",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q67_05",
+    "title": "Q6–7 • Bộ 05: Bảo trì Hệ thống IT & Hạ tầng Tòa nhà",
+    "desc": "Q6–7 • Nâng cấp máy chủ cuối tuần & Bảo trì thang máy/điều hòa • Mục tiêu 180–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q6–7",
+      "Nâng cấp máy chủ cuối tuần & Bảo trì thang máy/điều hòa",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q8_01",
+    "title": "Q8 • Đề 01: Làm việc từ xa hay Toàn thời gian tại văn phòng?",
+    "desc": "Q8 • Môi trường làm việc linh hoạt & Hiệu suất doanh nghiệp • Mục tiêu 150–180",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q8",
+      "Môi trường làm việc linh hoạt & Hiệu suất doanh nghiệp",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q8_02",
+    "title": "Q8 • Đề 02: Đào tạo nhân sự nội bộ hay Tuyển người có kinh nghiệm?",
+    "desc": "Q8 • Chiến lược Nhân sự & Phát triển Năng lực Tổ chức • Mục tiêu 160–190",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q8",
+      "Chiến lược Nhân sự & Phát triển Năng lực Tổ chức",
+      "chặng 3"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 3,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q8_03",
+    "title": "Q8 • Đề 03: Thăng chức theo Thành tích Cá nhân hay Kết quả Nhóm?",
+    "desc": "Q8 • Đánh giá Hiệu suất & Động lực Tổ chức • Mục tiêu 170–195",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q8",
+      "Đánh giá Hiệu suất & Động lực Tổ chức",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q8_04",
+    "title": "Q8 • Đề 04: Tự động hóa & Công cụ Số nơi Công sở",
+    "desc": "Q8 • Công nghệ tại Nơi làm việc & Sức khỏe Tinh thần • Mục tiêu 180–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q8",
+      "Công nghệ tại Nơi làm việc & Sức khỏe Tinh thần",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_q8_05",
+    "title": "Q8 • Đề 05: Phát triển Bền vững vs Chi phí Ngắn hạn",
+    "desc": "Q8 • Trách nhiệm Môi trường Doanh nghiệp (ESG) & Lợi nhuận • Mục tiêu 190–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Q8",
+      "Trách nhiệm Môi trường Doanh nghiệp (ESG) & Lợi nhuận",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
+  },
+  {
+    "id": "tsw_w_sim_01",
+    "title": "Mini Writing • Thi thử rút gọn 35 phút (Q1–8)",
+    "desc": "Mini Sim • Tổng hợp đủ 3 dạng: Viết câu theo tranh, Email & Bài luận • Mục tiêu 170–200",
+    "aliases": [
+      "toeic",
+      "toeic s&w",
+      "toeic speaking writing",
+      "toeic writing",
+      "luyện viết toeic",
+      "writing",
+      "Mini Sim",
+      "Tổng hợp đủ 3 dạng: Viết câu theo tranh, Email & Bài luận",
+      "chặng 4"
+    ],
+    "course": "toeic",
+    "module": "sw",
+    "level": 4,
+    "badge": "TOEIC S&W"
   }
 ];

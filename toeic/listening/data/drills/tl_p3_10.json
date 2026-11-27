@@ -1,0 +1,198 @@
+{
+  "id": "tl_p3_10",
+  "order": 32,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Hội thoại 3 người • Ngân sách & Báo cáo Doanh số Quý",
+  "subtitle": "Phân tích chi phí nguyên liệu tăng và đối chiếu bảng doanh số chi nhánh theo khu vực",
+  "accent": "en-AU",
+  "defaultRate": 1.0,
+  "tips": "Trong báo cáo tài chính/doanh số kèm bảng biểu, hãy chú ý phép so sánh giữa Target (mục tiêu) và Actual (thực tế) để nhận diện chi nhánh vượt chỉ tiêu hay hụt chỉ tiêu.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Hội thoại 3 người: Xử lý chi phí nguyên liệu tăng",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Let's look at Q3 production expenses. Our manufacturing cost per unit jumped nearly nine percent over the past two months.",
+          "vi": "Hãy xem chi phí sản xuất quý 3. Chi phí sản xuất trên mỗi đơn vị của chúng ta đã tăng gần chín phần trăm trong hai tháng qua."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-US",
+          "en": "I noticed that on the ledger too. Is it overtime labor at the packaging plant?",
+          "vi": "Tôi cũng để ý thấy trên sổ kế toán. Có phải do tiền làm thêm giờ tại nhà máy đóng gói không?"
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-GB",
+          "en": "Not labor—our primary supplier just raised prices by twelve percent.",
+          "vi": "Không phải nhân công đâu—nhà cung cấp chính của ta vừa tăng giá mười hai phần trăm."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Right, aluminum casings got much pricier after the port strike. Before we pass any increase on to retail buyers, we should request bids from two alternative vendors in Asia.",
+          "vi": "Đúng vậy, vỏ nhôm đắt lên nhiều sau vụ đình công cảng biển. Trước khi chuyển phần tăng giá đó sang khách mua lẻ, ta nên yêu cầu báo giá từ hai nhà cung cấp thay thế ở châu Á."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-US",
+          "en": "I still have contacts at Pacific Metals from our trade mission in April. I'll email them our technical specs today and ask for sample quotes by Wednesday.",
+          "vi": "Tôi vẫn giữ liên hệ ở Pacific Metals từ chuyến công tác thương mại hồi tháng Tư. Hôm nay tôi sẽ gửi họ thông số kỹ thuật và xin báo giá mẫu trước thứ Tư."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why does Man 2 say, \"Not labor—our primary supplier just raised prices by twelve percent\"?",
+          "opts": [
+            "To praise the packaging plant's efficiency",
+            "To correct an assumption about why costs rose",
+            "To recommend hiring more factory workers",
+            "To argue against renewing a warehouse lease"
+          ],
+          "ans": 1,
+          "exp": "Man 1 đoán chi phí tăng do tiền làm thêm giờ ('overtime labor'), Man 2 phản bác bằng câu nói trên → nhằm đính chính giả định sai về nguyên nhân chi phí tăng ('correct an assumption'). Chọn (B)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman want to avoid doing right now?",
+          "opts": [
+            "Contacting overseas vendors",
+            "Auditing the Q3 accounting ledger",
+            "Reducing output at the packaging plant",
+            "Raising prices for retail customers"
+          ],
+          "ans": 3,
+          "exp": "Cô nói: 'Before we pass any increase on to retail buyers, we should request bids...' → tránh đẩy phần tăng giá sang khách mua lẻ ngay lúc này. Chọn (D)."
+        },
+        {
+          "num": 3,
+          "q": "What will Man 1 send to Pacific Metals today?",
+          "opts": [
+            "Product specifications for a price quote",
+            "A revised purchase contract",
+            "A complaint about shipping delays",
+            "Quarterly sales projections"
+          ],
+          "ans": 0,
+          "exp": "Lượt cuối Man 1 nói: 'I'll email them our technical specs today and ask for sample quotes' → gửi thông số kỹ thuật để xin báo giá. Chọn (A)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Hội thoại 3 người: Báo cáo Doanh số Quý 3",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "Q3 Regional Sales Report",
+        "headers": [
+          "Branch",
+          "Target",
+          "Actual"
+        ],
+        "rows": [
+          [
+            "Sydney",
+            "$420K",
+            "$465K"
+          ],
+          [
+            "Brisbane",
+            "$310K",
+            "$318K"
+          ],
+          [
+            "Melbourne",
+            "$450K",
+            "$395K"
+          ],
+          [
+            "Perth",
+            "$240K",
+            "$255K"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Overall, Q3 was a strong quarter—three of our four branches beat their sales targets.",
+          "vi": "Nhìn chung, quý 3 là một quý rất khả quan—ba trên bốn chi nhánh của ta đã vượt mục tiêu doanh số."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "Yes, Sydney's new enterprise team really outperformed expectations. The only branch that fell short is the one where street construction blocked storefront access all August.",
+          "vi": "Đúng vậy, nhóm khách hàng doanh nghiệp mới ở Sydney thực sự vượt xa kỳ vọng. Chi nhánh duy nhất không đạt chỉ tiêu là nơi thi công đường phố chặn lối vào cửa hàng suốt tháng Tám."
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-AU",
+          "en": "Good news on that front—the city finished repaving the sidewalk yesterday, so foot traffic is already bouncing back.",
+          "vi": "Tin vui về vụ đó đây—thành phố vừa lát xong vỉa hè hôm qua, nên lượng khách đi bộ ghé vào đã bắt đầu phục hồi rồi."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Glad to hear it. Let's approve a targeted local radio promotion for that branch in October so they can recover the gap before year-end.",
+          "vi": "Thật mừng khi nghe tin đó. Hãy duyệt một đợt quảng bá phát thanh địa phương tập trung cho chi nhánh đó trong tháng Mười để họ bù lại khoảng hụt trước cuối năm."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Look at the graphic. Which branch was affected by street construction in August?",
+          "opts": [
+            "Sydney",
+            "Brisbane",
+            "Melbourne",
+            "Perth"
+          ],
+          "ans": 2,
+          "exp": "Man 1 nói chi nhánh bị ảnh hưởng bởi thi công đường là 'The only branch that fell short' (chi nhánh duy nhất không đạt chỉ tiêu). Tra bảng: Melbourne có Target $450K nhưng Actual chỉ đạt $395K (thấp hơn mục tiêu). Chọn (C)."
+        },
+        {
+          "num": 5,
+          "q": "What happened yesterday?",
+          "opts": [
+            "The Sydney branch hired a new sales team.",
+            "Sidewalk repaving work was completed.",
+            "Q4 sales targets were lowered.",
+            "A local radio commercial aired."
+          ],
+          "ans": 1,
+          "exp": "Man 2 báo: 'the city finished repaving the sidewalk yesterday' → công việc lát lại vỉa hè đã hoàn thành hôm qua. Chọn (B)."
+        },
+        {
+          "num": 6,
+          "q": "What does the woman propose for October?",
+          "opts": [
+            "Relocating the underperforming storefront",
+            "Extending weekend operating hours",
+            "Transferring staff from Brisbane",
+            "Running a local radio advertising campaign"
+          ],
+          "ans": 3,
+          "exp": "Câu cuối người phụ nữ đề xuất: 'approve a targeted local radio promotion for that branch in October' → chạy chiến dịch quảng cáo phát thanh địa phương. Chọn (D)."
+        }
+      ]
+    }
+  ]
+}

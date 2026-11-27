@@ -1,0 +1,133 @@
+{
+  "id": "tsw_s_q34_02",
+  "skill": "speaking",
+  "taskType": "sp_q34",
+  "code": "Q3–4",
+  "level": 2,
+  "targetBand": "140–170",
+  "title": "Tả tranh Q3–4 #2: Chợ Nông sản Ngoài trời & Kho Kỹ sư",
+  "topic": "Mua sắm Đời sống & Công trường Kỹ thuật",
+  "estMinutes": 8,
+  "guideVi": "Chú trọng mô tả trang phục đặc trưng (tạp dề, túi vải, mũ bảo hộ, áo phản quang) và nhóm đồ vật theo cụm màu sắc/vị trí để tránh liệt kê rời rạc.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Mô tả đầy đủ nhân vật chính, hành động và bối cảnh chung",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Dùng đúng thì hiện tại tiếp diễn và giới từ chỉ vị trí",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Phát âm rõ, câu mạch lạc và tận dụng trọn 30 giây",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q34_02_1",
+      "itemType": "sp_q34",
+      "label": "Q3 • Khách mua rau củ tươi tại quầy chợ nông sản ngoài trời",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "AU",
+      "image": "media/sw_p_03.svg",
+      "imageAlt": "Khách hàng đeo túi vải đang chọn rau củ bày trong các thùng gỗ dưới mái hiên sọc đỏ trắng tại chợ nông sản ngoài trời.",
+      "outlineSteps": [
+        "Bối cảnh chung: Quầy bán rau củ tươi ngoài trời tại chợ nông sản vào ngày nắng (an outdoor farmers' market on a sunny day).",
+        "Hành động chính: Một người phụ nữ đeo túi vải đứng trước quầy chọn rau; người bán mặc tạp dề xanh đứng sau quầy cạnh chiếc cân.",
+        "Chi tiết sản phẩm: Nhiều thùng gỗ xếp đầy cà chua đỏ, rau xanh, cà rốt cam và chanh vàng cùng các biển giá treo dưới mái hiên sọc đỏ trắng.",
+        "Hậu cảnh: Một khách hàng khác cầm giỏ đi ngang bên phải, phía sau có cây xanh và dãy nhà."
+      ],
+      "targetKeywords": [
+        "market",
+        "awning",
+        "vegetables",
+        "crates",
+        "vendor",
+        "shopper",
+        "tote",
+        "scale"
+      ],
+      "tipVi": "Gộp rau củ thành cụm tự nhiên 'fresh produce such as tomatoes, leafy greens, carrots, and lemons' thay vì đọc từng câu rời rạc, giúp tiết kiệm thời gian và tăng điểm từ vựng.",
+      "keyPhrases": [
+        {
+          "en": "striped red-and-white awning",
+          "vi": "mái hiên kẻ sọc đỏ trắng"
+        },
+        {
+          "en": "wooden crates overflowing with fresh produce",
+          "vi": "các thùng gỗ đầy ắp nông sản tươi"
+        },
+        {
+          "en": "carrying a canvas tote bag",
+          "vi": "đang đeo chiếc túi vải bố"
+        },
+        {
+          "en": "hanging yellow price tags",
+          "vi": "các thẻ giá màu vàng treo phía trên"
+        },
+        {
+          "en": "outdoor farmers' market",
+          "vi": "chợ nông sản ngoài trời"
+        }
+      ],
+      "sample": "This picture shows an outdoor farmers' market on a bright, sunny day. Under a striped red-and-white awning, a vendor in a green apron is standing behind a produce stall next to a weighing scale. In front of the stall, wooden crates are filled with colorful fresh produce, including red tomatoes, leafy greens, carrots, and yellow lemons, with price signs hanging overhead. A woman wearing a teal top and carrying a canvas tote bag is selecting vegetables, while another shopper with a basket walks past on the right. Trees and buildings are visible in the background.",
+      "sampleVi": "Bức tranh minh họa một khu chợ nông sản ngoài trời vào ngày nắng đẹp. Dưới mái hiên sọc đỏ trắng, một người bán hàng mặc tạp dề xanh đang đứng sau gian hàng cạnh chiếc cân. Phía trước quầy là các thùng gỗ đầy ắp nông sản tươi nhiều màu sắc như cà chua đỏ, rau lá xanh, cà rốt và chanh vàng cùng các biển giá treo bên trên. Một phụ nữ mặc áo xanh ngọc đeo túi vải bố đang chọn rau củ, trong khi một khách hàng khác xách giỏ đi ngang qua bên phải. Cây xanh và các tòa nhà hiện rõ ở hậu cảnh."
+    },
+    {
+      "itemId": "tsw_s_q34_02_2",
+      "itemType": "sp_q34",
+      "label": "Q4 • Hai kỹ sư kiểm tra bản vẽ thiết kế tại kho công nghiệp",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "US",
+      "image": "media/sw_p_04.svg",
+      "imageAlt": "Hai kỹ sư đội mũ bảo hộ và mặc áo phản quang đang trải bản vẽ màu xanh lên thùng gỗ để trao đổi trong nhà kho có kệ hàng và xe nâng.",
+      "outlineSteps": [
+        "Bối cảnh chung: Bên trong nhà kho công nghiệp hoặc công trường rộng có giàn khung thép trên trần.",
+        "Hành động chính: Hai kỹ sư đội mũ bảo hộ (vàng và trắng) cùng áo phản quang đang đứng cạnh nhau xem bản vẽ kiến trúc màu xanh trải trên thùng gỗ.",
+        "Chi tiết hành động: Kỹ sư bên trái đang chỉ vào chi tiết bản vẽ trong khi đồng nghiệp bên phải chú ý lắng nghe.",
+        "Hậu cảnh: Kệ chứa thùng hàng cao bên trái, cọc tiêu an toàn màu cam và xe nâng màu vàng đỗ gần cửa kho rộng phía bên phải."
+      ],
+      "targetKeywords": [
+        "engineers",
+        "blueprint",
+        "hard hats",
+        "reflective vests",
+        "warehouse",
+        "forklift",
+        "shelves",
+        "inspecting"
+      ],
+      "tipVi": "Các cụm từ 'hard hats' (mũ bảo hộ), 'high-visibility reflective vests' (áo phản quang) và 'unrolled blueprint' (bản vẽ trải rộng) là từ khóa ghi điểm Band 180+ rất mạnh trong chủ đề công nghiệp TOEIC.",
+      "keyPhrases": [
+        {
+          "en": "wearing hard hats and reflective vests",
+          "vi": "đội mũ bảo hộ và mặc áo phản quang"
+        },
+        {
+          "en": "examining an architectural blueprint",
+          "vi": "đang kiểm tra bản vẽ kiến trúc"
+        },
+        {
+          "en": "tall metal storage racks",
+          "vi": "các kệ chứa hàng bằng kim loại cao"
+        },
+        {
+          "en": "yellow forklift parked near the doorway",
+          "vi": "chiếc xe nâng màu vàng đỗ gần cửa ra vào"
+        },
+        {
+          "en": "orange safety cone",
+          "vi": "cọc tiêu cảnh báo an toàn màu cam"
+        }
+      ],
+      "sample": "This image shows two engineers reviewing plans inside a large industrial warehouse. In the center foreground, both workers are wearing hard hats and high-visibility reflective vests while standing beside a large wooden crate. A blue architectural blueprint is spread out on top of the crate, and the engineer on the left is pointing to a detail as his colleague looks on closely. On the left, tall metal storage shelves are stacked with cardboard boxes. In the background on the right, an orange safety cone and a yellow forklift are parked near an open loading bay doorway.",
+      "sampleVi": "Hình ảnh cho thấy hai kỹ sư đang xem xét kế hoạch bên trong một nhà kho công nghiệp rộng lớn. Ở tiền cảnh giữa tranh, cả hai đều đội mũ bảo hộ và mặc áo phản quang khi đứng cạnh một thùng gỗ lớn. Một bản vẽ kiến trúc màu xanh được trải rộng trên mặt thùng, và kỹ sư bên trái đang chỉ vào một chi tiết trong khi đồng nghiệp chăm chú quan sát. Bên trái là dãy kệ chứa hàng bằng kim loại cao xếp đầy thùng carton. Phía sau bên phải có cọc tiêu an toàn màu cam và một chiếc xe nâng màu vàng đỗ gần cửa xuất nhập hàng mở rộng."
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "id": "tsw_s_q57_01",
+  "skill": "speaking",
+  "taskType": "sp_q57",
+  "code": "Q5–7",
+  "level": 2,
+  "targetBand": "130–160",
+  "title": "Trả lời câu hỏi Q5–7 #1: Mua sắm Trực tuyến & Giao hàng",
+  "topic": "Thói quen Tiêu dùng & Thương mại Điện tử",
+  "estMinutes": 7,
+  "guideVi": "Bạn có 3 giây chuẩn bị trước mỗi câu. Với Q5 & Q6 (15 giây), trả lời trực diện ngay câu đầu rồi thêm 1 chi tiết phụ. Với Q7 (30 giây), chọn rõ 1 phương án và đưa ra 2 lý do kèm ví dụ ngắn.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Trả lời thẳng trọng tâm và đủ ý cho cả 3 câu Q5, Q6, Q7",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Mở rộng lý do kèm ví dụ thực tế thuyết phục ở câu Q7 (30s)",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Từ vựng tự nhiên, ngữ pháp chính xác và phản xạ mượt",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q57_01_1",
+      "itemType": "sp_q57",
+      "label": "Q5–7 • Khảo sát thói quen mua sắm trực tuyến",
+      "prepSec": 3,
+      "respSec": 30,
+      "accent": "US",
+      "scenarioEn": "Imagine that a retail research agency is conducting a phone survey about online shopping habits. You have agreed to answer three questions.",
+      "scenarioVi": "Hãy tưởng tượng một công ty nghiên cứu bán lẻ đang thực hiện khảo sát qua điện thoại về thói quen mua sắm trực tuyến. Bạn đồng ý trả lời ba câu hỏi sau.",
+      "targetKeywords": [
+        "online",
+        "delivery",
+        "convenient",
+        "reviews",
+        "shipping",
+        "compare",
+        "prices"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 5,
+          "questionEn": "How often do you buy products online, and what kinds of items do you usually order?",
+          "questionVi": "Bạn thường mua sắm trực tuyến bao lâu một lần và hay đặt những loại sản phẩm nào?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "I usually shop online about twice a week. Most of the time, I order household supplies, books, and small electronics because they are easy to compare and delivered right to my door.",
+          "sampleVi": "Tôi thường mua sắm trực tuyến khoảng hai lần mỗi tuần. Phần lớn thời gian tôi đặt đồ dùng gia đình, sách và phụ kiện điện tử nhỏ vì dễ so sánh và được giao tận cửa.",
+          "keywords": [
+            "twice a week",
+            "household",
+            "books",
+            "electronics",
+            "delivered"
+          ]
+        },
+        {
+          "qNum": 6,
+          "questionEn": "What is the most important factor you check before placing an online order?",
+          "questionVi": "Yếu tố quan trọng nhất bạn kiểm tra trước khi đặt đơn hàng trực tuyến là gì?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "The most important factor for me is verified customer reviews with real photos. Reading honest feedback helps me avoid low-quality products and confirm that the seller is reliable.",
+          "sampleVi": "Yếu tố quan trọng nhất với tôi là đánh giá xác thực từ khách hàng kèm ảnh thật. Đọc nhận xét trung thực giúp tôi tránh hàng kém chất lượng và chắc chắn người bán uy tín.",
+          "keywords": [
+            "customer reviews",
+            "photos",
+            "feedback",
+            "quality",
+            "reliable"
+          ]
+        },
+        {
+          "qNum": 7,
+          "questionEn": "Would you prefer to pay extra for same-day delivery or choose free standard shipping that takes four days? Why?",
+          "questionVi": "Bạn thích trả thêm phí để giao hàng trong ngày hay chọn giao hàng tiêu chuẩn miễn phí mất 4 ngày? Tại sao?",
+          "prepSec": 3,
+          "respSec": 30,
+          "sample": "Unless it is an urgent gift or an essential item, I definitely prefer free standard shipping. First, delivery fees add up quickly over a year, so choosing free shipping helps me stick to my monthly budget. Second, I usually plan my purchases ahead of time, which means waiting three or four days is not a problem at all. For instance, when I order office supplies or running shoes, saving five to ten dollars feels much smarter than receiving the box a few hours earlier.",
+          "sampleVi": "Trừ khi là quà tặng gấp hay món đồ thiết yếu, tôi chắc chắn chọn giao hàng tiêu chuẩn miễn phí. Thứ nhất, phí giao hàng cộng dồn rất nhanh trong một năm nên miễn phí vận chuyển giúp tôi bám sát ngân sách hằng tháng. Thứ hai, tôi thường lên kế hoạch mua sắm trước nên chờ ba đến bốn ngày hoàn toàn không thành vấn đề. Ví dụ khi đặt văn phòng phẩm hay giày chạy bộ, tiết kiệm từ năm đến mười đô la hợp lý hơn nhiều so với nhận hàng sớm hơn vài tiếng.",
+          "keywords": [
+            "free standard shipping",
+            "budget",
+            "plan ahead",
+            "save",
+            "delivery fees"
+          ]
+        }
+      ],
+      "tipVi": "Đừng lặp lại nguyên câu hỏi gây mất thời gian trong 15 giây của Q5–Q6. Đi thẳng vào tần suất/lý do chính rồi bổ sung 1 mệnh đề 'because...' ngắn gọn.",
+      "keyPhrases": [
+        {
+          "en": "verified customer reviews",
+          "vi": "đánh giá xác thực của khách hàng"
+        },
+        {
+          "en": "stick to my monthly budget",
+          "vi": "bám sát ngân sách hằng tháng"
+        },
+        {
+          "en": "add up quickly",
+          "vi": "cộng dồn rất nhanh"
+        },
+        {
+          "en": "same-day delivery",
+          "vi": "giao hàng trong ngày"
+        },
+        {
+          "en": "delivered right to my door",
+          "vi": "giao tận cửa nhà"
+        }
+      ],
+      "sample": "Q5: I usually shop online about twice a week, mainly ordering household supplies, books, and small electronics.\n\nQ6: The most important factor I check is verified customer reviews with real photos so I can confirm quality and seller reliability.\n\nQ7: I prefer free standard shipping unless an item is urgent. First, shipping fees add up over time, so free delivery protects my monthly budget. Second, since I plan purchases ahead of time, waiting four days is never inconvenient.",
+      "sampleVi": "Q5: Tôi thường mua hàng trực tuyến khoảng hai lần mỗi tuần, chủ yếu đặt đồ gia dụng, sách và thiết bị điện tử nhỏ.\n\nQ6: Yếu tố quan trọng nhất tôi kiểm tra là đánh giá xác thực có ảnh thật để yên tâm về chất lượng và độ uy tín của người bán.\n\nQ7: Tôi ưu tiên giao hàng tiêu chuẩn miễn phí trừ khi cần gấp. Thứ nhất, phí ship cộng dồn rất nhanh nên giao miễn phí giúp giữ vững ngân sách tháng. Thứ hai, do tôi luôn lên kế hoạch mua từ trước nên chờ bốn ngày hoàn toàn không bất tiện."
+    }
+  ]
+}

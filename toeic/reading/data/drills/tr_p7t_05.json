@@ -1,0 +1,216 @@
+{
+  "id": "tr_p7t_05",
+  "order": 35,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 05: Memo đào tạo An ninh mạng, Bảng lớp học & Chat nhóm",
+  "subtitle": "Xác định lộ trình bắt buộc (Foundation vs Refresher) dựa trên thâm niên, điểm kiểm tra năm ngoái và lịch công tác.",
+  "timeLimitMin": 12,
+  "tips": "Hãy lọc điều kiện kép cực khéo trong Memo: nhân viên >= 2 năm thâm niên CHỈ được học lớp Refresher NẾU đạt >= 85% bài kiểm tra năm ngoái. Đối chiếu từng nhân vật trong đoạn Chat với bảng mã lớp!",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Memo nội bộ",
+      "genre": "memo",
+      "meta": {
+        "to": "All Operations & Engineering Staff",
+        "from": "Sandra Okafor, Chief Information Security Officer",
+        "date": "July 2",
+        "subject": "Mandatory Q3 Cybersecurity Certification"
+      },
+      "paragraphs": [
+        "To maintain our ISO-27001 security accreditation, all Operations and Engineering personnel must complete one live cybersecurity workshop before the audit deadline on Friday, August 15.",
+        "Track Eligibility:\n• Foundation Track (3 hours): Mandatory for all employees with fewer than two years of company tenure, as well as any newly promoted team supervisors.\n• Refresher Track (90 minutes): An accelerated option available to staff with two or more years of tenure, PROVIDED they scored at least 85% on last year's compliance quiz. Experienced staff who scored below 85% must enroll in the Foundation Track.",
+        "Employees who have a schedule conflict must switch to another session within their eligible track through the Learning Portal at least 48 hours prior to the original start time."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng lịch đào tạo",
+      "genre": "table",
+      "meta": {
+        "title": "Q3 CYBERSECURITY CERTIFICATION WORKSHOPS",
+        "subtitle": "Enrollment Status as of July 10 • Learning & Development Portal"
+      },
+      "paragraphs": [
+        "All sessions award digital ISO-27001 completion badges immediately after the closing assessment."
+      ],
+      "table": {
+        "headers": [
+          "Course Code",
+          "Track & Duration",
+          "Date & Time",
+          "Instructor",
+          "Format / Seats Left"
+        ],
+        "rows": [
+          [
+            "CS-101",
+            "Foundation Track (3 hrs)",
+            "July 17 • 09:00–12:00",
+            "Devon Park",
+            "Room 4A (2 seats left)"
+          ],
+          [
+            "CS-102",
+            "Foundation Track (3 hrs)",
+            "August 6 • 13:30–16:30",
+            "Devon Park",
+            "Room 4A (9 seats left)"
+          ],
+          [
+            "CS-201",
+            "Refresher Track (90 min)",
+            "July 22 • 10:00–11:30",
+            "Priya Shah",
+            "Online Webinar (14 seats left)"
+          ],
+          [
+            "CS-202",
+            "Refresher Track (90 min)",
+            "August 12 • 14:00–15:30",
+            "Priya Shah",
+            "Room 2C (6 seats left)"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Tin nhắn nhóm",
+      "genre": "chat",
+      "meta": {
+        "title": "TEAM CHAT — #engineering-ops",
+        "subtitle": "Thursday, July 10 • Leo Tan, Maya Morales, Benjamin Cole"
+      },
+      "paragraphs": [],
+      "messages": [
+        {
+          "sender": "Leo Tan",
+          "time": "11:02",
+          "text": "Hey everyone, did you finish signing up for Sandra's cybersecurity workshop? Since I've been here four years and got 92% on last year's quiz, I locked in CS-201."
+        },
+        {
+          "sender": "Maya Morales",
+          "time": "11:05",
+          "text": "Lucky you! I've been with the firm for three years, so I assumed I could take Priya's webinar too—until I checked my transcript and saw I only scored 80% on last year's quiz."
+        },
+        {
+          "sender": "Benjamin Cole",
+          "time": "11:08",
+          "text": "I'm in the same boat. I just started eight months ago, so I have to take the three-hour session anyway. I originally registered for July 17, but a client deployment in Denver just came up for that entire week."
+        },
+        {
+          "sender": "Maya Morales",
+          "time": "11:11",
+          "text": "Then let's both sign up for Devon Park's August session! Plenty of seats are still open and it finishes comfortably ahead of the audit cutoff."
+        },
+        {
+          "sender": "Leo Tan",
+          "time": "11:14",
+          "text": "Good plan—just make sure you process your transfer in the portal soon, Ben, before the 48-hour cutoff kicks in."
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the memo, by what date must all Operations and Engineering staff complete a cybersecurity workshop?",
+      "opts": [
+        "August 15",
+        "July 17",
+        "August 6",
+        "August 12"
+      ],
+      "ans": 0,
+      "exp": "Văn bản 1 (đoạn 1) ghi rõ: 'must complete one live cybersecurity workshop before the audit deadline on Friday, August 15.' → Hạn chót là ngày 15/8."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the memo, the word \"accelerated\" in paragraph 2 is closest in meaning to",
+      "opts": [
+        "optional",
+        "expensive",
+        "delayed",
+        "shortened"
+      ],
+      "ans": 3,
+      "exp": "Trong ngữ cảnh đối lập giữa 'Foundation Track (3 hours)' và 'Refresher Track (90 minutes): An accelerated option', 'accelerated' mang nghĩa rút gọn/tăng tốc nhanh hơn → gần nghĩa nhất với 'shortened'."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Why is Ms. Morales ineligible to attend Priya Shah's webinar?",
+      "opts": [
+        "All seats in the webinar are already filled.",
+        "Her score on last year's compliance quiz was below 85%.",
+        "She has worked at the company for fewer than two years.",
+        "She will be traveling in Denver on July 22."
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 1 quy định nhân viên >= 2 năm vẫn phải học Foundation Track nếu điểm bài kiểm tra năm ngoái dưới 85%. Văn bản 2 cho biết Priya Shah dạy webinar CS-201 (Refresher Track). Văn bản 3 cô Maya nói có 3 năm thâm niên nhưng năm ngoái chỉ đạt 80% → Không đủ chuẩn 85%."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Which workshop code will both Ms. Morales and Mr. Cole attend?",
+      "opts": [
+        "CS-101",
+        "CS-201",
+        "CS-102",
+        "CS-202"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo cả 3 văn bản: (1) Cả Maya (80% < 85%) và Ben (8 tháng < 2 năm) đều bắt buộc học Foundation Track (Văn bản 1 & 3). (2) Ben bận đi Denver ngày 17/7 nên cả hai thống nhất đăng ký lớp tháng 8 của giảng viên Devon Park (Văn bản 3). (3) Tra bảng Văn bản 2, lớp Foundation Track tháng 8 của Devon Park có mã CS-102 (August 6)."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "How will Mr. Tan participate in his cybersecurity certification workshop?",
+      "opts": [
+        "Remotely through an online webinar",
+        "In person inside Room 2C",
+        "In person inside Room 4A with Devon Park",
+        "By completing a self-paced recorded video"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 3 cho biết Leo Tan (4 năm, điểm 92% — đủ điều kiện Refresher theo Văn bản 1) đã đăng ký mã CS-201. (2) Tra Văn bản 2, CS-201 được tổ chức dưới hình thức 'Online Webinar' (hội thảo trực tuyến)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "audit deadline / audit cutoff",
+      "answer": "by August 15",
+      "vi": "hạn chót kiểm toán (ngày 15/8)"
+    },
+    {
+      "text": "accelerated option (90 min vs 3 hrs)",
+      "answer": "shortened",
+      "vi": "lựa chọn rút gọn/tăng tốc"
+    },
+    {
+      "text": "scored below 85% (80%)",
+      "answer": "ineligible for Refresher Track",
+      "vi": "điểm dưới 85% ↔ không đủ điều kiện học lớp ôn tập ngắn"
+    },
+    {
+      "text": "Devon Park's August session",
+      "answer": "CS-102 (August 6, Foundation Track)",
+      "vi": "buổi tháng 8 của Devon Park ↔ mã lớp CS-102"
+    },
+    {
+      "text": "online webinar",
+      "answer": "remotely through an online webinar",
+      "vi": "tham gia từ xa qua hội thảo trực tuyến"
+    },
+    {
+      "text": "switch to another session",
+      "answer": "process your transfer in the portal",
+      "vi": "chuyển sang buổi học khác trên cổng đào tạo"
+    }
+  ]
+}

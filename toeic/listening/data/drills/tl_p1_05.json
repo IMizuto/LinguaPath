@@ -1,0 +1,98 @@
+{
+  "id": "tl_p1_05",
+  "order": 11,
+  "level": 1,
+  "part": "part1",
+  "partLabel": "Part 1 • Tả tranh",
+  "title": "Part 1 • Bài 05: Tranh tả vật trong phòng (Bẫy being + V-ed)",
+  "subtitle": "Chinh phục dạng tranh KHÔNG CÓ NGƯỜI — loại ngay bẫy bị động tiếp diễn (is/are being + V-ed).",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "QUY TẮC VÀNG PART 1: Nếu bức tranh KHÔNG CÓ NGƯỜI nào, mọi đáp án chứa cấu trúc 'is/are being + V-ed' (đang bị tác động bởi người) gần như 100% là SAI! Hãy chọn câu tả trạng thái (have been + V-ed / are + V-ed / are hanging).",
+  "items": [
+    {
+      "num": 1,
+      "accent": "en-US",
+      "speaker": "W",
+      "image": "media/p1_05_1.svg",
+      "imageAlt": "Phòng họp trống có chiếc bàn dài và các ghế xếp ngay ngắn xung quanh, tranh treo tường",
+      "options": [
+        "The conference table is being cleaned.",
+        "Chairs have been arranged around a table.",
+        "Framed pictures are stacked on the floor.",
+        "A projector is sitting on top of a chair."
+      ],
+      "optionsVi": [
+        "Chiếc bàn họp đang được lau dọn.",
+        "Những chiếc ghế đã được xếp quanh một chiếc bàn.",
+        "Những bức tranh đóng khung đang xếp chồng dưới sàn.",
+        "Một chiếc máy chiếu đang đặt trên mặt ghế."
+      ],
+      "ans": 1,
+      "exp": "Phòng hoàn toàn không có người → loại ngay bẫy (A) 'is being cleaned'. Ghế được xếp gọn xung quanh bàn họp → chọn (B). Loại (C) vì tranh treo trên tường chứ không ở dưới sàn; (D) không có máy chiếu."
+    },
+    {
+      "num": 2,
+      "accent": "en-US",
+      "speaker": "M",
+      "image": "media/p1_05_2.svg",
+      "imageAlt": "Góc phòng làm việc trống với kệ sách xếp ngay ngắn đầy sách cạnh bàn có đèn học",
+      "options": [
+        "Books are lined up on the shelves.",
+        "The wooden shelves are being assembled.",
+        "A desk lamp has fallen onto the floor.",
+        "Papers are scattered across the carpet."
+      ],
+      "optionsVi": [
+        "Sách được xếp thành hàng trên các ngăn kệ.",
+        "Các kệ gỗ đang được lắp ráp.",
+        "Một chiếc đèn bàn đã rơi xuống sàn.",
+        "Giấy tờ đang rơi vãi khắp mặt thảm."
+      ],
+      "ans": 0,
+      "exp": "Kệ gỗ đựng đầy sách xếp ngay ngắn theo hàng → chọn (A). Loại (B) vì tranh không có người nên không thể 'are being assembled'; loại (C) vì đèn vẫn đứng trên bàn; loại (D) vì sàn hoàn toàn sạch."
+    },
+    {
+      "num": 3,
+      "accent": "en-US",
+      "speaker": "W",
+      "image": "media/p1_05_3.svg",
+      "imageAlt": "Khu ăn uống trống của nhà hàng với ba bàn phủ khăn trắng và ba đèn thả treo ngay phía trên",
+      "options": [
+        "Waiters are clearing dishes from the tables.",
+        "The white tablecloths are being ironed.",
+        "All of the tables are stacked in a corner.",
+        "Lamps are hanging above the tables."
+      ],
+      "optionsVi": [
+        "Nhân viên phục vụ đang dọn đĩa khỏi các bàn.",
+        "Những tấm khăn trải bàn trắng đang được ủi.",
+        "Tất cả các bàn được xếp chồng trong một góc.",
+        "Những chiếc đèn đang treo phía trên các chiếc bàn."
+      ],
+      "ans": 3,
+      "exp": "Ba chiếc đèn thả treo thẳng phía trên ba bàn ăn phủ khăn trắng → chọn (D). Loại (A) và (B) vì không có người trong tranh ('being ironed' là bẫy kinh điển); loại (C) vì các bàn đang bày thành hàng."
+    },
+    {
+      "num": 4,
+      "accent": "en-US",
+      "speaker": "M",
+      "image": "media/p1_05_4.svg",
+      "imageAlt": "Hành lang trống có cửa gỗ đôi đóng kín, hai chậu cây đặt đối xứng hai bên cửa",
+      "options": [
+        "The doorway is being painted brown.",
+        "Both wooden doors are propped wide open.",
+        "Potted plants have been placed on both sides of a doorway.",
+        "Suitcases are piled in front of the sofa."
+      ],
+      "optionsVi": [
+        "Khung cửa đang được sơn màu nâu.",
+        "Cả hai cánh cửa gỗ đều đang được chèn mở toang.",
+        "Các chậu cây đã được đặt ở cả hai bên lối cửa ra vào.",
+        "Va-li được chất đống phía trước ghế sofa."
+      ],
+      "ans": 2,
+      "exp": "Hai chậu cây xanh đặt cân đối hai bên cánh cửa gỗ đôi → chọn (C). Loại (A) vì bẫy 'is being painted' khi không có người; (B) sai vì cửa đang đóng kín; (D) không có va-li."
+    }
+  ]
+}

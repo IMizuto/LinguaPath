@@ -1,0 +1,177 @@
+{
+  "id": "tr_p7d_01",
+  "order": 21,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 01: Email khiếu nại & Hóa đơn thiết bị",
+  "subtitle": "Đối chiếu Email báo thiếu hàng với bảng Hóa đơn để xác định mã sản phẩm và mức chiết khấu doanh nghiệp.",
+  "timeLimitMin": 10,
+  "tips": "Với cặp Email ↔ Hóa đơn, hãy đọc Email trước để nắm các điểm sai lệch (hàng thiếu, mức giảm giá), sau đó tra ngược mã sản phẩm và con số tổng tiền hàng trên bảng Hóa đơn.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "orders@apexofficesolutions.com",
+        "from": "Hannah Cho <h.cho@crestviewdesign.com>",
+        "date": "April 14",
+        "subject": "Discrepancy on Invoice #AO-4821"
+      },
+      "paragraphs": [
+        "Dear Apex Customer Support,",
+        "We received the ergonomic furniture shipment for our newly renovated fourth-floor workspace this morning under Invoice #AO-4821. Our team appreciates the prompt delivery and the crew's quick assembly of the standing desks. The dual-monitor arms have already been installed and are working seamlessly.",
+        "However, I noticed two issues that need immediate attention. First, while our invoice bills us for six Ergonomic Mesh Chairs, only five chairs were unloaded from the truck. Your delivery driver acknowledged the shortage and signed a note on our packing slip. Because a group of newly hired designers will begin working on the fourth floor on April 21, we need the missing chair delivered no later than Friday, April 18.",
+        "Second, Crestview Design Studio qualifies for your 10% Corporate Loyalty Discount on merchandise orders exceeding $5,000 before delivery fees, yet this discount was omitted from the invoice. Could you please confirm the shipment date for the remaining chair and email a corrected invoice so our accounting department can process payment promptly?",
+        "Best regards,\nHannah Cho\nOperations Manager, Crestview Design Studio"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Hóa đơn",
+      "genre": "table",
+      "meta": {
+        "title": "APEX OFFICE SOLUTIONS — INVOICE #AO-4821",
+        "subtitle": "Date Issued: April 10 • Billed To: Crestview Design Studio"
+      },
+      "paragraphs": [
+        "Order Date: April 3 | Shipping Method: White-Glove Commercial Delivery",
+        "Merchandise Subtotal: $5,460.00 | Delivery & Assembly Fee: $150.00 | Total Billed: $5,610.00 (Payment Terms: Net 30 Days)"
+      ],
+      "table": {
+        "headers": [
+          "Item Code",
+          "Product Description",
+          "Qty",
+          "Unit Price",
+          "Subtotal"
+        ],
+        "rows": [
+          [
+            "SD-400",
+            "Adjustable Standing Desk (Oak)",
+            "4",
+            "$650.00",
+            "$2,600.00"
+          ],
+          [
+            "EC-215",
+            "Ergonomic Mesh Chair (Graphite)",
+            "6",
+            "$320.00",
+            "$1,920.00"
+          ],
+          [
+            "MA-108",
+            "Dual-Monitor Articulating Arm",
+            "8",
+            "$95.00",
+            "$760.00"
+          ],
+          [
+            "CL-050",
+            "Under-Desk Cable Tray",
+            "4",
+            "$45.00",
+            "$180.00"
+          ]
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Ý chính",
+      "q": "Why did Ms. Cho write to Apex Office Solutions?",
+      "opts": [
+        "To cancel a pending order for fourth-floor furniture",
+        "To report delivery and billing errors on a recent order",
+        "To ask for assembly instructions for standing desks",
+        "To request an extension on the payment deadline"
+      ],
+      "ans": 1,
+      "exp": "Trong Văn bản 1 (đoạn 2 & 3), bà Cho nêu hai sai sót cần xử lý ngay: giao thiếu 1 chiếc ghế (delivery error) và hóa đơn bỏ sót khoản chiết khấu 10% (billing error). Các phương án A (hủy đơn), C (hỏi cách lắp bàn — bàn đã được lắp xong), D (xin gia hạn thanh toán) đều sai."
+    },
+    {
+      "num": 2,
+      "tag": "Chi tiết",
+      "q": "According to the email, what will happen at Crestview Design Studio on April 21?",
+      "opts": [
+        "The fourth-floor renovation will begin.",
+        "An invoice payment will become overdue.",
+        "Newly hired designers will start working.",
+        "The accounting department will relocate."
+      ],
+      "ans": 2,
+      "exp": "Văn bản 1 (đoạn 2) viết rõ: 'Because a group of newly hired designers will begin working on the fourth floor on April 21...' → Nhóm thiết kế mới tuyển sẽ bắt đầu làm việc vào ngày 21/4."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"omitted\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "left out",
+        "calculated",
+        "doubled",
+        "approved"
+      ],
+      "ans": 0,
+      "exp": "Trong câu '...yet this discount was omitted from the invoice' (tuy nhiên khoản chiết khấu này đã bị bỏ sót trên hóa đơn), 'omitted' đồng nghĩa với 'left out' (bị bỏ quên/không đưa vào)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What is the item code of the product that was delivered in an incorrect quantity?",
+      "opts": [
+        "SD-400",
+        "MA-108",
+        "CL-050",
+        "EC-215"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 cho biết sản phẩm giao thiếu là 'Ergonomic Mesh Chairs' (đặt 6 nhưng chỉ giao 5). Tra bảng Hóa đơn ở Văn bản 2, 'Ergonomic Mesh Chair (Graphite)' có mã sản phẩm là EC-215."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "How much of a discount does Ms. Cho expect to receive on the merchandise subtotal?",
+      "opts": [
+        "$450.00",
+        "$546.00",
+        "$561.00",
+        "$650.00"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 nêu Crestview đủ điều kiện hưởng '10% Corporate Loyalty Discount on merchandise orders exceeding $5,000 before delivery fees'. Từ bảng Hóa đơn ở Văn bản 2, tổng tiền hàng = $2,600 + $1,920 + $760 + $180 = $5,460.00. Mức giảm 10% là $5,460 × 10% = $546.00."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "discrepancy / shortage / omitted from the invoice",
+      "answer": "delivery and billing errors",
+      "vi": "sai lệch / giao thiếu / bỏ sót trên hóa đơn ↔ lỗi giao hàng và lập hóa đơn"
+    },
+    {
+      "text": "newly hired designers will begin working",
+      "answer": "newly hired designers will start working",
+      "vi": "nhân viên thiết kế mới tuyển sẽ bắt đầu làm việc"
+    },
+    {
+      "text": "omitted",
+      "answer": "left out",
+      "vi": "bị bỏ sót ↔ không được đưa vào"
+    },
+    {
+      "text": "only five chairs were unloaded (billed for six)",
+      "answer": "delivered in an incorrect quantity",
+      "vi": "chỉ bốc xuống 5 ghế thay vì 6 ↔ giao sai số lượng"
+    },
+    {
+      "text": "10% Corporate Loyalty Discount on merchandise orders",
+      "answer": "$546.00 (10% of $5,460)",
+      "vi": "chiết khấu khách hàng doanh nghiệp 10% trên tiền hàng"
+    }
+  ]
+}

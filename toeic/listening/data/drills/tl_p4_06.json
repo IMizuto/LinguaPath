@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_06",
+  "order": 38,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Giới thiệu Diễn giả & Chương trình Hội thảo Xanh",
+  "subtitle": "Lời giới thiệu kiến trúc sư tại lễ trao giải và lịch các phiên diễn đàn công nghệ xanh",
+  "accent": "en-AU",
+  "defaultRate": 1.0,
+  "tips": "Trong bài Giới thiệu diễn giả (Introduction), câu hỏi thường xoay quanh thành tựu nổi bật nhất của diễn giả, chủ đề sắp thuyết trình, và tài liệu/hoạt động diễn ra ngay sau bài phát biểu.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Giới thiệu Kiến trúc sư Thiết kế Bền vững",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Event Host",
+          "accent": "en-AU",
+          "en": "Ladies and gentlemen, it is my honor to introduce tonight's keynote speaker at the Sustainable Cities Awards, renowned architect Dr. Miriam Okafor.",
+          "vi": "Thưa quý vị, tôi rất vinh dự được giới thiệu diễn giả chính tối nay tại Lễ trao giải Đô thị Bền vững, kiến trúc sư nổi tiếng Tiến sĩ Miriam Okafor."
+        },
+        {
+          "spk": "W",
+          "name": "Event Host",
+          "accent": "en-AU",
+          "en": "Over the past fifteen years, her studio has pioneered passive-cooling office towers across Singapore, Brisbane, and Dubai.",
+          "vi": "Trong mười lăm năm qua, xưởng thiết kế của bà đã tiên phong kiến tạo các tòa tháp văn phòng làm mát thụ động tại Singapore, Brisbane và Dubai."
+        },
+        {
+          "spk": "W",
+          "name": "Event Host",
+          "accent": "en-AU",
+          "en": "Her designs didn't just cut energy bills—they changed city building codes.",
+          "vi": "Những thiết kế của bà không chỉ cắt giảm hóa đơn điện năng—chúng còn thay đổi cả quy chuẩn xây dựng đô thị."
+        },
+        {
+          "spk": "W",
+          "name": "Event Host",
+          "accent": "en-AU",
+          "en": "Tonight she'll discuss how retrofitting older commercial buildings can halve urban emissions. Afterward, she'll sign copies of her latest book in the foyer—please join me in welcoming Dr. Okafor!",
+          "vi": "Tối nay bà sẽ chia sẻ cách cải tạo các tòa nhà thương mại cũ có thể giảm một nửa khí thải đô thị. Sau đó bà sẽ ký tặng cuốn sách mới nhất ở tiền sảnh—xin mời quý vị cùng chào đón Tiến sĩ Okafor!"
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What is Dr. Miriam Okafor best known for?",
+          "opts": [
+            "Funding solar farms in rural Australia",
+            "Managing public transit networks in Asia",
+            "Writing urban zoning laws for Singapore",
+            "Designing energy-efficient commercial buildings"
+          ],
+          "ans": 3,
+          "exp": "Người dẫn chương trình nhấn mạnh bà là kiến trúc sư tiên phong về 'passive-cooling office towers' và cắt giảm năng lượng → thiết kế tòa nhà thương mại tiết kiệm năng lượng. Chọn (D)."
+        },
+        {
+          "num": 2,
+          "q": "Why does the host say, \"Her designs didn't just cut energy bills—they changed city building codes\"?",
+          "opts": [
+            "To complain about stricter construction regulations",
+            "To highlight the wide-reaching impact of Dr. Okafor's work",
+            "To explain why tonight's ceremony was delayed",
+            "To announce a new government tax credit"
+          ],
+          "ans": 1,
+          "exp": "Câu nói này nhấn mạnh tầm ảnh hưởng sâu rộng vượt xa phạm vi một công trình của công việc bà làm ('highlight the wide-reaching impact'). Chọn (B)."
+        },
+        {
+          "num": 3,
+          "q": "What will Dr. Okafor do after her speech?",
+          "opts": [
+            "Lead a panel with city mayors",
+            "Tour a renovated office building",
+            "Sign copies of her recent book",
+            "Present awards to young engineers"
+          ],
+          "ans": 2,
+          "exp": "Câu cuối thông báo: 'Afterward, she'll sign copies of her latest book in the foyer' → ký tặng cuốn sách mới nhất. Chọn (C)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Chương trình Buổi chiều Diễn đàn Công nghệ Xanh",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "GreenTech Forum Afternoon Agenda",
+        "headers": [
+          "Slot",
+          "Topic",
+          "Speaker"
+        ],
+        "rows": [
+          [
+            "1:30 PM",
+            "Grid-Scale Batteries",
+            "Dr. Alan Cho"
+          ],
+          [
+            "2:30 PM",
+            "Circular Packaging",
+            "Nadia Vance"
+          ],
+          [
+            "3:30 PM",
+            "Smart Water Sensors",
+            "Tariq Hassan"
+          ],
+          [
+            "4:30 PM",
+            "Clean Investment Panel",
+            "Claire Walsh"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Forum Organizer",
+          "accent": "en-AU",
+          "en": "Welcome back from lunch, everyone. I hope you enjoyed the networking buffet in the courtyard.",
+          "vi": "Chào mừng mọi người trở lại sau giờ nghỉ trưa. Tôi hy vọng quý vị đã hài lòng với tiệc buffet kết nối ngoài sân."
+        },
+        {
+          "spk": "M",
+          "name": "Forum Organizer",
+          "accent": "en-AU",
+          "en": "Before we kick off our afternoon sessions, please note one swap in our printed program: Dr. Alan Cho's flight from Seoul was delayed, so he won't reach the venue until three o'clock.",
+          "vi": "Trước khi bắt đầu các phiên buổi chiều, xin lưu ý một sự hoán đổi trong chương trình in sẵn: chuyến bay từ Seoul của Tiến sĩ Alan Cho bị trễ, nên đến ba giờ ông mới tới hội trường."
+        },
+        {
+          "spk": "M",
+          "name": "Forum Organizer",
+          "accent": "en-AU",
+          "en": "Luckily, Tariq Hassan has graciously agreed to trade time slots with him, so Tariq's presentation will begin right now at one-thirty, and Dr. Cho will speak at three-thirty instead.",
+          "vi": "May mắn là Tariq Hassan đã vui vẻ đồng ý đổi khung giờ với ông ấy, nên bài thuyết trình của Tariq sẽ bắt đầu ngay bây giờ lúc một giờ ba mươi, còn Tiến sĩ Cho sẽ nói vào ba giờ ba mươi."
+        },
+        {
+          "spk": "M",
+          "name": "Forum Organizer",
+          "accent": "en-AU",
+          "en": "All slide decks will be uploaded to the GreenTech conference app immediately after the closing panel.",
+          "vi": "Toàn bộ bộ trang chiếu sẽ được tải lên ứng dụng hội nghị GreenTech ngay sau phiên thảo luận bế mạc."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why had the afternoon agenda to be adjusted?",
+          "opts": [
+            "A presenter's incoming flight was delayed.",
+            "The courtyard buffet ran longer than planned.",
+            "The main projector required calibration.",
+            "Too few people registered for the 3:30 PM session."
+          ],
+          "ans": 0,
+          "exp": "Ban tổ chức cho biết: 'Dr. Alan Cho's flight from Seoul was delayed' → chuyến bay của một diễn giả bị hoãn. Chọn (A)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which topic will attendees hear at 1:30 PM now?",
+          "opts": [
+            "Grid-Scale Batteries",
+            "Circular Packaging",
+            "Clean Investment Panel",
+            "Smart Water Sensors"
+          ],
+          "ans": 3,
+          "exp": "Tariq Hassan đổi khung giờ với Dr. Alan Cho nên Tariq sẽ thuyết trình lúc 1:30 PM. Tra bảng: chủ đề của Tariq Hassan là 'Smart Water Sensors'. Chọn (D)."
+        },
+        {
+          "num": 6,
+          "q": "How will participants receive the presentation slides?",
+          "opts": [
+            "By picking up printed booklets at the exit",
+            "Through the event mobile application",
+            "Via an automated email tomorrow morning",
+            "On USB drives from the registration desk"
+          ],
+          "ans": 1,
+          "exp": "Câu cuối nói: 'uploaded to the GreenTech conference app' → thông qua ứng dụng di động của sự kiện. Chọn (B)."
+        }
+      ]
+    }
+  ]
+}

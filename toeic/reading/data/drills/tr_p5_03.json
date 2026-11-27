@@ -1,0 +1,119 @@
+{
+  "id": "tr_p5_03",
+  "order": 3,
+  "level": 1,
+  "part": "part5",
+  "partLabel": "Part 5 • Câu đơn",
+  "title": "Part 5 • Bộ 03: Thì Động từ, Bị động & Phân từ",
+  "subtitle": "Xử lý chuẩn xác dấu hiệu thời gian (since, by the time, last), câu bị động và rút gọn phân từ.",
+  "timeLimitMin": 4,
+  "tips": "Mẹo phản xạ 5 giây: Bước 1 tìm từ khóa thời gian (since/for → Hiện tại hoàn thành; yesterday/last → Quá khứ đơn; by next month → Tương lai hoàn thành). Bước 2 nhìn sau chỗ trống: nếu KHÔNG có tân ngữ trực tiếp mà có giới từ (by/in/to), 90% là dạng Bị động!",
+  "passages": [],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Thì động từ",
+      "q": "Northstar Textiles _____ eco-friendly packaging materials to European retailers since 2019.",
+      "opts": [
+        "supplies",
+        "supplied",
+        "has supplied",
+        "will supply"
+      ],
+      "ans": 2,
+      "exp": "Cụm thời gian \"since 2019\" (từ năm 2019 đến nay) là dấu hiệu kinh điển của thì Hiện tại hoàn thành (have/has + V3). Chủ ngữ \"Northstar Textiles\" là tên một công ty (số ít) nên chọn \"has supplied\" (C). Loại (A) hiện tại đơn, (B) quá khứ đơn, (D) tương lai đơn."
+    },
+    {
+      "num": 2,
+      "tag": "Bị động",
+      "q": "All incoming international parcels must _____ by customs officers before being released for delivery.",
+      "opts": [
+        "inspect",
+        "be inspected",
+        "inspecting",
+        "have inspected"
+      ],
+      "ans": 1,
+      "exp": "Chủ ngữ là vật (\"All incoming international parcels\" - bưu kiện) và phía sau có tác nhân \"by customs officers\", nên câu mang nghĩa bị động. Sau động từ khuyết thiếu \"must\" dùng \"be + V3\". Chọn \"be inspected\" (B). Loại (A), (C), (D) đều mang nghĩa chủ động."
+    },
+    {
+      "num": 3,
+      "tag": "Thì động từ",
+      "q": "Once the software update _____ completely, employees will be able to access the shared archive.",
+      "opts": [
+        "installs",
+        "installed",
+        "is installed",
+        "will be installed"
+      ],
+      "ans": 2,
+      "exp": "Trong mệnh đề trạng ngữ chỉ thời gian bắt đầu bằng \"Once\" (một khi), ta KHÔNG dùng thì tương lai (\"will\") mà dùng Hiện tại đơn để diễn tả hành động tương lai. \"The software update\" là vật chịu tác động nên dùng bị động hiện tại đơn \"is installed\" (C). Loại (A) chủ động, (B) quá khứ, (D) chứa \"will\"."
+    },
+    {
+      "num": 4,
+      "tag": "Phân từ",
+      "q": "The brochure _____ the hotel’s newly renovated spa facilities is available at the front desk.",
+      "opts": [
+        "describing",
+        "described",
+        "describes",
+        "description"
+      ],
+      "ans": 0,
+      "exp": "Câu đã có động từ chính là \"is\", nên chỗ trống là mệnh đề quan hệ rút gọn bổ nghĩa cho \"The brochure\". Phía sau có tân ngữ trực tiếp (\"the hotel’s newly renovated spa facilities\") → mang nghĩa chủ động, chọn V-ing \"describing\" (A). Loại (B) bị động, (C) động từ chia thì gây thừa động từ chính, (D) danh từ."
+    },
+    {
+      "num": 5,
+      "tag": "Thì động từ",
+      "q": "By the end of this fiscal year, the logistics division _____ twelve electric delivery vans.",
+      "opts": [
+        "acquires",
+        "acquired",
+        "was acquiring",
+        "will have acquired"
+      ],
+      "ans": 3,
+      "exp": "Cụm \"By the end of this fiscal year\" (tính đến cuối năm tài chính này) chỉ mốc hoàn tất trong tương lai — dấu hiệu đặc trưng của thì Tương lai hoàn thành (will have + V3). Chọn \"will have acquired\" (D). Loại (A) hiện tại đơn, (B) và (C) thuộc quá khứ."
+    },
+    {
+      "num": 6,
+      "tag": "Bị động",
+      "q": "Several outdated desktop computers _____ from the third-floor accounting office last weekend.",
+      "opts": [
+        "removed",
+        "were removed",
+        "have removed",
+        "are removing"
+      ],
+      "ans": 1,
+      "exp": "Mốc thời gian \"last weekend\" xác định thì Quá khứ đơn. Chủ ngữ là vật (\"desktop computers\") và sau chỗ trống là giới từ \"from\" (không có tân ngữ) → cần bị động quá khứ đơn số nhiều \"were removed\" (B). Loại (A), (C), (D) đều ở thể chủ động."
+    },
+    {
+      "num": 7,
+      "tag": "Phân từ",
+      "q": "Any equipment _____ without prior written approval from a supervisor will not be reimbursed.",
+      "opts": [
+        "purchased",
+        "purchasing",
+        "purchases",
+        "purchase"
+      ],
+      "ans": 0,
+      "exp": "Câu đã có động từ chính \"will not be reimbursed\". Mệnh đề quan hệ rút gọn bổ nghĩa cho \"Any equipment\" (thiết bị ĐƯỢC mua) mang nghĩa bị động (phía sau là giới từ \"without\", không có tân ngữ). Chọn phân từ quá khứ \"purchased\" (A). Loại (B) chủ động, (C) và (D) động từ chia thì."
+    },
+    {
+      "num": 8,
+      "tag": "Thì động từ",
+      "q": "Ms. Morales _____ as chief financial officer for six years before joining Apex Consulting in May.",
+      "opts": [
+        "serves",
+        "is serving",
+        "will serve",
+        "had served"
+      ],
+      "ans": 3,
+      "exp": "Hành động làm giám đốc tài chính kéo dài 6 năm xảy ra và kết thúc TRƯỚC một mốc quá khứ khác (\"before joining Apex Consulting in May\"), nên dùng thì Quá khứ hoàn thành (had + V3). Chọn \"had served\" (D). Loại (A), (B) hiện tại và (C) tương lai."
+    }
+  ],
+  "paraphrases": []
+}

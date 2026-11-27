@@ -1,0 +1,98 @@
+{
+  "id": "tl_p1_01",
+  "order": 7,
+  "level": 1,
+  "part": "part1",
+  "partLabel": "Part 1 • Tả tranh",
+  "title": "Part 1 • Bài 01: Tả 1 người tại văn phòng",
+  "subtitle": "Nhận diện động từ hành động văn phòng (typing, operating, pointing, writing) ở thì hiện tại tiếp diễn.",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "Với tranh 1 người, luôn xác định nhanh Chủ ngữ (He/She) + Động từ hành động (V-ing) + Tân ngữ chính trong ảnh. Loại ngay đáp án nêu đồ vật không xuất hiện trong tranh.",
+  "items": [
+    {
+      "num": 1,
+      "accent": "en-US",
+      "speaker": "M",
+      "image": "media/p1_01_1.svg",
+      "imageAlt": "Nhân viên nam ngồi trước bàn làm việc đang gõ trên máy tính xách tay",
+      "options": [
+        "He is carrying a ladder across the room.",
+        "He is typing on a laptop at his desk.",
+        "He is watering a potted plant by the window.",
+        "He is opening the window blinds."
+      ],
+      "optionsVi": [
+        "Anh ấy đang vác một chiếc thang đi ngang qua phòng.",
+        "Anh ấy đang gõ trên máy tính xách tay tại bàn làm việc.",
+        "Anh ấy đang tưới chậu cây cạnh cửa sổ.",
+        "Anh ấy đang mở rèm cửa sổ."
+      ],
+      "ans": 1,
+      "exp": "Tranh vẽ nhân viên nam ngồi tại bàn và đặt tay gõ trên máy tính xách tay (laptop) → chọn (B). Loại (A) không có thang, (C) không có chậu cây và (D) rèm đang đóng, anh ấy không chạm vào cửa sổ."
+    },
+    {
+      "num": 2,
+      "accent": "en-US",
+      "speaker": "W",
+      "image": "media/p1_01_2.svg",
+      "imageAlt": "Nhân viên nữ đứng cạnh máy photocopy đang đặt tờ giấy vào máy",
+      "options": [
+        "She is operating a copy machine.",
+        "She is mopping the hallway floor.",
+        "She is erasing a whiteboard.",
+        "She is opening a filing cabinet drawer."
+      ],
+      "optionsVi": [
+        "Cô ấy đang sử dụng một chiếc máy photocopy.",
+        "Cô ấy đang lau sàn hành lang.",
+        "Cô ấy đang xóa bảng trắng.",
+        "Cô ấy đang mở ngăn kéo tủ hồ sơ."
+      ],
+      "ans": 0,
+      "exp": "Người phụ nữ đứng sát máy photocopy và tay đang thao tác giấy trên máy → chọn (A). Loại (B) và (C) sai hoàn toàn bối cảnh; (D) là bẫy chi tiết có thật (có tủ hồ sơ phía sau) nhưng cô ấy không mở tủ."
+    },
+    {
+      "num": 3,
+      "accent": "en-US",
+      "speaker": "M",
+      "image": "media/p1_01_3.svg",
+      "imageAlt": "Nhân viên nam đứng trước bảng trắng cầm bút chỉ vào biểu đồ cột",
+      "options": [
+        "He is hanging a framed picture on the wall.",
+        "He is folding up a conference chair.",
+        "He is plugging a cable into an outlet.",
+        "He is pointing at a chart on the board."
+      ],
+      "optionsVi": [
+        "Anh ấy đang treo một bức tranh đóng khung lên tường.",
+        "Anh ấy đang gấp một chiếc ghế phòng họp.",
+        "Anh ấy đang cắm dây cáp vào ổ điện.",
+        "Anh ấy đang chỉ vào một biểu đồ trên bảng."
+      ],
+      "ans": 3,
+      "exp": "Anh ấy đứng cạnh bảng trắng, tay cầm bút chỉ vào biểu đồ cột → chọn (D). Loại (A)(B)(C) vì không có tranh khung, ghế hay ổ cắm điện."
+    },
+    {
+      "num": 4,
+      "accent": "en-US",
+      "speaker": "W",
+      "image": "media/p1_01_4.svg",
+      "imageAlt": "Nhân viên nữ đeo tai nghe ngồi tại bàn đang viết vào sổ tay bên cạnh màn hình",
+      "options": [
+        "She is carrying a cardboard box down the hall.",
+        "She is locking a glass entrance door.",
+        "She is writing in a notebook at her desk.",
+        "She is sweeping the carpet near the counter."
+      ],
+      "optionsVi": [
+        "Cô ấy đang bê một thùng các-tông dọc hành lang.",
+        "Cô ấy đang khóa cửa kính lối vào.",
+        "Cô ấy đang viết vào sổ tay tại bàn làm việc.",
+        "Cô ấy đang quét thảm gần quầy."
+      ],
+      "ans": 2,
+      "exp": "Cô ấy ngồi sau bàn làm việc, tay cầm bút ghi chép vào cuốn sổ mở trên bàn → chọn (C). Loại (A)(B)(D) vì sai hẳn hành động và bối cảnh."
+    }
+  ]
+}

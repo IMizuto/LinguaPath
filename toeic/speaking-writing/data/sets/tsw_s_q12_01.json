@@ -1,0 +1,109 @@
+{
+  "id": "tsw_s_q12_01",
+  "skill": "speaking",
+  "taskType": "sp_q12",
+  "code": "Q1–2",
+  "level": 1,
+  "targetBand": "110–140",
+  "title": "Đọc to Q1–2 #1: Thông báo Sân bay & Siêu thị",
+  "topic": "Thông báo công cộng (Sân bay & Cửa hàng)",
+  "estMinutes": 6,
+  "guideVi": "Dành 45 giây chuẩn bị để đọc lướt tìm cụm liệt kê (lên giọng ở các mục đầu, xuống giọng ở mục cuối), đánh dấu nhịp ngắt sau dấu phẩy và nhấn mạnh tên riêng, con số, địa điểm.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Phát âm chuẩn xác, bật rõ phụ âm cuối (-s/-ed/-t)",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Trọng âm từ khóa và ngữ điệu lên xuống tự nhiên",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Ngắt cụm nhịp nhàng, tốc độ ổn định 110–155 từ/phút",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q12_01_1",
+      "itemType": "sp_q12",
+      "label": "Q1 • Thông báo lên máy bay tại sân bay",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "US",
+      "text": "Attention, passengers traveling on Pacific Air Flight 418 to Seattle. We are now preparing to begin boarding at Gate B12. First-class travelers, frequent flyer members, and families with small children are invited to board first. Please have your boarding pass and government-issued photo identification ready for inspection. Carry-on luggage must fit securely in the overhead bins or beneath the seat in front of you. Thank you for flying with Pacific Air, and enjoy a pleasant journey.",
+      "intonationGuide": "**Attention**↘ / **passengers** traveling on **Pacific Air** Flight **418** / to **Seattle**↘. We are **now** preparing / to begin **boarding** / at **Gate B12**↘. **First-class** travelers↗, / **frequent flyer** members↗, / and **families** with small children↘ / are invited to board **first**↘. Please have your **boarding pass**↗ / and government-issued **photo identification**↘ / **ready** for inspection↘. **Carry-on** luggage / must fit **securely** / in the **overhead bins**↗ / or beneath the **seat** in front of you↘. **Thank you** for flying with Pacific Air↗, / and enjoy a **pleasant journey**↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Lên giọng nhẹ ở 2 đối tượng đầu của chuỗi liệt kê (First-class travelers ↗, frequent flyer members ↗) và hạ giọng ở đối tượng cuối (families with small children ↘). Đọc rõ số hiệu 418 (four-eighteen) và Gate B12 (B-twelve).",
+      "keyPhrases": [
+        {
+          "en": "begin boarding",
+          "vi": "bắt đầu lên máy bay"
+        },
+        {
+          "en": "frequent flyer members",
+          "vi": "hội viên khách hàng bay thường xuyên"
+        },
+        {
+          "en": "government-issued photo identification",
+          "vi": "giấy tờ tùy thân có ảnh do nhà nước cấp"
+        },
+        {
+          "en": "carry-on luggage",
+          "vi": "hành lý xách tay"
+        },
+        {
+          "en": "overhead bins",
+          "vi": "ngăn để hành lý phía trên đầu"
+        }
+      ],
+      "sample": "Attention, passengers traveling on Pacific Air Flight 418 to Seattle. We are now preparing to begin boarding at Gate B12. First-class travelers, frequent flyer members, and families with small children are invited to board first. Please have your boarding pass and government-issued photo identification ready for inspection. Carry-on luggage must fit securely in the overhead bins or beneath the seat in front of you. Thank you for flying with Pacific Air, and enjoy a pleasant journey.",
+      "sampleVi": "Xin lưu ý, quý hành khách đi chuyến bay 418 của hãng Pacific Air đến Seattle. Chúng tôi hiện đang chuẩn bị làm thủ tục lên máy bay tại Cổng B12. Hành khách hạng nhất, hội viên bay thường xuyên và các gia đình có trẻ nhỏ được mời lên máy bay trước. Vui lòng chuẩn bị sẵn thẻ lên máy bay và giấy tờ tùy thân có ảnh để kiểm tra. Hành lý xách tay phải đặt gọn gàng trong ngăn phía trên hoặc dưới ghế trước mặt quý khách. Cảm ơn quý khách đã bay cùng Pacific Air và chúc quý khách có chuyến đi vui vẻ."
+    },
+    {
+      "itemId": "tsw_s_q12_01_2",
+      "itemType": "sp_q12",
+      "label": "Q2 • Thông báo khuyến mãi tại cửa hàng bách hóa",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "UK",
+      "text": "Good afternoon, shoppers, and welcome to Harborough Department Store. This weekend only, we are offering thirty percent off all winter coats, wool scarves, and leather boots on the second floor. Customers spending more than one hundred pounds will also receive a complimentary coffee voucher for our rooftop cafe. Our homeware section will stay open until nine o'clock tonight for your convenience. Please ask any sales associate wearing a blue badge if you need assistance.",
+      "intonationGuide": "Good **afternoon**, shoppers↗, / and **welcome** to **Harborough** Department Store↘. This **weekend** only↗, / we are offering **thirty percent** off / all **winter coats**↗, / **wool scarves**↗, / and **leather boots**↘ / on the **second** floor↘. **Customers** spending more than **one hundred pounds**↗ / will also receive a **complimentary** coffee voucher / for our **rooftop** cafe↘. Our **homeware** section / will stay **open** until **nine o'clock** tonight / for your **convenience**↘. Please ask any **sales associate** / wearing a **blue badge** / if you need **assistance**↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Nhấn rõ cụm giảm giá 'thirty percent off' và tách nhịp mạch lạc ba sản phẩm 'winter coats ↗, wool scarves ↗, and leather boots ↘'. Bật rõ phụ âm /s/ trong 'coats', 'scarves', 'boots', 'pounds'.",
+      "keyPhrases": [
+        {
+          "en": "thirty percent off",
+          "vi": "giảm giá ba mươi phần trăm"
+        },
+        {
+          "en": "complimentary coffee voucher",
+          "vi": "phiếu uống cà phê miễn phí"
+        },
+        {
+          "en": "homeware section",
+          "vi": "khu vực đồ gia dụng"
+        },
+        {
+          "en": "for your convenience",
+          "vi": "để thuận tiện cho quý khách"
+        },
+        {
+          "en": "sales associate",
+          "vi": "nhân viên bán hàng"
+        }
+      ],
+      "sample": "Good afternoon, shoppers, and welcome to Harborough Department Store. This weekend only, we are offering thirty percent off all winter coats, wool scarves, and leather boots on the second floor. Customers spending more than one hundred pounds will also receive a complimentary coffee voucher for our rooftop cafe. Our homeware section will stay open until nine o'clock tonight for your convenience. Please ask any sales associate wearing a blue badge if you need assistance.",
+      "sampleVi": "Xin chào buổi chiều quý khách mua sắm và chào mừng đến với Cửa hàng Bách hóa Harborough. Duy nhất cuối tuần này, chúng tôi giảm 30% cho tất cả áo khoác mùa đông, khăn len và bốt da tại tầng hai. Khách hàng chi tiêu trên một trăm bảng cũng sẽ nhận được phiếu uống cà phê miễn phí tại quán trên tầng thượng. Khu đồ gia dụng sẽ mở cửa đến chín giờ tối nay để thuận tiện cho quý khách. Vui lòng hỏi bất kỳ nhân viên bán hàng nào đeo thẻ xanh dương nếu quý khách cần hỗ trợ."
+    }
+  ]
+}

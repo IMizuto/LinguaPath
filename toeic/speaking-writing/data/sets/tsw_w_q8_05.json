@@ -1,0 +1,98 @@
+{
+  "id": "tsw_w_q8_05",
+  "skill": "writing",
+  "taskType": "wr_q8",
+  "code": "Q8",
+  "level": 4,
+  "targetBand": "190–200",
+  "title": "Q8 • Đề 05: Phát triển Bền vững vs Chi phí Ngắn hạn",
+  "topic": "Trách nhiệm Môi trường Doanh nghiệp (ESG) & Lợi nhuận",
+  "estMinutes": 30,
+  "guideVi": "Chủ đề ESG và kinh doanh xanh thường xuất hiện ở đề đạt điểm 190–200. Hãy dùng các cấu trúc câu nâng cao (đảo ngữ nhẹ, mệnh đề phân từ, câu điều kiện hỗn hợp) và từ vựng thương mại sắc nét.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Lập trường nhất quán, lý lẽ thuyết phục kèm ví dụ thực tế cụ thể",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục 4 đoạn mạch lạc, đủ từ nối học thuật và độ dài >= 300 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Đa dạng cấu trúc câu phức và vốn từ vựng công sở chuẩn xác",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q8_05_1",
+      "itemType": "wr_q8",
+      "label": "Essay • Đầu tư mô hình xanh dù tăng chi phí ban đầu",
+      "durationMin": 30,
+      "promptEn": "Some people argue that companies should adopt environmentally friendly practices even if doing so raises operating expenses in the short term. Others believe businesses must focus first on keeping costs low to stay competitive. Which position do you agree with? Explain your reasoning with examples.",
+      "promptVi": "Một số người cho rằng doanh nghiệp nên áp dụng các giải pháp thân thiện môi trường ngay cả khi điều đó làm tăng chi phí vận hành trong ngắn hạn. Số khác tin rằng doanh nghiệp phải tập trung giữ chi phí thấp trước để duy trì sức cạnh tranh. Bạn đồng tình với quan điểm nào? Hãy giải thích lập luận kèm ví dụ.",
+      "minWords": 300,
+      "outline": [
+        {
+          "part": "Mở bài (Introduction)",
+          "guideVi": "Nêu thế lưỡng nan giữa chi phí ngắn hạn và bền vững môi trường; khẳng định doanh nghiệp nên đầu tư xanh vì lợi ích chiến lược dài hạn.",
+          "starterEn": "Balancing short-term profitability with environmental stewardship is a defining challenge for modern corporations. Despite higher upfront expenses, I strongly agree that companies should prioritize eco-friendly practices to secure lasting competitiveness."
+        },
+        {
+          "part": "Thân bài 1 (Lý do 1 • Lợi nhuận dài hạn & Tuân thủ pháp lý)",
+          "guideVi": "Đầu tư thiết bị tiết kiệm năng lượng hoặc bao bì tái chế giúp giảm hóa đơn vận hành qua nhiều năm và tránh phạt thuế môi trường.",
+          "starterEn": "First, sustainable initiatives frequently transform initial outlays into substantial operational savings over time..."
+        },
+        {
+          "part": "Thân bài 2 (Lý do 2 • Uy tín thương hiệu & Người tiêu dùng hiện đại)",
+          "guideVi": "Khách hàng và đối tác B2B ngày càng ưu tiên thương hiệu xanh; phản bác quan điểm chỉ cắt giảm giá rẻ ngắn hạn.",
+          "starterEn": "Second, environmental responsibility strengthens brand reputation and attracts both conscious consumers and institutional investors..."
+        },
+        {
+          "part": "Kết bài (Conclusion)",
+          "guideVi": "Khẳng định bền vững và lợi nhuận không đối nghịch nhau mà bổ trợ lâu dài.",
+          "starterEn": "Ultimately, adopting green operations is not merely an ethical duty but a forward-thinking commercial strategy..."
+        }
+      ],
+      "targetKeywords": [
+        "sustainable",
+        "operating",
+        "profitability",
+        "reputation",
+        "renewable",
+        "regulations",
+        "consumers",
+        "competitive",
+        "long-term"
+      ],
+      "tipVi": "Dùng tốt các từ chuyển ý học thuật ('Despite higher upfront expenses', 'Over a multi-year horizon', 'Consequently', 'Admittedly') để đạt trọn 5/5 điểm Essay.",
+      "keyPhrases": [
+        {
+          "en": "environmental stewardship",
+          "vi": "trách nhiệm bảo vệ môi trường"
+        },
+        {
+          "en": "upfront capital expenses",
+          "vi": "chi phí đầu tư ban đầu"
+        },
+        {
+          "en": "brand loyalty",
+          "vi": "lòng trung thành với thương hiệu"
+        },
+        {
+          "en": "regulatory compliance",
+          "vi": "tuân thủ quy định pháp luật"
+        },
+        {
+          "en": "long-term competitiveness",
+          "vi": "năng lực cạnh tranh dài hạn"
+        }
+      ],
+      "sample": "Balancing immediate cost control with environmental stewardship is a defining strategic challenge for corporate leaders today. While some managers hesitate to fund green initiatives because of higher short-term operating expenses, others view sustainability as a smart long-term investment. I strongly believe that businesses should prioritize environmentally friendly practices even when initial operating costs rise temporarily.\n\nFirstly, eco-friendly upgrades often reduce long-term expenses and protect firms effectively against tightening government regulations. Installing commercial solar panels, upgrading to energy-efficient factory machinery, or redesigning compact recyclable packaging certainly requires notable upfront capital. However, over a multi-year horizon, these improvements steadily lower monthly utility bills, fuel consumption, and waste-disposal fees. For example, a regional beverage manufacturer that invested in lightweight recyclable glass bottles and closed-loop water-recycling systems saw production costs climb briefly during the first six months, yet cut overall energy and shipping expenses by twenty percent within two years. Moreover, proactive environmental compliance prevents heavy regulatory fines when emission standards become stricter across competitive global markets.\n\nSecondly, environmental responsibility builds powerful brand reputation and secures lasting customer loyalty in competitive markets. Modern consumers and corporate buyers increasingly investigate a supplier's sustainability record and renewable energy usage before signing major commercial contracts. A company focused exclusively on minimizing short-term prices through polluting practices risks public criticism and damaging consumer boycotts, which can hurt annual profitability far more severely than green investments. In contrast, transparent eco-friendly leadership clearly distinguishes a brand in crowded markets, attracts talented younger professionals who value purposeful work, and satisfies institutional investors who carefully evaluate environmental metrics alongside quarterly financial statements.\n\nIn conclusion, adopting sustainable business practices is both an ethical necessity and a sound long-term commercial strategy. Although eco-friendly measures may temporarily increase operating expenses, the resulting utility savings, regulatory security, and elevated brand trust consistently deliver decisive competitive advantages, lasting financial resilience, and strong stakeholder confidence for many successful years to come.",
+      "sampleVi": "Cân bằng giữa kiểm soát chi phí trước mắt và trách nhiệm bảo vệ môi trường là thách thức lớn với các nhà lãnh đạo doanh nghiệp hiện nay. Trong khi một số quản lý ngần ngại chi cho sáng kiến xanh vì tốn kém ngắn hạn, số khác xem phát triển bền vững là khoản đầu tư khôn ngoan. Tôi hoàn toàn tin rằng doanh nghiệp nên ưu tiên giải pháp thân thiện môi trường ngay cả khi chi phí vận hành ban đầu tăng lên.\n\nThứ nhất, nâng cấp theo hướng xanh thường giúp giảm chi phí dài hạn và bảo vệ doanh nghiệp trước quy định pháp lý ngày càng chặt chẽ. Lắp đặt điện mặt trời, thay máy móc tiết kiệm điện hay thiết kế bao bì tái chế gọn nhẹ đòi hỏi vốn đầu tư ban đầu đáng kể. Tuy nhiên, xét trong nhiều năm, các thay đổi này giúp giảm đều đặn hóa đơn điện nước và phí xử lý rác thải. Ví dụ, một nhà sản xuất đồ uống đầu tư chai thủy tinh nhẹ và hệ thống tuần hoàn nước từng tăng chi phí nhẹ trong sáu tháng đầu, nhưng đã cắt giảm 20% chi phí năng lượng và vận chuyển chỉ sau hai năm.\n\nThứ hai, trách nhiệm môi trường xây dựng uy tín thương hiệu vững chắc và giữ chân khách hàng lâu dài. Người tiêu dùng lẫn đối tác doanh nghiệp ngày nay thường kiểm tra hồ sơ bền vững của nhà cung cấp trước khi ký hợp đồng. Một công ty chỉ chạy theo giá rẻ bằng quy trình gây ô nhiễm sẽ đối mặt với tẩy chay, gây thiệt hại doanh thu nặng nề hơn nhiều.\n\nTóm lại, áp dụng mô hình kinh doanh bền vững vừa là trách nhiệm đạo đức vừa là chiến lược thương mại đúng đắn. Dù chi phí ban đầu có thể tăng tạm thời, lợi ích tiết kiệm năng lượng, an toàn pháp lý và niềm tin thương hiệu sẽ tạo lợi thế cạnh tranh quyết định trong nhiều năm tới."
+    }
+  ]
+}

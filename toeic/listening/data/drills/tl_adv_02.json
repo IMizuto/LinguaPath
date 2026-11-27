@@ -1,0 +1,128 @@
+{
+  "id": "tl_adv_02",
+  "order": 42,
+  "level": 4,
+  "part": "part2",
+  "partLabel": "Chặng 4 • Bẫy Part 2 (850+)",
+  "title": "Bẫy Part 2 • Đồng âm, Từ Đa nghĩa & Lặp âm Gây nhiễu",
+  "subtitle": "Tránh bẫy homophone (board/bored, fare/fair, site/cite, copy/coffee) ở tốc độ 1.15x",
+  "accent": "en-GB",
+  "defaultRate": 1.15,
+  "tips": "Quy tắc vàng ETS Part 2: Khi nghe thấy một từ lặp lại y hệt hoặc phát âm gần giống với từ trong câu hỏi (board/bored, close/clothes, file/flight), 90% đó là ĐÁP ÁN BẪY! Hãy ưu tiên đáp án dùng từ đồng nghĩa (paraphrase).",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Trap • Homophone",
+      "accent": "en-GB",
+      "question": "How long will the board review our expansion proposal?",
+      "questionVi": "Hội đồng quản trị sẽ xem xét đề xuất mở rộng của chúng ta trong bao lâu?",
+      "options": [
+        "No, I wasn't bored during the keynote.",
+        "They expect to reach a decision by Friday.",
+        "The whiteboard markers are out of ink."
+      ],
+      "optionsVi": [
+        "Không, tôi không thấy chán trong bài phát biểu chính.",
+        "Họ dự kiến đưa ra quyết định trước thứ Sáu.",
+        "Bút viết bảng trắng đã hết mực rồi."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) trả lời đúng mốc thời gian dự kiến của hội đồng. Loại (A) bẫy đồng âm 'board' ↔ 'bored'; loại (C) bẫy lặp từ 'board' trong 'whiteboard'."
+    },
+    {
+      "num": 2,
+      "qType": "Trap • Similar Sound",
+      "accent": "en-US",
+      "question": "Could you make twenty color copies of the agenda before ten?",
+      "questionVi": "Bạn có thể in hai mươi bản màu chương trình họp trước mười giờ được không?",
+      "options": [
+        "Sure, I'll head to the print room right now.",
+        "I already made a fresh pot of coffee.",
+        "No, ten dollars is too expensive."
+      ],
+      "optionsVi": [
+        "Chắc chắn rồi, tôi sẽ ra phòng in ngay bây giờ.",
+        "Tôi đã pha sẵn một bình cà phê mới rồi.",
+        "Không, mười đô la thì đắt quá."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) chấp nhận lời đề nghị bằng cách paraphrase 'make copies' → 'head to the print room'. Loại (B) bẫy gần âm 'copies' ↔ 'coffee'; loại (C) bẫy lặp số 'ten'."
+    },
+    {
+      "num": 3,
+      "qType": "Trap • Polysemy",
+      "accent": "en-AU",
+      "question": "Is the downtown branch open late on Thursdays?",
+      "questionVi": "Chi nhánh trung tâm thành phố có mở cửa muộn vào các ngày thứ Năm không?",
+      "options": [
+        "Yes, we should trim that tree branch.",
+        "Sorry I'm late—traffic was awful.",
+        "It stays staffed until eight o'clock."
+      ],
+      "optionsVi": [
+        "Vâng, chúng ta nên tỉa cành cây đó.",
+        "Xin lỗi tôi đến muộn—giao thông tệ quá.",
+        "Ở đó vẫn có nhân viên trực đến tận tám giờ tối."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) trả lời trực tiếp việc mở muộn bằng paraphrase ('stays staffed until eight'). Loại (A) bẫy đa nghĩa 'branch' (chi nhánh vs cành cây); loại (B) bẫy lặp từ 'late'."
+    },
+    {
+      "num": 4,
+      "qType": "Trap • Homophone",
+      "accent": "en-GB",
+      "question": "What's the round-trip rail fare to Edinburgh?",
+      "questionVi": "Giá vé tàu khứ hồi đến Edinburgh là bao nhiêu?",
+      "options": [
+        "Actually, the weather looks quite fair today.",
+        "It depends on whether you book during peak hours.",
+        "The handrail on the stairs was fixed."
+      ],
+      "optionsVi": [
+        "Thực ra hôm nay thời tiết trông khá đẹp.",
+        "Còn tùy xem bạn có đặt vào giờ cao điểm không.",
+        "Tay vịn cầu thang đã được sửa rồi."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) trả lời tự nhiên về giá vé phụ thuộc giờ cao điểm. Loại (A) bẫy đồng âm 'fare' ↔ 'fair'; loại (C) bẫy lặp từ 'rail' trong 'handrail'."
+    },
+    {
+      "num": 5,
+      "qType": "Trap • Similar Sound",
+      "accent": "en-US",
+      "question": "Where is the closest dry cleaner to our hotel?",
+      "questionVi": "Tiệm giặt khô gần khách sạn của chúng ta nhất ở đâu?",
+      "options": [
+        "Just two blocks south on Mercer Street.",
+        "Please close the conference room blinds.",
+        "Yes, my winter clothes arrived safely."
+      ],
+      "optionsVi": [
+        "Chỉ cách hai dãy nhà về phía Nam trên phố Mercer.",
+        "Vui lòng kéo rèm phòng họp lại.",
+        "Vâng, quần áo mùa đông của tôi đã đến an toàn."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) chỉ đúng vị trí cho câu hỏi 'Where'. Loại (B) bẫy gần âm 'closest' ↔ 'close' (đóng); loại (C) bẫy gần âm 'closest' ↔ 'clothes'."
+    },
+    {
+      "num": 6,
+      "qType": "Trap • Homophone",
+      "accent": "en-GB",
+      "question": "Has the architect inspected the construction site yet?",
+      "questionVi": "Kiến trúc sư đã đến kiểm tra công trường xây dựng chưa?",
+      "options": [
+        "Her eyesight improved after getting glasses.",
+        "Make sure to cite all data sources.",
+        "She's scheduled to walk the property at two."
+      ],
+      "optionsVi": [
+        "Thị lực của cô ấy tốt lên sau khi đeo kính.",
+        "Hãy chắc chắn trích dẫn toàn bộ nguồn dữ liệu.",
+        "Cô ấy có lịch đi khảo sát khu đất lúc hai giờ."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) trả lời gián tiếp rằng chưa (2 giờ mới đi khảo sát — 'walk the property' = inspect the site). Loại (A) 'sight' và (B) 'cite' đều là bẫy đồng âm của 'site'."
+    }
+  ]
+}

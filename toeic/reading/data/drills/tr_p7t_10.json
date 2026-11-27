@@ -1,0 +1,157 @@
+{
+  "id": "tr_p7t_10",
+  "order": 40,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 10: Nâng cấp thẻ hội viên đường sắt, Đánh giá App & Email kỹ thuật",
+  "subtitle": "Giải mã lỗi phân hạng sai từ Platinum xuống Silver khiến tài khoản bị cộng thiếu điểm và mất nút nâng hạng ghế.",
+  "timeLimitMin": 12,
+  "tips": "Hãy để ý phép tính tỷ lệ điểm thưởng theo hạng thẻ ở Văn bản 1 (Silver 5 điểm/$1 vs Platinum 10 điểm/$1), đối chiếu với giá vé $180 và 900 điểm thực nhận ở Văn bản 2 để tính ra chính xác số điểm bù kỹ thuật ở Văn bản 3.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thông báo hội viên",
+      "genre": "notice",
+      "meta": {
+        "title": "PACIFIC RAIL REWARDS — APP v4.0 & TIER STRUCTURE UPDATE",
+        "subtitle": "Effective October 1 • Pacific Rail Customer Loyalty Program"
+      },
+      "paragraphs": [
+        "On October 1, Pacific Rail launches App v4.0 featuring instant offline QR boarding passes and a streamlined points-per-dollar accrual structure:",
+        "• Silver Tier: 5 points per $1 spent on rail tickets.\n• Gold Tier: 7 points per $1 spent + 2 complimentary station lounge passes per year.\n• Platinum Tier: 10 points per $1 spent + unlimited lounge access + complimentary same-day seat upgrades on Express trains (selectable inside App v4.0).",
+        "Transition Notice: During the initial system migration (October 1–5), automated point postings may take up to 72 hours after trip completion. Any discrepancy remaining after 72 hours can be submitted via the in-app Help Form using your 6-character booking reference."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Đánh giá ứng dụng",
+      "genre": "review",
+      "meta": {
+        "title": "QR boarding is super fast, but loyalty tracking broke (2/5 Stars)",
+        "subtitle": "App Store Review • By MartinK_PDX • Posted October 9",
+        "rating": 2
+      },
+      "paragraphs": [
+        "I commute weekly between Portland and Seattle and have maintained Platinum Tier status for three consecutive years. The new offline QR boarding pass in App v4.0 worked flawlessly on my October 2 round-trip Business Class journey (Booking Ref: PR-84K2, total fare $180).",
+        "However, a full week has now passed since my trip, and my loyalty ledger credited only 900 points—well short of what my membership tier earns. Even more frustrating, when I opened the app this morning to reserve next Monday's Express train, the complimentary same-day seat-upgrade toggle had completely vanished from my booking screen."
+      ]
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email hỗ trợ kỹ thuật",
+      "genre": "email",
+      "meta": {
+        "to": "m.keller@cascade-env.com",
+        "from": "Pacific Rail Loyalty Engineering <rewards-tech@pacificrail.com>",
+        "date": "October 10",
+        "subject": "Resolved: Tier Restoration & Points Adjustment (Ref #PR-84K2)"
+      },
+      "paragraphs": [
+        "Dear Mr. Keller,",
+        "Thank you for flagging the loyalty display issue in your App Store review under username MartinK_PDX. After inspecting your profile, our engineering team traced the problem to a database mapping error during the October 1 migration that temporarily misclassified roughly 300 Platinum accounts as Silver Tier members.",
+        "That misclassification explains both why your October 2 Business Class trip earned points at the entry-level rate and why the Express seat-upgrade toggle was hidden from your app interface. We have now restored your full Platinum Tier profile, manually credited the missing points for trip #PR-84K2 to your balance, and added a complimentary First-Class round-trip upgrade voucher valid through March 31 as an apology for the inconvenience.",
+        "Warm regards,\nPacific Rail Loyalty Engineering Team"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the announcement, how long might automatic point postings take during the October 1–5 transition period?",
+      "opts": [
+        "Up to 24 hours",
+        "Up to 72 hours",
+        "Up to 5 business days",
+        "Up to one full week"
+      ],
+      "ans": 1,
+      "exp": "Văn bản 1 (đoạn 3) ghi rõ: 'During the initial system migration (October 1–5), automated point postings may take up to 72 hours after trip completion.' → Tối đa 72 giờ."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"restored\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "upgraded permanently",
+        "deleted",
+        "returned to its proper state",
+        "transferred"
+      ],
+      "ans": 2,
+      "exp": "Trong câu 'We have now restored your full Platinum Tier profile' (chúng tôi đã khôi phục lại hoàn toàn hồ sơ hạng Platinum của ông sau lỗi phân loại nhầm), 'restored' đồng nghĩa với 'returned to its proper state' (đưa trở lại trạng thái đúng ban đầu)."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Which aspect of App v4.0 did Mr. Keller praise in his review?",
+      "opts": [
+        "The reliability and speed of offline QR boarding passes",
+        "The prompt response time of the in-app Help Form",
+        "The newly added unlimited station lounge passes",
+        "The accuracy of the automated loyalty ledger"
+      ],
+      "ans": 0,
+      "exp": "Trong Văn bản 2 (tiêu đề & đoạn 1), ông Keller khen: 'QR boarding is super fast' và 'The new offline QR boarding pass in App v4.0 worked flawlessly' → Đánh giá cao tốc độ và độ ổn định của vé QR ngoại tuyến."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Why did the same-day Express seat-upgrade toggle disappear from Mr. Keller's booking screen?",
+      "opts": [
+        "He had already used up his two annual lounge and upgrade passes.",
+        "Express train upgrades are no longer available in App v4.0.",
+        "His Business Class ticket fare was below the minimum eligibility limit.",
+        "A migration bug temporarily misclassified his Platinum account as Silver Tier."
+      ],
+      "ans": 3,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 1 quy định chỉ hạng Platinum mới có đặc quyền nâng hạng ghế miễn phí trong ngày trên tàu Express. (2) Văn bản 2 ông Keller (hạng Platinum) báo nút bật nâng hạng biến mất. (3) Văn bản 3 giải thích lỗi ánh xạ cơ sở dữ liệu ngày 1/10 đã xếp nhầm tài khoản Platinum thành Silver Tier nên ẩn nút nâng hạng."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "How many missing points did Pacific Rail's engineering team manually add to Mr. Keller's account for trip #PR-84K2?",
+      "opts": [
+        "360 points",
+        "900 points",
+        "1,260 points",
+        "1,800 points"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 1: hạng Platinum nhận 10 điểm/$1; hạng Silver nhận 5 điểm/$1. (2) Văn bản 2: vé ngày 2/10 giá $180, nhưng ông chỉ nhận 900 điểm (tức tính nhầm theo mức Silver: 5 × 180 = 900). (3) Văn bản 3 xác nhận đã cộng bù số điểm còn thiếu theo đúng hạng Platinum (10 × $180 = 1,800 điểm) → Số điểm cộng bù là 1,800 − 900 = 900 điểm!"
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "worked flawlessly",
+      "answer": "reliability and speed",
+      "vi": "hoạt động trơn tru không lỗi"
+    },
+    {
+      "text": "vanished from my booking screen",
+      "answer": "hidden from your app interface",
+      "vi": "biến mất khỏi màn hình đặt vé ↔ bị ẩn khỏi giao diện ứng dụng"
+    },
+    {
+      "text": "entry-level rate (Silver: 5 pts/$1)",
+      "answer": "900 points on $180 fare",
+      "vi": "tỷ lệ tích điểm hạng khởi điểm (5 điểm/$1)"
+    },
+    {
+      "text": "restored",
+      "answer": "returned to its proper state",
+      "vi": "khôi phục lại trạng thái đúng"
+    },
+    {
+      "text": "manually credited the missing points",
+      "answer": "added 900 points (1,800 minus 900)",
+      "vi": "cộng bù thủ công 900 điểm còn thiếu"
+    },
+    {
+      "text": "three consecutive years",
+      "answer": "long-standing Platinum member",
+      "vi": "ba năm liên tiếp"
+    }
+  ]
+}

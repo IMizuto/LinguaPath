@@ -1,0 +1,209 @@
+{
+  "id": "tsw_w_q67_01",
+  "skill": "writing",
+  "taskType": "wr_q67",
+  "code": "Q6–7",
+  "level": 2,
+  "targetBand": "130–160",
+  "title": "Q6–7 • Bộ 01: Phản hồi Khiếu nại Khách hàng & Bảo hành",
+  "topic": "Chăm sóc khách hàng & Xử lý sự cố đơn hàng",
+  "estMinutes": 20,
+  "guideVi": "Đọc kỹ email phàn nàn của khách hàng và dòng Directions để không bỏ sót bất kỳ yêu cầu nào (xin lỗi, giải thích nguyên nhân, đề xuất phương án hoặc đặt câu hỏi xác minh). Giữ độ dài khoảng 100–150 từ.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Hoàn thành đầy đủ 2–3 nhiệm vụ yêu cầu trong đề (Directions)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục email thương mại chuẩn (Chào – Nội dung – Kết) & độ dài 80–170 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Giọng văn chuyên nghiệp, từ vựng chuẩn xác và liên kết mạch lạc",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q67_01_1",
+      "itemType": "wr_q67",
+      "label": "Email 1 • Thiếu hàng trong đơn văn phòng phẩm",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Hannah Brooks <h.brooks@northstarlegal.com>",
+        "to": "Customer Support <support@brightdesk.com>",
+        "subject": "Missing Ink Cartridges in Order #BD-4418",
+        "sent": "Tuesday, May 14, 9:40 A.M."
+      },
+      "emailBody": "Dear BrightDesk Support,\n\nYesterday afternoon our office received Order #BD-4418, which included ten packs of copy paper and six black laser ink cartridges. While all the copy paper arrived in good condition, only two ink cartridges were inside the shipping box.\n\nWe have an important quarterly report to print this Friday, so we need the remaining four cartridges urgently. Could you let us know how this issue can be resolved as quickly as possible?\n\nThank you,\nHannah Brooks",
+      "directionsEn": "Respond to the e-mail as if you are a customer support representative at BrightDesk. In your e-mail, apologize for the error, explain ONE reason why the items were missing, and offer TWO solutions to help the customer.",
+      "directionsVi": "Trả lời email với vai trò nhân viên hỗ trợ khách hàng tại BrightDesk. Trong email, hãy xin lỗi về sai sót, giải thích MỘT lý do dẫn đến việc thiếu hàng và đề xuất HAI giải pháp hỗ trợ khách hàng.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Xin lỗi chân thành về sự cố thiếu 4 hộp mực in",
+          "checkType": "apology",
+          "hintEn": "Please accept our sincere apologies for the missing ink cartridges in Order #BD-4418.",
+          "signals": [
+            "apologize",
+            "apology",
+            "apologies",
+            "sorry",
+            "regret",
+            "inconvenience"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Giải thích 1 nguyên nhân cụ thể gây ra lỗi đóng gói/giao vận",
+          "checkType": "info",
+          "hintEn": "Due to a scanning error at our warehouse, four cartridges were left out of the parcel.",
+          "signals": [
+            "because",
+            "due to",
+            "warehouse",
+            "packing",
+            "inventory",
+            "error",
+            "oversight"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Đề xuất 2 phương án xử lý nhanh (giao hỏa tốc + bù phí/hoàn tiền)",
+          "checkType": "suggestion",
+          "hintEn": "We can ship the remaining four cartridges by overnight express at no extra cost, or issue an immediate refund.",
+          "signals": [
+            "express",
+            "overnight",
+            "ship",
+            "send",
+            "refund",
+            "credit",
+            "discount",
+            "solution",
+            "option"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Mở đầu bằng lời chào 'Dear Ms. Brooks,', xin lỗi ngay câu đầu, nêu nguyên nhân ngắn gọn và dùng 'First... Second...' để trình bày rõ 2 giải pháp.",
+      "keyPhrases": [
+        {
+          "en": "sincere apologies",
+          "vi": "lời xin lỗi chân thành"
+        },
+        {
+          "en": "warehouse scanning error",
+          "vi": "lỗi quét mã tại kho"
+        },
+        {
+          "en": "overnight express delivery",
+          "vi": "giao hàng hỏa tốc qua đêm"
+        },
+        {
+          "en": "at no additional charge",
+          "vi": "hoàn toàn miễn phí phụ thu"
+        },
+        {
+          "en": "store credit",
+          "vi": "phiếu mua hàng / hoàn tín dụng"
+        }
+      ],
+      "sample": "Dear Ms. Brooks,\n\nThank you for contacting BrightDesk. Please accept our sincere apologies for the missing ink cartridges in Order #BD-4418 and any stress this has caused ahead of your Friday report.\n\nAfter checking with our fulfillment center, we learned that a temporary barcode scanning error caused four cartridges to be packed into a separate bin and left behind during dispatch.\n\nTo resolve this immediately, we would like to offer two options. First, we can dispatch the four missing cartridges today via overnight express delivery at no extra charge so they arrive tomorrow morning. Second, if you prefer to purchase them locally today, we can issue a full refund for those items plus a twenty-dollar store credit.\n\nPlease reply to let us know which option works best for your office.\n\nBest regards,\nDaniel Kim\nBrightDesk Customer Support",
+      "sampleVi": "Kính gửi cô Brooks,\n\nCảm ơn cô đã liên hệ BrightDesk. Xin chân thành xin lỗi cô vì sự cố thiếu hộp mực in trong đơn hàng #BD-4418 và những bất tiện gây ra trước kỳ báo cáo thứ Sáu của quý công ty.\n\nSau khi kiểm tra với trung tâm đóng gói, chúng tôi phát hiện một lỗi quét mã vạch tạm thời đã khiến bốn hộp mực bị xếp nhầm sang khay khác và sót lại khi xuất kho.\n\nĐể khắc phục ngay lập tức, chúng tôi xin đề xuất hai phương án. Thứ nhất, chúng tôi có thể gửi hỏa tốc bốn hộp mực còn thiếu ngay hôm nay qua đêm mà không tính thêm phí để hàng tới vào sáng mai. Thứ hai, nếu cô cần mua gấp tại địa phương hôm nay, chúng tôi sẽ hoàn tiền đầy đủ số hàng thiếu kèm mã ưu đãi 20 đô-la.\n\nVui lòng phản hồi cho chúng tôi biết phương án nào thuận tiện nhất cho văn phòng cô.\n\nTrân trọng,\nDaniel Kim\nBộ phận Hỗ trợ Khách hàng BrightDesk"
+    },
+    {
+      "itemId": "w_q67_01_2",
+      "itemType": "wr_q67",
+      "label": "Email 2 • Yêu cầu đổi trả máy lọc không khí lỗi",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "David Morales <dmorales@greenoakmail.com>",
+        "to": "Warranty Care <warranty@purebreezehome.com>",
+        "subject": "Unusual Noise from New Air Purifier",
+        "sent": "Thursday, June 6, 3:15 P.M."
+      },
+      "emailBody": "Hello Warranty Team,\n\nI purchased a PureBreeze Air Purifier from your downtown retail store just five days ago. Whenever I switch the fan to high speed, the motor makes a loud rattling sound.\n\nSince the unit is brand new, I would like to replace it or return it for a refund. Could you explain how I should proceed?\n\nSincerely,\nDavid Morales",
+      "directionsEn": "Respond to the e-mail as if you work for PureBreeze Warranty Care. In your e-mail, apologize for the defective product, ask TWO questions about the customer's purchase, and explain ONE way to complete the exchange.",
+      "directionsVi": "Trả lời email với vai trò nhân viên chăm sóc bảo hành PureBreeze. Hãy xin lỗi về sản phẩm lỗi, hỏi HAI câu hỏi về giao dịch mua hàng và hướng dẫn MỘT cách hoàn tất việc đổi sản phẩm.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Xin lỗi khách hàng vì sản phẩm mới bị lỗi tiếng ồn",
+          "checkType": "apology",
+          "hintEn": "We are very sorry to hear about the rattling noise from your new air purifier.",
+          "signals": [
+            "sorry",
+            "apologize",
+            "apologies",
+            "regret",
+            "inconvenience"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Đặt 2 câu hỏi xác minh (mã model/số sê-ri và hóa đơn/ngày mua)",
+          "checkType": "question",
+          "hintEn": "Could you confirm the model number on the back label? Also, do you still have your original store receipt?",
+          "signals": [
+            "?",
+            "model",
+            "serial",
+            "receipt",
+            "invoice",
+            "could you",
+            "do you"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Hướng dẫn 1 quy trình đổi máy mới hoặc hoàn tiền cụ thể",
+          "checkType": "info",
+          "hintEn": "You may bring the unit and receipt back to our downtown store for an immediate replacement.",
+          "signals": [
+            "bring",
+            "visit",
+            "store",
+            "exchange",
+            "replace",
+            "replacement",
+            "refund",
+            "ship"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Khi Directions yêu cầu 'ask TWO questions', nên viết rõ 2 câu hỏi kết thúc bằng dấu hỏi chấm (?) để giám khảo và hệ thống nhận diện dễ dàng.",
+      "keyPhrases": [
+        {
+          "en": "defective unit",
+          "vi": "thiết bị bị lỗi"
+        },
+        {
+          "en": "original receipt",
+          "vi": "hóa đơn mua hàng gốc"
+        },
+        {
+          "en": "serial number",
+          "vi": "số sê-ri sản phẩm"
+        },
+        {
+          "en": "immediate replacement",
+          "vi": "đổi máy mới ngay lập tức"
+        },
+        {
+          "en": "under warranty",
+          "vi": "trong thời hạn bảo hành"
+        }
+      ],
+      "sample": "Dear Mr. Morales,\n\nThank you for reaching out to PureBreeze Warranty Care. We sincerely apologize for the loud rattling noise coming from your new air purifier.\n\nBefore we process your replacement under our thirty-day guarantee, could you please provide two quick details? First, what is the exact model and serial number printed on the bottom sticker of the unit? Second, do you still have the original paper receipt or order confirmation number from our downtown store?\n\nOnce you confirm those details, the fastest way to complete the exchange is to bring the purifier and your receipt to the customer service desk at our downtown store during business hours. Our staff will inspect it briefly and hand you a brand-new replacement unit on the spot.\n\nPlease let us know if you have any further questions.\n\nBest regards,\nClaire Park\nPureBreeze Warranty Care",
+      "sampleVi": "Kính gửi ông Morales,\n\nCảm ơn ông đã liên hệ Bộ phận Bảo hành PureBreeze. Chúng tôi chân thành xin lỗi về tiếng ồn bất thường phát ra từ chiếc máy lọc không khí mới mua của ông.\n\nTrước khi xử lý đổi máy theo chính sách bảo đảm 30 ngày, ông vui lòng cung cấp giúp hai thông tin ngắn sau được không? Thứ nhất, mã model và số sê-ri ghi trên tem dưới đáy máy là gì? Thứ hai, ông còn giữ hóa đơn giấy gốc hay mã xác nhận đơn hàng tại cửa hàng trung tâm không?\n\nSau khi xác nhận các thông tin đó, cách nhanh nhất để đổi hàng là ông mang máy kèm hóa đơn tới quầy dịch vụ khách hàng tại cửa hàng trung tâm trong giờ làm việc. Nhân viên sẽ kiểm tra nhanh và trao ngay máy mới cho ông tại chỗ.\n\nVui lòng báo lại nếu ông cần hỗ trợ thêm.\n\nTrân trọng,\nClaire Park\nChăm sóc Bảo hành PureBreeze"
+    }
+  ]
+}

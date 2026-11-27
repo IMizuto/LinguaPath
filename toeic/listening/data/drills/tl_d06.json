@@ -1,0 +1,98 @@
+{
+  "id": "tl_d06",
+  "order": 6,
+  "level": 1,
+  "part": "dictation",
+  "partLabel": "Dictation • Lấy gốc",
+  "title": "Dictation 06 • Câu hỏi công sở ngắn nối bước Part 2",
+  "subtitle": "Nghe bắt nhanh trợ động từ, động từ chính và danh từ trọng tâm trong các câu hỏi ngắn.",
+  "accent": "en-GB",
+  "defaultRate": 0.75,
+  "tips": "Trong câu hỏi TOEIC, các từ để hỏi (Where/Who/When/Why) và động từ chính luôn mang trọng âm mạnh nhất. Luyện bắt đúng 3 từ khóa này sẽ giúp bạn bứt phá sang Part 2 ở Chặng 2.",
+  "items": [
+    {
+      "num": 1,
+      "speaker": "M",
+      "accent": "en-GB",
+      "sentence": "Where should I store these extra conference folders?",
+      "masked": "Where should I _____ these extra _____ _____?",
+      "blanks": [
+        "store",
+        "conference",
+        "folders"
+      ],
+      "vi": "Tôi nên cất những bìa hồ sơ hội nghị thừa này ở đâu?",
+      "phoneticTip": "Giọng Anh đọc 'store' (/stɔː/) nối nhẹ sang từ sau; 'conference' thường rút còn 2 âm tiết /ˈkɒn.frəns/."
+    },
+    {
+      "num": 2,
+      "speaker": "W",
+      "accent": "en-GB",
+      "sentence": "Who approved the travel reimbursement request last week?",
+      "masked": "Who _____ the travel _____ _____ last week?",
+      "blanks": [
+        "approved",
+        "reimbursement",
+        "request"
+      ],
+      "vi": "Ai đã phê duyệt yêu cầu hoàn trả công tác phí vào tuần trước?",
+      "phoneticTip": "Nhấn âm 2 ở 'ap-PROVED' và 're-QUEST'; nhấn âm 3 ở 're-im-BURSE-ment'."
+    },
+    {
+      "num": 3,
+      "speaker": "M",
+      "accent": "en-GB",
+      "sentence": "When does the maintenance crew inspect the elevator?",
+      "masked": "When does the _____ crew _____ the _____?",
+      "blanks": [
+        "maintenance",
+        "inspect",
+        "elevator"
+      ],
+      "vi": "Khi nào đội bảo trì sẽ kiểm tra thang máy?",
+      "phoneticTip": "'maintenance' nhấn âm 1 (/ˈmeɪn.tən.əns/); 'inspect' nhấn âm 2."
+    },
+    {
+      "num": 4,
+      "speaker": "W",
+      "accent": "en-GB",
+      "sentence": "Would you prefer a morning appointment or an afternoon slot?",
+      "masked": "Would you _____ a morning _____ or an _____ slot?",
+      "blanks": [
+        "prefer",
+        "appointment",
+        "afternoon"
+      ],
+      "vi": "Bạn thích cuộc hẹn buổi sáng hay khung giờ buổi chiều hơn?",
+      "phoneticTip": "Cụm 'Would you' thường nối nhanh thành /ˈwʊdʒu/; chú ý cấu trúc lựa chọn 'A or B'."
+    },
+    {
+      "num": 5,
+      "speaker": "M",
+      "accent": "en-GB",
+      "sentence": "Has the supplier confirmed the updated shipping address?",
+      "masked": "Has the _____ _____ the updated _____ address?",
+      "blanks": [
+        "supplier",
+        "confirmed",
+        "shipping"
+      ],
+      "vi": "Nhà cung cấp đã xác nhận địa chỉ giao hàng cập nhật chưa?",
+      "phoneticTip": "Câu hỏi Yes/No lên giọng ở cuối câu; nhấn âm 2 ở 'sup-PLI-er' và 'con-FIRMED'."
+    },
+    {
+      "num": 6,
+      "speaker": "W",
+      "accent": "en-GB",
+      "sentence": "Why was the software demonstration postponed until Monday?",
+      "masked": "Why was the _____ _____ _____ until Monday?",
+      "blanks": [
+        "software",
+        "demonstration",
+        "postponed"
+      ],
+      "vi": "Tại sao buổi trình diễn phần mềm lại bị hoãn đến thứ Hai?",
+      "phoneticTip": "Chú ý nối âm 'postponed until' (/d/ nối sang /ʌ/) và trọng âm 'demon-STRA-tion'."
+    }
+  ]
+}

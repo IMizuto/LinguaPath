@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v130";
+const CACHE_NAME = "linguapath-cache-v133";
 const OFFLINE_CACHE = "linguapath-offline-packs-v1";
 const WHISPER_CACHE = "lp-whisper-runtime-v1";
 const CORE_ASSETS = [
@@ -59,7 +59,22 @@ const CORE_ASSETS = [
   "./hsk/listening/index.html",
   "./hsk/reading/index.html",
   "./hsk/speaking/index.html",
-  "./hsk/mock/index.html"
+  "./hsk/mock/index.html",
+  "./toeic/index.html",
+  "./toeic/roadmap/index.html",
+  "./toeic/roadmap/roadmap_data.js",
+  "./toeic/roadmap/roadmap.js",
+  "./toeic/vocab/index.html",
+  "./toeic/vocab/data/vocab_manifest.js",
+  "./toeic/grammar/index.html",
+  "./toeic/listening/index.html",
+  "./toeic/listening/data/listening_manifest.js",
+  "./toeic/reading/index.html",
+  "./toeic/reading/data/reading_manifest.js",
+  "./toeic/mock/index.html",
+  "./toeic/mock/data/mock_catalog.js",
+  "./toeic/speaking-writing/index.html",
+  "./toeic/speaking-writing/data/sw_manifest.js"
 ];
 
 const OFFLINE_PACKS = {
@@ -74,13 +89,30 @@ const OFFLINE_PACKS = {
   hsk: [
     "./hsk/lessons/index.html", "./hsk/lessons/lessons_data.js", "./hsk/lessons/lessons-slides-workbook.js",
     "./hsk/vocab/vocab_examples_vi.js",
-    "./hsk/speaking/index.html", "./hsk/speaking/speaking_data.js", "./hsk/hsk-tts.js"
+    "./hsk/speaking/index.html", "./hsk/speaking/speaking_data.js", "./hsk/hsk-tts.js",
+    "./hsk/mock/index.html", "./hsk/mock/mock_data.js",
+    "./hsk/mock/mock_full_13.js", "./hsk/mock/mock_full_13_p2.js",
+    "./hsk/mock/mock_full_46.js", "./hsk/mock/mock_full_46_p2.js",
+    "./hsk/mock/mock_hskk_data.js", "./hsk/mock/mock_hskk_p2.js"
   ],
   speaking: [
     "./ielts/speaking/index.html", "./ielts/speaking/speaking_data.js", "./ielts/speaking/speaking_toolkit_data.js",
     "./ielts/speaking/speaking.js", "./ielts/speaking/speaking_parser.js", "./ielts/speaking/speaking.css"
   ],
-  ted: ["./tedtalks/index.html", "./tedtalks/tedtalks_data.js"]
+  ted: ["./tedtalks/index.html", "./tedtalks/tedtalks_data.js"],
+  toeic: [
+    "./toeic/index.html",
+    "./toeic/roadmap/index.html", "./toeic/roadmap/roadmap_data.js", "./toeic/roadmap/roadmap.js",
+    "./toeic/vocab/index.html", "./toeic/vocab/data/vocab_manifest.js",
+    "./toeic/vocab/data/vocab_u_1.js", "./toeic/vocab/data/vocab_u_2.js",
+    "./toeic/vocab/data/vocab_u_3.js", "./toeic/vocab/data/vocab_u_4.js",
+    "./toeic/grammar/index.html", "./toeic/grammar/data/grammar_part1.js",
+    "./toeic/grammar/data/grammar_part2.js", "./toeic/grammar/data/grammar_cheatsheets.js",
+    "./toeic/listening/index.html", "./toeic/listening/data/listening_manifest.js",
+    "./toeic/reading/index.html", "./toeic/reading/data/reading_manifest.js",
+    "./toeic/mock/index.html", "./toeic/mock/data/mock_catalog.js",
+    "./toeic/speaking-writing/index.html", "./toeic/speaking-writing/data/sw_manifest.js"
+  ]
 };
 
 function canonicalCacheKey(rawUrl) {
@@ -153,9 +185,17 @@ function whisperRuntimeUrl(url) {
 function assetPaths(pack) {
   if (Object.prototype.hasOwnProperty.call(OFFLINE_PACKS, pack)) return OFFLINE_PACKS[pack];
   const reading = /^reading:(\d+)$/.exec(pack);
-  return reading ? ["./ielts/reading/index.html", "./ielts/reading/data/reading_practice_catalog.js",
-    "./ielts/reading/data/reading_manifest.js",
-    "./ielts/reading/data/practice-tests/" + reading[1] + ".json"] : [];
+  if (reading) {
+    return ["./ielts/reading/index.html", "./ielts/reading/data/reading_practice_catalog.js",
+      "./ielts/reading/data/reading_manifest.js",
+      "./ielts/reading/data/practice-tests/" + reading[1] + ".json"];
+  }
+  const toeicTest = /^toeic-test:(tm_(?:mini|full)_\d{2})$/.exec(pack);
+  if (toeicTest) {
+    return ["./toeic/mock/index.html", "./toeic/mock/data/mock_catalog.js",
+      "./toeic/mock/data/tests/" + toeicTest[1] + ".json"];
+  }
+  return [];
 }
 
 self.addEventListener("message", event => {

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="640" height="380">
+<defs>
+  <linearGradient id="sky03" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bae6fd"/><stop offset="100%" stop-color="#f0f9ff"/></linearGradient>
+</defs>
+<rect width="640" height="380" fill="url(#sky03)"/>
+<!-- Background buildings & trees -->
+<rect x="468" y="88" width="150" height="162" fill="#e2e8f0"/><rect x="486" y="108" width="26" height="32" fill="#94a3b8"/><rect x="528" y="108" width="26" height="32" fill="#94a3b8"/><rect x="570" y="108" width="26" height="32" fill="#94a3b8"/>
+<circle cx="48" cy="176" r="46" fill="#22c55e"/><circle cx="94" cy="162" r="38" fill="#16a34a"/><rect x="58" y="206" width="16" height="52" fill="#78350f"/>
+<circle cx="458" cy="186" r="34" fill="#16a34a"/><rect x="452" y="210" width="12" height="44" fill="#78350f"/>
+<!-- Ground pavement -->
+<rect y="250" width="640" height="130" fill="#cbd5e1"/>
+<line x1="0" y1="290" x2="640" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+<!-- Market stall frame & striped awning -->
+<rect x="82" y="88" width="10" height="196" fill="#78350f"/><rect x="424" y="88" width="10" height="196" fill="#78350f"/>
+<polygon points="62,88 456,88 442,36 76,36" fill="#ffffff"/>
+<polygon points="76,36 122,36 112,88 62,88" fill="#dc2626"/>
+<polygon points="168,36 214,36 210,88 162,88" fill="#dc2626"/>
+<polygon points="260,36 306,36 308,88 260,88" fill="#dc2626"/>
+<polygon points="352,36 398,36 406,88 358,88" fill="#dc2626"/>
+<rect x="62" y="88" width="394" height="10" rx="2" fill="#b91c1c"/>
+<!-- Hanging price signs -->
+<rect x="132" y="106" width="44" height="24" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+<rect x="234" y="106" width="48" height="24" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+<rect x="342" y="106" width="44" height="24" rx="3" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+<!-- Vendor behind produce counter -->
+<circle cx="256" cy="146" r="18" fill="#f5c6a5"/>
+<path d="M238 142 C240 124 272 124 274 142 Z" fill="#334155"/>
+<path d="M230 170 C234 162 278 162 282 170 L286 218 L226 218 Z" fill="#f8fafc"/>
+<rect x="238" y="176" width="36" height="42" rx="3" fill="#15803d"/>
+<!-- Hanging/counter scale -->
+<rect x="180" y="182" width="36" height="32" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<circle cx="198" cy="198" r="10" fill="#ffffff" stroke="#475569" stroke-width="1.5"/>
+<line x1="198" y1="198" x2="204" y2="192" stroke="#dc2626" stroke-width="2"/>
+<rect x="174" y="174" width="48" height="8" rx="3" fill="#94a3b8"/>
+<!-- Wooden produce display stand & colorful crates -->
+<rect x="78" y="216" width="360" height="72" rx="4" fill="#b45309" stroke="#78350f" stroke-width="3"/>
+<!-- Crate 1: Tomatoes -->
+<rect x="92" y="226" width="76" height="48" rx="3" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+<circle cx="108" cy="236" r="10" fill="#ef4444"/><circle cx="128" cy="234" r="10" fill="#dc2626"/><circle cx="148" cy="236" r="10" fill="#ef4444"/>
+<circle cx="118" cy="248" r="9" fill="#b91c1c"/><circle cx="138" cy="248" r="9" fill="#ef4444"/>
+<!-- Crate 2: Fresh greens & lettuce -->
+<rect x="178" y="226" width="76" height="48" rx="3" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+<circle cx="196" cy="236" r="12" fill="#22c55e"/><circle cx="216" cy="234" r="13" fill="#16a34a"/><circle cx="236" cy="236" r="12" fill="#4ade80"/>
+<circle cx="206" cy="248" r="10" fill="#15803d"/><circle cx="228" cy="248" r="10" fill="#22c55e"/>
+<!-- Crate 3: Carrots & oranges -->
+<rect x="264" y="226" width="76" height="48" rx="3" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+<ellipse cx="282" cy="238" rx="12" ry="7" fill="#f97316"/><ellipse cx="304" cy="236" rx="12" ry="7" fill="#ea580c"/><ellipse cx="324" cy="238" rx="11" ry="7" fill="#fb923c"/>
+<circle cx="292" cy="250" r="8" fill="#f59e0b"/><circle cx="314" cy="250" r="8" fill="#f97316"/>
+<!-- Crate 4: Yellow lemons & apples -->
+<rect x="350" y="226" width="76" height="48" rx="3" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+<ellipse cx="368" cy="236" rx="10" ry="8" fill="#facc15"/><ellipse cx="388" cy="235" rx="10" ry="8" fill="#eab308"/><ellipse cx="408" cy="236" rx="10" ry="8" fill="#fde047"/>
+<circle cx="378" cy="248" r="9" fill="#84cc16"/><circle cx="398" cy="248" r="9" fill="#facc15"/>
+<!-- Foreground Shopper inspecting vegetables with tote bag -->
+<circle cx="364" cy="186" r="19" fill="#f5c6a5"/>
+<path d="M346 186 C346 164 382 164 382 188 L384 210 L374 204 L374 184 C368 176 354 176 348 186 Z" fill="#451a03"/>
+<path d="M338 214 C342 204 386 204 390 214 L396 312 L332 312 Z" fill="#0d9488"/>
+<path d="M342 224 L314 234 L318 244 L346 236 Z" fill="#0f766e"/>
+<rect x="380" y="256" width="38" height="44" rx="4" fill="#fef3c7" stroke="#b45309" stroke-width="2.5"/>
+<path d="M388 256 C388 238 410 238 410 256" fill="none" stroke="#b45309" stroke-width="3"/>
+<circle cx="396" cy="254" r="7" fill="#22c55e"/><circle cx="406" cy="255" r="6" fill="#ef4444"/>
+<rect x="342" y="312" width="18" height="58" fill="#1e293b"/><rect x="368" y="312" width="18" height="58" fill="#0f172a"/>
+<!-- Second shopper walking right with basket -->
+<circle cx="534" cy="188" r="18" fill="#e5b38a"/>
+<path d="M516 186 C518 168 550 168 552 186 C546 178 524 178 516 186 Z" fill="#1e293b"/>
+<path d="M508 214 C512 204 556 204 560 214 L564 306 L504 306 Z" fill="#2563eb"/>
+<rect x="478" y="254" width="36" height="26" rx="4" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+<path d="M486 254 C486 240 506 240 506 254" fill="none" stroke="#78350f" stroke-width="2.5"/>
+<rect x="514" y="306" width="16" height="58" fill="#334155"/><rect x="538" y="306" width="16" height="58" fill="#1e293b"/>
+</svg>

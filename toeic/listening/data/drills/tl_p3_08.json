@@ -1,0 +1,191 @@
+{
+  "id": "tl_p3_08",
+  "order": 30,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Hỗ trợ CNTT & Nâng cấp Gói Lưu trữ Đám mây",
+  "subtitle": "Khắc phục lỗi đăng nhập sau bản vá phần mềm và chọn gói dung lượng cho nhóm thiết kế",
+  "accent": "en-GB",
+  "defaultRate": 1.0,
+  "tips": "Làm quen với từ vựng IT văn phòng (patch, cache, credentials, bandwidth, storage tier) và lắng nghe con số dung lượng cần thiết để chọn đúng dòng trong bảng giá.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Sự cố phần mềm kế toán sau bản cập nhật",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Hi Ben, IT support? Ever since last night's software update, the payroll portal keeps kicking me back to the login screen whenever I try to export a spreadsheet.",
+          "vi": "Chào Ben, bộ phận hỗ trợ CNTT phải không? Kể từ bản cập nhật phần mềm tối qua, cổng tính lương cứ đẩy tôi về màn hình đăng nhập mỗi khi tôi thử xuất bảng tính."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "Hi Carla. Yeah, a few folks in finance flagged that exact glitch this morning. Have you cleared your cache since the patch went live?",
+          "vi": "Chào Carla. Ừ, vài người bên tài chính cũng báo đúng lỗi đó sáng nay. Bạn đã xóa bộ nhớ đệm trình duyệt từ khi bản vá chạy chưa?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-US",
+          "en": "Not yet—I wasn't sure if that would erase my saved bookmarks.",
+          "vi": "Vẫn chưa—tôi không chắc làm vậy có xóa mất các trang đánh dấu đã lưu không."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-GB",
+          "en": "No worries, clearing cached files won't touch your bookmarks at all. Give that a quick try and restart your browser; if it still fails, I'll remote into your desktop to reset your user profile.",
+          "vi": "Đừng lo, xóa tệp bộ nhớ đệm hoàn toàn không đụng tới trang đánh dấu đâu. Bạn cứ thử nhanh rồi khởi động lại trình duyệt; nếu vẫn lỗi thì tôi sẽ điều khiển từ xa máy bạn để đặt lại hồ sơ người dùng."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What problem is the woman experiencing?",
+          "opts": [
+            "She forgot her payroll portal password.",
+            "Her laptop will not connect to the office Wi-Fi.",
+            "Her saved browser bookmarks disappeared.",
+            "She cannot export data after a system update."
+          ],
+          "ans": 3,
+          "exp": "Carla nói kể từ bản cập nhật tối qua, cổng tính lương đẩy cô ra màn hình đăng nhập mỗi khi xuất bảng tính ('export a spreadsheet'). Chọn (D)."
+        },
+        {
+          "num": 2,
+          "q": "Why does the man ask, \"Have you cleared your cache since the patch went live?\"",
+          "opts": [
+            "To warn her not to install unauthorized patches",
+            "To check if the woman already tried a common fix",
+            "To confirm when she last backed up her files",
+            "To find out which browser she prefers"
+          ],
+          "ans": 1,
+          "exp": "Ben nói nhiều người bên tài chính cũng gặp lỗi tương tự rồi hỏi cô đã xóa cache chưa → kiểm tra xem cô đã thử cách khắc phục phổ biến chưa. Chọn (B)."
+        },
+        {
+          "num": 3,
+          "q": "What will the man do if the initial solution does not work?",
+          "opts": [
+            "Issue the woman a replacement laptop",
+            "Roll back last night's software update",
+            "Access her computer remotely to reset her profile",
+            "Export the spreadsheet from his own workstation"
+          ],
+          "ans": 2,
+          "exp": "Ben nói ở lượt cuối: 'if it still fails, I'll remote into your desktop to reset your user profile' → truy cập từ xa để đặt lại hồ sơ. Chọn (C)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Lựa chọn Gói Lưu trữ Đám mây",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "Cloud Storage Plans",
+        "headers": [
+          "Plan",
+          "Storage",
+          "Monthly Fee"
+        ],
+        "rows": [
+          [
+            "Basic Team",
+            "2 TB",
+            "$40"
+          ],
+          [
+            "Studio Plus",
+            "10 TB",
+            "$110"
+          ],
+          [
+            "Agency Pro",
+            "25 TB",
+            "$220"
+          ],
+          [
+            "Enterprise Unlimited",
+            "100 TB",
+            "$540"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "Liam, our video production team just hit ninety-five percent capacity on our current Basic Team cloud drive. We can't upload the raw footage for the autumn commercial.",
+          "vi": "Liam, nhóm sản xuất video của ta vừa chạm ngưỡng chín mươi lăm phần trăm dung lượng trên ổ đám mây gói Basic Team hiện tại. Chúng ta không tải được thước phim gốc cho quảng cáo mùa thu."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-AU",
+          "en": "I figured that would happen once we switched to 4K cameras. How much space do you estimate we'll need for the rest of the year?",
+          "vi": "Tôi đã đoán chuyện này sẽ xảy ra từ khi ta chuyển sang máy quay 4K. Bạn ước tính chúng ta cần bao nhiêu dung lượng cho phần còn lại của năm?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "At least fifteen terabytes to stay comfortable, since we have three more client campaigns lined up.",
+          "vi": "Ít nhất mười lăm terabyte để dư dả, vì chúng ta còn ba chiến dịch khách hàng nữa đang xếp lịch."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-AU",
+          "en": "Alright, Studio Plus won't cut it then. Let's upgrade to the twenty-five-terabyte plan today—it's well worth it to avoid delaying client edits, and we can always archive old projects later.",
+          "vi": "Được rồi, vậy gói Studio Plus không đủ đâu. Hãy nâng cấp lên gói hai mươi lăm terabyte ngay hôm nay—rất đáng tiền để khỏi làm chậm tiến độ dựng phim cho khách, sau này ta vẫn có thể lưu trữ dự án cũ sang kho riêng."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why did the team's storage usage increase rapidly?",
+          "opts": [
+            "They started filming with higher-resolution cameras.",
+            "They hired additional video editors.",
+            "Backup files were duplicated automatically.",
+            "Clients uploaded large audio libraries."
+          ],
+          "ans": 0,
+          "exp": "Liam nói: 'I figured that would happen once we switched to 4K cameras' → chuyển sang quay bằng máy quay độ phân giải cao (4K). Chọn (A)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. How much will the team pay per month after upgrading?",
+          "opts": [
+            "$40",
+            "$110",
+            "$540",
+            "$220"
+          ],
+          "ans": 3,
+          "exp": "Họ quyết định chọn gói 25 TB ('upgrade to the twenty-five-terabyte plan'). Đối chiếu bảng: gói 25 TB là Agency Pro với giá '$220'/tháng. Chọn (D)."
+        },
+        {
+          "num": 6,
+          "q": "What does the man suggest doing in the future to manage space?",
+          "opts": [
+            "Compressing all 4K footage before uploading",
+            "Moving completed projects into an archive",
+            "Switching to a different cloud provider",
+            "Limiting access to external contractors"
+          ],
+          "ans": 1,
+          "exp": "Cuối bài Liam nói: 'we can always archive old projects later' → chuyển các dự án cũ sang kho lưu trữ. Chọn (B)."
+        }
+      ]
+    }
+  ]
+}

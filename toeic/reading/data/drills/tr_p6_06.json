@@ -1,0 +1,176 @@
+{
+  "id": "tr_p6_06",
+  "order": 12,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 06: Xác nhận Tiệc Hội nghị & Dịch vụ Lưu trữ Đám mây",
+  "subtitle": "Kết hợp Email điều phối sự kiện (Catering) và Quảng cáo phần mềm doanh nghiệp (SaaS Ad).",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Chú ý sự hòa hợp giữa chủ ngữ/sở hữu trong Quảng cáo (\"our team\", \"your files\") và cấu trúc mệnh đề điều kiện lịch sự (\"if you need to adjust...\").",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "Sonia Patel, Event Coordinator",
+        "from": "Marco Rossi, Savory Table Catering",
+        "date": "April 18",
+        "subject": "Catering Confirmation — Annual Innovation Forum"
+      },
+      "paragraphs": [
+        "Dear Ms. Patel,",
+        "We are pleased to confirm that Savory Table Catering has [1] all food and beverage arrangements for the Annual Innovation Forum on May 3. Based on your latest headcount of 140 attendees, our chefs have prepared two buffet stations featuring hot entrées, fresh salads, and plant-based [2].",
+        "Our setup crew will arrive at the Grand Ballroom at 7:00 A.M. to arrange serving tables and coffee urns before registration opens. [3]",
+        "Please notify me no later than April 29 [4] you need to adjust the guest count or add special dietary requests.",
+        "Best regards,\nMarco Rossi"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Quảng cáo",
+      "genre": "ad",
+      "meta": {
+        "title": "CLOUDVAULT BUSINESS — AUTOMATIC DATA BACKUP",
+        "subtitle": "Keep Your Company Files Safe Around the Clock"
+      },
+      "paragraphs": [
+        "Unexpected hardware failures or accidental deletions can bring a growing business to a standstill. CloudVault Business provides continuous encrypted [5] for every workstation and server in your office.",
+        "With a single click, administrators can [6] lost documents, spreadsheets, or previous file versions from any date in the past ninety days. [7]",
+        "Plans start at just $19 per month with no long-term contract required. Contact [8] sales specialists today to schedule a free live demonstration."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Thì & Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "finalized",
+        "finalizing",
+        "final",
+        "finally"
+      ],
+      "ans": 0,
+      "exp": "Sau trợ động từ \"has\" (thì Hiện tại hoàn thành) cần phân từ quá khứ V3. Chọn \"finalized\" (A - đã hoàn tất/chốt xong). Loại (B) V-ing thiếu \"been\", (C) tính từ, (D) trạng từ."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "select",
+        "selective",
+        "selections",
+        "selectively"
+      ],
+      "ans": 2,
+      "exp": "Cấu trúc song song liệt kê danh từ số nhiều: \"hot entrées, fresh salads, and plant-based _____\". Sau tính từ ghép \"plant-based\" cần danh từ số nhiều \"selections\" (C - các lựa chọn món chay/thực vật). Loại (A) động từ, (B) tính từ, (D) trạng từ."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "All reusable plates, glassware, and linen napkins are included in the quoted package.",
+        "The hotel swimming pool will remain closed for winter repairs.",
+        "We regret that our restaurant does not offer catering outside December.",
+        "Attendees are expected to bring their own cooking utensils to the hall."
+      ],
+      "ans": 0,
+      "exp": "Đoạn 2 nói về khâu chuẩn bị bàn tiệc và bình cà phê trước giờ đón khách. Câu (A) bổ sung chi tiết thiết thực về dụng cụ ăn uống và khăn trải bàn đã bao gồm trong gói báo giá. Loại (B) lạc đề, (C) mâu thuẫn với sự kiện tháng 5, (D) phi thực tế."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Liên từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "despite",
+        "during",
+        "because of",
+        "if"
+      ],
+      "ans": 3,
+      "exp": "Phía sau là mệnh đề điều kiện \"you need to adjust the guest count...\" (nếu bạn cần điều chỉnh số lượng khách). Chọn liên từ \"if\" (D). Loại (A), (B), (C) đều là giới từ không đi với mệnh đề."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "protect",
+        "protection",
+        "protective",
+        "protectively"
+      ],
+      "ans": 1,
+      "exp": "Sau hai tính từ \"continuous encrypted\" (liên tục, được mã hóa) cần một danh từ làm tân ngữ của \"provides\". Chọn \"protection\" (B - sự bảo vệ). Loại (A) động từ, (C) tính từ, (D) trạng từ."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [6]:",
+      "opts": [
+        "abandon",
+        "damage",
+        "restore",
+        "reject"
+      ],
+      "ans": 2,
+      "exp": "Ngữ cảnh dịch vụ sao lưu đám mây: quản trị viên có thể \"khôi phục\" (restore) tài liệu đã mất chỉ với một cú nhấp chuột. Chọn \"restore\" (C). Loại (A) từ bỏ, (B) làm hư hại, (D) từ chối."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [7]:",
+      "opts": [
+        "Our company also manufactures office chairs and steel filing cabinets.",
+        "Backups run silently in the background so employee productivity is never interrupted.",
+        "Please ship your damaged laptop directly to our Zurich factory.",
+        "Last quarter’s electricity bills rose faster than expected."
+      ],
+      "ans": 1,
+      "exp": "Đoạn 2 đang nhấn mạnh sự tiện lợi và hiệu quả của tính năng sao lưu CloudVault. Câu (B) nêu thêm ưu điểm sao lưu chạy ngầm không làm gián đoạn năng suất nhân viên, cực kỳ khớp giọng văn quảng cáo phần mềm. Loại (A), (C), (D) lạc đề."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Đại từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "us",
+        "ours",
+        "ourselves",
+        "our"
+      ],
+      "ans": 3,
+      "exp": "Trước cụm danh từ \"sales specialists\" cần tính từ sở hữu chỉ công ty quảng cáo (\"các chuyên viên kinh doanh của chúng tôi\"). Chọn \"our\" (D). Loại (A) tân ngữ, (B) đại từ sở hữu không đi trước danh từ, (C) đại từ phản thân."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "latest headcount of 140 attendees",
+      "answer": "adjust the guest count",
+      "vi": "số lượng khách mới nhất 140 người ↔ điều chỉnh số lượng khách"
+    },
+    {
+      "text": "continuous encrypted protection",
+      "answer": "Keep Your Company Files Safe Around the Clock",
+      "vi": "bảo vệ mã hóa liên tục ↔ giữ an toàn dữ liệu công ty 24/7"
+    },
+    {
+      "text": "hardware failures or accidental deletions",
+      "answer": "lost documents",
+      "vi": "lỗi phần cứng hoặc xóa nhầm ↔ tài liệu bị mất"
+    }
+  ]
+}

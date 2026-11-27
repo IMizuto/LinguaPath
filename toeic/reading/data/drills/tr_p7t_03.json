@@ -1,0 +1,188 @@
+{
+  "id": "tr_p7t_03",
+  "order": 33,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 03: Quy trình tuyển dụng, Lịch phỏng vấn & Email hoán đổi ca",
+  "subtitle": "Xác định ứng viên bị trễ chuyến bay, người đổi lịch và quyền lợi thanh toán vé máy bay qua 3 văn bản nhân sự.",
+  "timeLimitMin": 12,
+  "tips": "Trong bài phỏng vấn theo quê quán/thành phố xuất phát (Chicago, Atlanta, Cambridge), hãy thay thế cụm 'Chicago finalist' hay 'Cambridge finalist' bằng TÊN RIÊNG từ bảng lịch trình trước khi đọc câu hỏi.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thông báo tuyển dụng",
+      "genre": "notice",
+      "meta": {
+        "title": "KESTREL FINANCIAL GROUP — FINAL-ROUND INTERVIEW GUIDELINES",
+        "subtitle": "Position: Senior Data Analytics Manager • Boston Headquarters (Room 12B)"
+      },
+      "paragraphs": [
+        "All four finalists for the Senior Data Analytics Manager position will complete their final interviews on Thursday, November 13, in Conference Room 12B. Each 75-minute block is divided into two consecutive parts: a 45-minute technical case presentation evaluated by Dr. Sofia Lind (Director of Analytics), followed immediately by a 30-minute leadership conversation with Martin Brooks (VP of Operations).",
+        "Travel Reimbursement Policy: Finalists traveling from outside Massachusetts are reimbursed for round-trip economy airfare and airport transit. To receive payment, out-of-state candidates must email copies of their boarding passes and receipts to hr-travel@kestrelfin.com within five business days of their interview."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng lịch phỏng vấn",
+      "genre": "table",
+      "meta": {
+        "title": "FINAL-ROUND INTERVIEW SCHEDULE — THURSDAY, NOVEMBER 13",
+        "subtitle": "Room 12B, Boston HQ • Prepared by Talent Acquisition"
+      },
+      "paragraphs": [
+        "Scheduling Note: Dr. Sofia Lind is unavailable after 16:30 due to an executive board briefing. Mr. Brooks has an open buffer from 16:00 to 17:00 if minor overtime occurs."
+      ],
+      "table": {
+        "headers": [
+          "Time Slot",
+          "Candidate Name",
+          "Origin",
+          "Status"
+        ],
+        "rows": [
+          [
+            "09:00 – 10:15",
+            "Daniel Cho",
+            "Local (Boston, MA)",
+            "Confirmed"
+          ],
+          [
+            "10:30 – 11:45",
+            "Fatima Al-Mansoor",
+            "Chicago, IL",
+            "Confirmed"
+          ],
+          [
+            "13:15 – 14:30",
+            "Liam O'Connor",
+            "Atlanta, GA",
+            "Confirmed"
+          ],
+          [
+            "14:45 – 16:00",
+            "Hannah Reyes",
+            "Local (Cambridge, MA)",
+            "Confirmed"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email điều phối",
+      "genre": "email",
+      "meta": {
+        "to": "s.lind@kestrelfin.com; m.brooks@kestrelfin.com",
+        "from": "Tessa Ward <hr-recruiting@kestrelfin.com>",
+        "date": "November 13, 08:10 A.M.",
+        "subject": "Urgent Schedule Swap — Finalist Flight Delay"
+      },
+      "paragraphs": [
+        "Good morning Sofia and Martin,",
+        "Our finalist flying in from Chicago just called to report that her early-morning flight was canceled because of freezing fog at O'Hare. The airline rebooked her onto a flight arriving at Boston Logan at 13:45, meaning she will reach our downtown office around 14:35.",
+        "Fortunately, our Cambridge finalist kindly agreed to move her session earlier into the vacant late-morning slot, and our Chicago finalist will take the final afternoon block instead. This swap allows Dr. Lind to complete all four case presentations well before her 16:30 board briefing. Please note that both Daniel Cho's opening session and the Atlanta finalist's early-afternoon slot remain completely unchanged.",
+        "Thanks for your flexibility,\nTessa Ward\nTalent Acquisition Lead"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the guidelines, how long is the technical case presentation portion of each interview?",
+      "opts": [
+        "30 minutes",
+        "75 minutes",
+        "45 minutes",
+        "60 minutes"
+      ],
+      "ans": 2,
+      "exp": "Văn bản 1 (đoạn 1) ghi rõ: 'a 45-minute technical case presentation evaluated by Dr. Sofia Lind' → Phần thuyết trình tình huống kỹ thuật kéo dài 45 phút."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"vacant\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "open",
+        "canceled",
+        "extended",
+        "crowded"
+      ],
+      "ans": 0,
+      "exp": "Cụm 'into the vacant late-morning slot' (vào khung giờ cuối buổi sáng đang bị trống) có 'vacant' đồng nghĩa với 'open' (còn trống/chưa có ai)."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Which statement is NOT true according to the three documents?",
+      "opts": [
+        "Dr. Lind has a board briefing beginning at 16:30.",
+        "Daniel Cho's interview will still start at 09:00.",
+        "Fatima Al-Mansoor's original flight from Chicago was canceled.",
+        "Liam O'Connor's interview was moved to the final afternoon slot."
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 2 & 3: Văn bản 2 cho thấy Liam O'Connor đến từ Atlanta (13:15–14:30). Văn bản 3 khẳng định 'the Atlanta finalist's early-afternoon slot remain completely unchanged' → Phương án D nói lịch của Liam bị dời sang cuối chiều là SAI."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "At what time will Hannah Reyes now present her technical case to Dr. Lind and meet with Mr. Brooks?",
+      "opts": [
+        "09:00 – 10:15",
+        "10:30 – 11:45",
+        "13:15 – 14:30",
+        "14:45 – 16:00"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 2 cho biết Hannah Reyes là ứng viên từ Cambridge (ban đầu ở 14:45–16:00) còn ứng viên từ Chicago là Fatima Al-Mansoor (10:30–11:45). (2) Văn bản 3 xác nhận ứng viên Cambridge đổi lên khung giờ cuối buổi sáng bị trống của ứng viên Chicago → Hannah Reyes sẽ phỏng vấn lúc 10:30 – 11:45 (gặp cả Dr. Lind & Mr. Brooks theo Văn bản 1)."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "What should Fatima Al-Mansoor do within five business days after her interview?",
+      "opts": [
+        "Email her boarding passes and travel receipts to hr-travel@kestrelfin.com",
+        "Attend an executive board briefing with Dr. Sofia Lind",
+        "Reschedule her leadership conversation with Martin Brooks",
+        "Submit a written case study summary to Tessa Ward"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 2 & 3 xác nhận Fatima Al-Mansoor bay từ bang ngoài (Chicago, IL) tới Boston (MA). (2) Văn bản 1 (đoạn 2) quy định ứng viên ngoài bang Massachusetts phải gửi bản sao thẻ lên máy bay và hóa đơn về hr-travel@kestrelfin.com trong vòng 5 ngày làm việc để được hoàn tiền."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "traveling from outside Massachusetts",
+      "answer": "out-of-state candidates (Chicago, IL / Atlanta, GA)",
+      "vi": "ứng viên đến từ ngoài bang Massachusetts"
+    },
+    {
+      "text": "vacant",
+      "answer": "open",
+      "vi": "còn trống"
+    },
+    {
+      "text": "finalist flying in from Chicago",
+      "answer": "Fatima Al-Mansoor",
+      "vi": "ứng viên bay từ Chicago ↔ Fatima Al-Mansoor"
+    },
+    {
+      "text": "Cambridge finalist",
+      "answer": "Hannah Reyes",
+      "vi": "ứng viên từ Cambridge ↔ Hannah Reyes"
+    },
+    {
+      "text": "two consecutive parts",
+      "answer": "back-to-back sessions (45 min + 30 min)",
+      "vi": "hai phần nối tiếp nhau liên tục"
+    },
+    {
+      "text": "late-morning slot",
+      "answer": "10:30 – 11:45",
+      "vi": "khung giờ cuối buổi sáng"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="100%" stop-color="#fef08a"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="200" rx="18" fill="url(#bg)"/>
+  <circle cx="282" cy="34" r="46" fill="#a16207" opacity="0.12"/>
+  <circle cx="36" cy="176" r="54" fill="#a16207" opacity="0.10"/>
+  <rect x="34" y="156" width="252" height="12" rx="5" fill="#854d0e"/>
+  <rect x="64" y="86" width="88" height="70" rx="6" fill="#ffffff" stroke="#eab308" stroke-width="3"/>
+  <rect x="78" y="100" width="24" height="20" rx="3" fill="#fde047"/>
+  <rect x="114" y="100" width="24" height="20" rx="3" fill="#fde047"/>
+  <rect x="96" y="128" width="24" height="28" rx="3" fill="#ca8a04"/>
+  <path d="M188 156 L216 62 L244 156" fill="none" stroke="#a16207" stroke-width="6" stroke-linecap="round"/>
+  <line x1="196" y1="128" x2="236" y2="128" stroke="#a16207" stroke-width="5"/>
+  <line x1="204" y1="100" x2="228" y2="100" stroke="#a16207" stroke-width="5"/>
+  <path d="M190 66 C190 48 242 48 242 66 Z" fill="#f59e0b"/>
+  <rect x="16" y="14" width="112" height="22" rx="11" fill="#ffffff" opacity="0.82"/>
+  <text x="72" y="29" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="10.5" font-weight="700" fill="#a16207">PART 1 • BUILD</text>
+</svg>

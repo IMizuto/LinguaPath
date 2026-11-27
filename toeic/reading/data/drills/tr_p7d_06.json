@@ -1,0 +1,165 @@
+{
+  "id": "tr_p7d_06",
+  "order": 26,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 06: Chat nhóm IT & Memo bảo trì hệ thống",
+  "subtitle": "Liên kết tin nhắn nội bộ nhóm kỹ thuật với thông báo toàn công ty về lịch nâng cấp máy chủ và nghỉ bù.",
+  "timeLimitMin": 10,
+  "tips": "Với cặp Chat nhóm ↔ Memo nội bộ, hãy để ý ai phụ trách việc gì trong đoạn chat và lý do một nhân sự vắng mặt hoặc thay đổi quy trình được nhắc ngắn gọn trong Memo.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Tin nhắn nhóm",
+      "genre": "chat",
+      "meta": {
+        "title": "INTERNAL TEAM CHAT — #server-migration",
+        "subtitle": "Thursday, August 21 • Kenji Sato, Nadia Patel, Tomás Rivera"
+      },
+      "paragraphs": [],
+      "messages": [
+        {
+          "sender": "Kenji Sato (Systems Lead)",
+          "time": "09:12",
+          "text": "Morning everyone. Our cloud storage vendor just issued an urgent security patch that requires a full server reboot. We need to move our database migration up from next Friday to this Saturday night."
+        },
+        {
+          "sender": "Nadia Patel (Database Admin)",
+          "time": "09:15",
+          "text": "This Saturday, August 23? How long will the CRM and payroll portals be offline?"
+        },
+        {
+          "sender": "Kenji Sato (Systems Lead)",
+          "time": "09:18",
+          "text": "Roughly four hours—from 10:00 P.M. Saturday until 2:00 A.M. Sunday EST. Corporate email servers won't be affected, though."
+        },
+        {
+          "sender": "Tomás Rivera (Support Manager)",
+          "time": "09:21",
+          "text": "Good to know. Our weekend support crew in Dublin starts their shift at 1:00 A.M. EST, so they'll lose CRM access during their first hour. I'll send them an offline ticket template before Friday."
+        },
+        {
+          "sender": "Nadia Patel (Database Admin)",
+          "time": "09:24",
+          "text": "Since I'll be monitoring the database migration overnight on Saturday, can I take Monday off as compensatory leave?"
+        },
+        {
+          "sender": "Kenji Sato (Systems Lead)",
+          "time": "09:27",
+          "text": "Definitely—HR already approved comp time for anyone covering the maintenance window. I'll circulate a company-wide memo before noon so everyone logs out properly."
+        }
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Thông báo nội bộ (Memo)",
+      "genre": "memo",
+      "meta": {
+        "to": "All Staff",
+        "from": "Kenji Sato, Systems Lead",
+        "date": "August 21, 11:30 A.M.",
+        "subject": "Scheduled System Maintenance — Saturday, August 23"
+      },
+      "paragraphs": [
+        "To deploy an urgent security update and complete our quarterly database migration, the IT Department will perform scheduled server maintenance this Saturday, August 23, from 10:00 P.M. to 2:00 A.M. EST.",
+        "During this four-hour window, the Customer Relationship Management (CRM) platform, the employee payroll portal, and shared network drives will be unavailable. Corporate email will continue operating without interruption.",
+        "All employees are asked to save their work and log out of cloud applications by 9:30 P.M. on Saturday to prevent file corruption. If you encounter login difficulties on Monday morning, August 25, please call the IT Help Desk at extension 4410 rather than contacting Nadia Patel directly, as she will be out of the office."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Ý chính",
+      "q": "What is the main topic of the online chat discussion?",
+      "opts": [
+        "Hiring additional weekend customer support staff in Dublin",
+        "Choosing a new cloud storage vendor for next year",
+        "Moving up a server maintenance window and preparing for downtime",
+        "Updating the company's annual paid vacation policy"
+      ],
+      "ans": 2,
+      "exp": "Đoạn chat (Văn bản 1) xoay quanh việc dời sớm lịch chuyển đổi dữ liệu sang tối thứ Bảy 23/8 để cài bản vá bảo mật khẩn và xử lý ảnh hưởng gián đoạn cho nhóm Dublin cũng như lịch nghỉ bù."
+    },
+    {
+      "num": 2,
+      "tag": "Chi tiết",
+      "q": "Which system will continue working normally during the maintenance window?",
+      "opts": [
+        "Corporate email",
+        "The payroll portal",
+        "Shared network drives",
+        "The CRM platform"
+      ],
+      "ans": 0,
+      "exp": "Cả hai văn bản đều khẳng định rõ: 'Corporate email will continue operating without interruption' (Văn bản 2) / 'Corporate email servers won't be affected' (Văn bản 1)."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the memo, the word \"unavailable\" in paragraph 2 is closest in meaning to",
+      "opts": [
+        "outdated",
+        "optional",
+        "unsecured",
+        "inaccessible"
+      ],
+      "ans": 3,
+      "exp": "Trong ngữ cảnh bảo trì máy chủ khiến CRM, cổng lương và ổ đĩa dùng chung 'will be unavailable' (không thể truy cập), từ gần nghĩa nhất là 'inaccessible' (không truy cập được)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "Why will Ms. Patel be out of the office on Monday, August 25?",
+      "opts": [
+        "She will be traveling to train the support team in Dublin.",
+        "She is taking compensatory leave after working Saturday night.",
+        "She is attending a security conference with the storage vendor.",
+        "She has a scheduled meeting with the HR department."
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 2 báo Nadia Patel vắng mặt sáng thứ Hai 25/8. Văn bản 1 (lúc 09:24 và 09:27) giải thích rõ cô xin nghỉ bù thứ Hai ('take Monday off as compensatory leave') vì phải trực giám sát chuyển dữ liệu suốt đêm thứ Bảy."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What will the Dublin support team have to do between 1:00 A.M. and 2:00 A.M. EST on Sunday?",
+      "opts": [
+        "Wait until 2:00 A.M. before starting their shift",
+        "Call the IT Help Desk at extension 4410 for every ticket",
+        "Log customer requests using an offline template",
+        "Reply to customers through the payroll portal"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 2 cho biết CRM ngoại tuyến tới 2:00 A.M. EST Chủ nhật. Văn bản 1 (lúc 09:21) Tomás nói ca làm của nhóm Dublin bắt đầu lúc 1:00 A.M. EST nên mất quyền truy cập CRM trong tiếng đầu tiên và anh sẽ gửi 'an offline ticket template' để họ ghi nhận yêu cầu."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "move our database migration up",
+      "answer": "moving up a server maintenance window",
+      "vi": "đẩy sớm lịch chuyển đổi cơ sở dữ liệu"
+    },
+    {
+      "text": "operate without interruption",
+      "answer": "continue working normally",
+      "vi": "vận hành không gián đoạn ↔ hoạt động bình thường"
+    },
+    {
+      "text": "unavailable",
+      "answer": "inaccessible",
+      "vi": "không khả dụng ↔ không thể truy cập"
+    },
+    {
+      "text": "out of the office on Monday",
+      "answer": "taking compensatory leave after working Saturday night",
+      "vi": "vắng mặt ngày thứ Hai ↔ nghỉ bù sau khi trực đêm thứ Bảy"
+    },
+    {
+      "text": "offline ticket template",
+      "answer": "log customer requests using an offline template",
+      "vi": "biểu mẫu ghi nhận yêu cầu ngoại tuyến"
+    }
+  ]
+}

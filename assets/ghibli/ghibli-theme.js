@@ -32,7 +32,7 @@
   function detectGlassTier() {
     const p = (location.pathname || '/').replace(/\\/g, '/').toLowerCase();
     const norm = p.replace(/\/index\.html?$/, '/');
-    if (norm === '/' || /\/hsk\/?$/.test(norm) || /\/roadmap\/?$/.test(norm)) {
+    if (norm === '/' || /\/(hsk|toeic)\/?$/.test(norm) || /\/roadmap\/?$/.test(norm)) {
       return 'portal';
     }
     return 'study';

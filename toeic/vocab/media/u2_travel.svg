@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="200" rx="18" fill="url(#bg)"/>
+  <circle cx="282" cy="34" r="46" fill="#0284c7" opacity="0.12"/>
+  <circle cx="36" cy="176" r="54" fill="#0284c7" opacity="0.10"/>
+  <rect x="56" y="64" width="92" height="106" rx="10" fill="#ffffff" stroke="#0284c7" stroke-width="3"/>
+  <rect x="70" y="80" width="18" height="16" rx="3" fill="#7dd3fc"/>
+  <rect x="96" y="80" width="18" height="16" rx="3" fill="#7dd3fc"/>
+  <rect x="122" y="80" width="14" height="16" rx="3" fill="#7dd3fc"/>
+  <rect x="70" y="106" width="18" height="16" rx="3" fill="#38bdf8"/>
+  <rect x="96" y="106" width="18" height="16" rx="3" fill="#38bdf8"/>
+  <rect x="92" y="136" width="22" height="34" rx="3" fill="#0369a1"/>
+  <path d="M180 104 L268 70 L254 110 L272 124 L232 120 L204 146 L204 118 Z" fill="#0284c7"/>
+  <rect x="16" y="14" width="112" height="22" rx="11" fill="#ffffff" opacity="0.82"/>
+  <text x="72" y="29" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="10.5" font-weight="700" fill="#0284c7">BUSINESS • TRAVEL</text>
+</svg>

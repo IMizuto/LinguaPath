@@ -1,0 +1,98 @@
+{
+  "id": "tsw_w_q8_02",
+  "skill": "writing",
+  "taskType": "wr_q8",
+  "code": "Q8",
+  "level": 3,
+  "targetBand": "160–190",
+  "title": "Q8 • Đề 02: Đào tạo nhân sự nội bộ hay Tuyển người có kinh nghiệm?",
+  "topic": "Chiến lược Nhân sự & Phát triển Năng lực Tổ chức",
+  "estMinutes": 30,
+  "guideVi": "So sánh lợi ích dài hạn giữa việc đầu tư đào tạo nhân viên hiện có với việc tuyển mới chuyên gia từ bên ngoài. Chú ý đưa ví dụ thuyết phục về văn hóa doanh nghiệp và chi phí tuyển dụng.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Lập trường nhất quán, lý lẽ thuyết phục kèm ví dụ thực tế cụ thể",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục 4 đoạn mạch lạc, đủ từ nối học thuật và độ dài >= 300 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Đa dạng cấu trúc câu phức và vốn từ vựng công sở chuẩn xác",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q8_02_1",
+      "itemType": "wr_q8",
+      "label": "Essay • Đầu tư đào tạo nội bộ vs Tuyển dụng bên ngoài",
+      "durationMin": 30,
+      "promptEn": "When companies need advanced skills for new projects, some prefer to train their existing employees, while others choose to hire experienced candidates from outside. Which strategy do you think brings greater long-term value to a company? Support your answer with reasons and examples.",
+      "promptVi": "Khi doanh nghiệp cần kỹ năng chuyên sâu cho các dự án mới, một số công ty ưu tiên đào tạo lại nhân viên hiện tại, trong khi số khác chọn tuyển ứng viên đã có kinh nghiệm từ bên ngoài. Bạn cho rằng chiến lược nào mang lại giá trị lâu dài hơn cho doanh nghiệp? Hãy dùng lý lẽ và ví dụ để bảo vệ quan điểm.",
+      "minWords": 300,
+      "outline": [
+        {
+          "part": "Mở bài (Introduction)",
+          "guideVi": "Đặt vấn đề về nhu cầu kỹ năng mới và khẳng định đào tạo nhân sự hiện có đem lại giá trị dài hạn lớn hơn.",
+          "starterEn": "As industries evolve rapidly, businesses frequently face gaps in specialized technical and managerial skills. Although recruiting seasoned outsiders offers short-term convenience, I believe investing in training existing employees generates far greater long-term value."
+        },
+        {
+          "part": "Thân bài 1 (Lý do 1 • Văn hóa, Tốc độ thích nghi & Lòng trung thành)",
+          "guideVi": "Nhân viên cũ đã hiểu rõ quy trình, khách hàng và giá trị cốt lõi của công ty; được đầu tư học tập giúp họ trung thành hơn.",
+          "starterEn": "To begin with, current employees already understand the organization's internal workflows, product lines, and corporate culture..."
+        },
+        {
+          "part": "Thân bài 2 (Lý do 2 • Chi phí tuyển dụng & Đóng góp bền vững)",
+          "guideVi": "So sánh chi phí tuyển chuyên gia ngoài (lương cao, phí môi giới, rủi ro không hợp văn hóa) với giá trị lan tỏa khi nâng tay nghề nội bộ.",
+          "starterEn": "In addition, upskilling internal staff is generally more cost-effective than conducting lengthy external recruitment campaigns..."
+        },
+        {
+          "part": "Kết bài (Conclusion)",
+          "guideVi": "Khẳng định lại lợi thế chiến lược của đào tạo nội bộ kết hợp tinh thần học tập liên tục.",
+          "starterEn": "In conclusion, prioritizing employee training builds institutional knowledge, strengthens loyalty, and controls long-term staffing costs..."
+        }
+      ],
+      "targetKeywords": [
+        "training",
+        "experienced",
+        "culture",
+        "loyalty",
+        "turnover",
+        "recruitment",
+        "workflow",
+        "skills",
+        "sustainable"
+      ],
+      "tipVi": "Tránh nói cực đoan 100%; ở Thân bài 2 hãy thừa nhận rằng tuyển người ngoài có thể nhanh trong tình huống khẩn cấp, nhưng sau đó phản biện lại bằng yếu tố chi phí ẩn và tỷ lệ nghỉ việc.",
+      "keyPhrases": [
+        {
+          "en": "upskill existing staff",
+          "vi": "nâng cao kỹ năng cho nhân sự hiện tại"
+        },
+        {
+          "en": "institutional knowledge",
+          "vi": "tri thức tích lũy của tổ chức"
+        },
+        {
+          "en": "employee turnover",
+          "vi": "tỷ lệ nhân viên nghỉ việc"
+        },
+        {
+          "en": "onboarding period",
+          "vi": "giai đoạn hội nhập công việc"
+        },
+        {
+          "en": "cost-effective investment",
+          "vi": "khoản đầu tư hiệu quả về chi phí"
+        }
+      ],
+      "sample": "As technology and global markets evolve rapidly, organizations regularly need specialized capabilities for ambitious new initiatives. While some managers prefer hiring experienced specialists from outside to save initial training time, others invest thoughtfully in developing current staff. In my view, training existing employees creates substantially greater long-term value for a modern company.\n\nFirstly, internal training preserves institutional knowledge and strengthens employee loyalty across all operational levels. Current staff already understand the company's internal workflows, software systems, and client expectations, so they can apply newly learned skills to real projects immediately without experiencing a slow onboarding period. Furthermore, sponsoring courses, workshops, or industry certifications clearly signals that management genuinely cares about employees' long-term career growth. For example, when a regional logistics firm trained ten warehouse supervisors in automated inventory analytics instead of replacing them, those supervisors streamlined delivery schedules within two months, avoided costly shipping bottlenecks, and maintained a near-zero turnover rate over the next three years.\n\nIn addition, upskilling internal personnel is often far more cost-effective and reliable than conducting external recruitment campaigns. Recruiting seasoned talent from competing firms frequently involves expensive agency fees, elevated salary premiums, and the considerable risk of a cultural mismatch. Even highly experienced newcomers may resign within a single year if they struggle to adapt to unfamiliar leadership styles or internal processes. Admittedly, hiring an outside specialist is occasionally helpful when a firm enters an entirely new technical field overnight. Nevertheless, for most ongoing expansion projects, building a culture of continuous learning multiplies capabilities across entire departments because well-trained workers naturally share practical knowledge and consistently mentor junior colleagues.\n\nIn conclusion, investing in the training of current employees clearly outperforms external hiring as a sustainable long-term strategy. By combining deep organizational familiarity with updated technical skills, reducing costly staff turnover, and fostering mutual trust across teams, companies reliably position themselves for steady, competitive, and enduring growth.",
+      "sampleVi": "Khi công nghệ và thị trường biến đổi nhanh chóng, các tổ chức thường xuyên cần năng lực chuyên môn mới cho những sáng kiến kinh doanh. Dù một số nhà quản lý thích tuyển chuyên gia có sẵn kinh nghiệm từ bên ngoài để tiết kiệm thời gian đào tạo, nhiều doanh nghiệp chọn phát triển nhân sự hiện có. Theo tôi, đào tạo nhân viên hiện tại mang lại giá trị lâu dài lớn hơn hẳn.\n\nThứ nhất, đào tạo nội bộ giữ gìn được tri thức tổ chức và củng cố lòng trung thành. Nhân viên cũ vốn đã am hiểu quy trình, hệ thống phần mềm và kỳ vọng của khách hàng, nên có thể áp dụng kỹ năng mới ngay mà không mất thời gian làm quen kéo dài. Hơn thế, việc tài trợ khóa học hay chứng chỉ cho thấy ban lãnh đạo quan tâm đến sự nghiệp của nhân viên. Ví dụ, khi một hãng vận tải khu vực đào tạo 10 giám sát kho về phân tích tồn kho tự động thay vì tuyển mới thay thế, nhóm giám sát đó đã tối ưu lịch giao hàng chỉ trong hai tháng và duy trì tỷ lệ nghỉ việc gần như bằng không suốt ba năm sau.\n\nBên cạnh đó, nâng cao tay nghề cho nhân sự nội bộ thường tiết kiệm chi phí và đáng tin cậy hơn tuyển từ ngoài. Săn đầu người cấp cao từ đối thủ đòi hỏi phí dịch vụ lớn, mức lương cao vọt cùng rủi ro lệch pha văn hóa. Ngay cả ứng viên giàu kinh nghiệm cũng dễ rời đi sau một năm nếu không hợp phong cách lãnh đạo. Tuy việc tuyển chuyên gia ngoài đôi lúc hữu ích khi công ty bước vào lĩnh vực hoàn toàn xa lạ chỉ sau một đêm, phần lớn các dự án mở rộng thường ngày sẽ hiệu quả hơn nhờ văn hóa học tập liên tục khi nhân viên được đào tạo tiếp tục hướng dẫn đồng nghiệp trẻ.\n\nTóm lại, đầu tư đào tạo nhân viên hiện tại vượt trội hơn tuyển mới bên ngoài về dài hạn. Nhờ kết hợp sự am hiểu nội bộ với kỹ năng mới, giảm tỷ lệ nghỉ việc tốn kém và xây dựng niềm tin, doanh nghiệp sẽ phát triển vững vàng và bền vững."
+    }
+  ]
+}

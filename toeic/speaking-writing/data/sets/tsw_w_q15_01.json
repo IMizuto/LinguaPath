@@ -1,0 +1,286 @@
+{
+  "id": "tsw_w_q15_01",
+  "skill": "writing",
+  "taskType": "wr_q15",
+  "code": "Q1–5",
+  "level": 1,
+  "targetBand": "110–140",
+  "title": "Q1–5 • Bộ 01: Câu đơn & Hiện tại tiếp diễn (Nền tảng)",
+  "topic": "Hành động công việc & Giao dịch hằng ngày",
+  "estMinutes": 8,
+  "guideVi": "Viết đúng 1 câu hoàn chỉnh mô tả mỗi bức tranh, sử dụng cả 2 từ khóa cho sẵn (được phép chia thì hoặc số ít/nhiều). Ở Chặng 1, ưu tiên khung câu chuẩn S + is/are + V-ing + O + Cụm nơi chốn.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Dùng chính xác cả 2 từ khóa bắt buộc (đúng dạng hoặc biến thể hợp lệ)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Đúng ngữ pháp, thì câu và quy chuẩn viết hoa – dấu câu cuối câu",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Miêu tả sát ngữ cảnh bức tranh, câu rõ nghĩa và tự nhiên",
+      "weight": 25
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q15_01_1",
+      "itemType": "wr_q15",
+      "label": "Câu 1 • Giao nhận hàng hóa",
+      "durationMin": 8,
+      "image": "media/sw_p_07.svg",
+      "imageAlt": "Nhân viên giao hàng đội mũ xanh đang khiêng một thùng carton bên cạnh xe tải trước tòa nhà văn phòng",
+      "keywords": [
+        {
+          "word": "carry",
+          "pos": "v",
+          "forms": [
+            "carry",
+            "carries",
+            "carried",
+            "carrying"
+          ]
+        },
+        {
+          "word": "box",
+          "pos": "n",
+          "forms": [
+            "box",
+            "boxes"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Hiện tại tiếp diễn: S + is + carrying + O + cụm chỉ nơi chốn",
+      "tipVi": "Dùng 'a delivery worker' hoặc 'a man' làm chủ ngữ, chia 'carry' thành 'is carrying', kết hợp 'a cardboard box' hoặc 'boxes' để câu giàu chi tiết hơn.",
+      "keyPhrases": [
+        {
+          "en": "delivery worker",
+          "vi": "nhân viên giao hàng"
+        },
+        {
+          "en": "cardboard box",
+          "vi": "thùng các-tông"
+        },
+        {
+          "en": "beside a truck",
+          "vi": "bên cạnh chiếc xe tải"
+        },
+        {
+          "en": "in front of a building",
+          "vi": "phía trước tòa nhà"
+        }
+      ],
+      "sample": "A delivery worker is carrying a cardboard box beside a truck in front of a building.",
+      "sampleAlt": "The man in blue uniform carries a large box out of the delivery van.",
+      "sampleVi": "Một nhân viên giao hàng đang khiêng một thùng các-tông bên cạnh chiếc xe tải trước tòa nhà."
+    },
+    {
+      "itemId": "w_q15_01_2",
+      "itemType": "wr_q15",
+      "label": "Câu 2 • Thanh toán tại cửa hàng sách",
+      "durationMin": 8,
+      "image": "media/sw_p_08.svg",
+      "imageAlt": "Người phụ nữ đang đưa thẻ tín dụng thanh toán tại quầy thu ngân trong cửa hàng sách",
+      "keywords": [
+        {
+          "word": "pay",
+          "pos": "v",
+          "forms": [
+            "pay",
+            "pays",
+            "paid",
+            "paying"
+          ]
+        },
+        {
+          "word": "card",
+          "pos": "n",
+          "forms": [
+            "card",
+            "cards"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Cụm động từ cố định: pay by/with a credit card at + địa điểm",
+      "tipVi": "Nhớ đi kèm giới từ 'with' hoặc 'by' khi nối 'pay' với phương thức thanh toán ('paying with a credit card') hoặc 'pay for her books'.",
+      "keyPhrases": [
+        {
+          "en": "pay with a credit card",
+          "vi": "thanh toán bằng thẻ tín dụng"
+        },
+        {
+          "en": "checkout counter",
+          "vi": "quầy thu ngân"
+        },
+        {
+          "en": "in a bookstore",
+          "vi": "trong hiệu sách"
+        },
+        {
+          "en": "hand over",
+          "vi": "đưa cho, trao qua"
+        }
+      ],
+      "sample": "A woman is paying for her items with a credit card at the bookstore counter.",
+      "sampleAlt": "The customer pays by card while the cashier stands behind the register.",
+      "sampleVi": "Một người phụ nữ đang thanh toán món hàng bằng thẻ tín dụng tại quầy hiệu sách."
+    },
+    {
+      "itemId": "w_q15_01_3",
+      "itemType": "wr_q15",
+      "label": "Câu 3 • Làm việc với máy tính xách tay",
+      "durationMin": 8,
+      "image": "../listening/media/p1_01_1.svg",
+      "imageAlt": "Nhân viên nam ngồi trước bàn làm việc đang gõ trên máy tính xách tay",
+      "keywords": [
+        {
+          "word": "type",
+          "pos": "v",
+          "forms": [
+            "type",
+            "types",
+            "typed",
+            "typing"
+          ]
+        },
+        {
+          "word": "laptop",
+          "pos": "n",
+          "forms": [
+            "laptop",
+            "laptops"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Động từ hành động văn phòng: type on a laptop + at his desk",
+      "tipVi": "Động từ 'type' bỏ đuôi '-e' khi thêm '-ing' thành 'typing'. Có thể thêm 'at his desk' hoặc 'next to a coffee mug' để câu tự nhiên.",
+      "keyPhrases": [
+        {
+          "en": "type on a laptop",
+          "vi": "gõ phím trên máy tính xách tay"
+        },
+        {
+          "en": "sit at a desk",
+          "vi": "ngồi tại bàn làm việc"
+        },
+        {
+          "en": "office chair",
+          "vi": "ghế văn phòng"
+        },
+        {
+          "en": "by the window",
+          "vi": "cạnh cửa sổ"
+        }
+      ],
+      "sample": "An office worker is typing on a laptop at his wooden desk.",
+      "sampleAlt": "The man seated near the window types an email on his laptop.",
+      "sampleVi": "Một nhân viên văn phòng đang gõ trên máy tính xách tay tại bàn gỗ của anh ấy."
+    },
+    {
+      "itemId": "w_q15_01_4",
+      "itemType": "wr_q15",
+      "label": "Câu 4 • Vận hành thiết bị văn phòng",
+      "durationMin": 8,
+      "image": "../listening/media/p1_01_2.svg",
+      "imageAlt": "Nhân viên nữ đứng cạnh máy photocopy đang đặt tờ giấy vào máy",
+      "keywords": [
+        {
+          "word": "operate",
+          "pos": "v",
+          "forms": [
+            "operate",
+            "operates",
+            "operated",
+            "operating"
+          ]
+        },
+        {
+          "word": "machine",
+          "pos": "n",
+          "forms": [
+            "machine",
+            "machines"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Ngoại động từ trực tiếp: operate + a copy machine (không có giới từ ở giữa)",
+      "tipVi": "Lưu ý 'operate' không cần giới từ 'on' khi đi với thiết bị ('operating a copy machine'). Chú ý đánh vần đúng 'operating'.",
+      "keyPhrases": [
+        {
+          "en": "operate a copy machine",
+          "vi": "vận hành máy photocopy"
+        },
+        {
+          "en": "stand beside",
+          "vi": "đứng bên cạnh"
+        },
+        {
+          "en": "place a sheet of paper",
+          "vi": "đặt một tờ giấy"
+        },
+        {
+          "en": "in the office",
+          "vi": "trong văn phòng"
+        }
+      ],
+      "sample": "A female employee is operating a copy machine in the office.",
+      "sampleAlt": "The woman stands beside a printer and operates the machine carefully.",
+      "sampleVi": "Một nữ nhân viên đang vận hành máy photocopy trong văn phòng."
+    },
+    {
+      "itemId": "w_q15_01_5",
+      "itemType": "wr_q15",
+      "label": "Câu 5 • Rót đồ uống tại quán cà phê",
+      "durationMin": 8,
+      "image": "../listening/media/p1_02_1.svg",
+      "imageAlt": "Nhân viên phục vụ đeo tạp dề đang rót cà phê từ bình thủy tinh vào tách trên bàn",
+      "keywords": [
+        {
+          "word": "pour",
+          "pos": "v",
+          "forms": [
+            "pour",
+            "pours",
+            "poured",
+            "pouring"
+          ]
+        },
+        {
+          "word": "cup",
+          "pos": "n",
+          "forms": [
+            "cup",
+            "cups"
+          ]
+        }
+      ],
+      "grammarFocusVi": "Cấu trúc đổ/rót: pour + chất lỏng + into + a cup",
+      "tipVi": "Kết hợp 'pour coffee into a white cup' và mô tả trang phục ('wearing an apron') để câu rõ ràng và chuẩn Band cao.",
+      "keyPhrases": [
+        {
+          "en": "pour coffee into a cup",
+          "vi": "rót cà phê vào tách"
+        },
+        {
+          "en": "wear an apron",
+          "vi": "đeo tạp dề"
+        },
+        {
+          "en": "glass pot",
+          "vi": "bình thủy tinh"
+        },
+        {
+          "en": "on the table",
+          "vi": "trên bàn"
+        }
+      ],
+      "sample": "A server wearing an apron is pouring coffee into a cup on the table.",
+      "sampleAlt": "The waiter pours hot coffee from a pot into a small cup.",
+      "sampleVi": "Một nhân viên phục vụ đeo tạp dề đang rót cà phê vào tách trên bàn."
+    }
+  ]
+}

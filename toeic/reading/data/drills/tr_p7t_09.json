@@ -1,0 +1,196 @@
+{
+  "id": "tr_p7t_09",
+  "order": 39,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 09: Thư mời tài trợ, Bảng quyền lợi gói & Email xác nhận",
+  "subtitle": "Phân tích ưu đãi đăng ký sớm 10%, quy định treo băng-rôn trên cao và tổng số vé VIP của TerraDrone Robotics.",
+  "timeLimitMin": 12,
+  "tips": "Với dạng Thư mời tài trợ + Bảng gói + Email chốt gói, hãy lưu ý sự tách biệt giữa 'giá gói tài trợ được giảm Early-Bird 10%' và 'vé VIP mua thêm' cũng như quy định đặc biệt chỉ áp dụng cho gian đảo (Island Booth).",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thư mời tài trợ",
+      "genre": "letter",
+      "meta": {
+        "title": "14TH ANNUAL INTERNATIONAL AGRIFUTURE EXPO — SPONSORSHIP INVITATION",
+        "subtitle": "January 18 • From: Dr. Eleanor Vance, Expo Chair • Des Moines, IA"
+      },
+      "paragraphs": [
+        "Dear Agricultural Technology Partner,",
+        "We cordially invite your organization to sponsor the 14th Annual International AgriFuture Expo, taking place April 24–26 at the Iowa Trade Center in Des Moines. This year's exhibition is projected to draw 6,500 commercial growers, equipment distributors, and venture investors from 18 countries.",
+        "Sponsors who submit written tier confirmations on or before February 15 receive a 10% early-bird discount on their base sponsorship fee along with priority floor placement near the Main Entrance. All booth signage artwork and high-resolution corporate logos must be uploaded to production@agrifutureexpo.org no later than March 20.",
+        "Sincerely,\nDr. Eleanor Vance\nChair, International AgriFuture Expo"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng quyền lợi tài trợ",
+      "genre": "table",
+      "meta": {
+        "title": "AGRIFUTURE EXPO 2026 — SPONSORSHIP TIERS & ENTITLEMENTS",
+        "subtitle": "All prices listed before applicable early-bird discounts"
+      },
+      "paragraphs": [
+        "Add-Ons & Venue Rules: Additional VIP Passes may be purchased by any sponsor at $180 per pass (no early-bird discount applies to add-on passes). Custom overhead hanging banners are permitted EXCLUSIVELY for Island Booths (20' × 20') and Prime Pavilions (20' × 30')."
+      ],
+      "table": {
+        "headers": [
+          "Tier",
+          "Base Fee",
+          "Exhibition Footprint",
+          "Included VIP Passes",
+          "Key Promotional Perks"
+        ],
+        "rows": [
+          [
+            "Bronze",
+            "$4,000",
+            "10' × 10' Standard Booth",
+            "2",
+            "Website logo listing"
+          ],
+          [
+            "Silver",
+            "$8,000",
+            "10' × 20' Corner Booth",
+            "5",
+            "Website logo + Half-page program ad"
+          ],
+          [
+            "Gold",
+            "$14,000",
+            "20' × 20' Island Booth",
+            "10",
+            "Keynote panel seat + Full-page ad + Lead scanner"
+          ],
+          [
+            "Platinum",
+            "$24,000",
+            "20' × 30' Prime Pavilion",
+            "18",
+            "Opening keynote speech + Branded lounge + Press release"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email xác nhận",
+      "genre": "email",
+      "meta": {
+        "to": "sponsors@agrifutureexpo.org",
+        "from": "Takashi Nakamura <t.nakamura@terradrone-ag.com>",
+        "date": "February 10",
+        "subject": "Sponsorship Tier Confirmation — TerraDrone Robotics"
+      },
+      "paragraphs": [
+        "Dear AgriFuture Sponsorship Team,",
+        "TerraDrone Robotics is pleased to confirm our sponsorship for the upcoming April expo in Des Moines. Because we are unveiling a new autonomous crop-spraying drone that requires open clearance on all four sides—and because our CEO is eager to join the keynote panel discussion—we would like to reserve the $14,000 sponsorship tier.",
+        "In addition to the passes bundled with our tier, please add two extra VIP passes for our visiting agricultural distributors arriving from Osaka. Could you also forward the ceiling rigging specifications for our custom overhead hanging banner so our design vendor can finalize files before the March artwork cutoff?",
+        "Our accounting department is ready to wire the discounted base sponsorship fee plus the extra pass cost tomorrow, February 11.",
+        "Best regards,\nTakashi Nakamura\nVP of Marketing, TerraDrone Robotics"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the invitation letter, what is the deadline for uploading booth signage artwork and corporate logos?",
+      "opts": [
+        "March 20",
+        "February 11",
+        "February 15",
+        "April 24"
+      ],
+      "ans": 0,
+      "exp": "Văn bản 1 (đoạn 3) nêu rõ: 'All booth signage artwork and high-resolution corporate logos must be uploaded to production@agrifutureexpo.org no later than March 20.' → Hạn chót là ngày 20/3."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"clearance\" in paragraph 2 is closest in meaning to",
+      "opts": [
+        "approval",
+        "open space",
+        "inventory",
+        "security"
+      ],
+      "ans": 1,
+      "exp": "Trong ngữ cảnh trưng bày thiết bị bay không người lái cần 'open clearance on all four sides' (khoảng không thông thoáng ở cả bốn mặt — tương ứng với 20' × 20' Island Booth), 'clearance' đồng nghĩa với 'open space' (khoảng trống)."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "What is true regarding TerraDrone Robotics's request to hang an overhead banner?",
+      "opts": [
+        "It will be denied unless TerraDrone upgrades to the Platinum tier.",
+        "It requires paying an additional $180 rigging surcharge.",
+        "It is allowed only if they cancel their keynote panel seat.",
+        "It is permitted because their chosen tier provides a 20' × 20' Island Booth."
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 2 & 3: Văn bản 3 ông Nakamura đăng ký gói $14,000 (hạng Gold) và xin thông số treo băng-rôn trên trần. Tra Văn bản 2, hạng Gold có gian hàng '20' × 20' Island Booth', và quy định nêu băng-rôn treo trần ĐƯỢC PHÉP riêng cho 'Island Booths (20' × 20') and Prime Pavilions (20' × 30')' → Hoàn toàn hợp lệ."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "How many VIP passes in total will TerraDrone Robotics receive for the expo?",
+      "opts": [
+        "7",
+        "10",
+        "12",
+        "20"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 3 ông Nakamura chọn gói $14,000 và mua thêm 2 vé VIP ('add two extra VIP passes'). Tra bảng Văn bản 2, gói $14,000 (Gold) đã bao gồm 10 vé VIP → Tổng số vé VIP nhận được là 10 + 2 = 12 vé."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "How much will TerraDrone Robotics pay for its base sponsorship tier after applying the early-bird discount (excluding extra passes)?",
+      "opts": [
+        "$12,600",
+        "$12,960",
+        "$14,000",
+        "$13,640"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 1 giảm 10% phí gói tài trợ cơ bản cho đơn vị xác nhận trước hoặc trong ngày 15/2. (2) Văn bản 3 xác nhận ngày 10/2 (đủ điều kiện giảm 10%) và chọn gói $14,000 (Văn bản 2). (3) Mức phí gói cơ bản sau giảm (chưa tính 2 vé mua thêm $360) = $14,000 × 90% = $12,600."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "no later than March 20",
+      "answer": "the March artwork cutoff",
+      "vi": "chậm nhất ngày 20/3 ↔ hạn nộp file thiết kế tháng 3"
+    },
+    {
+      "text": "open clearance on all four sides",
+      "answer": "20' × 20' Island Booth (open space)",
+      "vi": "khoảng trống thông thoáng bốn mặt ↔ gian đảo 20×20"
+    },
+    {
+      "text": "bundled with our tier",
+      "answer": "included VIP passes (10)",
+      "vi": "đi kèm trong gói tài trợ"
+    },
+    {
+      "text": "on or before February 15 (10% early-bird)",
+      "answer": "confirmed February 10 → $12,600",
+      "vi": "xác nhận trước hạn 15/2 được giảm 10%"
+    },
+    {
+      "text": "permitted exclusively for Island Booths and Prime Pavilions",
+      "answer": "allowed for Gold and Platinum tiers only",
+      "vi": "chỉ cho phép với gian đảo (Gold) và gian chính (Platinum)"
+    },
+    {
+      "text": "projected to draw",
+      "answer": "expected to attract",
+      "vi": "dự kiến thu hút"
+    }
+  ]
+}

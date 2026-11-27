@@ -1,0 +1,201 @@
+{
+  "id": "tr_p7s_04",
+  "order": 18,
+  "level": 2,
+  "part": "part7s",
+  "partLabel": "Part 7 • Đoạn đơn",
+  "title": "Part 7 Đơn • Bộ 04: Thư Xin lỗi Khách hàng & Bảng Cước Chuyển phát",
+  "subtitle": "Thực hành xử lý Thư bồi thường dịch vụ (Letter) và Bảng cước vận chuyển nhiều điều kiện (Table).",
+  "timeLimitMin": 10,
+  "tips": "Mẹo làm bài Bảng giá (Rate Table): Khi câu hỏi đưa ra một tình huống thực tế (VD: gói hàng nặng 8 kg gửi trong vùng B trước 10 giờ sáng), hãy dò lần lượt theo 3 bước: Cột Trọng lượng/Gói → Dòng Khu vực → Ghi chú phụ phí phía dưới bảng!",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thư khách hàng",
+      "genre": "letter",
+      "meta": {
+        "title": "OAKRIDGE MODERN FURNITURE",
+        "subtitle": "October 14 • Dear Mr. Nakamura,"
+      },
+      "paragraphs": [
+        "Thank you for sending photographs of the Alder Dining Table delivered to your home on October 11. After reviewing the images with our delivery partner, we sincerely apologize for the deep scratch along the tabletop edge caused during transit.",
+        "At Oakridge Modern Furniture, we stand behind the craftsmanship of every item we sell. Rather than asking you to repack the damaged table, we have arranged for our white-glove crew to deliver a brand-new replacement and remove the original piece at the same time on Saturday, October 19, between 1:00 P.M. and 3:00 P.M.",
+        "In addition, please accept the enclosed $75 store credit voucher as a token of our appreciation for your patience. This voucher may be redeemed either online or at any Oakridge showroom through March 31 of next year. If Saturday’s delivery window does not work for you, please call our dispatch line at 555-0194 before Thursday noon.",
+        "Warm regards,\nDenise O’Connor, Director of Customer Experience"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng cước chuyển phát",
+      "genre": "table",
+      "meta": {
+        "title": "APEX COURIER — REGIONAL PARCEL RATES (UP TO 10 KG)",
+        "subtitle": "Effective January 1 • For Businesses With Active Monthly Accounts"
+      },
+      "paragraphs": [
+        "Rates below apply to standard rectangular boxes shipped from our Chicago sorting hub. Fragile or temperature-controlled items require an additional $12 handling surcharge per parcel."
+      ],
+      "table": {
+        "headers": [
+          "Service Tier",
+          "Delivery Target",
+          "Local (0–50 km)",
+          "Regional (51–300 km)",
+          "Signature Proof"
+        ],
+        "rows": [
+          [
+            "Economy Ground",
+            "3–4 business days",
+            "$9.50",
+            "$14.00",
+            "Optional (+$3)"
+          ],
+          [
+            "Standard Express",
+            "Next business day by 5:00 P.M.",
+            "$16.00",
+            "$24.50",
+            "Included"
+          ],
+          [
+            "Priority Morning",
+            "Next business day by 10:00 A.M.",
+            "$25.00",
+            "$36.00",
+            "Included"
+          ],
+          [
+            "Same-Day Direct",
+            "Within 4 hours of pickup",
+            "$42.00",
+            "Not available",
+            "Included"
+          ]
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Ý chính",
+      "q": "Why did Ms. O’Connor write to Mr. Nakamura?",
+      "opts": [
+        "To confirm payment for a newly ordered set of dining chairs",
+        "To apologize for a delivery issue and outline a replacement plan",
+        "To announce the grand opening of a new Oakridge showroom",
+        "To request additional photos of a warranty receipt"
+      ],
+      "ans": 1,
+      "exp": "Đoạn 1 xin lỗi vì vết trầy sâu trên mặt bàn do vận chuyển (\"sincerely apologize for the deep scratch... caused during transit\") và đoạn 2 nêu kế hoạch đổi chiếc bàn mới hoàn toàn vào Thứ Bảy 19/10. Chọn (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "What will the white-glove crew do on October 19?",
+      "opts": [
+        "Repair the scratched tabletop inside Mr. Nakamura’s home",
+        "Deliver a new table and haul away the damaged one",
+        "Collect a $75 delivery fee for Saturday service",
+        "Bring packaging boxes for Mr. Nakamura to pack himself"
+      ],
+      "ans": 1,
+      "exp": "Đoạn 2 viết: \"deliver a brand-new replacement and remove the original piece at the same time\" (giao bàn thay thế mới và mang chiếc cũ đi cùng lúc) và nói rõ không yêu cầu khách tự đóng gói lại (\"Rather than asking you to repack...\"). Chọn (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Suy luận",
+      "q": "What should Mr. Nakamura do if he will not be home on Saturday afternoon?",
+      "opts": [
+        "Visit an Oakridge showroom to exchange the voucher",
+        "Email new photographs to the delivery partner",
+        "Phone the dispatch line by midday on Thursday",
+        "Wait for the crew to leave the table outside his door"
+      ],
+      "ans": 2,
+      "exp": "Câu cuối đoạn 3: \"If Saturday’s delivery window does not work for you, please call our dispatch line at 555-0194 before Thursday noon.\" \"call\" ↔ \"Phone\", \"before Thursday noon\" ↔ \"by midday on Thursday\". Chọn (C)."
+    },
+    {
+      "num": 4,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "Which service tier is ONLY offered for deliveries within 50 kilometers?",
+      "opts": [
+        "Economy Ground",
+        "Standard Express",
+        "Priority Morning",
+        "Same-Day Direct"
+      ],
+      "ans": 3,
+      "exp": "Tra cột \"Regional (51–300 km)\" ở hàng cuối: \"Same-Day Direct\" ghi \"Not available\" (không áp dụng cho tuyến 51–300 km), tức chỉ phục vụ phạm vi Local (0–50 km). Chọn (D)."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Suy luận",
+      "q": "How much would a monthly account holder pay to ship one fragile parcel 120 kilometers using Standard Express?",
+      "opts": [
+        "$24.50",
+        "$28.00",
+        "$36.50",
+        "$48.00"
+      ],
+      "ans": 2,
+      "exp": "Tính theo 2 bước: (1) Khoảng cách 120 km thuộc cột Regional (51–300 km), gói Standard Express có cước $24.50 (đã bao gồm chữ ký). (2) Đoạn mô tả phía trên ghi: hàng dễ vỡ (\"Fragile\") cộng thêm phụ phí $12 (\"additional $12 handling surcharge\"). Tổng = $24.50 + $12.00 = $36.50 → chọn (C)."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "NOT / Ngoại trừ",
+      "q": "For which service tier does Signature Proof cost extra?",
+      "opts": [
+        "Economy Ground",
+        "Standard Express",
+        "Priority Morning",
+        "Same-Day Direct"
+      ],
+      "ans": 0,
+      "exp": "Tra cột cuối \"Signature Proof\": chỉ duy nhất \"Economy Ground\" ghi \"Optional (+$3)\" (tùy chọn tốn thêm 3 USD), còn cả 3 gói cao hơn đều ghi \"Included\" (đã bao gồm). Chọn (A)."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the introductory note, the word \"surcharge\" is closest in meaning to:",
+      "opts": [
+        "discount",
+        "packaging label",
+        "weight limit",
+        "extra fee"
+      ],
+      "ans": 3,
+      "exp": "Cụm \"require an additional $12 handling surcharge per parcel\" dùng \"surcharge\" với nghĩa \"khoản phụ phí thu thêm\" = \"extra fee\". Chọn (D). Loại (A) giảm giá, (B) nhãn đóng gói, (C) giới hạn cân nặng."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "remove the original piece",
+      "answer": "haul away the damaged one",
+      "vi": "mang chiếc bàn ban đầu đi ↔ chuyển chiếc bị hỏng đi"
+    },
+    {
+      "text": "call our dispatch line... before Thursday noon",
+      "answer": "Phone the dispatch line by midday on Thursday",
+      "vi": "gọi đường dây điều phối trước trưa Thứ Năm ↔ gọi điện cho điều phối chậm nhất giữa trưa Thứ Năm"
+    },
+    {
+      "text": "Not available (Regional 51–300 km)",
+      "answer": "ONLY offered for deliveries within 50 kilometers",
+      "vi": "không áp dụng cho tuyến 51–300 km ↔ chỉ cung cấp trong phạm vi 50 km"
+    },
+    {
+      "text": "handling surcharge",
+      "answer": "extra fee",
+      "vi": "phụ phí xử lý ↔ khoản phí thu thêm"
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 /* LinguaPath Global Spotlight Search (Lazy-Loaded On-Demand for 0 ms Startup & 8 GB RAM)
  * Searches across:
  *   1. IELTS Academic Vocabulary (1,827 words)
- *   2. HSK 1-6 Vocabulary (5,112 words)
- *   3. IELTS Grammar (120 lessons), HSK Grammar (120 topics: HSK 1-6) & HSK Measure Words (168 items)
- *   4. TED Talks Bilingual Subtitles (202 talks)
+ *   2. TOEIC Vocabulary (3,189 words)
+ *   3. HSK 1-6 Vocabulary (5,112 words)
+ *   4. IELTS Grammar (120 lessons), TOEIC Grammar (50 topics), HSK Grammar (120 topics) & HSK Measure Words (168 items)
+ *   5. TED Talks Bilingual Subtitles (202 talks)
+ *   6. Lessons Index (HSK, IELTS Foundation & 142 TOEIC modules)
  */
 (function (globalScope) {
   "use strict";
@@ -19,6 +21,8 @@
 
   var SUGGESTIONS = [
     { label: "accommodate", query: "accommodate" },
+    { label: "reimburse", query: "reimburse" },
+    { label: "Part 5", query: "Part 5" },
     { label: "gia dinh", query: "gia dinh" },
     { label: "nv er", query: "nv er" },
     { label: "danh tu khong dem duoc", query: "danh tu khong dem duoc" },
@@ -30,6 +34,7 @@
     { key: "all", label: "Tất cả", icon: "" },
     { key: "lessons", label: "Bài học", icon: "grammar" },
     { key: "ielts_vocab", label: "IELTS Vocab", icon: "vocab" },
+    { key: "toeic_vocab", label: "TOEIC Vocab", icon: "toeic" },
     { key: "hsk_vocab", label: "HSK Vocab", icon: "hsk" },
     { key: "grammar", label: "Ngữ pháp", icon: "grammar" },
     { key: "ted", label: "TED Talks", icon: "tedtalks" }
@@ -39,6 +44,7 @@
     search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
     close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
     vocab: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>',
+    toeic: '<rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
     hsk: '<path d="M4 7h16"/><path d="M12 3v18"/><path d="M7 11h10v7H7z"/>',
     grammar: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/>',
     layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
@@ -61,9 +67,10 @@
     loading: false,
     loadedAll: false,
     doneCount: 0,
-    totalSteps: 4,
+    totalSteps: 5,
     errorMsg: "",
     ieltsVocab: { ready: false, count: 0, index: null },
+    toeicVocab: { ready: false, count: 0, index: null },
     hskVocab: { ready: false, count: 0, index: null },
     grammar: { ready: false, count: 0, index: null },
     ted: { ready: false, count: 0, index: null }
@@ -207,6 +214,58 @@
     store.ieltsVocab.ready = true;
   }
 
+  function buildToeicVocabStore() {
+    if (store.toeicVocab.ready || !globalScope.S4SearchEngine) return;
+    var chunks = (globalScope.__LP_TOEIC_VOCAB_CHUNKS && typeof globalScope.__LP_TOEIC_VOCAB_CHUNKS === "object")
+      ? globalScope.__LP_TOEIC_VOCAB_CHUNKS
+      : {};
+    var raw = [];
+    var legacyKeys = ["LP_TOEIC_VOCAB_U1", "LP_TOEIC_VOCAB_U2", "LP_TOEIC_VOCAB_U3", "LP_TOEIC_VOCAB_U4"];
+    for (var lv = 1; lv <= 4; lv++) {
+      var part = Array.isArray(chunks[lv]) ? chunks[lv]
+        : (Array.isArray(chunks[String(lv)]) ? chunks[String(lv)]
+        : (Array.isArray(globalScope[legacyKeys[lv - 1]]) ? globalScope[legacyKeys[lv - 1]] : []));
+      for (var p = 0; p < part.length; p++) {
+        raw.push(part[p]);
+      }
+    }
+    var slim = new Array(raw.length);
+    for (var i = 0; i < raw.length; i++) {
+      var v = raw[i] || {};
+      slim[i] = {
+        kind: "toeic_vocab",
+        id: v.id || ("toeic_" + i),
+        level: Number(v.level) || 1,
+        word: v.word || "",
+        pos: v.pos || "",
+        ipa: v.ipa || "",
+        defVi: v.defVi || "",
+        defEn: v.defEn || "",
+        topic: v.topic || "",
+        trap: v.trap || ""
+      };
+    }
+    releaseGlobal([
+      "__LP_TOEIC_VOCAB_CHUNKS",
+      "LP_TOEIC_VOCAB_U1",
+      "LP_TOEIC_VOCAB_U2",
+      "LP_TOEIC_VOCAB_U3",
+      "LP_TOEIC_VOCAB_U4"
+    ]);
+    store.toeicVocab.count = slim.length;
+    store.toeicVocab.index = globalScope.S4SearchEngine.createIndex(slim, {
+      lazy: true,
+      fields: [
+        { name: "word", get: function (it) { return it.word; }, weight: 2.3 },
+        { name: "defVi", get: function (it) { return it.defVi || it.defEn; }, weight: 1.4 },
+        { name: "defEn", get: function (it) { return it.defEn; }, weight: 1.1 },
+        { name: "topic", get: function (it) { return it.topic; }, weight: 0.9 },
+        { name: "trap", get: function (it) { return it.trap; }, weight: 0.8 }
+      ]
+    });
+    store.toeicVocab.ready = true;
+  }
+
   function buildHskVocabStore() {
     if (store.hskVocab.ready || !globalScope.S4SearchEngine) return;
     var raw = globalScope.LP_HSK_VOCAB_DATA || [];
@@ -254,6 +313,9 @@
     var rawHskAdv = Array.isArray(globalScope.LP_HSK_GRAMMAR_ADV_DATA) ? globalScope.LP_HSK_GRAMMAR_ADV_DATA : [];
     var rawHsk = rawHskBase.concat(rawHskAdv);
     var rawMw = Array.isArray(globalScope.LP_HSK_MEASURE_WORDS) ? globalScope.LP_HSK_MEASURE_WORDS : [];
+    var rawToeic1 = Array.isArray(globalScope.__LP_TOEIC_GRAMMAR_P1) ? globalScope.__LP_TOEIC_GRAMMAR_P1 : [];
+    var rawToeic2 = Array.isArray(globalScope.__LP_TOEIC_GRAMMAR_P2) ? globalScope.__LP_TOEIC_GRAMMAR_P2 : [];
+    var rawToeic = rawToeic1.concat(rawToeic2);
     var slim = [];
     for (var i = 0; i < rawIelts.length; i++) {
       var g = rawIelts[i] || {};
@@ -313,13 +375,36 @@
         note: mw.note || ""
       });
     }
+    var seenToeicIds = Object.create(null);
+    for (var t = 0; t < rawToeic.length; t++) {
+      var tg = rawToeic[t] || {};
+      var tgid = tg.id || ("tg_" + (t + 1));
+      if (seenToeicIds[tgid]) continue;
+      seenToeicIds[tgid] = true;
+      slim.push({
+        kind: "toeic_grammar",
+        subKind: "toeic_grammar",
+        id: tgid,
+        order: Number(tg.order) || (t + 1),
+        level: Number(tg.level) || 1,
+        unitTitle: tg.unitTitle || "",
+        category: tg.category || "",
+        partTag: tg.partTag || "",
+        title: tg.title || "",
+        formula: tg.formula || "",
+        summary: tg.summary || "",
+        speedTip: tg.speedTip || ""
+      });
+    }
     releaseGlobal([
       "STUDY4_GRAMMAR_DATA",
       "LINGUAPATH_GRAMMAR_DATA",
       "LP_HSK_GRAMMAR_DATA",
       "LP_HSK_GRAMMAR_ADV_DATA",
       "LP_HSK_MEASURE_WORDS",
-      "LP_HSK_MEASURE_QUIZ"
+      "LP_HSK_MEASURE_QUIZ",
+      "__LP_TOEIC_GRAMMAR_P1",
+      "__LP_TOEIC_GRAMMAR_P2"
     ]);
     store.grammar.count = slim.length;
     store.grammar.index = globalScope.S4SearchEngine.createIndex(slim, {
@@ -330,6 +415,7 @@
           get: function (it) {
             if (it.kind === "ielts_grammar") return [it.title, it.sectionName, it.unitTitle];
             if (it.kind === "hsk_mw") return it.mw;
+            if (it.kind === "toeic_grammar" || it.subKind === "toeic_grammar") return [it.title, it.partTag, it.category, "TOEIC Chặng " + it.level];
             return [it.title, "HSK " + it.level];
           },
           weight: 2.4
@@ -347,6 +433,7 @@
           get: function (it) {
             if (it.kind === "hsk_grammar") return it.formula;
             if (it.kind === "hsk_mw") return [it.meaning, it.category, "HSK " + it.level];
+            if (it.kind === "toeic_grammar" || it.subKind === "toeic_grammar") return [it.formula, it.category, it.partTag];
             return it.sectionName;
           },
           weight: 1.6
@@ -356,6 +443,7 @@
           get: function (it) {
             if (it.kind === "ielts_grammar") return it.summaryText;
             if (it.kind === "hsk_mw") return [it.nounsText, it.exText, it.note];
+            if (it.kind === "toeic_grammar" || it.subKind === "toeic_grammar") return [it.summary, it.speedTip, it.unitTitle];
             return [it.summary, it.exText];
           },
           weight: 1.1
@@ -431,31 +519,45 @@
       buildIeltsVocabStore();
       store.doneCount = 1;
       refreshLiveIfOpen();
+      return Promise.all([
+        loadScriptOnce("toeic/vocab/data/vocab_u_1.js"),
+        loadScriptOnce("toeic/vocab/data/vocab_u_2.js"),
+        loadScriptOnce("toeic/vocab/data/vocab_u_3.js"),
+        loadScriptOnce("toeic/vocab/data/vocab_u_4.js")
+      ]);
+    }).then(function () {
+      return yieldFrame();
+    }).then(function () {
+      buildToeicVocabStore();
+      store.doneCount = 2;
+      refreshLiveIfOpen();
       return loadScriptOnce("hsk/vocab/vocab_data.js");
     }).then(function () {
       return yieldFrame();
     }).then(function () {
       buildHskVocabStore();
-      store.doneCount = 2;
+      store.doneCount = 3;
       refreshLiveIfOpen();
       return Promise.all([
         loadScriptOnce("ielts/grammar/grammar_data.js"),
         loadScriptOnce("hsk/grammar/grammar_data.js"),
         loadScriptOnce("hsk/grammar/grammar_data_adv.js"),
-        loadScriptOnce("hsk/grammar/measure_words_data.js")
+        loadScriptOnce("hsk/grammar/measure_words_data.js"),
+        loadScriptOnce("toeic/grammar/data/grammar_part1.js"),
+        loadScriptOnce("toeic/grammar/data/grammar_part2.js")
       ]);
     }).then(function () {
       return yieldFrame();
     }).then(function () {
       buildGrammarStore();
-      store.doneCount = 3;
+      store.doneCount = 4;
       refreshLiveIfOpen();
       return loadScriptOnce("tedtalks/tedtalks_data.js");
     }).then(function () {
       return yieldFrame();
     }).then(function () {
       buildTedStore();
-      store.doneCount = 4;
+      store.doneCount = 5;
       store.loadedAll = true;
       store.loading = false;
       refreshLiveIfOpen();
@@ -472,11 +574,25 @@
   function buildDeepLink(entry, q) {
     var qEnc = encodeURIComponent(q || "");
     if (entry.bucket === "lessons") {
+      if (entry.item.course === "toeic") {
+        var modMap = {
+          listening: "toeic/listening",
+          reading: "toeic/reading",
+          mock: "toeic/mock",
+          sw: "toeic/speaking-writing"
+        };
+        var modPrefix = modMap[entry.item.module] || "toeic/listening";
+        return modPrefix + "/index.html?id=" + encodeURIComponent(entry.item.id);
+      }
       var prefix = entry.item.course === "hsk" ? "hsk/lessons" : "ielts/foundation";
       return prefix + "/index.html?id=" + encodeURIComponent(entry.item.id);
     }
     if (entry.bucket === "ielts_vocab") {
       return "ielts/vocab/index.html?q=" + encodeURIComponent(entry.item.word || q || "") + "&mode=list";
+    }
+    if (entry.bucket === "toeic_vocab") {
+      var toeicLv = encodeURIComponent(entry.item.level || 1);
+      return "toeic/vocab/index.html?level=" + toeicLv + "&q=" + encodeURIComponent(entry.item.word || q || "") + "&mode=list";
     }
     if (entry.bucket === "hsk_vocab") {
       var lv = encodeURIComponent(entry.item.level || 1);
@@ -489,6 +605,9 @@
       }
       if (entry.item.kind === "hsk_grammar") {
         return "hsk/grammar/index.html?id=" + encodeURIComponent(entry.item.id) + "&level=" + encodeURIComponent(entry.item.level || 1);
+      }
+      if (entry.item.kind === "toeic_grammar" || entry.item.subKind === "toeic_grammar") {
+        return "toeic/grammar/index.html?id=" + encodeURIComponent(entry.item.id);
       }
       return "ielts/grammar/index.html?id=" + encodeURIComponent(entry.item.id) + (qEnc ? "&q=" + qEnc : "");
     }
@@ -506,11 +625,17 @@
     if (bucketKey === "lessons") {
       var key = normalizeLessonText(q);
       if (key.length < 2) return [];
-      var selectedCourse = location.hash === "#ielts" ? "ielts" : document.documentElement.dataset.course;
+      var selectedCourse = location.hash === "#ielts" ? "ielts" : (location.hash === "#toeic" ? "toeic" : document.documentElement.dataset.course);
       return (globalScope.LP_LESSON_SEARCH_DATA || []).map(function (item) {
         var title = normalizeLessonText(item.title);
-        var exact = title === key || (item.aliases || []).some(function (alias) { return normalizeLessonText(alias) === key; });
-        var score = exact ? 1400 : title.startsWith(key + " ") ? 1250 : title.includes(key) ? 950 : 0;
+        var aliases = Array.isArray(item.aliases) ? item.aliases.map(normalizeLessonText).filter(Boolean) : [];
+        var exact = title === key || aliases.some(function (alias) { return alias === key; });
+        var score = exact ? 1400
+          : title.startsWith(key + " ") ? 1250
+          : title.includes(key) ? 950
+          : aliases.some(function (alias) { return alias.startsWith(key + " "); }) ? 900
+          : aliases.some(function (alias) { return alias.includes(key); }) ? 820
+          : 0;
         return { bucket: "lessons", item: item, normScore: score && score + (item.course === selectedCourse ? 40 : 0) };
       }).filter(function (entry) { return entry.normScore; })
         .sort(function (a, b) { return b.normScore - a.normScore; }).slice(0, limit);
@@ -519,6 +644,17 @@
       return store.ieltsVocab.index.search(q, { limit: limit }).map(function (h) {
         return {
           bucket: "ielts_vocab",
+          item: h.item,
+          rawScore: h.score,
+          normScore: Math.min(1000, Math.round(h.score / 2.3)),
+          matchedSubIdx: -1
+        };
+      });
+    }
+    if (bucketKey === "toeic_vocab" && store.toeicVocab.ready) {
+      return store.toeicVocab.index.search(q, { limit: limit }).map(function (h) {
+        return {
+          bucket: "toeic_vocab",
           item: h.item,
           rawScore: h.score,
           normScore: Math.min(1000, Math.round(h.score / 2.3)),
@@ -568,7 +704,7 @@
 
   function searchAll(q, tab) {
     var trimmed = String(q || "").trim();
-    if (!trimmed) return { items: [], counts: { all: 0, ielts_vocab: 0, hsk_vocab: 0, grammar: 0, ted: 0 }, elapsedMs: 0 };
+    if (!trimmed) return { items: [], counts: { all: 0, lessons: 0, ielts_vocab: 0, toeic_vocab: 0, hsk_vocab: 0, grammar: 0, ted: 0 }, elapsedMs: 0 };
 
     var t0 = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
     var targetTab = tab || activeTab || "all";
@@ -576,7 +712,7 @@
     if (targetTab !== "all") {
       var list = queryBucket(targetTab, trimmed, DEFAULTS.limitSingleTab);
       list.forEach(function (entry) { entry.href = new URL(buildDeepLink(entry, trimmed), siteRoot).href; });
-      var countsSingle = { all: list.length, ielts_vocab: 0, hsk_vocab: 0, grammar: 0, ted: 0 };
+      var countsSingle = { all: list.length, lessons: 0, ielts_vocab: 0, toeic_vocab: 0, hsk_vocab: 0, grammar: 0, ted: 0 };
       countsSingle[targetTab] = list.length;
       var t1s = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
       return { items: list, counts: countsSingle, elapsedMs: Math.max(0.1, t1s - t0) };
@@ -584,12 +720,13 @@
 
     var bLessons = queryBucket("lessons", trimmed, DEFAULTS.limitPerBucketInAll);
     var bIelts = queryBucket("ielts_vocab", trimmed, DEFAULTS.limitPerBucketInAll);
+    var bToeic = queryBucket("toeic_vocab", trimmed, DEFAULTS.limitPerBucketInAll);
     var bHsk = queryBucket("hsk_vocab", trimmed, DEFAULTS.limitPerBucketInAll);
     var bGram = queryBucket("grammar", trimmed, DEFAULTS.limitPerBucketInAll);
     var bTed = queryBucket("ted", trimmed, DEFAULTS.limitPerBucketInAll);
 
     // Đảm bảo mỗi phân hệ có kết quả tốt không bị kho lớn lấn át hết kết quả top
-    var buckets = [bLessons, bIelts, bHsk, bGram, bTed];
+    var buckets = [bLessons, bIelts, bToeic, bHsk, bGram, bTed];
     var topLeads = [];
     var rest = [];
     for (var b = 0; b < buckets.length; b++) {
@@ -608,9 +745,10 @@
     return {
       items: merged,
       counts: {
-        all: bLessons.length + bIelts.length + bHsk.length + bGram.length + bTed.length,
+        all: bLessons.length + bIelts.length + bToeic.length + bHsk.length + bGram.length + bTed.length,
         lessons: bLessons.length,
         ielts_vocab: bIelts.length,
+        toeic_vocab: bToeic.length,
         hsk_vocab: bHsk.length,
         grammar: bGram.length,
         ted: bTed.length
@@ -654,11 +792,15 @@
       ".lp-gs-item-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }",
       ".lp-gs-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 7px; white-space: nowrap; }",
       ".lp-gs-badge.ielts_vocab { background: rgba(37, 99, 235, 0.14); color: #2563eb; }",
+      ".lp-gs-badge.toeic_vocab, .lp-gs-badge.toeic_lesson { background: rgba(217, 119, 6, 0.15); color: #b45309; }",
+      ".lp-gs-badge.toeic_grammar { background: rgba(245, 158, 11, 0.16); color: #92400e; }",
       ".lp-gs-badge.hsk_vocab { background: rgba(220, 38, 38, 0.14); color: #dc2626; }",
       ".lp-gs-badge.grammar { background: rgba(13, 148, 136, 0.15); color: #0f766e; }",
       ".lp-gs-badge.hsk_mw { background: rgba(217, 119, 6, 0.15); color: #b45309; }",
       ".lp-gs-badge.ted { background: rgba(234, 88, 12, 0.14); color: #c2410c; }",
       "html.dark .lp-gs-badge.ielts_vocab, body.dark .lp-gs-badge.ielts_vocab { color: #93c5fd; }",
+      "html.dark .lp-gs-badge.toeic_vocab, body.dark .lp-gs-badge.toeic_vocab, html.dark .lp-gs-badge.toeic_lesson, body.dark .lp-gs-badge.toeic_lesson { background: rgba(245, 158, 11, 0.18); color: #fcd34d; }",
+      "html.dark .lp-gs-badge.toeic_grammar, body.dark .lp-gs-badge.toeic_grammar { background: rgba(245, 158, 11, 0.18); color: #fde68a; }",
       "html.dark .lp-gs-badge.hsk_vocab, body.dark .lp-gs-badge.hsk_vocab { color: #fca5a5; }",
       "html.dark .lp-gs-badge.grammar, body.dark .lp-gs-badge.grammar { color: #5eead4; }",
       "html.dark .lp-gs-badge.hsk_mw, body.dark .lp-gs-badge.hsk_mw { color: #fcd34d; }",
@@ -694,7 +836,7 @@
       '  <div class="lp-gs-top">',
       '    <div class="lp-gs-search-pill">',
       '      <span class="lp-gs-icon">' + gsIcon("search", 17) + '</span>',
-      '      <input id="lpGlobalSearchInput" class="lp-gs-input" type="text" placeholder="Tìm từ vựng, ngữ pháp, lượng từ, TED..." autocomplete="off" spellcheck="false">',
+      '      <input id="lpGlobalSearchInput" class="lp-gs-input" type="text" placeholder="Tìm từ vựng IELTS/TOEIC/HSK, ngữ pháp, bài học, TED..." autocomplete="off" spellcheck="false">',
       '      <button type="button" id="lpGsClear" class="lp-gs-clear-icon" style="display:none;" title="Xóa từ khóa" aria-label="Xóa từ khóa">' + gsIcon("close", 13) + '</button>',
       '    </div>',
       '    <button type="button" id="lpGsClose" class="lp-gs-btn" title="Đóng (Esc)">Đóng</button>',
@@ -799,8 +941,9 @@
       stEl.innerHTML = '<span style="color:#ef4444;display:inline-flex;align-items:center;gap:5px;">' + gsIcon("alert", 13) + '<span>' + escHtml(store.errorMsg) + '</span></span>';
       return;
     }
+    var totalVocabCount = store.ieltsVocab.count + store.toeicVocab.count + store.hskVocab.count;
     var loadText = store.loadedAll
-      ? ("Sẵn sàng: " + (store.ieltsVocab.count + store.hskVocab.count).toLocaleString("en-US") + " từ • " + store.grammar.count + " ngữ pháp & lượng từ • " + store.ted.count + " TED")
+      ? ("Sẵn sàng: " + totalVocabCount.toLocaleString("en-US") + " từ • " + store.grammar.count + " ngữ pháp & lượng từ • " + store.ted.count + " TED")
       : ("Đang nạp dữ liệu (" + store.doneCount + "/" + store.totalSteps + ")...");
     if (res && currentQuery.trim()) {
       var right = "Khớp " + res.items.length + " kết quả (" + res.elapsedMs.toFixed(1) + " ms)";
@@ -819,7 +962,13 @@
     var descHtml = "";
 
     if (entry.bucket === "lessons") {
-      badge = '<span class="lp-gs-badge">' + gsIcon("grammar", 12) + '<span>Bài học ' + (it.course === "hsk" ? "HSK" : "IELTS") + '</span></span>';
+      if (it.course === "toeic") {
+        var modLabels = { listening: "TOEIC Nghe", reading: "TOEIC Đọc", mock: "TOEIC Mock", sw: "TOEIC S&W" };
+        var toeicBadgeText = it.badge || modLabels[it.module] || "TOEIC";
+        badge = '<span class="lp-gs-badge toeic_lesson">' + gsIcon("toeic", 12) + '<span>' + escHtml(toeicBadgeText) + '</span></span>';
+      } else {
+        badge = '<span class="lp-gs-badge">' + gsIcon("grammar", 12) + '<span>Bài học ' + (it.course === "hsk" ? "HSK" : "IELTS") + '</span></span>';
+      }
       titleHtml = hlHtml(it.title, q);
       descHtml = hlHtml(it.desc, q);
     } else if (entry.bucket === "ielts_vocab") {
@@ -828,6 +977,11 @@
       metaHtml = it.ipa ? '<span class="lp-gs-submeta">' + escHtml(it.ipa) + '</span>' : "";
       var defText = it.defVi || it.defEn || it.exPlain || "";
       descHtml = hlHtml(defText, q);
+    } else if (entry.bucket === "toeic_vocab") {
+      badge = '<span class="lp-gs-badge toeic_vocab">' + gsIcon("toeic", 12) + '<span>TOEIC • Chặng ' + escHtml(it.level) + '</span></span>';
+      titleHtml = hlHtml(it.word, q) + (it.pos ? ' <span class="lp-gs-submeta">' + escHtml(it.pos) + '</span>' : "");
+      metaHtml = it.ipa ? '<span class="lp-gs-submeta">' + escHtml(it.ipa) + '</span>' : "";
+      descHtml = hlHtml(it.defVi || it.defEn || it.trap || "", q);
     } else if (entry.bucket === "hsk_vocab") {
       badge = '<span class="lp-gs-badge hsk_vocab">' + gsIcon("hsk", 12) + '<span>HSK ' + escHtml(it.level) + '</span></span>';
       titleHtml = hlHtml(it.word, q) + (it.pinyin ? ' <span class="lp-gs-submeta">' + escHtml(it.pinyin) + '</span>' : "");
@@ -842,6 +996,11 @@
       } else if (it.kind === "hsk_grammar") {
         badge = '<span class="lp-gs-badge grammar">' + gsIcon("grammar", 12) + '<span>HSK ' + escHtml(it.level) + ' Grammar</span></span>';
         titleHtml = hlHtml(it.title, q);
+        descHtml = hlHtml(it.formula || it.summary || "", q);
+      } else if (it.kind === "toeic_grammar" || it.subKind === "toeic_grammar") {
+        badge = '<span class="lp-gs-badge toeic_grammar">' + gsIcon("toeic", 12) + '<span>TOEIC Grammar • Chặng ' + escHtml(it.level) + '</span></span>';
+        titleHtml = hlHtml(it.title, q);
+        metaHtml = it.partTag ? '<span class="lp-gs-submeta">' + hlHtml(it.partTag, q) + '</span>' : "";
         descHtml = hlHtml(it.formula || it.summary || "", q);
       } else {
         badge = '<span class="lp-gs-badge grammar">' + gsIcon("grammar", 12) + '<span>IELTS Grammar</span></span>';
@@ -1063,6 +1222,7 @@
         loadedAll: store.loadedAll,
         doneCount: store.doneCount,
         ieltsCount: store.ieltsVocab.count,
+        toeicCount: store.toeicVocab.count,
         hskCount: store.hskVocab.count,
         grammarCount: store.grammar.count,
         tedCount: store.ted.count

@@ -1,0 +1,214 @@
+{
+  "id": "tsw_w_q67_03",
+  "skill": "writing",
+  "taskType": "wr_q67",
+  "code": "Q6–7",
+  "level": 3,
+  "targetBand": "150–180",
+  "title": "Q6–7 • Bộ 03: Mời Hội thảo & Đăng ký Triển lãm Thương mại",
+  "topic": "Sự kiện chuyên ngành, Diễn giả & Gian hàng Expo",
+  "estMinutes": 20,
+  "guideVi": "Sử dụng ngữ điệu trang trọng (Formal Business Register): nhận lời mời tham gia hội thảo, hỏi thông tin thiết bị nghe nhìn/lịch trình và tư vấn gian hàng triển lãm rõ ràng.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Hoàn thành đầy đủ 2–3 nhiệm vụ yêu cầu trong đề (Directions)",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục email thương mại chuẩn (Chào – Nội dung – Kết) & độ dài 80–170 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Giọng văn chuyên nghiệp, từ vựng chuẩn xác và liên kết mạch lạc",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q67_03_1",
+      "itemType": "wr_q67",
+      "label": "Email 1 • Phản hồi thư mời làm diễn giả hội thảo",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Global Eco Forum <speakers@globalecoforum.org>",
+        "to": "Dr. Kenji Sato <k.sato@cleanpowerlab.com>",
+        "subject": "Invitation to Speak — Sustainable Supply Chain Summit",
+        "sent": "Friday, September 6, 10:15 A.M."
+      },
+      "emailBody": "Dear Dr. Sato,\n\nOn behalf of the Global Eco Forum committee, I would like to invite you to deliver a thirty-minute keynote speech at our Sustainable Supply Chain Summit on November 12 in Singapore.\n\nPlease let us know if you are available, what audiovisual equipment you will require, and if you have any questions about travel arrangements.\n\nSincerely,\nElena Vance, Program Chair",
+      "directionsEn": "Respond to the e-mail as if you are Dr. Kenji Sato. In your e-mail, accept the speaking invitation, provide TWO details about your presentation requirements, and ask ONE question about travel or scheduling.",
+      "directionsVi": "Trả lời email với tư cách Tiến sĩ Kenji Sato. Hãy nhận lời mời diễn thuyết, nêu HAI chi tiết về yêu cầu kỹ thuật/tài liệu cho bài trình bày và hỏi MỘT câu về lịch trình hoặc sắp xếp di chuyển.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Bày tỏ vinh dự và xác nhận nhận lời mời tham dự ngày 12/11",
+          "checkType": "info",
+          "hintEn": "I am delighted to accept your invitation to speak at the summit on November 12.",
+          "signals": [
+            "accept",
+            "delighted",
+            "pleased",
+            "honored",
+            "available",
+            "november 12"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Cung cấp 2 chi tiết yêu cầu (máy chiếu/micro không dây/tài liệu phát tay)",
+          "checkType": "request",
+          "hintEn": "I will need a wireless lapel microphone and an HDMI projector connection for my slides.",
+          "signals": [
+            "microphone",
+            "projector",
+            "screen",
+            "slides",
+            "hdmi",
+            "laptop",
+            "handout",
+            "equipment"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Đặt 1 câu hỏi về giờ phát biểu cụ thể hoặc hỗ trợ vé máy bay/khách sạn",
+          "checkType": "question",
+          "hintEn": "Could you let me know what time my keynote session is scheduled and whether hotel accommodations are arranged?",
+          "signals": [
+            "?",
+            "hotel",
+            "flight",
+            "travel",
+            "accommodation",
+            "scheduled",
+            "time",
+            "reimburse"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Dùng cụm mở đầu lịch sự 'I am honored to accept...' hoặc 'I would be delighted to speak at...' để ghi điểm cao về văn phong.",
+      "keyPhrases": [
+        {
+          "en": "honored to accept",
+          "vi": "vinh dự nhận lời"
+        },
+        {
+          "en": "wireless microphone",
+          "vi": "micro không dây"
+        },
+        {
+          "en": "visual presentation",
+          "vi": "bài trình chiếu trực quan"
+        },
+        {
+          "en": "travel arrangements",
+          "vi": "sắp xếp đi lại"
+        },
+        {
+          "en": "keynote session",
+          "vi": "phiên phát biểu chính"
+        }
+      ],
+      "sample": "Dear Ms. Vance,\n\nThank you very much for inviting me to participate in the Sustainable Supply Chain Summit on November 12 in Singapore. I am honored to accept the invitation and look forward to sharing our latest clean-logistics research.\n\nFor my thirty-minute presentation, I have two technical requests. First, I will need an HDMI cable connected to the main projector so I can display high-resolution charts from my laptop. Second, could your crew provide a wireless lapel microphone so I can move comfortably across the stage?\n\nRegarding logistics, could you please confirm what time my keynote session is scheduled and whether the committee arranges hotel accommodations near the venue for visiting speakers?\n\nI will send my slide deck and biography next week.\n\nBest regards,\nDr. Kenji Sato\nCleanPower Research Lab",
+      "sampleVi": "Kính gửi bà Vance,\n\nXin chân thành cảm ơn lời mời tham dự Hội nghị Thượng đỉnh Chuỗi cung ứng Bền vững vào ngày 12/11 tại Singapore. Tôi rất vinh dự nhận lời mời này và mong được chia sẻ các nghiên cứu hậu cần sạch mới nhất của chúng tôi.\n\nCho bài trình bày dài 30 phút, tôi có hai yêu cầu kỹ thuật nhỏ. Thứ nhất, tôi cần dây cáp HDMI nối tới máy chiếu chính để hiển thị biểu đồ độ phân giải cao từ laptop cá nhân. Thứ hai, ban tổ chức có thể chuẩn bị giúp micro cài áo không dây để tôi di chuyển thoải mái trên sân khấu không?\n\nVề khâu hậu cần, bà vui lòng xác nhận giúp phiên phát biểu chính của tôi dự kiến vào mấy giờ và ban tổ chức có sắp xếp khách sạn gần địa điểm sự kiện cho diễn giả khách mời không?\n\nTôi sẽ gửi bản slide và tiểu sử vào tuần tới.\n\nTrân trọng,\nTS. Kenji Sato\nPhòng Nghiên cứu CleanPower"
+    },
+    {
+      "itemId": "w_q67_03_2",
+      "itemType": "wr_q67",
+      "label": "Email 2 • Tư vấn thuê gian hàng triển lãm",
+      "durationMin": 10,
+      "emailMeta": {
+        "from": "Nora Takahashi <nora@pacificroasters.jp>",
+        "to": "Exhibitor Relations <booths@asiafoodexpo.com>",
+        "subject": "Exhibitor Booth Inquiry — Asia Food Expo",
+        "sent": "Tuesday, September 17, 4:05 P.M."
+      },
+      "emailBody": "Hello Exhibitor Relations,\n\nPacific Roasters plans to showcase our organic coffee line at the upcoming Asia Food Expo in October. Could you tell us what booth sizes are still available and what the registration fee includes?\n\nWe also hope to attract wholesale buyers to our stand. Do you offer any promotional packages for exhibitors?\n\nThank you,\nNora Takahashi",
+      "directionsEn": "Respond to the e-mail as if you work for Asia Food Expo. In your e-mail, give TWO pieces of information about available booths and fees, and make ONE suggestion to help the exhibitor attract buyers.",
+      "directionsVi": "Trả lời email với vai trò nhân viên phụ trách triển lãm Asia Food Expo. Hãy cung cấp HAI thông tin về kích thước/chi phí gian hàng còn trống và đưa ra MỘT gợi ý quảng bá để thu hút khách mua sỉ.",
+      "tasks": [
+        {
+          "id": "t1",
+          "labelVi": "Thông báo các kích thước gian hàng còn trống (tiêu chuẩn / góc lớn)",
+          "checkType": "info",
+          "hintEn": "We currently have standard 3x3m booths and larger 6x3m corner booths available in Hall B.",
+          "signals": [
+            "booth",
+            "booths",
+            "size",
+            "available",
+            "standard",
+            "corner",
+            "square",
+            "hall"
+          ]
+        },
+        {
+          "id": "t2",
+          "labelVi": "Nêu rõ mức phí đăng ký và những hạng mục đi kèm",
+          "checkType": "info",
+          "hintEn": "The fee is $1,800 and includes a display table, two chairs, power outlet, and exhibitor badges.",
+          "signals": [
+            "fee",
+            "price",
+            "cost",
+            "include",
+            "includes",
+            "power",
+            "table",
+            "badges",
+            "$"
+          ]
+        },
+        {
+          "id": "t3",
+          "labelVi": "Gợi ý 1 gói quảng bá / tài trợ hoặc buổi nếm thử thu hút khách sỉ",
+          "checkType": "suggestion",
+          "hintEn": "I recommend booking our Featured Tasting Slot or placing an advertisement in the buyer directory.",
+          "signals": [
+            "recommend",
+            "suggest",
+            "suggestion",
+            "package",
+            "promotional",
+            "directory",
+            "tasting",
+            "consider"
+          ]
+        }
+      ],
+      "minWords": 80,
+      "maxWords": 170,
+      "tipVi": "Dùng mẫu câu đề xuất lịch sự 'I strongly recommend that you...' hoặc 'Another effective option would be to...' cho phần gợi ý thu hút khách mua.",
+      "keyPhrases": [
+        {
+          "en": "corner booth",
+          "vi": "gian hàng góc (hai mặt tiền)"
+        },
+        {
+          "en": "registration fee includes",
+          "vi": "phí đăng ký bao gồm"
+        },
+        {
+          "en": "wholesale buyers",
+          "vi": "khách hàng mua sỉ / bán buôn"
+        },
+        {
+          "en": "promotional package",
+          "vi": "gói quảng bá thương hiệu"
+        },
+        {
+          "en": "exhibitor directory",
+          "vi": "danh bạ nhà triển lãm"
+        }
+      ],
+      "sample": "Dear Ms. Takahashi,\n\nThank you for your interest in showcasing Pacific Roasters at the Asia Food Expo this October. We would be delighted to welcome your brand.\n\nWe currently have two booth sizes still available in Hall B: standard 3-by-3-meter inline booths priced at $1,600, and prime 6-by-3-meter corner booths priced at $2,900. Both fees include partition walls, one counter table, two chairs, lighting, a standard power outlet, and four exhibitor passes.\n\nTo help attract wholesale buyers to your stand, I recommend adding our Gold Promotional Package for an extra $450. This package features a full-page listing in our official Buyer Directory and grants you a thirty-minute coffee tasting slot on the main trade floor.\n\nPlease let me know if you would like me to reserve a booth for you this week.\n\nBest regards,\nLiam Tan\nExhibitor Relations, Asia Food Expo",
+      "sampleVi": "Kính gửi cô Takahashi,\n\nCảm ơn quý công ty đã quan tâm trưng bày sản phẩm Pacific Roasters tại Triển lãm Ẩm thực Châu Á tháng 10 tới. Chúng tôi rất hân hạnh được đón tiếp thương hiệu của cô.\n\nHiện tại khu B còn hai kích thước gian hàng trống: gian tiêu chuẩn 3x3m giá 1.600 đô-la và gian góc hai mặt tiền 6x3m giá 2.900 đô-la. Cả hai mức phí đều đã bao gồm vách ngăn, một bàn quầy, hai ghế, đèn chiếu sáng, ổ cắm điện và bốn thẻ nhân sự.\n\nĐể thu hút khách mua sỉ ghé thăm gian hàng, tôi gợi ý cô cân nhắc gói Quảng bá Vàng với phụ phí 450 đô-la. Gói này bao gồm một trang giới thiệu trong Danh bạ Khách mua sỉ chính thức và một khung giờ thử nếm cà phê 30 phút ngay tại sảnh chính.\n\nVui lòng báo lại nếu cô muốn tôi giữ chỗ gian hàng trong tuần này.\n\nTrân trọng,\nLiam Tan\nQuan hệ Nhà triển lãm, Asia Food Expo"
+    }
+  ]
+}

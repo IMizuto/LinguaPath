@@ -1,0 +1,212 @@
+{
+  "id": "tl_adv_05",
+  "order": 45,
+  "level": 4,
+  "part": "part3",
+  "partLabel": "Chặng 4 • Bẫy P3–4 (1.2x)",
+  "title": "Hội thoại 3 người 1.2x • Chuỗi cung ứng & Lịch Kiểm toán",
+  "subtitle": "Nghe nhanh 1.2x giọng Úc–Anh–Mỹ xử lý kẹt hải quan và phân công kiểm toán viên",
+  "accent": "en-AU",
+  "defaultRate": 1.2,
+  "tips": "Ở tốc độ 1.2x với 3 người nói, đừng cố dịch từng chữ! Hãy bám chặt từ khóa chuyển ý (however, actually, instead) và gạch chân động từ hành động của từng nhân vật trước khi bấm phát.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Hội thoại 3 người: Xử lý lô hàng dược phẩm chậm hải quan",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-AU",
+          "en": "Bad news, everyone—our customs broker in Auckland just flagged a forty-eight-hour hold on the temperature-controlled vaccines because a certificate stamp was illegible.",
+          "vi": "Tin xấu đây mọi người—đại lý hải quan ở Auckland vừa báo giữ hàng bốn mươi tám giờ đối với lô vắc-xin bảo quản lạnh vì dấu xác nhận chứng thư bị mờ."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "We can't afford a single day of stockout at the regional clinics.",
+          "vi": "Chúng ta không thể để xảy ra dù chỉ một ngày đứt hàng tại các phòng khám khu vực đâu."
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-US",
+          "en": "Agreed. Can our quality-assurance lab issue a digitally verified certificate this afternoon to release the cargo faster?",
+          "vi": "Đồng ý. Phòng kiểm định chất lượng của ta có thể cấp ngay chứng thư xác thực điện tử chiều nay để giải phóng hàng sớm hơn không?"
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-AU",
+          "en": "Yes, I already alerted QA, and they promised an encrypted PDF within two hours. Still, even with early clearance, the trucks won't reach the South Island depots until Thursday morning.",
+          "vi": "Có, tôi đã báo bên QA rồi, họ hứa gửi tệp PDF mã hóa trong vòng hai giờ. Tuy vậy, ngay cả khi thông quan sớm, xe tải cũng phải sáng thứ Năm mới tới các kho Đảo Nam."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "In that case, I'll authorize an emergency transfer of buffer stock from our Wellington hub so clinics stay supplied tomorrow, and Chris, could you brief the clinic directors on the revised delivery window?",
+          "vi": "Nếu vậy, tôi sẽ duyệt chuyển khẩn cấp hàng dự trữ từ kho trung tâm Wellington để các phòng khám vẫn đủ hàng ngày mai, còn Chris, anh báo lại khung giờ giao mới cho các giám đốc phòng khám nhé?"
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-US",
+          "en": "Consider it done—I'll call them right after we hang up.",
+          "vi": "Coi như xong—tôi sẽ gọi cho họ ngay sau khi ta cúp máy."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why was the shipment held at customs?",
+          "opts": [
+            "The refrigeration unit lost power in transit.",
+            "The quantity of cartons did not match the manifest.",
+            "A stamp on an official document could not be read clearly.",
+            "An import tariff had not been paid in advance."
+          ],
+          "ans": 2,
+          "exp": "Man 1 báo lý do: 'because a certificate stamp was illegible' (dấu trên chứng thư bị mờ không đọc được) → 'could not be read clearly'. Chọn (C)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman mean when she says, \"We can't afford a single day of stockout at the regional clinics\"?",
+          "opts": [
+            "Maintaining an uninterrupted supply is critical.",
+            "The clinics owe unpaid invoices to the distributor.",
+            "They need to build a larger cold-storage warehouse.",
+            "Insurance will not cover expired vaccine shipments."
+          ],
+          "ans": 0,
+          "exp": "Cô nhấn mạnh không được phép đứt hàng dù 1 ngày rồi ngay lập tức duyệt chuyển kho dự trữ → việc duy trì nguồn cung không gián đoạn là tối quan trọng. Chọn (A)."
+        },
+        {
+          "num": 3,
+          "q": "What does the woman plan to do herself?",
+          "opts": [
+            "Email the quality-assurance laboratory",
+            "Call the customs broker in Auckland",
+            "Update the regional clinic directors by phone",
+            "Approve a reserve stock transfer from Wellington"
+          ],
+          "ans": 3,
+          "exp": "Người phụ nữ nói: 'I'll authorize an emergency transfer of buffer stock from our Wellington hub' (còn Chris/Man 2 là người gọi các giám đốc phòng khám). Chọn (D)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Hội thoại 3 người: Phân công Kiểm toán Quý 4",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "Q4 Compliance Audit Roster",
+        "headers": [
+          "Site",
+          "Lead Auditor",
+          "Priority"
+        ],
+        "rows": [
+          [
+            "Adelaide Plant",
+            "Rachel Lim",
+            "Standard"
+          ],
+          [
+            "Auckland Hub",
+            "David Kemp",
+            "High"
+          ],
+          [
+            "Brisbane Lab",
+            "Priya Nair",
+            "Critical"
+          ],
+          [
+            "Hobart Depot",
+            "Owen Vance",
+            "Standard"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Let's finalize the Q4 compliance audit roster before senior leadership reviews it at noon.",
+          "vi": "Hãy chốt danh sách kiểm toán tuân thủ quý 4 trước khi ban lãnh đạo cấp cao xem duyệt lúc giữa trưa."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "One quick snag—Priya Nair just received jury duty summons for next week, so she won't be able to lead our top-priority inspection.",
+          "vi": "Có một trục trặc nhỏ—Priya Nair vừa nhận giấy triệu tập bồi thẩm đoàn tuần tới, nên cô ấy không thể dẫn đầu đợt kiểm tra ưu tiên cao nhất của ta."
+        },
+        {
+          "spk": "M2",
+          "name": "Man 2",
+          "accent": "en-AU",
+          "en": "That's the site undergoing ISO recertification, right? We definitely need someone with senior lab credentials there. What if we move Rachel Lim over to cover Priya's site?",
+          "vi": "Đó là cơ sở sắp tái chứng nhận ISO đúng không? Ta chắc chắn cần người có chứng chỉ phòng thí nghiệm cấp cao ở đó. Hay ta chuyển Rachel Lim sang phụ trách cơ sở của Priya?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Smart idea—Rachel audited that facility two years ago, so she already knows their testing logs. Then Owen can handle both Standard sites since Hobart only takes half a day.",
+          "vi": "Ý rất hay—Rachel đã kiểm toán cơ sở đó hai năm trước nên cô ấy nắm rõ nhật ký thử nghiệm của họ. Còn Owen có thể gánh cả hai điểm mức Standard vì Hobart chỉ mất nửa ngày."
+        },
+        {
+          "spk": "M1",
+          "name": "Man 1",
+          "accent": "en-GB",
+          "en": "Works for me. I'll revise the roster spreadsheet and book Rachel's flight north before lunch.",
+          "vi": "Tôi thấy ổn đấy. Tôi sẽ chỉnh bảng phân công và đặt vé máy bay ra phía Bắc cho Rachel trước giờ trưa."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why is Priya Nair unavailable next week?",
+          "opts": [
+            "She is attending an ISO certification course.",
+            "She has been called for jury duty.",
+            "She was assigned to an overseas hub.",
+            "She is taking scheduled medical leave."
+          ],
+          "ans": 1,
+          "exp": "Man 1 thông báo: 'Priya Nair just received jury duty summons for next week' → cô bị gọi làm nhiệm vụ bồi thẩm đoàn. Chọn (B)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which site will Rachel Lim now audit?",
+          "opts": [
+            "Adelaide Plant",
+            "Auckland Hub",
+            "Brisbane Lab",
+            "Hobart Depot"
+          ],
+          "ans": 2,
+          "exp": "Rachel Lim được chuyển sang thay vị trí của Priya Nair (ưu tiên cao nhất/Critical). Tra bảng: Priya Nair phụ trách 'Brisbane Lab'. Chọn (C)."
+        },
+        {
+          "num": 6,
+          "q": "Look at the graphic. Which additional facility will Owen Vance take over?",
+          "opts": [
+            "Adelaide Plant",
+            "Auckland Hub",
+            "Brisbane Lab",
+            "Wellington Hub"
+          ],
+          "ans": 0,
+          "exp": "Người phụ nữ nói: 'Owen can handle both Standard sites'. Tra bảng: hai điểm mức Standard là Hobart Depot (Owen đang giữ) và 'Adelaide Plant' (trước là của Rachel) → Owen nhận thêm Adelaide Plant. Chọn (A)."
+        }
+      ]
+    }
+  ]
+}

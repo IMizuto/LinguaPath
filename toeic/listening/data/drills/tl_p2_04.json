@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_04",
+  "order": 16,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 04: Câu hỏi What & Which (Sự việc & Lựa chọn)",
+  "subtitle": "Bắt chuẩn cụm danh từ đi sau What/Which (What time, What kind, Which branch) theo giọng Úc–Mỹ–Anh.",
+  "accent": "en-AU",
+  "defaultRate": 1,
+  "tips": "Với 'What' và 'Which', đừng chỉ nghe mỗi từ đầu — hãy nghe cả danh từ đi kèm ngay sau nó! Ví dụ: 'What time' = hỏi giờ, 'Which floor' = hỏi tầng, 'What kind of' = hỏi chủng loại.",
+  "items": [
+    {
+      "num": 1,
+      "qType": "What",
+      "accent": "en-AU",
+      "question": "What time does the keynote speech begin?",
+      "questionVi": "Bài phát biểu chính bắt đầu lúc mấy giờ?",
+      "options": [
+        "In the grand ballroom.",
+        "Right after the nine o'clock breakfast.",
+        "Yes, Dr. Patel is speaking."
+      ],
+      "optionsVi": [
+        "Trong phòng khánh tiết lớn.",
+        "Ngay sau bữa sáng lúc chín giờ.",
+        "Vâng, Tiến sĩ Patel sẽ phát biểu."
+      ],
+      "ans": 1,
+      "exp": "'What time' hỏi thời gian → chọn (B) 'Right after the nine o'clock breakfast'. Loại (A) nơi chốn, (C) bẫy Yes + lặp từ 'speech / speaking'."
+    },
+    {
+      "num": 2,
+      "qType": "Which",
+      "accent": "en-US",
+      "question": "Which printer should I use for color brochures?",
+      "questionVi": "Tôi nên dùng máy in nào cho các tờ quảng cáo màu?",
+      "options": [
+        "The large one near the copy room.",
+        "Two hundred copies should be enough.",
+        "Blue and dark green."
+      ],
+      "optionsVi": [
+        "Chiếc máy lớn ở gần phòng photocopy.",
+        "Hai trăm bản chắc là đủ.",
+        "Màu xanh dương và xanh lá đậm."
+      ],
+      "ans": 0,
+      "exp": "'Which printer' hỏi chọn chiếc máy nào → chọn (A) 'The large one...' ('one' thay cho 'printer'). Loại (B) số lượng và (C) bẫy liên tưởng từ 'color'."
+    },
+    {
+      "num": 3,
+      "qType": "What",
+      "accent": "en-GB",
+      "question": "What is the main topic of tomorrow's workshop?",
+      "questionVi": "Chủ đề chính của hội thảo ngày mai là gì?",
+      "options": [
+        "At the downtown hotel.",
+        "About thirty participants registered.",
+        "Improving customer service skills."
+      ],
+      "optionsVi": [
+        "Tại khách sạn trung tâm thành phố.",
+        "Khoảng ba mươi người tham dự đã đăng ký.",
+        "Cải thiện kỹ năng chăm sóc khách hàng."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) nêu đúng nội dung chủ đề hội thảo ('Improving customer service skills'). Loại (A) địa điểm, (B) số người tham dự."
+    },
+    {
+      "num": 4,
+      "qType": "Which",
+      "accent": "en-AU",
+      "question": "Which flight did Mr. Alvarez book to Singapore?",
+      "questionVi": "Ông Alvarez đã đặt chuyến bay nào đi Singapore?",
+      "options": [
+        "The nonstop morning departure.",
+        "Yes, he enjoys reading books.",
+        "For a three-day conference."
+      ],
+      "optionsVi": [
+        "Chuyến bay thẳng khởi hành buổi sáng.",
+        "Vâng, ông ấy thích đọc sách.",
+        "Để dự hội nghị ba ngày."
+      ],
+      "ans": 0,
+      "exp": "'Which flight' → chọn (A) nêu rõ chuyến bay 'The nonstop morning departure'. Loại (B) bẫy đa nghĩa 'book (đặt vé) / books (sách)', (C) mục đích."
+    },
+    {
+      "num": 5,
+      "qType": "What",
+      "accent": "en-US",
+      "question": "What did you think of the new accounting software?",
+      "questionVi": "Bạn thấy phần mềm kế toán mới thế nào?",
+      "options": [
+        "I installed it on Tuesday.",
+        "It saves us a lot of time.",
+        "In the finance department."
+      ],
+      "optionsVi": [
+        "Tôi đã cài đặt nó vào thứ Ba.",
+        "Nó giúp chúng ta tiết kiệm rất nhiều thời gian.",
+        "Ở phòng tài chính."
+      ],
+      "ans": 1,
+      "exp": "Cấu trúc 'What did you think of...?' hỏi ý kiến/đánh giá → chọn (B) nhận xét ưu điểm. Loại (A) thời điểm cài đặt, (C) nơi chốn."
+    },
+    {
+      "num": 6,
+      "qType": "Which",
+      "accent": "en-AU",
+      "question": "Which floor is the legal department located on?",
+      "questionVi": "Phòng pháp chế nằm ở tầng nào?",
+      "options": [
+        "By the end of the week.",
+        "Yes, they reviewed the policy.",
+        "Take the elevator up to the seventh."
+      ],
+      "optionsVi": [
+        "Trước cuối tuần này.",
+        "Vâng, họ đã xem xét chính sách.",
+        "Hãy đi thang máy lên tầng bảy."
+      ],
+      "ans": 2,
+      "exp": "'Which floor' hỏi số tầng → chọn (C) chỉ rõ tầng 7 ('the seventh'). Loại (A) thời gian, (B) sai dạng Yes/No."
+    }
+  ]
+}

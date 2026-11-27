@@ -1,0 +1,128 @@
+{
+  "id": "tl_adv_03",
+  "order": 43,
+  "level": 4,
+  "part": "part2",
+  "partLabel": "Chặng 4 • Bẫy Part 2 (850+)",
+  "title": "Bẫy Part 2 • Hỏi lại bằng Câu hỏi & Câu Điều kiện",
+  "subtitle": "Nhận diện câu trả lời dạng câu hỏi ngược ('Didn't you hear...?') và câu có điều kiện",
+  "accent": "en-AU",
+  "defaultRate": 1.15,
+  "tips": "Trong đề thi TOEIC 850+, người nghe thường lúng túng khi đáp án lại là một CÂU HỎI NGƯỢC (ví dụ: 'Wasn't that canceled?', 'Why don't we check...?'). Đây thực chất là kiểu đáp án đúng cực kỳ phổ biến của ETS!",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Question-Back • When",
+      "accent": "en-AU",
+      "question": "When are we interviewing the final candidate for the analyst role?",
+      "questionVi": "Khi nào chúng ta phỏng vấn ứng viên cuối cùng cho vị trí chuyên viên phân tích?",
+      "options": [
+        "Didn't HR email out the revised calendar this morning?",
+        "She analyzed the figures very carefully.",
+        "In the small glass meeting room."
+      ],
+      "optionsVi": [
+        "Phòng nhân sự sáng nay chưa gửi email lịch chỉnh sửa sao?",
+        "Cô ấy đã phân tích các con số rất kỹ lưỡng.",
+        "Trong phòng họp kính nhỏ."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) dùng câu hỏi ngược nhắc người kia kiểm tra email lịch từ phòng HR. Loại (B) bẫy cùng gốc 'analyst' ↔ 'analyzed'; loại (C) trả lời Where."
+    },
+    {
+      "num": 2,
+      "qType": "Question-Back • Suggestion",
+      "accent": "en-GB",
+      "question": "Should we print paper handouts for tomorrow's workshop or share a PDF?",
+      "questionVi": "Ta nên in tài liệu giấy cho buổi tập huấn ngày mai hay gửi tệp PDF?",
+      "options": [
+        "Yes, tomorrow's workshop is at nine.",
+        "Why don't we ask the presenter which format she prefers?",
+        "I already handed in my expense report."
+      ],
+      "optionsVi": [
+        "Vâng, buổi tập huấn ngày mai lúc chín giờ.",
+        "Sao ta không hỏi diễn giả xem cô ấy thích định dạng nào?",
+        "Tôi đã nộp báo cáo chi phí rồi."
+      ],
+      "ans": 1,
+      "exp": "Câu hỏi lựa chọn 'A or B' không bao giờ trả lời 'Yes/No' (loại A). Đáp án (B) đề xuất phương án hỏi diễn giả bằng câu hỏi 'Why don't we...?'. Loại (C) bẫy gần âm 'handouts' ↔ 'handed in'."
+    },
+    {
+      "num": 3,
+      "qType": "Conditional • Yes/No",
+      "accent": "en-US",
+      "question": "Can you cover the front reception desk during my lunch break?",
+      "questionVi": "Bạn có thể trực quầy lễ tân chính giúp tôi trong giờ nghỉ trưa không?",
+      "options": [
+        "The book cover looks very modern.",
+        "I packed a sandwich from home today.",
+        "As long as I'm back at my desk by one-thirty."
+      ],
+      "optionsVi": [
+        "Bìa cuốn sách trông rất hiện đại.",
+        "Hôm nay tôi mang bánh mì kẹp từ nhà.",
+        "Miễn là tôi kịp quay lại bàn làm việc trước một giờ ba mươi."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) đồng ý có điều kiện ('As long as...'). Loại (A) bẫy đa nghĩa 'cover' (trực thay vs bìa sách); loại (B) bẫy liên tưởng 'lunch' ↔ 'sandwich'."
+    },
+    {
+      "num": 4,
+      "qType": "Question-Back • Where",
+      "accent": "en-AU",
+      "question": "Where should I set up the catering trays for the executive breakfast?",
+      "questionVi": "Tôi nên bày các khay đồ ăn sáng cho ban lãnh đạo ở đâu?",
+      "options": [
+        "Isn't the lounge on the tenth floor already reserved for that?",
+        "A tray of assorted pastries and fruit.",
+        "At seven-thirty sharp."
+      ],
+      "optionsVi": [
+        "Chẳng phải phòng chờ tầng mười đã được đặt riêng cho việc đó rồi sao?",
+        "Một khay gồm các loại bánh ngọt và trái cây.",
+        "Đúng bảy giờ ba mươi."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) dùng câu hỏi phủ định 'Isn't...?' để chỉ vị trí phòng chờ tầng 10. Loại (B) lặp từ 'tray' trả lời What; loại (C) trả lời When."
+    },
+    {
+      "num": 5,
+      "qType": "Conditional • Request",
+      "accent": "en-GB",
+      "question": "Would you mind reviewing my quarterly slides before I send them to Tokyo?",
+      "questionVi": "Bạn có phiền xem giúp các trang chiếu quý của tôi trước khi tôi gửi sang Tokyo không?",
+      "options": [
+        "Yes, I flew back from Tokyo last week.",
+        "I'll have a look right after my three o'clock call.",
+        "The playground slide needs repainting."
+      ],
+      "optionsVi": [
+        "Vâng, tuần trước tôi vừa bay từ Tokyo về.",
+        "Tôi sẽ xem ngay sau cuộc gọi lúc ba giờ.",
+        "Cầu trượt sân chơi cần sơn lại."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) nhận lời kèm điều kiện thời gian ('right after my three o'clock call'). Loại (A) lặp từ 'Tokyo' sai ngữ cảnh; loại (C) bẫy đa nghĩa 'slides' (trang chiếu vs cầu trượt)."
+    },
+    {
+      "num": 6,
+      "qType": "Question-Back • Status",
+      "accent": "en-US",
+      "question": "Have you booked the flight for next week's Berlin summit?",
+      "questionVi": "Bạn đã đặt vé máy bay cho hội nghị thượng đỉnh Berlin tuần tới chưa?",
+      "options": [
+        "The hotel is completely booked for the weekend.",
+        "Yes, I enjoyed reading that book.",
+        "Didn't Maria say we're joining virtually this year?"
+      ],
+      "optionsVi": [
+        "Khách sạn đã kín phòng suốt cuối tuần.",
+        "Vâng, tôi rất thích đọc cuốn sách đó.",
+        "Chẳng phải Maria nói năm nay ta sẽ tham dự trực tuyến sao?"
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) hỏi lại cực tự nhiên để chỉnh lại giả định sai (năm nay họp trực tuyến nên không cần đặt vé). Loại (A) và (B) bẫy lặp/đa nghĩa từ 'booked/book'."
+    }
+  ]
+}

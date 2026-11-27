@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" width="480" height="280">
+<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bae6fd"/><stop offset="100%" stop-color="#e0f2fe"/></linearGradient></defs>
+<rect width="480" height="184" fill="url(#s)"/><rect y="184" width="480" height="96" fill="#bbf7d0"/>
+<rect y="206" width="480" height="74" fill="#d6d3d1"/>
+
+<polygon points="48,218 84,218 80,248 52,248" fill="#c2410c"/>
+<path d="M66 218 L66 192" stroke="#15803d" stroke-width="4"/><ellipse cx="56" cy="204" rx="10" ry="5" fill="#22c55e"/><ellipse cx="76" cy="200" rx="10" ry="5" fill="#22c55e"/>
+<circle cx="66" cy="186" r="10" fill="#ec4899"/>
+<polygon points="108,218 144,218 140,248 112,248" fill="#c2410c"/>
+<path d="M126 218 L126 192" stroke="#15803d" stroke-width="4"/><ellipse cx="116" cy="204" rx="10" ry="5" fill="#22c55e"/><ellipse cx="136" cy="200" rx="10" ry="5" fill="#22c55e"/>
+<circle cx="126" cy="186" r="10" fill="#f59e0b"/>
+<polygon points="168,218 204,218 200,248 172,248" fill="#c2410c"/>
+<path d="M186 218 L186 192" stroke="#15803d" stroke-width="4"/><ellipse cx="176" cy="204" rx="10" ry="5" fill="#22c55e"/><ellipse cx="196" cy="200" rx="10" ry="5" fill="#22c55e"/>
+<circle cx="186" cy="186" r="10" fill="#8b5cf6"/>
+<rect x="306" y="182" width="16" height="62" rx="4" fill="#1e3a8a"/><rect x="328" y="182" width="16" height="62" rx="4" fill="#1e3a8a"/>
+<path d="M296 106 C296 92 350 92 350 106 L354 184 L292 184 Z" fill="#15803d"/>
+<circle cx="323" cy="70" r="18" fill="#f1c29b"/>
+<ellipse cx="323" cy="56" rx="28" ry="6" fill="#eab308"/><path d="M306 56 C308 38 338 38 340 56 Z" fill="#facc15"/>
+<path d="M298 118 L258 148 L266 158 L306 128 Z" fill="#15803d"/><circle cx="256" cy="152" r="6" fill="#f1c29b"/>
+<rect x="220" y="142" width="42" height="30" rx="5" fill="#16a34a" stroke="#14532d" stroke-width="2"/>
+<path d="M262 146 C276 146 276 168 262 168" fill="none" stroke="#14532d" stroke-width="4"/>
+<line x1="222" y1="158" x2="196" y2="146" stroke="#16a34a" stroke-width="6" stroke-linecap="round"/>
+<g stroke="#0ea5e9" stroke-width="2.5" stroke-dasharray="4 4">
+<line x1="194" y1="150" x2="186" y2="178"/><line x1="190" y1="152" x2="176" y2="176"/><line x1="198" y1="152" x2="194" y2="178"/>
+</g>
+</svg>

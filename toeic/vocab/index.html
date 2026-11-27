@@ -1,0 +1,2784 @@
+<!DOCTYPE html>
+<html lang="vi" data-glass-tier="study" data-course="toeic">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="metaThemeColor" content="#0d1813">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LinguaPath">
+  <link rel="manifest" href="../../manifest.json">
+  <script>
+  (function () {
+    try {
+      var s = localStorage.getItem("s4_theme_style");
+      if (s === null) { s = "ghibli"; localStorage.setItem("s4_theme_style", "ghibli"); }
+      var d = localStorage.getItem("s4_vocab_dark");
+      if (d === null) { d = "1"; localStorage.setItem("s4_vocab_dark", "1"); }
+      var isDark = !(d === "0" || d === "false");
+      var cl = document.documentElement.classList;
+      if (s === "ghibli") cl.add("theme-ghibli"); else cl.remove("theme-ghibli");
+      if (isDark) cl.add("dark"); else cl.remove("dark");
+      var mt = document.getElementById("metaThemeColor");
+      if (mt) mt.setAttribute("content", isDark ? (s === "ghibli" ? "#0d1813" : "#0b1120") : (s === "ghibli" ? "#efe8d5" : "#eaf1fb"));
+      function syncSafeTop() {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isPortrait = window.innerHeight >= window.innerWidth;
+        var maxDim = Math.max(window.screen.height || 0, window.screen.width || 0);
+        var isStandalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || (isIOS && isPortrait && Math.abs(window.innerHeight - maxDim) < 28);
+        var topPx = (isIOS && isStandalone && isPortrait) ? (maxDim >= 812 ? "50px" : "24px") : "0px";
+        document.documentElement.style.setProperty("--s4-safe-top", topPx);
+        document.documentElement.style.setProperty("--s4-top-inset", "max(env(safe-area-inset-top, 0px), " + topPx + ")");
+      }
+      syncSafeTop();
+      window.addEventListener("resize", syncSafeTop);
+      window.addEventListener("orientationchange", function () { setTimeout(syncSafeTop, 80); });
+    } catch (e) {}
+  })();
+  </script>
+  <title>Từ vựng Thương mại TOEIC SRS (UK • US • AU) | LinguaPath</title>
+  <link rel="icon" href="../../icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../icon-192.png">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=68">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+
+  <style>
+    @view-transition { navigation: auto; }
+    :root {
+      --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --muted: #52637a; --border: #e2e8f0;
+      --primary: #b45309; --primary-solid: #b45309; --primary-soft: rgba(180, 83, 9, 0.14);
+      --success: #15803d; --success-soft: rgba(22, 163, 74, 0.14);
+      --warn: #b45309; --warn-soft: rgba(217, 119, 6, 0.15);
+      --danger: #dc2626; --danger-soft: rgba(220, 38, 38, 0.14);
+      --info: #1d4ed8; --info-soft: rgba(37, 99, 235, 0.13);
+      --teal: #0f766e; --teal-soft: rgba(13, 148, 136, 0.13);
+      color-scheme: light;
+    }
+    html.dark, body.dark {
+      --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --muted: #98aea0; --border: #334155;
+      --primary: #f59e0b; --primary-solid: #d97706; --primary-soft: rgba(245, 158, 11, 0.18);
+      --success: #34d399; --success-soft: rgba(16, 185, 129, 0.18);
+      --warn: #fbbf24; --warn-soft: rgba(245, 158, 11, 0.18);
+      --danger: #f87171; --danger-soft: rgba(239, 68, 68, 0.20);
+      --info: #60a5fa; --info-soft: rgba(96, 165, 250, 0.18);
+      --teal: #5eead4; --teal-soft: rgba(45, 212, 191, 0.18);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { background: transparent !important; color: var(--lg-ink, var(--text)); width: 100%; max-width: 100%; overflow: hidden; overscroll-behavior: none; }
+    body { margin: 0; width: 100%; max-width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: transparent !important; color: var(--lg-ink, var(--text)); display: flex; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; touch-action: pan-y; }
+    html.theme-ghibli, html.theme-ghibli body { font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; }
+    body.sidebar-open { overflow: hidden !important; }
+    body.sidebar-open .main-wrap { pointer-events: none !important; user-select: none; overflow: hidden !important; }
+    button { font-family: inherit; }
+
+    /* Sidebar & Dual Filters */
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.48); z-index: 10040; backdrop-filter: blur(2px); touch-action: none; overscroll-behavior: none; }
+    .sidebar-backdrop.open { display: block; }
+    .sidebar { width: var(--lp-sidebar-w, 344px); flex-shrink: 0; background: var(--lg-surface-strong, var(--card)) !important; backdrop-filter: var(--lg-blur, blur(14px)) !important; -webkit-backdrop-filter: var(--lg-blur, blur(14px)) !important; border-right: 1px solid var(--lg-hairline, var(--border)) !important; display: flex; flex-direction: column; height: 100vh; height: 100dvh; z-index: 200; overscroll-behavior: contain; touch-action: pan-y; }
+    .sidebar-header { padding: 12px 14px; background: transparent !important; color: var(--lg-ink, var(--text)); border-bottom: 1px solid var(--lg-divider, var(--border)); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .sidebar-header h2 { margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--lg-ink, var(--text)); }
+    .sidebar-header h2 svg { color: var(--lg-accent, var(--primary)); flex-shrink: 0; }
+    .close-sidebar { display: none; align-items: center; justify-content: center; background: var(--lg-wash, var(--bg)); border: 1px solid var(--lg-hairline, var(--border)); color: var(--lg-ink, var(--text)); width: 32px; height: 32px; border-radius: 999px; cursor: pointer; }
+    .search-wrap { padding: 9px 10px; border-bottom: 1px solid var(--lg-divider, var(--border)); background: transparent !important; flex-shrink: 0; }
+    .cat-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 7px 8px; border-bottom: 1px solid var(--lg-divider, var(--border)); background: transparent !important; flex-shrink: 0; }
+    .cat-tab { padding: 6px 2px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--bg)); color: var(--lg-ink, var(--text)); font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; text-align: center; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+    .cat-tab:hover { border-color: var(--primary); }
+    .cat-tab.active { background: var(--primary-solid); color: #fff; border-color: var(--primary-solid); }
+    .book-filter-wrap { padding: 7px 10px; border-bottom: 1px solid var(--lg-divider, var(--border)); flex-shrink: 0; }
+    .book-filter-lbl { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; color: var(--lg-ink-muted, var(--muted)); margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .book-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .book-chip { padding: 4px 8px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--bg)); color: var(--lg-ink-sub, var(--text)); font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .15s ease, border-color .15s ease, color .15s ease; }
+    .book-chip:hover { border-color: var(--primary); color: var(--lg-ink, var(--text)); }
+    .book-chip.active { background: var(--primary-solid); color: #fff; border-color: var(--primary-solid); }
+    .topic-list { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 10px; overscroll-behavior: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+    .cat-group { border: 1px solid var(--lg-hairline, var(--border)); border-radius: 14px; margin-bottom: 8px; overflow: hidden; background: var(--lg-wash, transparent); }
+    .cat-group.open { border-color: var(--primary); }
+    .cat-header { padding: 9px 11px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 800; background: transparent; color: var(--lg-ink, var(--text)); user-select: none; }
+    .cat-header:hover { background: var(--lg-wash-hover, rgba(180,83,9,0.06)); }
+    .cat-group.open .cat-header { background: var(--primary-soft); color: var(--primary); }
+    .cat-meta { font-size: 11px; font-weight: 700; color: var(--lg-ink-muted, var(--muted)); white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .cat-items { display: none; padding: 6px; border-top: 1px solid var(--lg-divider, var(--border)); background: transparent; }
+    .cat-group.open .cat-items { display: block; }
+    .topic-item { padding: 8px 10px; border-radius: 10px; cursor: pointer; margin-bottom: 4px; border: 1px solid transparent; background: var(--lg-wash, rgba(148,163,184,0.08)); transition: border-color .15s ease, background .15s ease; }
+    .topic-item:last-child { margin-bottom: 0; }
+    .topic-item:hover { border-color: var(--primary); }
+    .topic-item.active { background: var(--primary-soft); border-color: var(--primary); font-weight: 700; }
+    .topic-name { font-size: 12.8px; line-height: 1.35; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; color: var(--lg-ink, var(--text)); }
+    .topic-meta { font-size: 11px; color: var(--lg-ink-muted, var(--muted)); display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .progress-mini { height: 4px; background: var(--lg-divider, var(--border)); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+    .progress-mini-bar { height: 100%; background: var(--success); }
+    .sidebar-foot { padding: 9px 10px; border-top: 1px solid var(--lg-divider, var(--border)); display: flex; gap: 6px; background: transparent !important; flex-shrink: 0; }
+
+    /* Main Layout & Topbar */
+    .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; max-width: 100%; background: transparent !important; overscroll-behavior: none; position: relative; z-index: 1; }
+    .lp-vocab-topbar { margin: calc(8px + var(--s4-safe-top, 0px)) 14px 0; flex-shrink: 0; width: auto; max-width: calc(100% - 28px); touch-action: manipulation; flex-wrap: nowrap; }
+    .lp-vocab-topbar .lp-top-left { flex: 0 0 auto; overflow: visible; }
+    .vocab-menu-btn { display: none; gap: 4px; padding: 0 10px; font-size: 12.5px; font-weight: 700; width: auto; }
+    .lp-donate-btn { gap: 5px; padding: 0 11px; font-size: 12.5px; font-weight: 800; width: auto; background: var(--lg-rose-soft, rgba(225,29,72,0.14)) !important; color: var(--lg-rose, #e11d48) !important; border-color: rgba(225,29,72,0.26) !important; }
+    .mode-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; flex: 1 1 auto; min-width: 0; align-items: center; }
+    .mode-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 9px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--card)); color: var(--lg-ink, var(--text)); font-weight: 700; font-size: 12px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease; }
+    .mode-btn:hover { border-color: var(--primary); }
+    .mode-btn.active { background: var(--primary-solid); color: #fff; border-color: var(--primary-solid); }
+    .mode-btn.danger { color: var(--danger); }
+    .mode-dd-wrap { display: none; position: relative; flex: 1 1 auto; min-width: 0; }
+    .mode-dd-btn { width: 100%; height: 32px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--bg)); color: var(--lg-ink, var(--text)); font-weight: 800; font-size: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 4px; min-width: 0; }
+    #modeDdLabel { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; text-align: left; display: inline-flex; align-items: center; gap: 5px; }
+    .mode-dd-menu { display: none; position: absolute; left: 0; right: auto; min-width: min(255px, calc(100vw - 24px)); max-width: calc(100vw - 20px); top: calc(100% + 6px); background: var(--lg-surface-strong, var(--card)); backdrop-filter: var(--lg-blur, blur(16px)); -webkit-backdrop-filter: var(--lg-blur, blur(16px)); border: 1px solid var(--lg-hairline, var(--border)); border-radius: 16px; padding: 6px; box-shadow: var(--lg-shadow, 0 12px 32px rgba(0,0,0,0.22)); z-index: 10010; overscroll-behavior: contain; touch-action: manipulation; }
+    .mode-dd-menu.open { display: block; }
+    .mode-dd-item { width: 100%; text-align: left; padding: 9px 11px; border: none; background: transparent; color: var(--lg-ink, var(--text)); font-size: 13px; font-weight: 700; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .mode-dd-item > span:first-child { display: inline-flex; align-items: center; gap: 7px; }
+    .mode-dd-item:hover { background: var(--lg-wash, var(--bg)); }
+    .mode-dd-item.active { background: var(--primary-soft); color: var(--primary); font-weight: 800; }
+
+    .main { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 10px 14px calc(12px + env(safe-area-inset-bottom, 8px)) 14px; overscroll-behavior: contain; }
+    body.scroll-mode .main { overflow-y: auto; overflow-x: hidden; display: block; -webkit-overflow-scrolling: touch; }
+    .container { max-width: 840px; width: 100%; margin: 0 auto; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    body.scroll-mode .container { display: block; }
+    #statsHost { flex-shrink: 0; }
+    #cardHost { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    body.scroll-mode #cardHost { display: block; overflow: visible; }
+
+    /* Stats & Settings & Calendar */
+    .stats-card { background: var(--lg-surface, var(--card)) !important; backdrop-filter: var(--lg-blur, blur(12px)) !important; -webkit-backdrop-filter: var(--lg-blur, blur(12px)) !important; border-radius: 18px; padding: 8px 12px; border: 1px solid var(--lg-hairline, var(--border)) !important; box-shadow: inset 0 1.5px 0 var(--lg-rim-top, rgba(255,255,255,0.28)), var(--lg-shadow, 0 6px 20px rgba(0,0,0,0.06)); margin-bottom: 8px; }
+    .stats-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .quota-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--primary-soft); color: var(--primary); padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 12.2px; }
+    .stats-mini-inline { display: inline-flex; gap: 10px; font-size: 12.2px; font-weight: 700; color: var(--lg-ink-muted, var(--muted)); align-items: center; flex-wrap: wrap; }
+    .v-chip { display: inline-flex; align-items: center; gap: 4px; }
+    .active-filter-banner { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--lg-divider, var(--border)); font-size: 11.8px; color: var(--lg-ink-sub, var(--text)); font-weight: 700; }
+    .stats-btns { display: flex; gap: 5px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; text-align: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--lg-divider, var(--border)); }
+    .stat-num { font-size: 17px; font-weight: 800; }
+    .stat-label { font-size: 11px; color: var(--lg-ink-muted, var(--muted)); }
+    .panel { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--lg-divider, var(--border)); display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; font-size: 13px; }
+    .v-settings-panel { gap: 10px 14px; }
+    .v-set-item { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--lg-ink, var(--text)); }
+    .v-set-chk { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; color: var(--lg-ink, var(--text)); }
+    .v-set-btn { padding: 5px 9px; font-size: 12px; }
+    .limit-select { padding: 5px 9px; border-radius: 10px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--bg)); color: var(--lg-ink, var(--text)); font-weight: 700; font-size: 12.5px; }
+
+    /* iOS/ColorOS Toggle Switch (Anti-Slop) */
+    .lp-switch { position: relative; display: inline-block; width: 38px; height: 22px; flex-shrink: 0; }
+    .lp-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .lp-switch-slider { position: absolute; inset: 0; border-radius: 999px; background: var(--lg-seg-track, rgba(148,163,184,0.35)); border: 1px solid var(--lg-hairline, var(--border)); transition: background .2s ease; }
+    .lp-switch-slider::before { content: ""; position: absolute; width: 16px; height: 16px; left: 2px; top: 2px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.22); transition: transform .2s ease; }
+    .lp-switch input:checked + .lp-switch-slider { background: var(--primary-solid); border-color: var(--primary-solid); }
+    .lp-switch input:checked + .lp-switch-slider::before { transform: translateX(16px); }
+
+    /* Calendar */
+    .cal-wrap { width: 100%; max-width: 340px; }
+    .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { text-align: center; font-size: 11px; color: var(--lg-ink-muted, var(--muted)); font-weight: 700; }
+    .cal-day { aspect-ratio: 1; border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; background: var(--lg-wash, var(--border)); color: var(--lg-ink, var(--text)); line-height: 1.1; }
+    .cal-day span { font-size: 9px; font-weight: 800; }
+    .cal-day.lv1 { background: rgba(22,163,74,.28); }
+    .cal-day.lv2 { background: rgba(22,163,74,.52); }
+    .cal-day.lv3 { background: rgba(22,163,74,.76); color: #fff; }
+    .cal-day.lv4 { background: #15803d; color: #fff; }
+    .cal-day.today { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .cal-foot { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 12px; color: var(--lg-ink-muted, var(--muted)); align-items: center; }
+    .cal-legend { display: inline-flex; align-items: center; gap: 3px; }
+    .cal-legend i { display: inline-block; width: 13px; height: 13px; border-radius: 3px; }
+
+    /* Session Progress */
+    .sess-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--lg-ink-muted, var(--muted)); margin-bottom: 4px; flex-shrink: 0; gap: 8px; }
+    .sess-bar { height: 5px; background: var(--lg-bar-track, var(--border)); border-radius: 999px; overflow: hidden; margin-bottom: 8px; flex-shrink: 0; }
+    .sess-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--primary-solid), #f59e0b); border-radius: 999px; transition: width .3s ease; }
+
+    /* Flashcard & 3 TOEIC Weapons */
+    .flashcard-wrap { background: var(--lg-surface, var(--card)) !important; backdrop-filter: var(--lg-blur, blur(12px)) !important; -webkit-backdrop-filter: var(--lg-blur, blur(12px)) !important; border-radius: 22px; border: 1px solid var(--lg-hairline, var(--border)) !important; padding: 14px 18px; box-shadow: inset 0 1.5px 0 var(--lg-rim-top, rgba(255,255,255,0.3)), var(--lg-shadow, 0 8px 24px rgba(0,0,0,0.08)); flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .fc-top-bar { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--lg-ink-muted, var(--muted)); margin-bottom: 8px; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+    .tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-size: 11.2px; font-weight: 800; }
+    .tag.new { background: var(--primary-soft); color: var(--primary); }
+    .tag.rev { background: var(--info-soft); color: var(--info); }
+    .steps { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; align-items: center; }
+    .steps i { width: 16px; height: 5px; border-radius: 3px; background: var(--lg-bar-track, var(--border)); display: inline-block; }
+    .steps i.done { background: var(--success); }
+    .steps i.cur { background: var(--primary); }
+    .step-lbl { font-size: 11px; font-weight: 800; color: var(--primary); margin-left: 4px; white-space: nowrap; }
+    .skip-known-btn { display: inline-flex; align-items: center; gap: 4px; background: var(--lg-wash, var(--bg)); border: 1px solid var(--lg-hairline, var(--border)); color: var(--lg-ink-muted, var(--muted)); padding: 4px 10px; border-radius: 999px; font-size: 11.8px; font-weight: 700; cursor: pointer; }
+    .skip-known-btn:hover { background: var(--warn-soft); color: var(--warn); border-color: var(--warn); }
+
+    .fc-front { text-align: center; }
+    .fc-media-wrap { margin: 0 auto 10px auto; max-width: 100%; }
+    .fc-front-img { max-width: 100%; max-height: 158px; border-radius: 14px; object-fit: contain; background: var(--lg-wash, var(--bg)); margin: 0 auto; display: block; border: 1px solid var(--lg-hairline, var(--border)); }
+
+    /* Visual Business Scene Card (Tier 3 Media) */
+    .fc-scene-card { max-width: 440px; margin: 0 auto; padding: 10px 14px; border-radius: 14px; background: var(--lg-wash, rgba(180,83,9,0.06)); border: 1px solid var(--lg-hairline, var(--border)); display: flex; align-items: center; gap: 12px; text-align: left; }
+    .fc-scene-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .fc-scene-body { min-width: 0; flex: 1; }
+    .fc-scene-meta { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-bottom: 3px; }
+    .fc-scene-stage { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); }
+    .fc-scene-book { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 999px; background: var(--info-soft); color: var(--info); }
+    .fc-scene-cue { font-size: 13px; font-weight: 800; color: var(--lg-ink, var(--text)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fc-scene-sub { font-size: 11.2px; color: var(--lg-ink-muted, var(--muted)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+
+    .fc-word { font-size: 28px; font-weight: 800; color: var(--primary); letter-spacing: -0.3px; }
+    .fc-pos { font-size: 15.5px; color: var(--lg-ink-muted, var(--muted)); font-weight: 600; }
+    .fc-ipa { font-size: 15.5px; color: var(--danger); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin: 4px 0 8px 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .audio-row { display: flex; justify-content: center; gap: 7px; margin-bottom: 6px; flex-wrap: wrap; }
+    .audio-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: var(--lg-wash, var(--bg)); border: 1px solid var(--lg-hairline, var(--border)); color: var(--lg-ink, var(--text)); padding: 5px 12px; border-radius: 999px; font-weight: 800; font-size: 12.2px; cursor: pointer; transition: border-color .15s ease, background .15s ease, transform .12s ease; }
+    .audio-pill:hover { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+    .audio-pill:active { transform: scale(0.95); }
+    .audio-pill.is-au { border-color: rgba(13, 148, 136, 0.34); color: var(--teal); }
+    .audio-pill.is-au:hover { background: var(--teal-soft); border-color: var(--teal); }
+
+    .fc-back { margin-top: 12px; padding-top: 12px; border-top: 1.5px dashed var(--lg-divider, var(--border)); text-align: left; }
+    .def-box { font-size: 15px; line-height: 1.5; margin-bottom: 10px; }
+    .def-vi-main { font-size: 16px; font-weight: 800; color: var(--lg-ink, var(--text)); }
+    .def-en-sub { font-size: 13px; color: var(--lg-ink-muted, var(--muted)); margin-top: 3px; font-weight: 600; }
+    .ex-box { background: var(--success-soft); padding: 10px 13px; border-radius: 13px; font-size: 13.8px; line-height: 1.55; color: var(--lg-ink, var(--text)); }
+    .ex-box b { color: var(--success); font-weight: 800; }
+
+    /* TOEIC Analysis Panel */
+    .fc-toeic-box { margin-top: 10px; padding: 10px 12px; border-radius: 14px; background: var(--lg-wash, rgba(180,83,9,0.05)); border: 1px solid var(--lg-hairline, var(--border)); font-size: 12.8px; line-height: 1.45; }
+    .fc-toeic-hd { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .fc-toeic-title { display: inline-flex; align-items: center; gap: 5px; font-size: 11.2px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; color: var(--primary); }
+    .fc-book-badges { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+    .fc-book-badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 999px; font-size: 10.5px; font-weight: 800; background: var(--info-soft); color: var(--info); }
+    .fc-toeic-row { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-bottom: 6px; }
+    .fc-toeic-row:last-child { margin-bottom: 0; }
+    .fc-toeic-lbl { font-size: 11.2px; font-weight: 800; color: var(--lg-ink-muted, var(--muted)); margin-right: 2px; }
+    .fc-pill-wf { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11.8px; font-weight: 700; background: var(--primary-soft); color: var(--primary); }
+    .fc-pill-col { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 8px; font-size: 11.8px; font-weight: 700; background: var(--lg-surface, var(--card)); color: var(--lg-ink, var(--text)); border: 1px solid var(--lg-hairline, var(--border)); }
+    .fc-pill-syn { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11.8px; font-weight: 700; background: var(--teal-soft); color: var(--teal); }
+
+    /* TOEIC Trap Warning Box */
+    .fc-trap-box { margin-top: 10px; padding: 9px 12px; border-radius: 13px; background: rgba(245, 158, 11, 0.13); border: 1px solid rgba(217, 119, 6, 0.38); color: var(--lg-ink, var(--text)); font-size: 12.8px; line-height: 1.48; display: flex; align-items: flex-start; gap: 8px; }
+    .fc-trap-ico { color: #d97706; flex-shrink: 0; margin-top: 1px; }
+    html.dark .fc-trap-box { background: rgba(245, 158, 11, 0.16); border-color: rgba(251, 191, 36, 0.42); }
+    html.dark .fc-trap-ico { color: #fbbf24; }
+    .fc-trap-hd { font-size: 11.2px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25px; color: #b45309; margin-bottom: 2px; }
+    html.dark .fc-trap-hd { color: #fcd34d; }
+
+    /* SRS Action Dock */
+    .srs-buttons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0; }
+    .srs-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 8px; border-radius: 999px; font-weight: 700; font-size: 13.2px; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, rgba(148,163,184,0.14)); color: var(--lg-ink, var(--text)); transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+    .srs-btn:hover { transform: translateY(-1px); }
+    .srs-btn:active { transform: scale(0.97); }
+    .lp-srs-dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; display: inline-block; }
+    .lp-srs-kbd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; font-weight: 800; padding: 1px 5px; border-radius: 5px; opacity: 0.78; border: 1px solid currentColor; line-height: 1.2; }
+    .srs-btn.is-forget { background: rgba(239, 68, 68, 0.13); border-color: rgba(239, 68, 68, 0.36); color: #b91c1c; }
+    .srs-btn.is-forget .lp-srs-dot { background: #ef4444; }
+    .srs-btn.is-hard { background: rgba(245, 158, 11, 0.13); border-color: rgba(245, 158, 11, 0.36); color: #b45309; }
+    .srs-btn.is-hard .lp-srs-dot { background: #f59e0b; }
+    .srs-btn.is-good { background: rgba(34, 197, 94, 0.13); border-color: rgba(34, 197, 94, 0.36); color: #15803d; }
+    .srs-btn.is-good .lp-srs-dot { background: #22c55e; }
+    .srs-btn.is-easy { background: rgba(59, 130, 246, 0.13); border-color: rgba(59, 130, 246, 0.36); color: #1d4ed8; }
+    .srs-btn.is-easy .lp-srs-dot { background: #3b82f6; }
+    html.dark .srs-btn.is-forget { background: rgba(239, 68, 68, 0.20); border-color: rgba(248, 113, 113, 0.42); color: #fca5a5; }
+    html.dark .srs-btn.is-hard { background: rgba(245, 158, 11, 0.20); border-color: rgba(251, 191, 36, 0.42); color: #fcd34d; }
+    html.dark .srs-btn.is-good { background: rgba(34, 197, 94, 0.20); border-color: rgba(74, 222, 128, 0.42); color: #86efac; }
+    html.dark .srs-btn.is-easy { background: rgba(59, 130, 246, 0.20); border-color: rgba(96, 165, 250, 0.42); color: #93c5fd; }
+
+    .fc-scroll-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-right: 4px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+    .fc-action-dock { flex-shrink: 0; padding-top: 10px; margin-top: 8px; border-top: 1px solid var(--lg-divider, var(--border)); background: transparent !important; z-index: 10; width: 100%; box-sizing: border-box; }
+    .btn-flip { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 13px; border-radius: 14px; background: linear-gradient(135deg, var(--primary-solid), #d97706); color: #fff; border: none; font-size: 15px; font-weight: 800; cursor: pointer; margin: 0; touch-action: manipulation; box-shadow: 0 4px 14px rgba(180,83,9,0.28); }
+    .btn-flip.green { background: linear-gradient(135deg, #16a34a, #0d9488); box-shadow: 0 4px 14px rgba(22,163,74,0.28); }
+    .btn-flip:active { transform: scale(0.985); }
+
+    /* Quiz, Listen, Cloze, Match, List */
+    .finish-box { background: var(--lg-surface, var(--card)) !important; backdrop-filter: var(--lg-blur, blur(12px)) !important; -webkit-backdrop-filter: var(--lg-blur, blur(12px)) !important; border-radius: 22px; border: 1.5px solid rgba(22, 163, 74, 0.48) !important; padding: 30px 22px; text-align: center; }
+    .finish-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+    .btn-action { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 16px; border-radius: 12px; font-weight: 800; font-size: 13.5px; cursor: pointer; border: none; }
+
+    .quiz-box { background: var(--lg-surface, var(--card)) !important; backdrop-filter: var(--lg-blur, blur(12px)) !important; -webkit-backdrop-filter: var(--lg-blur, blur(12px)) !important; border-radius: 22px; border: 1px solid var(--lg-hairline, var(--border)) !important; box-shadow: inset 0 1.5px 0 var(--lg-rim-top, rgba(255,255,255,0.28)), var(--lg-shadow, 0 8px 24px rgba(0,0,0,0.08)); padding: 16px 18px; flex: 1; min-height: 0; max-width: 100%; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; overflow-wrap: anywhere; }
+    .options-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 9px; margin-top: 14px; }
+    .opt-btn { max-width: 100%; padding: 12px 14px; border-radius: 13px; border: 1.5px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--card)); color: var(--lg-ink, var(--text)); text-align: left; font-size: 14.5px; font-weight: 600; cursor: pointer; line-height: 1.45; overflow-wrap: anywhere; word-break: break-word; transition: border-color .14s ease, background .14s ease; }
+    .opt-btn:hover { border-color: var(--primary); }
+    .opt-btn.correct { border-color: var(--success) !important; background: var(--success-soft) !important; font-weight: 800; }
+    .opt-btn.wrong { border-color: var(--danger) !important; background: var(--danger-soft) !important; }
+    .prompt-box { font-size: 16.5px; line-height: 1.55; padding: 13px 14px; background: var(--lg-wash, var(--bg)); border: 1px solid var(--lg-hairline, var(--border)); border-radius: 14px; max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
+    .blank { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--primary); padding: 0 8px; }
+    .blank.correct { color: var(--success); border-bottom-color: var(--success); }
+    .blank.wrong { color: var(--danger); border-bottom-color: var(--danger); }
+    .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(148px, 100%), 1fr)); gap: 9px; margin-top: 14px; }
+    .match-tile { padding: 11px 10px; border-radius: 13px; border: 1.5px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--card)); color: var(--lg-ink, var(--text)); text-align: center; font-size: 13.5px; font-weight: 700; cursor: pointer; min-height: 74px; display: flex; align-items: center; justify-content: center; user-select: none; overflow-wrap: anywhere; }
+    .match-tile.selected { border-color: var(--primary); background: var(--primary-soft); }
+    .match-tile.matched { opacity: 0.18; pointer-events: none; border-color: var(--success); }
+    .match-tile.error { border-color: var(--danger); background: var(--danger-soft); }
+    .text-input { width: 100%; padding: 12px 14px; font-size: 17px; font-weight: 700; border: 2px solid var(--lg-hairline, var(--border)); border-radius: 12px; background: var(--lg-wash, var(--bg)); color: var(--lg-ink, var(--text)); outline: none; margin-top: 12px; text-align: center; transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease; }
+    .text-input:focus { border-color: var(--primary); }
+    .text-input.correct { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.16) !important; color: var(--success) !important; }
+    .text-input.wrong { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.15) !important; color: var(--danger) !important; }
+    .dic-ans-hint { display: inline-block; padding: 1px 8px; border-radius: 6px; background: var(--danger-soft); color: var(--danger); font-weight: 800; }
+
+    .center { text-align: center; }
+    .word-card { background: var(--lg-surface, var(--card)) !important; backdrop-filter: var(--lg-blur, blur(10px)); -webkit-backdrop-filter: var(--lg-blur, blur(10px)); border: 1px solid var(--lg-hairline, var(--border)) !important; border-radius: 18px; padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+    .word-card-img { width: 126px; height: 92px; object-fit: cover; border-radius: 12px; border: 1px solid var(--lg-hairline, var(--border)); flex-shrink: 0; background: var(--lg-wash, var(--bg)); }
+    .badge-status { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; background: var(--success-soft); color: var(--success); }
+    .badge-status.ign { background: var(--warn-soft); color: var(--warn); }
+    .list-search-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .list-search-field { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; }
+    .list-search-input { width: 100%; padding: 10px 36px 10px 14px; border-radius: 12px; border: 1.5px solid var(--lg-hairline, var(--border)); background: var(--lg-surface, var(--card)); color: var(--lg-ink, var(--text)); font-size: 13.8px; font-weight: 600; outline: none; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+    .list-search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+    .list-search-clear { position: absolute; right: 8px; width: 24px; height: 24px; border-radius: 999px; border: none; background: var(--lg-wash, var(--border)); color: var(--lg-ink, var(--text)); font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+    .list-search-clear:hover { background: var(--primary-solid); color: #fff; }
+
+    .loading-card { background: var(--lg-surface, var(--card)); backdrop-filter: var(--lg-blur, blur(12px)); -webkit-backdrop-filter: var(--lg-blur, blur(12px)); border: 1px solid var(--lg-hairline, var(--border)); border-radius: 20px; padding: 36px 20px; text-align: center; color: var(--lg-ink-sub, var(--text)); }
+    .lp-spin { animation: lpSpin 0.9s linear infinite; }
+    @keyframes lpSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    @media (min-width: 769px) {
+      .sidebar-backdrop { display: none !important; pointer-events: none !important; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 10050; transform: translateX(-100%); width: 86%; max-width: var(--lp-sidebar-w, 344px); border-right: none !important; box-shadow: none; visibility: hidden; pointer-events: none; transition: transform 0.22s ease, visibility 0.22s; }
+      .sidebar.open { transform: translateX(0); visibility: visible; pointer-events: auto; border-right: 1px solid var(--lg-hairline, var(--border)) !important; box-shadow: 8px 0 32px rgba(0,0,0,0.35); }
+      .close-sidebar { display: inline-flex; }
+      .vocab-menu-btn { display: inline-flex; height: 32px; padding: 0 8px; font-size: 11.8px; }
+      .lp-vocab-topbar { margin: calc(6px + var(--s4-safe-top, 0px)) 8px 0; max-width: calc(100% - 16px); padding: 6px 7px; gap: 5px; min-height: 44px; border-radius: 18px; }
+      .lp-vocab-topbar .lp-back-pill { height: 32px; padding: 0 8px; font-size: 11.8px; gap: 3px; }
+      .lp-vocab-topbar .lp-top-left { gap: 4px; flex: 0 0 auto; }
+      .lp-vocab-topbar .lp-top-actions { gap: 4px; }
+      .lp-donate-btn { width: 32px; min-width: 32px; height: 32px; padding: 0; }
+      .lp-donate-btn span { display: none !important; }
+      #vocabThemeBtn { width: 32px; min-width: 32px; height: 32px; padding: 0; }
+      .mode-nav { display: none; }
+      .mode-dd-wrap { display: block; }
+      .main { padding: 6px 8px calc(12px + env(safe-area-inset-bottom, 10px)) 8px; }
+      .stats-card { padding: 6px 9px; margin-bottom: 5px; border-radius: 14px; }
+      .stats-top { gap: 5px; }
+      .stats-btns { gap: 4px; }
+      .stats-btns .mode-btn { padding: 4px 7px; font-size: 11.5px; }
+      .v-settings-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: end; padding-top: 8px; margin-top: 8px; }
+      .v-set-item { flex-direction: column; align-items: stretch; gap: 3px; font-size: 11.5px; color: var(--lg-ink-muted, var(--muted)); }
+      .v-set-item .limit-select { width: 100%; font-size: 12px; padding: 5px 6px; }
+      .v-set-chk { grid-column: 1 / -1; padding: 6px 9px; border-radius: 10px; background: var(--lg-wash, var(--bg)); border: 1px solid var(--lg-hairline, var(--border)); font-size: 12.2px; }
+      .quota-pill { padding: 3px 7px; font-size: 11.2px; }
+      .stats-mini-inline { font-size: 11.2px; gap: 5px; }
+      .stats-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; }
+      .stat-num { font-size: 14.5px; }
+      .stat-label { font-size: 10px; }
+      .sess-row { font-size: 11px; margin-bottom: 2px; }
+      .sess-bar { margin-bottom: 5px; height: 4px; }
+      .flashcard-wrap { padding: 10px 12px; border-radius: 18px; }
+      .fc-top-bar { margin-bottom: 5px; font-size: 11px; }
+      .fc-front-img { max-height: 106px; }
+      .fc-scene-card { padding: 8px 10px; gap: 9px; }
+      .fc-scene-icon { width: 38px; height: 38px; border-radius: 10px; }
+      .fc-word { font-size: 22px; }
+      .fc-pos { font-size: 13.5px; }
+      .fc-ipa { font-size: 13.5px; margin: 2px 0 5px 0; }
+      .audio-row { gap: 5px; margin-bottom: 4px; }
+      .audio-pill { padding: 4px 10px; font-size: 11.5px; }
+      .fc-back { margin-top: 8px; padding-top: 8px; }
+      .def-box { font-size: 13.5px; line-height: 1.42; margin-bottom: 7px; }
+      .def-vi-main { font-size: 14.5px; }
+      .ex-box { padding: 8px 10px; font-size: 12.6px; line-height: 1.44; }
+      .fc-toeic-box { padding: 8px 10px; font-size: 12px; }
+      .fc-trap-box { padding: 8px 10px; font-size: 12px; }
+      .fc-action-dock { padding-top: 7px; margin-top: 6px; }
+      .btn-flip { padding: 11px; font-size: 14.2px; }
+      .srs-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+      .srs-btn { padding: 9px 6px; font-size: 12.2px; }
+      .quiz-box { padding: 12px; border-radius: 18px; }
+      .opt-btn { padding: 10px 12px; font-size: 13.5px; }
+      .word-card { padding: 12px; }
+      .word-card-img { width: 96px; height: 72px; }
+    }
+    @media (max-width: 420px) {
+      .v-stat-lbl { display: none; }
+      .stats-btns .v-cal-lbl { display: none; }
+      .vocab-menu-btn span { display: none; }
+      .vocab-menu-btn { width: 32px; min-width: 32px; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
+  <div class="lp-aurora-layer" aria-hidden="true"></div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
+
+  <aside class="sidebar" id="sidebar" aria-label="Danh sách Chặng và Chủ đề TOEIC">
+    <div class="sidebar-header">
+      <h2>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <span>Từ vựng TOEIC</span>
+      </h2>
+      <button type="button" class="close-sidebar" onclick="toggleSidebar(false)" aria-label="Đóng danh sách">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="search-wrap">
+      <div class="s4-search-group is-compact">
+        <div class="s4-search-field">
+          <input type="text" id="searchWordInput" class="s4-search-input" placeholder="Tìm từ, nghĩa, cụm từ, bẫy..." autocomplete="off">
+          <button type="button" id="searchWordInput_clear" class="s4-search-clear" title="Xóa từ khóa" aria-label="Xóa từ khóa">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <button type="button" id="searchWordInput_btn" class="s4-search-btn is-icon" title="Tìm kiếm" aria-label="Tìm kiếm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="cat-tabs" id="levelTabs" role="tablist" aria-label="Lọc theo Chặng điểm TOEIC"></div>
+    <div class="book-filter-wrap" id="bookFilterWrap"></div>
+    <div class="topic-list" id="topicList"></div>
+
+    <div class="sidebar-foot">
+      <button type="button" class="mode-btn" style="flex:1;" onclick="exportProgress()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>Sao lưu</span>
+      </button>
+      <button type="button" class="mode-btn" style="flex:1;" onclick="document.getElementById('importFile').click()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span>Khôi phục</span>
+      </button>
+      <button type="button" class="mode-btn danger" onclick="resetProgress()" title="Đặt lại toàn bộ tiến độ TOEIC" aria-label="Đặt lại toàn bộ tiến độ TOEIC">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+      </button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importProgress(event)">
+    </div>
+  </aside>
+
+  <div class="main-wrap">
+    <header class="lp-topbar lp-glass lp-vocab-topbar">
+      <div class="lp-top-left">
+        <a class="lp-back-pill" id="vocabBackBtn" href="../index.html" title="Về Khóa học TOEIC">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <span>TOEIC</span>
+        </a>
+        <button type="button" class="lp-icon-btn vocab-menu-btn" id="vocabMenuBtn" onclick="toggleSidebar(true)" title="Chặng &amp; Chủ đề" aria-label="Mở danh sách chủ đề">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+          <span>Chủ đề</span>
+        </button>
+      </div>
+
+      <div class="mode-dd-wrap" id="modeDdWrap">
+        <button type="button" class="mode-dd-btn" id="modeDdBtn" onclick="event.stopPropagation();document.getElementById('modeDdMenu').classList.toggle('open')">
+          <span id="modeDdLabel">Thông minh</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="mode-dd-menu" id="modeDdMenu">
+          <button type="button" class="mode-dd-item active" data-mode="smart" onclick="setMode('smart')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Học 4 bước</span><span class="dd-chk"></span></button>
+          <button type="button" class="mode-dd-item" data-mode="flashcard" onclick="setMode('flashcard')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Flashcard (SRS)</span><span class="dd-chk"></span></button>
+          <button type="button" class="mode-dd-item" data-mode="quiz" onclick="setMode('quiz')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trắc nghiệm</span><span class="dd-chk"></span></button>
+          <button type="button" class="mode-dd-item" data-mode="listen" onclick="setMode('listen')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg> Nghe &amp; Chính tả</span><span class="dd-chk"></span></button>
+          <button type="button" class="mode-dd-item" data-mode="cloze" onclick="setMode('cloze')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Điền từ ngữ cảnh</span><span class="dd-chk"></span></button>
+          <button type="button" class="mode-dd-item" data-mode="match" onclick="setMode('match')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> Ghép cặp 6 thẻ</span><span class="dd-chk"></span></button>
+          <button type="button" class="mode-dd-item" data-mode="list" onclick="setMode('list')"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Danh sách từ</span><span class="dd-chk"></span></button>
+        </div>
+      </div>
+
+      <div class="mode-nav" id="modeNav">
+        <button type="button" class="mode-btn active" data-mode="smart" onclick="setMode('smart')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Học</button>
+        <button type="button" class="mode-btn" data-mode="flashcard" onclick="setMode('flashcard')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Flashcard</button>
+        <button type="button" class="mode-btn" data-mode="quiz" onclick="setMode('quiz')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Quiz</button>
+        <button type="button" class="mode-btn" data-mode="listen" onclick="setMode('listen')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg> Nghe</button>
+        <button type="button" class="mode-btn" data-mode="cloze" onclick="setMode('cloze')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Điền từ</button>
+        <button type="button" class="mode-btn" data-mode="match" onclick="setMode('match')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> Ghép cặp</button>
+        <button type="button" class="mode-btn" data-mode="list" onclick="setMode('list')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Danh sách</button>
+      </div>
+
+      <div class="lp-top-actions">
+        <button type="button" class="lp-icon-btn lp-donate-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án" aria-label="Ủng hộ dự án">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span>Ủng hộ</span>
+        </button>
+        <button type="button" class="lp-icon-btn" id="vocabThemeBtn" data-lp-theme-toggle="1" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng/Tối"></button>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <div id="statsHost"></div>
+        <div id="cardHost"></div>
+      </div>
+    </main>
+  </div>
+
+  <audio id="audioPlayer"></audio>
+  <script src="../../assets/s4-ui.js?v=68"></script>
+  <script src="../../assets/s4-search-engine.js"></script>
+  <script src="../../auth.js?v=33"></script>
+  <script src="data/vocab_manifest.js?v=1"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    /* ---------- 1. Hằng số & Chuẩn hóa Manifest ---------- */
+    const KEYS = {
+      srs: "lp_toeic_vocab_srs_v1",
+      days: "lp_toeic_vocab_days_v1",
+      settings: "lp_toeic_vocab_settings_v1",
+      session: "lp_toeic_vocab_session_v1"
+    };
+    const DEFAULT_SETTINGS = {
+      dailyNewLimit: 20,
+      reviewCap: 100,
+      autoAudio: true,
+      defaultAccent: "us", // us | uk | au | mix
+      queueOrder: "mix",
+      bonusTodayDate: "",
+      bonusTodayCount: 0,
+      lastTopic: ""
+    };
+
+    const DEFAULT_LEVEL_DEFS = [
+      { level: 1, short: "0–350", title: "Chặng 1: 0–350 • Lấy gốc & Part 1", file: "data/vocab_u_1.js", count: 0 },
+      { level: 2, short: "350–550", title: "Chặng 2: 350–550 • Barron's 600 & Văn phòng", file: "data/vocab_u_2.js", count: 0 },
+      { level: 3, short: "550–750", title: "Chặng 3: 550–750 • Hackers, ETS & Susan Chyn", file: "data/vocab_u_3.js", count: 0 },
+      { level: 4, short: "750–990", title: "Chặng 4: 750–990 • 850–990 & Paraphrase Part 7", file: "data/vocab_u_4.js", count: 0 }
+    ];
+
+    const DEFAULT_BOOK_DEFS = [
+      { id: "part1", label: "Part 1", levels: [1] },
+      { id: "barrons600", label: "Barron's 600", levels: [1, 2] },
+      { id: "hackers", label: "Hackers", levels: [2, 3, 4] },
+      { id: "ets", label: "ETS Official", levels: [1, 2, 3, 4] },
+      { id: "susanchyn", label: "Susan Chyn", levels: [3] },
+      { id: "adv990", label: "850–990", levels: [4] }
+    ];
+
+    function normalizeManifest(raw) {
+      const m = raw && typeof raw === "object" ? raw : {};
+      const levels = DEFAULT_LEVEL_DEFS.map(d => Object.assign({}, d, { topics: [] }));
+      const rawLevels = m.levels;
+      if (Array.isArray(rawLevels)) {
+        rawLevels.forEach(item => {
+          const lv = Number(item && (item.level || item.id));
+          if (lv >= 1 && lv <= 4) {
+            const target = levels[lv - 1];
+            if (item.short || item.range) target.short = item.short || item.range;
+            if (item.title || item.label || item.name) target.title = item.title || item.label || item.name;
+            if (item.file || item.src || item.path) {
+              const f = String(item.file || item.src || item.path);
+              target.file = f.startsWith("data/") ? f : ("data/" + f.replace(/^\/+/, ""));
+            }
+            if (Number.isFinite(Number(item.count))) target.count = Number(item.count);
+            if (Array.isArray(item.topics)) {
+              item.topics.forEach(tp => {
+                const name = typeof tp === "string" ? tp : (tp.name || tp.topic || tp.title || "");
+                if (!name) return;
+                target.topics.push({
+                  level: lv,
+                  name: name,
+                  key: lv + "::" + name,
+                  count: typeof tp === "object" ? Number(tp.count || 0) : 0,
+                  books: typeof tp === "object" && Array.isArray(tp.books) ? tp.books.slice() : []
+                });
+              });
+            }
+          }
+        });
+      } else if (rawLevels && typeof rawLevels === "object") {
+        [1, 2, 3, 4].forEach(lv => {
+          const item = rawLevels[lv] || rawLevels[String(lv)];
+          if (!item) return;
+          const target = levels[lv - 1];
+          if (typeof item === "number") {
+            target.count = item;
+          } else if (typeof item === "object") {
+            if (item.short || item.range) target.short = item.short || item.range;
+            if (item.title || item.label || item.name) target.title = item.title || item.label || item.name;
+            if (item.file || item.src || item.path) {
+              const f = String(item.file || item.src || item.path);
+              target.file = f.startsWith("data/") ? f : ("data/" + f.replace(/^\/+/, ""));
+            }
+            if (Number.isFinite(Number(item.count))) target.count = Number(item.count);
+            if (Array.isArray(item.topics)) {
+              item.topics.forEach(tp => {
+                const name = typeof tp === "string" ? tp : (tp.name || tp.topic || tp.title || "");
+                if (!name) return;
+                target.topics.push({
+                  level: lv,
+                  name: name,
+                  key: lv + "::" + name,
+                  count: typeof tp === "object" ? Number(tp.count || 0) : 0,
+                  books: typeof tp === "object" && Array.isArray(tp.books) ? tp.books.slice() : []
+                });
+              });
+            }
+          }
+        });
+      }
+
+      if (Array.isArray(m.topics)) {
+        m.topics.forEach(tp => {
+          if (!tp || typeof tp !== "object") return;
+          const lv = Number(tp.level || 1);
+          const name = tp.name || tp.topic || tp.title || "";
+          if (!name || lv < 1 || lv > 4) return;
+          const target = levels[lv - 1];
+          if (!target.topics.some(x => x.name === name)) {
+            target.topics.push({
+              id: String(tp.id || ""),
+              level: lv,
+              name: name,
+              key: lv + "::" + name,
+              count: Number(tp.count || 0),
+              books: Array.isArray(tp.books) ? tp.books.slice() : []
+            });
+          }
+        });
+      }
+
+      levels.forEach(lvObj => {
+        if (!lvObj.count && lvObj.topics.length) {
+          lvObj.count = lvObj.topics.reduce((acc, t) => acc + (Number(t.count) || 0), 0);
+        }
+      });
+
+      const bookMap = new Map();
+      DEFAULT_BOOK_DEFS.forEach(b => bookMap.set(b.id, Object.assign({ count: 0 }, b)));
+      const rawBooks = m.books;
+      if (Array.isArray(rawBooks)) {
+        rawBooks.forEach(b => {
+          if (!b || !b.id) return;
+          const id = String(b.id);
+          const prev = bookMap.get(id) || { id, label: id, levels: [1, 2, 3, 4], count: 0 };
+          bookMap.set(id, {
+            id,
+            label: b.label || b.short || b.name || prev.label,
+            count: Number(b.count || prev.count || 0),
+            levels: Array.isArray(b.levels) && b.levels.length ? b.levels.map(Number) : prev.levels
+          });
+        });
+      } else if (rawBooks && typeof rawBooks === "object") {
+        Object.keys(rawBooks).forEach(id => {
+          const val = rawBooks[id];
+          const prev = bookMap.get(id) || { id, label: id, levels: [1, 2, 3, 4], count: 0 };
+          if (typeof val === "number") {
+            bookMap.set(id, Object.assign({}, prev, { count: val }));
+          } else if (val && typeof val === "object") {
+            bookMap.set(id, {
+              id,
+              label: val.label || val.short || val.name || prev.label,
+              count: Number(val.count || prev.count || 0),
+              levels: Array.isArray(val.levels) && val.levels.length ? val.levels.map(Number) : prev.levels
+            });
+          }
+        });
+      }
+
+      const books = Array.from(bookMap.values());
+      const allTopics = [];
+      levels.forEach(l => l.topics.forEach(t => allTopics.push(t)));
+      books.forEach(b => {
+        const inferred = new Set();
+        allTopics.forEach(t => {
+          if (Array.isArray(t.books) && t.books.includes(b.id)) inferred.add(t.level);
+        });
+        if (inferred.size) b.levels = Array.from(inferred).sort((a, c) => a - c);
+      });
+      const total = Number(m.totalWords || m.total || 0) || levels.reduce((acc, l) => acc + (Number(l.count) || 0), 0);
+      return { total, levels, books, topics: allTopics, bookMap };
+    }
+
+    const MANIFEST = normalizeManifest(window.LP_TOEIC_VOCAB_MANIFEST);
+    const BOOK_LABELS = {};
+    MANIFEST.books.forEach(b => { BOOK_LABELS[b.id] = b.label; });
+
+    /* ---------- 2. Kho từ nạp lười theo Chặng (RAM-Friendly) ---------- */
+    window.__LP_TOEIC_VOCAB_CHUNKS = window.__LP_TOEIC_VOCAB_CHUNKS || {};
+    const LOADED_LEVELS = new Set();
+    const LEVEL_PROMISES = {};
+    const LOADED_WORDS = [];
+    const VOCAB_BY_ID = new Map();
+    const WORDS_BY_LEVEL = { 1: [], 2: [], 3: [], 4: [] };
+    let vocabSearchIndex = null;
+    let isLoadingChunks = false;
+
+    if (window.S4SearchEngine) {
+      try { window.S4SearchEngine.initWasm("../../assets/s4-core.wasm?v=1"); } catch (e) {}
+    }
+
+    function normalizeWordItem(raw, fallbackLv) {
+      if (!raw || !raw.id) return null;
+      const lv = Number(raw.level || fallbackLv || 1);
+      const defVi = String(raw.defVi || "").trim();
+      const defEn = String(raw.defEn || "").trim();
+      const defRaw = String(raw.defRaw || (defVi + (defEn ? ("\n" + defEn) : ""))).trim();
+      return {
+        id: String(raw.id),
+        level: lv,
+        topic: String(raw.topic || "Tổng hợp"),
+        topicKey: lv + "::" + String(raw.topic || "Tổng hợp"),
+        word: String(raw.word || "").trim(),
+        pos: String(raw.pos || "").trim(),
+        ipa: String(raw.ipa || "").trim(),
+        defVi: defVi || defRaw,
+        defEn: defEn,
+        defRaw: defRaw,
+        examples: Array.isArray(raw.examples) ? raw.examples.filter(Boolean) : [],
+        books: Array.isArray(raw.books) ? raw.books.map(String).filter(Boolean) : [],
+        wf: Array.isArray(raw.wf) ? raw.wf.map(String).filter(Boolean) : [],
+        col: Array.isArray(raw.col) ? raw.col.map(String).filter(Boolean) : [],
+        syn: Array.isArray(raw.syn) ? raw.syn.map(String).filter(Boolean) : [],
+        trap: String(raw.trap || "").trim(),
+        localImg: String(raw.localImg || "").trim(),
+        localUkAudio: String(raw.localUkAudio || "").trim(),
+        localUsAudio: String(raw.localUsAudio || "").trim()
+      };
+    }
+
+    function rebuildSearchIndex() {
+      if (!window.S4SearchEngine || typeof window.S4SearchEngine.createIndex !== "function") {
+        vocabSearchIndex = null;
+        return;
+      }
+      vocabSearchIndex = window.S4SearchEngine.createIndex(LOADED_WORDS, {
+        lazy: true,
+        fields: [
+          { name: "word", get: v => v.word, weight: 2.5 },
+          { name: "defVi", get: v => v.defVi, weight: 1.5 },
+          { name: "defEn", get: v => v.defEn, weight: 1.1 },
+          { name: "col", get: v => (v.col || []).join(" "), weight: 1.0 },
+          { name: "syn", get: v => (v.syn || []).join(" "), weight: 0.95 },
+          { name: "wf", get: v => (v.wf || []).join(" "), weight: 0.85 },
+          { name: "trap", get: v => v.trap, weight: 0.8 },
+          { name: "topic", get: v => v.topic, weight: 0.8 },
+          { name: "examples", get: v => v.examples, weight: 0.65 }
+        ]
+      });
+    }
+
+    function ingestLevelChunk(lv, arr) {
+      if (LOADED_LEVELS.has(lv)) return;
+      const list = Array.isArray(arr) ? arr : [];
+      const bucket = [];
+      const topicCounts = {};
+      for (let i = 0; i < list.length; i++) {
+        const norm = normalizeWordItem(list[i], lv);
+        if (!norm || VOCAB_BY_ID.has(norm.id)) continue;
+        VOCAB_BY_ID.set(norm.id, norm);
+        LOADED_WORDS.push(norm);
+        bucket.push(norm);
+        topicCounts[norm.topic] = (topicCounts[norm.topic] || 0) + 1;
+      }
+      WORDS_BY_LEVEL[lv] = bucket;
+      LOADED_LEVELS.add(lv);
+
+      // Đồng bộ danh sách chủ đề của chặng nếu manifest thiếu chi tiết
+      const lvObj = MANIFEST.levels[lv - 1];
+      if (lvObj) {
+        if (!lvObj.count) lvObj.count = bucket.length;
+        if (!lvObj.topics.length) {
+          Object.keys(topicCounts).forEach(tpName => {
+            const tpObj = { level: lv, name: tpName, key: lv + "::" + tpName, count: topicCounts[tpName], books: [] };
+            lvObj.topics.push(tpObj);
+            MANIFEST.topics.push(tpObj);
+          });
+        }
+      }
+      rebuildSearchIndex();
+    }
+
+    function loadLevelChunk(lv) {
+      const levelNum = Number(lv);
+      if (levelNum < 1 || levelNum > 4) return Promise.resolve();
+      if (LOADED_LEVELS.has(levelNum)) return Promise.resolve();
+      if (Array.isArray(window.__LP_TOEIC_VOCAB_CHUNKS[levelNum])) {
+        ingestLevelChunk(levelNum, window.__LP_TOEIC_VOCAB_CHUNKS[levelNum]);
+        return Promise.resolve();
+      }
+      if (LEVEL_PROMISES[levelNum]) return LEVEL_PROMISES[levelNum];
+
+      const lvMeta = MANIFEST.levels[levelNum - 1];
+      const src = (lvMeta && lvMeta.file ? lvMeta.file : ("data/vocab_u_" + levelNum + ".js")) + "?v=1";
+      LEVEL_PROMISES[levelNum] = new Promise((resolve) => {
+        const sc = document.createElement("script");
+        sc.src = src;
+        sc.async = true;
+        sc.onload = () => {
+          const data = window.__LP_TOEIC_VOCAB_CHUNKS && window.__LP_TOEIC_VOCAB_CHUNKS[levelNum];
+          ingestLevelChunk(levelNum, Array.isArray(data) ? data : []);
+          resolve();
+        };
+        sc.onerror = () => {
+          delete LEVEL_PROMISES[levelNum];
+          resolve();
+        };
+        document.head.appendChild(sc);
+      });
+      return LEVEL_PROMISES[levelNum];
+    }
+
+    async function ensureLevelsLoaded(levelsArr, silent) {
+      const needed = Array.from(new Set((levelsArr || []).map(Number).filter(n => n >= 1 && n <= 4 && !LOADED_LEVELS.has(n))));
+      if (!needed.length) return;
+      if (!silent) {
+        isLoadingChunks = true;
+        renderLoadingCard(needed);
+      }
+      await Promise.all(needed.map(loadLevelChunk));
+      isLoadingChunks = false;
+    }
+
+    function levelsNeededForDue(levelFilter) {
+      const now = Date.now();
+      const set = new Set();
+      Object.keys(srsData).forEach(id => {
+        const st = srsData[id];
+        if (!st || st.ignored) return;
+        if (now < Number(st.due || 0)) return;
+        const m = /^toeic([1-4])_/.exec(id);
+        if (m) {
+          const lv = Number(m[1]);
+          if (levelFilter === "ALL" || Number(levelFilter) === lv) set.add(lv);
+        }
+      });
+      if (!set.size) {
+        if (levelFilter !== "ALL") set.add(Number(levelFilter));
+        else set.add(1);
+      }
+      return Array.from(set);
+    }
+
+    function levelsForBook(bookId) {
+      if (!bookId || bookId === "ALL") {
+        return currentLevelFilter === "ALL" ? [1, 2, 3, 4] : [Number(currentLevelFilter)];
+      }
+      const b = MANIFEST.bookMap.get(bookId);
+      let lvs = (b && Array.isArray(b.levels) && b.levels.length) ? b.levels.slice() : [1, 2, 3, 4];
+      if (currentLevelFilter !== "ALL") {
+        const f = Number(currentLevelFilter);
+        lvs = lvs.includes(f) ? [f] : [f];
+      }
+      return lvs;
+    }
+
+    function levelOfTopicKey(tKey) {
+      if (!tKey) return 1;
+      if (tKey.startsWith("LEVEL_")) return Number(tKey.slice(6)) || 1;
+      const m = /^([1-4])::/.exec(tKey);
+      if (m) return Number(m[1]);
+      const found = MANIFEST.topics.find(x => x.name === tKey || x.key === tKey);
+      return found ? found.level : 1;
+    }
+
+    /* ---------- 3. Trạng thái & Storage ---------- */
+    function loadJSON(key, fallback) {
+      try { const o = JSON.parse(localStorage.getItem(key)); return o && typeof o === "object" ? o : fallback; }
+      catch (e) { return fallback; }
+    }
+
+    let srsData = loadJSON(KEYS.srs, {});
+    let dayLog = loadJSON(KEYS.days, {});
+    let userSettings = Object.assign({}, DEFAULT_SETTINGS, loadJSON(KEYS.settings, {}));
+    if (!["mix", "due_first", "new_first"].includes(userSettings.queueOrder)) userSettings.queueOrder = "mix";
+    if (!["us", "uk", "au", "mix"].includes(userSettings.defaultAccent)) userSettings.defaultAccent = "us";
+
+    let currentLevelFilter = "ALL"; // "ALL" | "1" | "2" | "3" | "4"
+    let currentBookFilter = "ALL";  // "ALL" | "part1" | "barrons600" | "hackers" | "ets" | "susanchyn" | "adv990"
+    let currentTopic = "LEVEL_1";   // "ALL" | "ALL_DUE" | "LEVEL_1..4" | "<lv>::<topicName>"
+    let openLevels = new Set(["special", 1]);
+    let currentMode = "smart";
+    let modeBeforeSearch = "";
+    let panel = "";                 // "" | "stats" | "settings" | "calendar"
+    let calMonthOffset = 0;
+    let listFilter = "all";
+    let listLimit = 100;
+    let quizDirection = "mix";
+    let listenSubMode = "choice";
+
+    let studyQueue = [];
+    let sessionTopic = "";
+    let tapLockAt = 0;
+    let sessionTotal = 0, sessionDone = 0;
+    let isFlipped = false;
+    let extraPracticeMode = false;
+    let smartTick = 0, lastSmartWordId = "";
+    let cardSerial = 0, cardCache = {}, lastPlayedSerial = -1;
+    let lastStats = null;
+
+    /* ---------- 4. Tiện ích ---------- */
+    const $ = id => document.getElementById(id);
+    const rint = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+    function localDateStr(d) {
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+    function getTodayStr() { return localDateStr(new Date()); }
+    function shortTopicName(t) { return String(t || "").replace(/^[1-4]::/, "").split(" (")[0]; }
+    function escHtml(str) {
+      if (window.S4UI && typeof window.S4UI.escapeHtml === "function") return window.S4UI.escapeHtml(str);
+      return String(str == null ? "" : str).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+    function escJsAttr(str) {
+      return String(str == null ? "" : str)
+        .replace(/\\/g, "\\\\")
+        .replace(/\r?\n/g, " ")
+        .replace(/'/g, "\\'")
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+    function highlightText(str, q) {
+      if (q && window.S4SearchEngine && typeof window.S4SearchEngine.highlightHtml === "function") {
+        return window.S4SearchEngine.highlightHtml(str, q);
+      }
+      return escHtml(str);
+    }
+    function bumpCard() {
+      cardSerial++;
+      cardCache = {};
+      tapLockAt = Date.now();
+      const m = document.querySelector(".main");
+      if (m) m.scrollTop = 0;
+      const sb = document.querySelector(".fc-scroll-body");
+      if (sb) sb.scrollTop = 0;
+    }
+    function tapTooSoon() { return Date.now() - tapLockAt < 320; }
+    function cacheGet(key, factory) { if (!(key in cardCache)) cardCache[key] = factory(); return cardCache[key]; }
+
+    /* ---------- 5. Inline SVG Icons (100% ZERO Emoji, stroke 1.8) ---------- */
+    const V_SVG = {
+      graduation: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+      layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+      help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+      listening: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/>',
+      grid: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>',
+      edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+      reading: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+      sparkle: '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>',
+      bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+      chart: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      calendar: '<rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+      settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+      volume: '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+      refresh: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+      check: '<polyline points="20 6 9 17 4 12"/>',
+      lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+      arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+      search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+      close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+      flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+      chevronDown: '<path d="m6 9 6 6 6-6"/>',
+      chevronRight: '<path d="m9 18 6-6-6-6"/>',
+      chevronLeft: '<path d="m15 18-6-6 6-6"/>',
+      award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+      plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+      alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+      briefcase: '<rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+      building: '<rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
+      finance: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+      truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+      contract: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+      users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+      plane: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+      camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+      cpu: '<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
+      loader: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>'
+    };
+    function vIcon(name, size, extraClass) {
+      const sz = Number(size) > 0 ? Number(size) : 15;
+      const cls = extraClass ? ` class="${extraClass}"` : "";
+      return `<svg${cls} width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${V_SVG[name] || V_SVG.sparkle}</svg>`;
+    }
+
+    function pickSceneIconName(v) {
+      const s = ((v.topic || "") + " " + (v.books || []).join(" ")).toLowerCase();
+      if (/tài chính|kế toán|thuế|ngân hàng|bctc|ngân sách|finance|bank|tax|audit/.test(s)) return "finance";
+      if (/vận chuyển|logistics|giao thông|chuỗi cung ứng|xuất nhập|shipping|transport/.test(s)) return "truck";
+      if (/hợp đồng|pháp lý|đàm phán|bảo hành|bảo hiểm|contract|legal|warranty/.test(s)) return "contract";
+      if (/nhân sự|tuyển dụng|lương|đào tạo|hội thảo|hđqt|hr|recruit|meeting/.test(s)) return "users";
+      if (/du lịch|khách sạn|nhà hàng|sân bay|travel|hotel|dining/.test(s)) return "plane";
+      if (/part 1|tả tranh|hành động|vị trí|xây dựng/.test(s)) return "camera";
+      if (/công nghệ|máy tính|điện tử|r&d|kỹ thuật|it|tech/.test(s)) return "cpu";
+      if (/văn phòng|bất động sản|cơ sở|office|building/.test(s)) return "building";
+      return "briefcase";
+    }
+
+    /* ---------- 6. Lưu & Khôi phục phiên học ---------- */
+    function readSessionMap() {
+      const m = loadJSON(KEYS.session, {});
+      return m && typeof m === "object" && !Array.isArray(m) ? m : {};
+    }
+    function writeSessionMap(map) {
+      try {
+        const drafts = map.__drafts && typeof map.__drafts === "object" && !Array.isArray(map.__drafts) ? map.__drafts : {};
+        const dKeys = Object.keys(drafts);
+        if (dKeys.length > 500) {
+          dKeys.sort((a, b) => (drafts[b].updatedAt || 0) - (drafts[a].updatedAt || 0)).slice(500).forEach(k => { delete drafts[k]; });
+        }
+        if (Object.keys(drafts).length) map.__drafts = drafts; else delete map.__drafts;
+        const tKeys = Object.keys(map).filter(k => k !== "__drafts");
+        if (tKeys.length > 60) {
+          tKeys.sort((a, b) => (map[b] && map[b].savedAt || 0) - (map[a] && map[a].savedAt || 0)).slice(60).forEach(k => { delete map[k]; });
+        }
+        if (Object.keys(map).length) localStorage.setItem(KEYS.session, JSON.stringify(map));
+        else localStorage.removeItem(KEYS.session);
+      } catch (e) {}
+    }
+    function syncVocabDrafts(map, queue, now) {
+      if (extraPracticeMode || !Array.isArray(queue)) return;
+      const drafts = map.__drafts && typeof map.__drafts === "object" && !Array.isArray(map.__drafts) ? map.__drafts : (map.__drafts = {});
+      queue.forEach(w => {
+        if (!w || !w.id) return;
+        const stage = typeof w._stage === "number" ? w._stage : (w._new ? 0 : 1);
+        const baseStage = w._new ? 0 : 1;
+        if (stage > baseStage || (w._mistakes || 0) > 0 || w._relearn || w._resume) {
+          drafts[w.id] = {
+            new: !!w._new, stage, mistakes: w._mistakes || 0, resume: w._resume || null,
+            relearn: !!w._relearn, lastTask: w._lastTask || null, updatedAt: now
+          };
+        }
+      });
+    }
+    function currentSessionKey() {
+      return currentTopic + "::book=" + currentBookFilter + "::lv=" + currentLevelFilter;
+    }
+    function saveActiveSession(removeWordIds) {
+      const map = readSessionMap();
+      const now = Date.now();
+      if (!extraPracticeMode) {
+        if (Array.isArray(removeWordIds) && map.__drafts && typeof map.__drafts === "object") {
+          removeWordIds.forEach(id => { if (id) delete map.__drafts[id]; });
+        }
+        syncVocabDrafts(map, studyQueue, now);
+      }
+      if (!extraPracticeMode && sessionTopic && !searchQuery()) {
+        if (!studyQueue || !studyQueue.length) {
+          delete map[sessionTopic];
+        } else {
+          map[sessionTopic] = {
+            mode: currentMode, savedAt: now, sessionTotal, sessionDone,
+            lastSmartWordId: lastSmartWordId || "", smartTick: smartTick || 0,
+            queue: studyQueue.map(w => ({
+              id: w.id, _new: !!w._new,
+              _stage: typeof w._stage === "number" ? w._stage : (w._new ? 0 : 1),
+              _mistakes: w._mistakes || 0, _resume: w._resume || null,
+              _relearn: !!w._relearn, _lapsed: !!w._lapsed, _relearned: !!w._relearned,
+              _rated: !!w._rated, _hardRepeated: !!w._hardRepeated,
+              _task: w._task || null, _lastTask: w._lastTask || null
+            }))
+          };
+        }
+      }
+      writeSessionMap(map);
+    }
+    function clearActiveSession(sKey, dropWordIds) {
+      if (!sKey) { localStorage.removeItem(KEYS.session); return; }
+      const map = readSessionMap();
+      delete map[sKey];
+      if (Array.isArray(dropWordIds) && map.__drafts && typeof map.__drafts === "object") {
+        dropWordIds.forEach(id => { if (id) delete map.__drafts[id]; });
+      }
+      writeSessionMap(map);
+    }
+    function tryRestoreActiveSession() {
+      if (extraPracticeMode || searchQuery()) return false;
+      const sKey = currentSessionKey();
+      const map = readSessionMap();
+      const raw = map[sKey];
+      if (!raw || !Array.isArray(raw.queue) || !raw.queue.length) return false;
+      const now = Date.now();
+      const savedAt = Number(raw.savedAt || 0);
+      const drafts = map.__drafts && typeof map.__drafts === "object" ? map.__drafts : {};
+      const list = [];
+      for (const item of raw.queue) {
+        if (!item || !item.id) continue;
+        const full = VOCAB_BY_ID.get(item.id);
+        if (!full) continue;
+        const st = srsData[item.id];
+        if (st && st.ignored) continue;
+        if (st) {
+          const reviewedAt = Number(st.lastReview || st.updatedAt || 0);
+          const inFlightRepeat = (item._lapsed && !item._relearned) || (item._hardRepeated && raw.mode === "flashcard");
+          if ((inFlightRepeat ? reviewedAt > savedAt : reviewedAt >= savedAt) && Number(st.due || 0) > now) continue;
+        }
+        if (item._new && st && Number(st.due || 0) > now && (raw.mode === "smart" || !(item._lapsed || item._hardRepeated || item._rated))) continue;
+        if (item._new && st && !(item._lapsed || item._hardRepeated || item._rated)) continue;
+        const restored = Object.assign({}, full, item);
+        const d = drafts[item.id];
+        if (d && Number(d.updatedAt || 0) > savedAt && !(st && Number(st.lastReview || st.updatedAt || 0) >= Number(d.updatedAt || 0) && Number(st.due || 0) > now)) {
+          if (typeof d.stage === "number" && d.stage !== item._stage) restored._task = null;
+          restored._stage = typeof d.stage === "number" ? d.stage : restored._stage;
+          restored._mistakes = d.mistakes || 0;
+          restored._resume = d.resume || null;
+          restored._relearn = !!d.relearn;
+          restored._lastTask = d.lastTask || restored._lastTask;
+        }
+        if (typeof restored._stage !== "number") restored._stage = restored._new ? 0 : 1;
+        list.push(restored);
+      }
+      if (!list.length) { clearActiveSession(sKey); return false; }
+      if (raw.mode && raw.mode !== "list" && ["smart", "flashcard", "quiz", "listen", "match", "cloze"].includes(raw.mode)) {
+        currentMode = raw.mode;
+        syncModeUi(currentMode);
+      }
+      studyQueue = list;
+      sessionTopic = sKey;
+      sessionTotal = Math.max(Number(raw.sessionTotal || 0), list.length + Number(raw.sessionDone || 0));
+      sessionDone = Number(raw.sessionDone || 0);
+      smartTick = Number(raw.smartTick || 0);
+      lastSmartWordId = raw.lastSmartWordId || (studyQueue[0] && studyQueue[0].id) || "";
+      isFlipped = false;
+      bumpCard();
+      if (currentMode === "smart" && studyQueue.length && !studyQueue[0]._task) pickNextSmartItem(true);
+      return true;
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(KEYS.srs, JSON.stringify(srsData));
+        localStorage.setItem(KEYS.days, JSON.stringify(dayLog));
+        localStorage.setItem(KEYS.settings, JSON.stringify(userSettings));
+      } catch (e) {}
+      saveActiveSession();
+    }
+    function logActivity(id) {
+      const today = getTodayStr();
+      const arr = dayLog[today] || (dayLog[today] = []);
+      if (!arr.includes(id)) arr.push(id);
+      saveState();
+    }
+
+    /* ---------- 7. Hạn mức & Thuật toán SM-2 cải tiến ---------- */
+    function getNewWordsLearnedTodayCount() {
+      const today = getTodayStr();
+      return Object.values(srsData).filter(st => st && !st.ignored && st.firstLearnedDate === today).length;
+    }
+    function getDailyTarget() {
+      const bonus = userSettings.bonusTodayDate === getTodayStr() ? (userSettings.bonusTodayCount || 0) : 0;
+      return Number(userSettings.dailyNewLimit) + bonus;
+    }
+    function getRemainingDailyNewQuota() { return Math.max(0, getDailyTarget() - getNewWordsLearnedTodayCount()); }
+
+    function dueAt(days) {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + Math.max(1, Math.round(days)));
+      return d.getTime();
+    }
+    function fuzz(i) { return i >= 7 ? Math.round(i * (0.92 + Math.random() * 0.16)) : i; }
+
+    function rateWordSRS(id, quality, relearned) {
+      const now = Date.now();
+      let st = srsData[id];
+      if (!st || st.ignored) st = { reps: 0, interval: 0, ease: 2.5, due: 0, lapses: 0, firstLearnedDate: getTodayStr() };
+      if (!st.firstLearnedDate) st.firstLearnedDate = getTodayStr();
+      st.ignored = false;
+
+      if (quality === 0) {
+        st.reps = 0;
+        st.lapses = (st.lapses || 0) + 1;
+        st.ease = Math.max(1.3, st.ease - 0.2);
+        if (relearned) { st.interval = 1; st.due = dueAt(1); }
+        else { st.interval = 0; st.due = now + 10 * 60 * 1000; }
+      } else {
+        st.reps += 1;
+        if (quality === 1) {
+          st.reps = Math.max(1, st.reps - 1);
+          st.interval = st.interval < 1 ? 1 : Math.min(14, Math.max(1, Math.round(st.interval * 0.5)));
+          st.ease = Math.max(1.3, st.ease - 0.15);
+        } else if (quality === 2) {
+          st.interval = st.reps === 1 ? 1 : st.reps === 2 ? 3 : Math.max(st.interval + 1, Math.round(st.interval * st.ease));
+        } else {
+          st.interval = st.reps === 1 ? 4 : st.reps === 2 ? 7 : Math.max(st.interval + 2, Math.round(st.interval * st.ease * 1.3));
+          st.ease = Math.min(3, st.ease + 0.15);
+        }
+        st.interval = Math.min(365, fuzz(st.interval));
+        st.due = dueAt(st.interval);
+      }
+      st.lastReview = now;
+      st.updatedAt = now;
+      srsData[id] = st;
+      saveState();
+    }
+
+    function rateOnce(v, q) {
+      if (extraPracticeMode) { logActivity(v.id); return; }
+      if (v._lapsed) {
+        if (!v._relearned && q >= 1) { v._relearned = true; rateWordSRS(v.id, q >= 2 ? 2 : 1); }
+        else logActivity(v.id);
+        return;
+      }
+      if (v._rated) { logActivity(v.id); return; }
+      v._rated = true;
+      rateWordSRS(v.id, q);
+      logActivity(v.id);
+    }
+
+    /* ---------- 8. Phạm vi từ & Hàng đợi phiên học ---------- */
+    function searchQuery() { return ($("searchWordInput") ? $("searchWordInput").value : "").trim(); }
+    function isDueWord(v, now) { const st = srsData[v.id]; return !!st && !st.ignored && now >= Number(st.due || 0); }
+
+    function applyBookFilter(list) {
+      if (currentBookFilter === "ALL") return list;
+      return list.filter(v => Array.isArray(v.books) && v.books.includes(currentBookFilter));
+    }
+
+    function getScopeWords() {
+      const q = searchQuery();
+      let base;
+      if (q) {
+        if (vocabSearchIndex && typeof vocabSearchIndex.filter === "function") {
+          base = vocabSearchIndex.filter(q);
+        } else {
+          const ql = q.toLowerCase();
+          base = LOADED_WORDS.filter(v =>
+            (window.S4UI && typeof window.S4UI.matchesSearch === "function")
+              ? window.S4UI.matchesSearch(v.word + " " + v.defVi + " " + v.defEn + " " + (v.col || []).join(" ") + " " + (v.syn || []).join(" ") + " " + v.trap, q)
+              : (v.word.toLowerCase().includes(ql) || v.defVi.toLowerCase().includes(ql) || v.defEn.toLowerCase().includes(ql))
+          );
+        }
+        if (currentLevelFilter !== "ALL") base = base.filter(v => v.level === Number(currentLevelFilter));
+        return applyBookFilter(base);
+      }
+
+      if (currentTopic === "ALL") {
+        base = currentLevelFilter === "ALL" ? LOADED_WORDS : (WORDS_BY_LEVEL[Number(currentLevelFilter)] || []);
+        return applyBookFilter(base);
+      }
+      if (currentTopic === "ALL_DUE") {
+        const now = Date.now();
+        base = currentLevelFilter === "ALL" ? LOADED_WORDS : (WORDS_BY_LEVEL[Number(currentLevelFilter)] || []);
+        base = applyBookFilter(base);
+        return base.filter(v => isDueWord(v, now)).sort((a, b) => Number(srsData[a.id].due || 0) - Number(srsData[b.id].due || 0));
+      }
+      if (currentTopic.startsWith("LEVEL_")) {
+        const lv = Number(currentTopic.slice(6)) || 1;
+        return applyBookFilter(WORDS_BY_LEVEL[lv] || []);
+      }
+      base = LOADED_WORDS.filter(v => v.topicKey === currentTopic || v.topic === currentTopic);
+      return applyBookFilter(base);
+    }
+
+    function randomMerge(a, b) {
+      const out = []; let i = 0, j = 0;
+      while (i < a.length || j < b.length) {
+        const la = a.length - i, lb = b.length - j;
+        if (Math.random() < la / (la + lb)) out.push(a[i++]); else out.push(b[j++]);
+      }
+      return out;
+    }
+
+    function buildStudyQueue(forceReset, skipDraftHydration) {
+      const sessionScoped = !extraPracticeMode && !searchQuery();
+      const sKey = currentSessionKey();
+      if (!forceReset && tryRestoreActiveSession()) return;
+      if (forceReset && sessionScoped) clearActiveSession(sKey, skipDraftHydration ? studyQueue.map(w => w.id) : undefined);
+
+      const now = Date.now();
+      const scope = getScopeWords();
+      let list = [];
+
+      if (extraPracticeMode) {
+        list = shuffle(scope.filter(v => srsData[v.id] && !srsData[v.id].ignored)).slice(0, 25);
+      } else {
+        const cap = Number(userSettings.reviewCap) >= 9999 ? Infinity : Number(userSettings.reviewCap);
+        const dueSource = (searchQuery() || currentTopic === "ALL_DUE" || currentBookFilter !== "ALL") ? scope : LOADED_WORDS;
+        const due = dueSource.filter(v => isDueWord(v, now))
+          .sort((a, b) => Number(srsData[a.id].due || 0) - Number(srsData[b.id].due || 0))
+          .slice(0, cap);
+        const fresh = currentTopic === "ALL_DUE" ? [] : scope.filter(v => !srsData[v.id]).slice(0, getRemainingDailyNewQuota());
+        if (userSettings.queueOrder === "due_first") list = [...due, ...fresh];
+        else if (userSettings.queueOrder === "new_first") list = [...fresh, ...due];
+        else list = randomMerge(due, fresh);
+      }
+
+      const drafts = (!skipDraftHydration && !extraPracticeMode) ? (readSessionMap().__drafts || {}) : {};
+      studyQueue = list.map(w => {
+        const isNew = !srsData[w.id];
+        const item = Object.assign({ _new: isNew }, w);
+        const d = drafts[w.id];
+        if (d && (!isNew || d.new)) {
+          item._stage = typeof d.stage === "number" ? d.stage : (isNew ? 0 : 1);
+          item._mistakes = d.mistakes || 0;
+          item._resume = d.resume || null;
+          item._relearn = !!d.relearn;
+          item._lastTask = d.lastTask || null;
+        }
+        return item;
+      });
+      sessionTopic = sessionScoped ? sKey : "";
+      sessionTotal = studyQueue.length;
+      sessionDone = 0;
+      smartTick = 0;
+      lastSmartWordId = "";
+      isFlipped = false;
+      bumpCard();
+      if (currentMode === "smart" && studyQueue.length) pickNextSmartItem(true);
+      saveActiveSession();
+    }
+
+    function advanceQueueWithQuality(q) {
+      if (!studyQueue.length) return;
+      const v = studyQueue.shift();
+      const qLen = studyQueue.length;
+      let droppedId = null;
+      if (q === 0) {
+        if (!v._lapsed && !extraPracticeMode) { v._lapsed = true; v._rated = true; rateWordSRS(v.id, 0); }
+        else v._lapsed = true;
+        logActivity(v.id);
+        const minGap = qLen <= 3 ? qLen : Math.min(qLen, Math.max(3, Math.floor(qLen * 0.25)));
+        const maxGap = qLen <= 3 ? qLen : Math.min(qLen, Math.max(6, Math.floor(qLen * 0.75)));
+        studyQueue.splice(rint(minGap, maxGap), 0, v);
+      } else if (q === 1 && !v._hardRepeated && !v._lapsed && qLen >= 3) {
+        rateOnce(v, 1);
+        v._hardRepeated = true;
+        studyQueue.splice(rint(Math.ceil(qLen * 0.45), qLen), 0, v);
+      } else {
+        rateOnce(v, q);
+        sessionDone++;
+        droppedId = v.id;
+      }
+      isFlipped = false;
+      bumpCard();
+      saveActiveSession(droppedId ? [droppedId] : undefined);
+      renderAll();
+    }
+
+    function handleResult(ok) {
+      if (currentMode === "smart") completeSmartStep(ok);
+      else advanceQueueWithQuality(ok ? 2 : 0);
+    }
+
+    /* ---------- 9. Chế độ Học 4 bước (Smart) ---------- */
+    function pickNextSmartItem(preserveFront) {
+      if (!studyQueue.length) return;
+      smartTick++;
+      for (let i = 0; i < studyQueue.length; i++) {
+        const w = studyQueue[i];
+        if (typeof w._stage !== "number") {
+          w._stage = w._new ? 0 : 1;
+          w._mistakes = 0;
+        }
+      }
+      let pickIdx = 0;
+      if (!preserveFront) {
+        const frontCount = Math.min(4, studyQueue.length);
+        const candidates = [];
+        for (let i = 0; i < frontCount; i++) {
+          if (studyQueue[i].id !== lastSmartWordId) candidates.push(i);
+        }
+        pickIdx = candidates.length ? candidates[rint(0, candidates.length - 1)] : 0;
+      }
+      if (pickIdx > 0) {
+        const picked = studyQueue.splice(pickIdx, 1)[0];
+        studyQueue.unshift(picked);
+      }
+      const pick = studyQueue[0];
+      lastSmartWordId = pick.id;
+      const exclude = pick._lastTask;
+      const choose = list => { const l = list.filter(t => t !== exclude); const src = l.length ? l : list; return src[rint(0, src.length - 1)]; };
+      if (pick._stage === 0) pick._task = "intro";
+      else if (pick._stage === 1) pick._task = choose(["mcq_en2vi", "mcq_vi2en", "listen_choice"]);
+      else if (pick._stage === 2) pick._task = choose(["mcq_vi2en", "listen_choice", "mcq_en2vi"]);
+      else pick._task = choose(makeCloze(pick) ? ["cloze", "dictation"] : ["dictation"]);
+      pick._lastTask = pick._task;
+      bumpCard();
+    }
+
+    function completeSmartStep(ok) {
+      if (!studyQueue.length) return;
+      const v = studyQueue[0];
+      const s = v._stage;
+      if (s === 0) {
+        v._stage = v._resume || 1;
+        v._resume = null;
+        v._relearn = false;
+      } else if (ok) {
+        if (s >= 3) { graduateSmartWord(v); return; }
+        v._stage = s + 1;
+      } else {
+        v._mistakes = (v._mistakes || 0) + 1;
+        v._resume = Math.max(1, s - 1);
+        v._stage = 0;
+        v._relearn = true;
+      }
+      v._task = null;
+      studyQueue.shift();
+      const qLen = studyQueue.length;
+      let insertPos = qLen;
+      if (qLen > 3) {
+        if (ok || s === 0) {
+          insertPos = rint(Math.min(qLen, Math.max(4, Math.floor(qLen * 0.35))), qLen);
+        } else {
+          insertPos = rint(Math.min(qLen, Math.max(3, Math.floor(qLen * 0.20))), Math.min(qLen, Math.max(6, Math.floor(qLen * 0.60))));
+        }
+      }
+      studyQueue.splice(insertPos, 0, v);
+      isFlipped = false;
+      pickNextSmartItem();
+      saveActiveSession();
+      renderAll();
+    }
+
+    function graduateSmartWord(v) {
+      studyQueue.shift();
+      const m = v._mistakes || 0;
+      if (!extraPracticeMode) {
+        if (v._new) rateWordSRS(v.id, m >= 2 ? 1 : 2);
+        else if (m === 0) rateWordSRS(v.id, 3);
+        else if (m === 1) rateWordSRS(v.id, 1);
+        else rateWordSRS(v.id, 0, true);
+      }
+      logActivity(v.id);
+      sessionDone++;
+      isFlipped = false;
+      if (studyQueue.length) { pickNextSmartItem(); saveActiveSession([v.id]); }
+      else { clearActiveSession(sessionTopic || currentSessionKey(), [v.id]); bumpCard(); }
+      renderAll();
+    }
+
+    /* ---------- 10. Vũ khí 1: Âm thanh 3 giọng UK • US • AU ---------- */
+    let audioPlayToken = 0;
+    function speakWithLang(text, lang, token) {
+      if (token !== audioPlayToken || !text) return;
+      if (window.S4UI && typeof window.S4UI.speakEnglish === "function") {
+        window.S4UI.speakEnglish(text, { lang: lang || "en-US", rate: 0.96 });
+        return;
+      }
+      if ("speechSynthesis" in window) {
+        try {
+          speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = lang || "en-US";
+          u.rate = 0.96;
+          speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+    }
+    function playAudio(src, word, lang) {
+      const token = ++audioPlayToken;
+      const p = $("audioPlayer");
+      if (window.S4UI && typeof window.S4UI.stopEnglish === "function") {
+        window.S4UI.stopEnglish();
+      } else if ("speechSynthesis" in window) {
+        try { speechSynthesis.cancel(); } catch (e) {}
+      }
+      if (p) { try { p.pause(); } catch (e) {} }
+      if (src && p) {
+        p.src = src;
+        p.play().catch(() => {
+          if (token !== audioPlayToken) return;
+          speakWithLang(word, lang, token);
+        });
+      } else {
+        speakWithLang(word, lang, token);
+      }
+    }
+    function playVocab(id, accent) {
+      const v = VOCAB_BY_ID.get(id);
+      if (!v) return;
+      const acc = accent === "mix" ? ["us", "uk", "au"][rint(0, 2)] : (accent || userSettings.defaultAccent || "us");
+      if (acc === "uk") playAudio(v.localUkAudio, v.word, "en-GB");
+      else if (acc === "au") playAudio("", v.word, "en-AU");
+      else playAudio(v.localUsAudio, v.word, "en-US");
+    }
+    function autoPlayIfNeeded() {
+      if (lastPlayedSerial === cardSerial || !studyQueue.length || currentMode === "list" || currentMode === "match") return;
+      lastPlayedSerial = cardSerial;
+      const v = studyQueue[0];
+      let should = false;
+      if (currentMode === "listen") should = true;
+      else if (currentMode === "smart") should = ["listen_choice", "dictation"].includes(v._task) || (userSettings.autoAudio && ["intro", "mcq_en2vi"].includes(v._task));
+      else if (currentMode === "flashcard") should = userSettings.autoAudio;
+      else if (currentMode === "quiz") should = userSettings.autoAudio && !!(cardCache.quiz && cardCache.quiz.enToVi);
+      if (should) setTimeout(() => playVocab(v.id, userSettings.defaultAccent || "us"), 120);
+    }
+
+    /* ---------- 11. Thống kê toàn cục không cần tải hết 4 gói ---------- */
+    function computeStats() {
+      const now = Date.now();
+      const s = {
+        total: MANIFEST.total || LOADED_WORDS.length,
+        learning: 0, ignored: 0, due: 0, mastered: 0,
+        levels: {
+          1: { total: MANIFEST.levels[0].count, touched: 0, due: 0 },
+          2: { total: MANIFEST.levels[1].count, touched: 0, due: 0 },
+          3: { total: MANIFEST.levels[2].count, touched: 0, due: 0 },
+          4: { total: MANIFEST.levels[3].count, touched: 0, due: 0 }
+        },
+        topics: {}
+      };
+
+      // Đếm tổng & theo Chặng từ srsData (nhanh tức thì dù chỉ tải 1 chặng!)
+      Object.keys(srsData).forEach(id => {
+        const st = srsData[id];
+        if (!st || typeof st !== "object") return;
+        const m = /^toeic([1-4])_/.exec(id);
+        const lv = m ? Number(m[1]) : 0;
+        if (lv && s.levels[lv]) s.levels[lv].touched++;
+        if (st.ignored) { s.ignored++; return; }
+        s.learning++;
+        if (now >= Number(st.due || 0)) {
+          s.due++;
+          if (lv && s.levels[lv]) s.levels[lv].due++;
+        } else if (Number(st.interval || 0) >= 7) {
+          s.mastered++;
+        }
+      });
+
+      // Khởi tạo topic counts từ manifest
+      MANIFEST.topics.forEach(tp => {
+        s.topics[tp.key] = { total: tp.count, touched: 0, due: 0 };
+      });
+      // Tính chính xác theo từng chủ đề của các chặng đã tải
+      for (let i = 0; i < LOADED_WORDS.length; i++) {
+        const v = LOADED_WORDS[i];
+        const t = s.topics[v.topicKey] || (s.topics[v.topicKey] = { total: 0, touched: 0, due: 0 });
+        if (!t._countedLoaded) { t._countedLoaded = true; t._loadedTotal = 0; }
+        t._loadedTotal++;
+        const st = srsData[v.id];
+        if (!st) continue;
+        t.touched++;
+        if (!st.ignored && now >= Number(st.due || 0)) t.due++;
+      }
+      Object.keys(s.topics).forEach(k => {
+        const t = s.topics[k];
+        if (t._loadedTotal && !t.total) t.total = t._loadedTotal;
+      });
+      return s;
+    }
+
+    /* ---------- 12. Sidebar & Bộ lọc kép (Chặng + Nguồn sách) ---------- */
+    function toggleSidebar(open) {
+      const isOpen = !!open && window.innerWidth <= 768;
+      $("sidebar").classList.toggle("open", isOpen);
+      document.body.classList.toggle("sidebar-open", isOpen);
+      const bd = $("sidebarBackdrop");
+      if (bd) bd.classList.toggle("open", isOpen);
+    }
+    function syncDrawerViewport() {
+      if (window.innerWidth > 768 && (document.body.classList.contains("sidebar-open") || $("sidebar")?.classList.contains("open"))) {
+        toggleSidebar(false);
+      }
+    }
+    window.addEventListener("resize", syncDrawerViewport);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("sidebar-open")) toggleSidebar(false);
+    });
+
+    async function setLevelFilter(lv) {
+      currentLevelFilter = String(lv);
+      if (lv !== "ALL") {
+        const lvNum = Number(lv);
+        openLevels.add(lvNum);
+        await ensureLevelsLoaded([lvNum]);
+        if (currentTopic !== "ALL_DUE" && levelOfTopicKey(currentTopic) !== lvNum) {
+          currentTopic = "LEVEL_" + lvNum;
+          userSettings.lastTopic = currentTopic;
+        }
+      }
+      saveState();
+      buildStudyQueue();
+      renderAll();
+    }
+
+    async function setBookFilter(bookId) {
+      currentBookFilter = String(bookId || "ALL");
+      if (currentBookFilter !== "ALL") {
+        await ensureLevelsLoaded(levelsForBook(currentBookFilter));
+        // Nếu chủ đề hiện tại không có từ thuộc sách đang chọn -> chuyển sang phạm vi rộng hơn
+        if (getScopeWords().length === 0) {
+          currentTopic = currentLevelFilter === "ALL" ? "ALL" : ("LEVEL_" + currentLevelFilter);
+        }
+      }
+      buildStudyQueue(true);
+      renderAll();
+    }
+
+    function toggleLevelGroup(key) {
+      if (openLevels.has(key)) openLevels.delete(key);
+      else openLevels.add(key);
+      renderSidebar();
+    }
+
+    async function selectTopic(tKey) {
+      currentTopic = tKey;
+      userSettings.lastTopic = tKey;
+      extraPracticeMode = false;
+      modeBeforeSearch = "";
+      const inp = $("searchWordInput");
+      if (inp && inp.value) {
+        inp.value = "";
+        if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+      }
+      toggleSidebar(false);
+
+      if (tKey === "ALL") {
+        await ensureLevelsLoaded(currentLevelFilter === "ALL" ? [1, 2, 3, 4] : [Number(currentLevelFilter)]);
+      } else if (tKey === "ALL_DUE") {
+        await ensureLevelsLoaded(levelsNeededForDue(currentLevelFilter));
+      } else {
+        const lv = levelOfTopicKey(tKey);
+        openLevels.add(lv);
+        await ensureLevelsLoaded([lv]);
+      }
+      saveState();
+      buildStudyQueue();
+      renderAll();
+    }
+
+    function renderSidebar() {
+      const st = lastStats || computeStats();
+
+      // 1. Tabs 4 Chặng điểm
+      const lvTabs = $("levelTabs");
+      if (lvTabs) {
+        let html = `<button type="button" class="cat-tab ${currentLevelFilter === "ALL" ? "active" : ""}" onclick="setLevelFilter('ALL')">Tất cả</button>`;
+        MANIFEST.levels.forEach(l => {
+          html += `<button type="button" class="cat-tab ${currentLevelFilter === String(l.level) ? "active" : ""}" onclick="setLevelFilter('${l.level}')">${escHtml(l.short)}</button>`;
+        });
+        lvTabs.innerHTML = html;
+      }
+
+      // 2. Bộ lọc Nguồn sách
+      const bookWrap = $("bookFilterWrap");
+      if (bookWrap) {
+        let bHtml = `<div class="book-filter-lbl"><span>Lọc nguồn sách</span>${currentBookFilter !== "ALL" ? `<button type="button" class="skip-known-btn" style="padding:2px 7px;font-size:10.5px;" onclick="setBookFilter('ALL')">Xóa lọc</button>` : ""}</div><div class="book-chips">`;
+        bHtml += `<button type="button" class="book-chip ${currentBookFilter === "ALL" ? "active" : ""}" onclick="setBookFilter('ALL')">Tất cả sách</button>`;
+        MANIFEST.books.forEach(b => {
+          bHtml += `<button type="button" class="book-chip ${currentBookFilter === b.id ? "active" : ""}" onclick="setBookFilter('${escJsAttr(b.id)}')">${escHtml(b.label)}</button>`;
+        });
+        bHtml += `</div>`;
+        bookWrap.innerHTML = bHtml;
+      }
+
+      // 3. Danh sách Accordion Chặng & Chủ đề
+      const itemHtml = (key, nameHtml, metaHtml, pct) =>
+        `<div class="topic-item ${currentTopic === key ? "active" : ""}" onclick="selectTopic('${escJsAttr(key)}')">
+          <div class="topic-name">${nameHtml}</div>${metaHtml}
+          ${pct === null ? "" : `<div class="progress-mini"><div class="progress-mini-bar" style="width:${pct}%"></div></div>`}
+        </div>`;
+
+      let html = "";
+      if (currentLevelFilter === "ALL") {
+        const spOpen = openLevels.has("special");
+        html += `<div class="cat-group ${spOpen ? "open" : ""}">
+          <div class="cat-header" onclick="toggleLevelGroup('special')">
+            <span>Ôn tập &amp; Tổng hợp</span>
+            <span class="cat-meta"><span style="color:var(--danger);font-weight:800;">Ôn ${st.due}</span>${vIcon(spOpen ? "chevronDown" : "chevronRight", 13)}</span>
+          </div>
+          <div class="cat-items">
+            ${itemHtml("ALL_DUE", `${vIcon("bell", 14)} <span>Cần ôn tập hôm nay</span>`, `<div class="topic-meta"><span>Đến hạn ôn SRS</span><b style="color:var(--danger)">${st.due} từ</b></div>`, null)}
+            ${itemHtml("ALL", `${vIcon("layers", 14)} <span>Toàn bộ kho từ TOEIC</span>`, `<div class="topic-meta"><span>4 chặng • 0–990</span><b>${st.total.toLocaleString("en-US")} từ</b></div>`, null)}
+          </div>
+        </div>`;
+      }
+
+      MANIFEST.levels.forEach(lvObj => {
+        if (currentLevelFilter !== "ALL" && String(lvObj.level) !== currentLevelFilter) return;
+        const lvStat = st.levels[lvObj.level] || { total: lvObj.count, touched: 0, due: 0 };
+        const lvTotal = lvStat.total || lvObj.count || 0;
+        const lvPct = lvTotal ? Math.min(100, Math.round((lvStat.touched / lvTotal) * 100)) : 0;
+        const isOpen = currentLevelFilter === String(lvObj.level) || openLevels.has(lvObj.level);
+        const isLoaded = LOADED_LEVELS.has(lvObj.level);
+
+        let items = itemHtml(
+          "LEVEL_" + lvObj.level,
+          `${vIcon("briefcase", 13)} <span>Cả Chặng ${lvObj.level} (${escHtml(lvObj.short)})</span>`,
+          `<div class="topic-meta"><span>${lvStat.touched}/${lvTotal}${lvStat.due ? ` • <b style="color:var(--danger)">ôn ${lvStat.due}</b>` : ""}</span><b>${lvPct}%</b></div>`,
+          lvPct
+        );
+
+        lvObj.topics.forEach((tp, idx) => {
+          const ts = st.topics[tp.key] || { total: tp.count, touched: 0, due: 0 };
+          const tTotal = ts.total || tp.count || 0;
+          const pct = tTotal ? Math.min(100, Math.round((ts.touched / tTotal) * 100)) : 0;
+          const metaTxt = isLoaded
+            ? `${ts.touched}/${tTotal}${ts.due ? ` • <b style="color:var(--danger)">ôn ${ts.due}</b>` : ""}`
+            : `${tTotal} từ`;
+          const displayName = /^\d+\.\s/.test(tp.name) ? tp.name : ((idx + 1) + ". " + tp.name);
+          items += itemHtml(
+            tp.key,
+            `<span>${escHtml(displayName)}</span>`,
+            `<div class="topic-meta"><span>${metaTxt}</span><b>${isLoaded ? (pct + "%") : ""}</b></div>`,
+            isLoaded ? pct : null
+          );
+        });
+
+        const lvHeading = /^Chặng\s/i.test(lvObj.title) ? lvObj.title : ("Chặng " + lvObj.level + ": " + lvObj.short + " • " + lvObj.title);
+        html += `<div class="cat-group ${isOpen ? "open" : ""}">
+          <div class="cat-header" onclick="toggleLevelGroup(${lvObj.level})">
+            <span style="line-height:1.3;">${escHtml(lvHeading)}</span>
+            <span class="cat-meta">
+              <span style="${lvPct === 100 ? "color:var(--success);font-weight:800;" : ""}">${lvStat.touched}/${lvTotal}</span>
+              ${vIcon(isOpen ? "chevronDown" : "chevronRight", 13)}
+            </span>
+          </div>
+          <div class="cat-items">${items}</div>
+        </div>`;
+      });
+
+      $("topicList").innerHTML = html;
+    }
+
+    /* ---------- 13. Mode Switcher, Settings & Calendar ---------- */
+    const MODE_META = {
+      smart: { icon: "graduation", label: "Học 4 bước" },
+      flashcard: { icon: "layers", label: "Flashcard" },
+      quiz: { icon: "help", label: "Trắc nghiệm" },
+      listen: { icon: "listening", label: "Nghe & Chính tả" },
+      cloze: { icon: "edit", label: "Điền từ" },
+      match: { icon: "grid", label: "Ghép cặp" },
+      list: { icon: "reading", label: "Danh sách từ" }
+    };
+
+    function syncModeUi(m) {
+      document.querySelectorAll("#modeNav .mode-btn").forEach(b => b.classList.toggle("active", b.dataset.mode === m));
+      document.querySelectorAll("#modeDdMenu .mode-dd-item").forEach(b => {
+        const act = b.dataset.mode === m;
+        b.classList.toggle("active", act);
+        const chk = b.querySelector(".dd-chk");
+        if (chk) chk.innerHTML = act ? vIcon("check", 14) : "";
+      });
+      const lbl = $("modeDdLabel");
+      if (lbl && MODE_META[m]) {
+        lbl.innerHTML = `${vIcon(MODE_META[m].icon, 14)}<span>${MODE_META[m].label}</span>`;
+      }
+      const menu = $("modeDdMenu");
+      if (menu) menu.classList.remove("open");
+    }
+
+    function setMode(m) {
+      if (!MODE_META[m]) return;
+      if (m !== "list") modeBeforeSearch = "";
+      currentMode = m;
+      syncModeUi(m);
+      isFlipped = false;
+      if (m === "smart" && studyQueue.length && !studyQueue[0]._task) pickNextSmartItem(true);
+      else bumpCard();
+      if (m !== "list") saveActiveSession();
+      renderMain();
+    }
+    document.addEventListener("click", () => {
+      const menu = $("modeDdMenu");
+      if (menu) menu.classList.remove("open");
+    });
+
+    function togglePanel(p) {
+      panel = panel === p ? "" : p;
+      document.body.classList.toggle("scroll-mode", currentMode === "list" || !!panel);
+      renderStats();
+    }
+    function shiftCalMonth(d) { calMonthOffset = Math.min(0, calMonthOffset + d); renderStats(); }
+
+    function setOpt(key, val) {
+      if (key === "autoAudio") { userSettings.autoAudio = !!val; saveState(); return; }
+      if (key === "defaultAccent") { userSettings.defaultAccent = String(val); saveState(); return; }
+      if (key === "queueOrder") userSettings.queueOrder = String(val);
+      else userSettings[key] = Number(val);
+      saveState();
+      buildStudyQueue(true);
+      renderAll();
+    }
+    function addBonusNewWords(n) {
+      const today = getTodayStr();
+      if (userSettings.bonusTodayDate !== today) { userSettings.bonusTodayDate = today; userSettings.bonusTodayCount = 0; }
+      userSettings.bonusTodayCount += n;
+      extraPracticeMode = false;
+      saveState();
+      buildStudyQueue();
+      renderAll();
+    }
+    function startFreePractice() { extraPracticeMode = true; buildStudyQueue(); renderAll(); }
+    function exitPractice() { extraPracticeMode = false; buildStudyQueue(); renderAll(); }
+    async function startDueReview() {
+      extraPracticeMode = false;
+      currentTopic = "ALL_DUE";
+      userSettings.lastTopic = "ALL_DUE";
+      const inp = $("searchWordInput");
+      if (inp && inp.value) {
+        inp.value = "";
+        if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+      }
+      await ensureLevelsLoaded(levelsNeededForDue(currentLevelFilter));
+      saveState();
+      buildStudyQueue(true, true);
+      renderAll();
+    }
+
+    function calendarHtml() {
+      const base = new Date();
+      base.setDate(1);
+      base.setMonth(base.getMonth() + calMonthOffset);
+      const year = base.getFullYear(), month = base.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const startDow = (new Date(year, month, 1).getDay() + 6) % 7;
+      const todayStr = getTodayStr();
+      const keyOf = d => year + "-" + String(month + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+
+      let total = 0, active = 0;
+      let cells = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map(n => `<div class="cal-dow">${n}</div>`).join("") + "<div></div>".repeat(startDow);
+      for (let d = 1; d <= daysInMonth; d++) {
+        const key = keyOf(d);
+        const cnt = (dayLog[key] || []).length;
+        total += cnt; if (cnt) active++;
+        const lv = !cnt ? 0 : cnt < 10 ? 1 : cnt < 20 ? 2 : cnt < 40 ? 3 : 4;
+        cells += `<div class="cal-day lv${lv}${key === todayStr ? " today" : ""}" title="${d}/${month + 1}: ${cnt} từ">${d}${cnt ? `<span>${cnt}</span>` : ""}</div>`;
+      }
+      let streak = 0;
+      const cur = new Date();
+      if (!(dayLog[localDateStr(cur)] || []).length) cur.setDate(cur.getDate() - 1);
+      while ((dayLog[localDateStr(cur)] || []).length) { streak++; cur.setDate(cur.getDate() - 1); }
+
+      return `<div class="cal-wrap">
+        <div class="cal-head">
+          <button type="button" class="mode-btn" onclick="shiftCalMonth(-1)" aria-label="Tháng trước">${vIcon("chevronLeft", 14)}</button>
+          <b>Tháng ${month + 1}/${year}</b>
+          <button type="button" class="mode-btn" onclick="shiftCalMonth(1)" ${calMonthOffset >= 0 ? 'disabled style="opacity:.4"' : ""} aria-label="Tháng sau">${vIcon("chevronRight", 14)}</button>
+        </div>
+        <div class="cal-grid">${cells}</div>
+        <div class="cal-foot">
+          <span class="v-chip">${vIcon("flame", 13)} Chuỗi <b>${streak}</b> ngày</span>
+          <span class="v-chip">${vIcon("calendar", 13)} <b>${active}</b> ngày học</span>
+          <span class="v-chip">${vIcon("edit", 13)} <b>${total}</b> từ</span>
+          <span class="cal-legend">Ít <i class="cal-day lv1"></i><i class="cal-day lv2"></i><i class="cal-day lv3"></i><i class="cal-day lv4"></i> Nhiều</span>
+        </div>
+      </div>`;
+    }
+
+    function settingsHtml() {
+      const opt = (val, label, cur) => `<option value="${val}" ${String(cur) === String(val) ? "selected" : ""}>${label}</option>`;
+      const limits = [10, 15, 20, 30, 50, 100, 9999].map(l => opt(l, l === 9999 ? "Không giới hạn" : l + " từ", userSettings.dailyNewLimit)).join("");
+      const caps = [30, 50, 100, 200, 9999].map(l => opt(l, l === 9999 ? "Không giới hạn" : l + " từ", userSettings.reviewCap)).join("");
+      const orders = [["mix", "Trộn ngẫu nhiên"], ["due_first", "Ôn trước, mới sau"], ["new_first", "Mới trước, ôn sau"]].map(o => opt(o[0], o[1], userSettings.queueOrder)).join("");
+      const accents = [["us", "US (Mỹ)"], ["uk", "UK (Anh)"], ["au", "AU (Úc)"], ["mix", "Xoay vòng US/UK/AU"]].map(a => opt(a[0], a[1], userSettings.defaultAccent)).join("");
+      return `<div class="panel v-settings-panel">
+        <label class="v-set-item"><span>Từ mới/ngày</span><select class="limit-select" onchange="setOpt('dailyNewLimit',this.value)">${limits}</select></label>
+        <label class="v-set-item"><span>Ôn tối đa</span><select class="limit-select" onchange="setOpt('reviewCap',this.value)">${caps}</select></label>
+        <label class="v-set-item"><span>Thứ tự</span><select class="limit-select" onchange="setOpt('queueOrder',this.value)">${orders}</select></label>
+        <label class="v-set-item"><span>Giọng tự động</span><select class="limit-select" onchange="setOpt('defaultAccent',this.value)">${accents}</select></label>
+        <label class="v-set-chk">
+          <span class="lp-switch"><input type="checkbox" ${userSettings.autoAudio ? "checked" : ""} onchange="setOpt('autoAudio',this.checked)"><span class="lp-switch-slider"></span></span>
+          <span>${vIcon("volume", 14)} Tự phát âm khi mở thẻ</span>
+        </label>
+      </div>`;
+    }
+
+    function renderStats() {
+      const st = lastStats || computeStats();
+      const target = getDailyTarget();
+      const unseen = Math.max(0, st.total - st.learning - st.ignored);
+      const bookBadge = currentBookFilter !== "ALL"
+        ? `<div class="active-filter-banner"><span>Đang lọc sách: <b style="color:var(--primary)">${escHtml(BOOK_LABELS[currentBookFilter] || currentBookFilter)}</b> (${getScopeWords().length} từ)</span><button type="button" class="skip-known-btn" onclick="setBookFilter('ALL')">${vIcon("close", 12)} Bỏ lọc sách</button></div>`
+        : "";
+      $("statsHost").innerHTML = `<div class="stats-card">
+        <div class="stats-top">
+          <div class="stats-mini-inline">
+            <span class="quota-pill">${vIcon("sparkle", 13)} <span class="v-stat-lbl">Hôm nay </span>${getNewWordsLearnedTodayCount()}/${target >= 9000 ? "∞" : target}</span>
+            <span class="v-chip">${vIcon("reading", 13)} <span class="v-stat-lbl">Đã học: </span><b style="color:var(--primary)">${st.learning}</b></span>
+            <span class="v-chip">${vIcon("bell", 13)} <span class="v-stat-lbl">Ôn: </span><b style="color:var(--danger)">${st.due}</b></span>
+          </div>
+          <div class="stats-btns">
+            <button type="button" class="mode-btn ${panel === "stats" ? "active" : ""}" onclick="togglePanel('stats')">${vIcon("chart", 14)} <span class="v-btn-lbl">Chi tiết</span></button>
+            <button type="button" class="mode-btn ${panel === "calendar" ? "active" : ""}" onclick="togglePanel('calendar')" title="Lịch sử học theo ngày">${vIcon("calendar", 14)}<span class="v-cal-lbl"> Lịch</span></button>
+            <button type="button" class="mode-btn v-set-btn ${panel === "settings" ? "active" : ""}" onclick="togglePanel('settings')" title="Cài đặt học từ" aria-label="Cài đặt học từ">${vIcon("settings", 14)}</button>
+          </div>
+        </div>
+        ${bookBadge}
+        ${panel === "stats" ? `<div class="stats-grid">
+          <div><div class="stat-num" style="color:var(--primary)">${st.learning}</div><div class="stat-label">Đã học</div></div>
+          <div><div class="stat-num" style="color:var(--danger)">${st.due}</div><div class="stat-label">Cần ôn</div></div>
+          <div><div class="stat-num" style="color:var(--success)">${st.mastered}</div><div class="stat-label">Nhớ kỹ</div></div>
+          <div><div class="stat-num" style="color:var(--warn)">${st.ignored}</div><div class="stat-label">Đã biết</div></div>
+          <div><div class="stat-num">${unseen}</div><div class="stat-label">Chưa học</div></div>
+        </div>` : ""}
+        ${panel === "settings" ? settingsHtml() : ""}
+        ${panel === "calendar" ? `<div class="panel">${calendarHtml()}</div>` : ""}
+      </div>`;
+    }
+
+    /* ---------- 14. Vũ khí 2 & 3: Minh họa 3 tầng + Khung phân tích TOEIC ---------- */
+    window._lpFallbackScene = function (imgEl) {
+      if (!imgEl) return;
+      imgEl.style.display = "none";
+      const sib = imgEl.nextElementSibling;
+      if (sib && sib.classList.contains("fc-scene-card")) sib.style.display = "flex";
+    };
+
+    function visualSceneCardHtml(v, hiddenByDefault) {
+      const lvObj = MANIFEST.levels[(v.level || 1) - 1] || MANIFEST.levels[0];
+      const iconName = pickSceneIconName(v);
+      const bookTags = (v.books || []).slice(0, 2).map(b => `<span class="fc-scene-book">${escHtml(BOOK_LABELS[b] || b)}</span>`).join("");
+      const cue = (v.col && v.col.length) ? v.col[0] : (v.topic || "Từ vựng Thương mại TOEIC");
+      const sub = (v.col && v.col.length) ? v.topic : ("Ngữ cảnh Chặng " + (v.level || 1) + " • " + (lvObj ? lvObj.short : ""));
+      return `<div class="fc-scene-card" style="${hiddenByDefault ? "display:none;" : ""}">
+        <div class="fc-scene-icon" aria-hidden="true">${vIcon(iconName, 22)}</div>
+        <div class="fc-scene-body">
+          <div class="fc-scene-meta">
+            <span class="fc-scene-stage">${escHtml(lvObj ? lvObj.short : "TOEIC")}</span>
+            ${bookTags}
+          </div>
+          <div class="fc-scene-cue">${escHtml(cue)}</div>
+          <div class="fc-scene-sub">${escHtml(sub)}</div>
+        </div>
+      </div>`;
+    }
+
+    function mediaTierHtml(v, maxH) {
+      const styleH = maxH ? ` style="max-height:${maxH}px;"` : "";
+      if (v.localImg) {
+        return `<div class="fc-media-wrap">
+          <img class="fc-front-img"${styleH} loading="lazy" decoding="async" src="${escHtml(v.localImg)}" alt="${escHtml(v.word)}" onerror="window._lpFallbackScene(this)">
+          ${visualSceneCardHtml(v, true)}
+        </div>`;
+      }
+      return `<div class="fc-media-wrap">${visualSceneCardHtml(v, false)}</div>`;
+    }
+
+    function audioRowHtml(v, large) {
+      const safeId = escJsAttr(v.id);
+      const st = large ? ' style="font-size:14.5px;padding:8px 16px;"' : "";
+      const icoSz = large ? 15 : 13;
+      return `<div class="audio-row">
+        <button type="button" class="audio-pill"${st} onclick="playVocab('${safeId}','uk')" title="Phát âm giọng Anh (UK)">${vIcon("volume", icoSz)} UK</button>
+        <button type="button" class="audio-pill"${st} onclick="playVocab('${safeId}','us')" title="Phát âm giọng Mỹ (US)">${vIcon("volume", icoSz)} US</button>
+        <button type="button" class="audio-pill is-au"${st} onclick="playVocab('${safeId}','au')" title="Phát âm giọng Úc (AU)">${vIcon("volume", icoSz)} AU</button>
+      </div>`;
+    }
+
+    function exampleHtml(list) { return (list || []).map(e => "• " + e).join("<br>"); }
+
+    function toeicAnalysisHtml(v) {
+      const books = (v.books || []).map(b => `<span class="fc-book-badge">${escHtml(BOOK_LABELS[b] || b)}</span>`).join("");
+      const wf = (v.wf || []).length
+        ? `<div class="fc-toeic-row"><span class="fc-toeic-lbl">Word Family:</span>${v.wf.map(x => `<span class="fc-pill-wf">${escHtml(x)}</span>`).join("")}</div>`
+        : "";
+      const col = (v.col || []).length
+        ? `<div class="fc-toeic-row"><span class="fc-toeic-lbl">Collocations:</span>${v.col.map(x => `<span class="fc-pill-col">${escHtml(x)}</span>`).join("")}</div>`
+        : "";
+      const syn = (v.syn || []).length
+        ? `<div class="fc-toeic-row"><span class="fc-toeic-lbl">Paraphrase P7:</span>${v.syn.map(x => `<span class="fc-pill-syn">${escHtml(x)}</span>`).join("")}</div>`
+        : "";
+      if (!books && !wf && !col && !syn) return "";
+      return `<div class="fc-toeic-box">
+        <div class="fc-toeic-hd">
+          <span class="fc-toeic-title">${vIcon("briefcase", 13)} Phân tích TOEIC</span>
+          ${books ? `<div class="fc-book-badges">${books}</div>` : ""}
+        </div>
+        ${wf}${col}${syn}
+      </div>`;
+    }
+
+    function trapBoxHtml(v) {
+      if (!v || !v.trap) return "";
+      return `<div class="fc-trap-box">
+        <span class="fc-trap-ico" aria-hidden="true">${vIcon("alert", 16)}</span>
+        <div>
+          <div class="fc-trap-hd">Cảnh báo Nghĩa bẫy TOEIC</div>
+          <div>${escHtml(v.trap)}</div>
+        </div>
+      </div>`;
+    }
+
+    function backHtml(v) {
+      return `<div class="fc-back">
+        <div class="def-box">
+          <div class="def-vi-main">${escHtml(v.defVi)}</div>
+          ${v.defEn ? `<div class="def-en-sub">${escHtml(v.defEn)}</div>` : ""}
+        </div>
+        ${v.examples && v.examples.length ? `<div class="ex-box"><b>Ví dụ ngữ cảnh:</b><br>${exampleHtml(v.examples)}</div>` : ""}
+        ${toeicAnalysisHtml(v)}
+        ${trapBoxHtml(v)}
+      </div>`;
+    }
+
+    function tagHtml(v) {
+      return (v._new ? `<span class="tag new">${vIcon("sparkle", 12)} Từ mới</span>` : `<span class="tag rev">${vIcon("refresh", 12)} Ôn lại</span>`) +
+        `<span style="margin-left:7px;font-weight:700;">${escHtml(shortTopicName(v.topic))}</span>`;
+    }
+    const STEP_NAMES = ["Làm quen", "Nhận diện", "Nghe & Nhớ", "Ghi nhớ sâu"];
+    function stepsHtml(v) {
+      if (currentMode !== "smart" || typeof v._stage !== "number") return "";
+      const stepNum = Math.min(4, Math.max(1, v._stage + 1));
+      return `<span class="steps" title="Bước ${stepNum}/4: ${STEP_NAMES[stepNum - 1] || ""}">${[0, 1, 2, 3].map(i => `<i class="${i < v._stage ? "done" : i === v._stage ? "cur" : ""}"></i>`).join("")}<b class="step-lbl">Bước ${stepNum}/4</b></span>`;
+    }
+    function headerHtml(v, extra) {
+      return `<div class="fc-top-bar"><div>${tagHtml(v)}${stepsHtml(v)}</div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:100%;">${extra || ""}<button type="button" class="skip-known-btn" onclick="ignoreCurrentWord()">${vIcon("check", 12)} Đã biết</button></div></div>`;
+    }
+
+    function flashcardHtml(v, extraBody, actionFooter) {
+      return `<div class="flashcard-wrap">
+        ${headerHtml(v)}
+        <div class="fc-scroll-body">
+          <div class="fc-front">
+            ${mediaTierHtml(v)}
+            <div><span class="fc-word">${escHtml(v.word)}</span> <span class="fc-pos">${escHtml(v.pos)}</span></div>
+            <div class="fc-ipa">${escHtml(v.ipa)}</div>
+            ${audioRowHtml(v, false)}
+          </div>
+          ${extraBody || ""}
+        </div>
+        <div class="fc-action-dock">${actionFooter || ""}</div>
+      </div>`;
+    }
+
+    function flipCard() { if (tapTooSoon()) return; isFlipped = true; tapLockAt = Date.now(); renderMain(); }
+    function rateBtn(q) { if (tapTooSoon()) return; advanceQueueWithQuality(q); }
+    function introDone() { if (tapTooSoon()) return; completeSmartStep(true); }
+
+    function ignoreCurrentWord() {
+      if (!studyQueue.length) return;
+      const v = studyQueue.shift();
+      const wasNew = !srsData[v.id];
+      srsData[v.id] = { ignored: true, updatedAt: Date.now() };
+      sessionDone++;
+      saveState();
+      if (wasNew && !extraPracticeMode && currentTopic !== "ALL_DUE") {
+        const queued = new Set(studyQueue.map(x => x.id));
+        const rep = getScopeWords().find(w => !srsData[w.id] && !queued.has(w.id));
+        if (rep) { studyQueue.push(Object.assign({ _new: true }, rep)); sessionTotal++; }
+      }
+      isFlipped = false;
+      bumpCard();
+      if (currentMode === "smart" && studyQueue.length) pickNextSmartItem();
+      saveActiveSession([v.id]);
+      renderAll();
+    }
+    function unignoreWord(id) { delete srsData[id]; saveState(); saveActiveSession([id]); afterListChange(); }
+    function markKnown(id) { srsData[id] = { ignored: true, updatedAt: Date.now() }; saveState(); saveActiveSession([id]); afterListChange(); }
+    function afterListChange() { if (!studyQueue.length) buildStudyQueue(); renderAll(); }
+
+    /* ---------- 15. Quiz, Listen/Dictation, Cloze, Match, List ---------- */
+    function pickDistractors(v) {
+      const pool = (WORDS_BY_LEVEL[v.level] && WORDS_BY_LEVEL[v.level].length >= 12) ? WORDS_BY_LEVEL[v.level] : LOADED_WORDS;
+      const out = [], used = new Set([v.id]);
+      const samePos = Math.random() < 0.7;
+      let guard = 0;
+      while (out.length < 3 && guard++ < 500 && pool.length > 1) {
+        const c = pool[Math.floor(Math.random() * pool.length)];
+        if (!c || used.has(c.id) || c.word.toLowerCase() === v.word.toLowerCase()) continue;
+        if (samePos && guard < 240 && c.pos !== v.pos) continue;
+        used.add(c.id);
+        out.push(c);
+      }
+      return out;
+    }
+
+    function quizHtml(v, dir) {
+      const q = cacheGet("quiz", () => ({
+        enToVi: dir === "en2vi" || (dir === "mix" && Math.random() < 0.5),
+        choices: shuffle([v, ...pickDistractors(v)])
+      }));
+      const prompt = q.enToVi
+        ? `<div class="center">${mediaTierHtml(v, 130)}<div class="fc-word">${escHtml(v.word)} <span class="fc-pos">${escHtml(v.pos)}</span></div>
+             <div class="fc-ipa">${escHtml(v.ipa)}</div>${audioRowHtml(v, false)}</div>`
+        : `<div class="prompt-box"><b>Định nghĩa:</b><br><span class="def-vi-main">${escHtml(v.defVi)}</span>${v.defEn ? `<div class="def-en-sub">${escHtml(v.defEn)}</div>` : ""}</div>`;
+      const opts = q.choices.map(c => {
+        const label = q.enToVi ? escHtml(c.defVi) : `<b>${escHtml(c.word)}</b> <span class="fc-pos">${escHtml(c.pos)}</span>`;
+        return `<button type="button" class="opt-btn" data-correct="${c.id === v.id}" onclick="answerChoice(this)">${label}</button>`;
+      }).join("");
+      const dirBtns = currentMode === "quiz"
+        ? [["en2vi", "Anh → Việt"], ["vi2en", "Việt → Anh"], ["mix", "Trộn"]].map(([k, l]) =>
+            `<button type="button" class="mode-btn ${quizDirection === k ? "active" : ""}" onclick="setQuizDir('${k}')">${l}</button>`
+          ).join("")
+        : "";
+      return `<div class="quiz-box">${headerHtml(v, dirBtns)}${prompt}<div class="options-grid">${opts}</div></div>`;
+    }
+    function setQuizDir(d) { quizDirection = d; cardCache = {}; renderMain(); }
+    function setListenSub(d) { listenSubMode = d; cardCache = {}; renderMain(); }
+
+    function answerChoice(btn) {
+      if (tapTooSoon()) return;
+      const grid = btn.parentElement;
+      if (grid.dataset.locked === "1") return;
+      grid.dataset.locked = "1";
+      const ok = btn.dataset.correct === "true";
+      btn.classList.add(ok ? "correct" : "wrong");
+      if (!ok) { const r = grid.querySelector('[data-correct="true"]'); if (r) r.classList.add("correct"); }
+      const serial = cardSerial;
+      setTimeout(() => { if (serial === cardSerial) handleResult(ok); }, ok ? 1050 : 2100);
+    }
+
+    function normalizeAns(s) { return String(s || "").toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, " ").trim(); }
+    function showAnsToast(ok, rightAns) {
+      if (window.S4UI && typeof window.S4UI.toast === "function") {
+        window.S4UI.toast(ok ? "success" : "error", ok ? "Chính xác" : ("Đáp án: " + rightAns), { duration: ok ? 1300 : 2300 });
+      }
+    }
+    function scrollInputIntoOptimalView(el) {
+      if (!el) return;
+      setTimeout(() => { try { el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" }); } catch (e) {} }, 140);
+    }
+    function onAnsInputEdit(inp) {
+      if (!inp) return;
+      inp.dataset.wrongWaiting = "0";
+      inp.classList.remove("correct", "wrong");
+    }
+    function handleAnsKeydown(ev) {
+      if (ev.key === "Enter") {
+        ev.preventDefault();
+        const inp = $("ansInput");
+        if (inp && inp.dataset.wrongWaiting === "1") { handleResult(false); return; }
+        checkText();
+      }
+    }
+    function checkText() {
+      const inp = $("ansInput");
+      if (!inp || inp.dataset.locked === "1") return;
+      const answers = cardCache.answers || [];
+      finishText(inp, answers.includes(normalizeAns(inp.value)), false);
+    }
+    function giveUp() {
+      const inp = $("ansInput");
+      if (!inp || inp.dataset.locked === "1") return;
+      finishText(inp, false, true);
+    }
+    function finishText(inp, ok, isGiveUp) {
+      const rightAns = (studyQueue[0] && studyQueue[0].word) || (cardCache.answers || [""])[0];
+      if (isGiveUp) inp.value = rightAns;
+      inp.classList.remove("correct", "wrong");
+      inp.classList.add(ok ? "correct" : "wrong");
+      document.querySelectorAll("#cardHost .blank").forEach(b => {
+        b.classList.remove("correct", "wrong");
+        b.classList.add(ok ? "correct" : "wrong");
+        b.textContent = rightAns;
+      });
+      const fb = $("ansFeedback");
+      const nextBtn = $("nextAfterWrongBtn");
+      const w = studyQueue[0];
+      if (ok) {
+        inp.dataset.locked = "1";
+        inp.dataset.wrongWaiting = "0";
+        if (fb) { fb.style.color = "var(--success)"; fb.innerHTML = `<span class="v-chip">${vIcon("check", 14)} Chính xác: <b>${escHtml(rightAns)}</b></span>`; }
+        if (nextBtn) nextBtn.style.display = "none";
+        showAnsToast(true, rightAns);
+        if (w) playVocab(w.id, userSettings.defaultAccent || "us");
+        const passSrs = inp.dataset.hadWrong !== "1";
+        const serial = cardSerial;
+        setTimeout(() => { if (serial === cardSerial) handleResult(passSrs); }, 1050);
+      } else {
+        inp.dataset.hadWrong = "1";
+        inp.dataset.wrongWaiting = "1";
+        if (fb) { fb.style.color = "var(--danger)"; fb.innerHTML = `<span class="v-chip">${vIcon("close", 14)} Chưa đúng — Đáp án: <span class="dic-ans-hint">${escHtml(rightAns)}</span></span>`; }
+        if (nextBtn) nextBtn.style.display = "inline-flex";
+        if (w) playVocab(w.id, userSettings.defaultAccent || "us");
+      }
+    }
+    function textInputHtml(placeholder) {
+      return `<input type="text" id="ansInput" class="text-input" placeholder="${escHtml(placeholder)}" autocomplete="off" autocapitalize="off" spellcheck="false" onfocus="scrollInputIntoOptimalView(this)" oninput="onAnsInputEdit(this)" onkeydown="handleAnsKeydown(event)">
+        <div id="ansFeedback" style="margin-top:8px;font-weight:700;font-size:13.5px;min-height:22px;"></div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+          <button type="button" class="mode-btn active" onclick="checkText()">${vIcon("check", 14)} Kiểm tra</button>
+          <button type="button" class="mode-btn" onclick="giveUp()">${vIcon("lightbulb", 14)} Hiện đáp án</button>
+          <button type="button" class="mode-btn" id="nextAfterWrongBtn" style="display:none;background:var(--primary-solid);color:#fff;border-color:var(--primary-solid);" onclick="handleResult(false)">Câu tiếp theo ${vIcon("arrowRight", 14)}</button>
+        </div>`;
+    }
+
+    function listenHtml(v, sub) {
+      cardCache.answers = [normalizeAns(v.word)];
+      let body;
+      if (sub === "choice") {
+        const choices = cacheGet("listen", () => shuffle([v, ...pickDistractors(v)]));
+        body = `<div class="options-grid">${choices.map(c => `<button type="button" class="opt-btn" data-correct="${c.id === v.id}" onclick="answerChoice(this)"><b>${escHtml(c.word)}</b> <span class="fc-pos">${escHtml(c.pos)}</span></button>`).join("")}</div>`;
+      } else {
+        body = `<div class="center" style="margin-top:12px;color:var(--lg-ink-muted,var(--muted));">Nghĩa: <b style="color:var(--lg-ink,var(--text))">${escHtml(v.defVi)}</b> ${escHtml(v.pos)}</div>${textInputHtml("Gõ từ tiếng Anh bạn nghe được...")}`;
+      }
+      const subBtns = currentMode === "listen"
+        ? `<button type="button" class="mode-btn ${sub === "choice" ? "active" : ""}" onclick="setListenSub('choice')">Chọn từ</button><button type="button" class="mode-btn ${sub === "dictation" ? "active" : ""}" onclick="setListenSub('dictation')">Chính tả</button>`
+        : "";
+      return `<div class="quiz-box">${headerHtml(v, subBtns)}
+        <div style="margin:12px 0;">${audioRowHtml(v, true)}</div>
+        ${body}</div>`;
+    }
+
+    function makeCloze(v) {
+      const ex = (v.examples || []).find(e => /<b[^>]*>[^<]+<\/b>/i.test(e));
+      if (ex) {
+        const answers = [normalizeAns(v.word)];
+        const html = ex.replace(/<b[^>]*>([^<]+)<\/b>/gi, (m, t) => {
+          answers.push(normalizeAns(t));
+          return '<span class="blank">_____</span>';
+        });
+        return { html, answers };
+      }
+      const firstEx = (v.examples || [])[0];
+      if (firstEx && v.word) {
+        const re = new RegExp("\\b" + v.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+        if (re.test(firstEx)) {
+          return { html: firstEx.replace(re, '<span class="blank">_____</span>'), answers: [normalizeAns(v.word)] };
+        }
+      }
+      return null;
+    }
+
+    function clozeHtml(v) {
+      const c = makeCloze(v);
+      cardCache.answers = c ? c.answers : [normalizeAns(v.word)];
+      const hint = `Gợi ý: <b>${escHtml((v.word || "")[0] || "")}… (${(v.word || "").length} ký tự)</b>`;
+      return `<div class="quiz-box center">${headerHtml(v, `<span style="font-size:12px;color:var(--lg-ink-muted,var(--muted));">${hint}</span>`)}
+        ${mediaTierHtml(v, 118)}
+        <div class="prompt-box" style="font-size:16.5px;margin:10px 0;text-align:left;">${c ? c.html : escHtml(v.defEn || v.defVi)}</div>
+        <div style="color:var(--lg-ink-muted,var(--muted));">Nghĩa: <b style="color:var(--lg-ink,var(--text))">${escHtml(v.defVi)}</b> ${escHtml(v.pos)}</div>
+        ${textInputHtml("Nhập từ điền vào chỗ trống...")}</div>`;
+    }
+
+    function smartHtml() {
+      if (!studyQueue[0]._task) pickNextSmartItem();
+      const v = studyQueue[0];
+      switch (v._task) {
+        case "intro": {
+          const label = v._relearn ? `Đã xem lại ${vIcon("arrowRight", 15)}` : `Đã hiểu ${vIcon("arrowRight", 15)}`;
+          return flashcardHtml(v, backHtml(v), `<button type="button" class="btn-flip green" onclick="introDone()">${label}</button>`);
+        }
+        case "mcq_en2vi": return quizHtml(v, "en2vi");
+        case "mcq_vi2en": return quizHtml(v, "vi2en");
+        case "listen_choice": return listenHtml(v, "choice");
+        case "dictation": return listenHtml(v, "dictation");
+        default: return clozeHtml(v);
+      }
+    }
+
+    function matchHtml() {
+      const tiles = cacheGet("tiles", () => {
+        const t = [];
+        studyQueue.slice(0, 6).forEach(w => {
+          t.push({ id: w.id, html: `<b>${escHtml(w.word)}</b><br><span style="font-size:11.5px;color:var(--lg-ink-muted,var(--muted))">${escHtml(w.ipa)}</span>` });
+          t.push({ id: w.id, html: escHtml((w.defVi || "").slice(0, 72)) });
+        });
+        return shuffle(t);
+      });
+      return `<div class="quiz-box"><b class="v-chip" style="color:var(--primary);">${vIcon("grid", 15)} Ghép cặp 6 thẻ từ ↔ nghĩa</b>
+        <div class="match-grid" id="matchGrid">${tiles.map(t => `<div class="match-tile" data-pair="${escHtml(t.id)}" onclick="clickMatchTile(this)"><div>${t.html}</div></div>`).join("")}</div></div>`;
+    }
+    let matchSelected = null;
+    function clickMatchTile(el) {
+      if (el.classList.contains("matched")) return;
+      if (!matchSelected) { matchSelected = el; el.classList.add("selected"); return; }
+      if (matchSelected === el) { el.classList.remove("selected"); matchSelected = null; return; }
+      const prev = matchSelected;
+      matchSelected = null;
+      if (prev.dataset.pair === el.dataset.pair) {
+        prev.classList.remove("selected");
+        prev.classList.add("matched"); el.classList.add("matched");
+        const idx = studyQueue.findIndex(x => x.id === el.dataset.pair);
+        if (idx !== -1) {
+          const matchedId = studyQueue[idx].id;
+          rateOnce(studyQueue[idx], 2);
+          studyQueue.splice(idx, 1);
+          sessionDone++;
+          saveActiveSession([matchedId]);
+        }
+        if (!document.querySelector("#matchGrid .match-tile:not(.matched)")) {
+          const serial = cardSerial;
+          setTimeout(() => { if (serial === cardSerial) { bumpCard(); renderAll(); } }, 450);
+        }
+      } else {
+        el.classList.add("error");
+        setTimeout(() => { prev.classList.remove("selected"); el.classList.remove("error"); }, 450);
+      }
+    }
+
+    function renderVocabListBodyHtml(words) {
+      const q = searchQuery();
+      let f = words;
+      if (listFilter === "learned") f = words.filter(v => srsData[v.id] && !srsData[v.id].ignored);
+      else if (listFilter === "ignored") f = words.filter(v => srsData[v.id] && srsData[v.id].ignored);
+      else if (listFilter === "unseen") f = words.filter(v => !srsData[v.id]);
+      const cnt = fn => words.filter(fn).length;
+      const btn = (k, label) => `<button type="button" class="mode-btn ${listFilter === k ? "active" : ""}" onclick="setVocabListFilter('${k}')">${label}</button>`;
+      const loadAllBtn = LOADED_LEVELS.size < 4
+        ? `<button type="button" class="mode-btn" style="margin-left:auto;" onclick="loadAllForSearch()">${vIcon("layers", 13)} Tải đủ 4 chặng (${MANIFEST.total.toLocaleString("en-US")} từ)</button>`
+        : "";
+      const bar = `<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+        ${btn("all", `Tất cả (${words.length})`)}
+        ${btn("unseen", `Chưa học (${cnt(v => !srsData[v.id])})`)}
+        ${btn("learned", `Đã thuộc / Đang học (${cnt(v => srsData[v.id] && !srsData[v.id].ignored)})`)}
+        ${btn("ignored", `Đã ẩn (${cnt(v => srsData[v.id] && srsData[v.id].ignored)})`)}
+        ${q ? `<span class="v-chip" style="font-size:12px;color:var(--lg-ink-muted,var(--muted));font-weight:700;margin-left:auto;">${vIcon("search", 13)} Khớp ${f.length}/${LOADED_WORDS.length.toLocaleString("en-US")} từ đã nạp</span>` : loadAllBtn}
+      </div>`;
+
+      const rows = f.slice(0, listLimit).map(v => {
+        const st = srsData[v.id];
+        const safeId = escJsAttr(v.id);
+        const status = st && st.ignored
+          ? `<span class="badge-status ign">Đã ẩn</span> <button type="button" class="mode-btn" style="padding:3px 8px;font-size:11px;" onclick="unignoreWord('${safeId}')">${vIcon("refresh", 12)} Học lại</button>`
+          : st ? `<span class="badge-status">Chu kỳ ${Math.max(1, Math.round(st.interval || 1))} ngày</span>`
+          : `<button type="button" class="skip-known-btn" style="padding:3px 8px;font-size:11px;" onclick="markKnown('${safeId}')">${vIcon("check", 12)} Đã biết</button>`;
+        const bookBadges = (v.books || []).map(b => `<span class="fc-book-badge">${escHtml(BOOK_LABELS[b] || b)}</span>`).join("");
+        const metaChips = [
+          (v.wf && v.wf.length) ? `<div class="fc-toeic-row" style="margin-top:6px;"><span class="fc-toeic-lbl">WF:</span>${v.wf.slice(0, 4).map(x => `<span class="fc-pill-wf">${escHtml(x)}</span>`).join("")}</div>` : "",
+          (v.col && v.col.length) ? `<div class="fc-toeic-row"><span class="fc-toeic-lbl">Col:</span>${v.col.slice(0, 3).map(x => `<span class="fc-pill-col">${escHtml(x)}</span>`).join("")}</div>` : "",
+          (v.syn && v.syn.length) ? `<div class="fc-toeic-row"><span class="fc-toeic-lbl">P7:</span>${v.syn.slice(0, 3).map(x => `<span class="fc-pill-syn">${escHtml(x)}</span>`).join("")}</div>` : ""
+        ].join("");
+        return `<div class="word-card"><div style="flex:1;min-width:220px;">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span style="font-size:19px;font-weight:800;color:var(--primary);">${highlightText(v.word, q)}</span>
+            <span style="color:var(--lg-ink-muted,var(--muted));font-weight:600;">${escHtml(v.pos)}</span>
+            <span style="color:var(--danger);font-family:monospace;font-size:13.5px;">${escHtml(v.ipa)}</span>
+            <button type="button" class="audio-pill" style="padding:2px 8px;font-size:11.5px;" onclick="playVocab('${safeId}','uk')">${vIcon("volume", 11)} UK</button>
+            <button type="button" class="audio-pill" style="padding:2px 8px;font-size:11.5px;" onclick="playVocab('${safeId}','us')">${vIcon("volume", 11)} US</button>
+            <button type="button" class="audio-pill is-au" style="padding:2px 8px;font-size:11.5px;" onclick="playVocab('${safeId}','au')">${vIcon("volume", 11)} AU</button>
+            ${status}
+          </div>
+          ${bookBadges ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;">${bookBadges}<span class="fc-scene-stage">Chặng ${v.level}</span></div>` : ""}
+          <div style="margin-top:7px;line-height:1.48;"><b>${highlightText(v.defVi, q)}</b>${v.defEn ? `<div style="font-size:12.5px;color:var(--lg-ink-muted,var(--muted));margin-top:2px;">${highlightText(v.defEn, q)}</div>` : ""}</div>
+          ${v.examples && v.examples.length ? `<div style="margin-top:6px;font-size:13.2px;color:var(--success);line-height:1.5;">${exampleHtml(v.examples.slice(0, 1))}</div>` : ""}
+          ${metaChips}
+          ${v.trap ? `<div class="fc-trap-box" style="margin-top:7px;padding:6px 9px;font-size:12px;"><span class="fc-trap-ico">${vIcon("alert", 14)}</span><div><b>Bẫy TOEIC:</b> ${escHtml(v.trap)}</div></div>` : ""}
+        </div>${v.localImg ? `<img class="word-card-img" loading="lazy" decoding="async" src="${escHtml(v.localImg)}" alt="" onerror="this.style.display='none'">` : ""}</div>`;
+      }).join("");
+
+      const more = f.length > listLimit ? `<button type="button" class="btn-action" style="background:var(--primary-solid);color:#fff;width:100%;" onclick="loadMoreVocabList()">Hiện thêm (${f.length - listLimit} từ)</button>` : "";
+      const emptyHtml = q
+        ? `<div class="s4-empty-state" style="margin-top:10px;">
+            <div style="color:var(--lg-ink-muted,var(--muted));display:inline-flex;">${vIcon("search", 30)}</div>
+            <div style="font-size:15px;font-weight:800;color:var(--lg-ink,var(--text));">Không tìm thấy từ vựng phù hợp</div>
+            <div style="font-size:13px;">Từ khóa "<strong>${escHtml(q)}</strong>" không khớp trong các chặng đang mở.</div>
+            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+              ${LOADED_LEVELS.size < 4 ? `<button type="button" class="btn-action" style="background:var(--primary-solid);color:#fff;" onclick="loadAllForSearch()">${vIcon("layers", 14)} Tải đủ 4 chặng để tìm</button>` : ""}
+              <button type="button" class="btn-action" style="background:var(--lg-wash,var(--bg));color:var(--lg-ink,var(--text));border:1px solid var(--lg-hairline,var(--border));" onclick="clearVocabSearch()">${vIcon("close", 14)} Xóa tìm kiếm</button>
+            </div>
+          </div>`
+        : '<div class="quiz-box center">Không có từ nào trong bộ lọc hiện tại.</div>';
+      return bar + (rows || emptyHtml) + more;
+    }
+
+    function listHtml(words) {
+      const q = searchQuery();
+      return `<div class="list-search-row">
+        <div class="list-search-field">
+          <input id="inlineListSearchInput" type="text" class="list-search-input" value="${escHtml(q)}" placeholder="Tra cứu mờ từ vựng TOEIC (từ, nghĩa, collocation, bẫy)..." autocomplete="off" oninput="onInlineListSearch(this.value)">
+          <button id="inlineListSearchClear" type="button" class="list-search-clear" style="display:${q ? "inline-flex" : "none"};" title="Xóa tìm kiếm" aria-label="Xóa tìm kiếm" onclick="clearVocabSearch(true)">${vIcon("close", 13)}</button>
+        </div>
+      </div>
+      <div id="vocabListBody">${renderVocabListBodyHtml(words)}</div>`;
+    }
+
+    function renderLoadingCard(levels) {
+      const host = $("cardHost");
+      if (!host) return;
+      host.innerHTML = `<div class="loading-card">
+        <div style="color:var(--primary);display:inline-flex;margin-bottom:8px;">${vIcon("loader", 32, "lp-spin")}</div>
+        <div style="font-size:15px;font-weight:800;">Đang nạp dữ liệu Chặng ${levels.join(", ")}...</div>
+        <div style="font-size:12.5px;color:var(--lg-ink-muted,var(--muted));margin-top:4px;">Tối ưu bộ nhớ RAM — chỉ tải đúng chặng bạn cần học</div>
+      </div>`;
+    }
+
+    function finishHtml(words) {
+      const q = searchQuery();
+      if (q && words.length === 0) {
+        return `<div class="s4-empty-state" style="margin-top:14px;">
+          <div style="color:var(--lg-ink-muted,var(--muted));display:inline-flex;">${vIcon("search", 32)}</div>
+          <div style="font-size:16px;font-weight:800;">Không tìm thấy từ vựng phù hợp</div>
+          <div style="font-size:13.5px;">Từ khóa "<strong>${escHtml(q)}</strong>" không khớp.</div>
+          <button type="button" class="btn-action" style="background:var(--primary-solid);color:#fff;" onclick="clearVocabSearch()">${vIcon("close", 14)} Xóa tìm kiếm</button>
+        </div>`;
+      }
+      const now = Date.now();
+      const dueInScope = words.filter(v => isDueWord(v, now)).length;
+      const totalDue = lastStats ? lastStats.due : dueInScope;
+      const unseen = currentTopic === "ALL_DUE" ? 0 : words.filter(v => !srsData[v.id]).length;
+      const hasLearned = words.some(v => srsData[v.id] && !srsData[v.id].ignored);
+      return `<div class="finish-box"><div style="color:var(--success);display:inline-flex;">${vIcon("award", 44)}</div>
+        <h2 style="margin:8px 0 0 0;color:var(--success);">${currentTopic === "ALL_DUE" ? "Đã ôn sạch từ đến hạn!" : (extraPracticeMode ? "Xong lượt ôn luyện!" : "Hoàn thành phiên học!")}</h2>
+        ${sessionDone ? `<p style="color:var(--lg-ink-muted,var(--muted));margin:8px 0 0 0;">Đã xử lý ${sessionDone} từ vựng TOEIC</p>` : ""}
+        <div class="finish-actions">
+          ${!extraPracticeMode && (dueInScope > 0 || totalDue > 0) ? `<button type="button" class="btn-action" style="background:var(--danger);color:#fff;" onclick="startDueReview()">${vIcon("bell", 15)} Ôn ngay ${dueInScope || totalDue} từ đến hạn</button>` : ""}
+          ${extraPracticeMode ? `<button type="button" class="btn-action" style="background:var(--primary-solid);color:#fff;" onclick="exitPractice()">Quay lại học chính</button>` : ""}
+          ${!extraPracticeMode && unseen > 0 ? `<button type="button" class="btn-action" style="background:var(--primary-solid);color:#fff;" onclick="addBonusNewWords(10)">${vIcon("plus", 15)} Học thêm 10 từ mới</button>` : ""}
+          ${currentTopic === "ALL_DUE" ? `<button type="button" class="btn-action" style="background:var(--primary-solid);color:#fff;" onclick="selectTopic('LEVEL_1')">${vIcon("graduation", 15)} Học từ mới Chặng 1</button>` : ""}
+          ${hasLearned ? `<button type="button" class="btn-action" style="background:var(--success);color:#fff;" onclick="startFreePractice()">${vIcon("refresh", 15)} Ôn luyện thêm</button>` : ""}
+          <button type="button" class="btn-action" style="background:var(--lg-wash,var(--bg));color:var(--lg-ink,var(--text));border:1px solid var(--lg-hairline,var(--border));" onclick="setMode('list')">${vIcon("reading", 15)} Danh sách từ</button>
+        </div></div>`;
+    }
+
+    function sessionBarHtml() {
+      const pct = sessionTotal ? Math.round((sessionDone / sessionTotal) * 100) : 0;
+      const inProgress = !!sessionTopic && !extraPracticeMode && !searchQuery() &&
+        (sessionDone > 0 || studyQueue.some(w => (w._mistakes || 0) > 0 || w._stage > (w._new ? 0 : 1)));
+      return `<div class="sess-row">
+        <span>
+          ${extraPracticeMode ? "Ôn luyện tự do (không đổi lịch SRS)" : "Phiên học TOEIC"}
+          ${extraPracticeMode ? ` <button type="button" class="skip-known-btn" onclick="exitPractice()">Thoát</button>` : ""}
+          ${inProgress ? ` <button type="button" class="skip-known-btn" style="color:var(--danger);margin-left:4px;" onclick="restartSession()" title="Tạo phiên học mới">${vIcon("refresh", 12)} Phiên mới</button>` : ""}
+        </span>
+        <span>${sessionDone}/${sessionTotal}</span>
+      </div>
+      <div class="sess-bar"><i style="width:${pct}%"></i></div>`;
+    }
+
+    async function restartSession() {
+      const msg = "Bỏ tiến trình dở dang của phiên này và tạo phiên mới?\n(Các từ đã học xong vẫn được giữ nguyên.)";
+      const ok = (window.S4UI && typeof window.S4UI.confirm === "function")
+        ? await window.S4UI.confirm(msg, { title: "Tạo phiên học mới", tone: "warn", confirmText: "Tạo phiên mới" })
+        : confirm(msg);
+      if (!ok) return;
+      clearActiveSession(sessionTopic || currentSessionKey(), studyQueue.map(w => w.id));
+      buildStudyQueue(true, true);
+      renderAll();
+    }
+
+    function renderMain() {
+      document.body.classList.toggle("scroll-mode", currentMode === "list" || !!panel);
+      renderStats();
+      if (isLoadingChunks) return;
+      const host = $("cardHost");
+      if (currentMode === "list") { host.innerHTML = listHtml(getScopeWords()); return; }
+      if (!studyQueue.length) { host.innerHTML = finishHtml(getScopeWords()); return; }
+      const v = studyQueue[0];
+      let html;
+      switch (currentMode) {
+        case "flashcard":
+          html = isFlipped
+            ? flashcardHtml(v, backHtml(v), `<div class="srs-buttons">
+                <button type="button" class="srs-btn is-forget" onclick="rateBtn(0)"><span class="lp-srs-dot"></span><span>Quên</span><kbd class="lp-srs-kbd">1</kbd></button>
+                <button type="button" class="srs-btn is-hard" onclick="rateBtn(1)"><span class="lp-srs-dot"></span><span>Khó</span><kbd class="lp-srs-kbd">2</kbd></button>
+                <button type="button" class="srs-btn is-good" onclick="rateBtn(2)"><span class="lp-srs-dot"></span><span>Nhớ</span><kbd class="lp-srs-kbd">3</kbd></button>
+                <button type="button" class="srs-btn is-easy" onclick="rateBtn(3)"><span class="lp-srs-dot"></span><span>Rất dễ</span><kbd class="lp-srs-kbd">4</kbd></button></div>`)
+            : flashcardHtml(v, "", `<button type="button" class="btn-flip" onclick="flipCard()">Hiện nghĩa &amp; Phân tích TOEIC</button>`);
+          break;
+        case "smart": html = smartHtml(); break;
+        case "quiz": html = quizHtml(v, quizDirection); break;
+        case "listen": html = listenHtml(v, listenSubMode); break;
+        case "match": html = matchHtml(); break;
+        default: html = clozeHtml(v);
+      }
+      host.innerHTML = sessionBarHtml() + html;
+      const inp = host.querySelector(".text-input");
+      if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); } }
+      autoPlayIfNeeded();
+    }
+
+    function renderAll() {
+      lastStats = computeStats();
+      renderSidebar();
+      renderMain();
+    }
+
+    /* ---------- 16. Phím tắt ---------- */
+    window.addEventListener("keydown", e => {
+      const tag = e.target && e.target.tagName;
+      if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+      if (currentMode === "list" || !studyQueue.length) return;
+      const key = e.key.toLowerCase();
+      if (key === "x") { e.preventDefault(); ignoreCurrentWord(); return; }
+      if (["1", "2", "3", "4"].includes(key)) {
+        const opts = document.querySelectorAll("#cardHost .opt-btn");
+        if (opts.length) { const b = opts[Number(key) - 1]; if (b) b.click(); return; }
+      }
+      if (currentMode === "smart" && (e.code === "Space" || e.key === "Enter") && studyQueue[0]._task === "intro") { e.preventDefault(); introDone(); return; }
+      if (currentMode === "flashcard") {
+        if (e.code === "Space") { e.preventDefault(); if (!isFlipped) flipCard(); }
+        else if (isFlipped && ["1", "2", "3", "4"].includes(key)) advanceQueueWithQuality(Number(key) - 1);
+      }
+    });
+
+    /* ---------- 17. Sao lưu / Khôi phục / Đặt lại ---------- */
+    function exportProgress() {
+      const data = {
+        app: "linguapath-toeic-vocab",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        srsData, dayLog, userSettings,
+        activeSessions: readSessionMap()
+      };
+      const a = document.createElement("a");
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+      a.href = url;
+      a.download = "LinguaPath_TOEIC_Vocab_Backup_" + getTodayStr() + ".json";
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    }
+
+    function importProgress(ev) {
+      const f = ev.target.files && ev.target.files[0];
+      ev.target.value = "";
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = async () => {
+        try {
+          const obj = JSON.parse(r.result);
+          if (!obj || !obj.srsData || typeof obj.srsData !== "object") throw new Error("invalid");
+          const msg = "Tiến độ từ vựng TOEIC hiện tại sẽ bị thay bằng bản sao lưu. Tiếp tục?";
+          const ok = (window.S4UI && typeof window.S4UI.confirm === "function")
+            ? await window.S4UI.confirm(msg, { title: "Khôi phục bản sao lưu", tone: "warn", confirmText: "Khôi phục" })
+            : confirm(msg);
+          if (!ok) return;
+          srsData = {};
+          Object.keys(obj.srsData).forEach(k => {
+            if (/^toeic[1-4]_/.test(k) && obj.srsData[k] && typeof obj.srsData[k] === "object") {
+              srsData[k] = obj.srsData[k];
+            }
+          });
+          dayLog = obj.dayLog && typeof obj.dayLog === "object" ? obj.dayLog : {};
+          userSettings = Object.assign({}, DEFAULT_SETTINGS, obj.userSettings || {});
+          studyQueue = []; sessionTopic = ""; clearActiveSession();
+          if (obj.activeSessions && typeof obj.activeSessions === "object" && !Array.isArray(obj.activeSessions)) {
+            writeSessionMap(obj.activeSessions);
+          }
+          saveState();
+          buildStudyQueue(true);
+          renderAll();
+          if (window.S4UI && typeof window.S4UI.toast === "function") window.S4UI.toast("success", "Đã khôi phục tiến độ từ vựng TOEIC.");
+        } catch (e) {
+          if (window.S4UI && typeof window.S4UI.alert === "function") window.S4UI.alert("File sao lưu không hợp lệ hoặc bị hỏng.", { title: "Lỗi đọc file", tone: "error" });
+          else alert("File sao lưu không hợp lệ.");
+        }
+      };
+      r.readAsText(f);
+    }
+
+    async function resetProgress() {
+      const msg = "Xóa TOÀN BỘ tiến độ từ vựng TOEIC (từ đã học, lịch ôn SRS, lịch sử ngày, cài đặt)?\nNên bấm Sao lưu trước. Hành động này không thể hoàn tác.";
+      const ok = (window.S4UI && typeof window.S4UI.confirm === "function")
+        ? await window.S4UI.confirm(msg, { title: "Đặt lại tiến độ TOEIC", tone: "danger", confirmText: "Xóa tất cả" })
+        : confirm(msg);
+      if (!ok) return;
+      [KEYS.srs, KEYS.days, KEYS.settings, KEYS.session].forEach(k => localStorage.removeItem(k));
+      studyQueue = []; sessionTopic = "";
+      srsData = {}; dayLog = {};
+      userSettings = Object.assign({}, DEFAULT_SETTINGS);
+      currentLevelFilter = "ALL";
+      currentBookFilter = "ALL";
+      currentTopic = "LEVEL_1";
+      extraPracticeMode = false;
+      await ensureLevelsLoaded([1]);
+      buildStudyQueue(true);
+      renderAll();
+      if (window.S4UI && typeof window.S4UI.toast === "function") window.S4UI.toast("info", "Đã đặt lại tiến độ từ vựng TOEIC.");
+    }
+
+    /* ---------- 18. Tìm kiếm mờ S4SearchEngine ---------- */
+    let searchTimer = null;
+    async function loadAllForSearch() {
+      await ensureLevelsLoaded([1, 2, 3, 4]);
+      renderAll();
+    }
+    let searchBgLoading = false;
+    function applyVocabSearchChange(fromInline) {
+      const q = searchQuery();
+      const inlineInp = $("inlineListSearchInput");
+      const inlineClr = $("inlineListSearchClear");
+      if (inlineInp && !fromInline && inlineInp.value !== $("searchWordInput").value) {
+        inlineInp.value = $("searchWordInput").value;
+      }
+      if (inlineClr) inlineClr.style.display = q ? "inline-flex" : "none";
+
+      if (q.length >= 2 && LOADED_LEVELS.size < 4 && !searchBgLoading) {
+        searchBgLoading = true;
+        ensureLevelsLoaded([1, 2, 3, 4], true).then(() => {
+          searchBgLoading = false;
+          if (searchQuery() && currentMode === "list") {
+            const bodyEl = $("vocabListBody");
+            if (bodyEl) bodyEl.innerHTML = renderVocabListBodyHtml(getScopeWords());
+          }
+        });
+      }
+
+      if (q && currentMode !== "list") {
+        if (!modeBeforeSearch) modeBeforeSearch = currentMode;
+        currentMode = "list";
+        listFilter = "all";
+        listLimit = 100;
+        syncModeUi("list");
+        buildStudyQueue();
+        renderAll();
+        return;
+      }
+      if (!q && !fromInline && modeBeforeSearch) {
+        currentMode = modeBeforeSearch;
+        modeBeforeSearch = "";
+        syncModeUi(currentMode);
+        buildStudyQueue();
+        renderAll();
+        return;
+      }
+      const body = $("vocabListBody");
+      if (currentMode === "list" && body) {
+        listLimit = 100;
+        body.innerHTML = renderVocabListBodyHtml(getScopeWords());
+      } else {
+        buildStudyQueue();
+        renderAll();
+      }
+    }
+
+    /* ---------- 19. Theme & Smart Back Button ---------- */
+    function syncVocabThemeBtn(isDarkOverride) {
+      const btn = $("vocabThemeBtn");
+      if (!btn) return;
+      const isDark = typeof isDarkOverride === "boolean" ? isDarkOverride : document.documentElement.classList.contains("dark");
+      if (window.S4UI && typeof window.S4UI.renderThemeButton === "function") {
+        window.S4UI.renderThemeButton(btn, isDark);
+      } else {
+        btn.innerHTML = isDark
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>'
+          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+      }
+    }
+    function toggleDark() {
+      if (window.toggleDarkModeOnly) {
+        window.toggleDarkModeOnly();
+      } else {
+        const isDark = !document.documentElement.classList.contains("dark");
+        document.documentElement.classList.toggle("dark", isDark);
+        document.body.classList.toggle("dark", isDark);
+        localStorage.setItem("s4_vocab_dark", isDark ? "1" : "0");
+        const mt = $("metaThemeColor");
+        if (mt) mt.setAttribute("content", isDark ? "#0d1813" : "#efe8d5");
+      }
+      syncVocabThemeBtn();
+    }
+
+    (function initChrome() {
+      const d = localStorage.getItem("s4_vocab_dark");
+      const isDark = !(d === "0" || d === "false");
+      document.documentElement.classList.toggle("dark", isDark);
+      document.body.classList.toggle("dark", isDark);
+      syncVocabThemeBtn(isDark);
+      const tBtn = $("vocabThemeBtn");
+      if (tBtn) tBtn.addEventListener("click", toggleDark);
+      if (typeof MutationObserver !== "undefined") {
+        new MutationObserver(() => syncVocabThemeBtn()).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      }
+      if (window.S4UI && typeof window.S4UI.initSmartBackButton === "function") {
+        window.S4UI.initSmartBackButton({
+          element: "#vocabBackBtn",
+          defaultUrl: "../index.html",
+          defaultLabel: "TOEIC",
+          roadmapUrl: "../roadmap/index.html",
+          roadmapLabel: "Lộ trình"
+        });
+      }
+      if (window.S4UI && typeof window.S4UI.bindSearchBar === "function") {
+        window.S4UI.bindSearchBar({
+          input: "searchWordInput",
+          clearBtn: "searchWordInput_clear",
+          searchBtn: "searchWordInput_btn",
+          delay: 180,
+          onSearch: () => { clearTimeout(searchTimer); applyVocabSearchChange(false); }
+        });
+      } else if ($("searchWordInput")) {
+        $("searchWordInput").oninput = () => {
+          clearTimeout(searchTimer);
+          searchTimer = setTimeout(() => applyVocabSearchChange(false), 180);
+        };
+      }
+    })();
+
+    /* ---------- 20. Expose Handlers cho Inline Events ---------- */
+    Object.assign(window, {
+      toggleSidebar, setLevelFilter, setBookFilter, toggleLevelGroup, selectTopic,
+      setMode, togglePanel, shiftCalMonth, setOpt, addBonusNewWords,
+      startFreePractice, exitPractice, startDueReview, restartSession,
+      playVocab, flipCard, rateBtn, introDone, ignoreCurrentWord, unignoreWord, markKnown,
+      setQuizDir, setListenSub, answerChoice, scrollInputIntoOptimalView, onAnsInputEdit,
+      handleAnsKeydown, checkText, giveUp, handleResult, clickMatchTile,
+      exportProgress, importProgress, resetProgress, loadAllForSearch,
+      setVocabListFilter: function (f) {
+        listFilter = f; listLimit = 100;
+        const body = $("vocabListBody");
+        if (currentMode === "list" && body) body.innerHTML = renderVocabListBodyHtml(getScopeWords());
+        else renderMain();
+      },
+      loadMoreVocabList: function () {
+        listLimit += 100;
+        const body = $("vocabListBody");
+        if (currentMode === "list" && body) body.innerHTML = renderVocabListBodyHtml(getScopeWords());
+        else renderMain();
+      },
+      onInlineListSearch: function (val) {
+        const sideInp = $("searchWordInput");
+        if (sideInp) {
+          sideInp.value = String(val == null ? "" : val);
+          if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(sideInp);
+        }
+        applyVocabSearchChange(true);
+      },
+      clearVocabSearch: function (keepInline) {
+        const inp = $("searchWordInput");
+        if (inp) {
+          inp.value = "";
+          if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+          if (!keepInline) { try { inp.focus({ preventScroll: true }); } catch (e) {} }
+        }
+        const inlineInp = $("inlineListSearchInput");
+        if (inlineInp) {
+          inlineInp.value = "";
+          if (keepInline) { try { inlineInp.focus({ preventScroll: true }); } catch (e) {} }
+        }
+        clearTimeout(searchTimer);
+        if (keepInline) modeBeforeSearch = "";
+        applyVocabSearchChange(!!keepInline);
+      }
+    });
+
+    /* ---------- 21. Khởi động & Đọc Query Params ---------- */
+    (async function boot() {
+      let levelsToLoad = [1];
+      try {
+        const sp = new URLSearchParams(window.location.search);
+        const lvParam = sp.get("level");
+        const filterParam = (sp.get("filter") || "").toLowerCase();
+        const topicParam = sp.get("topic");
+        const bookParam = sp.get("book");
+        const qParam = sp.get("q");
+        const modeParam = sp.get("mode");
+
+        if (lvParam && ["1", "2", "3", "4"].includes(lvParam)) {
+          currentLevelFilter = lvParam;
+          openLevels = new Set(["special", Number(lvParam)]);
+          currentTopic = "LEVEL_" + lvParam;
+          levelsToLoad = [Number(lvParam)];
+        } else if (userSettings.lastTopic) {
+          currentTopic = userSettings.lastTopic;
+          if (currentTopic === "ALL") levelsToLoad = [1, 2, 3, 4];
+          else if (currentTopic === "ALL_DUE") levelsToLoad = levelsNeededForDue("ALL");
+          else {
+            const lv = levelOfTopicKey(currentTopic);
+            openLevels.add(lv);
+            levelsToLoad = [lv];
+          }
+        }
+
+        if (bookParam && MANIFEST.bookMap.has(bookParam)) {
+          currentBookFilter = bookParam;
+          levelsToLoad = Array.from(new Set(levelsToLoad.concat(levelsForBook(bookParam))));
+        }
+
+        if (topicParam) {
+          const matched = MANIFEST.topics.find(t => t.key === topicParam || (t.id && t.id === topicParam) || t.name.toLowerCase() === topicParam.toLowerCase());
+          if (matched) {
+            currentTopic = matched.key;
+            openLevels.add(matched.level);
+            levelsToLoad = [matched.level];
+          } else if (topicParam === "ALL" || topicParam === "ALL_DUE") {
+            currentTopic = topicParam;
+            levelsToLoad = topicParam === "ALL" ? [1, 2, 3, 4] : levelsNeededForDue(currentLevelFilter);
+          }
+        }
+
+        if (filterParam === "due") {
+          currentTopic = "ALL_DUE";
+          levelsToLoad = levelsNeededForDue(currentLevelFilter);
+        }
+
+        if (qParam) {
+          const inp = $("searchWordInput");
+          if (inp) {
+            inp.value = qParam;
+            if (window.S4UI && typeof window.S4UI.syncSearchClear === "function") window.S4UI.syncSearchClear(inp);
+          }
+          currentMode = "list";
+          listFilter = "all";
+          levelsToLoad = [1, 2, 3, 4];
+        } else if (modeParam && MODE_META[modeParam]) {
+          currentMode = modeParam;
+        }
+      } catch (e) {}
+
+      syncModeUi(currentMode);
+      renderSidebar();
+      renderStats();
+      await ensureLevelsLoaded(levelsToLoad);
+      buildStudyQueue();
+      renderAll();
+    })();
+  })();
+  </script>
+  <script src="../../assets/ghibli/ghibli-theme.js?v=27"></script>
+</body>
+</html>

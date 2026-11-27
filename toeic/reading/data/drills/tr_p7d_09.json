@@ -1,0 +1,177 @@
+{
+  "id": "tr_p7d_09",
+  "order": 29,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 09: Bảng gói tiệc khách sạn & Email đặt sự kiện",
+  "subtitle": "Đối chiếu quy mô khách, loại hình tiệc và phụ phí thực đơn đặc biệt giữa bảng giá Grand Oak Hotel và yêu cầu đặt tiệc.",
+  "timeLimitMin": 10,
+  "tips": "Với bài Bảng giá gói dịch vụ ↔ Email đặt tiệc, hãy kiểm tra cả 3 điều kiện để chốt đúng gói (số lượng khách, kiểu phục vụ bữa ăn, thiết bị AV) rồi mới tính phụ phí add-on.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Bảng gói dịch vụ",
+      "genre": "table",
+      "meta": {
+        "title": "GRAND OAK HOTEL — CORPORATE BANQUET & CONFERENCE PACKAGES",
+        "subtitle": "Valid April through September • All rates include room setup & linens"
+      },
+      "paragraphs": [
+        "Optional Add-Ons: Custom floral centerpieces ($350 flat fee), Dedicated vegetarian/gluten-free tasting menu (+$12 per specialty guest), Extra wireless microphone ($60 each).",
+        "Booking Terms: A 20% deposit is required to lock in an event date. Reservations confirmed at least 45 days prior to the event receive complimentary valet parking for all guests."
+      ],
+      "table": {
+        "headers": [
+          "Package Tier",
+          "Capacity",
+          "Catering Included",
+          "AV Equipment",
+          "Flat Fee"
+        ],
+        "rows": [
+          [
+            "Executive Half-Day",
+            "Up to 40",
+            "1 coffee break + Boxed lunch",
+            "Projector & 1 mic",
+            "$1,800"
+          ],
+          [
+            "Silver Full-Day",
+            "Up to 80",
+            "2 coffee breaks + Hot buffet",
+            "Projector, screen & 2 mics",
+            "$3,400"
+          ],
+          [
+            "Gold Gala",
+            "Up to 150",
+            "3-course plated dinner + Welcome drinks",
+            "Full stage lighting, sound & technician",
+            "$6,200"
+          ],
+          [
+            "Platinum Summit",
+            "Up to 250",
+            "Full-day buffet + Cocktail reception",
+            "Dual screens, livestream rig & technician",
+            "$9,500"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email đặt tiệc",
+      "genre": "email",
+      "meta": {
+        "to": "events@grandoakhotel.com",
+        "from": "Mei-Ling Zhou <m.zhou@horizonbiotech.com>",
+        "date": "May 4",
+        "subject": "Corporate Banquet Proposal — July 10"
+      },
+      "paragraphs": [
+        "Dear Grand Oak Events Team,",
+        "Horizon Biotech would like to host our annual employee recognition dinner at your hotel on Thursday, July 10. We expect approximately 125 guests and want a formal sit-down dinner rather than a buffet, along with full stage lighting and an on-site audio technician for our awards presentation.",
+        "Twenty of our attendees have requested the dedicated vegetarian/gluten-free menu option. We will not require floral centerpieces because our marketing team is bringing custom-branded table displays. Could you send an itemized proposal that reflects the base package rate plus the specialty meal surcharge?",
+        "Our finance office is ready to wire the 20% deposit this Wednesday, May 6, to confirm the reservation well ahead of the event. Please let me know which banquet hall will be assigned.",
+        "Best regards,\nMei-Ling Zhou\nDirector of Human Resources, Horizon Biotech"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the hotel's booking terms, what benefit is offered for early reservations?",
+      "opts": [
+        "A 20% discount on the total catering bill",
+        "Free custom floral centerpieces",
+        "An extra wireless microphone at no charge",
+        "Complimentary valet parking for all guests"
+      ],
+      "ans": 3,
+      "exp": "Văn bản 1 (mục Booking Terms) ghi: 'Reservations confirmed at least 45 days prior to the event receive complimentary valet parking for all guests.' → Đặt trước ít nhất 45 ngày được miễn phí dịch vụ đỗ xe hộ (valet parking)."
+    },
+    {
+      "num": 2,
+      "tag": "Chi tiết",
+      "q": "Why does Ms. Zhou decline the hotel's floral centerpieces?",
+      "opts": [
+        "Her department has exceeded its annual events budget.",
+        "Her company plans to bring its own table displays.",
+        "Several employees have severe pollen allergies.",
+        "The banquet hall is too small for table decorations."
+      ],
+      "ans": 1,
+      "exp": "Văn bản 2 (đoạn 3) giải thích rõ: 'We will not require floral centerpieces because our marketing team is bringing custom-branded table displays.' → Nhóm tiếp thị công ty sẽ mang đồ trang trí bàn có thương hiệu riêng."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"itemized\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "revised",
+        "unsigned",
+        "detailed",
+        "discounted"
+      ],
+      "ans": 2,
+      "exp": "Cụm 'an itemized proposal' (bảng báo giá liệt kê chi tiết từng hạng mục) có 'itemized' gần nghĩa nhất với 'detailed' (chi tiết theo từng khoản mục)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "Which package best meets Horizon Biotech's specifications?",
+      "opts": [
+        "Gold Gala",
+        "Executive Half-Day",
+        "Silver Full-Day",
+        "Platinum Summit"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo Văn bản 1 & 2: Horizon Biotech có 125 khách (loại Executive 40 và Silver 80), cần tiệc tối ngồi bàn ('formal sit-down dinner rather than a buffet' = 3-course plated dinner, loại Platinum là buffet), kèm ánh sáng sân khấu và kỹ thuật viên âm thanh → Khớp 100% với gói Gold Gala ($6,200)."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "How much extra will Horizon Biotech pay for the specialty vegetarian/gluten-free meals?",
+      "opts": [
+        "$120",
+        "$180",
+        "$350",
+        "$240"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 quy định phụ phí 'Dedicated vegetarian/gluten-free tasting menu (+$12 per specialty guest)'. Văn bản 2 cho biết có 20 khách đăng ký thực đơn này → Phụ phí = 20 × $12 = $240."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "3-course plated dinner",
+      "answer": "formal sit-down dinner rather than a buffet",
+      "vi": "tiệc tối 3 món phục vụ tại bàn ↔ tiệc ngồi trang trọng thay vì buffet"
+    },
+    {
+      "text": "custom-branded table displays",
+      "answer": "its own table displays",
+      "vi": "vật phẩm trang trí bàn mang thương hiệu riêng"
+    },
+    {
+      "text": "itemized",
+      "answer": "detailed",
+      "vi": "liệt kê từng mục ↔ chi tiết"
+    },
+    {
+      "text": "confirmed at least 45 days prior",
+      "answer": "early reservations (May 6 for July 10 = 65 days)",
+      "vi": "xác nhận trước ít nhất 45 ngày ↔ đặt sớm"
+    },
+    {
+      "text": "+$12 per specialty guest (×20)",
+      "answer": "$240 extra for specialty meals",
+      "vi": "phụ thu $12/khách cho 20 khách ↔ $240"
+    }
+  ]
+}

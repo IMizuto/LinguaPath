@@ -1,0 +1,175 @@
+{
+  "id": "tr_p6_05",
+  "order": 11,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 05: Tuyển dụng Nội bộ & Bảo hành Thiết bị",
+  "subtitle": "Luyện văn phong tuyển dụng nhân sự (Memo) và thư phản hồi bảo hành khách hàng (Letter).",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Trong thông báo tuyển dụng và thư bảo hành, hãy đặc biệt chú ý các động từ thương mại cố định như \"possess qualifications\", \"replace a defective unit\", và trạng từ bổ nghĩa vị trí cuối câu.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Memo nội bộ",
+      "genre": "memo",
+      "meta": {
+        "to": "All Full-Time Staff",
+        "from": "Talent Acquisition Team",
+        "date": "January 16",
+        "subject": "Internal Opening: Senior Supply Chain Analyst"
+      },
+      "paragraphs": [
+        "Before advertising externally, our Operations Division is inviting qualified internal [1] to apply for the newly created role of Senior Supply Chain Analyst in our Dallas headquarters.",
+        "Ideal applicants should [2] at least three years of experience in inventory forecasting and vendor coordination. [3]",
+        "Interested employees must upload an updated résumé and brief cover note through the internal career portal [4] February 2. Interviews with the hiring panel will begin the following week."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Thư khách hàng",
+      "genre": "letter",
+      "meta": {
+        "title": "SUNCREST HOME APPLIANCES — WARRANTY SERVICES",
+        "subtitle": "February 9 • Dear Mr. Kowalski,"
+      },
+      "paragraphs": [
+        "Thank you for contacting Suncrest Warranty Services regarding your Model SC-400 Espresso Maker. Our inspection center [5] your returned machine on Tuesday and confirmed that the internal pressure valve is [6].",
+        "Because your appliance is still covered under our two-year warranty, we have already shipped a brand-new replacement unit at no cost to you. [7]",
+        "Your original stainless-steel filter basket and measuring scoop are being mailed [8] in a small protective parcel and should arrive within three business days.",
+        "Sincerely,\nRachel Bennett, Customer Care Manager"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "candidates",
+        "invoices",
+        "shipments",
+        "schedules"
+      ],
+      "ans": 0,
+      "exp": "Động từ \"apply for the newly created role\" (ứng tuyển vào vị trí mới) xác định đối tượng được mời là \"ứng viên nội bộ đủ tiêu chuẩn\" (qualified internal candidates). Chọn (A). Loại (B) hóa đơn, (C) lô hàng, (D) lịch trình."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "cancel",
+        "possess",
+        "depart",
+        "divide"
+      ],
+      "ans": 1,
+      "exp": "Cụm từ chuẩn trong thông báo tuyển dụng TOEIC là \"possess experience/skills/qualifications\" (sở hữu/có kinh nghiệm, kỹ năng). Chọn \"possess\" (B). Loại (A) hủy, (C) khởi hành, (D) chia tách."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "The employee parking lot will be repaved next Saturday morning.",
+        "All office printers must be switched off before 6:00 P.M. daily.",
+        "Familiarity with automated warehouse software is also strongly preferred.",
+        "Previous analysts were transferred to the customer call center in December."
+      ],
+      "ans": 2,
+      "exp": "Đoạn 2 đang liệt kê tiêu chí ứng viên (tối thiểu 3 năm kinh nghiệm dự báo tồn kho và điều phối nhà cung cấp). Câu (C) nối tiếp tự nhiên với từ \"also\" để bổ sung tiêu chí ưu tiên về phần mềm kho tự động. Loại (A), (B) lạc đề; (D) không phù hợp mô tả vị trí mới tạo (\"newly created role\")."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Giới từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "during",
+        "among",
+        "between",
+        "prior to"
+      ],
+      "ans": 3,
+      "exp": "Trước mốc hạn chót \"February 2\" với hành động nộp hồ sơ (\"upload...\"), cần cụm giới từ mang nghĩa \"trước ngày\". Chọn \"prior to\" (D = before). Loại (A) trong suốt, (B) giữa nhiều đối tượng, (C) giữa hai mốc."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Thì động từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "receives",
+        "received",
+        "will receive",
+        "is receiving"
+      ],
+      "ans": 1,
+      "exp": "Có mốc quá khứ \"on Tuesday\" và động từ nối song song \"and confirmed\" (quá khứ đơn) → chia quá khứ đơn \"received\" (B). Loại (A) hiện tại đơn, (C) tương lai, (D) hiện tại tiếp diễn."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [6]:",
+      "opts": [
+        "defect",
+        "defectively",
+        "defective",
+        "defects"
+      ],
+      "ans": 2,
+      "exp": "Sau động từ liên kết \"is\" cần một tính từ mô tả tình trạng của van áp suất (\"bị lỗi\"). Chọn \"defective\" (C). Loại (A) danh từ số ít, (B) trạng từ, (D) danh từ số nhiều."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [7]:",
+      "opts": [
+        "A confirmation email containing your tracking number has been sent to your address on file.",
+        "You will need to pay a forty-dollar restocking fee before delivery.",
+        "Our coffee shop downtown recently added seasonal pastries to its menu.",
+        "Please return the broken power cord to our Milan showroom next month."
+      ],
+      "ans": 0,
+      "exp": "Câu trước nói công ty đã gửi một máy thay thế mới hoàn toàn miễn phí (\"already shipped... at no cost\"). Câu (A) nối mạch cực kỳ hợp lý: đã gửi email xác nhận kèm mã vận đơn theo dõi. Loại (B) mâu thuẫn với \"at no cost\", (C) và (D) sai ngữ cảnh."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "separate",
+        "separation",
+        "separated",
+        "separately"
+      ],
+      "ans": 3,
+      "exp": "Bổ nghĩa cho động từ bị động \"are being mailed\" (đang được gửi qua bưu điện) cần trạng từ chỉ cách thức. Chọn \"separately\" (D - riêng rẽ/trong kiện riêng). Loại (A) tính từ/động từ, (B) danh từ, (C) phân từ."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "Before advertising externally",
+      "answer": "internal candidates",
+      "vi": "trước khi đăng tuyển bên ngoài ↔ ứng viên nội bộ"
+    },
+    {
+      "text": "at no cost to you",
+      "answer": "covered under our two-year warranty",
+      "vi": "hoàn toàn miễn phí ↔ nằm trong phạm vi bảo hành 2 năm"
+    },
+    {
+      "text": "in a small protective parcel",
+      "answer": "mailed separately",
+      "vi": "trong một kiện bảo vệ nhỏ ↔ được gửi riêng"
+    }
+  ]
+}

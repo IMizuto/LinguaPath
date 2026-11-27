@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" width="480" height="280">
+<defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#f1f5f9"/></linearGradient></defs>
+<rect width="480" height="280" fill="url(#w)"/><rect y="196" width="480" height="84" fill="#e2e8f0"/><line x1="0" y1="196" x2="480" y2="196" stroke="#cbd5e1" stroke-width="2"/>
+<rect x="150" y="30" width="280" height="146" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="5"/>
+<rect x="240" y="176" width="110" height="8" rx="2" fill="#94a3b8"/>
+<line x1="184" y1="152" x2="404" y2="152" stroke="#334155" stroke-width="2.5"/>
+<line x1="184" y1="54" x2="184" y2="152" stroke="#334155" stroke-width="2.5"/>
+<rect x="206" y="116" width="32" height="36" rx="2" fill="#38bdf8"/>
+<rect x="256" y="92" width="32" height="60" rx="2" fill="#0ea5e9"/>
+<rect x="306" y="72" width="32" height="80" rx="2" fill="#0284c7"/>
+<rect x="356" y="58" width="32" height="94" rx="2" fill="#0369a1"/>
+<polyline points="222,108 272,84 322,64 372,48" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="86" y="192" width="16" height="64" rx="5" fill="#1e293b"/>
+<rect x="108" y="192" width="16" height="64" rx="5" fill="#1e293b"/>
+<path d="M78 108 C78 94 132 94 132 108 L136 196 L74 196 Z" fill="#334155"/>
+<polygon points="100,104 110,104 108,142 102,142" fill="#ef4444"/>
+<circle cx="105" cy="72" r="20" fill="#f1c29b"/>
+<path d="M85 68 C86 48 124 48 125 68 C118 60 92 60 85 68 Z" fill="#0f172a"/>
+<path d="M126 118 L194 94 L198 105 L130 132 Z" fill="#334155"/>
+<circle cx="200" cy="98" r="6" fill="#f1c29b"/>
+<line x1="202" y1="96" x2="222" y2="88" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+</svg>

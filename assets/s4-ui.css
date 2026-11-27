@@ -169,7 +169,7 @@ html.theme-ghibli.dark[data-glass-tier="portal"] {
   --lg-blur: blur(16px) saturate(145%);
 }
 
-/* Tông màu nhấn theo phân hệ: IELTS (mặc định), HSK (Đỏ Chu Sa), TED Talks (Đỏ Cam) */
+/* Tông màu nhấn theo phân hệ: IELTS (mặc định), HSK (Đỏ Chu Sa), TED Talks (Đỏ Cam), TOEIC (Hổ Phách Đậm) */
 html[data-course="hsk"]:not(.theme-ghibli):not(.dark),
 body[data-course="hsk"] {
   --lg-accent: #dc2626;
@@ -196,6 +196,24 @@ body[data-course="ted"] {
 html.dark[data-course="ted"] {
   --lg-accent: #fb7185;
   --lg-accent-soft: rgba(251, 113, 133, 0.18);
+}
+
+html[data-course="toeic"]:not(.theme-ghibli):not(.dark),
+body[data-course="toeic"] {
+  --lg-accent: #b45309;
+  --lg-accent-soft: rgba(180, 83, 9, 0.14);
+}
+html.theme-ghibli[data-course="toeic"]:not(.dark) {
+  --lg-accent: #a1520a;
+  --lg-accent-soft: rgba(161, 82, 10, 0.14);
+}
+html.dark[data-course="toeic"]:not(.theme-ghibli) {
+  --lg-accent: #f59e0b;
+  --lg-accent-soft: rgba(245, 158, 11, 0.18);
+}
+html.theme-ghibli.dark[data-course="toeic"] {
+  --lg-accent: #f59e0b;
+  --lg-accent-soft: rgba(245, 158, 11, 0.18);
 }
 
 /* Bề mặt kính sáng trong riêng cho Modal / Spotlight (không bị nền tối phía sau làm xám đục ở chế độ Sáng) */

@@ -1,0 +1,191 @@
+{
+  "id": "tr_p7s_05",
+  "order": 19,
+  "level": 2,
+  "part": "part7s",
+  "partLabel": "Part 7 • Đoạn đơn",
+  "title": "Part 7 Đơn • Bộ 05: Chat Hỗ trợ Khách sạn & Thông báo Cải tạo Vườn Bách thảo",
+  "subtitle": "Thực chiến tin nhắn dịch vụ khách sạn (Chat) và thông báo tham quan công cộng (Notice).",
+  "timeLimitMin": 10,
+  "tips": "Mẹo Part 7: Khi gặp câu hỏi suy luận về thời gian hoặc chi phí trong tin nhắn CSKH, hãy chú ý các từ giới hạn như \"complimentary\" (miễn phí), \"every thirty minutes\" (30 phút/chuyến), và \"prior to\" (trước khi).",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Tin nhắn Chat",
+      "genre": "chat",
+      "meta": {
+        "title": "Grand Harbor Hotel — Concierge Live Chat",
+        "subtitle": "Guest Support Thread • November 2"
+      },
+      "paragraphs": [],
+      "messages": [
+        {
+          "sender": "Daniela Ortiz (Guest)",
+          "time": "2:10 P.M.",
+          "text": "Hello! I have a reservation under Ortiz for tomorrow night. My flight lands at 9:15 A.M., and I was wondering if early check-in is possible."
+        },
+        {
+          "sender": "Samir Patel (Concierge)",
+          "time": "2:12 P.M.",
+          "text": "Welcome, Ms. Ortiz! Standard check-in starts at 3:00 P.M., but I have noted your early arrival. If a deluxe room is ready by 10:30 A.M., we will gladly check you in at no extra charge."
+        },
+        {
+          "sender": "Daniela Ortiz (Guest)",
+          "time": "2:14 P.M.",
+          "text": "Thank you! And what if the room isn’t ready yet? I have a client lunch nearby at noon."
+        },
+        {
+          "sender": "Samir Patel (Concierge)",
+          "time": "2:15 P.M.",
+          "text": "Our bell desk can securely store your luggage for free, and you are welcome to freshen up in the third-floor fitness lounge."
+        },
+        {
+          "sender": "Daniela Ortiz (Guest)",
+          "time": "2:17 P.M.",
+          "text": "Perfect! One last question—does the hotel run an airport shuttle?"
+        },
+        {
+          "sender": "Samir Patel (Concierge)",
+          "time": "2:18 P.M.",
+          "text": "Yes, our complimentary shuttle departs Terminal B every thirty minutes on the hour and half-hour. Just show your booking confirmation to the driver."
+        }
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Thông báo công cộng",
+      "genre": "notice",
+      "meta": {
+        "title": "WILLOW CREEK BOTANICAL CONSERVATORY — RENOVATION UPDATE",
+        "subtitle": "Visitor Information • April 1 through May 15"
+      },
+      "paragraphs": [
+        "Beginning April 1, the historic Glass Palm Dome at Willow Creek Botanical Conservatory will undergo roof restoration to replace aging iron frames and upgrade humidity controls. For visitor safety, the Palm Dome will be closed to the public through May 15.",
+        "All other areas of the conservatory—including the Orchid Pavilion, the Desert Succulent House, the outdoor Rose Gardens, and the gift shop—will remain open during regular hours (9:00 A.M. to 6:00 P.M. daily). Guided walking tours of the Rose Gardens will depart from the West Gate at 11:00 A.M. and 2:00 P.M.",
+        "Because the main dome is temporarily unavailable, general admission tickets are discounted by 25 percent throughout the restoration period. Annual conservatory members will receive two complimentary guest passes valid through August 31 as a thank-you for their continued support."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Ý chính",
+      "q": "Why did Ms. Ortiz contact the hotel concierge?",
+      "opts": [
+        "To change the dates of her hotel reservation",
+        "To ask about early arrival arrangements and airport transport",
+        "To book a private dining room for a client lunch",
+        "To report a lost suitcase at Terminal B"
+      ],
+      "ans": 1,
+      "exp": "Ms. Ortiz nhắn hỏi 2 nội dung chính: khả năng nhận phòng sớm (\"if early check-in is possible\") và xe đưa đón sân bay (\"does the hotel run an airport shuttle?\"). Chọn (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Ý định người viết",
+      "q": "At 2:17 P.M., what does Ms. Ortiz imply by writing \"Perfect!\"?",
+      "opts": [
+        "She is satisfied with the backup options for storing luggage and getting ready.",
+        "She has decided to cancel her noon lunch with her client.",
+        "She prefers to pay extra for a suite on the third floor.",
+        "She has already boarded the hotel shuttle at Terminal B."
+      ],
+      "ans": 0,
+      "exp": "Ngay trước lúc 2:17 P.M., Samir gợi ý giải pháp nếu phòng chưa sẵn sàng: quầy hành lý giữ đồ miễn phí và khách có thể chỉnh trang tại phòng chờ tầng 3 trước bữa trưa với khách hàng. Ms. Ortiz đáp \"Perfect!\" thể hiện sự hài lòng với phương án dự phòng này. Chọn (A)."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "What must Ms. Ortiz show to use the airport shuttle?",
+      "opts": [
+        "Her flight boarding pass",
+        "A fitness lounge membership card",
+        "Her hotel booking confirmation",
+        "A paper ticket purchased at Terminal B"
+      ],
+      "ans": 2,
+      "exp": "Tin nhắn cuối lúc 2:18 P.M. nêu rõ: \"Just show your booking confirmation to the driver\" (chỉ cần xuất trình xác nhận đặt phòng cho tài xế, xe hoàn toàn miễn phí). Chọn (C). Loại (A), (B), (D)."
+    },
+    {
+      "num": 4,
+      "passageId": "p2",
+      "tag": "Ý chính",
+      "q": "What is the main purpose of the notice?",
+      "opts": [
+        "To inform visitors about partial closures and discounted entry during repairs",
+        "To recruit volunteers to plant new roses along the West Gate",
+        "To announce permanent changes to daily closing hours",
+        "To advertise a private charity concert inside the Palm Dome"
+      ],
+      "ans": 0,
+      "exp": "Thông báo nêu khu Glass Palm Dome đóng cửa cải tạo mái (1/4–15/5), các khu khác vẫn mở bình thường và vé vào cổng được giảm giá 25% trong suốt thời gian sửa chữa. Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "NOT / Ngoại trừ",
+      "q": "Which area of the conservatory will be CLOSED from April 1 through May 15?",
+      "opts": [
+        "The Orchid Pavilion",
+        "The Glass Palm Dome",
+        "The Desert Succulent House",
+        "The outdoor Rose Gardens"
+      ],
+      "ans": 1,
+      "exp": "Đoạn 1 ghi rõ: \"the Palm Dome will be closed to the public through May 15\", còn đoạn 2 xác nhận Orchid Pavilion, Desert Succulent House và Rose Gardens đều mở cửa bình thường. Chọn (B)."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "Where do guided tours of the Rose Gardens begin?",
+      "opts": [
+        "At the gift shop entrance",
+        "Inside the Orchid Pavilion",
+        "At the West Gate",
+        "Outside the Palm Dome"
+      ],
+      "ans": 2,
+      "exp": "Câu cuối đoạn 2 nêu: \"Guided walking tours of the Rose Gardens will depart from the West Gate at 11:00 A.M. and 2:00 P.M.\" Chọn (C)."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "What special benefit is being offered to annual conservatory members?",
+      "opts": [
+        "Free access to the Palm Dome during roof repairs",
+        "A 25 percent discount at the conservatory gift shop",
+        "A complimentary six-month membership extension",
+        "Two free guest passes usable until the end of August"
+      ],
+      "ans": 3,
+      "exp": "Câu cuối đoạn 3 viết: \"Annual conservatory members will receive two complimentary guest passes valid through August 31\" (\"complimentary\" ↔ \"free\", \"through August 31\" ↔ \"until the end of August\"). Chọn (D). Lưu ý mức giảm 25% áp dụng cho vé vào cổng thường (general admission), không phải cửa hàng quà tặng."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "at no extra charge / for free / complimentary",
+      "answer": "free",
+      "vi": "không tính thêm phí / miễn phí ↔ miễn phí"
+    },
+    {
+      "text": "undergo roof restoration",
+      "answer": "during repairs",
+      "vi": "trải qua đợt phục hồi mái ↔ trong thời gian sửa chữa"
+    },
+    {
+      "text": "valid through August 31",
+      "answer": "usable until the end of August",
+      "vi": "có giá trị hết ngày 31/8 ↔ sử dụng được tới cuối tháng 8"
+    },
+    {
+      "text": "depart from the West Gate",
+      "answer": "begin... At the West Gate",
+      "vi": "khởi hành từ Cổng Tây ↔ bắt đầu tại Cổng Tây"
+    }
+  ]
+}

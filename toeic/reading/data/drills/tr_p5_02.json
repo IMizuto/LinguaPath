@@ -1,0 +1,119 @@
+{
+  "id": "tr_p5_02",
+  "order": 2,
+  "level": 1,
+  "part": "part5",
+  "partLabel": "Part 5 • Câu đơn",
+  "title": "Part 5 • Bộ 02: Đại từ & Hòa hợp Chủ–Vị",
+  "subtitle": "Chinh phục bảng đại từ nhân xưng/sở hữu/phản thân và quy tắc chia động từ số ít – số nhiều.",
+  "timeLimitMin": 4,
+  "tips": "Mẹo phản xạ 5 giây: Với câu Đại từ, xác định chỗ trống làm Chủ ngữ, Tân ngữ, Tính từ sở hữu (trước danh từ) hay Đại từ phản thân (chủ ngữ tự làm). Với Hòa hợp Chủ–Vị, hãy gạch bỏ các cụm giới từ (\"of...\", \"in...\") để tìm đúng Danh từ chủ ngữ chính!",
+  "passages": [],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Đại từ",
+      "q": "Mr. Delgado designed the prototype by _____ before presenting it to the product committee.",
+      "opts": [
+        "himself",
+        "him",
+        "his",
+        "he"
+      ],
+      "ans": 0,
+      "exp": "Cụm cố định \"by + đại từ phản thân\" mang nghĩa \"tự mình làm, không ai giúp\". Chủ ngữ là \"Mr. Delgado\" (nam, ngôi 3 số ít) nên chọn \"himself\" (A). Loại (B) tân ngữ, (C) tính từ sở hữu, (D) chủ ngữ."
+    },
+    {
+      "num": 2,
+      "tag": "Hòa hợp Chủ–Vị",
+      "q": "Each of the newly hired interns _____ required to complete a two-day orientation workshop.",
+      "opts": [
+        "are",
+        "were",
+        "is",
+        "have"
+      ],
+      "ans": 2,
+      "exp": "Cấu trúc \"Each of + danh từ số nhiều\" luôn đi với động từ chia ở NGÔI 3 SỐ ÍT. Phía sau có \"required\" (bị động) nên cần trợ động từ \"to be\" số ít ở hiện tại là \"is\" (C). Loại (A), (B) số nhiều và (D) \"have\" không ghép trực tiếp với \"required\" ở nghĩa bị động thiếu \"been\"."
+    },
+    {
+      "num": 3,
+      "tag": "Đại từ",
+      "q": "The marketing agency updated _____ digital portfolio to showcase recent campaigns for international retailers.",
+      "opts": [
+        "it",
+        "its",
+        "itself",
+        "theirs"
+      ],
+      "ans": 1,
+      "exp": "Trước cụm danh từ \"digital portfolio\" cần một tính từ sở hữu quy chiếu về \"The marketing agency\" (danh từ số ít chỉ tổ chức). Chọn \"its\" (B). Loại (A) đại từ chủ ngữ/tân ngữ, (C) đại từ phản thân, (D) đại từ sở hữu số nhiều (không đứng trước danh từ)."
+    },
+    {
+      "num": 4,
+      "tag": "Hòa hợp Chủ–Vị",
+      "q": "A detailed summary of the quarterly sales figures _____ attached to the email sent this morning.",
+      "opts": [
+        "were",
+        "are",
+        "have been",
+        "was"
+      ],
+      "ans": 3,
+      "exp": "Chủ ngữ chính là danh từ số ít \"A detailed summary\" (bỏ qua cụm giới từ \"of the quarterly sales figures\"). Trạng từ thời gian \"this morning\" đi với mệnh đề quá khứ \"sent\" nên chọn động từ số ít quá khứ \"was\" (D). Loại (A), (B), (C) đều chia số nhiều."
+    },
+    {
+      "num": 5,
+      "tag": "Đại từ",
+      "q": "Our branch completed the audit ahead of schedule, whereas _____ in Osaka needed two extra days.",
+      "opts": [
+        "their",
+        "them",
+        "theirs",
+        "themselves"
+      ],
+      "ans": 2,
+      "exp": "Chỗ trống làm chủ ngữ thay thế cho cụm \"their branch\" (chi nhánh của họ), nên cần một đại từ sở hữu độc lập. Chọn \"theirs\" (C). Loại (A) tính từ sở hữu (phải có danh từ sau), (B) tân ngữ, (D) đại từ phản thân."
+    },
+    {
+      "num": 6,
+      "tag": "Hòa hợp Chủ–Vị",
+      "q": "Implementing automated quality checks across all assembly lines _____ defects by nearly forty percent.",
+      "opts": [
+        "reduces",
+        "reduce",
+        "reducing",
+        "to reduce"
+      ],
+      "ans": 0,
+      "exp": "Chủ ngữ của câu là cụm danh động từ (Gerund) \"Implementing automated quality checks...\" nên luôn chia động từ ở số ít. Câu chưa có động từ chính nên chọn \"reduces\" (A). Loại (B) số nhiều, (C) và (D) không thể làm động từ chính chia thì."
+    },
+    {
+      "num": 7,
+      "tag": "Đại từ",
+      "q": "Anyone who wishes to reserve a booth at the autumn trade fair should submit _____ application by Friday.",
+      "opts": [
+        "they",
+        "their",
+        "themself",
+        "them"
+      ],
+      "ans": 1,
+      "exp": "Trước danh từ \"application\" cần tính từ sở hữu. Trong tiếng Anh chuẩn ETS hiện đại, đại từ số nhiều trung tính về giới tính \"their\" được dùng cho đại từ bất định \"Anyone\". Chọn \"their\" (B). Loại (A) chủ ngữ, (C) dạng không chuẩn, (D) tân ngữ."
+    },
+    {
+      "num": 8,
+      "tag": "Hòa hợp Chủ–Vị",
+      "q": "Neither the regional manager nor the senior accountants _____ able to attend tomorrow afternoon’s briefing.",
+      "opts": [
+        "is",
+        "was",
+        "has been",
+        "are"
+      ],
+      "ans": 3,
+      "exp": "Với cấu trúc \"Neither A nor B\", động từ chia theo chủ ngữ gần nó nhất là B (\"the senior accountants\" — số nhiều). Có mốc thời gian tương lai gần \"tomorrow afternoon\" và tính từ \"able\" nên chọn \"are\" (D). Loại (A), (B), (C) đều là dạng số ít."
+    }
+  ],
+  "paraphrases": []
+}

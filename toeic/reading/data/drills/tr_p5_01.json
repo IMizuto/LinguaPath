@@ -1,0 +1,119 @@
+{
+  "id": "tr_p5_01",
+  "order": 1,
+  "level": 1,
+  "part": "part5",
+  "partLabel": "Part 5 • Câu đơn",
+  "title": "Part 5 • Bộ 01: Phản xạ Từ loại 5 giây (Word Form)",
+  "subtitle": "Nhận diện nhanh Danh – Động – Tính – Trạng từ dựa vào mạo từ, sở hữu cách và hậu tố.",
+  "timeLimitMin": 4,
+  "tips": "Mẹo phản xạ 5 giây: Khi 4 đáp án cùng gốc từ (Word Family), KHÔNG cần dịch hết câu. Chỉ nhìn 1–2 từ ngay trước và sau chỗ trống (mạo từ a/an/the, tính từ sở hữu, giới từ, động từ to be) để chốt từ loại ngay lập tức.",
+  "passages": [],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Từ loại",
+      "q": "Ms. Kato submitted a _____ budget proposal to the executive board yesterday morning.",
+      "opts": [
+        "revise",
+        "revised",
+        "revision",
+        "revising"
+      ],
+      "ans": 1,
+      "exp": "Trước danh từ ghép \"budget proposal\" và sau mạo từ \"a\" cần một tính từ bổ nghĩa. Đề xuất \"đã được chỉnh sửa\" mang nghĩa bị động nên chọn phân từ quá khứ \"revised\" (B). Loại (A) động từ nguyên mẫu, (C) danh từ, (D) phân từ hiện tại mang nghĩa chủ động."
+    },
+    {
+      "num": 2,
+      "tag": "Từ loại",
+      "q": "All laboratory technicians must follow the safety guidelines _____ during chemical inspections.",
+      "opts": [
+        "strict",
+        "strictness",
+        "strictly",
+        "stricter"
+      ],
+      "ans": 2,
+      "exp": "Câu đã có đầy đủ chủ ngữ + động từ + tân ngữ (\"follow the safety guidelines\"), nên vị trí cuối cụm động từ cần trạng từ bổ nghĩa cho hành động \"follow\". Chọn \"strictly\" (C - một cách nghiêm ngặt). Loại (A) tính từ, (B) danh từ, (D) tính từ so sánh hơn."
+    },
+    {
+      "num": 3,
+      "tag": "Từ loại",
+      "q": "The regional director expressed her _____ for the engineering team after the early software launch.",
+      "opts": [
+        "appreciation",
+        "appreciate",
+        "appreciative",
+        "appreciatively"
+      ],
+      "ans": 0,
+      "exp": "Sau tính từ sở hữu \"her\" và trước giới từ \"for\" bắt buộc là một danh từ. Chọn \"appreciation\" (A - sự trân trọng/cảm kích). Loại (B) động từ, (C) tính từ, (D) trạng từ."
+    },
+    {
+      "num": 4,
+      "tag": "Từ loại",
+      "q": "Greenline Energy plans to _____ its solar panel manufacturing facility in southern Spain next quarter.",
+      "opts": [
+        "expansion",
+        "expansive",
+        "expansively",
+        "expand"
+      ],
+      "ans": 3,
+      "exp": "Cấu trúc \"plan to + V nguyên mẫu\" (dự định làm gì). Chọn động từ nguyên mẫu \"expand\" (D - mở rộng). Loại (A) danh từ, (B) tính từ, (C) trạng từ."
+    },
+    {
+      "num": 5,
+      "tag": "Từ loại",
+      "q": "The new inventory scanner is _____ faster than the handheld model we used five years ago.",
+      "opts": [
+        "consider",
+        "considerable",
+        "considerably",
+        "consideration"
+      ],
+      "ans": 2,
+      "exp": "Trước tính từ so sánh hơn \"faster\" cần một trạng từ chỉ mức độ để nhấn mạnh. Chọn \"considerably\" (C - đáng kể). Loại (A) động từ, (B) tính từ (không đứng trước tính từ so sánh), (D) danh từ."
+    },
+    {
+      "num": 6,
+      "tag": "Từ loại",
+      "q": "Clients should contact the billing office immediately if they notice any _____ on their monthly statement.",
+      "opts": [
+        "errors",
+        "erroneous",
+        "erroneously",
+        "err"
+      ],
+      "ans": 0,
+      "exp": "Sau từ hạn định \"any\" và trước cụm giới từ \"on their monthly statement\" bắt buộc là một danh từ. Chọn danh từ số nhiều \"errors\" (A - sai sót). Loại (B) tính từ, (C) trạng từ, (D) động từ."
+    },
+    {
+      "num": 7,
+      "tag": "Từ loại",
+      "q": "The hotel renovated its conference suites to provide a more _____ environment for corporate guests.",
+      "opts": [
+        "comfort",
+        "comfortable",
+        "comfortably",
+        "comforting"
+      ],
+      "ans": 1,
+      "exp": "Cụm \"a more _____ environment\" cần một tính từ đứng trước danh từ \"environment\". Chọn \"comfortable\" (B - thoải mái, tiện nghi). Loại (A) danh từ/động từ, (C) trạng từ, (D) \"comforting\" (mang tính an ủi tinh thần, sai nghĩa với không gian phòng họp)."
+    },
+    {
+      "num": 8,
+      "tag": "Từ loại",
+      "q": "Because of the sudden increase in shipping volume, warehouse staff worked _____ to meet every deadline.",
+      "opts": [
+        "efficient",
+        "efficiency",
+        "efficiencies",
+        "efficiently"
+      ],
+      "ans": 3,
+      "exp": "Sau nội động từ \"worked\" cần một trạng từ bổ nghĩa cho cách thức làm việc. Chọn \"efficiently\" (D - một cách hiệu quả). Loại (A) tính từ, (B) danh từ không đếm được, (C) danh từ số nhiều."
+    }
+  ],
+  "paraphrases": []
+}

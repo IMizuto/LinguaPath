@@ -1,0 +1,138 @@
+{
+  "id": "tr_p7d_07",
+  "order": 27,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 07: Thông báo bãi xe tòa nhà & Email đổi gói",
+  "subtitle": "Nối quy định hệ thống nhận diện biển số mới tại Meridian Plaza với yêu cầu nâng cấp thẻ sạc xe điện của nhân viên.",
+  "timeLimitMin": 10,
+  "tips": "Hãy gạch chân các hạng mức giá và tầng đỗ xe tương ứng (Level P1 vs P2–P4) trong Thông báo, rồi đối chiếu với loại phương tiện người viết email mới chuyển sang.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thông báo tòa nhà",
+      "genre": "notice",
+      "meta": {
+        "title": "MERIDIAN PLAZA — PARKING GARAGE MODERNIZATION",
+        "subtitle": "Building Management Office • Effective September 1"
+      },
+      "paragraphs": [
+        "To speed up morning entry and reduce paper waste, Meridian Plaza is transitioning from printed hangtags to an automated License-Plate Recognition (LPR) gate system on September 1. All tenants who hold monthly parking permits must register their vehicle's license plate number in the online Tenant Portal no later than August 25.",
+        "Updated Monthly Permit Tiers:\n• Standard Unreserved Permit (Levels P2–P4): $115/month\n• Electric Vehicle (EV) Charging Permit (Level P1, Bays 1–16): $150/month — includes up to four hours of daily Level-2 charging\n• Reserved Executive Space (Level P1, Bays 17–40): $190/month",
+        "Commuters who carpool with at least two Meridian Plaza employees are eligible for a $25 monthly discount on Standard Unreserved permits. Single-day visitor passes will continue to be validated at the main lobby security desk."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "parking@meridianplaza.com",
+        "from": "Claire Donovan <c.donovan@veritasconsulting.com>",
+        "date": "August 22",
+        "subject": "Permit Upgrade & Secondary Vehicle Question — Suite 804"
+      },
+      "paragraphs": [
+        "Hello Building Management Team,",
+        "I currently hold a Standard Unreserved paper hangtag at Meridian Plaza, and I uploaded my new plug-in electric vehicle's license plate number to the Tenant Portal earlier today. Because I commute to our eighth-floor office four days a week and would like to recharge my car during business hours, I am writing to request an upgrade to the charging permit tier effective September 1.",
+        "I also have one quick question about the new LPR system. On Fridays, my colleague Samira Haddad and I carpool together using her car. Under the new portal, am I allowed to register her vehicle as a secondary plate under my account so the gate opens automatically when she drives us in?",
+        "Thank you for your assistance,\nClaire Donovan\nSenior Analyst, Veritas Consulting"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the notice, what is the deadline for monthly permit holders to register their license plates?",
+      "opts": [
+        "August 22",
+        "August 25",
+        "September 1",
+        "September 16"
+      ],
+      "ans": 1,
+      "exp": "Văn bản 1 (đoạn 1) ghi rõ: 'must register their vehicle's license plate number in the online Tenant Portal no later than August 25.' → Hạn chót là ngày 25/8."
+    },
+    {
+      "num": 2,
+      "tag": "Ý chính",
+      "q": "Why did Ms. Donovan send an email to Meridian Plaza management?",
+      "opts": [
+        "To apply for a $25 carpool discount on her current pass",
+        "To report a malfunction at the automated LPR gate",
+        "To reserve a single-day pass for a visiting client",
+        "To change her parking tier and inquire about adding a second vehicle"
+      ],
+      "ans": 3,
+      "exp": "Trong Văn bản 2, bà Donovan yêu cầu nâng cấp sang gói sạc xe điện (đoạn 2) và hỏi liệu có thể đăng ký thêm biển số xe phụ của đồng nghiệp Samira vào tài khoản không (đoạn 3)."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the notice, the word \"transitioning\" in paragraph 1 is closest in meaning to",
+      "opts": [
+        "switching",
+        "retiring",
+        "delivering",
+        "expanding"
+      ],
+      "ans": 0,
+      "exp": "Cụm 'transitioning from printed hangtags to an automated LPR gate system' nghĩa là chuyển đổi từ thẻ treo giấy sang hệ thống cổng nhận diện tự động → 'transitioning' đồng nghĩa với 'switching'."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "How much will Ms. Donovan's upgraded parking permit cost per month?",
+      "opts": [
+        "$90",
+        "$115",
+        "$150",
+        "$190"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 2 cho biết bà Donovan muốn nâng cấp sang gói sạc xe điện ('the charging permit tier'). Tra Văn bản 1, 'Electric Vehicle (EV) Charging Permit' có giá $150/month (ưu đãi đi chung xe $25 chỉ áp dụng cho gói Standard)."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "Where in the garage will Ms. Donovan park beginning September 1?",
+      "opts": [
+        "On Levels P2 through P4",
+        "In Bays 1 through 16 on Level P1",
+        "In Bays 17 through 40 on Level P1",
+        "In the visitor zone near the main lobby"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Bà Donovan nâng cấp lên gói sạc EV từ ngày 1/9 (Văn bản 2). Văn bản 1 quy định vị trí gói sạc EV nằm tại 'Level P1, Bays 1–16'."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "no later than August 25",
+      "answer": "deadline: August 25",
+      "vi": "chậm nhất là ngày 25/8 ↔ hạn chót 25/8"
+    },
+    {
+      "text": "transitioning from ... to ...",
+      "answer": "switching",
+      "vi": "chuyển đổi từ ... sang ..."
+    },
+    {
+      "text": "request an upgrade to the charging permit tier",
+      "answer": "change her parking tier",
+      "vi": "yêu cầu nâng cấp lên hạng thẻ sạc điện"
+    },
+    {
+      "text": "register her vehicle as a secondary plate",
+      "answer": "adding a second vehicle",
+      "vi": "đăng ký xe đồng nghiệp làm biển số phụ"
+    },
+    {
+      "text": "recharge my car during business hours",
+      "answer": "EV Charging Permit ($150/month, Level P1 Bays 1–16)",
+      "vi": "sạc xe trong giờ làm việc ↔ gói sạc xe điện $150/tháng tại tầng P1"
+    }
+  ]
+}

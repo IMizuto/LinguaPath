@@ -1,0 +1,98 @@
+{
+  "id": "tl_d05",
+  "order": 5,
+  "level": 1,
+  "part": "dictation",
+  "partLabel": "Dictation • Lấy gốc",
+  "title": "Dictation 05 • Giới từ vị trí & không gian (Giọng Úc)",
+  "subtitle": "Làm quen ngữ điệu Anh–Úc qua các câu mô tả đồ vật và vị trí không gian chuẩn Part 1.",
+  "accent": "en-AU",
+  "defaultRate": 0.75,
+  "tips": "Giọng Úc (en-AU) có nguyên âm /eɪ/ nghe hơi gần /aɪ/ (ví dụ 'placed', 'arranged') và ít phát âm /r/ cuối âm tiết. Nắm chắc giới từ vị trí như against, beside, underneath sẽ giúp bạn ăn trọn điểm câu tả vật.",
+  "items": [
+    {
+      "num": 1,
+      "speaker": "W",
+      "accent": "en-AU",
+      "sentence": "A wooden bookshelf stands against the back wall.",
+      "masked": "A _____ bookshelf stands _____ the back _____.",
+      "blanks": [
+        "wooden",
+        "against",
+        "wall"
+      ],
+      "vi": "Một chiếc kệ sách bằng gỗ đặt dựa sát bức tường phía sau.",
+      "phoneticTip": "Chú ý cụm 'stands against' (đặt tựa sát vào) và âm /ɔːl/ trong 'wall'."
+    },
+    {
+      "num": 2,
+      "speaker": "M",
+      "accent": "en-AU",
+      "sentence": "The delivery van is parked beside the loading dock.",
+      "masked": "The _____ van is parked _____ the loading _____.",
+      "blanks": [
+        "delivery",
+        "beside",
+        "dock"
+      ],
+      "vi": "Chiếc xe tải giao hàng đang đỗ bên cạnh bến bốc dỡ hàng.",
+      "phoneticTip": "Nhấn âm 2 ở 'de-LIV-e-ry' và 'be-SIDE'; chú ý âm cuối /k/ của 'dock'."
+    },
+    {
+      "num": 3,
+      "speaker": "W",
+      "accent": "en-AU",
+      "sentence": "Several brochures are arranged neatly on the display stand.",
+      "masked": "Several _____ are arranged _____ on the _____ stand.",
+      "blanks": [
+        "brochures",
+        "neatly",
+        "display"
+      ],
+      "vi": "Một vài tờ quảng cáo được sắp xếp gọn gàng trên giá trưng bày.",
+      "phoneticTip": "Trong giọng Úc, 'display' có âm /eɪ/ mở rộng; chú ý âm /ʃ/ trong 'brochures'."
+    },
+    {
+      "num": 4,
+      "speaker": "M",
+      "accent": "en-AU",
+      "sentence": "A pedestrian bridge stretches across the narrow river.",
+      "masked": "A _____ bridge _____ _____ the narrow river.",
+      "blanks": [
+        "pedestrian",
+        "stretches",
+        "across"
+      ],
+      "vi": "Một cây cầu đi bộ bắc ngang qua con sông hẹp.",
+      "phoneticTip": "Nhấn âm 2 ở 'pe-DES-tri-an' và 'a-CROSS'; đuôi '-es' đọc /ɪz/ ở 'stretches'."
+    },
+    {
+      "num": 5,
+      "speaker": "W",
+      "accent": "en-AU",
+      "sentence": "Spare printer cartridges are stored underneath the cabinet.",
+      "masked": "Spare printer _____ are _____ _____ the cabinet.",
+      "blanks": [
+        "cartridges",
+        "stored",
+        "underneath"
+      ],
+      "vi": "Các hộp mực máy in dự phòng được cất bên dưới tủ.",
+      "phoneticTip": "Đọc gọn 'stored' (/stɔːd/ giọng Úc) và nhấn âm cuối ở 'under-NEATH'."
+    },
+    {
+      "num": 6,
+      "speaker": "M",
+      "accent": "en-AU",
+      "sentence": "Two potted trees have been placed outside the entrance.",
+      "masked": "Two _____ trees have been _____ outside the _____.",
+      "blanks": [
+        "potted",
+        "placed",
+        "entrance"
+      ],
+      "vi": "Hai chậu cây đã được đặt bên ngoài lối vào.",
+      "phoneticTip": "Đuôi '-ed' đọc /ɪd/ ở 'potted' và /t/ ở 'placed'; nhấn âm 1 ở 'EN-trance'."
+    }
+  ]
+}

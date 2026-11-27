@@ -1,0 +1,119 @@
+{
+  "id": "tr_p5_04",
+  "order": 4,
+  "level": 1,
+  "part": "part5",
+  "partLabel": "Part 5 • Câu đơn",
+  "title": "Part 5 • Bộ 04: Giới từ & Liên từ kinh điển TOEIC",
+  "subtitle": "Phân biệt nhanh cặp bẫy Despite/Although, During/While, Because of/Because và By/Until.",
+  "timeLimitMin": 4,
+  "tips": "Mẹo phản xạ 5 giây: Nhìn ngay sau chỗ trống xem có MỆNH ĐỀ (S + V) hay chỉ có CỤM DANH TỪ / V-ing. Có S + V → chọn Liên từ (although, while, because, unless). Chỉ có Danh từ / V-ing → chọn Giới từ (despite, during, because of, prior to)!",
+  "passages": [],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Giới từ vs Liên từ",
+      "q": "_____ the heavy snowfall overnight, all morning flights departed on schedule from Terminal 2.",
+      "opts": [
+        "Although",
+        "Despite",
+        "Even though",
+        "Whereas"
+      ],
+      "ans": 1,
+      "exp": "Phía sau chỗ trống là cụm danh từ \"the heavy snowfall overnight\" (không có động từ chia thì), nên cần một GIỚI TỪ mang nghĩa nhượng bộ. Chọn \"Despite\" (B - mặc dù). Loại (A), (C), (D) đều là liên từ phải đi kèm mệnh đề S + V."
+    },
+    {
+      "num": 2,
+      "tag": "Giới từ thời gian",
+      "q": "Reimbursement requests must be submitted _____ thirty days of the return flight date.",
+      "opts": [
+        "within",
+        "until",
+        "among",
+        "between"
+      ],
+      "ans": 0,
+      "exp": "Cụm \"within + khoảng thời gian\" nghĩa là \"trong vòng (30 ngày)\". Chọn \"within\" (A). Loại (B) \"until\" đi với mốc thời gian và hành động kéo dài liên tục, (C) \"among\" và (D) \"between\" là giới từ chỉ vị trí/phân bổ."
+    },
+    {
+      "num": 3,
+      "tag": "Giới từ vs Liên từ",
+      "q": "Visitors are asked to silence their mobile phones _____ the keynote speaker is presenting.",
+      "opts": [
+        "during",
+        "throughout",
+        "while",
+        "because of"
+      ],
+      "ans": 2,
+      "exp": "Phía sau chỗ trống là một mệnh đề hoàn chỉnh (\"the keynote speaker is presenting\" — có S + V), nên cần liên từ chỉ thời gian. Chọn \"while\" (C - trong khi). Loại (A), (B), (D) đều là giới từ chỉ đi với danh từ."
+    },
+    {
+      "num": 4,
+      "tag": "Liên từ điều kiện",
+      "q": "The construction crew cannot pour the concrete foundation _____ the municipal inspector approves the site plan.",
+      "opts": [
+        "without",
+        "except",
+        "despite",
+        "unless"
+      ],
+      "ans": 3,
+      "exp": "Sau chỗ trống là mệnh đề đầy đủ (\"the municipal inspector approves the site plan\"), xét nghĩa \"không thể đổ móng TRỪ KHI thanh tra phê duyệt bản vẽ\". Chọn liên từ \"unless\" (D - trừ khi). Loại (A), (B), (C) đều là giới từ."
+    },
+    {
+      "num": 5,
+      "tag": "Giới từ thời gian",
+      "q": "Please return the signed nondisclosure agreement to Human Resources _____ 5:00 P.M. on Thursday.",
+      "opts": [
+        "during",
+        "by",
+        "since",
+        "for"
+      ],
+      "ans": 1,
+      "exp": "Động từ \"return\" (nộp lại/trả lại) là hành động hoàn tất tại một thời điểm trước hạn chót, nên đi với giới từ \"by\" (B - trước/chậm nhất là 5 giờ chiều). Loại (A) \"during\" + khoảng thời gian/sự kiện, (C) \"since\" dùng với hiện tại hoàn thành, (D) \"for\" + khoảng thời gian."
+    },
+    {
+      "num": 6,
+      "tag": "Giới từ vs Liên từ",
+      "q": "_____ the supplier lowered unit prices by ten percent, our total procurement cost remained within budget.",
+      "opts": [
+        "Because of",
+        "Due to",
+        "Because",
+        "Owing to"
+      ],
+      "ans": 2,
+      "exp": "Phía sau chỗ trống có mệnh đề hoàn chỉnh S + V (\"the supplier lowered unit prices...\"), nên bắt buộc dùng liên từ chỉ nguyên nhân \"Because\" (C). Loại (A), (B), (D) đều là cụm giới từ chỉ đứng trước cụm danh từ."
+    },
+    {
+      "num": 7,
+      "tag": "Giới từ cố định",
+      "q": "_____ expanding into retail banking, Sterling Group also launched a mobile investment platform.",
+      "opts": [
+        "In addition to",
+        "Moreover",
+        "Besides that",
+        "Furthermore"
+      ],
+      "ans": 0,
+      "exp": "Phía sau chỗ trống là danh động từ V-ing (\"expanding...\"), nên cần cụm giới từ mang nghĩa \"bên cạnh việc...\". Chọn \"In addition to\" (A). Loại (B), (C), (D) đều là trạng từ liên kết phải đứng độc lập (có dấu phẩy ngay sau) và đi với mệnh đề chính."
+    },
+    {
+      "num": 8,
+      "tag": "Giới từ thời gian",
+      "q": "All conference attendees must pick up their security badges _____ entering the main auditorium.",
+      "opts": [
+        "until",
+        "ago",
+        "since",
+        "prior to"
+      ],
+      "ans": 3,
+      "exp": "Trước V-ing \"entering\" và mang nghĩa \"trước khi vào hội trường chính\", ta dùng cụm giới từ \"prior to\" (D = before). Loại (A) \"until\" (cho đến khi - sai nghĩa), (B) \"ago\" đứng sau khoảng thời gian quá khứ, (C) \"since\" (kể từ khi - sai nghĩa)."
+    }
+  ],
+  "paraphrases": []
+}

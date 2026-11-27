@@ -1,0 +1,196 @@
+{
+  "id": "tl_adv_08",
+  "order": 48,
+  "level": 4,
+  "part": "part4",
+  "partLabel": "Chặng 4 • Bẫy P3–4 (1.2x)",
+  "title": "Bài nói nhanh Giọng Anh 1.2x • Pháp lý Sáng chế & Hội nghị FinTech",
+  "subtitle": "Luyện nghe giọng Anh-Anh chuẩn tốc độ 1.2x về gia hạn bằng sáng chế và đổi phiên diễn đàn",
+  "accent": "en-GB",
+  "defaultRate": 1.2,
+  "tips": "Giọng Anh-Anh (en-GB) thường dùng các cụm lịch sự trang trọng ('I'm afraid', 'kindly note', 'prior to', 'fortnight'). Khi nghe bảng có 4 cột (Panel/Time/Hall/Status), lọc theo cột Status trước để bắt đúng phiên bị đổi!",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Tin nhắn thoại khẩn từ công ty luật sở hữu trí tuệ",
+      "accent": "en-GB",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Patent Attorney",
+          "accent": "en-GB",
+          "en": "Good afternoon, Dr. Lindholm. This is Eleanor Shaw from Kensington Intellectual Property Law calling regarding your battery-cooling patent application.",
+          "vi": "Chào buổi chiều Tiến sĩ Lindholm. Tôi là Eleanor Shaw từ Văn phòng Luật Sở hữu Trí tuệ Kensington gọi về đơn đăng ký bằng sáng chế làm mát pin của ông."
+        },
+        {
+          "spk": "W",
+          "name": "Patent Attorney",
+          "accent": "en-GB",
+          "en": "We received an official query from the European Patent Office requesting two clarified schematic diagrams plus signed inventor declarations by five o'clock this Friday.",
+          "vi": "Chúng tôi vừa nhận được yêu cầu chính thức từ Cơ quan Sáng chế châu Âu đề nghị nộp hai sơ đồ kỹ thuật làm rõ kèm bản cam kết có chữ ký của tác giả sáng chế trước năm giờ chiều thứ Sáu này."
+        },
+        {
+          "spk": "W",
+          "name": "Patent Attorney",
+          "accent": "en-GB",
+          "en": "Because we already requested a thirty-day grace period in April, the patent office rarely grants a second extension.",
+          "vi": "Vì chúng ta đã xin gia hạn ba mươi ngày hồi tháng Tư rồi, cơ quan sáng chế hiếm khi cấp gia hạn lần thứ hai lắm."
+        },
+        {
+          "spk": "W",
+          "name": "Patent Attorney",
+          "accent": "en-GB",
+          "en": "If your engineering team can upload the revised drawings to our encrypted client portal by Wednesday evening, my paralegals will format the legal brief on Thursday morning.",
+          "vi": "Nếu nhóm kỹ sư của ông tải bản vẽ chỉnh sửa lên cổng khách hàng mã hóa của chúng tôi trước tối thứ Tư, các trợ lý luật sư của tôi sẽ định dạng hồ sơ pháp lý vào sáng thứ Năm."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What is the purpose of Eleanor Shaw's message?",
+          "opts": [
+            "To notify Dr. Lindholm that his patent was approved",
+            "To request supplementary documents before a strict deadline",
+            "To bill Dr. Lindholm for legal filing fees",
+            "To schedule a meeting with European regulators"
+          ],
+          "ans": 1,
+          "exp": "Luật sư gọi báo cơ quan sáng chế yêu cầu nộp bổ sung 2 sơ đồ làm rõ và bản cam kết có chữ ký trước 5 giờ chiều thứ Sáu → yêu cầu bổ sung tài liệu trước hạn chót nghiêm ngặt. Chọn (B)."
+        },
+        {
+          "num": 2,
+          "q": "What does Eleanor Shaw imply when she says, \"the patent office rarely grants a second extension\"?",
+          "opts": [
+            "The firm should apply for a patent in another region.",
+            "The examiners are unusually busy this quarter.",
+            "The April extension was filed incorrectly.",
+            "Missing Friday's deadline could jeopardize the application."
+          ],
+          "ans": 3,
+          "exp": "Vì đã xin gia hạn 1 lần hồi tháng Tư và hiếm khi được gia hạn lần hai, câu nói ngụ ý không thể trễ hạn thứ Sáu nếu không muốn ảnh hưởng/hỏng hồ sơ ('jeopardize the application'). Chọn (D)."
+        },
+        {
+          "num": 3,
+          "q": "When does the attorney ask for the revised drawings to be uploaded?",
+          "opts": [
+            "By Wednesday evening",
+            "By Tuesday afternoon",
+            "By Thursday morning",
+            "By Friday at 5:00 PM"
+          ],
+          "ans": 0,
+          "exp": "Câu cuối nêu rõ mốc cho nhóm kỹ sư: 'upload the revised drawings to our encrypted client portal by Wednesday evening' (trước tối thứ Tư; thứ Năm trợ lý luật sư sẽ xử lý để kịp hạn thứ Sáu). Chọn (A)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Cập nhật Phiên thảo luận Hội nghị FinTech London",
+      "accent": "en-GB",
+      "graphic": {
+        "title": "London FinTech Summit Updates",
+        "headers": [
+          "Panel",
+          "Time",
+          "Hall",
+          "Status"
+        ],
+        "rows": [
+          [
+            "Cross-Border Payments",
+            "10:00 AM",
+            "Thames Hall",
+            "On Schedule"
+          ],
+          [
+            "AI Fraud Detection",
+            "11:15 AM",
+            "Victoria Room",
+            "Moved to Thames Hall"
+          ],
+          [
+            "Open Banking Rules",
+            "2:00 PM",
+            "Windsor Suite",
+            "Canceled"
+          ],
+          [
+            "Green Bonds Outlook",
+            "3:30 PM",
+            "Thames Hall",
+            "On Schedule"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Summit Director",
+          "accent": "en-GB",
+          "en": "Good morning, delegates, and welcome to day two of the London FinTech Summit at the Docklands Convention Centre.",
+          "vi": "Chào buổi sáng các đại biểu, và chào mừng đến với ngày thứ hai của Hội nghị Thượng đỉnh FinTech London tại Trung tâm Hội nghị Docklands."
+        },
+        {
+          "spk": "M",
+          "name": "Summit Director",
+          "accent": "en-GB",
+          "en": "Before our ten o'clock opening panel begins, kindly note two revisions reflected on the digital display boards.",
+          "vi": "Trước khi phiên khai mạc lúc mười giờ bắt đầu, xin vui lòng lưu ý hai điều chỉnh đã được cập nhật trên các bảng điện tử."
+        },
+        {
+          "spk": "M",
+          "name": "Summit Director",
+          "accent": "en-GB",
+          "en": "First, due to overwhelming pre-registration demand, our eleven-fifteen panel has been upgraded to our largest auditorium so every badge holder gets a seat.",
+          "vi": "Thứ nhất, do lượng đăng ký trước quá đông, phiên lúc mười một giờ mười lăm đã được nâng cấp sang khán phòng lớn nhất của chúng tôi để mọi người đeo thẻ đều có chỗ ngồi."
+        },
+        {
+          "spk": "M",
+          "name": "Summit Director",
+          "accent": "en-GB",
+          "en": "Second, because two regulatory panelists were called into an emergency parliamentary hearing, we regrettably had to cancel the two o'clock session—attendees who registered for it may redeem a complimentary networking lunch pass at the concierge desk.",
+          "vi": "Thứ hai, vì hai diễn giả cơ quan quản lý được triệu tập dự phiên điều trần khẩn cấp của quốc hội, chúng tôi rất tiếc phải hủy phiên hai giờ chiều—đại biểu đã đăng ký phiên đó có thể đổi phiếu ăn trưa kết nối miễn phí tại quầy hỗ trợ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Look at the graphic. Which panel was relocated because of high demand?",
+          "opts": [
+            "Cross-Border Payments",
+            "Open Banking Rules",
+            "AI Fraud Detection",
+            "Green Bonds Outlook"
+          ],
+          "ans": 2,
+          "exp": "Giám đốc hội nghị thông báo phiên 11:15 AM được chuyển sang khán phòng lớn nhất do lượng đăng ký quá đông. Tra bảng: phiên 11:15 AM (Moved to Thames Hall) là 'AI Fraud Detection'. Chọn (C)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Why was the Open Banking Rules panel canceled?",
+          "opts": [
+            "Audio equipment in Windsor Suite malfunctioned.",
+            "Key speakers had to attend an urgent government hearing.",
+            "Too few delegates signed up for the afternoon slot.",
+            "A transit strike prevented speakers from reaching Docklands."
+          ],
+          "ans": 1,
+          "exp": "Tra bảng: phiên bị hủy (Canceled) lúc 2:00 PM là 'Open Banking Rules'. Bài nói giải thích nguyên nhân: 'two regulatory panelists were called into an emergency parliamentary hearing' → diễn giả phải dự phiên điều trần khẩn cấp của quốc hội. Chọn (B)."
+        },
+        {
+          "num": 6,
+          "q": "What is offered to attendees affected by the cancellation?",
+          "opts": [
+            "A partial refund of their summit pass",
+            "Priority seating at the 3:30 PM panel",
+            "Exclusive access to recorded panel videos",
+            "A free pass to the networking lunch"
+          ],
+          "ans": 3,
+          "exp": "Câu cuối thông báo: 'may redeem a complimentary networking lunch pass at the concierge desk' → phiếu ăn trưa kết nối miễn phí. Chọn (D)."
+        }
+      ]
+    }
+  ]
+}

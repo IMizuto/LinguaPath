@@ -1,0 +1,98 @@
+{
+  "id": "tl_p1_03",
+  "order": 9,
+  "level": 1,
+  "part": "part1",
+  "partLabel": "Part 1 • Tả tranh",
+  "title": "Part 1 • Bài 03: Tả nhiều người họp nhóm & giao tiếp",
+  "subtitle": "Phân biệt hành động chung của cả nhóm (seated around, shaking hands, listening) với hành động đơn lẻ.",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "Với tranh từ 2 người trở lên, đáp án đúng thường mô tả điểm chung mà mọi người đang cùng làm (are seated around, are looking at, are shaking hands) hoặc mô tả chính xác 1 nhân vật nổi bật.",
+  "items": [
+    {
+      "num": 1,
+      "accent": "en-US",
+      "speaker": "W",
+      "image": "media/p1_03_1.svg",
+      "imageAlt": "Ba đồng nghiệp ngồi quanh bàn họp bầu dục có máy tính xách tay và tài liệu",
+      "options": [
+        "They are waiting in line beside an elevator.",
+        "Some people are seated around a conference table.",
+        "Workers are moving furniture out of an office.",
+        "Speakers are standing on a theater stage."
+      ],
+      "optionsVi": [
+        "Họ đang xếp hàng chờ cạnh thang máy.",
+        "Một vài người đang ngồi quanh một chiếc bàn họp.",
+        "Các công nhân đang chuyển đồ đạc ra khỏi văn phòng.",
+        "Các diễn giả đang đứng trên sân khấu nhà hát."
+      ],
+      "ans": 1,
+      "exp": "Ba nhân viên đều đang ngồi quanh bàn họp với tài liệu và laptop trước mặt → chọn (B). Lưu ý cụm 'be seated' mô tả trạng thái đang ngồi, đồng nghĩa với 'be sitting'."
+    },
+    {
+      "num": 2,
+      "accent": "en-US",
+      "speaker": "M",
+      "image": "media/p1_03_2.svg",
+      "imageAlt": "Hai nhân viên mặc vest đứng đối diện nhau bắt tay tại sảnh sáng",
+      "options": [
+        "Two people are shaking hands.",
+        "Two colleagues are climbing a staircase.",
+        "They are sharing an umbrella outdoors.",
+        "They are waving from an upper balcony."
+      ],
+      "optionsVi": [
+        "Hai người đang bắt tay nhau.",
+        "Hai đồng nghiệp đang leo cầu thang.",
+        "Họ đang che chung một chiếc ô ngoài trời.",
+        "Họ đang vẫy tay từ ban công tầng trên."
+      ],
+      "ans": 0,
+      "exp": "Một nam và một nữ mặc trang phục công sở đứng đối diện và bắt tay nhau giữa sảnh → chọn (A). Loại (B)(C)(D) vì sai hẳn bối cảnh."
+    },
+    {
+      "num": 3,
+      "accent": "en-US",
+      "speaker": "W",
+      "image": "media/p1_03_3.svg",
+      "imageAlt": "Hai đồng nghiệp đứng cạnh bàn cùng nhìn vào màn hình máy tính, một người chỉ tay",
+      "options": [
+        "They are packing books into shipping cartons.",
+        "They are painting a wall with rollers.",
+        "They are adjusting window blinds together.",
+        "They are looking at a computer screen together."
+      ],
+      "optionsVi": [
+        "Họ đang đóng gói sách vào thùng vận chuyển.",
+        "Họ đang sơn tường bằng con lăn.",
+        "Họ đang cùng nhau chỉnh rèm cửa sổ.",
+        "Họ đang cùng nhau nhìn vào một màn hình máy tính."
+      ],
+      "ans": 3,
+      "exp": "Hai đồng nghiệp cùng hướng mắt về màn hình máy tính trên bàn, một người chỉ tay vào màn hình → chọn (D). Loại (A)(B)(C) vì sai hoàn toàn đồ vật và hành động."
+    },
+    {
+      "num": 4,
+      "accent": "en-US",
+      "speaker": "M",
+      "image": "media/p1_03_4.svg",
+      "imageAlt": "Khán giả ngồi thành hàng ghế hướng về người thuyết trình đứng sau bục giảng",
+      "options": [
+        "Musicians are tuning instruments on a stage.",
+        "Passengers are boarding a commuter train.",
+        "An audience is listening to a presenter.",
+        "Diners are eating meals at round tables."
+      ],
+      "optionsVi": [
+        "Các nhạc công đang chỉnh nhạc cụ trên sân khấu.",
+        "Hành khách đang lên một chuyến tàu ngoại ô.",
+        "Khán giả đang lắng nghe một người thuyết trình.",
+        "Thực khách đang dùng bữa tại các bàn tròn."
+      ],
+      "ans": 2,
+      "exp": "Nhóm người ngồi theo hàng ghế quay mặt về phía diễn giả đứng tại bục có micro và màn chiếu → chọn (C). Loại (A)(B)(D) vì không khớp bối cảnh hội trường."
+    }
+  ]
+}

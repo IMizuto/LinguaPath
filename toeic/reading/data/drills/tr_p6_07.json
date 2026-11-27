@@ -1,0 +1,172 @@
+{
+  "id": "tr_p6_07",
+  "order": 13,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 07: Cải tạo Căn-tin Công ty & Xe buýt Điện Đô thị",
+  "subtitle": "Luyện thông báo cải tạo cơ sở vật chất (Notice) và bài báo giao thông xanh (Article).",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Với động từ \"undergo\" (trải qua — luôn dùng chủ động: undergo renovations) và trạng từ nối \"Meanwhile\" (trong khi đó — giới thiệu một diễn biến song song), hãy nắm vững cách dùng chuẩn để ăn điểm trong 5 giây.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Thông báo nội bộ",
+      "genre": "notice",
+      "meta": {
+        "title": "MAIN CAFETERIA REMODELING PROJECT",
+        "subtitle": "Facilities Management • August 12–23"
+      },
+      "paragraphs": [
+        "To expand seating capacity and add a fresh salad bar, the second-floor cafeteria will [1] major renovations over a two-week period starting Monday, August 12.",
+        "The dining hall and kitchen will remain closed [2] the renovation period so contractors can safely install new ventilation equipment. [3]",
+        "During these two weeks, a [4] grab-and-go coffee and sandwich counter will operate in the Ground Floor Atrium from 7:30 A.M. to 2:30 P.M. daily. We appreciate your patience while we upgrade your dining experience."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bài báo",
+      "genre": "article",
+      "meta": {
+        "title": "Metro Transit Launches Zero-Emission Express Fleet",
+        "subtitle": "City Infrastructure Journal • June 19"
+      },
+      "paragraphs": [
+        "PORTLAND — Metro Transit unveiled twenty-five fully electric express buses yesterday morning at Central Station. Over the coming year, the new vehicles [5] older diesel models along the city’s three busiest commuter corridors.",
+        "Equipped with high-capacity batteries, each bus can travel up to 320 kilometers on a single overnight charge and operates far more [6] than conventional engines. [7]",
+        "[8], the transit agency is installing rapid charging stations at two suburban depots to prepare for a second wave of electric buses scheduled to arrive next spring."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "undergo",
+        "resign",
+        "deliver",
+        "borrow"
+      ],
+      "ans": 0,
+      "exp": "Collocation chuẩn TOEIC: \"undergo renovations / repairs / testing\" (trải qua quá trình cải tạo / sửa chữa / kiểm thử). Chọn \"undergo\" (A). Loại (B) từ chức, (C) giao hàng, (D) mượn."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Giới từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "while",
+        "throughout",
+        "although",
+        "since"
+      ],
+      "ans": 1,
+      "exp": "Sau chỗ trống là cụm danh từ chỉ khoảng thời gian \"the renovation period\", và động từ \"remain closed\" chỉ trạng thái kéo dài xuyên suốt giai đoạn đó → chọn giới từ \"throughout\" (B - xuyên suốt). Loại (A), (C) liên từ; (D) \"since\" dùng với mốc bắt đầu quá khứ."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "The renovated dining space is scheduled to reopen with an expanded menu on August 26.",
+        "Employees are prohibited from bringing personal lunchboxes into the building.",
+        "Our catering vendor recently relocated its headquarters to Boston.",
+        "Breakfast service was discontinued three years ago due to low demand."
+      ],
+      "ans": 0,
+      "exp": "Đoạn 2 nói phòng ăn đóng cửa trong 2 tuần (12–23/8) để lắp thiết bị thông gió. Câu (A) thông báo lịch mở cửa trở lại vào thứ Hai 26/8 với thực đơn mở rộng, khớp tuyệt đối với mốc thời gian trên tiêu đề. Loại (B), (C), (D) không ăn nhập."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "permanent",
+        "crowded",
+        "temporary",
+        "defective"
+      ],
+      "ans": 2,
+      "exp": "Quầy cà phê và bánh mì chỉ hoạt động \"During these two weeks\" (trong 2 tuần sửa căn-tin) nên mang tính \"tạm thời\" (temporary). Chọn (C). Loại (A) vĩnh viễn, (B) đông đúc, (D) bị lỗi."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Thì động từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "replaced",
+        "were replacing",
+        "had replaced",
+        "will replace"
+      ],
+      "ans": 3,
+      "exp": "Cụm thời gian tương lai \"Over the coming year\" (trong năm sắp tới) đòi hỏi thì Tương lai đơn \"will replace\" (D - sẽ thay thế). Loại (A), (B), (C) đều thuộc thì quá khứ."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [6]:",
+      "opts": [
+        "quiet",
+        "quietness",
+        "quietly",
+        "quieter"
+      ],
+      "ans": 2,
+      "exp": "Bổ nghĩa cho động từ thường \"operates\" (vận hành) trong cấu trúc so sánh hơn \"far more _____ than...\" cần trạng từ. Chọn \"quietly\" (C - êm ái/yên tĩnh hơn nhiều). Loại (A) tính từ, (B) danh từ, (D) tính từ so sánh hơn gây lặp với \"more\"."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [7]:",
+      "opts": [
+        "Airport taxi fares increased by five percent earlier this spring.",
+        "Commuters also praised the spacious low-floor layout and USB charging ports at every seat.",
+        "Several downtown museums will host free art workshops this weekend.",
+        "Train tickets must be validated before boarding regional ferries."
+      ],
+      "ans": 1,
+      "exp": "Đoạn 2 đang mô tả các ưu điểm của mẫu xe buýt điện mới (quãng đường 320 km, vận hành êm ái). Câu (B) dùng \"also\" bổ sung phản hồi tích cực của hành khách về sàn thấp rộng rãi và cổng sạc USB trên xe. Loại (A), (C), (D) lệch chủ thể."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Từ nối",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "However",
+        "Otherwise",
+        "Instead",
+        "Meanwhile"
+      ],
+      "ans": 3,
+      "exp": "Đoạn 3 chuyển sang một hoạt động song song khác mà cơ quan vận tải đang triển khai (lắp trạm sạc nhanh ở 2 bến ngoại ô để đón đợt xe tiếp theo). Chọn \"Meanwhile\" (D - Trong khi đó). Loại (A) tuy nhiên (không có ý đối lập), (B) nếu không thì, (C) thay vào đó."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "undergo major renovations",
+      "answer": "REMODELING PROJECT",
+      "vi": "trải qua đợt cải tạo lớn ↔ dự án tu sửa/cải tạo"
+    },
+    {
+      "text": "During these two weeks",
+      "answer": "August 12–23",
+      "vi": "trong hai tuần này ↔ từ 12 đến 23 tháng 8"
+    },
+    {
+      "text": "fully electric express buses",
+      "answer": "Zero-Emission Express Fleet",
+      "vi": "xe buýt tốc hành chạy hoàn toàn bằng điện ↔ đội xe tốc hành không khí thải"
+    }
+  ]
+}

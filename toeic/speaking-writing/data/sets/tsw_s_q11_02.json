@@ -1,0 +1,93 @@
+{
+  "id": "tsw_s_q11_02",
+  "skill": "speaking",
+  "taskType": "sp_q11",
+  "code": "Q11",
+  "level": 4,
+  "targetBand": "170–200",
+  "title": "Nêu quan điểm Q11 #2: Tập đoàn Lớn hay Công ty Khởi nghiệp Nhỏ?",
+  "topic": "Định hướng Phát triển Sự nghiệp",
+  "estMinutes": 8,
+  "guideVi": "Đề bài so sánh quy mô doanh nghiệp rất hay ra ở Band 170–200. Nhớ gài thêm 1 câu nhượng bộ ngắn ('While small startups offer...') trước khi khẳng định lợi thế vượt trội của lựa chọn bạn chọn.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Nêu lập trường dứt khoát và giữ vững cấu trúc PREP/OREO",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Trình bày 2 lý do thuyết phục kèm ví dụ thực tế rõ ràng",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Từ vựng học thuật chính xác, ngữ pháp đa dạng và trôi chảy 60s",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q11_02_1",
+      "itemType": "sp_q11",
+      "label": "Q11 • Working for a large corporation vs. a small startup",
+      "prepSec": 45,
+      "respSec": 60,
+      "accent": "UK",
+      "promptEn": "Some graduates prefer starting their careers at a large multinational corporation, while others prefer joining a small startup company. Which do you think is better for career growth, and why?",
+      "promptVi": "Một số sinh viên mới ra trường thích khởi đầu sự nghiệp tại tập đoàn đa quốc gia lớn, trong khi người khác thích gia nhập công ty khởi nghiệp nhỏ. Theo bạn môi trường nào tốt hơn cho phát triển sự nghiệp và tại sao?",
+      "outline": [
+        {
+          "step": "1. Point (Lập trường — 10s)",
+          "cue": "Nhượng bộ ngắn + chốt: While startups move quickly, joining a large corporation is better for early career growth."
+        },
+        {
+          "step": "2. Reason 1 + Example (Lý do 1 — 20s)",
+          "cue": "Chương trình đào tạo bài bản & cố vấn chuyên sâu -> học quy trình chuẩn quốc tế ngay từ đầu."
+        },
+        {
+          "step": "3. Reason 2 + Example (Lý do 2 — 20s)",
+          "cue": "Lộ trình thăng tiến đa dạng & mạng lưới quan hệ rộng -> có thể luân chuyển phòng ban hoặc làm dự án toàn cầu."
+        },
+        {
+          "step": "4. Point Restated (Chốt lại — 10s)",
+          "cue": "Khẳng định nền tảng vững chắc (strong foundation and long-term mobility) mà tập đoàn lớn mang lại."
+        }
+      ],
+      "targetKeywords": [
+        "corporation",
+        "training",
+        "mentorship",
+        "network",
+        "career",
+        "structured",
+        "opportunities"
+      ],
+      "tipVi": "Dùng các collocation đắt giá về nghề nghiệp như 'structured training programs', 'experienced mentors', 'internal mobility', 'global network' để chinh phục mốc 180–200.",
+      "keyPhrases": [
+        {
+          "en": "structured training programs",
+          "vi": "các chương trình đào tạo bài bản"
+        },
+        {
+          "en": "learn from experienced mentors",
+          "vi": "học hỏi từ những người cố vấn dày dặn kinh nghiệm"
+        },
+        {
+          "en": "internal career mobility",
+          "vi": "cơ hội luân chuyển nghề nghiệp nội bộ"
+        },
+        {
+          "en": "professional network",
+          "vi": "mạng lưới quan hệ chuyên môn"
+        },
+        {
+          "en": "solid long-term foundation",
+          "vi": "nền tảng vững chắc cho đường dài"
+        }
+      ],
+      "sample": "While small startups can be exciting, I firmly believe that starting a career at a large corporation is much better for long-term professional growth. To begin with, major companies invest heavily in structured training programs and mentorship. New hires learn industry best practices, project management systems, and compliance standards from experienced managers. For instance, my cousin joined a global technology firm after university and completed a six-month rotation that sharpened both her technical and leadership skills. Furthermore, large organizations provide wider internal mobility and a stronger professional network. If an employee wants to transition from marketing into product strategy or transfer to an overseas branch, a corporation has the resources to support that step. Overall, the training, stability, and diverse opportunities make large corporations the smarter launchpad for a career.",
+      "sampleVi": "Mặc dù các công ty khởi nghiệp nhỏ khá thú vị, tôi tin chắc rằng bắt đầu sự nghiệp tại một tập đoàn lớn tốt hơn nhiều cho sự phát triển lâu dài. Trước hết, các doanh nghiệp lớn đầu tư mạnh vào chương trình đào tạo bài bản và cố vấn. Nhân viên mới học được quy chuẩn tốt nhất của ngành, hệ thống quản lý dự án và tiêu chuẩn tuân thủ từ những quản lý dày dặn kinh nghiệm. Ví dụ, anh họ tôi gia nhập một tập đoàn công nghệ toàn cầu sau khi tốt nghiệp và hoàn thành chương trình luân chuyển sáu tháng giúp nâng tầm cả kỹ năng chuyên môn lẫn lãnh đạo. Hơn nữa, tổ chức lớn mang lại cơ hội luân chuyển nội bộ rộng mở và mạng lưới chuyên môn vững mạnh hơn. Nếu nhân viên muốn chuyển từ tiếp thị sang chiến lược sản phẩm hoặc sang chi nhánh nước ngoài, tập đoàn có đủ nguồn lực hỗ trợ. Nhìn chung, sự đào tạo, ổn định và cơ hội đa dạng biến tập đoàn lớn thành bệ phóng sự nghiệp thông minh hơn."
+    }
+  ]
+}

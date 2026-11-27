@@ -1,0 +1,136 @@
+{
+  "id": "tr_p7d_04",
+  "order": 24,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 04: Trang sản phẩm & Đánh giá khách hàng",
+  "subtitle": "Đối chiếu thông số, phụ kiện đi kèm của máy pha cà phê BrewMaster Pro-X với trải nghiệm thực tế của chủ quán.",
+  "timeLimitMin": 10,
+  "tips": "Với cặp Trang web sản phẩm ↔ Đánh giá khách hàng, chú ý các chi tiết 'included' (đi kèm) vs 'sold separately' (bán rời), số lượng phụ kiện ban đầu và quyền lợi giao hàng trực tuyến.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Trang sản phẩm",
+      "genre": "ad",
+      "meta": {
+        "title": "BREWMASTER PRO-X COMMERCIAL ESPRESSO MACHINE",
+        "subtitle": "Verno Appliances • Direct Store (vernoappliances.com)"
+      },
+      "paragraphs": [
+        "Engineered for boutique cafés and bakeries, the BrewMaster Pro-X delivers barista-grade consistency even during peak morning rushes. Dual stainless-steel boilers allow staff to brew espresso and steam milk simultaneously, while digital PID temperature controls maintain precision within one degree.",
+        "Key Specifications:\n• 3.5-liter removable water tank\n• Whisper-quiet rotary pump (under 52 dB)\n• Base Price: $1,899 — includes a 2-year commercial parts-and-labor warranty, stainless steel tamper, steaming pitcher, and a complimentary starter pack of four water filter cartridges.",
+        "Optional Upgrade: A direct plumbed-in water line kit ($140) is sold separately and requires installation by a certified technician. All machines ordered directly through vernoappliances.com qualify for complimentary express shipping anywhere in the continental United States."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Đánh giá khách hàng",
+      "genre": "review",
+      "meta": {
+        "title": "Reliable performance for a busy café, with one minor drawback (4/5 Stars)",
+        "subtitle": "Reviewed by Devon Brooks • Verified Purchase • July 18",
+        "rating": 4
+      },
+      "paragraphs": [
+        "I run a 35-seat neighborhood bakery in Austin, and I purchased the BrewMaster Pro-X directly from Verno's website three months ago to replace our aging single-boiler unit. The performance upgrade has been remarkable: because my baristas can pull espresso shots and froth milk at the same time, customer wait times during our 8:00 A.M. rush have dropped nearly in half. I am also impressed by how quiet the pump runs compared with our old machine.",
+        "My only minor complaint is that the removable tank needs to be refilled twice on busy Saturday mornings. To eliminate that chore, I plan to buy the optional water-line kit next month and have our local plumber install it.",
+        "One quick note on delivery: my box arrived containing only two water filter cartridges instead of the full starter pack advertised online. However, when I contacted Verno's support team, they apologized and promptly sent the remaining cartridges at no charge—they arrived within three days."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the product webpage, what is NOT included in the $1,899 base price?",
+      "opts": [
+        "A steaming pitcher",
+        "A two-year commercial warranty",
+        "Water filter cartridges",
+        "A plumbed-in water line kit"
+      ],
+      "ans": 3,
+      "exp": "Văn bản 1 (đoạn 3) ghi rõ: 'A direct plumbed-in water line kit ($140) is sold separately' → Bộ dẫn nước trực tiếp được bán riêng, không nằm trong mức giá cơ bản $1,899."
+    },
+    {
+      "num": 2,
+      "tag": "Ý chính",
+      "q": "What is Mr. Brooks's overall opinion of the BrewMaster Pro-X?",
+      "opts": [
+        "It is too noisy for a small neighborhood bakery.",
+        "It performs reliably during rush hours despite a minor inconvenience.",
+        "Its warranty coverage is inferior to that of competing brands.",
+        "It is unnecessarily complex for baristas to operate."
+      ],
+      "ans": 1,
+      "exp": "Trong Văn bản 2, ông Brooks đánh giá 4/5 sao, khen tốc độ pha chế giảm gần một nửa thời gian chờ và bơm chạy rất êm, chỉ có bất tiện nhỏ (minor drawback) là bình nước phải châm thêm vào sáng thứ Bảy đông khách."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the review, the word \"promptly\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "quickly",
+        "politely",
+        "annually",
+        "cautiously"
+      ],
+      "ans": 0,
+      "exp": "Trong ngữ cảnh '...promptly sent the remaining cartridges at no charge—they arrived within three days', 'promptly' nghĩa là nhanh chóng/kịp thời, đồng nghĩa với 'quickly'."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "How many replacement water filter cartridges did Verno's support team mail to Mr. Brooks?",
+      "opts": [
+        "One",
+        "Three",
+        "Two",
+        "Four"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 cho biết bộ khởi đầu tặng kèm có 4 lõi lọc nước ('four water filter cartridges'). Văn bản 2 cho biết thùng máy chỉ có 2 lõi và đội hỗ trợ đã gửi bổ sung số lõi còn thiếu ('the remaining cartridges') → 4 − 2 = 2 lõi."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What can be inferred about Mr. Brooks's purchase?",
+      "opts": [
+        "He bought the machine from a local appliance showroom.",
+        "He already paid $140 for the water-line upgrade.",
+        "He installed the espresso machine himself last week.",
+        "He received free express shipping on his order."
+      ],
+      "ans": 3,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 nêu mọi máy đặt trực tiếp qua vernoappliances.com tại Mỹ đều được miễn phí giao hàng nhanh ('complimentary express shipping'). Văn bản 2 cho biết ông Brooks ở Austin (Mỹ) và mua máy 'directly from Verno's website' → Ông được miễn phí giao hàng nhanh."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "brew espresso and steam milk simultaneously",
+      "answer": "pull espresso shots and froth milk at the same time",
+      "vi": "pha espresso và đánh sữa cùng lúc"
+    },
+    {
+      "text": "sold separately",
+      "answer": "NOT included in the base price",
+      "vi": "bán riêng ↔ không bao gồm trong giá cơ bản"
+    },
+    {
+      "text": "complimentary express shipping",
+      "answer": "free express shipping",
+      "vi": "giao hàng nhanh miễn phí"
+    },
+    {
+      "text": "promptly",
+      "answer": "quickly",
+      "vi": "nhanh chóng, kịp thời"
+    },
+    {
+      "text": "the remaining cartridges (4 minus 2)",
+      "answer": "two replacement cartridges",
+      "vi": "số lõi lọc còn thiếu (4 trừ 2 bằng 2 lõi)"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "id": "tsw_s_q810_03",
+  "skill": "speaking",
+  "taskType": "sp_q810",
+  "code": "Q8–10",
+  "level": 4,
+  "targetBand": "170–200",
+  "title": "Dùng bảng biểu Q8–10 #3: Chương trình Đào tạo Nhân viên Mới",
+  "topic": "Nhân sự & Hội thảo Nội bộ",
+  "estMinutes": 8,
+  "guideVi": "Bảng cấp độ 4 kết hợp phân loại Bắt buộc (Required) và Tự chọn (Optional) kèm thay đổi giảng viên/phí trong ghi chú. Hãy rà kỹ từng cột trước khi tổng hợp ở câu Q10.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Trích xuất đúng ngày giờ, địa điểm và chi tiết từ bảng biểu",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Đính chính lịch sự thông tin sai ở Q9 và tổng hợp đủ ý ở Q10",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Diễn đạt mạch lạc, phát âm rõ số liệu và tên riêng",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q810_03_1",
+      "itemType": "sp_q810",
+      "label": "Q8–10 • New Employee Onboarding & Skills Workshop",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "AU",
+      "docTitle": "Northstar Corp — New Hire Training Day (Wednesday, March 18)",
+      "docNote": "HR Update: Lunch is provided free of charge in the Sky Cafeteria. The 3:30 PM Advanced Excel Clinic has been canceled, and Ms. Priya Nair will replace Mr. Owen Brooks as the trainer for the 1:30 PM Project Management Basics module.",
+      "tableHeaders": [
+        "Time",
+        "Training Module",
+        "Trainer",
+        "Category & Room"
+      ],
+      "tableRows": [
+        [
+          "9:00 AM – 10:15 AM",
+          "Company Policies & Security",
+          "Ms. Priya Nair",
+          "Required • Room 102"
+        ],
+        [
+          "10:30 AM – 11:45 AM",
+          "Customer Service Standards",
+          "Mr. Liam Grant",
+          "Required • Room 105"
+        ],
+        [
+          "12:00 PM – 1:15 PM",
+          "Team Lunch & Mentor Meet",
+          "HR Committee",
+          "Included • Sky Cafeteria"
+        ],
+        [
+          "1:30 PM – 3:00 PM",
+          "Project Management Basics",
+          "Ms. Priya Nair (Updated)",
+          "Required • Room 208"
+        ],
+        [
+          "3:30 PM – 4:45 PM",
+          "Advanced Excel Clinic (Canceled)",
+          "Mr. Liam Grant",
+          "Optional • Lab 3"
+        ]
+      ],
+      "targetKeywords": [
+        "9:00 AM",
+        "Room 102",
+        "canceled",
+        "Priya Nair",
+        "Required",
+        "10:30 AM",
+        "1:30 PM"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 8,
+          "questionEn": "Hi, I'm starting at Northstar Corp this Wednesday. When does the first training session begin, and do I need to pay for lunch?",
+          "questionVi": "Chào bạn, tôi bắt đầu làm việc tại Northstar Corp thứ Tư này. Buổi đào tạo đầu tiên bắt đầu lúc mấy giờ và tôi có phải tự trả tiền ăn trưa không?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": false,
+          "sample": "Welcome aboard! The first session, Company Policies and Security, begins at 9:00 AM in Room 102. And no, you don't need to pay for lunch—it is provided free of charge in the Sky Cafeteria at noon.",
+          "sampleVi": "Chào mừng bạn gia nhập công ty! Buổi đầu tiên về Chính sách Công ty và Bảo mật bắt đầu lúc 9 giờ sáng tại Phòng 102. Bạn không cần trả tiền ăn trưa vì công ty phục vụ miễn phí tại Căng-tin Sky lúc 12 giờ trưa.",
+          "keywords": [
+            "9:00 AM",
+            "Room 102",
+            "free of charge",
+            "Sky Cafeteria"
+          ]
+        },
+        {
+          "qNum": 9,
+          "questionEn": "I plan to attend Mr. Owen Brooks's Project Management session at 1:30 PM and then stay for the Advanced Excel Clinic at 3:30 PM. Does that sound right?",
+          "questionVi": "Tôi định dự lớp Quản lý Dự án của ông Owen Brooks lúc 1 giờ 30 chiều rồi ở lại học lớp Excel Nâng cao lúc 3 giờ 30. Như vậy có đúng không?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": true,
+          "sample": "There are actually two recent updates to note. Ms. Priya Nair will replace Mr. Owen Brooks as the trainer for Project Management Basics at 1:30 PM, and the 3:30 PM Advanced Excel Clinic has been canceled.",
+          "sampleVi": "Thực ra có hai cập nhật mới bạn cần lưu ý. Cô Priya Nair sẽ thay ông Owen Brooks đứng lớp Quản lý Dự án Cơ bản lúc 1 giờ 30 chiều, còn lớp Excel Nâng cao lúc 3 giờ 30 chiều đã bị hủy.",
+          "keywords": [
+            "Priya Nair",
+            "replace",
+            "Owen Brooks",
+            "Advanced Excel Clinic",
+            "canceled"
+          ]
+        },
+        {
+          "qNum": 10,
+          "questionEn": "Which sessions on Wednesday are mandatory for all new hires? Please tell me the times, trainers, and room numbers.",
+          "questionVi": "Những buổi nào vào thứ Tư là bắt buộc với toàn bộ nhân viên mới? Vui lòng cho tôi biết khung giờ, giảng viên và số phòng.",
+          "prepSec": 3,
+          "respSec": 30,
+          "isCorrection": false,
+          "sample": "There are three required sessions for all new hires on Wednesday. First, Company Policies and Security runs from 9:00 to 10:15 AM with Ms. Priya Nair in Room 102. Second, Customer Service Standards takes place from 10:30 to 11:45 AM with Mr. Liam Grant in Room 105. Finally, Project Management Basics is scheduled from 1:30 to 3:00 PM in Room 208, and as updated, it will also be taught by Ms. Priya Nair.",
+          "sampleVi": "Có ba buổi bắt buộc cho toàn bộ nhân viên mới vào thứ Tư. Thứ nhất, Chính sách Công ty và Bảo mật diễn ra từ 9 giờ đến 10 giờ 15 sáng cùng cô Priya Nair tại Phòng 102. Thứ hai, Tiêu chuẩn Chăm sóc Khách hàng từ 10 giờ 30 đến 11 giờ 45 sáng với ông Liam Grant ở Phòng 105. Cuối cùng, Quản lý Dự án Cơ bản diễn ra từ 1 giờ 30 đến 3 giờ chiều tại Phòng 208 và theo lịch mới cũng do cô Priya Nair giảng dạy.",
+          "keywords": [
+            "three required",
+            "9:00",
+            "Room 102",
+            "10:30",
+            "Liam Grant",
+            "1:30",
+            "Room 208",
+            "Priya Nair"
+          ]
+        }
+      ],
+      "tipVi": "Đề Q10 dùng từ đồng nghĩa 'mandatory' thay cho 'Required' trong bảng — đây là cách paraphrase kinh điển của ETS. Luôn liên kết dữ liệu Ghi chú vào câu trả lời Q10 (nhắc cô Priya Nair là giảng viên mới của lớp 1:30 PM).",
+      "keyPhrases": [
+        {
+          "en": "provided free of charge",
+          "vi": "được cung cấp miễn phí"
+        },
+        {
+          "en": "replace ... as the trainer",
+          "vi": "thay thế ... làm giảng viên"
+        },
+        {
+          "en": "three required sessions",
+          "vi": "ba buổi học bắt buộc"
+        },
+        {
+          "en": "as updated",
+          "vi": "theo thông tin mới cập nhật"
+        },
+        {
+          "en": "takes place from ... to ...",
+          "vi": "diễn ra từ ... đến ..."
+        }
+      ],
+      "sample": "Q8: The first session starts at 9:00 AM in Room 102, and lunch is provided free of charge in the Sky Cafeteria.\n\nQ9: Actually, Ms. Priya Nair is replacing Mr. Owen Brooks for the 1:30 PM Project Management Basics session, and the 3:30 PM Advanced Excel Clinic has been canceled.\n\nQ10: Three sessions are mandatory: Company Policies and Security (9:00–10:15 AM, Ms. Priya Nair, Room 102), Customer Service Standards (10:30–11:45 AM, Mr. Liam Grant, Room 105), and Project Management Basics (1:30–3:00 PM, Ms. Priya Nair, Room 208).",
+      "sampleVi": "Q8: Buổi đầu bắt đầu lúc 9:00 sáng tại Phòng 102 và bữa trưa được cung cấp miễn phí tại Căng-tin Sky.\n\nQ9: Thực ra cô Priya Nair thay ông Owen Brooks dạy lớp Quản lý Dự án lúc 1:30 chiều, còn lớp Excel Nâng cao lúc 3:30 chiều đã bị hủy.\n\nQ10: Có ba buổi bắt buộc: Chính sách Công ty & Bảo mật (9:00–10:15, cô Priya Nair, Phòng 102), Tiêu chuẩn Chăm sóc Khách hàng (10:30–11:45, ông Liam Grant, Phòng 105), và Quản lý Dự án Cơ bản (1:30–3:00, cô Priya Nair, Phòng 208)."
+    }
+  ]
+}

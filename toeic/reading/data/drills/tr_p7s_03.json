@@ -1,0 +1,168 @@
+{
+  "id": "tr_p7s_03",
+  "order": 17,
+  "level": 2,
+  "part": "part7s",
+  "partLabel": "Part 7 • Đoạn đơn",
+  "title": "Part 7 Đơn • Bộ 03: Tin Tuyển dụng Robotics & Bài báo Mở rộng Thương hiệu",
+  "subtitle": "Rèn kỹ năng quét chi tiết Quảng cáo tuyển dụng (Ad) và xử lý câu Từ vựng ngữ cảnh trong Bài báo (Article).",
+  "timeLimitMin": 10,
+  "tips": "Mẹo câu Từ vựng ngữ cảnh (Vocabulary in Context): Đừng chọn nghĩa phổ biến nhất trong đầu! Hãy thay thử từng đáp án A/B/C/D vào đúng câu gốc trong bài báo để xem từ nào giữ nguyên sắc thái nghĩa khớp mạch văn nhất.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Quảng cáo tuyển dụng",
+      "genre": "ad",
+      "meta": {
+        "title": "SOLIS ROBOTICS — WE ARE HIRING!",
+        "subtitle": "Position: Bilingual Customer Success Manager (Austin, TX)"
+      },
+      "paragraphs": [
+        "Solis Robotics designs automated cleaning machines used in hospitals, airports, and logistics centers across North America. We are seeking an energetic Bilingual Customer Success Manager to guide enterprise accounts from initial installation through annual renewals.",
+        "Key Requirements: A bachelor’s degree in business, engineering, or a related field; at least four years of experience managing B2B client accounts; fluency in both English and Spanish; and willingness to travel regionally up to 25 percent of the time.",
+        "We offer a competitive salary, comprehensive medical insurance, a $1,500 annual learning stipend, and quarterly performance bonuses. To apply, email your résumé and a short cover letter to careers@solisrobotics.com with the subject line \"CSM-Austin\" by June 28. Please do not call our office regarding application status."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bài báo kinh doanh",
+      "genre": "article",
+      "meta": {
+        "title": "Cedar & Bean Roasters Expands Into Airport Terminals",
+        "subtitle": "Northwest Commerce Weekly • July 11"
+      },
+      "paragraphs": [
+        "VANCOUVER — Cedar & Bean, a specialty coffee roaster founded twelve years ago as a single neighborhood café, announced yesterday that it will open four express kiosks inside major Canadian airports before December.",
+        "The expansion follows a remarkable year for the company. Sales of its whole-bean blends rose 38 percent after the firm partnered with a national grocery chain last autumn. To keep pace with demand, Cedar & Bean recently leased a larger roasting plant in Burnaby and hired twenty-two additional staff.",
+        "Chief Executive Maya Lin noted that the airport kiosks will feature a streamlined menu focused on fast-brewing espresso drinks and locally baked pastries. \"Travelers rarely have twenty minutes to wait for a pour-over,\" Lin explained. \"Our goal is to maintain artisan quality while cutting service times in half.\" The company also plans to launch 100 percent compostable coffee pods for home brewers early next year."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "What does Solis Robotics produce?",
+      "opts": [
+        "Medical diagnostic scanners",
+        "Automated cleaning equipment",
+        "Language translation software",
+        "Commercial airline seating"
+      ],
+      "ans": 1,
+      "exp": "Câu đầu của Văn bản 1 viết: \"Solis Robotics designs automated cleaning machines used in hospitals, airports, and logistics centers\". \"machines\" ↔ \"equipment\". Chọn (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "NOT / Ngoại trừ",
+      "q": "Which of the following is NOT listed as a job requirement?",
+      "opts": [
+        "A university degree in a relevant discipline",
+        "Four years of business-to-business account experience",
+        "Ability to communicate in English and Spanish",
+        "Prior employment at an international airport"
+      ],
+      "ans": 3,
+      "exp": "Đoạn 2 liệt kê: bằng đại học (A), tối thiểu 4 năm kinh nghiệm B2B (B), thông thạo tiếng Anh & Tây Ban Nha (C), và sẵn sàng công tác khu vực 25% thời gian. Sân bay chỉ là nơi sử dụng sản phẩm của công ty, KHÔNG phải yêu cầu kinh nghiệm của ứng viên → chọn (D)."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Chi tiết",
+      "q": "What are applicants instructed to do when submitting their materials?",
+      "opts": [
+        "Call the Austin headquarters to confirm receipt",
+        "Include a specific code in the email subject line",
+        "Complete an online Spanish grammar test first",
+        "Deliver printed references in person by June 28"
+      ],
+      "ans": 1,
+      "exp": "Đoạn 3 hướng dẫn: \"email your résumé and a short cover letter to careers@solisrobotics.com with the subject line 'CSM-Austin' by June 28\" và lưu ý không gọi điện thoại (loại A). Chọn (B). Loại (C), (D)."
+    },
+    {
+      "num": 4,
+      "passageId": "p2",
+      "tag": "Ý chính",
+      "q": "What is the article mainly about?",
+      "opts": [
+        "A coffee company’s rapid growth and new retail locations",
+        "Rising international tariffs on imported coffee beans",
+        "A national grocery chain closing several urban branches",
+        "Renovations taking place at Burnaby’s main airport"
+      ],
+      "ans": 0,
+      "exp": "Cả bài báo xoay quanh sự tăng trưởng mạnh của Cedar & Bean (doanh số tăng 38%, thuê xưởng rang lớn hơn) và việc mở 4 quầy tốc hành trong các sân bay lớn ở Canada. Chọn (A). Loại (B), (C), (D)."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In paragraph 3, the word \"streamlined\" is closest in meaning to:",
+      "opts": [
+        "simplified",
+        "expensive",
+        "traditional",
+        "seasonal"
+      ],
+      "ans": 0,
+      "exp": "Câu gốc: \"the airport kiosks will feature a streamlined menu focused on fast-brewing espresso drinks... cutting service times in half\". Để phục vụ hành khách vội vàng, thực đơn được \"tinh gọn/đơn giản hóa\" (simplified). Chọn (A). Loại (B) đắt đỏ, (C) truyền thống, (D) theo mùa."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Chi tiết",
+      "q": "What helped boost Cedar & Bean’s whole-bean sales by 38 percent?",
+      "opts": [
+        "Opening four express kiosks in Canadian airports",
+        "Launching compostable home coffee pods last autumn",
+        "Collaborating with a nationwide grocery retailer",
+        "Reducing the retail price of its neighborhood café drinks"
+      ],
+      "ans": 2,
+      "exp": "Đoạn 2 nêu rõ: \"Sales of its whole-bean blends rose 38 percent after the firm partnered with a national grocery chain last autumn.\" \"partnered with a national grocery chain\" ↔ \"Collaborating with a nationwide grocery retailer\". Chọn (C). Lưu ý (A) và (B) là kế hoạch sắp tới, chưa diễn ra."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Suy luận",
+      "q": "What does Ms. Lin suggest about airport customers?",
+      "opts": [
+        "They prefer buying whole-bean bags over brewed drinks.",
+        "They rarely purchase baked goods while traveling.",
+        "They are willing to pay extra for compostable packaging.",
+        "They typically do not have much time to wait for orders."
+      ],
+      "ans": 3,
+      "exp": "Bà Maya Lin trích dẫn: \"Travelers rarely have twenty minutes to wait for a pour-over\" (Hành khách hiếm khi có 20 phút để đợi cà phê pha tay) → cho thấy họ thường không có nhiều thời gian chờ đợi. Chọn (D). Loại (A), (B), (C)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "automated cleaning machines",
+      "answer": "Automated cleaning equipment",
+      "vi": "máy vệ sinh tự động ↔ thiết bị vệ sinh tự động"
+    },
+    {
+      "text": "fluency in both English and Spanish",
+      "answer": "Ability to communicate in English and Spanish",
+      "vi": "thông thạo cả tiếng Anh và Tây Ban Nha ↔ khả năng giao tiếp bằng tiếng Anh và Tây Ban Nha"
+    },
+    {
+      "text": "partnered with a national grocery chain",
+      "answer": "Collaborating with a nationwide grocery retailer",
+      "vi": "hợp tác với chuỗi siêu thị toàn quốc ↔ cộng tác cùng nhà bán lẻ tạp hóa toàn quốc"
+    },
+    {
+      "text": "streamlined menu",
+      "answer": "simplified",
+      "vi": "thực đơn tinh gọn ↔ được đơn giản hóa"
+    },
+    {
+      "text": "rarely have twenty minutes to wait",
+      "answer": "typically do not have much time to wait",
+      "vi": "hiếm khi có 20 phút để chờ ↔ thường không có nhiều thời gian chờ đợi"
+    }
+  ]
+}

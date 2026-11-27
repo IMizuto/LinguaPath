@@ -1,0 +1,191 @@
+{
+  "id": "tl_p4_01",
+  "order": 33,
+  "level": 3,
+  "part": "part4",
+  "partLabel": "Part 4 • Bài nói ngắn",
+  "title": "Thông báo Nội bộ & Lịch Tập huấn An toàn",
+  "subtitle": "Thông báo thay thẻ ra vào tòa nhà và lịch huấn luyện an toàn theo phòng ban",
+  "accent": "en-US",
+  "defaultRate": 1.0,
+  "tips": "Trong Part 4 Thông báo nội bộ, câu hỏi đầu thường hỏi đối tượng người nghe (Who is the audience?) hoặc mục đích thông báo. Hãy bắt từ khóa mở đầu (Good morning everyone, Attention staff...) và mốc thời hạn ở cuối bài.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Bài nói 1 • Thông báo nâng cấp thẻ ra vào tòa nhà",
+      "accent": "en-US",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "W",
+          "name": "Office Manager",
+          "accent": "en-US",
+          "en": "Good morning, everyone. Before we begin our weekly staff meeting, I have an important announcement from building security.",
+          "vi": "Chào buổi sáng mọi người. Trước khi bắt đầu cuộc họp nhân viên hằng tuần, tôi có một thông báo quan trọng từ bộ phận an ninh tòa nhà."
+        },
+        {
+          "spk": "W",
+          "name": "Office Manager",
+          "accent": "en-US",
+          "en": "Starting next Monday, we are replacing all magnetic keycards with encrypted smart badges across every floor.",
+          "vi": "Bắt đầu từ thứ Hai tuần tới, chúng ta sẽ thay toàn bộ thẻ từ bằng thẻ thông minh mã hóa trên tất cả các tầng."
+        },
+        {
+          "spk": "W",
+          "name": "Office Manager",
+          "accent": "en-US",
+          "en": "Our current security badges are nearly ten years old, and the lobby turnstiles have been misreading them almost daily.",
+          "vi": "Thẻ an ninh hiện tại của chúng ta đã gần mười năm tuổi rồi, và cổng xoay ở sảnh đọc lỗi thẻ gần như mỗi ngày."
+        },
+        {
+          "spk": "W",
+          "name": "Office Manager",
+          "accent": "en-US",
+          "en": "Please stop by the front reception desk with a photo ID anytime between Wednesday and Friday to have your new photo taken and pick up your badge.",
+          "vi": "Vui lòng ghé quầy lễ tân chính cùng giấy tờ tùy thân có ảnh vào bất kỳ lúc nào từ thứ Tư đến thứ Sáu để chụp ảnh mới và nhận thẻ."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "What is the main purpose of the announcement?",
+          "opts": [
+            "To announce a change in office working hours",
+            "To introduce new security guards at the lobby",
+            "To inform employees about a new access badge system",
+            "To report a break-in on the parking level"
+          ],
+          "ans": 2,
+          "exp": "Người nói thông báo 'replacing all magnetic keycards with encrypted smart badges' → thông báo cho nhân viên về hệ thống thẻ ra vào mới. Chọn (C)."
+        },
+        {
+          "num": 2,
+          "q": "Why does the speaker say, \"Our current security badges are nearly ten years old\"?",
+          "opts": [
+            "To explain why the upgrade is necessary",
+            "To celebrate the company's tenth anniversary",
+            "To praise the durability of the old cards",
+            "To remind staff to renew their contracts"
+          ],
+          "ans": 0,
+          "exp": "Cô nhấn mạnh thẻ cũ đã gần 10 năm tuổi và 'the lobby turnstiles have been misreading them almost daily' → giải thích lý do phải nâng cấp hệ thống thẻ. Chọn (A)."
+        },
+        {
+          "num": 3,
+          "q": "What are listeners asked to bring to the reception desk?",
+          "opts": [
+            "A signed HR approval form",
+            "A digital passport photo",
+            "Their parking permit receipt",
+            "An identification document with a photo"
+          ],
+          "ans": 3,
+          "exp": "Câu cuối yêu cầu: 'stop by the front reception desk with a photo ID' → giấy tờ tùy thân có ảnh ('An identification document with a photo'). Chọn (D)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Bài nói 2 • Lịch Tập huấn An toàn Lao động theo Phòng ban",
+      "accent": "en-US",
+      "graphic": {
+        "title": "Safety Briefing Schedule",
+        "headers": [
+          "Department",
+          "Time",
+          "Location"
+        ],
+        "rows": [
+          [
+            "Logistics",
+            "9:00 AM",
+            "Warehouse Bay 2"
+          ],
+          [
+            "Engineering",
+            "10:30 AM",
+            "Lab Annex"
+          ],
+          [
+            "Customer Support",
+            "1:15 PM",
+            "Conference Room C"
+          ],
+          [
+            "Finance & Admin",
+            "3:00 PM",
+            "Main Auditorium"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Safety Director",
+          "accent": "en-US",
+          "en": "Attention all headquarters personnel. Tomorrow is our mandatory annual fire-safety and emergency response briefing.",
+          "vi": "Xin chú ý toàn thể nhân sự trụ sở chính. Ngày mai là buổi phổ biến bắt buộc hằng năm về phòng cháy chữa cháy và ứng phó khẩn cấp."
+        },
+        {
+          "spk": "M",
+          "name": "Safety Director",
+          "accent": "en-US",
+          "en": "Each department has been assigned a dedicated forty-five-minute slot so our daily operations continue without disruption.",
+          "vi": "Mỗi phòng ban đã được phân một khung giờ riêng kéo dài bốn mươi lăm phút để hoạt động hằng ngày không bị gián đoạn."
+        },
+        {
+          "spk": "M",
+          "name": "Safety Director",
+          "accent": "en-US",
+          "en": "Please note one last-minute adjustment: because the Lab Annex is currently undergoing electrical testing, the ten-thirty session has been shifted to the Main Auditorium.",
+          "vi": "Xin lưu ý một điều chỉnh phút chót: do Khu Phụ Phòng thí nghiệm hiện đang kiểm tra điện, buổi mười giờ ba mươi đã được chuyển sang Hội trường Chính."
+        },
+        {
+          "spk": "M",
+          "name": "Safety Director",
+          "accent": "en-US",
+          "en": "Attendance will be scanned at the door, and anyone traveling off-site tomorrow must complete the online module by Monday.",
+          "vi": "Điểm danh sẽ được quét tại cửa, và ai đi công tác ngoài văn phòng ngày mai phải hoàn thành học phần trực tuyến trước thứ Hai."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Why are departments scheduled in separate time slots?",
+          "opts": [
+            "Because only one instructor is certified",
+            "To keep regular business running smoothly",
+            "To allow extra time for equipment demos",
+            "Because the parking lot is being repaved"
+          ],
+          "ans": 1,
+          "exp": "Người nói giải thích: 'so our daily operations continue without disruption' → giữ cho hoạt động kinh doanh thường ngày chạy trơn tru. Chọn (B)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which department's briefing location has changed?",
+          "opts": [
+            "Logistics",
+            "Customer Support",
+            "Engineering",
+            "Finance & Admin"
+          ],
+          "ans": 2,
+          "exp": "Thông báo nói buổi lúc 10:30 tại Lab Annex đã chuyển sang Main Auditorium. Tra bảng: khung giờ 10:30 AM ở Lab Annex thuộc phòng 'Engineering'. Chọn (C)."
+        },
+        {
+          "num": 6,
+          "q": "What should employees who are traveling tomorrow do?",
+          "opts": [
+            "Finish an online training module by Monday",
+            "Email their supervisor for an exemption",
+            "Attend the 3:00 PM session instead",
+            "Pick up a printed safety handbook"
+          ],
+          "ans": 0,
+          "exp": "Câu cuối nêu rõ: 'anyone traveling off-site tomorrow must complete the online module by Monday' → hoàn thành học phần trực tuyến trước thứ Hai. Chọn (A)."
+        }
+      ]
+    }
+  ]
+}

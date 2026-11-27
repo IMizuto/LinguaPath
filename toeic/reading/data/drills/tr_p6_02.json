@@ -1,0 +1,174 @@
+{
+  "id": "tr_p6_02",
+  "order": 8,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 02: Chính sách Công tác phí & Không gian Coworking",
+  "subtitle": "Kết hợp Thông báo nội bộ (Memo) tài chính và Quảng cáo (Ad) không gian làm việc chung.",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Với bài Quảng cáo (Ad), chú ý các tính từ tích cực (flexible, spacious, affordable) và lời kêu gọi hành động (CTA) ở đoạn cuối như \"register\", \"sign up\", \"visit\".",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Memo nội bộ",
+      "genre": "memo",
+      "meta": {
+        "to": "All Traveling Personnel",
+        "from": "Hannah Cho, Finance Controller",
+        "date": "May 6",
+        "subject": "Updated Travel Expense Policy"
+      },
+      "paragraphs": [
+        "Starting June 1, Northwind Solutions is streamlining its travel [1] procedure to speed up payments to staff. Instead of mailing physical receipts, employees must upload digital photos of all hotel, meal, and transit receipts to the ExpenseTrack app.",
+        "Finance cannot approve any claim exceeding $50 [2] an itemized receipt is attached. [3] Standard claims submitted on time will be deposited directly into your bank account within seven business days.",
+        "Please verify that every entry is coded [4] to your department project number before clicking submit."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Quảng cáo",
+      "genre": "ad",
+      "meta": {
+        "title": "HARBORVIEW COWORKING HUB — NOW OPEN!",
+        "subtitle": "Modern Workspaces in the Heart of Downtown Seattle"
+      },
+      "paragraphs": [
+        "Are you a freelancer, startup founder, or remote team seeking an inspiring place to work? Harborview Coworking Hub offers [5] membership plans tailored to your schedule, from single-day passes to private glass-walled offices.",
+        "Every workstation includes ultra-fast fiber Internet, ergonomic seating, and complimentary specialty coffee. [6]",
+        "Our lounges and soundproof phone booths are available to members [7] the week, including weekends. To claim a free two-day trial pass, simply [8] on our website before May 31."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "reimburse",
+        "reimbursement",
+        "reimbursed",
+        "reimbursing"
+      ],
+      "ans": 1,
+      "exp": "Cụm danh từ ghép \"travel _____ procedure\" (quy trình hoàn trả công tác phí) cần một danh từ đứng giữa làm định ngữ. Chọn \"reimbursement\" (B). Loại (A) động từ nguyên mẫu, (C) và (D) dạng phân từ."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Liên từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "unless",
+        "despite",
+        "because of",
+        "whereas"
+      ],
+      "ans": 0,
+      "exp": "Phía sau là mệnh đề \"an itemized receipt is attached\", và ngữ nghĩa là \"Phòng Tài chính không thể duyệt khoản yêu cầu trên 50 USD TRỪ KHI có đính kèm hóa đơn chi tiết\". Chọn \"unless\" (A). Loại (B), (C) giới từ; (D) chỉ tương phản sai nghĩa."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "Managers should also reserve conference rooms two weeks in advance.",
+        "International flights are currently experiencing delays across northern Europe.",
+        "Incomplete submissions will be returned to the employee for correction.",
+        "Our accounting software was originally developed in 2012."
+      ],
+      "ans": 2,
+      "exp": "Câu trước nói sẽ không duyệt hồ sơ trên 50 USD nếu thiếu hóa đơn chi tiết; câu sau nói hồ sơ đạt chuẩn nộp đúng hạn sẽ được chuyển khoản trong 7 ngày làm việc. Câu (C) kết nối trực tiếp hai ý: \"Các hồ sơ chưa đầy đủ sẽ được trả lại cho nhân viên để bổ sung\". Loại (A), (B), (D) lạc mạch."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "accurate",
+        "accuracy",
+        "accuracies",
+        "accurately"
+      ],
+      "ans": 3,
+      "exp": "Bổ nghĩa cho động từ bị động \"is coded\" (được gắn mã) cần một trạng từ. Chọn \"accurately\" (D - một cách chính xác). Loại (A) tính từ, (B) danh từ số ít, (C) danh từ số nhiều."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "rigid",
+        "flexible",
+        "expired",
+        "crowded"
+      ],
+      "ans": 1,
+      "exp": "Phía sau mô tả \"tailored to your schedule, from single-day passes to private offices\" (thiết kế theo lịch trình từ vé ngày tới văn phòng riêng) → thể hiện sự \"linh hoạt\". Chọn \"flexible\" (B). Loại (A) cứng nhắc, (C) hết hạn, (D) đông đúc."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [6]:",
+      "opts": [
+        "In addition, members receive four complimentary hours of meeting room access each month.",
+        "Please submit your resignation letter to the human resources director.",
+        "Construction on the downtown subway line will begin next winter.",
+        "Unfortunately, all membership packages have been discontinued permanently."
+      ],
+      "ans": 0,
+      "exp": "Đoạn 2 đang liệt kê các tiện ích đi kèm gói hội viên (Internet cáp quang, ghế công thái học, cà phê miễn phí). Câu (A) dùng \"In addition\" để bổ sung thêm quyền lợi phòng họp miễn phí cực kỳ ăn khớp. Loại (B), (C) lạc đề; (D) mâu thuẫn với lời mời dùng thử ở đoạn 3."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Giới từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [7]:",
+      "opts": [
+        "between",
+        "among",
+        "throughout",
+        "until"
+      ],
+      "ans": 2,
+      "exp": "Cụm \"throughout the week\" mang nghĩa \"xuyên suốt cả tuần\" (khớp với cụm \"including weekends\"). Chọn \"throughout\" (C). Loại (A) \"between\" cần 2 đối tượng, (B) \"among\" cho nhiều vật/người, (D) \"until\" không đi với \"the week\" theo nghĩa mở cả tuần."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "manufacture",
+        "depart",
+        "resign",
+        "register"
+      ],
+      "ans": 3,
+      "exp": "Câu kêu gọi hành động để nhận vé dùng thử 2 ngày miễn phí trên trang web: \"simply register on our website\" (chỉ cần đăng ký trên website). Chọn \"register\" (D). Loại (A) sản xuất, (B) khởi hành, (C) từ chức."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "streamlining its travel reimbursement procedure",
+      "answer": "speed up payments to staff",
+      "vi": "tinh gọn quy trình hoàn phí ↔ đẩy nhanh thanh toán cho nhân viên"
+    },
+    {
+      "text": "tailored to your schedule",
+      "answer": "flexible membership plans",
+      "vi": "tùy chỉnh theo lịch trình ↔ các gói hội viên linh hoạt"
+    },
+    {
+      "text": "including weekends",
+      "answer": "throughout the week",
+      "vi": "bao gồm cả cuối tuần ↔ xuyên suốt cả tuần"
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "id": "tr_p7d_03",
+  "order": 23,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 03: Lịch Hội nghị & Email điều chỉnh phòng",
+  "subtitle": "Kết hợp Bảng chương trình GreenTech Summit với Email cập nhật thay đổi địa điểm và thời lượng diễn giả.",
+  "timeLimitMin": 10,
+  "tips": "Khi làm dạng Bảng lịch trình ↔ Email đổi lịch, hãy đối chiếu theo TÊN DIỄN GIẢ (Speaker) hoặc TÊN PHIÊN (Session) để tính lại giờ bắt đầu, giờ kết thúc và phòng mới chính xác tuyệt đối.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Bảng lịch trình",
+      "genre": "table",
+      "meta": {
+        "title": "GREENTECH INNOVATION SUMMIT — MORNING SCHEDULE",
+        "subtitle": "Thursday, October 16 • Civic Convention Center"
+      },
+      "paragraphs": [
+        "All technical workshops include printed handouts. Attendees who wish to join the afternoon facility tour (departing at 13:45) must sign up at the Registration Desk before 11:30."
+      ],
+      "table": {
+        "headers": [
+          "Time",
+          "Session Title",
+          "Speaker",
+          "Room"
+        ],
+        "rows": [
+          [
+            "08:30 – 09:15",
+            "Keynote: Zero-Emission Supply Chains",
+            "Dr. Alan Park",
+            "Grand Hall A"
+          ],
+          [
+            "09:30 – 10:30",
+            "Smart Grid Battery Storage",
+            "Elena Rostova",
+            "Room 204"
+          ],
+          [
+            "09:30 – 10:30",
+            "Circular Packaging for Retail",
+            "Marcus Webb",
+            "Room 208"
+          ],
+          [
+            "10:45 – 11:45",
+            "Financing Urban Solar Projects",
+            "Priya Nair",
+            "Room 210"
+          ],
+          [
+            "12:00 – 13:15",
+            "Networking Luncheon & Expo Preview",
+            "All Attendees",
+            "Atrium Terrace"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "Registered Summit Attendees",
+        "from": "GreenTech Events Team <events@greentechsummit.org>",
+        "date": "October 15",
+        "subject": "Important Schedule Update for October 16"
+      },
+      "paragraphs": [
+        "Dear Summit Participant,",
+        "We are looking forward to welcoming you to the Civic Convention Center tomorrow morning. Please take note of three last-minute adjustments to our published schedule:",
+        "1. Because more than 180 guests have preregistered for Elena Rostova's workshop, her session has been moved to Grand Hall B to provide ample seating. The start and end times remain unchanged.",
+        "2. Due to severe weather delaying flights out of Toronto, Priya Nair will arrive slightly later than anticipated. Her session will now start at 11:15 and run for 45 minutes in its originally assigned room. Rather than distributing paper handouts, we will email her presentation slides to all attendees by 14:00.",
+        "3. With heavy rain forecast around midday, the Networking Luncheon has been relocated indoors to the Maple Ballroom on the second floor. The sign-up deadline for the afternoon facility tour remains unaffected.",
+        "Warm regards,\nGreenTech Events Team"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the schedule, what must attendees do before 11:30 if they want to join the afternoon facility tour?",
+      "opts": [
+        "Download presentation slides via email",
+        "Pay an additional tour registration fee",
+        "Put their names down at the Registration Desk",
+        "Attend Dr. Alan Park's keynote session"
+      ],
+      "ans": 2,
+      "exp": "Văn bản 1 nêu rõ: 'Attendees who wish to join the afternoon facility tour (departing at 13:45) must sign up at the Registration Desk before 11:30.' → Phải đăng ký tên tại Quầy Đăng ký (Registration Desk)."
+    },
+    {
+      "num": 2,
+      "tag": "Ý chính",
+      "q": "Why did the events team send the email on October 15?",
+      "opts": [
+        "To cancel the afternoon facility tour due to heavy rain",
+        "To notify participants of room and timing adjustments",
+        "To announce a replacement speaker for Elena Rostova",
+        "To ask attendees to bring printed copies of slides"
+      ],
+      "ans": 1,
+      "exp": "Văn bản 2 thông báo 3 điều chỉnh phút chót (last-minute adjustments) về phòng học của Elena Rostova, khung giờ của Priya Nair và địa điểm tiệc trưa → Thông báo các thay đổi về phòng và thời gian."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"relocated\" in item 3 is closest in meaning to",
+      "opts": [
+        "postponed",
+        "expanded",
+        "decorated",
+        "moved"
+      ],
+      "ans": 3,
+      "exp": "Trong câu 'the Networking Luncheon has been relocated indoors to the Maple Ballroom' (tiệc trưa giao lưu đã được dời vào trong nhà tại phòng Maple Ballroom), 'relocated' đồng nghĩa với 'moved' (chuyển địa điểm)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "Which originally scheduled room will NOT be used for the Smart Grid Battery Storage session?",
+      "opts": [
+        "Room 204",
+        "Room 208",
+        "Room 210",
+        "Grand Hall A"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo Văn bản 1 & 2: Bảng ở Văn bản 1 cho thấy phiên 'Smart Grid Battery Storage' của Elena Rostova ban đầu ở Room 204. Văn bản 2 (mục 1) thông báo phiên này được chuyển sang Grand Hall B → Phòng cũ không dùng nữa là Room 204."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "At what time will the session \"Financing Urban Solar Projects\" now end?",
+      "opts": [
+        "11:30",
+        "11:45",
+        "12:00",
+        "12:15"
+      ],
+      "ans": 2,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 cho biết diễn giả của 'Financing Urban Solar Projects' là Priya Nair. Văn bản 2 (mục 2) thông báo phiên của Priya Nair nay bắt đầu lúc 11:15 và kéo dài 45 phút → Kết thúc lúc 11:15 + 45 phút = 12:00."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "sign up at the Registration Desk",
+      "answer": "put their names down at the Registration Desk",
+      "vi": "đăng ký tại Quầy Đăng ký"
+    },
+    {
+      "text": "last-minute adjustments",
+      "answer": "room and timing adjustments",
+      "vi": "các điều chỉnh phút chót về phòng và giờ giấc"
+    },
+    {
+      "text": "relocated",
+      "answer": "moved",
+      "vi": "chuyển sang địa điểm khác"
+    },
+    {
+      "text": "paper handouts",
+      "answer": "printed handouts",
+      "vi": "tài liệu phát tay in giấy"
+    },
+    {
+      "text": "start at 11:15 and run for 45 minutes",
+      "answer": "end at 12:00",
+      "vi": "bắt đầu lúc 11:15 và kéo dài 45 phút ↔ kết thúc lúc 12:00"
+    }
+  ]
+}

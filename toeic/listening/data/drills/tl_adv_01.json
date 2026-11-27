@@ -1,0 +1,128 @@
+{
+  "id": "tl_adv_01",
+  "order": 41,
+  "level": 4,
+  "part": "part2",
+  "partLabel": "Chặng 4 • Bẫy Part 2 (850+)",
+  "title": "Bẫy Part 2 • Trả lời Gián tiếp & Chuyển nguồn Thông tin",
+  "subtitle": "Phản xạ tốc độ 1.15x với câu trả lời né tránh, chưa rõ thông tin hoặc chỉ sang nguồn khác",
+  "accent": "en-AU",
+  "defaultRate": 1.15,
+  "tips": "Ở mức 850+, hơn 40% đáp án đúng Part 2 không trả lời trực diện bằng tên/giờ/nơi chốn mà dùng mẫu né tránh hợp lý: 'I haven't seen the memo yet', 'Ask the coordinator', 'It's posted on the intranet'. Đừng loại vội câu không có từ khóa khớp!",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Indirect • Who",
+      "accent": "en-AU",
+      "question": "Who is taking over the Melbourne regional account while Liam is on leave?",
+      "questionVi": "Ai sẽ tiếp quản tài khoản khách hàng khu vực Melbourne trong lúc Liam nghỉ phép?",
+      "options": [
+        "An announcement hasn't been circulated yet.",
+        "Yes, he left for Melbourne yesterday.",
+        "The accounting software was updated last night."
+      ],
+      "optionsVi": [
+        "Thông báo vẫn chưa được gửi đi.",
+        "Vâng, anh ấy đã đi Melbourne hôm qua.",
+        "Phần mềm kế toán đã được cập nhật tối qua."
+      ],
+      "ans": 0,
+      "exp": "Câu hỏi 'Who' nhưng đáp án (A) trả lời gián tiếp cực chuẩn ETS ('Chưa có thông báo chính thức'). Loại (B) vì trả lời 'Yes' cho câu hỏi WH + bẫy lặp từ 'Melbourne/left'; loại (C) bẫy đồng gốc 'account' ↔ 'accounting'."
+    },
+    {
+      "num": 2,
+      "qType": "Indirect • When",
+      "accent": "en-GB",
+      "question": "When will the revised safety guidelines go into effect?",
+      "questionVi": "Khi nào các hướng dẫn an toàn sửa đổi sẽ có hiệu lực?",
+      "options": [
+        "It was a very effective presentation.",
+        "The compliance committee is still voting on them.",
+        "Inside the yellow training binder."
+      ],
+      "optionsVi": [
+        "Đó là một bài thuyết trình rất hiệu quả.",
+        "Ủy ban tuân thủ vẫn đang bỏ phiếu thông qua chúng.",
+        "Bên trong kẹp hồ sơ tập huấn màu vàng."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) trả lời gián tiếp cho câu hỏi 'When': ủy ban vẫn đang bỏ phiếu (tức chưa có ngày hiệu lực). Loại (A) bẫy lặp âm 'effect' ↔ 'effective'; loại (C) trả lời nơi chốn (Where)."
+    },
+    {
+      "num": 3,
+      "qType": "Indirect • Where",
+      "accent": "en-AU",
+      "question": "Where did we store the extra display banners from last spring's trade fair?",
+      "questionVi": "Chúng ta đã cất những biểu ngữ trưng bày thừa từ hội chợ mùa xuân năm ngoái ở đâu?",
+      "options": [
+        "The ticket price was very fair.",
+        "Only for three days last April.",
+        "Check with Facilities—they reorganized the basement."
+      ],
+      "optionsVi": [
+        "Giá vé rất phải chăng.",
+        "Chỉ trong ba ngày hồi tháng Tư năm ngoái.",
+        "Hỏi bên Cơ sở vật chất xem—họ vừa sắp xếp lại tầng hầm."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) chuyển nguồn thông tin ('Check with Facilities') hợp ngữ cảnh câu hỏi 'Where'. Loại (A) bẫy đa nghĩa 'fair' (hội chợ vs phải chăng); loại (B) trả lời thời lượng."
+    },
+    {
+      "num": 4,
+      "qType": "Indirect • Why",
+      "accent": "en-GB",
+      "question": "Why was the morning supplier call moved to Thursday?",
+      "questionVi": "Tại sao cuộc gọi với nhà cung cấp buổi sáng lại bị dời sang thứ Năm?",
+      "options": [
+        "Because our new offices are much larger.",
+        "You'll have to ask Priya; she manages that schedule.",
+        "No, I didn't call the warehouse."
+      ],
+      "optionsVi": [
+        "Vì văn phòng mới của chúng ta rộng hơn nhiều.",
+        "Bạn phải hỏi Priya thôi; cô ấy quản lý lịch đó.",
+        "Không, tôi không gọi cho nhà kho."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) chuyển trách nhiệm sang người phụ trách ('ask Priya'). Loại (A) dù bắt đầu bằng 'Because' nhưng bẫy nghĩa 'moved' (chuyển văn phòng vs dời lịch); loại (C) trả lời 'No' cho câu hỏi Why + lặp từ 'call'."
+    },
+    {
+      "num": 5,
+      "qType": "Indirect • How much",
+      "accent": "en-AU",
+      "question": "How much did the graphic designer charge for the brochure redesign?",
+      "questionVi": "Nhà thiết kế đồ họa đã tính bao nhiêu tiền cho việc thiết kế lại tờ rơi?",
+      "options": [
+        "The invoice hasn't landed on my desk yet.",
+        "She's in charge of the entire marketing unit.",
+        "About five hundred printed brochures."
+      ],
+      "optionsVi": [
+        "Hóa đơn vẫn chưa chuyển tới bàn tôi.",
+        "Cô ấy phụ trách toàn bộ bộ phận tiếp thị.",
+        "Khoảng năm trăm tờ rơi in sẵn."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) trả lời gián tiếp bằng lý do chưa nhận được hóa đơn nên chưa biết giá. Loại (B) bẫy đa nghĩa 'charge' (tính phí vs phụ trách); loại (C) trả lời 'How many' chứ không phải 'How much'."
+    },
+    {
+      "num": 6,
+      "qType": "Indirect • Yes/No",
+      "accent": "en-US",
+      "question": "Did the legal team approve our updated privacy policy?",
+      "questionVi": "Đội ngũ pháp chế đã phê duyệt chính sách bảo mật cập nhật của chúng ta chưa?",
+      "options": [
+        "They're very polite whenever we meet.",
+        "It's a private conference room.",
+        "I saw a signed copy in the shared folder this morning."
+      ],
+      "optionsVi": [
+        "Họ rất lịch sự mỗi khi chúng ta gặp.",
+        "Đó là phòng họp riêng.",
+        "Sáng nay tôi thấy một bản đã ký trong thư mục dùng chung."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) xác nhận gián tiếp rằng đã duyệt (vì thấy bản đã ký 'signed copy'). Loại (A) bẫy âm gần giống 'policy' ↔ 'polite'; loại (B) bẫy cùng gốc từ 'privacy' ↔ 'private'."
+    }
+  ]
+}

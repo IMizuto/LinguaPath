@@ -1,0 +1,133 @@
+{
+  "id": "tsw_s_q34_01",
+  "skill": "speaking",
+  "taskType": "sp_q34",
+  "code": "Q3–4",
+  "level": 1,
+  "targetBand": "110–140",
+  "title": "Tả tranh Q3–4 #1: Phòng họp Nhóm & Quán Cà phê",
+  "topic": "Công sở & Dịch vụ Ẩm thực",
+  "estMinutes": 8,
+  "guideVi": "Triển khai câu trả lời 30 giây theo công thức 4 bước: (1) Bối cảnh chung -> (2) Nhân vật & hành động chính bằng thì hiện tại tiếp diễn -> (3) Đồ vật trên bàn/quầy -> (4) Hậu cảnh và cảm nhận chung.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Mô tả đầy đủ nhân vật chính, hành động và bối cảnh chung",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Dùng đúng thì hiện tại tiếp diễn và giới từ chỉ vị trí",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Phát âm rõ, câu mạch lạc và tận dụng trọn 30 giây",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q34_01_1",
+      "itemType": "sp_q34",
+      "label": "Q3 • Cuộc họp nhóm quanh bàn hội nghị có biểu đồ máy chiếu",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "US",
+      "image": "media/sw_p_01.svg",
+      "imageAlt": "Nhân viên đang thuyết trình bên biểu đồ máy chiếu cho ba đồng nghiệp ngồi quanh bàn hội nghị có máy tính xách tay và tài liệu.",
+      "outlineSteps": [
+        "Bối cảnh chung: Một cuộc họp kinh doanh trong phòng hội nghị sáng sủa (a business meeting in a bright conference room).",
+        "Hành động chính: Một người đàn ông mặc áo xanh đang đứng chỉ vào biểu đồ cột trên màn chiếu và cầm kẹp tài liệu.",
+        "Chi tiết quanh bàn: Ba đồng nghiệp ngồi quanh bàn gỗ với laptop mở, sổ tay, cốc cà phê; người bên phải đang ghi chú.",
+        "Hậu cảnh & kết luận: Cửa sổ kính lớn cùng chậu cây xanh phía bên trái, máy chiếu treo trần; mọi người đều rất tập trung."
+      ],
+      "targetKeywords": [
+        "conference",
+        "presenter",
+        "pointing",
+        "chart",
+        "colleagues",
+        "laptop",
+        "table",
+        "window"
+      ],
+      "tipVi": "Bắt đầu ngay bằng 'This picture shows a group of coworkers attending a meeting in a bright conference room.' để ăn điểm tổng quan, sau đó mô tả từ người đứng sang nhóm người ngồi.",
+      "keyPhrases": [
+        {
+          "en": "pointing at a bar chart",
+          "vi": "đang chỉ vào biểu đồ cột"
+        },
+        {
+          "en": "projection screen",
+          "vi": "màn hình máy chiếu"
+        },
+        {
+          "en": "seated around a wooden conference table",
+          "vi": "ngồi quanh chiếc bàn hội nghị bằng gỗ"
+        },
+        {
+          "en": "holding a clipboard",
+          "vi": "đang cầm bảng kẹp tài liệu"
+        },
+        {
+          "en": "focused on the presentation",
+          "vi": "tập trung vào bài thuyết trình"
+        }
+      ],
+      "sample": "This picture shows a team meeting taking place in a bright conference room. On the right, a male presenter wearing a blue shirt and tie is standing next to a large projection screen, pointing at a rising bar chart while holding a clipboard. Three colleagues are seated around a long wooden conference table, listening closely. On the table, there are open laptops, notebooks, and coffee cups. In the background on the left, there is a wide window and a potted green plant. Everyone looks focused and engaged.",
+      "sampleVi": "Bức tranh cho thấy một cuộc họp nhóm đang diễn ra trong phòng hội nghị sáng sủa. Bên phải, một nam diễn giả mặc áo sơ mi xanh và thắt cà vạt đang đứng cạnh màn chiếu lớn, chỉ vào biểu đồ cột tăng trưởng trong khi tay cầm bảng kẹp tài liệu. Ba đồng nghiệp ngồi quanh chiếc bàn hội nghị bằng gỗ dài và chăm chú lắng nghe. Trên bàn có laptop đang mở, sổ tay và các cốc cà phê. Phía sau bên trái có cửa sổ rộng và chậu cây xanh. Mọi người trông đều rất tập trung và hào hứng."
+    },
+    {
+      "itemId": "tsw_s_q34_01_2",
+      "itemType": "sp_q34",
+      "label": "Q4 • Nhân viên pha chế phục vụ khách tại quầy quán cà phê",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "UK",
+      "image": "media/sw_p_02.svg",
+      "imageAlt": "Nhân viên pha chế mặc tạp dề xanh đang đưa ly cà phê mang đi cho khách nữ tại quầy quán cà phê đông đúc có máy pha và tủ bánh.",
+      "outlineSteps": [
+        "Bối cảnh chung: Một quán cà phê ấm cúng và đông khách (a busy, cozy coffee shop).",
+        "Hành động chính: Nhân viên pha chế mặc tạp dề xanh lá đứng sau quầy đưa ly cà phê mang đi cho một nữ khách hàng mặc áo xanh dương.",
+        "Chi tiết xung quanh: Một khách nam mặc áo cam xếp hàng phía sau nhìn điện thoại; trên quầy có máy pha espresso và tủ kính bày bánh ngọt.",
+        "Hậu cảnh: Bảng thực đơn phấn đen, đèn thả trần ấm áp và hai khách khác ngồi trò chuyện ở bàn tròn bên cửa sổ."
+      ],
+      "targetKeywords": [
+        "barista",
+        "apron",
+        "counter",
+        "customer",
+        "coffee",
+        "pastry",
+        "menu",
+        "waiting"
+      ],
+      "tipVi": "Dùng giới từ không gian rõ ràng: 'behind the counter' (sau quầy), 'across the counter' (qua quầy), 'in line behind her' (xếp hàng sau cô ấy), 'by the window' (bên cửa sổ).",
+      "keyPhrases": [
+        {
+          "en": "wearing a green apron",
+          "vi": "mặc chiếc tạp dề màu xanh lá"
+        },
+        {
+          "en": "handing a takeaway cup",
+          "vi": "đang trao ly cà phê mang đi"
+        },
+        {
+          "en": "waiting in line",
+          "vi": "đang đứng xếp hàng chờ"
+        },
+        {
+          "en": "glass pastry display case",
+          "vi": "tủ kính trưng bày bánh ngọt"
+        },
+        {
+          "en": "hanging chalkboard menu",
+          "vi": "bảng thực đơn viết phấn treo tường"
+        }
+      ],
+      "sample": "This scene takes place inside a busy, warmly lit coffee shop. Behind the wooden counter, a barista wearing a dark green apron is handing a takeaway coffee cup to a female customer in a blue top. Behind her, a man in an orange shirt is waiting in line while looking at his smartphone. On the counter, there is a large espresso machine on the left and a glass pastry display case on the right. In the background, a chalkboard menu hangs on the wall, and two other patrons are seated at a table near the window.",
+      "sampleVi": "Khung cảnh này diễn ra bên trong một quán cà phê đông đúc có ánh đèn ấm áp. Phía sau quầy gỗ, một nhân viên pha chế mặc tạp dề xanh lá đậm đang trao ly cà phê mang đi cho nữ khách hàng mặc áo xanh dương. Phía sau cô ấy, một người đàn ông mặc áo cam đang xếp hàng chờ và nhìn vào điện thoại. Trên quầy có máy pha espresso lớn ở bên trái và tủ kính bày bánh ngọt ở bên phải. Ở hậu cảnh, bảng thực đơn treo trên tường và hai vị khách khác đang ngồi bên bàn gần cửa sổ."
+    }
+  ]
+}

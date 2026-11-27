@@ -1,0 +1,198 @@
+{
+  "id": "tl_p3_07",
+  "order": 29,
+  "level": 3,
+  "part": "part3",
+  "partLabel": "Part 3 • Hội thoại",
+  "title": "Bán lẻ, Đổi trả Hàng & Hóa đơn Mua sắm",
+  "subtitle": "Xử lý đổi kích cỡ áo khoác cho hội viên và kiểm tra sai sót trên hóa đơn siêu thị",
+  "accent": "en-AU",
+  "defaultRate": 1.0,
+  "tips": "Trong bài mua sắm kèm hóa đơn (Receipt), luôn kiểm tra số lượng (Qty) và đơn giá (Unit Price) để phát hiện món hàng bị tính nhầm hoặc cần hoàn tiền chênh lệch.",
+  "groups": [
+    {
+      "groupId": "g1",
+      "title": "Đoạn hội thoại 1 • Đổi kích cỡ sản phẩm & Biên lai điện tử",
+      "accent": "en-AU",
+      "graphic": null,
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Good afternoon! Welcome to Alpine Outfitters. How can I assist you today?",
+          "vi": "Chào buổi chiều! Chào mừng quý khách đến với Alpine Outfitters. Hôm nay tôi có thể hỗ trợ gì cho cô ạ?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Hi, I bought this waterproof jacket here last Saturday, but the sleeves turned out a bit too tight. Could I exchange it for a medium?",
+          "vi": "Chào anh, thứ Bảy tuần trước tôi có mua chiếc áo khoác chống nước này ở đây, nhưng tay áo hơi bị chật. Tôi có thể đổi sang cỡ vừa được không?"
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "Of course, as long as the tags are attached and you have proof of purchase. Did you bring the paper receipt?",
+          "vi": "Tất nhiên rồi, miễn là còn nguyên nhãn mác và cô có bằng chứng mua hàng. Cô có mang theo hóa đơn giấy không ạ?"
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-AU",
+          "en": "Actually, I still have the receipt in my email.",
+          "vi": "Thực ra tôi vẫn còn lưu hóa đơn trong email."
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-US",
+          "en": "That works just fine! Let me check our stockroom—we sold out of the navy blue medium on the floor, though we have plenty in forest green or charcoal if you'd like to try one.",
+          "vi": "Thế cũng hoàn toàn hợp lệ ạ! Để tôi kiểm tra kho—cỡ vừa màu xanh hải quân ngoài quầy đã bán hết, nhưng chúng tôi còn nhiều màu xanh rêu hoặc xám than nếu cô muốn thử."
+        }
+      ],
+      "questions": [
+        {
+          "num": 1,
+          "q": "Why does the woman want to exchange the jacket?",
+          "opts": [
+            "The zipper is broken.",
+            "She prefers a lighter fabric.",
+            "It does not fit comfortably.",
+            "It is not completely waterproof."
+          ],
+          "ans": 2,
+          "exp": "Cô nói 'the sleeves turned out a bit too tight' (tay áo hơi bị chật) → không vừa vặn thoải mái ('does not fit comfortably'). Chọn (C)."
+        },
+        {
+          "num": 2,
+          "q": "What does the woman mean when she says, \"Actually, I still have the receipt in my email\"?",
+          "opts": [
+            "She can provide a digital copy instead of a paper receipt.",
+            "She wants the clerk to email her a refund voucher.",
+            "She purchased the jacket from the online store.",
+            "She accidentally deleted her order confirmation."
+          ],
+          "ans": 0,
+          "exp": "Nhân viên hỏi có mang hóa đơn giấy không, cô đáp vẫn còn lưu trong email → có thể xuất trình bản điện tử thay cho hóa đơn giấy. Chọn (A)."
+        },
+        {
+          "num": 3,
+          "q": "What does the man say about the navy blue jacket in size medium?",
+          "opts": [
+            "It has been discontinued this season.",
+            "It is on sale for members only.",
+            "It can be shipped from another branch tomorrow.",
+            "It is currently out of stock on the sales floor."
+          ],
+          "ans": 3,
+          "exp": "Nhân viên nói: 'we sold out of the navy blue medium on the floor' → hiện đã hết hàng ở khu bày bán. Chọn (D)."
+        }
+      ]
+    },
+    {
+      "groupId": "g2",
+      "title": "Đoạn hội thoại 2 • Kiểm tra sai sót trên Hóa đơn Gia dụng",
+      "accent": "en-AU",
+      "graphic": {
+        "title": "Harbor Home Store Receipt",
+        "headers": [
+          "Item",
+          "Qty",
+          "Unit Price"
+        ],
+        "rows": [
+          [
+            "Ceramic Dinner Plates",
+            "4",
+            "$12.00"
+          ],
+          [
+            "Linen Tablecloth",
+            "1",
+            "$34.00"
+          ],
+          [
+            "Stainless Kettle",
+            "2",
+            "$45.00"
+          ],
+          [
+            "Bamboo Cutting Board",
+            "1",
+            "$18.00"
+          ]
+        ]
+      },
+      "turns": [
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-AU",
+          "en": "Excuse me, I just checked out at register three, and I noticed an error on my receipt before leaving the store.",
+          "vi": "Xin lỗi, tôi vừa thanh toán ở quầy số ba và phát hiện một lỗi trên hóa đơn trước khi rời cửa hàng."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "I'd be happy to fix that for you, sir. Which item looks incorrect?",
+          "vi": "Tôi rất sẵn lòng xử lý giúp ngài. Món hàng nào có vẻ chưa đúng ạ?"
+        },
+        {
+          "spk": "M",
+          "name": "Man",
+          "accent": "en-AU",
+          "en": "I only bought one electric kettle, but the cashier accidentally scanned the barcode twice, so I was charged ninety dollars instead of forty-five.",
+          "vi": "Tôi chỉ mua một chiếc ấm siêu tốc thôi, nhưng thu ngân vô tình quét mã vạch hai lần, nên tôi bị tính chín mươi đô la thay vì bốn mươi lăm."
+        },
+        {
+          "spk": "W",
+          "name": "Woman",
+          "accent": "en-GB",
+          "en": "I see it right here on your slip, and there's clearly just one box in your bag. If you insert the debit card you used, I'll issue an instant refund for the duplicate charge right away.",
+          "vi": "Tôi thấy rõ trên hóa đơn rồi, và trong túi ngài đúng là chỉ có một hộp. Nếu ngài cắm thẻ ghi nợ vừa dùng, tôi sẽ hoàn tiền ngay lập tức cho khoản bị tính trùng."
+        }
+      ],
+      "questions": [
+        {
+          "num": 4,
+          "q": "Where is the conversation most likely taking place?",
+          "opts": [
+            "At a restaurant kitchen",
+            "At a customer service counter",
+            "At a bank branch",
+            "At a shipping warehouse"
+          ],
+          "ans": 1,
+          "exp": "Khách hàng vừa thanh toán ở quầy số 3 ('register three') và nhờ nhân viên cửa hàng kiểm tra hóa đơn hoàn tiền → quầy dịch vụ khách hàng ('customer service counter'). Chọn (B)."
+        },
+        {
+          "num": 5,
+          "q": "Look at the graphic. Which item was scanned twice by mistake?",
+          "opts": [
+            "Ceramic Dinner Plates",
+            "Linen Tablecloth",
+            "Stainless Kettle",
+            "Bamboo Cutting Board"
+          ],
+          "ans": 2,
+          "exp": "Khách nói mua 1 chiếc ấm ('kettle') giá $45 nhưng bị tính $90. Tra bảng hóa đơn: 'Stainless Kettle' có Qty = 2 và Unit Price = $45.00. Chọn (C)."
+        },
+        {
+          "num": 6,
+          "q": "What does the woman ask the man to do?",
+          "opts": [
+            "Insert his debit card",
+            "Sign a store credit voucher",
+            "Return to register three",
+            "Show his membership ID"
+          ],
+          "ans": 0,
+          "exp": "Nhân viên nói: 'If you insert the debit card you used, I'll issue an instant refund' → yêu cầu cắm thẻ ghi nợ đã dùng. Chọn (A)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "id": "tsw_s_q12_02",
+  "skill": "speaking",
+  "taskType": "sp_q12",
+  "code": "Q1–2",
+  "level": 2,
+  "targetBand": "130–160",
+  "title": "Đọc to Q1–2 #2: Dẫn Tour Tham quan & Bản tin Giao thông",
+  "topic": "Hướng dẫn viên & Phát thanh viên",
+  "estMinutes": 6,
+  "guideVi": "Chú ý sắc thái thân thiện khi dẫn tour (nhấn từ cảm xúc như welcome, historic, prohibited) và tốc độ dứt khoát, rành mạch khi đọc bản tin giao thông – thời tiết.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Phát âm chuẩn xác, bật rõ phụ âm cuối (-s/-ed/-t)",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Trọng âm từ khóa và ngữ điệu lên xuống tự nhiên",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Ngắt cụm nhịp nhàng, tốc độ ổn định 110–155 từ/phút",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q12_02_1",
+      "itemType": "sp_q12",
+      "label": "Q1 • Chào đón đoàn tham quan Vườn Bách thảo",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "AU",
+      "text": "Welcome, everyone, to the Royal Harbour Botanical Gardens. My name is Claire, and I will be guiding you through our tropical conservatory, native fern gully, and historic rose pavilion over the next ninety minutes. Before we set off, please stay on the marked stone pathways and avoid picking any leaves or flowers. Feel free to take photographs along the way, though camera flashes are prohibited inside the glasshouse. Now, please follow me toward the eastern entrance.",
+      "intonationGuide": "**Welcome**, everyone↗, / to the **Royal Harbour** Botanical Gardens↘. My name is **Claire**↗, / and I will be **guiding** you through / our **tropical** conservatory↗, / **native** fern gully↗, / and **historic** rose pavilion↘ / over the next **ninety minutes**↘. Before we **set off**↗, / please stay on the **marked stone** pathways / and avoid **picking** any leaves or flowers↘. Feel **free** to take photographs along the way↗, / though **camera flashes** are **prohibited** / inside the **glasshouse**↘. **Now**↗, / please **follow me** / toward the **eastern** entrance↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Luyện phát âm chuẩn các danh từ nhiều âm tiết: bo-TAN-i-cal, con-SER-va-to-ry, pa-VIL-ion, pro-HIB-i-ted. Giữ hơi ổn định ở câu giới thiệu lộ trình dài 25 từ.",
+      "keyPhrases": [
+        {
+          "en": "tropical conservatory",
+          "vi": "nhà kính thực vật nhiệt đới"
+        },
+        {
+          "en": "historic rose pavilion",
+          "vi": "khu vườn hoa hồng cổ kính"
+        },
+        {
+          "en": "marked stone pathways",
+          "vi": "lối đi lát đá có đánh dấu"
+        },
+        {
+          "en": "camera flashes are prohibited",
+          "vi": "nghiêm cấm bật đèn flash máy ảnh"
+        },
+        {
+          "en": "eastern entrance",
+          "vi": "cổng vào phía đông"
+        }
+      ],
+      "sample": "Welcome, everyone, to the Royal Harbour Botanical Gardens. My name is Claire, and I will be guiding you through our tropical conservatory, native fern gully, and historic rose pavilion over the next ninety minutes. Before we set off, please stay on the marked stone pathways and avoid picking any leaves or flowers. Feel free to take photographs along the way, though camera flashes are prohibited inside the glasshouse. Now, please follow me toward the eastern entrance.",
+      "sampleVi": "Chào mừng tất cả mọi người đến với Vườn Bách thảo Royal Harbour. Tôi tên là Claire và sẽ đồng hành cùng quý vị tham quan nhà kính nhiệt đới, thung lũng dương xỉ bản địa và khu vườn hoa hồng cổ kính trong chín mươi phút tới. Trước khi khởi hành, vui lòng đi trên các lối lát đá đã đánh dấu và không ngắt lá hay hái hoa. Quý vị có thể thoải mái chụp ảnh dọc đường, nhưng không được bật đèn flash bên trong nhà kính. Bây giờ, xin mời đi theo tôi về phía cổng đông."
+    },
+    {
+      "itemId": "tsw_s_q12_02_2",
+      "itemType": "sp_q12",
+      "label": "Q2 • Bản tin Giao thông & Thời tiết buổi sáng",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "US",
+      "text": "You are listening to Metro FM's morning traffic and weather report. Commuters heading downtown along Highway 9 should expect fifteen-minute delays near the Riverside Bridge due to overnight lane resurfacing. Drivers may take Oakwood Boulevard or the Harbor Tunnel as faster alternate routes. On the weather front, scattered clouds will clear by midday, bringing mild temperatures near seventy-two degrees and light coastal breezes. Stay tuned after this short break for local business headlines.",
+      "intonationGuide": "You are listening to **Metro FM's** / morning **traffic** and **weather** report↘. **Commuters** heading downtown / along **Highway 9**↗ / should expect **fifteen-minute** delays / near the **Riverside Bridge** / due to overnight **lane resurfacing**↘. **Drivers** may take **Oakwood Boulevard**↗ / or the **Harbor Tunnel**↘ / as faster **alternate routes**↘. On the **weather front**↗, / **scattered clouds** will clear by **midday**↗, / bringing **mild temperatures** near **seventy-two degrees** / and light **coastal breezes**↘. Stay **tuned** after this short break / for local **business headlines**↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Chú ý trọng âm từ ghép 'fifteen-minute' và hai tuyến thay thế đối lập 'Oakwood Boulevard ↗ or the Harbor Tunnel ↘'. Không nuốt âm /z/ ở 'commuters', 'delays', 'clouds', 'degrees', 'breezes'.",
+      "keyPhrases": [
+        {
+          "en": "commuters heading downtown",
+          "vi": "người đi làm hướng về trung tâm thành phố"
+        },
+        {
+          "en": "overnight lane resurfacing",
+          "vi": "trải nhựa lại làn đường qua đêm"
+        },
+        {
+          "en": "alternate routes",
+          "vi": "các tuyến đường thay thế"
+        },
+        {
+          "en": "scattered clouds",
+          "vi": "mây rải rác"
+        },
+        {
+          "en": "light coastal breezes",
+          "vi": "gió biển thổi nhẹ"
+        }
+      ],
+      "sample": "You are listening to Metro FM's morning traffic and weather report. Commuters heading downtown along Highway 9 should expect fifteen-minute delays near the Riverside Bridge due to overnight lane resurfacing. Drivers may take Oakwood Boulevard or the Harbor Tunnel as faster alternate routes. On the weather front, scattered clouds will clear by midday, bringing mild temperatures near seventy-two degrees and light coastal breezes. Stay tuned after this short break for local business headlines.",
+      "sampleVi": "Quý vị đang nghe bản tin giao thông và thời tiết buổi sáng của đài Metro FM. Người đi làm hướng vào trung tâm dọc Quốc lộ 9 có thể gặp tình trạng chậm 15 phút gần Cầu Riverside do thi công trải lại mặt đường qua đêm. Tài xế có thể chọn Đại lộ Oakwood hoặc Hầm Harbor để di chuyển nhanh hơn. Về thời tiết, mây rải rác sẽ tan vào giữa trưa, mang lại nền nhiệt ôn hòa khoảng 72 độ F cùng gió biển nhẹ. Hãy tiếp tục theo dõi sau ít phút nghỉ cho các tin tức kinh doanh địa phương."
+    }
+  ]
+}

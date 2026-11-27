@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_08",
+  "order": 20,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 08: Câu hỏi Lựa chọn (A or B)",
+  "subtitle": "Làm quen 4 kiểu trả lời chuẩn của câu hỏi 'or': chọn A, chọn B, chọn cả hai (Either/Both) hoặc phương án thứ 3.",
+  "accent": "en-AU",
+  "defaultRate": 1,
+  "tips": "KHÔNG BAO GIỜ chọn đáp án bắt đầu bằng 'Yes' hoặc 'No' cho câu hỏi lựa chọn 'A or B'! Đáp án đúng thường chọn 1 trong 2, nói 'Either is fine' (cái nào cũng được), 'Neither' (không cái nào) hoặc đề xuất phương án thứ 3.",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Choice (or)",
+      "accent": "en-AU",
+      "question": "Would you prefer to meet in the morning or after lunch?",
+      "questionVi": "Bạn muốn họp vào buổi sáng hay sau bữa trưa hơn?",
+      "options": [
+        "Yes, I already had lunch.",
+        "The afternoon works much better for me.",
+        "In conference room C."
+      ],
+      "optionsVi": [
+        "Vâng, tôi đã ăn trưa rồi.",
+        "Buổi chiều thuận tiện hơn nhiều cho tôi.",
+        "Trong phòng họp C."
+      ],
+      "ans": 1,
+      "exp": "Câu hỏi lựa chọn 'morning or after lunch' → chọn (B) diễn đạt lại phương án 2 ('The afternoon' = after lunch). Loại (A) sai dạng Yes + lặp từ 'lunch', (C) nơi chốn."
+    },
+    {
+      "num": 2,
+      "qType": "Choice (or)",
+      "accent": "en-US",
+      "question": "Should we print the newsletter in color or in black and white?",
+      "questionVi": "Chúng ta nên in bản tin có màu hay đen trắng?",
+      "options": [
+        "Black and white will keep costs lower.",
+        "Yes, I read the newspaper daily.",
+        "Next to the front reception."
+      ],
+      "optionsVi": [
+        "Đen trắng sẽ giúp giữ chi phí thấp hơn.",
+        "Vâng, tôi đọc báo hằng ngày.",
+        "Cạnh quầy lễ tân phía trước."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) chọn rõ phương án thứ hai kèm lý do hợp lý. Loại (B) sai dạng Yes + gần âm 'newsletter / newspaper', (C) địa điểm."
+    },
+    {
+      "num": 3,
+      "qType": "Choice (or)",
+      "accent": "en-GB",
+      "question": "Do you want to sit by the window or on the aisle?",
+      "questionVi": "Bạn muốn ngồi cạnh cửa sổ hay sát lối đi?",
+      "options": [
+        "No, the window is closed.",
+        "Yes, on the third island.",
+        "Either one is fine with me."
+      ],
+      "optionsVi": [
+        "Không, cửa sổ đang đóng.",
+        "Vâng, trên hòn đảo thứ ba.",
+        "Ghế nào với tôi cũng ổn."
+      ],
+      "ans": 2,
+      "exp": "'Either one is fine with me' là mẫu trả lời kinh điển cho câu hỏi lựa chọn 'A or B' → chọn (C). Loại (A) sai dạng No + lặp từ 'window', (B) bẫy đồng âm 'aisle / island'."
+    },
+    {
+      "num": 4,
+      "qType": "Choice (or)",
+      "accent": "en-AU",
+      "question": "Are we shipping the order by air or by ground?",
+      "questionVi": "Chúng ta gửi đơn hàng bằng đường hàng không hay đường bộ?",
+      "options": [
+        "The customer paid for overnight air delivery.",
+        "Yes, it is on the ground floor.",
+        "About fifteen kilograms."
+      ],
+      "optionsVi": [
+        "Khách hàng đã trả phí giao hàng hàng không qua đêm.",
+        "Vâng, nó ở tầng trệt.",
+        "Khoảng mười lăm ki-lô-gam."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) chọn phương án đường hàng không ('overnight air delivery'). Loại (B) sai dạng Yes + lặp từ 'ground', (C) trả lời cân nặng."
+    },
+    {
+      "num": 5,
+      "qType": "Choice (or)",
+      "accent": "en-US",
+      "question": "Should I email the contract to Ms. Lin or send a paper copy?",
+      "questionVi": "Tôi nên gửi email hợp đồng cho cô Lin hay gửi bản giấy?",
+      "options": [
+        "Yes, she signed it already.",
+        "Actually, she asked for both.",
+        "By five o'clock today."
+      ],
+      "optionsVi": [
+        "Vâng, cô ấy đã ký nó rồi.",
+        "Thực ra cô ấy yêu cầu cả hai.",
+        "Trước năm giờ hôm nay."
+      ],
+      "ans": 1,
+      "exp": "Chọn cả hai phương án ('she asked for both') là kiểu đáp án cực phổ biến ở Part 2 → chọn (B). Loại (A) sai dạng Yes, (C) thời gian."
+    },
+    {
+      "num": 6,
+      "qType": "Choice (or)",
+      "accent": "en-GB",
+      "question": "Will you be taking the train or driving to the seminar?",
+      "questionVi": "Bạn sẽ đi tàu hỏa hay tự lái xe tới buổi hội thảo?",
+      "options": [
+        "Yes, the seminar was informative.",
+        "At the university campus.",
+        "Neither — a colleague offered to give me a ride."
+      ],
+      "optionsVi": [
+        "Vâng, buổi hội thảo rất nhiều thông tin.",
+        "Tại khuôn viên trường đại học.",
+        "Không cách nào cả — một đồng nghiệp đề nghị cho tôi đi nhờ xe."
+      ],
+      "ans": 2,
+      "exp": "Phương án thứ 3 với 'Neither' (không chọn cả hai mà đi nhờ xe đồng nghiệp) → chọn (C). Loại (A) sai dạng Yes + thì quá khứ, (B) địa điểm."
+    }
+  ]
+}

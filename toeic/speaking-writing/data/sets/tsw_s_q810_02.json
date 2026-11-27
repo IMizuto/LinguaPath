@@ -1,0 +1,168 @@
+{
+  "id": "tsw_s_q810_02",
+  "skill": "speaking",
+  "taskType": "sp_q810",
+  "code": "Q8–10",
+  "level": 3,
+  "targetBand": "160–190",
+  "title": "Dùng bảng biểu Q8–10 #2: Lịch trình Chuyến Công tác Chicago",
+  "topic": "Công tác & Lịch gặp Đối tác",
+  "estMinutes": 8,
+  "guideVi": "Đọc kỹ cột Ngày & Giờ (Day 1 vs Day 2) để không nhầm sự kiện giữa hai ngày trong câu Q10. Chú ý chi tiết xe đưa đón và đổi giờ họp trong Ghi chú.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Trích xuất đúng ngày giờ, địa điểm và chi tiết từ bảng biểu",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Đính chính lịch sự thông tin sai ở Q9 và tổng hợp đủ ý ở Q10",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Diễn đạt mạch lạc, phát âm rõ số liệu và tên riêng",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_q810_02_1",
+      "itemType": "sp_q810",
+      "label": "Q8–10 • Regional Business Trip Itinerary (Chicago)",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "UK",
+      "docTitle": "Ms. Hannah Kim — Chicago Client Visit Itinerary (May 12–13)",
+      "docNote": "Travel Alert: The complimentary hotel airport shuttle on May 12 is suspended for repairs; please use a company-approved taxi. Also, the May 13 Contract Review has been pushed back from 1:00 PM to 2:00 PM in Suite 910.",
+      "tableHeaders": [
+        "Date & Time",
+        "Activity",
+        "Contact / Venue",
+        "Status"
+      ],
+      "tableRows": [
+        [
+          "May 12, 10:15 AM",
+          "Arrive at O'Hare Airport (Flight UA 604)",
+          "Terminal 1 (Taxi needed)",
+          "Confirmed"
+        ],
+        [
+          "May 12, 12:30 PM",
+          "Client Welcome Lunch",
+          "Mr. David Reed — Lakefront Bistro",
+          "Confirmed"
+        ],
+        [
+          "May 13, 9:00 AM",
+          "Manufacturing Plant Tour",
+          "Ms. Carla Ortiz — Westside Facility",
+          "Confirmed"
+        ],
+        [
+          "May 13, 2:00 PM",
+          "Annual Contract Review (Was 1:00 PM)",
+          "Mr. David Reed — Suite 910",
+          "Rescheduled"
+        ],
+        [
+          "May 13, 6:40 PM",
+          "Return Flight to Boston (Flight UA 719)",
+          "O'Hare Terminal 2",
+          "Confirmed"
+        ]
+      ],
+      "targetKeywords": [
+        "10:15",
+        "Terminal 1",
+        "taxi",
+        "shuttle",
+        "May 13",
+        "9:00 AM",
+        "2:00 PM",
+        "6:40 PM"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 8,
+          "questionEn": "Hello, I'm calling for Ms. Hannah Kim. What time does her flight land in Chicago on May 12, and who is she having lunch with?",
+          "questionVi": "Xin chào, tôi gọi hỏi lịch cho cô Hannah Kim. Chuyến bay của cô ấy hạ cánh ở Chicago lúc mấy giờ ngày 12 tháng 5 và cô ấy ăn trưa với ai?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": false,
+          "sample": "Her flight, UA 604, arrives at O'Hare Airport Terminal 1 at 10:15 AM on May 12. Afterward, she is having a welcome lunch with Mr. David Reed at Lakefront Bistro at 12:30 PM.",
+          "sampleVi": "Chuyến bay UA 604 của cô ấy hạ cánh tại Nhà ga 1 Sân bay O'Hare lúc 10 giờ 15 sáng ngày 12 tháng 5. Sau đó, cô ấy dùng bữa trưa chào mừng cùng ông David Reed tại nhà hàng Lakefront Bistro lúc 12 giờ 30.",
+          "keywords": [
+            "10:15 AM",
+            "UA 604",
+            "David Reed",
+            "Lakefront Bistro",
+            "12:30 PM"
+          ]
+        },
+        {
+          "qNum": 9,
+          "questionEn": "Great, she plans to take the free hotel shuttle from the airport and attend the contract review at 1:00 PM the next day. Is everything set for those?",
+          "questionVi": "Tuyệt, cô ấy dự định đi xe trung chuyển miễn phí của khách sạn từ sân bay và họp rà soát hợp đồng lúc 1 giờ chiều hôm sau. Mọi thứ đã sẵn sàng chứ?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": true,
+          "sample": "I'm sorry, both of those details have changed. The hotel airport shuttle is suspended for repairs, so she should take a company-approved taxi. Also, the May 13 Contract Review has been pushed back from 1:00 PM to 2:00 PM in Suite 910.",
+          "sampleVi": "Rất tiếc, cả hai chi tiết đó đều đã thay đổi. Xe trung chuyển sân bay của khách sạn đang tạm dừng để sửa chữa nên cô ấy cần đi taxi được công ty duyệt. Ngoài ra, buổi Rà soát Hợp đồng ngày 13 tháng 5 đã lùi từ 1 giờ sang 2 giờ chiều tại Phòng 910.",
+          "keywords": [
+            "changed",
+            "suspended",
+            "taxi",
+            "2:00 PM",
+            "Suite 910"
+          ]
+        },
+        {
+          "qNum": 10,
+          "questionEn": "Could you walk me through Ms. Kim's full schedule for May 13 so I can update her calendar?",
+          "questionVi": "Bạn có thể điểm qua toàn bộ lịch trình ngày 13 tháng 5 của cô Kim để tôi cập nhật lịch giúp cô ấy không?",
+          "prepSec": 3,
+          "respSec": 30,
+          "isCorrection": false,
+          "sample": "Of course. Ms. Kim has three items on May 13. At 9:00 AM, she will tour the Westside Manufacturing Plant with Ms. Carla Ortiz. Next, at 2:00 PM, she will meet Mr. David Reed in Suite 910 for the rescheduled Annual Contract Review. Finally, her return flight to Boston, Flight UA 719, departs from O'Hare Terminal 2 at 6:40 PM.",
+          "sampleVi": "Dĩ nhiên rồi. Cô Kim có ba lịch trình vào ngày 13 tháng 5. Lúc 9 giờ sáng, cô sẽ tham quan Nhà máy Sản xuất Westside cùng cô Carla Ortiz. Tiếp theo, lúc 2 giờ chiều, cô gặp ông David Reed tại Phòng 910 cho buổi Rà soát Hợp đồng Thường niên đã dời giờ. Cuối cùng, chuyến bay khứ hồi về Boston mang số hiệu UA 719 khởi hành từ Nhà ga 2 O'Hare lúc 6 giờ 40 tối.",
+          "keywords": [
+            "three items",
+            "9:00 AM",
+            "Carla Ortiz",
+            "2:00 PM",
+            "6:40 PM",
+            "Terminal 2"
+          ]
+        }
+      ],
+      "tipVi": "Khi liệt kê 3 lịch trình trong Q10 (30 giây), dùng bộ từ dẫn 'First / At 9:00 AM ... Next ... Finally ...' để giám khảo nghe thấy cấu trúc thời gian cực kỳ rõ ràng.",
+      "keyPhrases": [
+        {
+          "en": "suspended for repairs",
+          "vi": "tạm ngưng để sửa chữa"
+        },
+        {
+          "en": "company-approved taxi",
+          "vi": "xe taxi thuộc diện công ty phê duyệt"
+        },
+        {
+          "en": "pushed back from 1:00 PM to 2:00 PM",
+          "vi": "được lùi từ 1 giờ chiều sang 2 giờ chiều"
+        },
+        {
+          "en": "walk you through the full schedule",
+          "vi": "điểm qua toàn bộ lịch trình cho bạn"
+        },
+        {
+          "en": "return flight departs at",
+          "vi": "chuyến bay khứ hồi khởi hành lúc"
+        }
+      ],
+      "sample": "Q8: Flight UA 604 lands at 10:15 AM on May 12 at Terminal 1, and she has lunch with Mr. David Reed at 12:30 PM at Lakefront Bistro.\n\nQ9: Actually, the hotel shuttle is suspended for repairs so she needs a company-approved taxi, and the May 13 Contract Review was moved to 2:00 PM in Suite 910.\n\nQ10: On May 13, she has three activities: a 9:00 AM plant tour with Ms. Carla Ortiz, the 2:00 PM Contract Review with Mr. David Reed in Suite 910, and her 6:40 PM return flight UA 719 to Boston from Terminal 2.",
+      "sampleVi": "Q8: Chuyến bay UA 604 hạ cánh lúc 10:15 sáng ngày 12/5 tại Nhà ga 1, và cô ăn trưa với ông David Reed lúc 12:30 tại Lakefront Bistro.\n\nQ9: Thực ra xe đưa đón khách sạn tạm ngưng sửa chữa nên cô cần đi taxi được duyệt, và buổi Rà soát Hợp đồng ngày 13/5 đã chuyển sang 2:00 chiều tại Phòng 910.\n\nQ10: Ngày 13/5 cô có ba hoạt động: tham quan nhà máy lúc 9:00 sáng với cô Carla Ortiz, họp Rà soát Hợp đồng lúc 2:00 chiều với ông David Reed ở Phòng 910, và chuyến bay UA 719 về Boston lúc 6:40 tối tại Nhà ga 2."
+    }
+  ]
+}

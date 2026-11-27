@@ -1,0 +1,158 @@
+{
+  "id": "tr_p7t_04",
+  "order": 34,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 04: Bài báo khai trương Resort, Đánh giá khách & Email Giám đốc",
+  "subtitle": "Kết nối tin khai trương chuỗi khách sạn sinh thái Solis Suites với phản hồi 3 sao và chỉ đạo khắc phục nội bộ.",
+  "timeLimitMin": 12,
+  "tips": "Với bộ Bài báo + Đánh giá + Email nội bộ, hãy tìm nguyên nhân kỹ thuật được giải thích ở Văn bản 3 cho các sự cố khách gặp ở Văn bản 2, và chú ý số lượng chi nhánh của chuỗi khách sạn ở Văn bản 1.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Bài báo",
+      "genre": "article",
+      "meta": {
+        "title": "Solis Suites Debuts Flagship Coastal Eco-Resort in Monterey",
+        "subtitle": "Hospitality Insider • April 2 • By Marcus Sterling"
+      },
+      "paragraphs": [
+        "Boutique hospitality chain Solis Suites celebrated the grand opening of its fourth property, Solis Monterey Bay, on March 28. Powered entirely by rooftop solar arrays, the 110-room coastal retreat blends sustainable architecture with executive convenience.",
+        "General Manager Victor Delgado highlighted two headline amenities: a 24-hour geothermal fitness pavilion and a complimentary electric shuttle running every 30 minutes between the resort and downtown Monterey Pier. To guarantee seating, guests reserve shuttle departures through the Solis mobile app. Standard Ocean Rooms start at $310 per night, while upgraded Harbor Suites include complimentary buffet breakfast and daily spa credits."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Đánh giá khách hàng",
+      "genre": "review",
+      "meta": {
+        "title": "Gorgeous suites, but opening-month logistics need polish (3/5 Stars)",
+        "subtitle": "StayAdvisor • Reviewed by Nora Lindstrom • Stayed April 10–12 (Harbor Suite)",
+        "rating": 3
+      },
+      "paragraphs": [
+        "The design of Solis Monterey Bay is genuinely impressive—our Harbor Suite balcony was spotless, quiet, and offered sweeping views of the bay. We also loved the complimentary breakfast buffet, which featured freshly baked pastries and local organic fruit.",
+        "Unfortunately, two operational hiccups kept this from being a five-star stay. First, although I reserved two seats on Friday's 18:00 electric shuttle through the Solis mobile app the previous evening, the concierge desk had no record of our booking, and the bus departed full. I ended up paying $34 for a rideshare to avoid being late for my client dinner downtown.",
+        "Second, when I walked down to the fitness pavilion at 22:30 on Friday night, the glass doors were locked with only a handwritten sign saying 'Closed for Maintenance'—hardly what you expect from a facility promoted as open around the clock."
+      ]
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email nội bộ",
+      "genre": "email",
+      "meta": {
+        "to": "frontdesk-leads@solissuites.com; it-ops@solissuites.com",
+        "from": "Victor Delgado <v.delgado@solissuites.com>",
+        "date": "April 14",
+        "subject": "Action Items Following StayAdvisor Review (#SA-409)"
+      },
+      "paragraphs": [
+        "Team,",
+        "Please review Ms. Nora Lindstrom's StayAdvisor post from her April 10–12 stay. Her feedback highlights two preventable breakdowns that we must resolve immediately.",
+        "First, IT Operations confirmed that an API sync glitch prevented mobile app shuttle reservations from refreshing on the concierge tablet. IT is deploying a patch tonight. Second, regarding Friday night's fitness pavilion closure: engineering had to conduct an unscheduled geothermal pump inspection between 22:00 and 01:00. Going forward, any temporary facility closure must be pushed to all in-room tablets by 18:00 so guests are never caught off guard.",
+        "Front Desk Leads: please call Ms. Lindstrom today to apologize sincerely, reimburse her $34 rideshare receipt, and email her a $150 stay voucher redeemable at any of Solis Suites's four locations.",
+        "Regards,\nVictor Delgado\nGeneral Manager, Solis Monterey Bay"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the article, what perks are included with a Harbor Suite booking?",
+      "opts": [
+        "Free rideshare transfers to downtown Monterey",
+        "Private access to the rooftop solar terrace",
+        "Priority seating without using the mobile app",
+        "Complimentary buffet breakfast and daily spa credits"
+      ],
+      "ans": 3,
+      "exp": "Văn bản 1 (đoạn 2) ghi rõ: 'upgraded Harbor Suites include complimentary buffet breakfast and daily spa credits.' → Gồm bữa sáng buffet miễn phí và tín dụng dịch vụ spa hằng ngày."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the review title, the word \"polish\" is closest in meaning to",
+      "opts": [
+        "cleaning",
+        "refinement",
+        "expansion",
+        "publicity"
+      ],
+      "ans": 1,
+      "exp": "Trong tiêu đề 'opening-month logistics need polish' (khâu hậu cần tháng khai trương cần được trau chuốt/hoàn thiện hơn), 'polish' mang nghĩa bóng là sự hoàn thiện, tinh chỉnh → gần nghĩa nhất với 'refinement'."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "According to the three documents, which of the following was NOT an issue during Ms. Lindstrom's stay?",
+      "opts": [
+        "Her shuttle booking did not appear on the concierge tablet.",
+        "The fitness pavilion was unexpectedly locked at 22:30.",
+        "The quality of the breakfast buffet failed to meet expectations.",
+        "She had to pay out of pocket for alternative downtown transport."
+      ],
+      "ans": 2,
+      "exp": "Trong Văn bản 2 (đoạn 1), bà Lindstrom hết lời khen bữa sáng buffet miễn phí ('We also loved the complimentary breakfast buffet, which featured freshly baked pastries and local organic fruit'). Cả 3 phương án A, B, D đều là sự cố có thật được nêu ở Văn bản 2 & 3."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Why was Ms. Lindstrom unable to enter the 24-hour fitness pavilion on Friday night?",
+      "opts": [
+        "Engineers were performing an unscheduled geothermal pump inspection.",
+        "The rooftop solar arrays lost power after sunset.",
+        "She forgot to reserve a workout slot through the mobile app.",
+        "The resort permanently shortened the pavilion's operating hours."
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 1 mô tả phòng tập là '24-hour geothermal fitness pavilion'. (2) Văn bản 2 kể cô thấy phòng tập khóa lúc 22:30 tối thứ Sáu với biển đóng cửa bảo trì. (3) Văn bản 3 giải thích rõ nguyên nhân: bộ phận kỹ thuật phải kiểm tra đột xuất máy bơm địa nhiệt ('unscheduled geothermal pump inspection') từ 22:00 tới 01:00."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Where can Ms. Lindstrom use the $150 voucher authorized by Mr. Delgado?",
+      "opts": [
+        "Only at the Monterey Pier dining partners",
+        "Only toward future spa services at Solis Monterey Bay",
+        "Exclusively for rideshare reimbursements",
+        "At Solis Monterey Bay or any of Solis Suites's three other properties"
+      ],
+      "ans": 3,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 1 cho biết Solis Monterey Bay là cơ sở thứ tư ('its fourth property') của chuỗi Solis Suites. Văn bản 3 cho biết phiếu ưu đãi $150 có hiệu lực tại 'any of Solis Suites's four locations' → Dùng được tại Solis Monterey Bay hoặc bất kỳ chi nhánh nào trong 3 cơ sở còn lại."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "need polish",
+      "answer": "need refinement / preventable breakdowns",
+      "vi": "cần được trau chuốt, hoàn thiện hơn"
+    },
+    {
+      "text": "open around the clock",
+      "answer": "24-hour geothermal fitness pavilion",
+      "vi": "mở cửa suốt ngày đêm ↔ hoạt động 24 giờ"
+    },
+    {
+      "text": "had no record of our booking",
+      "answer": "API sync glitch prevented reservations from refreshing",
+      "vi": "không có thông tin đặt chỗ ↔ lỗi đồng bộ dữ liệu ứng dụng"
+    },
+    {
+      "text": "caught off guard",
+      "answer": "unexpectedly locked",
+      "vi": "bị bất ngờ ↔ bị khóa đột xuất"
+    },
+    {
+      "text": "its fourth property / any of four locations",
+      "answer": "Solis Monterey Bay or any of three other properties",
+      "vi": "cơ sở thứ tư / bất kỳ địa điểm nào trong 4 khách sạn"
+    },
+    {
+      "text": "paying $34 for a rideshare",
+      "answer": "pay out of pocket for alternative transport",
+      "vi": "tự trả $34 đặt xe công nghệ"
+    }
+  ]
+}

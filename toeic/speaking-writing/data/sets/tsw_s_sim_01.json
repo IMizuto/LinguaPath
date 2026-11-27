@@ -1,0 +1,410 @@
+{
+  "id": "tsw_s_sim_01",
+  "skill": "speaking",
+  "taskType": "sp_sim",
+  "code": "Mini Sim",
+  "level": 4,
+  "targetBand": "160–200",
+  "title": "Thi thử Speaking rút gọn #1 (Đủ 5 dạng Q1–Q11)",
+  "topic": "Tổng hợp Thực chiến 5 Phần ETS",
+  "estMinutes": 15,
+  "guideVi": "Bài thi thử rút gọn mô phỏng đủ 5 phần của bài thi TOEIC Speaking chuẩn ETS (Đọc to, Tả tranh, Hỏi–đáp nhanh, Dùng bảng biểu, Nêu quan điểm) với nội dung hoàn toàn mới để bạn kiểm tra sức bền và độ ổn định.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Hoàn thành đầy đủ 5 phần Q1–2, Q3–4, Q5–7, Q8–10 và Q11",
+      "weight": 35
+    },
+    {
+      "id": "r2",
+      "label": "Nội dung bám sát tranh, bảng lịch trình và câu hỏi trọng tâm",
+      "weight": 35
+    },
+    {
+      "id": "r3",
+      "label": "Phát âm rõ ràng, ngữ điệu tự nhiên và kiểm soát tốt thời gian",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "tsw_s_sim_01_1",
+      "itemType": "sp_q12",
+      "label": "Phần 1 (Q1–2) • Thông báo đổi sân ga tàu tốc hành",
+      "prepSec": 45,
+      "respSec": 45,
+      "accent": "US",
+      "text": "May I have your attention, please. The eight-forty-five Silverline Express train to Boston has been reassigned from Platform 4 to Platform 7 on the north concourse. Passengers holding reserved quiet-car tickets should proceed to the front three carriages upon boarding. Light refreshments, hot beverages, and travel snacks are available in the dining car located near the middle of the train. Please keep your personal belongings beside you at all times, and have your tickets ready for the conductor.",
+      "intonationGuide": "May I have your **attention**, please↘. The **eight-forty-five** Silverline Express train / to **Boston**↗ / has been **reassigned** / from **Platform 4**↗ / to **Platform 7**↘ / on the **north concourse**↘. **Passengers** holding reserved **quiet-car** tickets↗ / should proceed to the **front three carriages** / upon **boarding**↘. **Light refreshments**↗, / **hot beverages**↗, / and **travel snacks**↘ / are available in the **dining car** / located near the **middle** of the train↘. Please keep your **personal belongings** beside you at all times↗, / and have your **tickets ready** for the **conductor**↘.",
+      "targetWpm": [
+        110,
+        155
+      ],
+      "tipVi": "Nhấn tương phản rõ số sân ga 'from Platform 4 ↗ to Platform 7 ↘' và bật âm cuối rõ ở 'tickets', 'carriages', 'snacks', 'belongings'.",
+      "keyPhrases": [
+        {
+          "en": "reassigned from Platform 4 to Platform 7",
+          "vi": "được chuyển từ Sân ga 4 sang Sân ga 7"
+        },
+        {
+          "en": "north concourse",
+          "vi": "sảnh khu vực phía bắc"
+        },
+        {
+          "en": "reserved quiet-car tickets",
+          "vi": "vé đặt trước toa yên tĩnh"
+        },
+        {
+          "en": "light refreshments",
+          "vi": "đồ ăn uống nhẹ"
+        },
+        {
+          "en": "ready for the conductor",
+          "vi": "sẵn sàng cho nhân viên soát vé"
+        }
+      ],
+      "sample": "May I have your attention, please. The eight-forty-five Silverline Express train to Boston has been reassigned from Platform 4 to Platform 7 on the north concourse. Passengers holding reserved quiet-car tickets should proceed to the front three carriages upon boarding. Light refreshments, hot beverages, and travel snacks are available in the dining car located near the middle of the train. Please keep your personal belongings beside you at all times, and have your tickets ready for the conductor.",
+      "sampleVi": "Xin quý khách vui lòng chú ý. Chuyến tàu tốc hành Silverline lúc 8 giờ 45 đi Boston đã được chuyển từ Sân ga 4 sang Sân ga 7 tại sảnh phía bắc. Hành khách giữ vé đặt trước khoang yên tĩnh vui lòng di chuyển tới ba toa đầu khi lên tàu. Đồ giải khát nhẹ, thức uống nóng và đồ ăn nhẹ có phục vụ tại toa ăn nằm gần giữa đoàn tàu. Vui lòng luôn giữ hành lý cá nhân bên cạnh và chuẩn bị sẵn vé cho nhân viên soát vé."
+    },
+    {
+      "itemId": "tsw_s_sim_01_2",
+      "itemType": "sp_q34",
+      "label": "Phần 2 (Q3–4) • Nhân viên văn phòng làm việc bên máy tính",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "UK",
+      "image": "../mock/media/m_p1_01.svg",
+      "imageAlt": "Một nữ nhân viên mặc áo xanh ngọc đang ngồi trên ghế xoay làm việc trước màn hình máy tính trên bàn gỗ có đèn bàn, cốc cà phê đỏ, cặp tài liệu, bên trái có cửa sổ và trên tường phải treo bảng lịch.",
+      "outlineSteps": [
+        "Bối cảnh chung: Một văn phòng cá nhân gọn gàng và yên tĩnh (a neat, quiet private office).",
+        "Hành động chính: Một người phụ nữ tóc sẫm mặc áo xanh ngọc ngồi trên ghế xoay văn phòng, đưa hai tay thao tác hướng về màn hình máy tính trên bàn gỗ.",
+        "Chi tiết trên bàn: Đèn bàn chao vàng ở mép trái, màn hình máy tính hiển thị tài liệu ở giữa, cốc cà phê màu đỏ cùng hai tập hồ sơ màu xanh và vàng ở phía bên phải.",
+        "Hậu cảnh: Khung cửa sổ lớn bên tường trái đón ánh sáng và bảng lịch kế hoạch treo trên tường phía trên bên phải."
+      ],
+      "targetKeywords": [
+        "office",
+        "desk",
+        "woman",
+        "monitor",
+        "lamp",
+        "mug",
+        "calendar",
+        "window"
+      ],
+      "tipVi": "Tranh chỉ có 1 nhân vật nên hãy dành thêm thời gian mô tả kỹ đồ vật trên bàn từ trái sang phải (desk lamp -> desktop monitor -> red mug and folders) và hai chi tiết trên tường (window, wall calendar).",
+      "keyPhrases": [
+        {
+          "en": "seated in an office swivel chair",
+          "vi": "ngồi trên chiếc ghế xoay văn phòng"
+        },
+        {
+          "en": "working at a desktop monitor",
+          "vi": "đang làm việc trước màn hình máy tính để bàn"
+        },
+        {
+          "en": "yellow-shaded desk lamp",
+          "vi": "chiếc đèn bàn chao màu vàng"
+        },
+        {
+          "en": "red coffee mug and two folders",
+          "vi": "chiếc cốc cà phê đỏ và hai tập tài liệu"
+        },
+        {
+          "en": "wall-mounted calendar",
+          "vi": "tấm lịch treo tường"
+        }
+      ],
+      "sample": "This picture shows a woman working alone in a bright, tidy office. She has dark hair, is wearing a teal shirt, and is seated in a dark swivel chair behind a wide wooden desk. She appears to be typing or reaching toward a desktop computer monitor displaying text. On the left side of the desk stands a desk lamp with a yellow shade, while on the right side there is a red coffee mug next to two upright folders. In the background, a large window is positioned on the left wall, and a wall calendar hangs neatly on the right.",
+      "sampleVi": "Bức tranh cho thấy một người phụ nữ đang làm việc một mình trong văn phòng sáng sủa và ngăn nắp. Cô có mái tóc tối màu, mặc áo xanh ngọc và ngồi trên chiếc ghế xoay tối màu sau chiếc bàn gỗ rộng. Cô có vẻ đang gõ phím hoặc đưa tay về phía màn hình máy tính để bàn đang hiển thị văn bản. Bên trái mặt bàn có một chiếc đèn bàn chao vàng, còn phía bên phải đặt một cốc cà phê màu đỏ cạnh hai tập tài liệu dựng đứng. Ở hậu cảnh, một khung cửa sổ lớn nằm trên tường bên trái và một bảng lịch treo gọn gàng trên tường bên phải."
+    },
+    {
+      "itemId": "tsw_s_sim_01_3",
+      "itemType": "sp_q57",
+      "label": "Phần 3 (Q5–7) • Khảo sát Thư viện Công cộng & Thói quen Đọc sách",
+      "prepSec": 3,
+      "respSec": 30,
+      "accent": "AU",
+      "scenarioEn": "Imagine that your city's public library board is conducting a community telephone survey about reading habits and library services. You have agreed to answer three questions.",
+      "scenarioVi": "Hãy tưởng tượng ban quản lý thư viện công cộng thành phố đang thực hiện khảo sát qua điện thoại về thói quen đọc sách và dịch vụ thư viện. Bạn đồng ý trả lời ba câu hỏi sau.",
+      "targetKeywords": [
+        "library",
+        "reading",
+        "digital",
+        "quiet",
+        "e-books",
+        "community",
+        "workshops"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 5,
+          "questionEn": "When was the last time you visited a public library, and what did you do there?",
+          "questionVi": "Lần gần nhất bạn ghé thăm thư viện công cộng là khi nào và bạn đã làm gì ở đó?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "I visited my neighborhood library about two weeks ago. I went there to borrow two history books and spend an hour preparing notes in the quiet reading room.",
+          "sampleVi": "Tôi ghé thư viện khu phố khoảng hai tuần trước. Tôi đến đó để mượn hai cuốn sách lịch sử và dành một giờ chuẩn bị ghi chú trong phòng đọc yên tĩnh.",
+          "keywords": [
+            "two weeks ago",
+            "borrow",
+            "books",
+            "quiet reading room"
+          ]
+        },
+        {
+          "qNum": 6,
+          "questionEn": "Do you prefer reading printed books or digital e-books on a tablet? Why?",
+          "questionVi": "Bạn thích đọc sách giấy in hay sách điện tử trên máy tính bảng hơn? Tại sao?",
+          "prepSec": 3,
+          "respSec": 15,
+          "sample": "I prefer printed books because they are much easier on my eyes after looking at a computer screen all day. Turning physical pages also helps me remember information better.",
+          "sampleVi": "Tôi thích sách giấy hơn vì dễ chịu cho mắt hơn nhiều sau cả ngày nhìn màn hình máy tính. Việc lật từng trang giấy thật cũng giúp tôi ghi nhớ thông tin tốt hơn.",
+          "keywords": [
+            "printed books",
+            "easier on my eyes",
+            "screen",
+            "remember"
+          ]
+        },
+        {
+          "qNum": 7,
+          "questionEn": "What new service or program should public libraries introduce to attract more young adults?",
+          "questionVi": "Thư viện công cộng nên mở thêm dịch vụ hoặc chương trình mới nào để thu hút nhiều người trẻ hơn?",
+          "prepSec": 3,
+          "respSec": 30,
+          "sample": "I think public libraries should introduce free evening career workshops and modern co-working zones. First, many young adults work during regular business hours, so hosting resume clinics, interview practice, or coding classes after six o'clock would make the library genuinely useful to them. Second, offering bookable study pods with high-speed Wi-Fi and power outlets would turn the library into an attractive alternative to noisy coffee shops. For instance, a nearby branch added quiet work booths last spring, and evening attendance doubled within three months.",
+          "sampleVi": "Tôi cho rằng thư viện công cộng nên triển khai các buổi hướng dẫn nghề nghiệp miễn phí vào buổi tối và khu làm việc chung hiện đại. Thứ nhất, nhiều người trẻ đi làm giờ hành chính nên tổ chức lớp sửa hồ sơ xin việc, luyện phỏng vấn hoặc học lập trình sau 6 giờ chiều sẽ khiến thư viện thực sự hữu ích. Thứ hai, cung cấp các phòng học nhỏ có thể đặt trước với Wi-Fi tốc độ cao và ổ cắm sẽ biến thư viện thành lựa chọn thay thế hấp dẫn cho những quán cà phê ồn ào. Chẳng hạn, một chi nhánh gần đây bổ sung buồng làm việc yên tĩnh mùa xuân vừa rồi và lượng khách buổi tối đã tăng gấp đôi chỉ sau ba tháng.",
+          "keywords": [
+            "career workshops",
+            "co-working",
+            "evening",
+            "study pods",
+            "Wi-Fi"
+          ]
+        }
+      ],
+      "tipVi": "Trong Mini Sim, nhịp chuyển từ Q5/Q6 (15s) sang Q7 (30s) rất nhanh — hãy luôn dự phòng sẵn 1 ví dụ cụ thể liên quan đến tiện ích cộng đồng để nói trôi chảy hết 30 giây.",
+      "keyPhrases": [
+        {
+          "en": "easier on my eyes",
+          "vi": "dễ chịu cho mắt hơn"
+        },
+        {
+          "en": "bookable study pods",
+          "vi": "các khoang học tập có thể đặt chỗ trước"
+        },
+        {
+          "en": "evening career workshops",
+          "vi": "các buổi hội thảo nghề nghiệp buổi tối"
+        },
+        {
+          "en": "attractive alternative to",
+          "vi": "lựa chọn thay thế hấp dẫn cho"
+        },
+        {
+          "en": "regular business hours",
+          "vi": "giờ làm việc hành chính thông thường"
+        }
+      ],
+      "sample": "Q5: I visited my local library two weeks ago to borrow two history books and study in the quiet room.\n\nQ6: I prefer printed books because they reduce eye strain after working on a computer all day.\n\nQ7: Libraries should offer free evening career workshops and bookable study pods with fast Wi-Fi so busy young adults can learn job skills and work comfortably after office hours.",
+      "sampleVi": "Q5: Tôi đến thư viện địa phương hai tuần trước để mượn hai cuốn sách lịch sử và học ở phòng yên tĩnh.\n\nQ6: Tôi thích sách giấy vì giảm mỏi mắt sau cả ngày làm việc trước máy tính.\n\nQ7: Thư viện nên mở các buổi hội thảo nghề nghiệp miễn phí buổi tối và khoang học tập có Wi-Fi mạnh để người trẻ bận rộn rèn kỹ năng nghề nghiệp và làm việc thoải mái sau giờ hành chính."
+    },
+    {
+      "itemId": "tsw_s_sim_01_4",
+      "itemType": "sp_q810",
+      "label": "Phần 4 (Q8–10) • Lịch Hội thảo Sức khỏe Cuối tuần",
+      "prepSec": 45,
+      "respSec": 30,
+      "accent": "US",
+      "docTitle": "Greenfield Wellness Center — Saturday Fitness & Health Open House (June 20)",
+      "docNote": "Schedule Notice: All classes are free for center members; non-members pay $10 per session. The 1:00 PM Outdoor Cycling Clinic is canceled due to forecast rain, and the 2:30 PM Stress Management Talk has been moved to Studio A.",
+      "tableHeaders": [
+        "Time",
+        "Class / Talk",
+        "Instructor",
+        "Studio / Fee"
+      ],
+      "tableRows": [
+        [
+          "8:30 AM – 9:30 AM",
+          "Morning Stretch & Yoga",
+          "Coach Maya Lin",
+          "Studio A • Free / $10"
+        ],
+        [
+          "10:00 AM – 11:00 AM",
+          "Healthy Meal Planning Talk",
+          "Dr. Victor Gomez",
+          "Conference Room • Free / $10"
+        ],
+        [
+          "11:30 AM – 12:30 PM",
+          "Core Strength Circuit",
+          "Coach Maya Lin",
+          "Gym Floor • Free / $10"
+        ],
+        [
+          "1:00 PM – 2:00 PM",
+          "Outdoor Cycling Clinic (Canceled)",
+          "Coach Ethan Park",
+          "Courtyard • Canceled"
+        ],
+        [
+          "2:30 PM – 3:30 PM",
+          "Stress Management Talk",
+          "Dr. Victor Gomez",
+          "Studio A (Moved from Room B)"
+        ]
+      ],
+      "targetKeywords": [
+        "8:30 AM",
+        "Studio A",
+        "$10",
+        "canceled",
+        "rain",
+        "Maya Lin",
+        "11:30 AM",
+        "Gym Floor"
+      ],
+      "subQuestions": [
+        {
+          "qNum": 8,
+          "questionEn": "Hi, I'm not a member of Greenfield Wellness Center yet. How much does a Saturday class cost, and when does the first session start?",
+          "questionVi": "Chào bạn, tôi chưa phải hội viên của Trung tâm Sức khỏe Greenfield. Một buổi học thứ Bảy có giá bao nhiêu và buổi đầu tiên bắt đầu lúc mấy giờ?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": false,
+          "sample": "For non-members, each class costs ten dollars. The first session, Morning Stretch and Yoga, begins at 8:30 AM in Studio A.",
+          "sampleVi": "Với người chưa phải hội viên, mỗi buổi học có phí mười đô la. Buổi đầu tiên là Kéo giãn và Yoga Buổi sáng bắt đầu lúc 8 giờ 30 tại Phòng tập A.",
+          "keywords": [
+            "ten dollars",
+            "$10",
+            "8:30 AM",
+            "Studio A"
+          ]
+        },
+        {
+          "qNum": 9,
+          "questionEn": "I'd love to join the Outdoor Cycling Clinic at 1:00 PM and then attend the Stress Management Talk in Room B at 2:30 PM. Are both still on as scheduled?",
+          "questionVi": "Tôi muốn tham gia lớp Đạp xe Ngoài trời lúc 1 giờ chiều rồi dự buổi Quản lý Căng thẳng tại Phòng B lúc 2 giờ 30 chiều. Cả hai vẫn diễn ra đúng lịch chứ?",
+          "prepSec": 3,
+          "respSec": 15,
+          "isCorrection": true,
+          "sample": "Unfortunately, there are two changes. The 1:00 PM Outdoor Cycling Clinic has been canceled because of forecast rain, and the 2:30 PM Stress Management Talk has been moved from Room B to Studio A.",
+          "sampleVi": "Rất tiếc đã có hai thay đổi. Lớp Đạp xe Ngoài trời lúc 1 giờ chiều đã bị hủy do dự báo có mưa, và buổi nói chuyện Quản lý Căng thẳng lúc 2 giờ 30 đã chuyển từ Phòng B sang Phòng tập A.",
+          "keywords": [
+            "canceled",
+            "rain",
+            "moved",
+            "Studio A"
+          ]
+        },
+        {
+          "qNum": 10,
+          "questionEn": "I heard Coach Maya Lin is fantastic. Can you tell me about every class she is teaching this Saturday?",
+          "questionVi": "Tôi nghe nói Huấn luyện viên Maya Lin dạy rất tuyệt. Bạn có thể cho tôi biết tất cả các lớp cô ấy hướng dẫn thứ Bảy này không?",
+          "prepSec": 3,
+          "respSec": 30,
+          "isCorrection": false,
+          "sample": "Sure! Coach Maya Lin is teaching two classes on Saturday. First, she leads Morning Stretch and Yoga from 8:30 AM to 9:30 AM in Studio A. Later in the morning, she is also teaching Core Strength Circuit from 11:30 AM to 12:30 PM on the Gym Floor. Both sessions are free for members or ten dollars each for guests.",
+          "sampleVi": "Chắc chắn rồi! Huấn luyện viên Maya Lin hướng dẫn hai lớp vào thứ Bảy. Thứ nhất, cô dạy lớp Kéo giãn và Yoga Buổi sáng từ 8 giờ 30 đến 9 giờ 30 tại Phòng tập A. Muộn hơn trong buổi sáng, cô còn hướng dẫn lớp Tập Sức mạnh Cơ lõi từ 11 giờ 30 đến 12 giờ 30 tại Sàn Gym. Cả hai buổi đều miễn phí cho hội viên hoặc mười đô la mỗi buổi cho khách.",
+          "keywords": [
+            "two classes",
+            "8:30 AM",
+            "Studio A",
+            "11:30 AM",
+            "Core Strength",
+            "Gym Floor"
+          ]
+        }
+      ],
+      "tipVi": "Khi gặp câu Q10 hỏi tất cả các lớp của một huấn luyện viên, đọc thêm 1 câu chốt ngắn về học phí ('Both sessions are free for members or $10 for guests') giúp câu trả lời đầy đủ và chuyên nghiệp như lễ tân thực thụ.",
+      "keyPhrases": [
+        {
+          "en": "free for center members",
+          "vi": "miễn phí cho hội viên trung tâm"
+        },
+        {
+          "en": "canceled due to forecast rain",
+          "vi": "bị hủy do dự báo có mưa"
+        },
+        {
+          "en": "moved from Room B to Studio A",
+          "vi": "chuyển từ Phòng B sang Phòng tập A"
+        },
+        {
+          "en": "teaching two classes",
+          "vi": "hướng dẫn hai lớp học"
+        },
+        {
+          "en": "on the Gym Floor",
+          "vi": "tại khu vực sàn tập gym"
+        }
+      ],
+      "sample": "Q8: Non-members pay $10 per session, and the first class, Morning Stretch and Yoga, starts at 8:30 AM in Studio A.\n\nQ9: Actually, the 1:00 PM Outdoor Cycling Clinic is canceled due to forecast rain, and the 2:30 PM Stress Management Talk moved to Studio A.\n\nQ10: Coach Maya Lin teaches two sessions: Morning Stretch and Yoga (8:30–9:30 AM, Studio A) and Core Strength Circuit (11:30 AM–12:30 PM, Gym Floor).",
+      "sampleVi": "Q8: Khách ngoài hội viên đóng 10 đô la mỗi buổi, và lớp đầu tiên là Kéo giãn & Yoga Buổi sáng bắt đầu lúc 8:30 tại Phòng tập A.\n\nQ9: Thực ra lớp Đạp xe Ngoài trời lúc 1:00 chiều bị hủy vì dự báo mưa, còn buổi Quản lý Căng thẳng lúc 2:30 đã chuyển sang Phòng tập A.\n\nQ10: Huấn luyện viên Maya Lin dạy hai lớp: Kéo giãn & Yoga Buổi sáng (8:30–9:30, Phòng tập A) và Tập Sức mạnh Cơ lõi (11:30–12:30, Sàn Gym)."
+    },
+    {
+      "itemId": "tsw_s_sim_01_5",
+      "itemType": "sp_q11",
+      "label": "Phần 5 (Q11) • Công ty có nên cấp ngày nghỉ có lương cho hoạt động tình nguyện?",
+      "prepSec": 45,
+      "respSec": 60,
+      "accent": "UK",
+      "promptEn": "Do you agree or disagree that companies should offer employees paid volunteer days each year to support local community projects? Explain your opinion with specific reasons and examples.",
+      "promptVi": "Bạn đồng ý hay không đồng ý rằng các doanh nghiệp nên cấp cho nhân viên ngày nghỉ có lương hằng năm để tham gia các dự án thiện nguyện cộng đồng địa phương? Giải thích quan điểm bằng lý do và ví dụ cụ thể.",
+      "outline": [
+        {
+          "step": "1. Point (Lập trường — 8s)",
+          "cue": "I strongly agree that offering paid volunteer days creates meaningful benefits for both employees and companies."
+        },
+        {
+          "step": "2. Reason 1 + Example (Lý do 1 — 22s)",
+          "cue": "Nâng cao tinh thần gắn kết & làm việc nhóm (VD: nhân viên các phòng ban cùng trồng cây hoặc dọn công viên địa phương)."
+        },
+        {
+          "step": "3. Reason 2 + Example (Lý do 2 — 20s)",
+          "cue": "Xây dựng hình ảnh thương hiệu trách nhiệm xã hội -> thu hút khách hàng trung thành và ứng viên tài năng."
+        },
+        {
+          "step": "4. Point Restated (Chốt lại — 10s)",
+          "cue": "Khẳng định đây là khoản đầu tư nhỏ nhưng mang lại lợi ích lâu dài cho doanh nghiệp và xã hội."
+        }
+      ],
+      "targetKeywords": [
+        "volunteer",
+        "community",
+        "teamwork",
+        "morale",
+        "reputation",
+        "employees",
+        "loyalty"
+      ],
+      "tipVi": "Với chủ đề trách nhiệm xã hội doanh nghiệp (CSR), liên kết lợi ích theo hai chiều: lợi ích nội bộ (employee morale & teamwork) và lợi ích bên ngoài (brand reputation & local impact).",
+      "keyPhrases": [
+        {
+          "en": "paid volunteer days",
+          "vi": "các ngày nghỉ có lương làm tình nguyện"
+        },
+        {
+          "en": "boost employee morale",
+          "vi": "nâng cao tinh thần của nhân viên"
+        },
+        {
+          "en": "cross-departmental teamwork",
+          "vi": "sự phối hợp giữa các phòng ban"
+        },
+        {
+          "en": "corporate social responsibility",
+          "vi": "trách nhiệm xã hội của doanh nghiệp"
+        },
+        {
+          "en": "meaningful long-term impact",
+          "vi": "tác động tích cực lâu dài"
+        }
+      ],
+      "sample": "I strongly agree that companies should provide employees with paid volunteer days each year to support local community projects. First, volunteering together significantly boosts employee morale and strengthens teamwork across departments. When staff step outside daily deadlines to clean a neighborhood park or pack meals for a food bank, they build deeper trust and return to the office feeling proud of their workplace. For example, my friend's accounting firm grants two paid volunteer days annually, and employees consistently rate that program as their favorite company benefit. Second, supporting local causes enhances a company's public reputation. Today's customers and job seekers prefer brands that demonstrate genuine social responsibility rather than focusing solely on profit. Overall, granting a couple of paid volunteer days is a modest investment that creates lasting value for employees, businesses, and the surrounding community.",
+      "sampleVi": "Tôi hoàn toàn đồng ý rằng doanh nghiệp nên cấp cho nhân viên ngày nghỉ có lương hằng năm để hỗ trợ các dự án cộng đồng địa phương. Thứ nhất, cùng nhau làm tình nguyện nâng cao rõ rệt tinh thần nhân viên và củng cố sự gắn kết giữa các phòng ban. Khi nhân sự tạm rời áp lực công việc hằng ngày để dọn sạch công viên khu phố hoặc đóng gói suất ăn cho ngân hàng thực phẩm, họ xây dựng niềm tin sâu sắc hơn và trở lại văn phòng với niềm tự hào về nơi mình làm việc. Chẳng hạn, công ty kế toán của bạn tôi cấp hai ngày nghỉ tình nguyện có lương mỗi năm và nhân viên luôn bình chọn đó là phúc lợi được yêu thích nhất. Thứ hai, đồng hành cùng cộng đồng nâng cao uy tín công chúng của doanh nghiệp. Khách hàng và ứng viên ngày nay ưu tiên những thương hiệu thể hiện trách nhiệm xã hội chân thành thay vì chỉ chạy theo lợi nhuận. Nhìn chung, cấp vài ngày tình nguyện có lương là khoản đầu tư khiêm tốn nhưng tạo ra giá trị bền vững cho nhân viên, doanh nghiệp và cộng đồng xung quanh."
+    }
+  ]
+}

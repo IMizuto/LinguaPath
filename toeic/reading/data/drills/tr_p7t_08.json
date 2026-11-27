@@ -1,0 +1,194 @@
+{
+  "id": "tr_p7t_08",
+  "order": 38,
+  "level": 4,
+  "part": "part7t",
+  "partLabel": "Part 7 • Đoạn ba",
+  "title": "Part 7 Ba • Bộ 08: Bài báo ẩm thực, Bảng gói tiệc & Email đặt tiệc kỷ niệm",
+  "subtitle": "Kết hợp thông tin phòng riêng từ bài báo, phép tính ngân sách kèm 20% phí dịch vụ trên bảng giá và yêu cầu đặt bàn.",
+  "timeLimitMin": 12,
+  "tips": "Đừng quên cộng **20% phí phục vụ (service charge)** khi kiểm tra trần ngân sách của khách hàng! Rất nhiều thí sinh chỉ nhân đơn giá × số khách mà quên 20% phụ phí ghi ở dòng chú thích cuối bảng.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Bài báo ẩm thực",
+      "genre": "article",
+      "meta": {
+        "title": "Chef Anton Moreau Opens Saffron Harbor on the Waterfront",
+        "subtitle": "Harbor Dining Magazine • August 15 • By Tessa Morales"
+      },
+      "paragraphs": [
+        "Acclaimed coastal chef Anton Moreau, who previously led the kitchen at Bistro Lumière in Montreal for nine years, opened his newest restaurant, Saffron Harbor, on July 20 inside a restored brick warehouse overlooking Pier 9. Every seasonal menu showcases sustainably caught regional seafood paired with organic herbs harvested from the restaurant's rooftop garden.",
+        "In addition to its airy 80-seat main dining room, Saffron Harbor features The Compass Room—a soundproof, glass-enclosed private dining space accommodating up to 44 guests. Equipped with a built-in projection screen and unobstructed harbor views, The Compass Room has quickly become a sought-after venue for corporate milestones. Private venue bookings require at least 14 days' advance notice."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Bảng gói tiệc",
+      "genre": "table",
+      "meta": {
+        "title": "SAFFRON HARBOR — PRIVATE DINING & CORPORATE PACKAGES",
+        "subtitle": "Pier 9 Waterfront • All Packages Include Table Linens & Dedicated Servers"
+      },
+      "paragraphs": [
+        "Policies: A 20% service charge is added to all private dining invoices. Custom-printed anniversary or branded menus are provided free of charge for Compass Room bookings of 30 or more guests."
+      ],
+      "table": {
+        "headers": [
+          "Package",
+          "Guest Count",
+          "Menu & Inclusions",
+          "Pricing",
+          "Assigned Space"
+        ],
+        "rows": [
+          [
+            "Harbor Tasting",
+            "Up to 24",
+            "3 courses (shared starters + choice of 2 entrées)",
+            "$75 / guest",
+            "Main Alcove"
+          ],
+          [
+            "Compass Classic",
+            "25 – 44",
+            "4-course plated dinner + Welcome sparkling beverage",
+            "$95 / guest",
+            "The Compass Room"
+          ],
+          [
+            "Chef's Reserve",
+            "25 – 44",
+            "5-course tasting + Wine pairing + Personal greeting by Chef Moreau",
+            "$135 / guest",
+            "The Compass Room"
+          ],
+          [
+            "Full Buyout",
+            "45 – 120",
+            "Custom gala menu + Open bar + Private patio",
+            "$14,000 flat",
+            "Entire Venue"
+          ]
+        ]
+      }
+    },
+    {
+      "pid": "p3",
+      "label": "Văn bản 3 • Email đặt tiệc",
+      "genre": "email",
+      "meta": {
+        "to": "events@saffronharbor.com",
+        "from": "Riya Patel <r.patel@crestlinearch.com>",
+        "date": "September 3",
+        "subject": "10th Anniversary Dinner Reservation — Thursday, September 25"
+      },
+      "paragraphs": [
+        "Dear Saffron Harbor Events Coordinator,",
+        "Crestline Architecture would like to host our firm's 10th anniversary dinner at Saffron Harbor on Thursday, September 25, for 36 employees and invited clients. After reading the Harbor Dining Magazine profile on Chef Moreau, our managing partners specifically requested the soundproof private room with the built-in projection screen so we can present a 10-minute firm highlight video before dinner.",
+        "Our total corporate hospitality budget has a strict ceiling of $4,200—including the mandatory 20% service charge—so please book us under the private-room package that fits within that budget. Also, we would love to include custom-printed 10th-anniversary menus at each place setting if our group qualifies.",
+        "Please confirm availability and send the deposit agreement so we can finalize well ahead of your two-week notice deadline.",
+        "Warm regards,\nRiya Patel\nExecutive Assistant, Crestline Architecture"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the article, where did Chef Anton Moreau work prior to opening Saffron Harbor?",
+      "opts": [
+        "At a rooftop organic farm near Pier 9",
+        "At Harbor Dining Magazine",
+        "At a seafood market in Seattle",
+        "At Bistro Lumière in Montreal"
+      ],
+      "ans": 3,
+      "exp": "Văn bản 1 (đoạn 1) ghi rõ: 'who previously led the kitchen at Bistro Lumière in Montreal for nine years' → Ông từng điều hành bếp tại Bistro Lumière ở Montreal."
+    },
+    {
+      "num": 2,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the email, the word \"ceiling\" in paragraph 3 is closest in meaning to",
+      "opts": [
+        "structure",
+        "discount",
+        "upper limit",
+        "deposit"
+      ],
+      "ans": 2,
+      "exp": "Trong câu 'Our total corporate hospitality budget has a strict ceiling of $4,200' (ngân sách tiếp khách có mức trần nghiêm ngặt là $4,200), 'ceiling' mang nghĩa mức giới hạn tối đa → đồng nghĩa với 'upper limit'."
+    },
+    {
+      "num": 3,
+      "tag": "Suy luận / NOT",
+      "q": "Which of the following is NOT true about Crestline Architecture's planned September 25 event?",
+      "opts": [
+        "Chef Moreau will make a personal greeting included in their selected package.",
+        "The reservation inquiry was submitted more than 14 days before the event.",
+        "Guests will watch a short company highlight video before eating.",
+        "The dinner will take place in a glass-enclosed soundproof room."
+      ],
+      "ans": 0,
+      "exp": "Nối chéo cả 3 văn bản: Với 36 khách và trần ngân sách $4,200 (đã gồm 20% phí dịch vụ), gói Chef's Reserve tốn 36 × $135 × 1.2 = $5,832 (vượt trần), nên công ty phải chọn gói Compass Classic ($95 × 36 × 1.2 = $4,104). Lời chào trực tiếp của bếp trưởng Moreau chỉ có ở gói Chef's Reserve → A là SAI."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Which package meets both Crestline Architecture's room specifications and budget cap?",
+      "opts": [
+        "Harbor Tasting",
+        "Compass Classic",
+        "Chef's Reserve",
+        "Full Buyout"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo cả 3 văn bản: (1) Văn bản 1 & 3: phòng cách âm có màn chiếu là The Compass Room (25–44 khách, loại Harbor Tasting tối đa 24 và Full Buyout). (2) Văn bản 2 & 3: 36 khách × $95 = $3,420 + 20% phí dịch vụ ($684) = $4,104 <= $4,200 trần ngân sách → Chỉ gói Compass Classic đạt đủ điều kiện."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 3 đoạn",
+      "q": "Why does Crestline Architecture qualify for complimentary custom-printed anniversary menus?",
+      "opts": [
+        "They are paying for an open bar and private patio.",
+        "They are booking the event on a weekday evening.",
+        "They submitted their inquiry through Harbor Dining Magazine.",
+        "They are reserving The Compass Room for at least 30 guests."
+      ],
+      "ans": 3,
+      "exp": "Nối chéo cả 3 văn bản: Văn bản 2 quy định thực đơn in riêng miễn phí áp dụng cho 'Compass Room bookings of 30 or more guests'. Văn bản 1 & 3 xác nhận Crestline Architecture đặt The Compass Room cho 36 khách (>= 30)."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "strict ceiling of $4,200",
+      "answer": "budget cap / upper limit",
+      "vi": "mức trần ngân sách nghiêm ngặt $4,200"
+    },
+    {
+      "text": "two-week notice deadline",
+      "answer": "at least 14 days' advance notice",
+      "vi": "thời hạn báo trước hai tuần ↔ ít nhất 14 ngày"
+    },
+    {
+      "text": "soundproof private room with built-in projection screen",
+      "answer": "The Compass Room",
+      "vi": "phòng riêng cách âm có màn chiếu tích hợp ↔ The Compass Room"
+    },
+    {
+      "text": "provided free of charge",
+      "answer": "complimentary custom-printed menus",
+      "vi": "cung cấp miễn phí"
+    },
+    {
+      "text": "36 guests × $95 + 20% service charge",
+      "answer": "$4,104 (fits within $4,200 ceiling)",
+      "vi": "tổng $4,104 nằm gọn trong trần $4,200"
+    },
+    {
+      "text": "previously led the kitchen",
+      "answer": "worked prior to opening Saffron Harbor",
+      "vi": "trước đây từng điều hành bếp"
+    }
+  ]
+}

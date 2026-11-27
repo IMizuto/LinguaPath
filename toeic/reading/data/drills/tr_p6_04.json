@@ -1,0 +1,176 @@
+{
+  "id": "tr_p6_04",
+  "order": 10,
+  "level": 2,
+  "part": "part6",
+  "partLabel": "Part 6 • Điền đoạn văn",
+  "title": "Part 6 • Bộ 04: Đổi Lịch Tập huấn CNTT & Giờ Mở cửa Thư viện",
+  "subtitle": "Luyện kỹ năng xử lý thông báo dời lịch họp/đào tạo (Email) và thông báo cộng đồng (Notice).",
+  "timeLimitMin": 8,
+  "tips": "Mẹo Part 6: Chú ý phân biệt \"due to + cụm danh từ\" và \"because + mệnh đề\", đồng thời để ý các dấu hiệu thì quá khứ trong thông báo nêu thành quả đã làm được trước đó.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Email",
+      "genre": "email",
+      "meta": {
+        "to": "All Regional Office Employees",
+        "from": "Kenji Takahashi, IT Security Lead",
+        "date": "October 7",
+        "subject": "Rescheduled Cybersecurity Workshop"
+      },
+      "paragraphs": [
+        "Hello Team,",
+        "I am writing to let you know that we must [1] our cybersecurity training session originally planned for Wednesday, October 9. This change is necessary [2] an emergency server migration scheduled by our cloud vendor.",
+        "The workshop will now take place on Friday, October 11, from 10:00 A.M. to 11:30 A.M. in Auditorium A. [3]",
+        "Because we are rolling out two-factor authentication across all laptops next week, attendance is [4] for every employee. Thank you for your flexibility.",
+        "Best regards,\nKenji Takahashi"
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Thông báo",
+      "genre": "notice",
+      "meta": {
+        "title": "RIVERVIEW PUBLIC LIBRARY — EXTENDED WEEKEND HOURS",
+        "subtitle": "Effective November 1"
+      },
+      "paragraphs": [
+        "Over the past year, weekend visits to Riverview Public Library have grown [5], especially among university students and remote professionals.",
+        "To better serve our community, the library will remain open until 8:00 P.M. on both Saturdays and Sundays starting November 1. [6]",
+        "Last spring, the library also [7] quiet study pods and a digital media lab on the second floor. Residents with a valid library card enjoy free [8] to all study spaces, Wi-Fi, and online research databases."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [1]:",
+      "opts": [
+        "postpone",
+        "celebrate",
+        "attend",
+        "shorten"
+      ],
+      "ans": 0,
+      "exp": "Tiêu đề là \"Rescheduled\" (dời lịch) và buổi học chuyển từ thứ Tư 9/10 sang thứ Sáu 11/10 → cần động từ \"postpone\" (A - hoãn/dời lại). Loại (B) ăn mừng, (C) tham dự, (D) rút ngắn."
+    },
+    {
+      "num": 2,
+      "passageId": "p1",
+      "tag": "Giới từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [2]:",
+      "opts": [
+        "because",
+        "although",
+        "due to",
+        "since"
+      ],
+      "ans": 2,
+      "exp": "Sau chỗ trống là cụm danh từ \"an emergency server migration scheduled by...\" (chú ý \"scheduled\" là phân từ rút gọn, không phải động từ chia thì). Cần cụm giới từ chỉ nguyên nhân \"due to\" (C - do/vì). Loại (A), (B), (D) đều là liên từ cần mệnh đề S + V."
+    },
+    {
+      "num": 3,
+      "passageId": "p1",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [3]:",
+      "opts": [
+        "Your company laptop will be replaced with a desktop computer next year.",
+        "If you have a conflict with the new time, you may join the recorded webinar on Monday.",
+        "The cafeteria will serve complimentary lunch during the morning break.",
+        "Please remember to turn off the air conditioning before leaving Auditorium A."
+      ],
+      "ans": 1,
+      "exp": "Câu trước thông báo thời gian mới (Thứ Sáu 11/10, 10:00–11:30). Câu (B) đưa ra phương án dự phòng rất logic cho người bận lịch vào khung giờ mới (\"If you have a conflict with the new time...\"). Loại (A), (C), (D) không liên quan tới việc dời lịch buổi học."
+    },
+    {
+      "num": 4,
+      "passageId": "p1",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [4]:",
+      "opts": [
+        "optional",
+        "temporary",
+        "uncertain",
+        "mandatory"
+      ],
+      "ans": 3,
+      "exp": "Vì tuần sau sẽ triển khai xác thực hai lớp trên toàn bộ laptop nên việc tham dự buổi tập huấn là \"bắt buộc\" (mandatory). Chọn (D). Loại (A) tùy chọn, (B) tạm thời, (C) không chắc chắn."
+    },
+    {
+      "num": 5,
+      "passageId": "p2",
+      "tag": "Từ loại",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [5]:",
+      "opts": [
+        "significant",
+        "significance",
+        "significantly",
+        "signify"
+      ],
+      "ans": 2,
+      "exp": "Sau nội động từ \"have grown\" (đã tăng) cần một trạng từ chỉ mức độ. Chọn \"significantly\" (C - đáng kể). Loại (A) tính từ, (B) danh từ, (D) động từ."
+    },
+    {
+      "num": 6,
+      "passageId": "p2",
+      "tag": "Điền câu",
+      "q": "Chọn câu hoàn chỉnh phù hợp nhất điền vào vị trí [6]:",
+      "opts": [
+        "Weekday operating hours, from 9:00 A.M. to 9:00 P.M., will remain unchanged.",
+        "Books returned more than two weeks late are no longer accepted.",
+        "The municipal swimming pool is closed for winter renovations.",
+        "Visitors must purchase an admission ticket before entering the park."
+      ],
+      "ans": 0,
+      "exp": "Câu trước nói thư viện mở rộng giờ mở cửa cuối tuần tới 8 giờ tối. Câu (A) bổ sung thông tin làm rõ giờ mở cửa ngày thường vẫn giữ nguyên, hoàn toàn khớp mạch thông báo giờ hoạt động. Loại (B) vô lý, (C) và (D) sai chủ thể."
+    },
+    {
+      "num": 7,
+      "passageId": "p2",
+      "tag": "Thì động từ",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [7]:",
+      "opts": [
+        "introduces",
+        "introduced",
+        "will introduce",
+        "is introducing"
+      ],
+      "ans": 1,
+      "exp": "Trạng từ thời gian xác định trong quá khứ \"Last spring\" (mùa xuân năm ngoái) bắt buộc dùng thì Quá khứ đơn. Chọn \"introduced\" (B). Loại (A), (C), (D)."
+    },
+    {
+      "num": 8,
+      "passageId": "p2",
+      "tag": "Từ vựng",
+      "q": "Chọn từ/cụm phù hợp điền vào vị trí [8]:",
+      "opts": [
+        "delay",
+        "refund",
+        "receipt",
+        "access"
+      ],
+      "ans": 3,
+      "exp": "Cụm \"free access to + địa điểm/tài nguyên\" nghĩa là \"quyền sử dụng/tiếp cận miễn phí\". Chọn \"access\" (D). Loại (A) sự trì hoãn, (B) hoàn tiền, (C) biên lai."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "originally planned for Wednesday",
+      "answer": "Rescheduled / postpone",
+      "vi": "ban đầu dự kiến vào thứ Tư ↔ dời lịch / hoãn lại"
+    },
+    {
+      "text": "a conflict with the new time",
+      "answer": "unable to attend on Friday morning",
+      "vi": "trùng lịch với khung giờ mới ↔ không thể tham dự sáng Thứ Sáu"
+    },
+    {
+      "text": "remain open until 8:00 P.M. on both Saturdays and Sundays",
+      "answer": "extended weekend hours",
+      "vi": "mở cửa tới 8 giờ tối cả Thứ Bảy và Chủ Nhật ↔ kéo dài giờ mở cửa cuối tuần"
+    }
+  ]
+}

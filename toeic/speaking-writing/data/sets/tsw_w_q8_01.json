@@ -1,0 +1,98 @@
+{
+  "id": "tsw_w_q8_01",
+  "skill": "writing",
+  "taskType": "wr_q8",
+  "code": "Q8",
+  "level": 3,
+  "targetBand": "150–180",
+  "title": "Q8 • Đề 01: Làm việc từ xa hay Toàn thời gian tại văn phòng?",
+  "topic": "Môi trường làm việc linh hoạt & Hiệu suất doanh nghiệp",
+  "estMinutes": 30,
+  "guideVi": "Viết bài luận tối thiểu 300 từ chia thành 4 đoạn rõ ràng: Mở bài (nêu quan điểm), Thân bài 1 (Lý do 1 + ví dụ), Thân bài 2 (Lý do 2 hoặc phản biện), Kết bài (khẳng định lại). Phân bổ thời gian: 3 phút lập dàn ý, 22 phút viết, 5 phút kiểm tra lỗi.",
+  "rubric": [
+    {
+      "id": "r1",
+      "label": "Lập trường nhất quán, lý lẽ thuyết phục kèm ví dụ thực tế cụ thể",
+      "weight": 40
+    },
+    {
+      "id": "r2",
+      "label": "Bố cục 4 đoạn mạch lạc, đủ từ nối học thuật và độ dài >= 300 từ",
+      "weight": 30
+    },
+    {
+      "id": "r3",
+      "label": "Đa dạng cấu trúc câu phức và vốn từ vựng công sở chuẩn xác",
+      "weight": 30
+    }
+  ],
+  "items": [
+    {
+      "itemId": "w_q8_01_1",
+      "itemType": "wr_q8",
+      "label": "Essay • Chính sách làm việc từ xa (Hybrid / Remote Work)",
+      "durationMin": 30,
+      "promptEn": "Some companies allow employees to work from home several days a week, while others require all staff to work in the office every day. Which approach do you think is better for both employees and companies? Give reasons and examples to support your opinion.",
+      "promptVi": "Một số công ty cho phép nhân viên làm việc tại nhà vài ngày mỗi tuần, trong khi các công ty khác yêu cầu toàn bộ nhân sự có mặt tại văn phòng mỗi ngày. Bạn cho rằng cách tiếp cận nào tốt hơn cho cả nhân viên lẫn doanh nghiệp? Hãy nêu lý do và ví dụ chứng minh quan điểm của bạn.",
+      "minWords": 300,
+      "outline": [
+        {
+          "part": "Mở bài (Introduction)",
+          "guideVi": "Giới thiệu bối cảnh tranh luận về làm việc tại nhà vs văn phòng và nêu rõ quan điểm ủng hộ mô hình linh hoạt (vài ngày làm từ xa).",
+          "starterEn": "In recent years, workplace flexibility has become a central topic for modern organizations. In my view, allowing employees to work from home several days a week benefits both workers and companies far more than a strict daily office policy."
+        },
+        {
+          "part": "Thân bài 1 (Lý do 1 • Năng suất & Tiết kiệm thời gian)",
+          "guideVi": "Phân tích lợi ích giảm thời gian kẹt xe, tăng khả năng tập trung sâu vào công việc độc lập; đưa ví dụ thực tế.",
+          "starterEn": "Firstly, partial remote work significantly boosts individual productivity by eliminating exhausting daily commutes and minimizing office distractions..."
+        },
+        {
+          "part": "Thân bài 2 (Lý do 2 • Chi phí, Giữ chân nhân tài & Phản biện)",
+          "guideVi": "Nêu lợi ích giảm chi phí vận hành/thuê văn phòng cho công ty, tăng sự gắn kết, đồng thời giữ những ngày lên văn phòng để họp nhóm.",
+          "starterEn": "Furthermore, a hybrid schedule helps organizations retain skilled staff and lower overhead costs without sacrificing teamwork..."
+        },
+        {
+          "part": "Kết bài (Conclusion)",
+          "guideVi": "Tóm tắt 2 luận điểm chính và khẳng định mô hình kết hợp là hướng đi bền vững nhất.",
+          "starterEn": "In conclusion, permitting staff to work remotely a few days each week achieves an ideal balance between focused output and collaboration..."
+        }
+      ],
+      "targetKeywords": [
+        "flexibility",
+        "productivity",
+        "commute",
+        "remote",
+        "collaboration",
+        "morale",
+        "balance",
+        "expenses",
+        "retention"
+      ],
+      "tipVi": "Dùng đa dạng từ nối ('Firstly', 'For instance', 'Furthermore', 'However', 'In conclusion') và chú ý không lặp lại mãi cụm 'work from home' — hãy thay bằng 'remote work', 'telecommuting', hoặc 'a hybrid schedule'.",
+      "keyPhrases": [
+        {
+          "en": "work-life balance",
+          "vi": "cân bằng giữa công việc và cuộc sống"
+        },
+        {
+          "en": "daily commute",
+          "vi": "việc đi làm hằng ngày"
+        },
+        {
+          "en": "overhead expenses",
+          "vi": "chi phí vận hành cố định"
+        },
+        {
+          "en": "retain top talent",
+          "vi": "giữ chân nhân tài hàng đầu"
+        },
+        {
+          "en": "foster team spirit",
+          "vi": "nuôi dưỡng tinh thần đồng đội"
+        }
+      ],
+      "sample": "In recent years, workplace flexibility has become a major debate among modern organizations. While some executives insist that every employee must attend the office five days a week, others adopt flexible hybrid arrangements. In my opinion, allowing staff to work from home several days per week creates stronger measurable benefits for both employees and employers.\n\nFirstly, partial remote work substantially improves productivity and employee morale. Eliminating long daily commutes frees up valuable hours that workers can invest in rest, family responsibilities, or professional development. Moreover, many analytical tasks such as drafting financial reports, reviewing legal contracts, or coding software require quiet concentration that busy open-plan offices rarely provide. For instance, a marketing analyst at my previous firm completed quarterly campaign audits thirty percent faster on quiet home-office days because she faced fewer spontaneous desk interruptions. When staff achieve a healthier work-life balance, they also experience less burnout, take fewer sick days, and demonstrate stronger commitment to their teams.\n\nFurthermore, offering flexible schedules delivers clear financial and strategic advantages to companies while preserving essential teamwork. Because fewer employees occupy the building simultaneously, management can steadily reduce overhead expenses on electricity, desk space, and office supplies. At the same time, allowing remote work expands the hiring pool beyond a single metropolitan area and boosts staff retention across departments. Critics sometimes argue that working from home weakens communication; however, a well-structured hybrid schedule solves this concern effectively. Teams still gather in the office two or three days a week for brainstorming sessions, client presentations, and peer mentorship, ensuring strong collaboration without forcing unnecessary daily travel.\n\nIn conclusion, granting employees the option to work remotely part of the week is clearly superior to mandatory daily office attendance. By combining focused independent output, lower operating costs, and scheduled in-person collaboration, forward-looking businesses can reliably build a much more resilient, adaptable, and motivated workforce for the future.",
+      "sampleVi": "Trong những năm gần đây, sự linh hoạt nơi làm việc đã trở thành chủ đề tranh luận lớn tại các tổ chức hiện đại. Trong khi một số lãnh đạo yêu cầu nhân viên có mặt ở văn phòng đủ năm ngày mỗi tuần, nhiều doanh nghiệp lại áp dụng mô hình kết hợp. Theo quan điểm của tôi, cho phép nhân sự làm việc tại nhà vài ngày trong tuần mang lại lợi ích vượt trội cho cả người lao động lẫn doanh nghiệp.\n\nThứ nhất, làm việc từ xa bán phần cải thiện đáng kể năng suất và tinh thần nhân viên. Việc loại bỏ quãng đường đi làm dài hằng ngày giúp người lao động có thêm thời gian nghỉ ngơi, chăm lo gia đình hoặc trau dồi chuyên môn. Hơn nữa, nhiều công việc phân tích như lập báo cáo tài chính, rà soát hợp đồng hay viết mã phần mềm đòi hỏi sự yên tĩnh mà văn phòng mở ồn ào khó đáp ứng. Chẳng hạn, một chuyên viên phân tích tiếp thị ở công ty cũ của tôi hoàn thành kiểm toán chiến dịch quý nhanh hơn 30% vào những ngày làm tại nhà vì ít bị ngắt quãng. Khi nhân viên cân bằng tốt cuộc sống, họ cũng giảm kiệt sức, ít nghỉ ốm và gắn bó bền bỉ hơn.\n\nNgoài ra, lịch làm việc linh hoạt mang lại lợi thế tài chính và chiến lược rõ rệt cho doanh nghiệp mà vẫn giữ được tinh thần phối hợp nhóm. Do lượng người tại văn phòng cùng lúc ít hơn, ban lãnh đạo giảm dần chi phí vận hành như điện, mặt bằng và văn phòng phẩm. Đồng thời, chính sách làm việc từ xa mở rộng nguồn tuyển dụng vượt khỏi một đô thị và tăng khả năng giữ chân nhân tài. Dù có ý kiến lo ngại làm ở nhà làm yếu giao tiếp, mô hình kết hợp có tổ chức giải quyết triệt để điều này khi đội ngũ vẫn lên công ty 2–3 ngày mỗi tuần để họp ý tưởng, gặp khách hàng và hướng dẫn lẫn nhau.\n\nTóm lại, cho phép nhân viên làm việc từ xa một phần thời gian trong tuần rõ ràng ưu việt hơn quy định có mặt bắt buộc hằng ngày. Bằng cách kết hợp hiệu suất độc lập, chi phí tối ưu và những buổi gặp trực tiếp đúng lúc, doanh nghiệp sẽ xây dựng được đội ngũ bền vững và giàu động lực hơn."
+    }
+  ]
+}

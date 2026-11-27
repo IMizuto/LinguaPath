@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_10",
+  "order": 22,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 10: Câu trần thuật (Statements)",
+  "subtitle": "Chinh phục dạng khó nhất Part 2: không có từ để hỏi — luyện phản hồi đồng cảm, giải pháp hoặc câu hỏi nối tiếp.",
+  "accent": "en-US",
+  "defaultRate": 1,
+  "tips": "Câu trần thuật không kết thúc bằng dấu hỏi mà nêu 1 sự việc/vấn đề (ví dụ: 'The printer is out of paper'). Phản hồi đúng thường là: (1) Đề xuất cách xử lý, (2) Đồng tình/nhận xét, hoặc (3) Hỏi thêm thông tin liên quan.",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Statement",
+      "accent": "en-US",
+      "question": "The copy machine on this floor is jammed again.",
+      "questionVi": "Máy photocopy ở tầng này lại bị kẹt giấy nữa rồi.",
+      "options": [
+        "You can use the one upstairs for now.",
+        "Strawberry jam is my favorite.",
+        "About fifty pages per minute."
+      ],
+      "optionsVi": [
+        "Tạm thời bạn có thể dùng chiếc ở tầng trên.",
+        "Mứt dâu là món tôi thích nhất.",
+        "Khoảng năm mươi trang mỗi phút."
+      ],
+      "ans": 0,
+      "exp": "Người nói phàn nàn máy kẹt giấy → chọn (A) đưa ra giải pháp thay thế ngay. Loại (B) bẫy đồng âm 'jammed (kẹt) / jam (mứt)', (C) thông số tốc độ không liên quan."
+    },
+    {
+      "num": 2,
+      "qType": "Statement",
+      "accent": "en-GB",
+      "question": "I forgot to bring my power charger to the conference.",
+      "questionVi": "Tôi quên mang bộ sạc pin tới hội nghị rồi.",
+      "options": [
+        "There is no extra charge for breakfast.",
+        "I have a spare one in my bag if you need it.",
+        "The conference starts in Chicago."
+      ],
+      "optionsVi": [
+        "Không có phụ phí nào cho bữa sáng.",
+        "Tôi có một chiếc dự phòng trong túi nếu bạn cần.",
+        "Hội nghị bắt đầu ở Chicago."
+      ],
+      "ans": 1,
+      "exp": "Người nói nêu sự cố quên sạc → chọn (B) đề nghị cho mượn chiếc dự phòng. Loại (A) bẫy gần âm 'charger / charge', (C) bẫy lặp từ 'conference'."
+    },
+    {
+      "num": 3,
+      "qType": "Statement",
+      "accent": "en-AU",
+      "question": "Our downtown store saw record sales over the holiday weekend.",
+      "questionVi": "Cửa hàng trung tâm của chúng ta đạt doanh số kỷ lục dịp cuối tuần lễ.",
+      "options": [
+        "Please record the meeting notes.",
+        "Yes, I stored the boxes downstairs.",
+        "That is wonderful news for the whole team."
+      ],
+      "optionsVi": [
+        "Vui lòng ghi lại biên bản cuộc họp.",
+        "Vâng, tôi đã cất các thùng hàng dưới tầng trệt.",
+        "Đó là tin tuyệt vời cho cả đội ngũ."
+      ],
+      "ans": 2,
+      "exp": "Người nói chia sẻ tin vui doanh số kỷ lục → chọn (C) phản hồi chúc mừng tự nhiên. Loại (A) bẫy đa nghĩa 'record (kỷ lục) / record (ghi chép)', (B) bẫy gần âm 'store / stored'."
+    },
+    {
+      "num": 4,
+      "qType": "Statement",
+      "accent": "en-US",
+      "question": "The catering company still hasn't delivered the refreshments.",
+      "questionVi": "Công ty cung cấp tiệc vẫn chưa giao đồ ăn nhẹ tới.",
+      "options": [
+        "Let me call their manager right away.",
+        "It is very refreshing outside today.",
+        "Next to the front reception desk."
+      ],
+      "optionsVi": [
+        "Để tôi gọi cho quản lý bên họ ngay lập tức.",
+        "Hôm nay bên ngoài trời rất mát mẻ dễ chịu.",
+        "Ngay cạnh bàn lễ tân phía trước."
+      ],
+      "ans": 0,
+      "exp": "Sự cố giao hàng trễ → chọn (A) đề xuất hành động xử lý ngay ('call their manager right away'). Loại (B) bẫy họ từ 'refreshments / refreshing', (C) địa điểm."
+    },
+    {
+      "num": 5,
+      "qType": "Statement",
+      "accent": "en-GB",
+      "question": "We are running low on visitor badges at the front desk.",
+      "questionVi": "Chúng ta sắp hết thẻ khách ở bàn lễ tân rồi.",
+      "options": [
+        "The ceiling is quite low in here.",
+        "I will place a supply order this afternoon.",
+        "Yes, he runs three miles every day."
+      ],
+      "optionsVi": [
+        "Trần nhà ở đây khá thấp.",
+        "Chiều nay tôi sẽ đặt đơn mua thêm vật tư.",
+        "Vâng, anh ấy chạy ba dặm mỗi ngày."
+      ],
+      "ans": 1,
+      "exp": "Cảnh báo sắp hết vật tư ('running low on') → chọn (B) cam kết đặt thêm hàng. Loại (A) bẫy lặp từ 'low', (C) bẫy đa nghĩa 'running / runs'."
+    },
+    {
+      "num": 6,
+      "qType": "Statement",
+      "accent": "en-US",
+      "question": "The air conditioning in conference room A feels too cold.",
+      "questionVi": "Điều hòa trong phòng họp A cảm giác lạnh quá.",
+      "options": [
+        "Yes, I have a slight cold today.",
+        "There is plenty of room in the trunk.",
+        "I can adjust the thermostat on the wall."
+      ],
+      "optionsVi": [
+        "Vâng, hôm nay tôi hơi bị cảm lạnh.",
+        "Còn nhiều chỗ trống trong cốp xe lắm.",
+        "Tôi có thể chỉnh lại bộ điều chỉnh nhiệt độ trên tường."
+      ],
+      "ans": 2,
+      "exp": "Phàn nàn phòng quá lạnh → chọn (C) đề xuất chỉnh nhiệt độ điều hòa ('adjust the thermostat'). Loại (A) bẫy đa nghĩa 'cold (lạnh) / a cold (bệnh cảm)', (B) bẫy 'room (phòng) / room (chỗ trống)'."
+    }
+  ]
+}

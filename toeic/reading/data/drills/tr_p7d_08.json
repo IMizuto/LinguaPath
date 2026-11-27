@@ -1,0 +1,137 @@
+{
+  "id": "tr_p7d_08",
+  "order": 28,
+  "level": 3,
+  "part": "part7d",
+  "partLabel": "Part 7 • Đoạn kép",
+  "title": "Part 7 Kép • Bộ 08: Bài báo giao thông & Thư gửi tòa soạn",
+  "subtitle": "Phân tích dự án tuyến xe buýt nhanh khu công nghiệp Riverbend và phản hồi của Hiệp hội Doanh nghiệp địa phương.",
+  "timeLimitMin": 10,
+  "tips": "Với cặp Bài báo ↔ Thư gửi ban biên tập, thư phản hồi thường nhắc tới 'một hệ quả trong bài báo' mà không lặp lại nguyên văn — hãy đối chiếu ngược sang Bài báo để nhận diện chi tiết đó.",
+  "passages": [
+    {
+      "pid": "p1",
+      "label": "Văn bản 1 • Bài báo",
+      "genre": "article",
+      "meta": {
+        "title": "City Approves Rapid Bus Corridor to Riverbend Industrial Park",
+        "subtitle": "The Metro Chronicle • March 18 • By Owen Gallagher"
+      },
+      "paragraphs": [
+        "On Tuesday, the Metro Transit Authority formally approved a $14 million rapid bus corridor connecting Downtown Central Station to Riverbend Industrial Park. Construction is scheduled to begin in June and conclude by November of next year.",
+        "The new Route 44 Express will cut average commuting time from 48 minutes to 22 minutes by utilizing dedicated bus-only lanes along Oakridge Boulevard. According to transit spokesperson Linda Park, buses will run every 10 minutes during weekday peak hours (6:30–9:00 A.M. and 4:00–6:30 P.M.), though weekend service is not included in the initial launch phase.",
+        "To create space for the dedicated transit lanes, on-street parking along a six-block commercial stretch of Oakridge Boulevard will be permanently eliminated. City planners argue that improved public transit access will ultimately boost foot traffic throughout the corridor."
+      ]
+    },
+    {
+      "pid": "p2",
+      "label": "Văn bản 2 • Thư gửi tòa soạn",
+      "genre": "letter",
+      "meta": {
+        "title": "LETTER TO THE EDITOR — PROTECT OAKRIDGE SMALL BUSINESSES",
+        "subtitle": "The Metro Chronicle • March 21 • From: Gregory Alvarez, President, Oakridge Merchants Association"
+      },
+      "paragraphs": [
+        "To the Editor,",
+        "I am writing on behalf of the 42 independent retail shops and cafés operating along Oakridge Boulevard. While our members applaud the Metro Transit Authority's efforts to shorten commutes for Riverbend employees, we are alarmed by a major consequence outlined in Tuesday's article.",
+        "Unlike downtown office towers, our shops rely heavily on short-stay drivers stopping for lunch, dry cleaning, or quick errands, and there is no municipal parking garage within three blocks of the affected corridor. Removing curbside spaces before building an alternative will jeopardize dozens of neighborhood livelihoods.",
+        "Furthermore, many warehouse and medical-supply personnel at Riverbend Industrial Park work Saturday shifts. Restricting Route 44 Express exclusively to weekdays overlooks a substantial group of regular commuters. The Oakridge Merchants Association urges the city council to delay lane conversion until a public off-street lot is constructed behind Oakridge Library.",
+        "Gregory Alvarez\nPresident, Oakridge Merchants Association"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "num": 1,
+      "tag": "Chi tiết",
+      "q": "According to the article, how long will a typical trip on Route 44 Express take?",
+      "opts": [
+        "22 minutes",
+        "10 minutes",
+        "44 minutes",
+        "48 minutes"
+      ],
+      "ans": 0,
+      "exp": "Văn bản 1 (đoạn 2) ghi rõ: 'The new Route 44 Express will cut average commuting time from 48 minutes to 22 minutes' → Thời gian di chuyển trung bình sẽ rút xuống còn 22 phút."
+    },
+    {
+      "num": 2,
+      "tag": "Ý chính",
+      "q": "What is the main purpose of Mr. Alvarez's letter?",
+      "opts": [
+        "To thank city planners for building a garage behind Oakridge Library",
+        "To oppose all public transportation funding in the downtown area",
+        "To voice local shop owners' concerns about a proposed bus corridor",
+        "To advertise special discounts offered by Oakridge cafés"
+      ],
+      "ans": 2,
+      "exp": "Trong Văn bản 2, đại diện 42 cửa hàng dọc đại lộ Oakridge bày tỏ lo ngại về hệ quả của dự án tuyến buýt nhanh đối với chỗ đỗ xe của khách và đề nghị thành phố tạm hoãn kẻ làn cho tới khi có bãi đỗ xe thay thế."
+    },
+    {
+      "num": 3,
+      "tag": "Từ vựng ngữ cảnh",
+      "q": "In the letter, the word \"overlooks\" in paragraph 4 is closest in meaning to",
+      "opts": [
+        "monitors",
+        "encourages",
+        "protects",
+        "ignores"
+      ],
+      "ans": 3,
+      "exp": "Trong câu 'Restricting Route 44 Express exclusively to weekdays overlooks a substantial group of regular commuters' (giới hạn tuyến chỉ chạy ngày thường đã bỏ sót một nhóm lớn người đi làm), 'overlooks' đồng nghĩa với 'ignores' (bỏ qua/không tính tới)."
+    },
+    {
+      "num": 4,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What specific part of the transit plan mentioned in the article alarms the Oakridge Merchants Association?",
+      "opts": [
+        "The $14 million total construction budget",
+        "The permanent removal of street parking along six blocks of Oakridge Boulevard",
+        "The November completion date set for next year",
+        "The frequency of buses running every 10 minutes"
+      ],
+      "ans": 1,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 2 nhắc tới 'a major consequence outlined in Tuesday's article' và phàn nàn về 'Removing curbside spaces' quanh 3 dãy nhà không có gara công cộng. Đối chiếu Văn bản 1 (đoạn 3), hệ quả đó chính là việc xóa bỏ vĩnh viễn chỗ đỗ xe dọc 6 dãy phố trên đại lộ Oakridge."
+    },
+    {
+      "num": 5,
+      "tag": "Nối chéo 2 đoạn",
+      "q": "What adjustment to the Route 44 Express launch schedule does Mr. Alvarez suggest?",
+      "opts": [
+        "Operating express bus service on Saturdays",
+        "Extending weekday evening service past 9:00 P.M.",
+        "Adding a new stop directly inside Downtown Central Station",
+        "Reducing peak-hour intervals from 10 minutes to 5 minutes"
+      ],
+      "ans": 0,
+      "exp": "Nối chéo Văn bản 1 & 2: Văn bản 1 cho biết 'weekend service is not included in the initial launch phase'. Văn bản 2 (đoạn 4) ông Alvarez nhấn mạnh nhiều công nhân Riverbend làm ca thứ Bảy và việc chỉ chạy ngày thường đã bỏ sót họ → Ngụ ý cần bổ sung chuyến chạy vào ngày thứ Bảy."
+    }
+  ],
+  "paraphrases": [
+    {
+      "text": "on-street parking ... will be permanently eliminated",
+      "answer": "removing curbside spaces",
+      "vi": "xóa bỏ vĩnh viễn chỗ đỗ xe dưới lòng đường ↔ bỏ bãi đỗ ven đường"
+    },
+    {
+      "text": "cut average commuting time",
+      "answer": "shorten commutes",
+      "vi": "cắt giảm thời gian đi lại ↔ rút ngắn quãng đường đi làm"
+    },
+    {
+      "text": "overlooks",
+      "answer": "ignores",
+      "vi": "bỏ sót, bỏ qua"
+    },
+    {
+      "text": "weekend service is not included",
+      "answer": "restricting Route 44 Express exclusively to weekdays",
+      "vi": "không có chuyến cuối tuần ↔ chỉ giới hạn chạy các ngày trong tuần"
+    },
+    {
+      "text": "delay lane conversion",
+      "answer": "postpone creating dedicated bus lanes",
+      "vi": "tạm hoãn chuyển đổi làn đường"
+    }
+  ]
+}

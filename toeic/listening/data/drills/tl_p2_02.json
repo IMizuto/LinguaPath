@@ -1,0 +1,128 @@
+{
+  "id": "tl_p2_02",
+  "order": 14,
+  "level": 2,
+  "part": "part2",
+  "partLabel": "Part 2 • Hỏi–Đáp",
+  "title": "Part 2 • Bài 02: Câu hỏi Where (Địa điểm & Vị trí)",
+  "subtitle": "Nhận diện câu trả lời giới từ nơi chốn (in, on, across from, upstairs) và tránh bẫy thời gian.",
+  "accent": "en-GB",
+  "defaultRate": 1,
+  "tips": "Với câu hỏi 'Where', lắng nghe cụm giới từ chỉ vị trí (on the third floor, across the street, inside the binder) hoặc phản hồi gián tiếp như 'Ask the receptionist'. Loại đáp án chỉ thời gian hoặc Yes/No.",
+  "items": [
+    {
+      "num": 1,
+      "qType": "Where",
+      "accent": "en-GB",
+      "question": "Where is the quarterly sales meeting being held?",
+      "questionVi": "Cuộc họp doanh số hàng quý được tổ chức ở đâu?",
+      "options": [
+        "On Thursday at ten o'clock.",
+        "In the main auditorium on the second floor.",
+        "Yes, sales increased by twelve percent."
+      ],
+      "optionsVi": [
+        "Vào thứ Năm lúc mười giờ.",
+        "Tại hội trường chính ở tầng hai.",
+        "Vâng, doanh số đã tăng mười hai phần trăm."
+      ],
+      "ans": 1,
+      "exp": "Câu hỏi 'Where' → chọn (B) nêu rõ địa điểm 'In the main auditorium on the second floor'. Loại (A) thời gian (When), (C) bẫy Yes/No + lặp từ 'sales'."
+    },
+    {
+      "num": 2,
+      "qType": "Where",
+      "accent": "en-US",
+      "question": "Where did you put the spare projector cables?",
+      "questionVi": "Bạn đã để những sợi dây cáp máy chiếu dự phòng ở đâu?",
+      "options": [
+        "In the top drawer of the supply cabinet.",
+        "The project starts next Monday.",
+        "About forty dollars each."
+      ],
+      "optionsVi": [
+        "Trong ngăn kéo trên cùng của tủ vật tư.",
+        "Dự án bắt đầu vào thứ Hai tới.",
+        "Khoảng bốn mươi đô la mỗi sợi."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) chỉ chính xác vị trí cất giữ ('In the top drawer...'). Loại (B) bẫy gần âm 'projector / project', (C) trả lời giá tiền."
+    },
+    {
+      "num": 3,
+      "qType": "Where",
+      "accent": "en-AU",
+      "question": "Where can I catch the shuttle bus to the airport?",
+      "questionVi": "Tôi có thể đón xe buýt trung chuyển ra sân bay ở đâu?",
+      "options": [
+        "Every twenty minutes.",
+        "My flight leaves at six.",
+        "Right outside the east entrance."
+      ],
+      "optionsVi": [
+        "Cứ hai mươi phút một chuyến.",
+        "Chuyến bay của tôi cất cánh lúc sáu giờ.",
+        "Ngay bên ngoài lối vào phía đông."
+      ],
+      "ans": 2,
+      "exp": "'Where' hỏi điểm đón xe → chọn (C) 'Right outside the east entrance'. Loại (A) tần suất (How often) và (B) giờ bay."
+    },
+    {
+      "num": 4,
+      "qType": "Where",
+      "accent": "en-GB",
+      "question": "Where should we take the visiting clients for lunch?",
+      "questionVi": "Chúng ta nên đưa các khách hàng đến thăm đi ăn trưa ở đâu?",
+      "options": [
+        "There is a nice seafood restaurant across the street.",
+        "Around twelve thirty would be fine.",
+        "They stayed for three days."
+      ],
+      "optionsVi": [
+        "Có một nhà hàng hải sản rất ngon ở bên kia đường.",
+        "Khoảng mười hai giờ rưỡi thì ổn.",
+        "Họ đã ở lại ba ngày."
+      ],
+      "ans": 0,
+      "exp": "Đáp án (A) đề xuất đúng địa điểm ăn trưa ('a nice seafood restaurant across the street'). Loại (B) thời điểm và (C) khoảng thời gian."
+    },
+    {
+      "num": 5,
+      "qType": "Where",
+      "accent": "en-US",
+      "question": "Where are the updated employee handbooks stored?",
+      "questionVi": "Sổ tay nhân viên cập nhật được lưu trữ ở đâu?",
+      "options": [
+        "Yes, the bookstore closes at eight.",
+        "You can download a copy from the company website.",
+        "Mr. Chen updated them yesterday."
+      ],
+      "optionsVi": [
+        "Vâng, hiệu sách đóng cửa lúc tám giờ.",
+        "Bạn có thể tải một bản từ trang web công ty.",
+        "Ông Chen đã cập nhật chúng hôm qua."
+      ],
+      "ans": 1,
+      "exp": "Đáp án (B) nêu vị trí lưu trữ dạng số ('from the company website') — rất phổ biến trong TOEIC hiện đại. Loại (A) bẫy từ 'book / bookstore', (C) bẫy lặp từ 'updated'."
+    },
+    {
+      "num": 6,
+      "qType": "Where",
+      "accent": "en-GB",
+      "question": "Where is the nearest pharmacy around here?",
+      "questionVi": "Hiệu thuốc gần nhất quanh đây ở đâu?",
+      "options": [
+        "I feel much better now, thanks.",
+        "No, it is not far at all.",
+        "Two blocks down on the left."
+      ],
+      "optionsVi": [
+        "Bây giờ tôi thấy khỏe hơn nhiều rồi, cảm ơn.",
+        "Không, không xa chút nào.",
+        "Đi xuống hai dãy nhà ở phía bên trái."
+      ],
+      "ans": 2,
+      "exp": "Đáp án (C) chỉ đường trực tiếp ('Two blocks down on the left'). Loại (A) trả lời sức khỏe lạc đề và (B) sai dạng No cho câu hỏi WH."
+    }
+  ]
+}
