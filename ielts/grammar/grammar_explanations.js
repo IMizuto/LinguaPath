@@ -366,6 +366,78 @@ window.LINGUAPATH_GRAMMAR_SIDECAR = {
     "rule": "Danh từ đếm được số ít KHÔNG đứng trần một mình (cần a/an/the/từ hạn định). KHÔNG dùng the trước danh từ số nhiều/không đếm được mang nghĩa khái quát (Education, Technology, People).",
     "wrong": "The education plays important role in helping the people find good job.",
     "right": "Education plays an important role in helping people find a good job."
+  },
+  {
+    "category": "Comma Splice & Run-on Sentences (Nối mệnh đề sai bằng dấu phẩy)",
+    "rule": "Không được nối hai mệnh đề độc lập chỉ bằng dấu phẩy hoặc đặt liên từ trạng ngữ (however, therefore, moreover) sau dấu phẩy. Phải tách câu, dùng dấu chấm phẩy (;), hoặc liên từ phụ thuộc.",
+    "wrong": "Urban populations are growing fast, therefore traffic congestion gets worse.",
+    "right": "Urban populations are growing fast; therefore, traffic congestion is worsening."
+  },
+  {
+    "category": "Passive Voice vs. Intransitive Verbs (Nội động từ KHÔNG chia bị động)",
+    "rule": "Các nội động từ như happen, occur, appear, disappear, exist, consist of, belong to, rise, decline KHÔNG có tân ngữ nên TUYỆT ĐỐI không chia bị động (was happened / is consisted of).",
+    "wrong": "A sharp decline was occurred in manufacturing employment, which is consisted of three sectors.",
+    "right": "A sharp decline occurred in manufacturing employment, which consists of three sectors."
+  },
+  {
+    "category": "Dangling Participles (Mệnh đề phân từ sai chủ ngữ)",
+    "rule": "Khi mở đầu câu bằng cụm phân từ (V-ing hoặc V3/ed), chủ ngữ đứng ngay sau dấu phẩy bắt buộc phải là đối tượng thực hiện (V-ing) hoặc chịu tác động (V3) của cụm phân từ đó.",
+    "wrong": "Faced with rising housing costs, affordable apartments have become a priority for authorities.",
+    "right": "Faced with rising housing costs, authorities have prioritised building affordable apartments."
+  },
+  {
+    "category": "Verb Patterns: Advise / Suggest / Recommend / Allow",
+    "rule": "Suggest và recommend KHÔNG dùng mẫu Verb + somebody + to V; phải dùng + V-ing hoặc + that S (should) V. Trong khi đó, allow/enable/permit dùng + sb + to V hoặc + V-ing.",
+    "wrong": "Experts recommend governments to subsidise solar panels and suggest citizens reducing waste.",
+    "right": "Experts recommend that governments subsidise solar panels and suggest reducing household waste."
+  },
+  {
+    "category": "Fewer / Many vs. Less / Much (Lượng từ Đếm được & Không đếm được)",
+    "rule": "Dùng fewer / many với danh từ đếm được số nhiều; dùng less / much với danh từ không đếm được. Tương tự: a number of + N(nhiều) vs. a large amount of + N(không đếm được).",
+    "wrong": "Less students read printed newspapers because they have few free time.",
+    "right": "Fewer students read printed newspapers because they have less free time."
+  },
+  {
+    "category": "Comparatives & Parallel Comparisons (Lỗi so sánh đôi & thiếu 'those of')",
+    "rule": "Không gộp more + tính từ ngắn (more easier); chỉ dùng much/far easier. Khi so sánh số liệu giữa 2 nhóm/quốc gia, phải có 'that of / those of' để đồng nhất đối tượng so sánh.",
+    "wrong": "The literacy rate in Japan is more higher than Vietnam.",
+    "right": "The literacy rate in Japan is significantly higher than that in Vietnam."
+  },
+  {
+    "category": "Uncountable Academic Nouns (Danh từ luôn không đếm được)",
+    "rule": "Information, advice, research, equipment, evidence, knowledge, traffic, accommodation, luggage KHÔNG bao giờ thêm -s và không đứng sau a/an hoặc many.",
+    "wrong": "The researchers gathered many informations and bought new equipments for advices.",
+    "right": "The researchers gathered considerable information and bought new equipment for further research."
+  },
+  {
+    "category": "Conditionals: Never Use 'Would' in the If-Clause",
+    "rule": "Trong mệnh đề điều kiện bắt đầu bằng If / Unless (loại 1, 2, 3), KHÔNG đặt will/would ngay sau If. Dùng Quá khứ đơn (hoặc were với mọi ngôi) cho loại 2 và had + V3 cho loại 3.",
+    "wrong": "If cities would ban private cars, air quality will improve dramatically.",
+    "right": "If cities banned private cars, air quality would improve dramatically."
+  },
+  {
+    "category": "Present Perfect vs. Past Simple (Mốc thời gian Quá khứ vs. Kéo dài)",
+    "rule": "Khi có mốc thời gian cụ thể đã kết thúc (in 2010, two decades ago, yesterday, last year), BẮT BUỘC dùng Quá khứ đơn. Dùng Hiện tại hoàn thành với since, for, so far, in recent years.",
+    "wrong": "Online retail has expanded rapidly in 2018, while internet access rose steadily since 2015.",
+    "right": "Online retail expanded rapidly in 2018, while internet access has risen steadily since 2015."
+  },
+  {
+    "category": "Relative Clauses & Resumptive Pronouns (Thừa đại từ & Nhầm Which/What)",
+    "rule": "Không lặp lại tân ngữ it/them/him trong mệnh đề quan hệ đã có which/that/who. Dùng 'which' để thay thế cả mệnh đề trước đó (sau dấu phẩy); dùng 'what' = the thing(s) that.",
+    "wrong": "The policy which the parliament passed it yesterday is what we needed it.",
+    "right": "The policy which parliament passed yesterday was widely welcomed, which boosted public trust."
+  },
+  {
+    "category": "Gerund (-ing) vs. To-Infinitive after Prepositions & Key Verbs",
+    "rule": "Sau MỌI giới từ (bao gồm 'to' trong look forward to, be used to, object to, contribute to, lead to) luôn dùng V-ing. Avoid, enjoy, consider, finish, mind, prevent + from cũng đi với V-ing.",
+    "wrong": "Governments look forward to reduce emissions and prevent factories to pollute rivers.",
+    "right": "Governments look forward to reducing emissions and preventing factories from polluting rivers."
+  },
+  {
+    "category": "Preposition Traps in Academic Verbs (Thừa/Sai giới từ)",
+    "rule": "Ngoại động từ như discuss, emphasise, mention, consider, enter, reach, approach, comprise, lack (động từ) đi TRỰC TIẾP với tân ngữ; không thêm about/on/to/into.",
+    "wrong": "First, let us discuss about how schools lack of funding to emphasise on arts.",
+    "right": "First, let us discuss how schools lack funding to emphasise arts education."
   }
 ]
 };

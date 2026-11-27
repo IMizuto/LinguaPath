@@ -221,7 +221,7 @@
     writingUnitLoading[unitId] = true;
 
     const s = document.createElement('script');
-    s.src = `data/writing_${unitId}.js?v=1`;
+    s.src = `data/writing_${unitId}.js?v=2`;
     s.onload = () => {
       writingUnitLoading[unitId] = false;
       const chunk = global.__LP_WRITING_CHUNKS && global.__LP_WRITING_CHUNKS[unitId];
@@ -4015,6 +4015,27 @@ Hãy chỉ rõ:
     `;
   }
 
+  function renderCommonMistakesHintHtml(toolkit) {
+    const items = toolkit && Array.isArray(toolkit.commonMistakes) ? toolkit.commonMistakes : [];
+    if (!items.length) {
+      return `<div class="w-pz-hint-section">Chưa nạp dữ liệu Bẫy mất điểm Writing. Hãy tải lại trang.</div>`;
+    }
+    return `
+      <div class="w-pz-hint-grid2">
+        ${items.map(m => `
+          <div class="w-pz-hint-section">
+            <h4>${wIcon('alert', 13)}<span>${escHtml(m.title)}</span></h4>
+            <p style="margin:0 0 6px;font-size:12px;color:var(--muted);">${escHtml(m.rule)}</p>
+            <div style="font-size:12px;line-height:1.45;display:flex;flex-direction:column;gap:4px;">
+              <div style="color:#f43f5e;"><strong>Sai:</strong> ${escHtml(m.wrong)}</div>
+              <div style="color:#10b981;"><strong>Đúng:</strong> ${escHtml(m.right)}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
   function renderTier3AiHintHtml(taskData) {
     const cacheKey = `${activeLesson ? activeLesson.id : ''}::${currentPzTask}::${taskData.pzPartId || ''}`;
     const cached = pzHintAiCache[cacheKey];
@@ -4109,6 +4130,7 @@ Hãy chỉ rõ:
     let bodyHtml = '';
     if (pzHintActiveTab === 'tier1') bodyHtml = renderTier1HintHtml(taskData);
     else if (pzHintActiveTab === 'checklist') bodyHtml = renderChecklistHintHtml(toolkit);
+    else if (pzHintActiveTab === 'mistakes') bodyHtml = renderCommonMistakesHintHtml(toolkit);
     else if (pzHintActiveTab === 'ai') bodyHtml = renderTier3AiHintHtml(taskData);
     else bodyHtml = renderTier2OfflineHintHtml(taskData, toolkit);
 
@@ -4133,6 +4155,7 @@ Hãy chỉ rõ:
           ${hasTier1 ? `<button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'tier1' ? ' active' : ''}" onclick="window.setPzHintTab('tier1')">Tầng 1: Khớp khóa học</button>` : ''}
           <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'offline' ? ' active' : ''}" onclick="window.setPzHintTab('offline')">${currentPzTask === 'task1' ? 'Tầng 2: Paraphrase Task 1' : 'Tầng 2: Ý tưởng & Khung bài'}</button>
           <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'checklist' ? ' active' : ''}" onclick="window.setPzHintTab('checklist')">Checklist 4 tiêu chí</button>
+          <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'mistakes' ? ' active' : ''}" onclick="window.setPzHintTab('mistakes')">Bẫy mất điểm (16)</button>
           <button type="button" class="w-pz-hint-tab${pzHintActiveTab === 'ai' ? ' active' : ''}" onclick="window.setPzHintTab('ai')">Tầng 3: Dàn ý AI</button>
         </div>
         <div class="w-pz-hint-body">${bodyHtml}</div>

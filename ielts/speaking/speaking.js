@@ -9546,7 +9546,11 @@
     }
   }
 
+  var spEventsBound = false;
+
   function bindEvents() {
+    if (spEventsBound) return;
+    spEventsBound = true;
     if (global.S4UI && typeof global.S4UI.initSmartBackButton === 'function') {
       global.S4UI.initSmartBackButton({
         element: '#lpBackBtn',
@@ -9763,6 +9767,7 @@
   }
 
   function bootSpeakingAfterPaint() {
+    bindEvents();
     if (global.STUDY4_SPEAKING_DATA) {
       initApp();
       return;
@@ -9897,6 +9902,19 @@
           + (st.structure || []).map(function (s) { return '<li>' + escHtml(s) + '</li>'; }).join('')
           + '</ol>'
           + '<div class="sp-tk-chips">' + (st.vocab || []).map(function (v) { return '<span class="sp-tk-chip">' + escHtml(v) + '</span>'; }).join('') + '</div>'
+          + '</article>';
+      }).join('') + '</div>';
+      return;
+    }
+
+    if (spToolkitActiveTab === 'part3') {
+      body.innerHTML = '<div class="sp-tk-grid">' + (tk.part3Formulas || []).map(function (f) {
+        return '<article class="sp-tk-card">'
+          + '<h4>' + escHtml(f.name) + '</h4>'
+          + '<div class="sp-tk-sub">Khi nào dùng: ' + escHtml(f.when) + '</div>'
+          + '<div class="sp-tk-skeleton">' + escHtml(f.skeleton) + '</div>'
+          + '<div class="sp-tk-sample-box"><div><strong>Examiner:</strong> ' + escHtml(f.sampleQ) + '</div><div style="margin-top:4px;"><strong>Band 8.0 Model:</strong> ' + escHtml(f.sampleA) + '</div></div>'
+          + '<div class="sp-tk-chips">' + (f.highlights || []).map(function (h) { return '<span class="sp-tk-chip">' + escHtml(h) + '</span>'; }).join('') + '</div>'
           + '</article>';
       }).join('') + '</div>';
       return;

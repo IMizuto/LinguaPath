@@ -39,10 +39,10 @@
   <title>LinguaPath Vocab Master — Free for Community</title>
   <link rel="icon" href="../../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../../icon-192.png">
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=32">
 
   <style>
     @view-transition { navigation: auto; }
@@ -98,12 +98,19 @@
     .sidebar-foot { padding: 10px; border-top: 1px solid var(--lg-divider, var(--border)); display: flex; gap: 6px; background: transparent !important; }
 
     .main-wrap { flex: 1; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; min-width: 0; max-width: 100%; background: transparent !important; overscroll-behavior: none; position: relative; z-index: 1; }
-    .lp-vocab-topbar { margin: calc(8px + var(--s4-safe-top, 0px)) 14px 0; flex-shrink: 0; width: auto; max-width: calc(100% - 28px); touch-action: manipulation; flex-wrap: wrap; }
+    .lp-vocab-topbar { margin: calc(8px + var(--s4-safe-top, 0px)) 14px 0; flex-shrink: 0; width: auto; max-width: calc(100% - 28px); touch-action: manipulation; flex-wrap: nowrap; gap: 6px; }
     .lp-vocab-topbar .lp-top-left { flex: 0 0 auto; }
     .vocab-menu-btn { display: none; gap: 4px; padding: 0 10px; font-size: 12.5px; font-weight: 700; width: auto; }
-    .lp-donate-btn { gap: 5px; padding: 0 11px; font-size: 12.5px; font-weight: 800; width: auto; background: var(--lg-rose-soft, rgba(225,29,72,0.14)) !important; color: var(--lg-rose, #e11d48) !important; border-color: rgba(225,29,72,0.26) !important; }
-    .mode-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; flex: 1 1 auto; min-width: 0; overflow: visible; align-items: center; }
-    .mode-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 9px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--card)); color: var(--lg-ink, var(--text)); font-weight: 600; font-size: 12px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease, opacity .15s ease, box-shadow .15s ease; }
+    .lp-donate-btn { gap: 4px; padding: 0 10px; font-size: 12px; font-weight: 800; width: auto; background: var(--lg-rose-soft, rgba(225,29,72,0.14)) !important; color: var(--lg-rose, #e11d48) !important; border-color: rgba(225,29,72,0.26) !important; }
+    .mode-nav { display: flex; flex-wrap: nowrap; justify-content: center; gap: 3px; flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; align-items: center; }
+    .mode-nav::-webkit-scrollbar { display: none; }
+    .mode-btn { display: inline-flex; align-items: center; justify-content: center; gap: 3px; padding: 4px 7px; border-radius: 999px; border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, var(--card)); color: var(--lg-ink, var(--text)); font-weight: 600; font-size: 11.5px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease, opacity .15s ease, box-shadow .15s ease; }
+    @media (max-width: 1180px) and (min-width: 769px) {
+      .lp-vocab-topbar .lp-confusable-btn .lp-hide-xs,
+      .lp-vocab-topbar .lp-donate-btn span { display: none !important; }
+      .lp-vocab-topbar .lp-confusable-btn,
+      .lp-vocab-topbar .lp-donate-btn { width: 34px; min-width: 34px; padding: 0; }
+    }
     .mode-btn:hover { border-color: var(--primary); }
     .mode-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .mode-btn.danger { color: var(--danger); }
@@ -189,7 +196,12 @@
     .fc-colloc-lbl { font-size: 11.5px; font-weight: 700; color: var(--muted); margin-right: 2px; }
     .fc-pill-syn { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--lg-accent-soft, var(--primary-soft)); color: var(--primary); border: 1px solid rgba(37,99,235,0.22); }
     .fc-pill-col { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--lg-surface, var(--card)); color: var(--lg-ink, var(--text)); border: 1px solid var(--lg-hairline, var(--border)); }
+    .fc-pill-conf { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--lg-amber-soft, rgba(245,158,11,0.14)); color: var(--lg-amber, #b45309); border: 1px solid rgba(245,158,11,0.28); }
+    .fc-conf-link { background: transparent; border: none; color: var(--primary); font-size: 11.5px; font-weight: 800; cursor: pointer; padding: 0 3px; text-decoration: underline; }
+    .lp-confusable-btn { background: var(--lg-amber-soft, rgba(245,158,11,0.14)); color: var(--lg-amber, #b45309); border-color: rgba(245,158,11,0.3); }
+    .lp-confusable-btn:hover { background: var(--lg-amber, #d97706); color: #fff; border-color: transparent; }
     html.dark .fc-pill-syn { border-color: rgba(96,165,250,0.32); }
+    html.dark .fc-pill-conf { color: #fcd34d; border-color: rgba(251,191,36,0.34); }
     .srs-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
     .srs-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 8px; border-radius: 999px; font-weight: 700; font-size: 13.5px; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--lg-hairline, var(--border)); background: var(--lg-wash, rgba(148,163,184,0.14)); color: var(--lg-ink, var(--text)); transition: transform .15s ease, background .15s ease, border-color .15s ease; }
     .srs-btn:hover { transform: translateY(-1px); }
@@ -307,6 +319,8 @@
     @media (max-width: 520px) {
       .v-stat-lbl { display: none; }
       .stats-btns .v-cal-lbl { display: none; }
+      .vocab-menu-btn { width: 32px; min-width: 32px; padding: 0; }
+      .vocab-menu-btn span { display: none; }
     }
   </style>
 </head>
@@ -395,6 +409,10 @@
       </div>
 
       <div class="lp-top-actions">
+        <button type="button" class="lp-icon-btn lp-confusable-btn" id="btnVocabConfusables" onclick="window.S4UI?.openTacticsModal(window.LP_VOCAB_CONFUSABLES_MODAL)" title="Bảng phân biệt 32 cặp từ dễ nhầm & lỗi học thuật IELTS" aria-label="Cặp từ dễ nhầm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span class="lp-hide-xs">Dễ nhầm</span>
+        </button>
         <button type="button" class="lp-icon-btn lp-donate-btn" onclick="window.S4Auth && window.S4Auth.openDonateModal()" title="Ủng hộ dự án & Mặt trận Tổ quốc" aria-label="Ủng hộ dự án">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
           <span>Ủng hộ</span>
@@ -411,11 +429,11 @@
   </div>
 
   <audio id="audioPlayer"></audio>
-  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../assets/s4-ui.js?v=69"></script>
   <script src="../../assets/s4-search-engine.js?v=1"></script>
-  <script src="../../auth.js?v=33"></script>
+  <script src="../../auth.js?v=37"></script>
   <script src="vocab_data.js"></script>
-  <script src="vocab_collocations.js"></script>
+  <script src="vocab_collocations.js?v=2"></script>
   <script>
     window.LINGUAPATH_VOCAB_DATA = window.STUDY4_VOCAB_DATA;
     const VOCAB = window.LINGUAPATH_VOCAB_DATA || window.STUDY4_VOCAB_DATA || [];
@@ -1531,14 +1549,18 @@
       if (!info) return "";
       const syns = Array.isArray(info.synonyms) ? info.synonyms : [];
       const cols = Array.isArray(info.collocations) ? info.collocations : [];
-      if (!syns.length && !cols.length) return "";
+      const conf = info.confusable ? String(info.confusable) : "";
+      if (!syns.length && !cols.length && !conf) return "";
       const synRow = syns.length
         ? `<div class="fc-colloc-row"><span class="fc-colloc-lbl">Đồng nghĩa:</span>${syns.map(s => `<span class="fc-pill-syn">${escHtml(s)}</span>`).join("")}</div>`
         : "";
       const colRow = cols.length
         ? `<div class="fc-colloc-row"><span class="fc-colloc-lbl">Collocations:</span>${cols.map(c => `<span class="fc-pill-col">${escHtml(c)}</span>`).join("")}</div>`
         : "";
-      return `<div class="fc-colloc-box"><div class="fc-colloc-hd">${vIcon("sparkle", 13)}<span>Band 7.0+ Academic Usage</span></div>${synRow}${colRow}</div>`;
+      const confRow = conf
+        ? `<div class="fc-colloc-row"><span class="fc-colloc-lbl">Dễ nhầm:</span><span class="fc-pill-conf">${escHtml(conf)}</span><button type="button" class="fc-conf-link" onclick="window.S4UI?.openTacticsModal(window.LP_VOCAB_CONFUSABLES_MODAL)">Xem 32 cặp</button></div>`
+        : "";
+      return `<div class="fc-colloc-box"><div class="fc-colloc-hd">${vIcon("sparkle", 13)}<span>Band 7.0+ Academic Usage</span></div>${synRow}${colRow}${confRow}</div>`;
     }
     function backHtml(v) {
       return `<div class="fc-back"><div class="def-box"><b>Định nghĩa:</b><br>${(v.defRaw || "").replace(/\n/g, "<br>")}</div>

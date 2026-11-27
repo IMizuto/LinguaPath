@@ -1,16 +1,17 @@
 /**
- * LinguaPath IELTS Writing Practice Zone Toolkit (v1.0)
+ * LinguaPath IELTS Writing Practice Zone Toolkit (v1.1)
  * 100% nội dung học thuật gốc:
  * - Ngân hàng Ý tưởng Task 2 (18 chủ đề lớn: 2 chiều For/Against + Ví dụ + Collocations)
  * - Cẩm nang Paraphrase & Cấu trúc Task 1 (Line/Bar/Pie/Table, Map, Process, Mixed)
  * - Khung dàn ý 5 dạng câu hỏi Task 2
  * - Checklist soát lỗi 4 tiêu chí TR/TA, CC, LR, GRA
+ * - 16 Bẫy mất điểm kinh điển trong IELTS Writing (Từ vựng, Ngữ pháp & Dấu câu)
  */
 (function (global) {
   'use strict';
 
   var LP_WRITING_TOOLKIT = {
-    version: '1.0',
+    version: '1.1',
 
     // =========================================================================
     // 1. CẨM NANG PARAPHRASE & CẤU TRÚC TASK 1 THEO ĐÚNG DẠNG
@@ -775,7 +776,125 @@
           'Soát kỹ số ít/số nhiều, chia động từ, giới từ và dấu câu ở 3 phút cuối.'
         ]}
       ]
-    }
+    },
+
+    // =========================================================================
+    // 5. 16 BẪY MẤT ĐIỂM KINH ĐIỂN TRONG IELTS WRITING (TR/LR/GRA)
+    // =========================================================================
+    commonMistakes: [
+      {
+        group: 'Word Choice & Spelling',
+        title: '1. Affect (động từ) vs. Effect (danh từ)',
+        rule: 'Dùng affect cho hành động tác động; dùng effect cho danh từ kết quả (hoặc verb "mang lại/thực thi").',
+        wrong: 'Air pollution seriously effects urban residents.',
+        right: 'Air pollution seriously affects urban residents / has a severe effect on them.'
+      },
+      {
+        group: 'Word Choice & Spelling',
+        title: '2. Economic (thuộc kinh tế) vs. Economical (tiết kiệm)',
+        rule: 'Economic nói về nền kinh tế/chính sách; economical nghĩa là ít tốn kém, hiệu quả chi phí.',
+        wrong: 'Public buses are an economic way to commute daily.',
+        right: 'Public buses are an economical way to reduce household transport costs and boost economic productivity.'
+      },
+      {
+        group: 'Word Choice & Spelling',
+        title: '3. Historic (mang tính lịch sử) vs. Historical (thuộc quá khứ)',
+        rule: 'Historic = bước ngoặt/trọng đại trong lịch sử; historical = thuộc về/liên quan đến lịch sử nói chung.',
+        wrong: 'Preserving historic records helps citizens understand past events.',
+        right: 'Preserving historical records helps protect historic monuments for future generations.'
+      },
+      {
+        group: 'Word Choice & Spelling',
+        title: '4. Fewer / Many vs. Less / Much',
+        rule: 'Fewer & many dùng với danh từ đếm được số nhiều (jobs, cars, emissions); less & much dùng với danh từ không đếm được (time, money, pollution).',
+        wrong: 'Less people choose to commute by bicycle nowadays.',
+        right: 'Fewer people choose to commute by bicycle, spending less time outdoors.'
+      },
+      {
+        group: 'Word Choice & Spelling',
+        title: '5. Everyday (tính từ liền) vs. Every day (trạng ngữ tách rời)',
+        rule: 'Everyday = hằng ngày (đứng trước danh từ: everyday life); every day = mỗi ngày (đứng cuối/đầu câu).',
+        wrong: 'Young people use smartphones for communication everyday.',
+        right: 'Smartphones have become an integral part of everyday life as people use them every day.'
+      },
+      {
+        group: 'Word Choice & Spelling',
+        title: '6. Chính tả dễ sai & Từ ghép viết sai',
+        rule: 'Không viết a lot thành alot, every day thành everyday khi là trạng từ, hay pronunciation thành pronounciation.',
+        wrong: 'Alot of governments overlook environmental pronounciation of policies.',
+        right: 'A large proportion of governments overlook environmental legislation (viết chuẩn: government, environment, accommodation).'
+      },
+      {
+        group: 'Grammar Traps',
+        title: '7. Lỗi nối mệnh đề bằng dấu phẩy (Comma Splice) & Câu chạy',
+        rule: 'Hai mệnh đề độc lập KHÔNG thể nối chỉ bằng dấu phẩy — phải dùng dấu chấm, chấm phẩy (;) hoặc liên từ (while, whereas, and).',
+        wrong: 'Automation increases productivity, however it eliminates routine jobs.',
+        right: 'Automation increases productivity; however, it eliminates routine jobs.'
+      },
+      {
+        group: 'Grammar Traps',
+        title: '8. Mệnh đề phân từ treo (Dangling Participle)',
+        rule: 'Chủ ngữ của mệnh đề chính đứng ngay sau cụm V-ing / V3 phải khớp đúng đối tượng thực hiện hành động đó.',
+        wrong: 'Working longer hours, stress levels have risen sharply across cities.',
+        right: 'Working longer hours, urban employees have experienced sharply higher stress levels.'
+      },
+      {
+        group: 'Grammar Traps',
+        title: '9. Hòa hợp Subject–Verb với The number of / Percent / Data',
+        rule: '"The number of + N(nhiều)" đi với động từ SỐ ÍT; "A number of + N(nhiều)" đi với động từ SỐ NHIỀU.',
+        wrong: 'The number of university graduates have risen steadily since 2015.',
+        right: 'The number of university graduates has risen steadily since 2015.'
+      },
+      {
+        group: 'Grammar Traps',
+        title: '10. Điều kiện giả định (If I were / Third Conditional)',
+        rule: 'KHÔNG dùng "would" bên trong mệnh đề "if"; dùng "were" hoặc "had + V3" cho giả định trái thực tế.',
+        wrong: 'If authorities would invest more earlier, traffic congestion would decrease.',
+        right: 'If authorities had invested more in rail networks earlier, congestion would have declined.'
+      },
+      {
+        group: 'Grammar Traps',
+        title: '11. So sánh khập khiễng (Incomplete / Faulty Comparison)',
+        rule: 'Phải so sánh 2 đối tượng cùng loại (dân số với dân số, tỷ lệ với tỷ lệ) bằng "that of / those of", không so số liệu với quốc gia.',
+        wrong: 'The carbon emissions of China were higher than India in 2020.',
+        right: 'The carbon emissions of China were higher than those of India in 2020.'
+      },
+      {
+        group: 'Grammar Traps',
+        title: '12. Giới từ thừa/sai với động từ học thuật',
+        rule: 'Discuss, emphasise, address, solve, reach, enter KHÔNG đi với giới từ (KHÔNG viết discuss about, emphasise on).',
+        wrong: 'The essay will discuss about solutions to address to rising crime.',
+        right: 'This essay will discuss viable solutions to address rising crime rates.'
+      },
+      {
+        group: 'Task 1 & Data Traps',
+        title: '13. Nhầm lẫn Preposition số liệu (to / by / at / of)',
+        rule: 'Rose TO 60% (đạt mức 60%), rose BY 15% (tăng thêm 15%), stood AT 40%, an increase OF 15%.',
+        wrong: 'The figure increased to 20% from 30% to 50% in five years.',
+        right: 'The figure rose by 20 percentage points, climbing from 30% to 50% over five years.'
+      },
+      {
+        group: 'Task 1 & Data Traps',
+        title: '14. Overview lẫn số liệu & Suy đoán ngoài biểu đồ',
+        rule: 'Overview chỉ tóm tắt xu hướng lớn nhất/cao-thấp nhất (không đưa % chi tiết) và không tự bịa nguyên nhân ngoài bài.',
+        wrong: 'Overall, sales jumped to 85% probably because customers got richer.',
+        right: 'Overall, sales across all categories experienced an upward trend, with electronics leading throughout.'
+      },
+      {
+        group: 'Tone & Punctuation',
+        title: '15. Văn phong suồng sã, viết tắt & Khẳng định tuyệt đối',
+        rule: 'Tránh don’t/can’t, kids/a lot of, dấu chấm than (!) và từ tuyệt đối hóa (always, every, prove 100%). Hãy hedge bằng tend to, may, arguably.',
+        wrong: 'Nowadays, kids can’t focus because social media always destroys their brains!',
+        right: 'Currently, excessive social media use may undermine adolescents’ attention spans.'
+      },
+      {
+        group: 'Tone & Punctuation',
+        title: '16. Dấu phẩy sau cụm mở đầu & Tránh dấu nháy sai (it’s vs its)',
+        rule: 'Luôn đặt dấu phẩy sau mệnh đề trạng ngữ/cụm giới từ mở đầu câu; nhớ "its" = sở hữu (không viết "it’s" cho sở hữu).',
+        wrong: 'Despite it’s benefits online learning also limits peer interaction.',
+        right: 'Despite its benefits, online learning also limits face-to-face peer interaction.'
+      }
+    ]
   };
 
   if (typeof module !== 'undefined' && module.exports) {

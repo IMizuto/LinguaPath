@@ -61,10 +61,10 @@
 <title>LinguaPath IELTS Reading — Free for Community</title>
   <link rel="icon" href="../../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../../icon-192.png">
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=68">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=31">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=32">
 <style>
   :root {
     --lp-sidebar-w: 336px;
@@ -222,7 +222,7 @@
   }
 
   /* Workspace */
-  .workspace { display: flex; flex: 1; min-height: 0; overflow: hidden; position: relative; z-index: 2; }
+  .workspace { display: flex; flex: 1; min-height: 0; overflow: hidden; position: relative; }
   .sidebar {
     width: var(--lp-sidebar-w, 336px);
     background: var(--lg-surface-strong, var(--panel)) !important;
@@ -967,7 +967,7 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
-    z-index: 180;
+    z-index: 10040;
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
   }
@@ -1006,9 +1006,12 @@
       left: 0;
       top: 0;
       bottom: 0;
+      height: 100vh;
+      height: 100dvh;
       width: 86% !important;
       max-width: 336px !important;
-      z-index: 190 !important;
+      z-index: 10050 !important;
+      padding-top: var(--s4-top-inset, var(--s4-safe-top, 0px));
       transform: translateX(-100%);
       transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), visibility 0.22s;
       visibility: hidden;
@@ -1022,8 +1025,12 @@
   }
   @media (max-width: 768px) {
     .menu-toggle-btn { display: inline-flex !important; }
-    .lp-study-topbar { margin: calc(6px + var(--s4-safe-top, 0px)) 8px 4px; max-width: calc(100% - 16px); gap: 6px; }
-    .top-switch { margin: 0 8px 6px; padding: 4px 7px; max-width: calc(100% - 16px); gap: 4px; }
+    .lp-study-topbar { margin: calc(6px + var(--s4-safe-top, 0px)) 8px 4px; max-width: calc(100% - 16px); padding: 6px 8px; gap: 5px; min-height: 46px; border-radius: 18px; }
+    .lp-study-topbar .lp-back-pill, .menu-toggle-btn, .lp-study-pill-btn { height: 32px; padding: 0 9px; font-size: 12px; }
+    .lp-study-pill-btn.donate { width: 32px; min-width: 32px; padding: 0; }
+    .lp-study-topbar #topDarkBtn_read { width: 32px; min-width: 32px; height: 32px; padding: 0; }
+    .top-switch { margin: 0 8px 6px; padding: 4px 7px; max-width: calc(100% - 16px); gap: 4px; scroll-padding-inline: 10px; }
+    .top-switch-btn { padding: 5px 9px; font-size: 11.5px; }
     .brand-title { font-size: 13.5px; }
     .main-area {
       padding: 12px 10px calc(36px + env(safe-area-inset-bottom, 12px)) 10px !important;
@@ -1089,6 +1096,10 @@
   <div class="lp-top-actions">
     <button type="button" class="lp-icon-btn" aria-label="Tra cứu toàn cục" title="Tra cứu toàn cục (Ctrl+K)" onclick="window.S4UI?.openGlobalSearch()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+    </button>
+    <button type="button" class="lp-study-pill-btn tactics" id="btnReadingTactics" onclick="window.S4UI?.openTacticsModal(window.LP_READING_TOOLKIT)" title="Mở Cẩm nang Chiến thuật, bẫy T/F/NG &amp; đoán nghĩa IELTS Reading" aria-label="Cẩm nang Chiến thuật Reading">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+      <span class="lp-tk-btn-lbl">Chiến thuật</span>
     </button>
     <button type="button" class="lp-study-pill-btn hist" id="btnReadingHistory" onclick="window.S4PracticeZone && window.S4PracticeZone.openReadingHistoryModal()" title="Xem lại các bài thi thử Reading đã nộp & chấm điểm">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -1164,7 +1175,8 @@
 
 <audio id="ttsAudioPlayer" style="display:none;"></audio>
 <script src="data/reading_manifest.js"></script>
-<script src="../../assets/s4-ui.js?v=68"></script>
+<script src="../../assets/s4-ui.js?v=69"></script>
+<script src="reading_tactics_data.js?v=1"></script>
 <script src="../../assets/s4-search-engine.js?v=1"></script>
 <script src="../../assets/s4-vocab-engine.js?v=69"></script>
 <script>
@@ -2918,27 +2930,27 @@ if (reqPz || reqId.startsWith('read_pz_')) {
 
 </script>
   <script src="../../assets/s4-practice-zone.js?v=67"></script>
-  <script src="../../auth.js?v=33"></script>
+  <script src="../../auth.js?v=37"></script>
   <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
 
   <!-- MODAL LỊCH SỬ BÀI THI READING TRÊN TOPBAR -->
   <div class="w-modal-backdrop" id="readingHistoryModal" style="display:none;" onclick="if(event.target===this)window.S4PracticeZone.closeReadingHistoryModal()">
     <div class="w-history-modal-box">
       <div class="w-history-modal-head">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="lp-chip-inline" style="color:var(--primary);">${rIcon('history', 20)}</span>
-          <div>
+        <div class="w-history-modal-title-wrap">
+          <span class="lp-chip-inline w-history-modal-ico" style="color:var(--primary);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+          <div style="min-width:0;flex:1;">
             <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text);">Lịch Sử Làm Bài IELTS Reading</h3>
             <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Danh sách các đề thi thử Reading bạn đã nộp và chấm điểm</p>
           </div>
         </div>
-        <button type="button" class="lp-chip-inline" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;" aria-label="Đóng" onclick="window.S4PracticeZone.closeReadingHistoryModal()">${rIcon('close', 18)}</button>
+        <button type="button" class="lp-chip-inline w-history-modal-close" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;" aria-label="Đóng" onclick="window.S4PracticeZone.closeReadingHistoryModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
 
       <div class="w-history-filter-bar">
         <button type="button" class="w-filter-pill r-filter-pill active" id="rFilter_all" onclick="window.S4PracticeZone.filterReadingHistoryModal('all')">Tất cả đề</button>
-        <button type="button" class="w-filter-pill r-filter-pill lp-chip-inline" id="rFilter_high" onclick="window.S4PracticeZone.filterReadingHistoryModal('high')">${rIcon('award', 13)} Band 7.0+ (Mục tiêu cao)</button>
-        <button type="button" class="w-filter-pill r-filter-pill lp-chip-inline" id="rFilter_low" onclick="window.S4PracticeZone.filterReadingHistoryModal('low')">${rIcon('zap', 13)} Dưới Band 7.0 (Cần ôn lại)</button>
+        <button type="button" class="w-filter-pill r-filter-pill lp-chip-inline" id="rFilter_high" onclick="window.S4PracticeZone.filterReadingHistoryModal('high')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> Band 7.0+ (Mục tiêu cao)</button>
+        <button type="button" class="w-filter-pill r-filter-pill lp-chip-inline" id="rFilter_low" onclick="window.S4PracticeZone.filterReadingHistoryModal('low')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Dưới Band 7.0 (Cần ôn lại)</button>
       </div>
 
       <div class="w-history-list modal-scroll" id="readingModalHistoryList">

@@ -1020,9 +1020,150 @@
     } catch (error) {}
   }
 
+  let tacticsReleaseFocus = null;
+  let tacticsEscBound = false;
+  let activeTacticsConfig = null;
+  let activeTacticsTab = '';
+
+  function closeTacticsModal() {
+    const bd = document.getElementById('lpTacticsBackdrop');
+    if (bd) bd.classList.remove('open');
+    document.body.style.overflow = '';
+    if (tacticsReleaseFocus) {
+      try { tacticsReleaseFocus(); } catch (e) {}
+      tacticsReleaseFocus = null;
+    }
+  }
+
+  function renderTacticsModalBody(tabId) {
+    const bd = document.getElementById('lpTacticsBackdrop');
+    if (!bd || !activeTacticsConfig) return;
+    const tabs = Array.isArray(activeTacticsConfig.tabs) ? activeTacticsConfig.tabs : [];
+    const cur = tabs.find(t => t.id === tabId) || tabs[0];
+    if (!cur) return;
+    activeTacticsTab = cur.id;
+
+    const tabsEl = bd.querySelector('#lpTacticsTabs');
+    const bodyEl = bd.querySelector('#lpTacticsBody');
+    if (tabsEl) {
+      tabsEl.innerHTML = tabs.map(t =>
+        `<button type="button" class="lp-tk-tab${t.id === cur.id ? ' active' : ''}" data-tk-tab="${escapeHtml(t.id)}">${escapeHtml(t.label)}</button>`
+      ).join('');
+      tabsEl.querySelectorAll('.lp-tk-tab').forEach(btn => {
+        btn.addEventListener('click', () => renderTacticsModalBody(btn.getAttribute('data-tk-tab')));
+      });
+    }
+    if (!bodyEl) return;
+
+    const parts = [];
+    if (cur.summary) {
+      parts.push(`<p class="lp-tk-summary">${escapeHtml(cur.summary)}</p>`);
+    }
+    if (Array.isArray(cur.cards) && cur.cards.length) {
+      const cardsHtml = cur.cards.map(c => {
+        const rows = (c.items || []).map(it =>
+          `<li>${it.label ? `<strong>${escapeHtml(it.label)}:</strong>` : ''}${escapeHtml(it.text || '')}</li>`
+        ).join('');
+        return `<article class="lp-tk-card">
+          <div class="lp-tk-card-head">
+            <h4>${escapeHtml(c.title || '')}</h4>
+            ${c.badge ? `<span class="lp-tk-card-badge">${escapeHtml(c.badge)}</span>` : ''}
+          </div>
+          <ul class="lp-tk-list">${rows}</ul>
+        </article>`;
+      }).join('');
+      parts.push(`<div class="lp-tk-grid">${cardsHtml}</div>`);
+    }
+    if (cur.table && Array.isArray(cur.table.headers) && Array.isArray(cur.table.rows)) {
+      const ths = cur.table.headers.map(h => `<th>${escapeHtml(h)}</th>`).join('');
+      const trs = cur.table.rows.map(r =>
+        `<tr>${r.map((cell, ci) => ci === 0 ? `<td><strong>${escapeHtml(cell)}</strong></td>` : `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`
+      ).join('');
+      parts.push(`<div class="lp-tk-table-wrap">
+        ${cur.table.title ? `<div class="lp-tk-table-title">${escapeHtml(cur.table.title)}</div>` : ''}
+        <table class="lp-tk-table"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>
+      </div>`);
+    }
+    if (Array.isArray(cur.checklist) && cur.checklist.length) {
+      const checks = cur.checklist.map(txt =>
+        `<label class="lp-tk-check"><input type="checkbox"><span>${escapeHtml(txt)}</span></label>`
+      ).join('');
+      parts.push(`<div class="lp-tk-checklist">${checks}</div>`);
+    }
+    bodyEl.innerHTML = parts.join('');
+    bodyEl.scrollTop = 0;
+  }
+
+  function openTacticsModal(config, initialTabId) {
+    if (!config || !Array.isArray(config.tabs) || !config.tabs.length) {
+      toast('warn', 'Chưa nạp được dữ liệu Cẩm nang Chiến thuật.');
+      return;
+    }
+    if (activeTacticsConfig !== config) activeTacticsTab = '';
+    activeTacticsConfig = config;
+    let bd = document.getElementById('lpTacticsBackdrop');
+    if (!bd) {
+      bd = document.createElement('div');
+      bd.id = 'lpTacticsBackdrop';
+      bd.className = 'lp-tk-backdrop';
+      bd.innerHTML = `<div class="lp-tk-modal" role="dialog" aria-modal="true" aria-labelledby="lpTacticsTitle">
+        <div class="lp-tk-head">
+          <div>
+            <div class="lp-tk-title-row">
+              <h3 class="lp-tk-title" id="lpTacticsTitle"></h3>
+              <span class="lp-tk-badge" id="lpTacticsBadge" style="display:none;"></span>
+            </div>
+            <p class="lp-tk-sub" id="lpTacticsSub"></p>
+          </div>
+          <button type="button" class="lp-tk-close" id="lpTacticsCloseBtn" aria-label="Đóng cẩm nang">${icon('close', 14)}<span>Đóng</span></button>
+        </div>
+        <div class="lp-tk-tabs" id="lpTacticsTabs" role="tablist"></div>
+        <div class="lp-tk-body modal-scroll" id="lpTacticsBody"></div>
+      </div>`;
+      document.body.appendChild(bd);
+      bd.addEventListener('click', (e) => {
+        if (e.target === bd) closeTacticsModal();
+      });
+      const closeBtn = bd.querySelector('#lpTacticsCloseBtn');
+      if (closeBtn) closeBtn.addEventListener('click', closeTacticsModal);
+    }
+    if (!tacticsEscBound) {
+      tacticsEscBound = true;
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const curBd = document.getElementById('lpTacticsBackdrop');
+          if (curBd && curBd.classList.contains('open')) closeTacticsModal();
+        }
+      });
+    }
+
+    const titleEl = bd.querySelector('#lpTacticsTitle');
+    const subEl = bd.querySelector('#lpTacticsSub');
+    const badgeEl = bd.querySelector('#lpTacticsBadge');
+    if (titleEl) titleEl.innerHTML = `${icon(config.accentIcon || 'lightbulb', 17)}<span>${escapeHtml(config.title || 'Cẩm nang Chiến thuật')}</span>`;
+    if (subEl) subEl.textContent = config.subtitle || '';
+    if (badgeEl) {
+      if (config.badge) {
+        badgeEl.textContent = config.badge;
+        badgeEl.style.display = 'inline-flex';
+      } else {
+        badgeEl.style.display = 'none';
+      }
+    }
+
+    renderTacticsModalBody(initialTabId || activeTacticsTab || config.tabs[0].id);
+    bd.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const dialogEl = bd.querySelector('.lp-tk-modal');
+    const closeBtnEl = bd.querySelector('#lpTacticsCloseBtn');
+    if (dialogEl) tacticsReleaseFocus = keepDialogFocus(dialogEl, closeBtnEl);
+  }
+
   window.S4UI = {
     keepDialogFocus: keepDialogFocus,
     openGlobalSearch: openGlobalSearch,
+    openTacticsModal: openTacticsModal,
+    closeTacticsModal: closeTacticsModal,
     icon: icon,
     renderThemeButton: renderThemeButton,
     initSmartBackButton: initSmartBackButton,

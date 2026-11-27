@@ -4,13 +4,14 @@
  * - Bộ Discourse Markers & Cấu trúc nâng Band 7.0–8.5
  * - 12 Công thức trả lời nhanh Part 1
  * - 7 Khung chuyện lõi tái sử dụng Cue Card Part 2
+ * - 8 Khung trả lời Part 3 & Tư duy Phản biện (Critical Thinking)
  * - Mini-drill 25 từ tiếng Anh người Việt hay phát âm sai nhất (kèm IPA & TTS)
  */
 (function (global) {
   'use strict';
 
   var LP_SPEAKING_TOOLKIT = {
-    version: '1.0',
+    version: '2.0',
 
     // =========================================================================
     // 1. BỘ DISCOURSE MARKERS & CẤU TRÚC NÂNG BAND (FC + LR + GRA)
@@ -297,6 +298,84 @@
           'Reflection (30s): Kết quả đạt được và bài học quý giá về quản trị thời gian & giao tiếp.'
         ],
         vocab: ['tight deadline (hạn chót gấp)', 'pull together as a team', 'iron out differences (hóa giải bất đồng)', 'against all odds', 'defining moment']
+      }
+    ],
+
+    // =========================================================================
+    // 3B. 8 KHUNG TRẢ LỜI PART 3 & TƯ DUY PHẢN BIỆN (BAND 7.5–9.0)
+    // =========================================================================
+    part3Formulas: [
+      {
+        id: 'p3_two_sided_stance',
+        name: '1. Cân bằng 2 chiều & Lập trường tinh tế (Nuanced Concession)',
+        when: 'Câu hỏi "Do you agree...?", "Is X a positive or negative trend?" hoặc đánh giá hiện tượng xã hội có 2 mặt.',
+        skeleton: 'Mở khung khái quát ("Well, it’s not entirely black and white...") -> Nhượng bộ vế đối lập ("Admittedly, ...") -> Bẻ lái khẳng định quan điểm chính ("Having said that, I’m inclined to believe...") -> Ví dụ vĩ mô.',
+        sampleQ: 'Do you think technology has made people more isolated today?',
+        sampleA: 'Well, it’s not entirely black and white. Admittedly, people spend hours glued to their screens instead of mingling face-to-face. Having said that, digital platforms play an indispensable part in bridging geographical gaps, especially for families living apart.',
+        highlights: ['not entirely black and white', 'Admittedly, ...', 'Having said that, ...', 'play an indispensable part']
+      },
+      {
+        id: 'p3_past_present',
+        name: '2. So sánh Quá khứ vs. Hiện tại (Temporal Shift)',
+        when: 'Câu hỏi về sự thay đổi lối sống, giáo dục, thói quen tiêu dùng hoặc giá trị truyền thống qua các thế hệ.',
+        skeleton: 'Chốt trục thời gian ("In stark contrast to decades ago...") -> Đặc trưng quá khứ ("Back then, people used to...") -> Chuyển sang thực tại ("Nowadays, however, ...") -> Hệ quả xã hội.',
+        sampleQ: 'How have shopping habits changed compared to the past?',
+        sampleA: 'In stark contrast to a couple of decades ago, when consumers mostly frequented local markets for daily essentials, modern shopping has become vastly convenience-driven. Nowadays, next-day delivery is all the rage, though it also encourages impulse buying.',
+        highlights: ['In stark contrast to...', 'Back then / used to', 'all the rage (rất phổ biến)', 'impulse buying']
+      },
+      {
+        id: 'p3_root_causes_effects',
+        name: '3. Chuỗi Nguyên nhân gốc -> Hệ quả dây chuyền (Causal Chain)',
+        when: 'Câu hỏi "Why do many people...?" hoặc "What are the effects of...?" — cần độ sâu phân tích thay vì liệt kê rời rạc.',
+        skeleton: 'Nguyên nhân cốt lõi 1 ("The primary catalyst behind this is...") -> Hệ quả kéo theo ("As a direct consequence, ...") -> Nhân tố thứ 2 ("On top of that, ...") -> Chốt tác động dài hạn.',
+        sampleQ: 'Why do so many young graduates want to move to major cities?',
+        sampleA: 'The primary catalyst behind this migration is the sheer concentration of career prospects and competitive salaries in urban hubs. On top of that, metropolises offer vibrant cultural amenities, which is of paramount importance to young professionals seeking to broaden their horizons.',
+        highlights: ['The primary catalyst', 'On top of that', 'of paramount importance', 'broaden their horizons']
+      },
+      {
+        id: 'p3_societal_split',
+        name: '4. Phân tầng Đối tượng / Thế hệ (Demographic Contrast)',
+        when: 'Khi một câu hỏi chung chung ("Do people in your country prefer X?") thực tế phụ thuộc vào tuổi tác, thu nhập hay vùng miền.',
+        skeleton: 'Tách nhóm khéo léo ("It really hinges on which demographic you look at...") -> Nhóm A ("For the older generation, ...") -> Nhóm B ("Conversely, younger people tend to...")',
+        sampleQ: 'Do people in your country prefer reading printed books or e-books?',
+        sampleA: 'It really hinges on the age bracket. Older readers are quite big on the tactile feel of paperbacks and consider reading a way to unwind away from screens. Conversely, commuters and university students lean towards e-readers because they are portable and budget-friendly.',
+        highlights: ['It really hinges on...', 'quite big on (rất mê)', 'Conversely', 'budget-friendly']
+      },
+      {
+        id: 'p3_speculation_future',
+        name: '5. Giả định & Dự đoán Tương lai (Speculative Conditional)',
+        when: 'Câu hỏi "How will X change in 20 years?", "What would happen if...?" — cơ hội vàng ghi điểm GRA câu điều kiện & modal.',
+        skeleton: 'Mức độ chắc chắn ("In the foreseeable future, it’s highly likely that...") -> Kịch bản tích cực -> Rào đón điều kiện ("Unless governments intervene, ... could prove detrimental to...")',
+        sampleQ: 'How might AI change the job market in the coming decades?',
+        sampleA: 'In the foreseeable future, automation is bound to replace repetitive clerical roles, which could be detrimental to low-skilled workers unless retraining programmes are rolled out. Having said that, roles demanding empathy and creative leadership will still thrive.',
+        highlights: ['In the foreseeable future', 'is bound to', 'detrimental to', 'unless + Present Simple']
+      },
+      {
+        id: 'p3_policy_solutions',
+        name: '6. Giải pháp Đa tầng: Nhà nước vs. Cá nhân (Multi-Level Policy)',
+        when: 'Câu hỏi "What should be done to solve X?", "Who is responsible for Y?" (môi trường, giao thông, sức khỏe, giáo dục).',
+        skeleton: 'Khẳng định trách nhiệm kép ("Tackling this issue calls for a coordinated effort...") -> Vai trò Chính phủ (luật, hạ tầng, thuế) -> Vai trò Cá nhân/Doanh nghiệp (nhận thức, thói quen).',
+        sampleQ: 'Who should take responsibility for reducing plastic waste?',
+        sampleA: 'Tackling plastic pollution calls for a joint effort. At the macro level, authorities should enforce stricter regulations and subsidise eco-friendly packaging. On an individual level, citizens can make a difference simply by ditching single-use plastics in their daily routines.',
+        highlights: ['calls for a joint effort', 'At the macro level', 'subsidise', 'On an individual level']
+      },
+      {
+        id: 'p3_short_vs_long_term',
+        name: '7. Cân đo Ngắn hạn vs. Dài hạn (Cost–Benefit Horizon)',
+        when: 'Câu hỏi về đầu tư công (vũ trụ, nghệ thuật, thể thao, bảo tồn di sản) hoặc lựa chọn nghề nghiệp/học tập.',
+        skeleton: 'Thừa nhận chi phí trước mắt ("In the short run, it may seem pricey or prohibitive...") -> Giá trị bền vững ("Yet in the long haul, it does wonders for...") -> Kết luận cân bằng.',
+        sampleQ: 'Should governments spend money on preserving historic buildings rather than modern housing?',
+        sampleA: 'In the short run, restoring heritage sites can be financially prohibitive when cities face housing shortages. Yet in the long haul, preserving cultural landmarks strengthens national identity and generates sustainable tourism revenue that benefits the wider economy.',
+        highlights: ['In the short run', 'prohibitive (đắt đỏ quá mức)', 'in the long haul', 'does wonders for']
+      },
+      {
+        id: 'p3_sacred_upgrades',
+        name: '8. Sacred Structures — Bộ Mẫu Câu Tự Nhiên Đắt Giá',
+        when: 'Bỏ túi các cụm từ vựng tự nhiên giúp câu trả lời Part 1–3 thoát khỏi lối nói sách giáo khoa khô cứng.',
+        skeleton: 'Yêu/Không thích: "quite big on / not my cup of tea" • Lợi/Hại: "does wonders for / detrimental to" • Quan trọng: "of paramount importance / indispensable part" • Đắt/Rẻ: "prohibitive / reasonably priced" • Bận: "up to my ears in / hectic schedule".',
+        sampleQ: 'Why do many people still travel abroad despite rising costs?',
+        sampleA: 'Even though airfares can be quite steep or even prohibitive during peak seasons, travelling does wonders for mental health and lets us blow off some steam. More importantly, immersing ourselves in unfamiliar cultures helps broaden our horizons in ways no textbook can match.',
+        highlights: ['does wonders for', 'blow off some steam', 'broaden our horizons', 'of paramount importance']
       }
     ],
 

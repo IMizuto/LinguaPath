@@ -41,10 +41,10 @@
   <title>Ngữ pháp IELTS (120 bài) — LinguaPath</title>
   <link rel="icon" href="../../icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="../../icon-192.png">
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=32">
 
   <style>
     @view-transition { navigation: auto; }
@@ -341,10 +341,10 @@
     <div id="cheatSheetHost" style="width:100%;max-width:860px;"></div>
   </div>
 
-  <script src="../../assets/s4-ui.js?v=67"></script>
-  <script src="../../auth.js?v=33"></script>
+  <script src="../../assets/s4-ui.js?v=69"></script>
+  <script src="../../auth.js?v=37"></script>
   <script src="grammar_data.js"></script>
-  <script src="grammar_explanations.js"></script>
+  <script src="grammar_explanations.js?v=2"></script>
   <script>
     window.LINGUAPATH_GRAMMAR_DATA = window.STUDY4_GRAMMAR_DATA;
     (function () {
@@ -1119,13 +1119,14 @@ function selectItem(id, resetScroll = true) {
 
       let bodyHtml = "";
       if (key === "PITFALLS") {
-        const rows = (sidecar.ieltsPitfalls || []).map(p => `
+        const pfList = sidecar.ieltsPitfalls || [];
+        const rows = pfList.map(p => `
           <tr>
             <td><strong>${p.category}</strong></td>
             <td>${p.rule}</td>
             <td><span class="g-pf-wrong">${p.wrong}</span><span class="g-pf-right">${p.right}</span></td>
           </tr>`).join("");
-        bodyHtml = `<p class="g-cs-summary">4 nhóm lỗi ngữ pháp phổ biến nhất khiến thí sinh IELTS Writing &amp; Speaking bị kẹt ở Band 6.0–6.5.</p>
+        bodyHtml = `<p class="g-cs-summary">${pfList.length} lỗi ngữ pháp kinh điển khiến thí sinh IELTS Writing &amp; Speaking bị kẹt ở Band 6.0–6.5.</p>
           <div style="overflow-x:auto;"><table class="g-pitfall-table"><thead><tr><th>Chủ điểm lỗi</th><th>Quy tắc vàng</th><th>Sai &rarr; Đúng</th></tr></thead><tbody>${rows}</tbody></table></div>`;
       } else {
         const cs = sidecar.cheatSheets[key] || sidecar.cheatSheets[units[0]];

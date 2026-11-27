@@ -117,7 +117,7 @@
     body.mw-mode .menu-btn { display: none !important; }
 
     .workspace-shell {
-      position: relative; z-index: 2;
+      position: relative;
       max-width: 1240px; margin: 0 auto; padding: 14px 16px 78px;
       width: 100%; min-width: 0;
     }
@@ -515,7 +515,7 @@
       display: flex; align-items: flex-start; gap: 6px;
     }
 
-    .drawer-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 80; }
+    .drawer-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 10040; }
     body.drawer-open { overflow: hidden !important; }
 
     @media (max-width: 1024px) {
@@ -523,7 +523,7 @@
       .layout { grid-template-columns: minmax(0, 1fr); }
       .sidebar {
         display: none; position: fixed; top: 0; left: 0; bottom: 0; width: 86%; max-width: var(--lp-sidebar-w, 336px);
-        z-index: 90; border-radius: 0; max-height: 100vh; max-height: 100dvh;
+        z-index: 10050; border-radius: 0; max-height: 100vh; max-height: 100dvh;
         padding-top: calc(12px + var(--s4-top-inset, env(safe-area-inset-top, 0px)));
         padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
       }
@@ -544,8 +544,8 @@
       .mw-prog-box { width: 100%; flex: 1 1 100%; }
     }
   </style>
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
-  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=71">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=32">
 </head>
 <body>
   <div id="ghibliBackdropLayer" class="ghibli-backdrop-layer"></div>
@@ -616,7 +616,7 @@
     <section class="mw-panel" id="mwStage" style="display:none;"></section>
   </div>
 
-  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="../../assets/s4-ui.js?v=69"></script>
   <script src="../../assets/s4-search-engine.js?v=1"></script>
   <script src="../hsk-tts.js?v=2"></script>
   <script src="./grammar_data.js?v=2"></script>
@@ -1564,7 +1564,7 @@
     switchMode(activeMode);
     window.addEventListener("pagehide", () => { if (window.HskTTS && window.HskTTS.stop) window.HskTTS.stop(); });
   </script>
-  <script src="../../auth.js?v=33"></script>
+  <script src="../../auth.js?v=37"></script>
   <script src="../../assets/ghibli/ghibli-theme.js?v=26"></script>
 </body>
 </html>

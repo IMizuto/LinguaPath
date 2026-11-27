@@ -100,7 +100,7 @@
       task1: {
         title: 'Task 1: Sales of Fairtrade Coffee and Bananas [Table]',
         chartType: 'Table',
-        images: ['https://study4.com/media/ielts_essay/images/image41.png'],
+        images: ['media/u3/writing_u3_1_01.png'],
         prompt: 'The tables below give information about sales of Fairtrade*-labelled coffee and bananas in 1999 and 2004 in five European countries.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\nWrite at least 150 words.',
         timeMinutes: 20,
         minWords: 150,
@@ -123,7 +123,7 @@
       task1: {
         title: 'Task 1: Underground Railway Systems in Six Cities [Table]',
         chartType: 'Table',
-        images: ['https://study4.com/media/ielts_essay/images/image42.png'],
+        images: ['media/u3/writing_u3_2_01.png'],
         prompt: 'The table below gives information about the underground railway systems in six cities.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\nWrite at least 150 words.',
         timeMinutes: 20,
         minWords: 150,
@@ -146,7 +146,7 @@
       task1: {
         title: 'Task 1: Consumer Spending on Different Items in 2002 [Table]',
         chartType: 'Table',
-        images: ['https://study4.com/media/ielts_essay/images/image43.png'],
+        images: ['media/u3/writing_u3_3_01.png'],
         prompt: 'The table below shows the percentage of national consumer expenditure on three categories of items in five countries in 2002.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\nWrite at least 150 words.',
         timeMinutes: 20,
         minWords: 150,

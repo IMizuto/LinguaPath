@@ -63,10 +63,10 @@
   </script>
 
   <!-- Shared UI, Ghibli Theme & Speaking Styles -->
-  <link rel="stylesheet" href="../../assets/s4-ui.css?v=67">
+  <link rel="stylesheet" href="../../assets/s4-ui.css?v=71">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=30">
+  <link rel="stylesheet" href="../../assets/ghibli/ghibli-theme.css?v=32">
   <link rel="stylesheet" href="speaking.css?v=10">
 </head>
 <body>
@@ -801,7 +801,7 @@
           </span>
           <div>
             <h3 id="spToolkitTitle">Cẩm nang Công thức IELTS Speaking</h3>
-            <p>Discourse Markers • 12 Công thức Part 1 • 7 Khung chuyện Part 2 • 25 Từ hay phát âm sai</p>
+            <p>Discourse Markers • 12 Công thức Part 1 • 7 Khung Part 2 • 8 Khung Part 3 • 25 Từ Phát âm IPA</p>
           </div>
         </div>
         <button type="button" class="btn mini-btn" onclick="window.closeSpeakingToolkit && window.closeSpeakingToolkit()">
@@ -823,6 +823,10 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           <span>7 Khung Part 2</span>
         </button>
+        <button type="button" class="sp-tk-tab" data-tktab="part3" onclick="window.setSpeakingToolkitTab && window.setSpeakingToolkitTab('part3')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>8 Khung Part 3 &amp; Tư duy</span>
+        </button>
         <button type="button" class="sp-tk-tab" data-tktab="pron" onclick="window.setSpeakingToolkitTab && window.setSpeakingToolkitTab('pron')">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
           <span>25 Từ Phát âm (IPA)</span>
@@ -837,14 +841,14 @@
 
   <!-- SCRIPTS DỮ LIỆU & ENGINE (speaking_data.js nạp bất đồng bộ sau First Paint để tránh đơ trang) -->
   <script src="speaking_parser.js?v=7"></script>
-  <script src="speaking_toolkit_data.js?v=1"></script>
-  <script src="../../assets/s4-ui.js?v=67"></script>
+  <script src="speaking_toolkit_data.js?v=2"></script>
+  <script src="../../assets/s4-ui.js?v=69"></script>
   <script src="../../assets/s4-search-engine.js?v=1"></script>
   <script src="../../assets/s4-vocab-engine.js?v=69"></script>
-  <script src="../../auth.js?v=33"></script>
+  <script src="../../auth.js?v=37"></script>
   <script src="../../assets/ghibli/ghibli-theme.js?v=27"></script>
   <script src="../../assets/s4-whisper.js?v=6"></script>
-  <script src="speaking.js?v=26"></script>
+  <script src="speaking.js?v=28"></script>
 <script src="../../assets/s4-offline.js"></script>
 </body>
 </html>
