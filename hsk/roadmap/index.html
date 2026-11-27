@@ -1020,7 +1020,7 @@
         { id: "listening", icon: "listening", label: "Nghe" },
         { id: "reading", icon: "reading", label: "Đọc" },
         { id: "speaking", icon: "speaking", label: "Khẩu ngữ HSKK" },
-        { id: "mock", icon: "mock", label: "Đề rút gọn" }
+        { id: "mock", icon: "mock", label: "Thi thử CTI" }
       ];
 
       var openStages = {};
@@ -1134,7 +1134,7 @@
         }
         var focusEl = document.getElementById("dailyFocusGrid");
         if (!ev.dailyFocus.length) {
-          focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần lộ trình HSK 1–6. Hãy duy trì luyện thêm đề luyện rút gọn và ôn SRS hằng ngày.</div>';
+          focusEl.innerHTML = '<div style="grid-column:1/-1;font-size:13.5px;color:var(--lg-green);font-weight:700;padding:6px 0;">Bạn đã hoàn tất toàn bộ học phần lộ trình HSK 1–6. Hãy duy trì luyện thêm đề thi thử CTI &amp; HSKK và ôn SRS hằng ngày.</div>';
         } else {
           focusEl.innerHTML = ev.dailyFocus.map(function (item) {
             var dueCls = item.isDueBanner ? " is-due" : "";

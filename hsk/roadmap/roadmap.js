@@ -307,36 +307,39 @@
       var mockRaw = caches.getRaw(task.storageKey || "lp_hsk_mock_results_v1", {});
       var bestById = (mockRaw && mockRaw.bestById && typeof mockRaw.bestById === "object") ? mockRaw.bestById : {};
       var mockIds = expandIds(task.ids);
-      var mockLvPrefix = "mock_hsk" + String(task.level || 1) + "_";
+      var lvStr = String(task.level || 1);
+      var mockLvPrefix = "mock_hsk" + lvStr + "_";
+      var realLvRe = new RegExp("^mock_(?:real|full)_h(?:sk)?" + lvStr + "\\d*", "i");
+      var countedIds = {};
       var passed = 0;
       var attempted = 0;
-      if (mockIds.length) {
-        total = Math.max(1, Number(task.target || mockIds.length));
-        for (var mi = 0; mi < mockIds.length; mi++) {
-          var rec = bestById[mockIds[mi]];
-          if (rec && typeof rec === "object") {
-            attempted++;
-            if (rec.passed === true) passed++;
-          }
+      total = Math.max(1, Number(task.target || (mockIds.length || 2)));
+      mockIds.forEach(function (mid) {
+        if (countedIds[mid]) return;
+        countedIds[mid] = true;
+        var rec = bestById[mid];
+        if (rec && typeof rec === "object") {
+          attempted++;
+          if (rec.passed === true) passed++;
         }
-      } else {
-        total = Math.max(1, Number(task.target || 2));
-        Object.keys(bestById).forEach(function (mid) {
-          if (mid.indexOf(mockLvPrefix) !== 0) return;
-          var r = bestById[mid];
-          if (r && typeof r === "object") {
-            attempted++;
-            if (r.passed === true) passed++;
-          }
-        });
-      }
+      });
+      Object.keys(bestById).forEach(function (mid) {
+        if (countedIds[mid]) return;
+        if (mid.indexOf(mockLvPrefix) !== 0 && !realLvRe.test(mid)) return;
+        countedIds[mid] = true;
+        var r = bestById[mid];
+        if (r && typeof r === "object") {
+          attempted++;
+          if (r.passed === true) passed++;
+        }
+      });
       done = Math.min(total, passed);
       if (done >= total) {
-        nextHint = "Đạt ngưỡng " + total + "/" + total + " đề luyện rút gọn HSK " + (task.level || "");
+        nextHint = "Đạt ngưỡng " + total + "/" + total + " đề thi thử HSK " + (task.level || "");
       } else if (attempted > 0 && passed === 0) {
-        nextHint = "Đã luyện " + attempted + " đề rút gọn • Chưa đạt ngưỡng bài luyện";
+        nextHint = "Đã thi " + attempted + " đề thử HSK " + (task.level || "") + " • Chưa đạt ngưỡng";
       } else {
-        nextHint = "Đạt ngưỡng " + done + "/" + total + " đề luyện rút gọn HSK " + (task.level || "");
+        nextHint = "Đạt ngưỡng " + done + "/" + total + " đề thi thử HSK " + (task.level || "");
       }
     } else if (task.evalType === "due_review") {
       var allSrs = caches.getSrsStat(task.storageKey || "lp_hsk_vocab_srs_v1", 0);

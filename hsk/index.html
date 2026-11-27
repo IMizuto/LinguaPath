@@ -293,7 +293,7 @@
         <div class="lp-sum-lbl">Cần ôn hôm nay</div>
       </a>
       <div class="lp-sum-cell">
-        <div class="lp-sum-num is-stage" id="hskStatLessons">0 / 876</div>
+        <div class="lp-sum-num is-stage" id="hskStatLessons">0 / 924</div>
         <div class="lp-sum-lbl">Tổng mục hoàn thành</div>
       </div>
     </section>
@@ -509,14 +509,14 @@
             <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
           </div>
           <div>
-            <span class="card-tag tag-mock">12 ĐỀ RÚT GỌN • KHUNG HSK 2.0</span>
-            <h3 class="card-title">Đề luyện rút gọn HSK 1–6</h3>
-            <p class="card-desc">12 đề mô phỏng bấm giờ (20–25 câu/đề) luyện Nghe, Đọc và Viết.</p>
+            <span class="card-tag tag-mock">30 ĐỀ THẬT CTI • 18 HSKK BẤM GIỜ</span>
+            <h3 class="card-title">Phòng thi thử HSK 1–6 &amp; HSKK</h3>
+            <p class="card-desc">30 đề thật Hanban H11008–H61218, 18 đề Khẩu ngữ HSKK bấm giờ &amp; 12 bài luyện nhanh.</p>
           </div>
         </div>
         <div class="card-footer">
           <div class="prog-row">
-            <span id="mockProgText">Đã đạt: 0/12 đề (0%)</span>
+            <span id="mockProgText">Đã đạt: 0/60 đề (0%)</span>
             <span class="card-cta-lbl" style="color:#7e22ce;">
               <span>Vào thi</span>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -542,7 +542,7 @@
       var TOTAL_LISTENING_COUNT = 36;
       var TOTAL_READING_COUNT = 36;
       var TOTAL_SPEAKING_COUNT = 92;
-      var TOTAL_MOCK_COUNT = 12;
+      var TOTAL_MOCK_COUNT = 60;
       var TOTAL_ALL_ITEMS = ACTIVE_LESSONS_COUNT + TOTAL_GRAMMAR_COUNT + TOTAL_WRITING_COUNT + TOTAL_LISTENING_COUNT + TOTAL_READING_COUNT + TOTAL_SPEAKING_COUNT + TOTAL_MOCK_COUNT;
       var selectedLevel = "all";
 
@@ -665,12 +665,16 @@
 
         var mockRes = safeJson("lp_hsk_mock_results_v1", {});
         var bestById = (mockRes && mockRes.bestById && typeof mockRes.bestById === "object") ? mockRes.bestById : {};
+        var hskkRes = safeJson("lp_hskk_mock_results_v1", {});
+        var hskkBestById = (hskkRes && hskkRes.bestById && typeof hskkRes.bestById === "object") ? hskkRes.bestById : {};
         var mockPassed = 0, mockAttempted = 0;
-        Object.keys(bestById).forEach(function (id) {
-          var rec = bestById[id];
-          if (!rec || typeof rec !== "object") return;
-          mockAttempted++;
-          if (rec.passed === true) mockPassed++;
+        [bestById, hskkBestById].forEach(function (map) {
+          Object.keys(map).forEach(function (id) {
+            var rec = map[id];
+            if (!rec || typeof rec !== "object") return;
+            mockAttempted++;
+            if (rec.passed === true) mockPassed++;
+          });
         });
         mockPassed = Math.min(TOTAL_MOCK_COUNT, mockPassed);
         var mockPct = Math.min(100, Math.round((mockPassed / TOTAL_MOCK_COUNT) * 100));
