@@ -506,8 +506,6 @@
         tombstones: mergedTombs,
         updatedAt: Date.now()
       }, newPh, { scrubLegacy: Boolean(prevRemote && prevRemote._fromLegacy) });
-      const st = progressStats(mergedData);
-      await syncUserStatsSummary(uname, st, newPh);
       return true;
     } catch (e) {
       return false;
@@ -1586,37 +1584,6 @@
       recent7
     };
   }
-  function buildProgressStatsPatch(st) {
-    return {
-      vocabLearned: st.vocabLearned,
-      vocabIgnored: st.vocabIgnored,
-      vocabMastered: st.vocabMastered,
-      vocabDue: st.vocabDue,
-      vocabPct: st.vocabPct,
-      grammarDone: st.grammarDone,
-      grammarPct: st.grammarPct,
-      listeningDone: st.listeningDone,
-      listeningWords: st.listeningWords,
-      readingDone: st.readingDone,
-      readingWords: st.readingWords,
-      writingDone: st.writingDone,
-      speakingDone: st.speakingDone,
-      speakingWords: st.speakingWords,
-      tedDone: st.tedDone,
-      hskWords: st.hskWords,
-      hskDoneItems: st.hskDoneItems,
-      hskPct: st.hskPct,
-      toeicWords: st.toeicWords,
-      toeicDoneItems: st.toeicDoneItems,
-      toeicPct: st.toeicPct,
-      totalWordsAll: st.totalWordsAll,
-      totalLessonsAll: st.totalLessonsAll,
-      overallPct: st.overallPct,
-      streakDays: st.streakDays,
-      totalStudyDays: st.totalStudyDays,
-      lastActive: new Date().toISOString()
-    };
-  }
   function hasNonEmptyData(raw) {
     if (!raw) return false;
     const parsed = parseJ(raw, null);
@@ -1656,29 +1623,7 @@
   }
 
   const getSync = u => loadObj("s4_auth_sync_" + u, null);
-  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0, resetAt: 0, vocabResetAt: 0, pendingOverwrite: null, lastCloudSyncAt: 0, lastCloudSyncErr: "", lastStatsSyncErr: "" }, getSync(u) || {}, patch)));
-
-  async function syncUserStatsSummary(uname, st, authProof) {
-    if (!uname || !st) return "";
-    const patch = buildProgressStatsPatch(st);
-    try {
-      await dbSecureWrite(uname, `study4_users/${uname}`, patch, authProof);
-      return "";
-    } catch (err) {
-      if (isAuthDeniedErr(err) && authProof) {
-        const healed = await syncAuthSecret(uname, authProof, authProof).catch(() => false);
-        if (healed) {
-          try {
-            await dbSecureWrite(uname, `study4_users/${uname}`, patch, authProof);
-            return "";
-          } catch (err2) {
-            return (err2 && err2.message) ? err2.message : "Lỗi cập nhật bảng tổng hợp học viên.";
-          }
-        }
-      }
-      return (err && err.message) ? err.message : "Lỗi cập nhật bảng tổng hợp học viên.";
-    }
-  }
+  const setSync = (u, patch) => rawSet("s4_auth_sync_" + u, JSON.stringify(Object.assign({ base: 0, dirty: false, localTs: 0, resetAt: 0, vocabResetAt: 0, pendingOverwrite: null, lastCloudSyncAt: 0, lastCloudSyncErr: "" }, getSync(u) || {}, patch)));
 
   let changeCounter = 0, pushTimer = null, pendingOverwriteMem = null;
   function allowOverwriteOnce(scope) {
@@ -1823,10 +1768,6 @@
       throw pushErr;
     }
     pendingOverwriteMem = null;
-    const st = progressStats(data);
-    const statsErr = (opts && opts.keepalive)
-      ? (dbSecureWrite(uname, `study4_users/${uname}`, buildProgressStatsPatch(st), authProof).catch(() => {}), "")
-      : await syncUserStatsSummary(uname, st, authProof);
     setSync(uname, {
       base: ts,
       dirty: changeCounter !== mark,
@@ -1834,8 +1775,7 @@
       vocabResetAt: nextVocabResetAt,
       pendingOverwrite: null,
       lastCloudSyncAt: Date.now(),
-      lastCloudSyncErr: "",
-      lastStatsSyncErr: statsErr
+      lastCloudSyncErr: ""
     });
     return true;
   }
@@ -1924,14 +1864,9 @@
         base: remote ? rts : 0,
         dirty: false,
         resetAt: Math.max(lResetAt, rResetAt),
-        vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt)
-      });
-      const st = progressStats(readProgress());
-      const statsErr = await syncUserStatsSummary(uname, st, (session && session.ph) || "");
-      setSync(uname, {
+        vocabResetAt: Math.max(lVocabResetAt, rVocabResetAt),
         lastCloudSyncAt: Date.now(),
-        lastCloudSyncErr: "",
-        lastStatsSyncErr: statsErr
+        lastCloudSyncErr: ""
       });
     }
     if (changedLocal) refreshAfterDataChange("progress");
@@ -2522,7 +2457,7 @@
           </div>
           ${(() => {
             const sy = getSync(curU.username) || {};
-            const syncErrMsg = sy.lastCloudSyncErr || sy.lastStatsSyncErr || "";
+            const syncErrMsg = sy.lastCloudSyncErr || "";
             let statusHtml = "";
             if (syncErrMsg) {
               statusHtml = `<span style="color:#dc2626;font-weight:700;">⚠️ Lỗi đồng bộ Cloud: ${esc(syncErrMsg)}</span>`;
@@ -2625,8 +2560,8 @@
             try {
               await syncProgress(true);
               const sy = getSync(curU.username) || {};
-              if (sy.lastCloudSyncErr || sy.lastStatsSyncErr) {
-                err = "Đồng bộ chưa hoàn tất: " + (sy.lastCloudSyncErr || sy.lastStatsSyncErr);
+              if (sy.lastCloudSyncErr) {
+                err = "Đồng bộ chưa hoàn tất: " + sy.lastCloudSyncErr;
               } else {
                 msg = "Đã đồng bộ gộp 2 chiều (Cloud & Thiết bị) và cập nhật chuỗi học thành công!";
               }
@@ -2861,12 +2796,11 @@
           if (existing && !existing.deleted && (existing.username || existing.passwordHash || existing.role)) throw new Error("Tên đăng nhập này đã có người dùng, vui lòng chọn tên khác.");
           const ph = await hashPw(raw, pass);
           const migrated = await syncAuthSecret(raw, ph, ph);
-          const st = progressStats(readProgress());
-          const rec = Object.assign({
+          const rec = {
             username: raw, displayName: disp, avatar: "🎓", targetBand: "7.0", bio: "",
             role: "basic", status: "active", expiresAt: "PERM",
             createdAt: new Date().toISOString().slice(0, 10)
-          }, buildProgressStatsPatch(st));
+          };
           if (migrated) {
             await dbSecureWrite(raw, "study4_users/" + raw, rec, ph, { replace: true });
           } else {
@@ -3016,7 +2950,7 @@
     const { box } = newModal("wide");
     let tab = startTab || "users"; // "users" | "settings"
     let users = null, resetRequests = null, loading = false, msg = "";
-    let userSearch = "", userFilter = "all", inspectUser = null, inspectProgress = null, inspectMergedMeta = null, inspectSourcesCount = 0, searchTimer = null;
+    let userSearch = "", userFilter = "all", searchTimer = null;
     let authRequired = false, authDeniedUid = "", authErr = "", authBusy = false;
 
     async function load(forceRefreshToken) {
@@ -3134,105 +3068,6 @@
         </div>`;
     }
 
-    function inspectModalHtml(u) {
-      const st = inspectProgress ? progressStats(inspectProgress) : null;
-      const vLearned = st ? st.vocabLearned : (Number(u.vocabLearned) || 0);
-      const vIgnored = st ? st.vocabIgnored : (Number(u.vocabIgnored) || 0);
-      const gDone = st ? st.grammarDone : (Number(u.grammarDone) || 0);
-      const lisDone = st ? st.listeningDone : (Number(u.listeningDone) || 0);
-      const lisWords = st ? st.listeningWords : (Number(u.listeningWords) || 0);
-      const readDone = st ? st.readingDone : (Number(u.readingDone) || 0);
-      const readWords = st ? st.readingWords : (Number(u.readingWords) || 0);
-      const writingDone = st ? st.writingDone : (Number(u.writingDone) || 0);
-      const speakingDone = st ? st.speakingDone : (Number(u.speakingDone) || 0);
-      const speakingWords = st ? st.speakingWords : (Number(u.speakingWords) || 0);
-      const tedDone = st ? st.tedDone : (Number(u.tedDone) || 0);
-      const hskWords = st ? st.hskWords : (Number(u.hskWords) || 0);
-      const hskDoneItems = st ? st.hskDoneItems : (Number(u.hskDoneItems) || 0);
-      const toeicWords = st ? st.toeicWords : (Number(u.toeicWords) || 0);
-      const toeicDoneItems = st ? st.toeicDoneItems : (Number(u.toeicDoneItems) || 0);
-      const curStreak = st ? st.streakDays : (Number(u.streakDays) || 0);
-      const curTotalDays = st ? st.totalStudyDays : (Number(u.totalStudyDays) || 0);
-
-      const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
-      const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
-      const oPct = st ? st.overallPct : (u.overallPct || Math.round(vPct * 0.7 + gPct * 0.3));
-      const recent7Html = (st && Array.isArray(st.recent7))
-        ? `<div style="margin-top:10px;padding:8px 10px;border-radius:8px;background:rgba(148,163,184,0.1);">
-            <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
-              <b>Lịch sử 7 ngày gần nhất (${inspectSourcesCount || 1} nguồn Cloud)</b>
-              <span style="color:#d97706;font-weight:700;">🔥 Chuỗi ${curStreak} ngày • Tổng ${curTotalDays} ngày học</span>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px;">
-              ${st.recent7.map(d => `<div style="padding:4px 2px;border-radius:6px;background:${d.count ? "rgba(22,163,74,0.16)" : "rgba(148,163,184,0.12)"};color:${d.count ? "#15803d" : "#64748b"};font-weight:700;"><div>${d.label}</div><div>${d.count || 0}</div></div>`).join("")}
-            </div>
-          </div>`
-        : `<div style="margin-top:8px;font-size:11.5px;color:#64748b;">🔥 Theo bảng tóm tắt: Chuỗi ${curStreak} ngày • Tổng ${curTotalDays} ngày (bấm Chi tiết sau khi Publish Rules mới để xem đầy đủ 7 ngày từ <code>study4_progress_priv</code>).</div>`;
-      const isSelfAdmin = session && session.username === u.username;
-
-      return `
-        <div class="s4-stat-box" style="margin-bottom:14px;border:1.5px solid #2563eb;background:var(--panel,#f8fafc);">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              ${renderAvatarHtml(u.avatar, 42)}
-              <div>
-                <div style="font-weight:800;font-size:15.5px;">${esc(u.displayName || u.username)} <span style="font-weight:600;color:#64748b;font-size:12.5px;">(@${esc(u.username)})</span></div>
-                <div style="font-size:12px;color:#64748b;">Mục tiêu: Band ${esc(u.targetBand || "7.0")} • Đăng ký: ${esc(u.createdAt || "—")} • Online: <b>${fmtRelativeTime(u.lastActive)}</b></div>
-              </div>
-            </div>
-            <button class="s4-mini" style="background:#64748b;" data-act="closeinspect">Đóng ✕</button>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;margin-top:10px;">
-            <div style="padding:8px 10px;background:rgba(37,99,235,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Tổng hoàn thành</div>
-              <div style="font-size:16px;font-weight:800;color:#2563eb;">${oPct}%</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(22,163,74,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Từ vựng SRS</div>
-              <div style="font-size:14.5px;font-weight:800;color:#16a34a;">${vLearned + vIgnored} / ${TOTAL_VOCAB}</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(13,148,136,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Ngữ pháp</div>
-              <div style="font-size:14.5px;font-weight:800;color:#0d9488;">${gDone} / ${TOTAL_GRAMMAR} bài</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(217,119,6,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Listening</div>
-              <div style="font-size:14.5px;font-weight:800;color:#d97706;">${lisDone} bài • ${lisWords} từ</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(124,58,237,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Reading</div>
-              <div style="font-size:14.5px;font-weight:800;color:#7c3aed;">${readDone} bài • ${readWords} từ</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(147,51,234,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Writing</div>
-              <div style="font-size:14.5px;font-weight:800;color:#9333ea;">${writingDone} / ${TOTAL_WRITING_LESSONS} bài</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(225,29,72,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">Speaking</div>
-              <div style="font-size:14.5px;font-weight:800;color:#e11d48;">${speakingDone} bài • ${speakingWords} từ</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(225,29,72,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">TED Talks</div>
-              <div style="font-size:14.5px;font-weight:800;color:#e11d48;">${tedDone} / ${TOTAL_TED_LESSONS} bài</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(185,28,28,0.08);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">HSK 1–6</div>
-              <div style="font-size:14.5px;font-weight:800;color:#b91c1c;">${hskDoneItems} bài • ${hskWords} từ</div>
-            </div>
-            <div style="padding:8px 10px;background:rgba(217,119,6,0.09);border-radius:8px;">
-              <div style="font-size:11px;color:#64748b;">TOEIC 0–990</div>
-              <div style="font-size:14.5px;font-weight:800;color:#b45309;">${toeicDoneItems} / ${TOTAL_TOEIC_ITEMS} bài • ${toeicWords.toLocaleString("en-US")} / ${TOTAL_TOEIC_VOCAB.toLocaleString("en-US")} từ</div>
-            </div>
-          </div>
-          ${recent7Html}
-          ${st ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
-            <button type="button" class="s4-mini" style="background:#0d9488;padding:6px 10px;" data-act="sync-user-stats" data-v="${esc(u.username)}">Cập nhật lại bảng tổng hợp</button>
-            ${isSelfAdmin ? `<button type="button" class="s4-mini" style="background:#2563eb;padding:6px 10px;" data-act="pull-admin-merged">Kéo bản gộp từ Cloud về máy này</button>` : ""}
-          </div>` : ""}
-        </div>`;
-    }
-
     function usersHtml() {
       const allUsers = Object.keys(users || {}).filter(k => users[k] && !users[k].deleted && (users[k].username || users[k].passwordHash || users[k].role)).map(k => users[k]);
       const totalCount = allUsers.length;
@@ -3247,16 +3082,18 @@
         if (userFilter === "blocked") return u.status === "blocked";
         if (userFilter === "reset") return resetRequests && resetRequests[u.username];
         return true;
-      }).sort((a, b) => String(b.lastActive || b.createdAt || "").localeCompare(String(a.lastActive || a.createdAt || "")));
+      }).sort((a, b) => {
+        const ra = resetRequests && resetRequests[a.username] ? 1 : 0;
+        const rb = resetRequests && resetRequests[b.username] ? 1 : 0;
+        if (ra !== rb) return rb - ra;
+        const ca = String(a.createdAt || "");
+        const cb = String(b.createdAt || "");
+        if (ca !== cb) return cb.localeCompare(ca);
+        return String(a.username || "").localeCompare(String(b.username || ""));
+      });
 
       const rows = filtered.map(it => {
         const isAdm = it.username === "admin";
-        const vLearned = Number(it.vocabLearned) || 0;
-        const vIgnored = Number(it.vocabIgnored) || 0;
-        const gDone = Number(it.grammarDone) || 0;
-        const vPct = Math.min(100, Math.round(((vLearned + vIgnored) / TOTAL_VOCAB) * 100));
-        const gPct = Math.min(100, Math.round((gDone / TOTAL_GRAMMAR) * 100));
-        const oPct = Number(it.overallPct) || Math.min(100, Math.round(vPct * 0.7 + gPct * 0.3));
         const hasReset = resetRequests && resetRequests[it.username];
 
         return `<tr>
@@ -3265,17 +3102,9 @@
               ${renderAvatarHtml(it.avatar, 30)}
               <div>
                 <b>${esc(it.displayName || it.username)}</b> <span style="color:#64748b;font-size:11.5px;">(@${esc(it.username)})</span>
-                <div style="font-size:11px;color:#64748b;">${fmtRelativeTime(it.lastActive)} ${it.targetBand ? "• Band " + esc(it.targetBand) : ""}</div>
+                <div style="font-size:11px;color:#64748b;">Đăng ký: ${esc(it.createdAt || "—")}${it.targetBand ? " • Band " + esc(it.targetBand) : ""}</div>
               </div>
             </div>
-          </td>
-          <td style="min-width:140px;">
-            <div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;">
-              <span>Tiến độ: <b style="color:#2563eb">${oPct}%</b></span>
-              <span>🔥 ${it.streakDays || 0}N</span>
-            </div>
-            <div class="s4-prog-track" style="margin:3px 0 4px 0;"><div class="s4-prog-bar" style="width:${oPct}%;background:linear-gradient(90deg,#2563eb,#16a34a);"></div></div>
-            <div style="font-size:10.5px;color:#64748b;">Từ: ${vLearned + vIgnored}/${TOTAL_VOCAB} • NP: ${gDone}/${TOTAL_GRAMMAR}</div>
           </td>
           <td>
             ${isAdm ? '<span class="s4-badge s4-badge-admin">Quản trị viên</span>' :
@@ -3285,7 +3114,6 @@
           </td>
           <td>
             <div style="display:flex;gap:4px;flex-wrap:wrap;">
-              <button class="s4-mini" style="background:#2563eb;" data-act="inspect" data-v="${esc(it.username)}" title="Xem chi tiết tiến độ">Chi tiết</button>
               <button class="s4-mini" style="background:#0284c7;" data-act="resetpw" data-v="${esc(it.username)}" title="Đặt mật khẩu mới cho học viên">Đổi MK</button>
               ${isAdm ? "" : `
                 <button class="s4-mini" style="background:${it.status === "blocked" ? "#16a34a" : "#dc2626"};" data-act="block" data-v="${esc(it.username)}">${it.status === "blocked" ? "Mở khóa" : "Khóa"}</button>
@@ -3316,8 +3144,6 @@
           </div>
         </div>
 
-        ${inspectUser && users[inspectUser] ? inspectModalHtml(users[inspectUser]) : ""}
-
         <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
           <input class="s4-input" id="admSearchUser" placeholder="Tìm kiếm theo tên hoặc @username..." value="${esc(userSearch)}" style="flex:1;min-width:180px;margin:0;padding:8px 11px;">
           <select class="s4-input" id="admFilterUser" style="width:auto;margin:0;padding:8px 11px;">
@@ -3330,8 +3156,8 @@
 
         <div class="s4-table-wrap">
           <table class="s4-table">
-            <thead><tr><th>Học viên</th><th>Tiến độ học</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-            <tbody>${rows || `<tr><td colspan="4" style="color:#64748b;text-align:center;padding:16px;">Không tìm thấy tài khoản phù hợp.</td></tr>`}</tbody>
+            <thead><tr><th>Tài khoản</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+            <tbody>${rows || `<tr><td colspan="3" style="color:#64748b;text-align:center;padding:16px;">Không tìm thấy tài khoản phù hợp.</td></tr>`}</tbody>
           </table>
         </div>`;
     }
@@ -3482,60 +3308,6 @@
         return;
       }
 
-      if (act === "inspect") {
-        inspectUser = v;
-        inspectProgress = null;
-        inspectMergedMeta = null;
-        inspectSourcesCount = 0;
-        render();
-        try {
-          const merged = await collectAllUserProgressForAdmin(v);
-          if (merged && merged.data) {
-            inspectProgress = merged.data;
-            inspectMergedMeta = merged;
-            inspectSourcesCount = merged.sourcesCount || 1;
-            const st = progressStats(merged.data);
-            Object.assign(users[v], {
-              vocabLearned: st.vocabLearned, vocabIgnored: st.vocabIgnored, vocabMastered: st.vocabMastered, vocabDue: st.vocabDue,
-              grammarDone: st.grammarDone, listeningDone: st.listeningDone, listeningWords: st.listeningWords,
-              readingDone: st.readingDone, readingWords: st.readingWords, writingDone: st.writingDone,
-              speakingDone: st.speakingDone, speakingWords: st.speakingWords, tedDone: st.tedDone,
-              hskWords: st.hskWords, hskDoneItems: st.hskDoneItems,
-              toeicWords: st.toeicWords, toeicDoneItems: st.toeicDoneItems, toeicPct: st.toeicPct,
-              overallPct: st.overallPct, streakDays: st.streakDays, totalStudyDays: st.totalStudyDays
-            });
-            render();
-          }
-        } catch (e) {}
-        return;
-      }
-      if (act === "closeinspect") { inspectUser = null; inspectProgress = null; inspectMergedMeta = null; inspectSourcesCount = 0; return render(); }
-
-      if (act === "sync-user-stats" && v && inspectProgress) {
-        if (await guard(async () => {
-          const st = progressStats(inspectProgress);
-          const patch = buildProgressStatsPatch(st);
-          await dbSecureWrite("admin", "study4_users/" + v, patch, (session && session.ph) || "");
-          Object.assign(users[v], patch);
-        })) {
-          if (window.S4UI) window.S4UI.toast("success", "Đã cập nhật lại bảng tổng hợp cho @" + v);
-          render();
-        }
-        return;
-      }
-
-      if (act === "pull-admin-merged" && inspectProgress && session && session.username === "admin") {
-        if (await guard(async () => {
-          const merged = inspectMergedMeta || { data: inspectProgress, tombstones: emptyTombs() };
-          await replaceLocalProgress(merged.data, { resetTombstones: true, syncNow: true });
-          if (typeof window.updateDashboardStats === "function") window.updateDashboardStats();
-        })) {
-          if (window.S4UI) window.S4UI.toast("success", "Đã kéo bản gộp đầy đủ từ Cloud về máy hiện tại.");
-          await load(false);
-        }
-        return;
-      }
-
       if (act === "block") {
         const nx = users[v].status === "blocked" ? "active" : "blocked";
         if (await guard(async () => {
@@ -3602,7 +3374,6 @@
           await dbSecureWrite("admin", "study4_reset_requests/" + v, null, adminProof, { delete: true }).catch(() => {});
           delete users[v];
           if (resetRequests) delete resetRequests[v];
-          if (inspectUser === v) inspectUser = null;
         })) render();
         return;
       }
@@ -3735,7 +3506,7 @@
         try {
           await pushProgress();
           const sy = getSync(session.username) || {};
-          if (sy.lastStatsSyncErr) return { ok: false, error: sy.lastStatsSyncErr };
+          if (sy.lastCloudSyncErr) return { ok: false, error: sy.lastCloudSyncErr };
           return { ok: true };
         } catch (e) {
           return { ok: false, error: (e && e.message) ? e.message : "Lỗi kết nối Cloud" };

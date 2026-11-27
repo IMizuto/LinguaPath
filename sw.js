@@ -1,4 +1,4 @@
-const CACHE_NAME = "linguapath-cache-v139";
+const CACHE_NAME = "linguapath-cache-v140";
 const OFFLINE_CACHE = "linguapath-offline-packs-v1";
 const WHISPER_CACHE = "lp-whisper-runtime-v1";
 const CORE_ASSETS = [
